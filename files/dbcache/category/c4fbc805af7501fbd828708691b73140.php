@@ -1,1 +1,0 @@
-<?php die();a:1:{i:3;a:3:{s:2:"id";s:1:"3";s:8:"category";s:18:"กฏหมาย";s:3:"pic";s:28:"files/category/1lawlogo.jpeg";}}?>

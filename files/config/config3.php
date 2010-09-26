@@ -1,1 +1,0 @@
-<?php die();a:2:{s:12:"section_name";s:10:"Göttingen";s:12:"section_path";s:10:"goettingen";}?>

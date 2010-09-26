@@ -1,1 +1,0 @@
-<?php die();a:1:{i:68;a:3:{s:2:"id";s:2:"68";s:8:"category";s:13:"uncategorized";s:3:"pic";s:28:"files/icon/uncategorized.png";}}?>

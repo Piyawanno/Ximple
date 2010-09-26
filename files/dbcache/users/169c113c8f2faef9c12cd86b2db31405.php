@@ -1,1 +1,0 @@
-<?php die();a:1:{i:1;a:5:{s:2:"id";s:1:"1";s:10:"login_name";s:14:"bow_der_kleine";s:5:"email";s:24:"bow_der_kleine@yahoo.com";s:6:"avatar";s:26:"files/avatar/tuebingen.JPG";s:10:"space_used";s:5:"65710";}}?>

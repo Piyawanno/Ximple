@@ -1,7 +1,0 @@
-page,1,บทความ,1,bow_der_kleine,read
-page,1,บทความ,1,bow_der_kleine,read
-page,5,ทดสอบ,1,bow_der_kleine,write
-page,1,บทความ,1,bow_der_kleine,read
-page,1,บทความ,1,bow_der_kleine,read
-page,3,หากเขาสั่งให้ผมยิง !,1,bow_der_kleine,read
-page,3,หากเขาสั่งให้ผมยิง !,1,bow_der_kleine,read

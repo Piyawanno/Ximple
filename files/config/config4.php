@@ -1,1 +1,0 @@
-<?php die();a:2:{s:12:"section_name";s:6:"µ-nix";s:12:"section_path";s:5:"munix";}?>

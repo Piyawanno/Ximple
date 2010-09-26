@@ -1,1 +1,0 @@
-<?php die();a:4:{i:3;a:2:{s:2:"id";s:1:"3";s:5:"title";s:7:"Gallery";}i:31;a:2:{s:2:"id";s:2:"31";s:5:"title";s:4:"Blog";}i:81;a:2:{s:2:"id";s:2:"81";s:5:"title";s:18:"บทความ";}i:4;a:2:{s:2:"id";s:1:"4";s:5:"title";s:7:"Article";}}?>

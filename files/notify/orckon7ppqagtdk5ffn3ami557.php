@@ -1,1 +1,0 @@
-<?php die();a:5:{s:6:"number";i:0;s:4:"info";s:0:"";s:3:"tip";s:0:"";s:7:"warning";s:0:"";s:5:"error";s:0:"";}?>

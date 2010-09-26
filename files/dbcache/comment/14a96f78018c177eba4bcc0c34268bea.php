@@ -1,1 +1,0 @@
-<?php die();a:1:{i:4075;a:11:{s:2:"id";s:4:"4075";s:6:"parent";s:1:"1";s:6:"writer";s:14:"bow_der_kleine";s:5:"email";s:0:"";s:8:"homepage";s:0:"";s:9:"writer_id";s:1:"1";s:7:"comment";s:28:"<p>ทดสอบฮะ</p>";s:10:"write_time";s:19:"2010-09-14 22:02:18";s:4:"mode";s:4:"page";s:13:"parent_writer";s:1:"1";s:7:"section";s:1:"1";}}?>

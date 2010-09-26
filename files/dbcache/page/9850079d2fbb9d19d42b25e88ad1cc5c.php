@@ -1,1 +1,0 @@
-<?php die();a:1:{i:0;a:1:{s:18:"comment_permission";s:1:"0";}}?>

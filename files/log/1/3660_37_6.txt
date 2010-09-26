@@ -1,3 +1,0 @@
-1284633861,1,bow_der_kleine,/ximple/?/page/1,notify_error,Error by writting file : /home/bow/PHP/xblc/redesign/files/dbcache/page/lastclear.txt
-1284676662,-1,guest,/ximple/,fail_login,Sorry !!! wrong name or password. Please try again.
-1284676662,-1,guest,/ximple/,system,Sorry !!! wrong name or password. Please try again.<p>You should go to <a href="http://localhost/ximple/">this page</a> for further action.</p>

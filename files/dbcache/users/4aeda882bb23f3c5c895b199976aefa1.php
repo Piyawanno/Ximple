@@ -1,1 +1,0 @@
-<?php die();a:1:{i:72;a:5:{s:2:"id";s:2:"72";s:10:"login_name";s:51:"ผู้ชายหัวใจมอมแมม";s:5:"email";s:24:"sutthichai_yun@yahoo.com";s:6:"avatar";s:0:"";s:10:"space_used";s:5:"10456";}}?>
