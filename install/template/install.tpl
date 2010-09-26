@@ -31,7 +31,7 @@
 				</div>
 			</div>
 			<div id="foot">
-				Thank for choosing <a href="http://www.biolawcom.de/xblc/">X-BLC</a>. OpenSource under <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.
+				Thank for choosing <a href="http://www.biolawcom.de/xblc/">Ximple</a>. OpenSource under <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.
 			</div>
 		</div>
 	</body>
