@@ -1,0 +1,1 @@
+<?php die();a:1:{i:4;a:3:{s:2:"id";s:1:"4";s:8:"category";s:59:"เหตุบ้าน และ การเมือง";s:3:"pic";s:31:"files/category/1thailandmap.jpg";}}?>

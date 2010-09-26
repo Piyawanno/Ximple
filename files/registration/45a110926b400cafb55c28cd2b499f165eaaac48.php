@@ -1,0 +1,1 @@
+<?php die();a:9:{s:10:"login_name";s:7:"someone";s:5:"email";s:21:"k.piyawanno@gmail.com";s:8:"password";s:40:"7e72e5b97bdf79e2a536481cffef0c63832d31b6";s:6:"status";s:6:"active";s:7:"section";s:1:"1";s:10:"space_used";s:1:"0";s:15:"login_name_hash";s:40:"ca29f2909574a7f97b4d4e8bb09557b1035818b0";s:3:"key";s:40:"a4466aebf70c72dc7951fa425db95c93f1ed0f79";s:6:"avatar";s:0:"";}?>

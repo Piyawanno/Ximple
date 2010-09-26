@@ -1,0 +1,1 @@
+<?php die();a:1:{i:3;a:5:{s:2:"id";s:1:"3";s:10:"login_name";s:6:"charly";s:5:"email";s:19:"santivar@wzw.tum.de";s:6:"avatar";s:24:"files/avatar/logo_12.jpg";s:10:"space_used";s:7:"1453667";}}?>

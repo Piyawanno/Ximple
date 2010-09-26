@@ -1,0 +1,43 @@
+<?php
+include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
+include_once('content.tool.inc');
+include_once('ContentModel.class.inc');
+include_once('ContentConfigModel.class.inc');
+
+abstract class ContentConfig extends ConfigControl{
+	private $mode;
+	protected function setMode($mode){
+		$this->mode = $mode;
+	}
+	
+	protected function setConfig($key, $value){	
+		$comment_permission = $this->mode.'_comment_permission';
+		$comment_permission_default = $this->mode.'_comment_permission_default';
+		$publishing_status = $this->mode.'_publishing_status';
+		$publishing_status_default = $this->mode.'_publishing_status_default';
+		if($key == $comment_permission){
+			$avaiable = pp($comment_permission);
+			if(!is_array($avaiable) or count($avaiable) == 0) $value = array(0, 1, 2, 3);
+		}elseif($key == $publishing_status){
+			$avaiable = pp($publishing_status);
+			if(!is_array($avaiable) or count($avaiable) == 0) $value = array(2, 3);
+		}elseif($key == $comment_permission_default){
+			$avaiable = pp($comment_permission);
+			if(!is_array($avaiable) or count($avaiable) == 0) $value = 0;
+			elseif(!in_array($value, $avaiable)) $value = $avaiable[0];
+		}elseif($key == $publishing_status_default){
+			$avaiable = pp($publishing_status);
+			if(!is_array($avaiable) or count($avaiable) == 0) $value = 3;
+			elseif(!in_array($value, $avaiable)) $value = $avaiable[0];
+		}
+		ConfigControl::setConfig($key, $value);
+	}
+	
+	protected function getConfig(){
+		if($this->mode == null and state_is_develop()){
+			notify_add_error('Mode of configuration is not set. Use ContentConfig::setMode() to set it.');
+		}
+		return cc();
+	}
+}
+?>

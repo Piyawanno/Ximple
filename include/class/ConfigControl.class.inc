@@ -1,0 +1,90 @@
+<?php
+
+include_once('Authority.class.inc');
+include_once('Model.class.inc');
+include_once('ModelFactory.class.inc');
+include_once('ModelConnector.class.inc');
+include_once('FormMetaData.class.inc');
+
+abstract class ConfigControl extends Authority{
+	private $modelConnector;
+	private $formRender;
+	private $configForm = array();
+	
+	protected $formMeta;
+	protected $moduleName;
+	protected $moduleTitle;
+	protected $saveRedirection;
+	
+	protected function init($modelObj){
+		$modelFactory = new ModelFactory($this->moduleName, $modelObj);
+		$this->modelConnector = $modelFactory->bind();
+		$this->formMeta = new FormMetaData();
+		$this->addAction($this->moduleName, 'index');
+		$this->addAction($this->moduleName.'_save', 'save');
+		if(!$this->saveRedirection){
+			$this->saveRedirection = $this->moduleName;
+		}
+	}
+	
+	public function initValue(){
+		$defaultData = $this->modelConnector->getColumnAttribute('defaultData');
+		foreach($defaultData as $name => $data){
+			$this->setConfig($name, $data);
+		}
+		$this->saveConfig();
+	}
+	
+	public function render($setPath=true){
+		if(!$this->formRender){
+			include_once('FormRender.class.inc');
+			$this->formRender = new FormRender($this->modelConnector, $this->formMeta);
+		}
+		$this->formMeta->configForm = $this->configForm;
+		document_set_title($this->moduleTitle);
+		if($setPath){
+			document_set_path($this->moduleTitle, $this->moduleName);
+		}
+		return $this->formRender->renderUpdateForm($this->getConfig());
+	}
+	
+	public function save(){
+		$configName = $this->modelConnector->getColumnNameExcepted(array('id'));
+		$type = $this->modelConnector->getPHPType();
+		foreach($configName as $name){
+			$configValue = pp($name);
+			settype($configValue, $type[$name]);
+			$this->setConfig($name, $configValue);
+		}
+		$this->saveConfig();
+		execute_set_db();
+		document_set_redirect($this->saveRedirection);
+		notify_add_info(tt('Configurations have been successfully saved.'));
+	}
+	
+	public function getNewConfigForm($title, $description=null){
+		if(!$this->modelConnector and state_is_develop()) {
+			$message  = 'You should call Control::createModel';
+			$message .= 'before calling Control::initConfigForm().';
+			notify_add_error($message);
+		}
+		include_once('ConfigFormRender.class.inc');
+		$configForm = new ConfigFormRender($this->modelConnector, $title, $description);
+		$this->configForm[] = $configForm;
+		return $configForm;
+	}
+	
+	protected function getConfig(){
+		return cc();
+	}
+	
+	protected function setConfig($key, $value){
+		config_set($key, $value);
+	}
+	
+	protected function saveConfig(){
+		config_save();
+	}
+}
+
+?>

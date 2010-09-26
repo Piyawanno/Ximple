@@ -1,0 +1,1 @@
+<?php die();a:1:{i:1;a:2:{s:2:"id";s:1:"1";s:8:"password";s:40:"64f128323520f83af14f02ffc2eb888accfe1514";}}?>

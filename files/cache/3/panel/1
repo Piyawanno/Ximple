@@ -1,0 +1,42 @@
+	<h4 class="panel_head"><a href="javascript:togglePanel('panel_0')">::: My Account :::</a></h4>
+	<ul class="panel_body" id="panel_0" style="display:none;">
+			<li><a href="http://localhost/ximple/goettingen/?/file_manage_user">my files</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/message">my message</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/profile">my profile</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/shortnote">my short note</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/tracker">my tracker</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/account">account config</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_1')">Block & Menu</a></h4>
+	<ul class="panel_body" id="panel_1" style="display:none;">
+			<li><a href="http://localhost/ximple/goettingen/?/block">block</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/menu">menu</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_2')">Comments</a></h4>
+	<ul class="panel_body" id="panel_2" style="display:none;">
+			<li><a href="http://localhost/ximple/goettingen/?/comment_get_list">my comments</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/comment_contribution_list">on my contribution</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/comment_section_list">in section</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_3')">System Admin</a></h4>
+	<ul class="panel_body" id="panel_3" style="display:none;">
+			<li><a href="http://localhost/ximple/goettingen/?/config">config section</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/file_manage_admin">manage file</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/module">manage module</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/syslog">syslog</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_4')">Themes</a></h4>
+	<ul class="panel_body" id="panel_4" style="display:none;">
+			<li><a href="http://localhost/ximple/goettingen/?/theme_config">config theme</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/theme_css">custom css</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/theme_image">custom image</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/theme">select themes</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_5')">Users & Groups</a></h4>
+	<ul class="panel_body" id="panel_5" style="display:none;">
+			<li><a href="http://localhost/ximple/goettingen/?/group">group & role</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/profiletype">profile type</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/registration_config">registration</a></li>
+			<li><a href="http://localhost/ximple/goettingen/?/user">user</a></li>
+		</ul>
+	

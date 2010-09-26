@@ -1,0 +1,1 @@
+<?php die();a:1:{i:1;a:3:{s:2:"id";s:1:"1";s:8:"category";s:18:"ประกาศ";s:3:"pic";s:25:"files/category/11news.jpg";}}?>

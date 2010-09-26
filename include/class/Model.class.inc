@@ -1,0 +1,308 @@
+<?php
+
+include_once('ModelColumn.class.inc');
+
+abstract class Model{
+	
+	private $extendedObjBefore = array();
+	private $extendedObjAfter = array();
+	
+	public function getExtendedBefore($columnName){
+		if(isset($this->extendedObjBefore[$columnName])){
+			return $this->extendedObjBefore[$columnName];
+		}else{
+			return null;
+		}
+	}
+	
+	public function getExtendedAfter($columnName){
+		if(isset($this->extendedObjAfter[$columnName])){
+			return $this->extendedObjAfter[$columnName];
+		}else{
+			return null;
+		}
+	}
+	
+	protected function extendBefore($beforeColumnName, $extendedColumnName){
+		$this->extendedObjBefore[$beforeColumnName] = $extendedColumnName;
+	}
+	
+	protected function extendAfter($afterColumnName, $extendedColumnName){
+		$this->extendedObjAfter[$afterColumnName] = $extendedColumnName;
+	}
+	
+	protected function drop($columnName){
+		unset($this->$columnName);
+	}
+	
+	public function section(){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'int';
+		$modelColumn->form = 'hidden';
+		$modelColumn->isNotNull = true;
+		$modelColumn->defaultData = SECTION;
+		$modelColumn->data = SECTION;
+		return $modelColumn;
+	}
+
+	public function title($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'char';
+		$modelColumn->form = 'char';
+		$modelColumn->label = $label;
+		$modelColumn->isList = true;
+		$modelColumn->isReachable = true;
+		$modelColumn->isNotNull = true;
+		$modelColumn->help = $help;
+		return $modelColumn;
+	}
+	
+	public function owner(){
+		include_once('OwnerColumn.class.inc');
+		return new OwnerColumn();
+	}
+	
+	public function char($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'char';
+		$modelColumn->form = 'char';
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		return $modelColumn;
+	}
+	
+	public function password($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'char';
+		$modelColumn->form = 'password';
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		return $modelColumn;
+	}
+	
+	public function email($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'char';
+		$modelColumn->form = 'email';
+		$modelColumn->isNotNull = true;
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		return $modelColumn;
+	}
+	
+	public function hidden($default=null, $type='char'){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = $type;
+		$modelColumn->form = 'hidden';
+		$modelColumn->defaultData = $default;
+		$modelColumn->data = $default;
+		return $modelColumn;
+	}
+	
+	public function now(){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'timestamp';
+		$modelColumn->form = 'hidden';
+		$modelColumn->defaultData = NOW;
+		$modelColumn->data = NOW;
+		return $modelColumn;
+	}
+	
+	public function radio($label, $selection, $help=null){
+		$modelColumn = Model::selective($label, $selection, $help);
+		$modelColumn->form = 'radio';
+		return $modelColumn;
+	}
+	
+	public function checkbox($label, $selection, $help=null){
+		$modelColumn = Model::selective($label, $selection, $help);
+		$modelColumn->form = 'checkbox';
+		$modelColumn->type = 'array';
+		return $modelColumn;
+	}
+	
+	public function checkedit($label, $selection, $help=null){
+		$modelColumn = Model::selective($label, $selection, $help);
+		$modelColumn->form = 'checkedit';
+		$modelColumn->type = 'array';
+		return $modelColumn;
+	}
+	
+	public function select($label, $selection, $help=null){
+		$modelColumn = Model::selective($label, $selection, $help);
+		$modelColumn->form = 'select';
+		return $modelColumn;
+	}
+	
+	public function multiselect($label, $selection, $help=null){
+		$modelColumn = Model::selective($label, $selection, $help);
+		$modelColumn->form = 'multiselect';
+		$modelColumn->type = 'array';
+		return $modelColumn;
+	}
+	
+	public function calendar($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'timestamp';
+		$modelColumn->form = 'calendar';
+		$modelColumn->defaultData = NOW;
+		$modelColumn->data = NOW;
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		return $modelColumn;
+	}
+	
+	public function text($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'text';
+		$modelColumn->form = 'text';
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		return $modelColumn;
+	}
+	
+	public function shortText($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'shorttext';
+		$modelColumn->form = 'shorttext';
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		return $modelColumn;
+	}
+	
+	public function plain($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'shorttext';
+		$modelColumn->form = 'plain';
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		return $modelColumn;
+	}
+	
+	public function group($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'array';
+		$modelColumn->form = 'group';
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		$modelColumn->defaultData = array(2);
+		$modelColumn->data = array(2);
+		$modelColumn->isSerialize = true;
+		return $modelColumn;
+	}
+	
+	public function user($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'char';
+		$modelColumn->form = 'autocomplete';
+		$modelColumn->label = $label;
+		$modelColumn->isNotNull = true;
+		$modelColumn->help = $help.tt('Type beginning letters of the user name. ');
+		$modelColumn->help.= tt('The full name will be automatically completed. ');
+		$modelColumn->help.= tt('Multiple names are possible using comma.');
+		$modelColumn->ajaxMode = 'userinfo_get_ajax_name';
+		return $modelColumn;
+	}
+	
+	public function autocomplete($label, $ajaxMode, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'shorttext';
+		$modelColumn->form = 'autocomplete';
+		$modelColumn->label = $label;
+		$modelColumn->ajaxMode = 'userinfo_get_ajax_name';
+		return $modelColumn;
+	}
+	
+	public function enable($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'int';
+		$modelColumn->form = 'radio';
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		$modelColumn->selection = array(0 => tt('disable'), 1 => tt('enable'));
+		return $modelColumn;
+	}
+	
+	public function file($label, $path, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'char';
+		$modelColumn->form = 'file';
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		$modelColumn->path = $path;
+		return $modelColumn;
+	}
+	
+	public function image($label, $path, $maxWidth=600, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'char';
+		$modelColumn->form = 'file';
+		$modelColumn->label = $label;
+		$modelColumn->help = tt('Image must be only .png or .jpeg or .jpg. ');
+		$modelColumn->help.= sprintf(tt('For image wider than %dpx, it will be automatically resized.'), $maxWidth);
+		$modelColumn->path = $path;
+		$modelColumn->isImage = true;
+		$modelColumn->isOrderable = false;
+		$modelColumn->maxWidth = $maxWidth;
+		return $modelColumn;
+	}
+	
+	public function color($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'char';
+		$modelColumn->form = 'color';
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		$modelColumn->defaultData = "#5555ee";
+		$modelColumn->data = "#5555ee";
+		return $modelColumn;
+	}
+	
+	
+	public function timeInterval($label, $interval, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'int';
+		$modelColumn->form = 'select';
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		
+		$formattedInterval = array();
+		foreach($interval as $sec){
+			if($sec >= 86400){
+				$format = 'z \d\a\y\s';
+				if($sec%86400) $format .= ' G \h\o\u\r\s';
+			}elseif($sec >= 3600){
+				$format = 'G \h\o\u\r\s';
+				if($sec%3600) $format .= ' i \m\u\n\i\t\e\s';
+			}elseif($sec >= 60){
+				$format = 'i \m\u\n\i\t\e\s';
+				if($sec%60) $format .= ' s \s\e\c\o\n\d\s';
+			}else{
+				$format = 's \s\e\c\o\n\d\s';
+			}
+			$formattedInterval[$sec] = date($format, $sec);
+		}
+		
+		$modelColumn->selection = $formattedInterval;
+		return $modelColumn;
+	}
+	
+	public function category($module, $help=null){
+		include_once('CategoryColumn.class.inc');
+		return new CategoryColumn($module, $help);
+	}
+	
+	public function fileSize($label, $help=null){
+		include_once('FileSizeColumn.class.inc');
+		return new FileSizeColumn($label, $help);
+	}
+	
+	private function selective($label, $selection, $help){
+		include_once('SelectiveColumn.class.inc');
+		$modelColumn = new SelectiveColumn($label, $selection, $help);
+		$modelColumn->selection = $selection;
+		return $modelColumn;
+	}
+}
+
+?>

@@ -1,0 +1,86 @@
+<?php
+
+global $cache_lock_page_cache;
+$cache_lock_page_cache = false;
+
+function cache_get_dir($mode){
+	$cache_dir  = ROOT_PATH.'files/cache/';
+	if(!is_dir($cache_dir)) mkdir($cache_dir);
+	$cache_dir .= SECTION.'/';
+	if(!is_dir($cache_dir)) mkdir($cache_dir);
+	$cache_dir .= $mode.'/';
+	if(!is_dir($cache_dir)) mkdir($cache_dir);
+	return $cache_dir;
+}
+
+function cache_lock_page(){
+	global $cache_lock_page_cache;
+	$cache_lock_page_cache = true;
+}
+
+function cache_check_page($file_name){
+	return is_file($file_name);
+}
+
+function cache_show_page($file_name){
+	echo(postrender_get_site_info(io_read_file($file_name)));
+}
+
+function cache_save_page($page, $file_name){
+	global $cache_lock_page_cache;
+	$cache_mode = cc('cache_mode');
+	$is_cache = false;
+	if(!$cache_lock_page_cache and $cache_mode >= 2 and in_array(MODE, cc('cachable_mode'))){
+		if(!is_file($file_name)) io_write_file($file_name, $page);
+		$is_cache = true;
+	}
+	
+	if($is_cache and $cache_mode >= 3){
+		$cache_dir = ROOT_PATH.'files/precache/'.SECTION.'/';
+		if(!is_dir($cache_dir)) mkdir($cache_dir);
+		$file_name = $cache_dir.basename($file_name);
+		if(!is_file($file_name)) io_write_file($file_name, $page);
+	}
+}
+
+function cache_clear_section(){
+	$cache_dir = ROOT_PATH.'files/precache/'.SECTION.'/';
+	io_clear_directory($cache_dir);
+	$cache_dir = ROOT_PATH.'files/cache/'.SECTION.'/';
+	io_clear_directory($cache_dir);
+}
+
+function cache_get_page_file(){
+	$cache_dir  = cache_get_dir('page').MODE.'/';
+	if(!is_dir($cache_dir)) mkdir($cache_dir);
+	$cache_dir .= gg('id').'/';
+	if(!is_dir($cache_dir)) mkdir($cache_dir);
+	return $cache_dir.md5($_SERVER['REQUEST_URI'].USER_ID);
+}
+
+function cache_save_db($table, $query, $data){
+	$cache_file = cache_get_db_file($table, $query);
+	if(!is_file($cache_file.'.php')) io_serialize($data, $cache_file);
+}
+
+function cache_clear_db($table=''){
+	io_clear_directory(ROOT_PATH.'files/dbcache/'.$table);
+}
+
+function cache_get_db_file($table, $query){
+	$cache_dir  = ROOT_PATH.'files/dbcache/';
+	if(!is_dir($cache_dir)) mkdir($cache_dir);
+	$cache_dir .= $table.'/';
+	if(!is_dir($cache_dir)) mkdir($cache_dir);
+	return $cache_dir.md5($query);
+}
+
+function cache_check_db($file_name){
+	return is_file($file_name.'.php');
+}
+
+function cache_get_db_data($file_name){
+	return io_unserialize($file_name);
+}
+
+?>

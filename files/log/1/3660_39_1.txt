@@ -1,0 +1,4 @@
+1285451468,-1,guest,/ximple/,fail_login,Sorry !!! wrong name or password. Please try again.
+1285451468,-1,guest,/ximple/,system,Sorry !!! wrong name or password. Please try again.<p>You should go to <a href="http://localhost/ximple/">this page</a> for further action.</p>
+1285451484,-1,guest,/ximple/,fail_login,Sorry !!! wrong name or password. Please try again.
+1285451484,-1,guest,/ximple/,system,Sorry !!! wrong name or password. Please try again.<p>You should go to <a href="http://localhost/ximple/">this page</a> for further action.</p>

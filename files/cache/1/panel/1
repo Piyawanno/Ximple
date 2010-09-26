@@ -1,0 +1,78 @@
+	<h4 class="panel_head"><a href="javascript:togglePanel('panel_0')"></a></h4>
+	<ul class="panel_body" id="panel_0" style="display:none;">
+			<li><a href="http://localhost/ximple/?/0">0</a></li>
+			<li><a href="http://localhost/ximple/?/0">1</a></li>
+			<li><a href="http://localhost/ximple/?/0">2</a></li>
+			<li><a href="http://localhost/ximple/?/0">3</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_1')">::: My Account :::</a></h4>
+	<ul class="panel_body" id="panel_1" style="display:none;">
+			<li><a href="http://localhost/ximple/?/file_manage_user">my files</a></li>
+			<li><a href="http://localhost/ximple/?/message">my message</a></li>
+			<li><a href="http://localhost/ximple/?/profile">my profile</a></li>
+			<li><a href="http://localhost/ximple/?/shortnote">my short note</a></li>
+			<li><a href="http://localhost/ximple/?/tracker">my tracker</a></li>
+			<li><a href="http://localhost/ximple/?/account">configure account</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_2')">Block & Menu</a></h4>
+	<ul class="panel_body" id="panel_2" style="display:none;">
+			<li><a href="http://localhost/ximple/?/block">block</a></li>
+			<li><a href="http://localhost/ximple/?/menu">menu</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_3')">Blog</a></h4>
+	<ul class="panel_body" id="panel_3" style="display:none;">
+			<li><a href="http://localhost/ximple/?/category/module/blog">Blog category</a></li>
+			<li><a href="http://localhost/ximple/?/blog_config">config Blog</a></li>
+			<li><a href="http://localhost/ximple/?/blog_editor_list">list Blog in Section</a></li>
+			<li><a href="http://localhost/ximple/?/blog_contributor_list">list my Blog</a></li>
+			<li><a href="http://localhost/ximple/?/blog_write">write new Blog entry</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_4')">Comments</a></h4>
+	<ul class="panel_body" id="panel_4" style="display:none;">
+			<li><a href="http://localhost/ximple/?/comment_list">my comments</a></li>
+			<li><a href="http://localhost/ximple/?/comment_contributor_list">on my contribution</a></li>
+			<li><a href="http://localhost/ximple/?/comment_section_list">in section</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_5')">Contact</a></h4>
+	<ul class="panel_body" id="panel_5" style="display:none;">
+			<li><a href="http://localhost/ximple/?/contact_config">config contact</a></li>
+			<li><a href="http://localhost/ximple/?/contact_write">create new contact</a></li>
+			<li><a href="http://localhost/ximple/?/contact">list & manage  contact</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_6')">Directory</a></h4>
+	<ul class="panel_body" id="panel_6" style="display:none;">
+			<li><a href="http://localhost/ximple/?/category/module/page">Page category</a></li>
+			<li><a href="http://localhost/ximple/?/directory_editor_list">list Directory in section</a></li>
+			<li><a href="http://localhost/ximple/?/page_editor_list">list Page in section</a></li>
+			<li><a href="http://localhost/ximple/?/directory_list">list my Directory</a></li>
+			<li><a href="http://localhost/ximple/?/page_contributor_list">list my Page</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_7')">Download</a></h4>
+	<ul class="panel_body" id="panel_7" style="display:none;">
+			<li><a href="http://localhost/ximple/?/category/module/download">download category</a></li>
+			<li><a href="http://localhost/ximple/?/download">list & manage  download</a></li>
+			<li><a href="http://localhost/ximple/?/download_write">upload new file</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_8')">System Admin</a></h4>
+	<ul class="panel_body" id="panel_8" style="display:none;">
+			<li><a href="http://localhost/ximple/?/section">add section</a></li>
+			<li><a href="http://localhost/ximple/?/config">configure section</a></li>
+			<li><a href="http://localhost/ximple/?/file_manage_admin">manage file</a></li>
+			<li><a href="http://localhost/ximple/?/module_manage">manage module</a></li>
+			<li><a href="http://localhost/ximple/?/syslog_render">system log</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_9')">Themes</a></h4>
+	<ul class="panel_body" id="panel_9" style="display:none;">
+			<li><a href="http://localhost/ximple/?/theme_config">configure theme</a></li>
+			<li><a href="http://localhost/ximple/?/theme_css">custom css</a></li>
+			<li><a href="http://localhost/ximple/?/theme_image">custom image</a></li>
+			<li><a href="http://localhost/ximple/?/theme_select">select themes</a></li>
+		</ul>
+		<h4 class="panel_head"><a href="javascript:togglePanel('panel_10')">Users & Groups</a></h4>
+	<ul class="panel_body" id="panel_10" style="display:none;">
+			<li><a href="http://localhost/ximple/?/group">group & role</a></li>
+			<li><a href="http://localhost/ximple/?/profiletype">profile type</a></li>
+			<li><a href="http://localhost/ximple/?/registration_config">registration</a></li>
+			<li><a href="http://localhost/ximple/?/user">user</a></li>
+		</ul>
+	
