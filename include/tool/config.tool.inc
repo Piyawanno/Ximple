@@ -198,9 +198,9 @@ function config_default_role(){
 function config_default(){
 	return array(  
 		'theme' => 'bluesky',
-		'icon' => 'xblc.png',
+		'icon' => 'files/misc/ximple.png',
 		'section_name' => 'My Website',
-		'slogan' => '',
+		'section_slogan' => '',
 		'section_path' => '',
 		'section_description' => '',
 		'lang' => 'en',
@@ -246,6 +246,7 @@ function config_default(){
 		'syslog_time' => 604800,
 		'tracker_enable' => true,
 		'tracker_time' => 604800,
+		'time_zone' => 'UTC',
 	);
 }
 

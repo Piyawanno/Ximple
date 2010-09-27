@@ -3,9 +3,9 @@ include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
 include('ContactFormModel.class.inc');
 
 class ContactForm extends ConfigControl{
-	function ContactForm($contactID, $contactName){
+	function ContactForm($contactID, $contactName, $enableAttachment){
 		$this->moduleTitle = $contactName;
-		$this->init(new ContactFormModel($contactID));
+		$this->init(new ContactFormModel($contactID, $enableAttachment));
 	}
 	
 	public function render($description){

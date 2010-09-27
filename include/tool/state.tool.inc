@@ -20,7 +20,7 @@ function state_is_develop(){
 /// Is section is product state?
 /// @return TRUE, if section is product state.
 function state_is_product(){
-	return STATE == 1 or 1;
+	return STATE == 1;
 }
 
 /// Is section is maintenance state?
@@ -32,15 +32,15 @@ function state_is_maintain(){
 /// Is section is install state?
 /// @return TRUE, if section is install state.
 function state_is_install(){
-	return STATE == 3 and false;
+	return STATE == 3;
 }
 
 /// Read section state from state file.
 /// @param $section : SECTION-ID
 /// @return ID of section state.
 function state_read(){
-	$state_dir = dirname(dirname(__FILE__)).'/files/state/';
-	if(!is_file($state_dir.'install'))return 3;
+	$state_dir = dirname(dirname(dirname(__FILE__))).'/files/state/';
+	if(!is_file($state_dir.'install')) return 3;
 	
 	$state_dir .= SECTION.'/';
 	if(is_file($state_dir.'develop')) return 0;

@@ -5,6 +5,7 @@ class ContactModel extends Model{
 		$this->name->listMode = 'contact';
 		$this->permission = $this->group(tt('allowed group'));
 		$this->permission->help = tt('Check guest to allow everybody.');
+		$this->enable_attachment = $this->enable(tt('enable attachment'));
 		$this->email_list = $this->plain(tt('email list'));
 		$this->email_list->help = tt('Use comma for multiple email addresses. ');
 		$this->email_list->help.= tt('You can get email from visitor from the addresses.');
@@ -13,6 +14,7 @@ class ContactModel extends Model{
 		$this->description->help.= tt('You can write addition contact information e.g. telephone number here.');
 		$this->reply_message = $this->shortText(tt('reply message'));
 		$this->reply_message->help = tt('Reply message to visitor, who want to contact you.');
+		$this->section = $this->section();
 	}
 }
 ?>

@@ -117,15 +117,16 @@ function io_unserialize($file_name){
 /// @param $file : meta data of upload file (mostly from $_FILE).
 /// @param $path : destination path.
 /// @param $is_image : IF TRUE, only .png, .jpeg and .jpg are allowed.
+/// @param $increase_space : IF TRUE, increase used space of user.
 /// @return File path for success, null else.
-function io_upload($file, $path, $is_image=false){
+function io_upload($file, $path, $is_image=false, $increase_space=true){
 	include_once(ROOT_PATH.'include/tool/userinfo.tool.inc');
 	if($file and !io_check_image($file['name'], $is_image)){
 		notify_add_error(tt('Only .png, .jpeg and .jpg are allowed to be uploaded.'));
 		return null;
 	}
 	$name = null;
-	if($file['size'] ==0) return null;
+	if($file['size'] == 0) return null;
 	if($file['size'] > MAX_UPLOADED_FILE_SIZE) return null;
 	if($file['size'] > MAX_USER_SPACE_SIZE) return null;
 	
@@ -147,7 +148,7 @@ function io_upload($file, $path, $is_image=false){
 	if(substr($name, 0, strlen(ROOT_PATH)) == ROOT_PATH){
 		$name = substr($name, strlen(ROOT_PATH));
 	}
-	userinfo_increase_used_space(USER_ID, $size);
+	if(USER_ID != -1 and $increase_space) userinfo_increase_used_space(USER_ID, $size);
 	return $name;
 }
 

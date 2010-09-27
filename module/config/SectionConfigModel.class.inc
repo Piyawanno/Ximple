@@ -8,9 +8,6 @@ class SectionConfigModel extends Model{
 		$this->index_mode = $this->select('fronpage module', cc('module_name'));
 		$this->icon = $this->image(tt('section icon (16x16)'), 'files/misc/');
 		
-		$option = timezone_identifiers_list();
-		$option = array_combine($option, $option);
-		$this->time_zone = $this->select(tt('time zone'), $option);
 		
 		if(function_exists('apache_get_modules')) $module = apache_get_modules();
 		else $module = null;
@@ -21,6 +18,25 @@ class SectionConfigModel extends Model{
 			$this->friendly_url_enable->type = 'int';
 			$this->friendly_url_enable->defaultData = 0;
 		}
+		
+		$option = array(
+			'develop' => tt('development'),
+			'product' => tt('production'),
+			'maintain' => tt('maintenance'),
+		);
+		$this->state = $this->radio(tt('section state'), $option);
+		
+		$option = timezone_identifiers_list();
+		$option = array_combine($option, $option);
+		$this->time_zone = $this->select(tt('time zone'), $option);
+		
+		$formats = array('d F Y', 'd M Y', 'd F y', 'd M y');
+		$option = array();
+		foreach($formats as $format){
+			$option[$format] = date($format);
+		}
+		$this->time_format = $this->select(tt('time format'), $option);
+		
 		$timeInterval = array(5, 10, 30, 60, 300, 600, 1800);
 		$this->notify_interval = $this->timeInterval(tt('notification refresh interval'), $timeInterval);
 		

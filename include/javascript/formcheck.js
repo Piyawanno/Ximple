@@ -129,7 +129,6 @@ $(document).ready(function (){
 	
 	$('.email_field').keyup(function(){
 		var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-		
 		if(!reg.test($(this).val())){
 			$('#info_'+$(this).attr('id')).css({color:'red'});
 			$('#info_'+$(this).attr('id')).html(imgWrong + emailNotOk);
@@ -328,7 +327,7 @@ function checkNoneCheckBox(className){
 
 function encryptPasswd(){
 	if(!insertUser && $('#user_password').val().length == 0){
-			alert(passwdNotChange);
+		alert(passwdNotChange);
 	}
 	if($('#user_password').val() == $('#user_confirm_password').val()){
 		var passwd = $('#user_password').val();

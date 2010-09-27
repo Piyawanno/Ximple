@@ -65,7 +65,6 @@ function vv($key=null){
 function cc($key=null){
 	$config = $GLOBALS['config'];
 	$config['increase_read'] = array();
-	$config['foot_text'] = '<p>ข้อเขียนในเว็บนี้ เฉพาะทีเจ้าของเว็บเป็นผู้เขียนเอง เอาไปใช้ได้โดยไม่ต้องขออนุญาต แต่ต้องแสดงที่มา และต้องไม่ใช่เพื่อการแสวงหาประโยชน์ในทางธุรกิจ  <br /> <br /> Copyleft Created by bow_der_kleine pround to use <a href="http://www.combiolaw.de/xblc">X-BLC</a></p>';
 	$config['interp_info'] = '1';
 	$config['language'] = 'th';
 	$config['dash_icons'] = array();

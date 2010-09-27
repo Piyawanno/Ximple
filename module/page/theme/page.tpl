@@ -1,13 +1,16 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
-<div class="page">
+<?php $span=1;?>
+<div class="page_container">
 	<h3 class="title_label"><?=$topic?></h3>
 	<!--{page_pre_index}-->
 	<p class="directory_element_label" style="display:none;"><?=tt('index page')?></p>
-	<table class="directory_element" id="page_body"><tbody>
-	<tr>
-		<?php if($show_introduction):?>
+	<div class="directory_element" id="page_content">
+	<table><tbody>
+	<?php if($show_introduction):?>
+		<tr>
 			<td><?=$introduction?></td>
 			<?php if($show_avatar or $show_category):?>
+			<?php $span=2;?>
 			<td valign="top" align="right">
 				<?php if($show_avatar):?>
 					<?=render_avatar($writer)?>
@@ -17,10 +20,10 @@
 				<?php endif?>
 			</td>
 			<?php endif?>
-		<?php endif?>
-	</tr>
+		</tr>
+	<?php endif?>
 	<tr>
-		<td colspan="2">
+		<td colspan="<?=$span?>">
 			<?=$content?>
 		</td>
 		<?php if(($show_avatar or $show_category) and !$show_introduction):?>
@@ -35,6 +38,7 @@
 		<?php endif?>
 	</tr>
 	</tbody></table>
+	</div>
 	<!--{page_post_index}-->
 	<?php if(isset($related_page)):?>
 		<?=$related_page?>

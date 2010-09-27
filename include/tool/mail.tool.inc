@@ -8,11 +8,12 @@
 include(ROOT_PATH.'include/external/phpmailer/class.phpmailer.php');
 
 /// Send mail with SMTP server.
-/// @param $receiver : email-address of receiver.
-/// @param $subject  : subject of the email.
-/// @param $body     : body of the email.
-/// @param $is_html  : Does body of email contain HTML?
-function mail_send($receiver, $subject, $body, $is_html=false){
+/// @param $receiver   : email-address of receiver.
+/// @param $subject    : subject of the email.
+/// @param $body       : body of the email.
+/// @param $attachment : file location of attachment.
+/// @param $is_html    : Does body of email contain HTML?
+function mail_send($receiver, $subject, $body, $is_html=false, $attachment=null){
 	$mail = new PHPMailer();
 	$mail->IsSMTP();
 	
@@ -36,6 +37,10 @@ function mail_send($receiver, $subject, $body, $is_html=false){
 	$mail->Subject = $subject;
 	$mail->Body    = str_replace("\\\"", '"', stripslashes($body));
 	$mail->Body    = str_replace("\\'", "'", $mail->Body);
+	
+	if($attachment != null){
+		$mail->AddAttachment(ROOT_PATH.$attachment, basename($attachment));
+	}
 	
 	$receiver_split = explode(',', $receiver);
 	if(!is_array($receiver_split)) $receiver_split = array();

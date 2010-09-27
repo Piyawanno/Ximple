@@ -16,16 +16,8 @@ class SectionConfig extends ConfigControl{
 	function save(){
 		$oldIcon = cc('icon');
 		ConfigControl::save();
-		$dir = ROOT_PATH.'files/misc';
-		if(!is_dir($dir)) mkdir($dir);
-		$icon = io_upload(ff('icon'), 'files/misc/');
-		if(strlen($icon)){
-			config_set('icon', $icon);
-			if(is_file(ROOT_PATH.$oldIcon)) unlink(ROOT_PATH.$oldIcon);
-		}else{
-			config_set('icon', $oldIcon);
-		}
-		config_save();
+		$this->uploadIcon($oldIcon);
+		$this->setState();
 	}
 	
 	function index(){
@@ -40,11 +32,15 @@ class SectionConfig extends ConfigControl{
 		$general->append('section_name');
 		$general->append('section_slogan');
 		$general->append('index_mode');
-		$general->append('time_zone');
 		$general->append('home_label');
 		$general->append('icon');
 		$general->append('notify_interval');
 		$general->append('friendly_url_enable');
+		$general->append('state');
+		
+		$time = $this->getNewConfigForm(tt('Time'));
+		$time->append('time_zone');
+		$time->append('time_format');
 		
 		$searchEngine = $this->getNewConfigForm(tt('Search Engine'));
 		$searchEngine->append('section_description');
@@ -96,6 +92,29 @@ class SectionConfig extends ConfigControl{
 		execute_set_db();
 		document_set_redirect('config');
 		notify_add_info(tt('Configuration have been successfully reset.'));
+	}
+	
+	private function uploadIcon($oldIcon){
+		$dir = ROOT_PATH.'files/misc';
+		if(!is_dir($dir)) mkdir($dir);
+		$icon = io_upload(ff('icon'), 'files/misc/');
+		if(strlen($icon)){
+			config_set('icon', $icon);
+			if(is_file(ROOT_PATH.$oldIcon)) unlink(ROOT_PATH.$oldIcon);
+		}else{
+			config_set('icon', $oldIcon);
+		}
+		config_save();
+	}
+	
+	private function setState(){
+		$dir = ROOT_PATH.'files/state/';
+		if(!is_dir($dir)) mkdir($dir);
+		io_write_file($dir.'install', "");
+		$dir.= SECTION.'/';
+		io_clear_directory($dir);
+		if(!is_dir($dir)) mkdir($dir);
+		io_write_file($dir.pp('state'), "");
 	}
 }
 

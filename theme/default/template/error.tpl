@@ -16,7 +16,7 @@
 			margin:120px auto auto auto;
 			padding: 50px 20px 50px 20px;
 			text-align:left;
-			background: #729bd3 url(../image/xhead.png) 50px 50px no-repeat;
+			background: #729bd3 url(<?=ROOT_URI?>theme/default/image/xhead.png) 50px 50px no-repeat;
 			min-height:120px;
 		}
 

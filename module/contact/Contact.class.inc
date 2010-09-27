@@ -3,6 +3,8 @@ execute_add_class('contact', 'Contact');
 include('ContactModel.class.inc');
 
 class Contact extends Control{
+	private $attachment;
+	
 	function Contact(){
 		$this->tableName = 'contact';
 		$this->moduleName = 'contact';
@@ -32,13 +34,12 @@ class Contact extends Control{
 		include_once(ROOT_PATH.'include/tool/mail.tool.inc');
 		$this->id = (int)pp('id');
 		$this->selectByID($this->column);
+		$this->uploadAttachment();
 		if(authority(array(), $this->dataByID['permission'])){
 			$this->sendReply();
 			$this->sendContact();
 			$groups = cc('contact_message_receiver_group');
-			if(count($groups)){
-				$this->sendMessage($groups);
-			}
+			if(count($groups)) $this->sendMessage($groups);
 			notify_add_info(tt('Your message has been already sent to the administrator of the web-site. Thank you for your opinion.'));
 			execute_set_db();
 			document_set_redirect('contact');
@@ -67,7 +68,7 @@ class Contact extends Control{
 		$this->id = MODE_ID;
 		$this->selectByID($this->column);
 		if(authority(array(), $this->dataByID['permission'])){
-			$form = new ContactForm($this->id, $this->dataByID['name']);
+			$form = new ContactForm($this->id, $this->dataByID['name'], $this->dataByID['enable_attachment']);
 			return $form->render($this->dataByID['description']);
 		}else{
 			$this->denied();
@@ -92,7 +93,7 @@ class Contact extends Control{
 		$subject = cc('contact_subject');
 		$message = $this->dataByID['reply_message'];
 		$message.= "<blockquote>".$_POST['message']."</blockquote>";
-		$result = mail_send(pp('email'), $subject, $message, true);
+		$result = mail_send(pp('email'), $subject, $message, true, null);
 		if($result !== true) notify_add_error($result);
 	}
 	
@@ -100,7 +101,8 @@ class Contact extends Control{
 		$subject = cc('contact_head').pp('subject');
 		$message = sprintf('<p>'.tt('Email from %s').'</p>', pp('email')).pp('message');
 		$receiver = $this->dataByID['email_list'];
-		$result = mail_send($receiver, $subject, $message, true);
+		$result = mail_send($receiver, $subject, $message, true, $this->attachment);
+		if(is_file(ROOT_PATH.$this->attachment)) unlink(ROOT_PATH.$this->attachment);
 		if($result !== true) notify_add_error($result);
 	}
 	
@@ -118,6 +120,12 @@ class Contact extends Control{
 		execute_set_db();
 		document_set_redirect('contact');
 		notify_add_error(tt('You are not allowed to use the Contact-Form.'));
+	}
+	
+	private function uploadAttachment(){
+		if($this->dataByID['enable_attachment']){
+			$this->attachment = io_upload(ff('attachment'), 'files/contact', false, false);
+		}
 	}
 }
 ?>

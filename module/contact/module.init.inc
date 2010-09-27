@@ -23,6 +23,8 @@ function module_init_contact(){
 	foreach($contact_data as $key => $value){
 		block_add_navigation('contact/'.$key, $value);
 	}
+	$contact_dir = ROOT_PATH.'files/contact';
+	if(!is_dir($contact_dir)) mkdir($contact_dir);
 }
 
 function module_drop_contact(){

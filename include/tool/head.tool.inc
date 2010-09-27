@@ -87,9 +87,9 @@ function head_define_js_var(){
 	global $head_js_var;
 	$js_var = '';
 	foreach($head_js_var as $key => $value){
-		if(is_string($value)) $js_var .= 'var '.$key.' = "'.$value.'";';
-		elseif(is_bool($value)) $js_var .= 'var '.$key.' = '.($value?'true':'false').';';
-		else $js_var .= 'var '.$key.' = '.$value.';';
+		if(is_string($value)) $js_var .= 'var '.$key.' = "'.$value.'";'."\n\t\t";
+		elseif(is_bool($value)) $js_var .= 'var '.$key.' = '.($value?'true':'false').';'."\n\t\t";
+		else $js_var .= 'var '.$key.' = '.$value.';'."\n\t\t";
 	}
 	return '<script type="text/javascript">'.$js_var.'</script>';
 }
@@ -110,7 +110,7 @@ function head_define_js_array(){
 	foreach($head_js_array as $name => $array){
 		$js_var .= 'var '.$name." = new Array();\n";
 		foreach($array as $key => $value){
-			$js_var .= "\n".$name.'["'.$key.'"] = "'.$value.'";';
+			$js_var .= "\n".$name.'["'.$key.'"] = "'.$value.'";'."\n\t\t";
 		}
 	}
 	return '<script type="text/javascript">'.$js_var.'</script>';

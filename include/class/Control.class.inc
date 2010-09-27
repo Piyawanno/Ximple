@@ -273,6 +273,7 @@ abstract class Control extends Authority{
 	}
 	
 	protected function renderUpdateForm($setPath=true){
+		$this->unserializeData();
 		$this->prepareForm($setPath);
 		if(isset($this->data[$this->id])){
 			$this->formMeta->mode .= '/'.$this->id.'/page/'.MODE_PAGE;
@@ -328,7 +329,7 @@ abstract class Control extends Authority{
 		$columns = $this->modelConnector->getColumnNameByBoolean('isSerialize');
 		foreach($columns as $column){
 			foreach($this->data as $key => $value){
-				if(isset($value[$column])){
+				if(isset($value[$column]) and !is_array($value[$column])){
 					$this->data[$key][$column] = unserialize($value[$column]);
 				}
 			}
