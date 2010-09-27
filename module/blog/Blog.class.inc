@@ -34,6 +34,7 @@ class Blog extends Content{
 			$this->getSibling();
 			$this->initComment();
 			$this->insertTracker('read');
+			$this->addMetaData();
 			$this->dataByID['editable'] = $this->isEditable($this->dataByID['writer']['id']);
 			$category = $this->dataByID['category']['category'];
 			document_set_path($category, 'blog/tag/'.$category);

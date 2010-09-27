@@ -82,13 +82,10 @@ class Page extends Content{
 			head_add_css('page.css');
 			$this->initComment();
 			$this->insertTracker('read');
-			$this->dataByID['editable'] = $this->isEditable($this->dataByID['writer']['id']);
+			$this->addMetaData();
+			$this->getRenderConfiguration();
 			if($renderRelated) $this->renderRelatedPage();
 			$this->renderSibling();
-			$renderItem = $this->configuration['page_render_item'];
-			$this->dataByID['show_introduction'] = in_array('introduction', $renderItem);
-			$this->dataByID['show_avatar'] = in_array('avatar', $renderItem);
-			$this->dataByID['show_category'] = in_array('category', $renderItem);
 			$render = render($this->dataByID, 'page.tpl', 'page');
 			$render.= $this->comment->render();
 			return $render;
@@ -204,6 +201,14 @@ class Page extends Content{
 			if(isset($sibling[$prePage])) $this->dataByID['back'] = $sibling[$prePage];
 			if(isset($sibling[$postPage])) $this->dataByID['next'] = $sibling[$postPage];
 		}
+	}
+	
+	private function getRenderConfiguration(){
+		$this->dataByID['editable'] = $this->isEditable($this->dataByID['writer']['id']);
+		$renderItem = $this->configuration['page_render_item'];
+		$this->dataByID['show_introduction'] = in_array('introduction', $renderItem);
+		$this->dataByID['show_avatar'] = in_array('avatar', $renderItem);
+		$this->dataByID['show_category'] = in_array('category', $renderItem);
 	}
 }
 ?>

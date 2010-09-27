@@ -227,6 +227,11 @@ abstract class Content extends Control{
 		}
 	}
 	
+	protected function addMetaData(){
+		document_add_keywords($this->dataByID['freetags']);
+		document_set_description($this->dataByID['description']);
+	}
+	
 	private function selectFirstPageTag($column, $pageLength, $arg){
 		if(isset($arg['tag'])) $tag = $arg['tag'];
 		else $tag = gg('tag');
