@@ -6,6 +6,7 @@ include_once('PageModel.class.inc');
 
 class Page extends Content{
 	private $parent;
+	private $parentName;
 	private $configuration;
 	private $pageItem;
 	
@@ -28,6 +29,19 @@ class Page extends Content{
 			else $this->id = $arg['id'];
 			return $this->renderSingleEntry();
 		}
+	}
+	
+	public function printPage(){
+		$this->select($this->column, 'WHERE parent='.((int) gg('parent')));
+		$this->setConfiguration();
+		execute_set_print();
+		document_set_title($this->parentName);
+		$renderArray = array(
+			'parent_name' => $this->parentName,
+			'data' => $this->data,
+			'sort' => $this->configuration['show_page'],
+		);
+		return render($renderArray, 'page_print.tpl', 'page_print');
 	}
 	
 	public function write(){
@@ -121,8 +135,10 @@ class Page extends Content{
 		if($configuration!=null){
 			$this->configuration = $configuration;
 		}elseif($this->parent){
-			$parentData = db_select_single_column('directory', 'configuration', 'WHERE id='.$this->parent, false);
-			$this->configuration = unserialize($parentData[0]);
+			$column = array('configuration', 'name');
+			$parentData = db_select('directory', $column, 'WHERE id='.$this->parent, false);
+			$this->configuration = unserialize($parentData[0]['configuration']);
+			$this->parentName = $parentData[0]['name'];
 		}
 	}
 	

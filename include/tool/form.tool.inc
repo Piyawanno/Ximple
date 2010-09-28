@@ -94,19 +94,16 @@ function form_render_select($form_id, $name, $modelCol){
 	return $render;
 }
 
-function form_render_multi_select($form_id, $name, $modelCol){
-	$render = '<select name="'.$name.'" multiple="multiple" size="5" id="'.$form_id.'_'.$name.'">';
-	$data = $modelCol->data;
-	$selection = $modelCol->selection;
-	foreach($selection as $key => $value){
-		if(is_array($modelCol->data) and in_array($key, $modelCol->data)){
-			$selected = 'selected="selected"';
-		}else{
-			$selected = '';
-		}
-		$render .= '<option value="'.$key.'" '.$selected.'>'.$value.'</option>';
-	}
-	$render .= '</select><span id="info_'.$form_id.'_'.$name.'"></span>';
+function form_render_imageloader($form_id, $name, $modelCol){
+	$id = $form_id.'_'.$name;
+	if(strlen($modelCol->data) == 0) $modelCol->data = 'files/misc/loader.png';
+	$image_src = ROOT_URI.$modelCol->data;
+	$render = '
+	<input type="hidden" name="'.$name.'" id="input_'.$id.'" value="'.$modelCol->data.'" />
+	<a href="#" onclick="showImageLoader(\''.$id.'\', \''.$modelCol->path.'\');return false;">
+		<img src="'.$image_src.'" border="0" id="image_'.$id.'"/>
+	</a>
+	<div id="loader_'.$id.'" style="display:none;"></div>';
 	return $render;
 }
 

@@ -124,7 +124,7 @@ class Contact extends Control{
 	
 	private function uploadAttachment(){
 		if($this->dataByID['enable_attachment']){
-			$this->attachment = io_upload(ff('attachment'), 'files/contact', false, false);
+			$this->attachment = io_upload(ff('attachment'), 'files/contact/', false, false);
 		}
 	}
 }

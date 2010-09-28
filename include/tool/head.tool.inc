@@ -8,12 +8,16 @@
 /// Internal global variables for head-tool.
 /// These variables should not be used outside this file.
 
-global $head_css, $head_js, $head_js_array, $head_js_var;
+global $head_css, $head_js, $head_js_array, $head_js_var, $head_print_css;
 
 $head_css = array(
 	'main.css',
 	'common.css',
 	'include/external/jquery/themes/base/ui.all.css',
+);
+
+$head_print_css = array(
+	'print.css'
 );
 
 $head_js = array(
@@ -42,13 +46,24 @@ function head_render(){
 		<meta name="description" content="'.document_get_description().'" />
 		<link rel="shortcut icon" href="'.ROOT_URI.cc('icon').'" type="image/png" />
 		'.head_include_feed_link().'
-		'.head_include_css().'
+		'.head_include_main_css().'
 		'.head_define_js_var().'
 		'.head_define_js_array().'
 		'.head_include_js().'
 		'.cc('meta_data');
 	return $head;
 }
+
+/// Render HTML-header with meta information and including javascript and css for printing document.
+function head_render_print(){
+	$head='
+		<title>'.head_get_document_title().'</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<link rel="shortcut icon" href="'.ROOT_URI.cc('icon').'" type="image/png" />
+		'.head_include_print_css();
+	return $head;
+}
+
 
 /// Get document title for meta information.
 function head_get_document_title(){
@@ -147,13 +162,21 @@ function head_add_js($js){
 	}
 }
 
+function head_include_main_css(){
+	global $head_css;
+	return head_include_css($head_css);
+}
+
+function head_include_print_css(){
+	global $head_print_css;
+	return head_include_css($head_print_css);
+}
 
 /// Execution of adding css into document.
 /// @return Link to css style sheets.
-function head_include_css(){
-	global $head_css;
+function head_include_css($css){
 	$link = '';
-	foreach($head_css as $value){
+	foreach($css as $value){
 		$uri = head_get_css_uri($value);
 		$link .= "\n\t\t";
 		$link .= '<link rel="stylesheet" type="text/css" href="'.$uri.'" />';
@@ -167,6 +190,15 @@ function head_add_css($css){
 	global $head_css;
 	if(!in_array($css, $head_css)){
 		$head_css[] = $css;
+	}
+}
+
+/// Add a additional css into printing document.
+/// @param $css : css filename.
+function head_add_print_css($css){
+	global $head_print_css;
+	if(!in_array($css, $head_print_css)){
+		$head_print_css[] = $css;
 	}
 }
 

@@ -55,7 +55,7 @@ class ModelColumn{
 		$allowedForm = array(
 			'none', 'char', 'password', 'file', 'multifile',
 			'hidden', 'text', 'plain', 'shorttext', 'calendar',
-			'captcha', 'autocomplete', 'group', 'email',
+			'captcha', 'autocomplete', 'group', 'email', 'imageloader',
 			'color', 'grid', 'uri',
 		);
 		

@@ -73,12 +73,14 @@ function hidePlainCode(codeId){
 	$('#plaincode_'+codeId).hide();
 }
 
+function ximplePrint(link){
+	window.open(link.href, 'print','toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=800,height=600');
+}
 
+/// Not verified ///
 function hide_sub_plain(sub_conf){
 	$('#'+sub_conf).toggle();
 }
-
-
 
 function submit_sort(colname){
 	$("input[name='sort_col']").attr('value', colname);

@@ -228,7 +228,7 @@ abstract class Content extends Control{
 	}
 	
 	protected function addMetaData(){
-		document_add_keywords($this->dataByID['freetags']);
+		document_add_keywords($this->dataByID['freetag']);
 		document_set_description($this->dataByID['description']);
 	}
 	
@@ -317,6 +317,7 @@ abstract class Content extends Control{
 		
 		$this->addAccessMethod('guest', 'index');
 		$this->addAccessMethod('guest', 'listPage');
+		$this->addAccessMethod('guest', 'printPage');
 	}
 	
 	

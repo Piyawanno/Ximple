@@ -24,11 +24,11 @@ abstract class Model{
 	}
 	
 	protected function extendBefore($beforeColumnName, $extendedColumnName){
-		$this->extendedObjBefore[$beforeColumnName] = $extendedColumnName;
+		$this->extendedObjBefore[$beforeColumnName][] = $extendedColumnName;
 	}
 	
 	protected function extendAfter($afterColumnName, $extendedColumnName){
-		$this->extendedObjAfter[$afterColumnName] = $extendedColumnName;
+		$this->extendedObjAfter[$afterColumnName][] = $extendedColumnName;
 	}
 	
 	protected function drop($columnName){
@@ -258,6 +258,15 @@ abstract class Model{
 		return $modelColumn;
 	}
 	
+	public function imageLoader($label, $path){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'char';
+		$modelColumn->form = 'imageloader';
+		$modelColumn->label = $label;
+		$modelColumn->path = $path;
+		$modelColumn->help = tt('Click on image to upload or change image.');
+		return $modelColumn;
+	}
 	
 	public function timeInterval($label, $interval, $help=null){
 		$modelColumn = new ModelColumn;

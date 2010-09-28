@@ -1,5 +1,6 @@
 <?php
 execute_add_function('imageloader');
+execute_add_function('imageloader_simple');
 execute_add_function('imageloader_upload');
 execute_add_function('imageloader_create_directory');
 imageloader_avoid_up_dir(gg('file'));
@@ -7,14 +8,27 @@ imageloader_avoid_up_dir(gg('file'));
 function imageloader(){
 	execute_set_file();
 	header('Content-Type: text/html; charset=UTF-8');
+	$path = 'files/member/'.USER_ID.'/'.gg('dir');
 	$render_array = array(
 		'current_dir' => gg('dir'),
 		'is_guest' => authority_is_guest(),
-		'image' => imageloader_get_image(),
+		'image' => imageloader_get_image($path),
 		'directory' => imageloader_get_directory(),
 	);
 	$render = render($render_array, 'imageloader.tpl', 'imageloader');
 	echo($render);
+}
+
+function imageloader_simple(){
+	execute_set_ajax();
+	$path = gg('dir');
+	$render_array = array(
+		'current_dir' => gg('dir'),
+		'is_guest' => authority_is_guest(),
+		'image' => imageloader_get_image($path),
+		'loader_id' => gg('loader_id'),
+	);
+	return render($render_array, 'imageloader_simple.tpl', 'imageloader_simple');
 }
 
 function imageloader_upload(){
@@ -34,8 +48,7 @@ function imageloader_create_directory(){
 	document_set_redirect('?mode=imageloader&dir='.gg('dir'));
 }
 
-function imageloader_get_image(){
-	$path = 'files/member/'.USER_ID.'/'.gg('dir');
+function imageloader_get_image($path){
 	$accepted_ext = array('gif', 'png', 'jpg', 'jpeg', 'tiff');
 	$success = true;
 	@$d = dir(ROOT_PATH.$path) or $success=false;

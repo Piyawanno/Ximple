@@ -75,6 +75,7 @@ function execute_set_site(){
 	$execute_mode = 0;
 }
 
+
 function execute_set_db(){
 	global $execute_mode;
 	$execute_mode = 1;
@@ -88,6 +89,11 @@ function execute_set_ajax(){
 function execute_set_file(){
 	global $execute_mode;
 	$execute_mode = 3;
+}
+
+function execute_set_print(){
+	global $execute_mode;
+	$execute_mode = 4;
 }
 
 function execute_as_site(){
@@ -108,6 +114,11 @@ function execute_as_ajax(){
 function execute_as_file(){
 	global $execute_mode;
 	return $execute_mode == 3;
+}
+
+function execute_as_print(){
+	global $execute_mode;
+	return $execute_mode == 4;
 }
 
 function execute_is_callable($mode){

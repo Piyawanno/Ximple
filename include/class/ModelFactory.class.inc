@@ -12,15 +12,19 @@ class ModelFactory{
 	public function bind(){
 		foreach($this->modelObject as $key => $value){
 			$beforeColumnName = $this->modelObject->getExtendedBefore($key);
-			if($beforeColumnName){
-				$this->model[$beforeColumnName] = $this->modelObject->$beforeColumnName;
+			if(is_array($beforeColumnName)){
+				foreach($beforeColumnName as $column){
+					$this->model[$column] = $this->modelObject->$column;
+				}
 			}
 			if(is_a($value, 'ModelColumn') and empty($this->model[$key])){
 				$this->model[$key] = $value;
 			}
 			$afterColumnName = $this->modelObject->getExtendedAfter($key);
-			if($afterColumnName){
-				$this->model[$afterColumnName] = $this->modelObject->$afterColumnName;
+			if(is_array($afterColumnName)){
+				foreach($afterColumnName as $column){
+					$this->model[$column] = $this->modelObject->$column;
+				}
 			}
 		}
 		$this->check();

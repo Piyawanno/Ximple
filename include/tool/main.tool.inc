@@ -56,6 +56,9 @@ function main_render(){
 	}elseif(execute_as_ajax()){
 		header('Content-Type: text; charset=UTF-8');
 		return $body;
+	}elseif(execute_as_print()){
+		header('Content-Type: text/html; charset=UTF-8');
+		return main_render_print($body);
 	}
 	extension_execute('post_main_render');
 }
@@ -77,6 +80,17 @@ function main_render_site($body){
 	search_add_source_page($body);
 	$render = render($render_array, 'main.tpl', 'main');
 	$render = extension_execute('post_main_render_site', null, $render);
+	return $render;
+}
+
+function main_render_print($body){
+	$render_array = array(
+		'body' => $body,
+		'section_name' => cc('section_name'),
+		'section_slogan' => cc('section_slogan'),
+		'head' => head_render_print(),
+	);
+	$render = render($render_array, 'print.tpl', 'print');
 	return $render;
 }
 

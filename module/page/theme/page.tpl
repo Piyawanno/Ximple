@@ -44,19 +44,26 @@
 		<?=$related_page?>
 	<?php endif?>
 	<p class="page_info">
-		<?=$publish_time?> | <?=tt('by')?> <?=render_profile_link($writer)?> | <?=tt('tags')?>
+		<?=$publish_time?> |
+		<?php if(strlen($author_name)) :?>
+			<?=tt('by')?> <?=$author_name?> |
+		<?php else :?>
+			<?=tt('by')?> <?=render_profile_link($writer)?> |
+		<?php endif?>
+		<?=tt('tags')?>
 		<?php foreach($freetag as $key=>$tag):?>
 			<a href="<?=SECTION_URI.Q?>page/tag/<?=$tag?>" class="tag"><?=$tag?></a>
 		<?php endforeach?>
 	</p>
 	<p class="page_foot">
 		<a>read <!--{ximple_read/page/<?=$id?>}--></a>
+		<a href="<?=SECTION_URI.Q?>page_print/<?=$id?>/parent/<?=$parent?>" onclick="ximplePrint(this); return false;"><?=tt('print')?></a>
 		<?php if($editable):?>
 			<a href="<?=SECTION_URI.Q?>page_edit/<?=$id?>/parent/<?=$parent?>"><?=tt('edit')?></a>
 			<a href="<?=SECTION_URI.Q?>page_drop/<?=$id?>"><?=tt('drop')?></a>
 		<?php endif?>
 	</p>
-	<p align="center" style="magin:20px;">
+	<p style="magin:20px;text-align:center;">
 		<?php if(isset($back)):?>
 			<a href="<?=render_uri('page', $back)?>">&#171; <?=$back['topic']?></a> |
 		<?php endif?>
