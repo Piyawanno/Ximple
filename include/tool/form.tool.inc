@@ -4,9 +4,11 @@ function form($form_id, $model){
 	document_init_form();
 	$render = array();
 	head_add_css('form.css');
+	head_add_js('include/external/jquery/jquery-form.js');
 	head_add_js('include/external/tinymce/tiny_mce.js');
 	head_add_js('include/javascript/mceinit.js');
 	head_add_js('include/javascript/formcheck.js');
+	head_add_js_var('uploadSuccess', tt('image successfully uploaded'));
 	head_add_js_var('pleaseFill', tt('Please, fill the required field : '));
 	head_add_js_var('formNotCorrect', tt('Any field in the form is not correctly filled. Please correct it and try again.'));
 	foreach($model as $name => $modelCol){
@@ -96,12 +98,12 @@ function form_render_select($form_id, $name, $modelCol){
 
 function form_render_imageloader($form_id, $name, $modelCol){
 	$id = $form_id.'_'.$name;
-	if(strlen($modelCol->data) == 0) $modelCol->data = 'files/misc/loader.png';
-	$image_src = ROOT_URI.$modelCol->data;
+	if(strlen($modelCol->data)) $image_src = ROOT_URI.$modelCol->data;
+	else $image_src = ROOT_URI.'files/icon/loader.png';
 	$render = '
 	<input type="hidden" name="'.$name.'" id="input_'.$id.'" value="'.$modelCol->data.'" />
 	<a href="#" onclick="showImageLoader(\''.$id.'\', \''.$modelCol->path.'\');return false;">
-		<img src="'.$image_src.'" border="0" id="image_'.$id.'"/>
+		<img src="'.$image_src.'" border="0" id="image_'.$id.'" alt="image"/>
 	</a>
 	<div id="loader_'.$id.'" style="display:none;"></div>';
 	return $render;

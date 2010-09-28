@@ -2,6 +2,7 @@
 execute_add_function('imageloader');
 execute_add_function('imageloader_simple');
 execute_add_function('imageloader_upload');
+execute_add_function('imageloader_simple_upload');
 execute_add_function('imageloader_create_directory');
 imageloader_avoid_up_dir(gg('file'));
 
@@ -20,6 +21,7 @@ function imageloader(){
 }
 
 function imageloader_simple(){
+	if(authority_is_guest()) error_denied();
 	execute_set_ajax();
 	$path = gg('dir');
 	$render_array = array(
@@ -37,6 +39,13 @@ function imageloader_upload(){
 		io_upload(ff('file_to_upload'), ROOT_PATH.'files/member/'.USER_ID.'/'.pp('upload_dir'));
 	}
 	document_set_redirect('?mode=imageloader&dir='.pp('upload_dir'));
+}
+
+function imageloader_simple_upload(){
+	execute_set_db();
+	if(!authority_is_guest()){
+		io_upload(ff('file_to_upload'), ROOT_PATH.pp('current_dir'));
+	}
 }
 
 function imageloader_create_directory(){

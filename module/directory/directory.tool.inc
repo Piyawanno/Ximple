@@ -76,13 +76,17 @@ function directory_create_root($category){
 	}
 }
 
-function directory_create_index_page($parent, $category, $directory_name){
+function directory_create_index_page($parent, $category, $directory_name, $introduction=null, $icon=null){
 	$configuration = directory_default_configuration();
+	if($introduction == null){
+		$introduction = tt('This Page is automatically generated for Directory. You can edit it to make it more usable.');
+	}
 	$data = array(
 		'writer' => USER_ID,
 		'parent' => $parent,
 		'topic' => $directory_name,
-		'introduction' => tt('This Page is automatically generated for Directory. You can edit it to make it more usable.'),
+		'introduction' => $introduction,
+		'icon' => $icon,
 		'category' => $category,
 		'freetag' => '',
 		'write_time' => NOW,

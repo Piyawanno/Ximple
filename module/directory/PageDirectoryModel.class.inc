@@ -6,7 +6,7 @@ class PageDirectoryModel extends Model{
 		$this->uri = $this->char(tt('URI'));
 		$this->category = $this->category('page');
 		$this->index_page = new PageColumn();
-		$this->icon = $this->image(tt('icon'), 'files/directory/', 240);
+		$this->icon = $this->imageLoader(tt('icon'), 'files/directory/');
 		$this->description = $this->shortText(tt('description'));
 		$this->permission = $this->group(tt('editor group'));
 		$this->permission->isExceptedGuest = true;

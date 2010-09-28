@@ -149,7 +149,7 @@ function db_update_many($table, $data, $where){
 	$table = DB_TABLE_PREFIX.$table;
 	$value_set = '';
 	foreach($data as $key => $value){
-		if(is_string($value)) $value_set .= $key."='".addslashes($value)."', ";
+		if(is_string($value)  or $value==null) $value_set .= $key."='".addslashes($value)."', ";
 		else $value_set .= $key.'='.$value.', ';
 	}
 	$value_set = substr($value_set,0, -2);
@@ -163,7 +163,7 @@ function db_insert($table, $data){
 	$cols = join(',', array_keys($data));
 	$value_set = '';
 	foreach($data as $key => $value){
-		if(is_string($value)) $value_set .= "'".addslashes($value)."', ";
+		if(is_string($value) or $value==null) $value_set .= "'".addslashes($value)."', ";
 		else $value_set .= $value.', ';
 	}
 	$value_set = substr($value_set,0, -2);

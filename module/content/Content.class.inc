@@ -146,8 +146,12 @@ abstract class Content extends Control{
 	
 	protected function isReadable($checkEdit=true){
 		$publishTime = strtotime($this->dataByID['publish_time']);
-		$publishingMap = array_flip(content_get_publishing_status());
-		$publishingStatus = $publishingMap[$this->dataByID['publishing_status']];
+		if(strlen($this->dataByID['publishing_status']) > 1){
+			$publishingMap = array_flip(content_get_publishing_status());
+			$publishingStatus = $publishingMap[$this->dataByID['publishing_status']];
+		}else{
+			$publishingStatus = $this->dataByID['publishing_status'];
+		}
 		if($publishingStatus < 2 and $publishTime <= time()) return true;
 		elseif($checkEdit and $this->isEditable($this->dataByID['writer']['id'])) return true;
 		else return false;

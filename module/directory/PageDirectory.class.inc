@@ -60,7 +60,7 @@ class PageDirectory extends Control{
 	public function insert(){
 		if($this->isWritable()){
 			Control::insert();
-			$this->createIndexPage(pp('name'));
+			$this->createIndexPage(pp('name'), pp('description'), pp('icon'));
 			document_set_redirect('directory/'.$this->id);
 			$this->insertIntoParentList();
 		}
@@ -147,10 +147,10 @@ class PageDirectory extends Control{
 		$this->addAccessMethod('guest', 'index');
 	}
 	
-	private function createIndexPage($directoryName){
+	private function createIndexPage($directoryName, $introduction=null, $icon=null){
 		if(pp('category')) $category = pp('category');
 		else $category = directory_get_page_category_id();
-		$pid = directory_create_index_page($this->id, $category, $directoryName);
+		$pid = directory_create_index_page($this->id, $category, $directoryName, $introduction, $icon);
 		db_update($this->tableName, array('index_page' => $pid), $this->id);
 	}
 	
