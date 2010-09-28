@@ -21,7 +21,7 @@ abstract class Content extends Control{
 		$this->selectByID($this->column, true);
 		$this->updateFreeTag();
 		$this->insertTracker('write');
-		if($this->isReadable()){
+		if($this->isReadable(false)){
 			$feedData = $this->formatFeedData();
 			feed_insert($this->moduleName, $feedData);
 		}
@@ -32,7 +32,7 @@ abstract class Content extends Control{
 		Control::update();
 		$this->updateFreeTag();
 		$this->insertTracker('update');
-		if($this->isReadable()){
+		if($this->isReadable(false)){
 			$feedData = $this->formatFeedData();
 			feed_update($this->moduleName, $feedData);
 		}
@@ -144,10 +144,12 @@ abstract class Content extends Control{
 		}
 	}
 	
-	protected function isReadable(){
+	protected function isReadable($checkEdit=true){
 		$publishTime = strtotime($this->dataByID['publish_time']);
-		if($this->dataByID['publishing_status'] < 2 and $publishTime <= time()) return true;
-		elseif($this->isEditable($this->dataByID['writer']['id'])) return true;
+		$publishingMap = array_flip(content_get_publishing_status());
+		$publishingStatus = $publishingMap[$this->dataByID['publishing_status']];
+		if($publishingStatus < 2 and $publishTime <= time()) return true;
+		elseif($checkEdit and $this->isEditable($this->dataByID['writer']['id'])) return true;
 		else return false;
 	}
 	
