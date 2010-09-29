@@ -313,7 +313,6 @@ function install_login(){
 function install_insert_user(){
 	install_db_init();
 	if(count(db_select('users', array('id'))) == 0){
-		print_r(pp());
 		$insert_data = array(
 			'login_name' => pp('login_name'),
 			'login_name_hash' => sha1(pp('login_name')),

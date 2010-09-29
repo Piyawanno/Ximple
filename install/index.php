@@ -105,8 +105,10 @@ function install_step2(){
 		foreach($to_mkdir as $item){
 			if(!is_dir(ROOT_PATH.$item)) mkdir(ROOT_PATH.$item);
 		}
-		copy(ROOT_PATH.'files/ximple.png', ROOT_PATH.'files/misc/ximple.png');
-		copy(ROOT_PATH.'files/default.png', ROOT_PATH.'files/avatar/default.png');
+		$des = ROOT_PATH.'files/misc/ximple.png';
+		if(!is_file($des)) copy(ROOT_PATH.'files/ximple.png', $des);
+		$des = ROOT_PATH.'files/avatar/default.png';
+		if(!is_file($des)) copy(ROOT_PATH.'files/default.png', $des);
 	}
 	
 	if($next_enable != 'disabled="disabled"') $try = '';

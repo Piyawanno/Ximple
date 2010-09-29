@@ -12,7 +12,7 @@
 	<?=tt('<b>Important</b> : Please, remember this information for root\'s loging-in. Root is the person, who can access and manage everything in system.')?>
 	</p>
 	<label><?=tt('login name')?></label>
-	<input name="login_name" value="" size="40" id="user_login_name"/>
+	<input name="login_name" value="" size="40" id="user_login_name" rel="install"/>
 	<span id="info_user_login_name"></span>
 	<label><?=tt('email')?></label>
 	<input name="email" value="" size="40" class="email_field" id="user_email"/>

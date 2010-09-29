@@ -1,6 +1,5 @@
 var grid_string = new Array();
 var files_string = new Array();
-
 var captchaLock = false;
 var initedJQuery = false;
 var imgCorrect = '<img style="margin-left:15px;margin-right:10px;padding:0;" src="'+rootURI+'files/icon/correct.png" />';
@@ -109,10 +108,12 @@ $(document).ready(function (){
 	
 	$('#user_login_name').keyup(function(){
 		formLock = true;
-		alert($(this).val());
 		if($(this).val().length < 4){
 			$('#info_user_login_name').css({color:'red'});
 			$('#info_user_login_name').html(imgWrong + nameTooShort);
+		}else if($(this).attr('rel') == 'install'){
+			$('#info_user_login_name').html(imgCorrect);
+			formLock = false;
 		}else{
 			var uri = '';
 			if(insertUser) uri = 'userinfo_check_user_exists/login_name/';
