@@ -202,6 +202,9 @@ function install_directory_list(){
 }
 
 function install_error_setup_not_exist(){
+	$root_uri = 'http://'.$_SERVER['HTTP_HOST'].dirname(dirname($_SERVER['PHP_SELF'])).'/';
+	define('ROOT_URI', $root_uri);
+	
 	$setup_file = dirname(dirname(__FILE__));
 	$message = sprintf('Please create file : %s', $setup_file.'/include/setup.php');
 	$body  = '<h3 style="color:red;">'.$message.'</h3>';
@@ -209,10 +212,8 @@ function install_error_setup_not_exist(){
 	$body .= '<h3 style="color:red;">'.$message.'</h3>';
 	$message = 'You can not pass this step, before you create setup-file.';
 	$body .= '<h3 style="color:red;">'.$message.'</h3>';
+	$body .= '<h3 style="color:green;"><a href="'.$root_uri.'install">Please, try again.</a></h3>';
 	$agree = false;
-	
-	$root_uri = 'http://'.$_SERVER['HTTP_HOST'].dirname(dirname($_SERVER['PHP_SELF'])).'/';
-	define('ROOT_URI', $root_uri);
 	
 	$title = tt('File not found : setup.php');
 	$select_langauge = install_language_selection();

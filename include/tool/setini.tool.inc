@@ -14,15 +14,15 @@ require('globalvar.tool.inc');
 /// @param $section : SECION-ID
 function setini(){
 	define('STATE', state_read());
-	if(!state_is_product()){
+	if(state_is_product()){
+		ini_set('display_errors', 0);
+	}else{
 		ini_set('display_errors', 1);
 		if(defined('E_DEPRECATED')){
 			ini_set('error_reporting', E_ALL & ~E_DEPRECATED );
 		}else{
 			ini_set('error_reporting', E_ALL);
 		}
-	}else{
-		ini_set('display_errors', 0);
 	}
 	
 	ini_set('html_errors', 1);
