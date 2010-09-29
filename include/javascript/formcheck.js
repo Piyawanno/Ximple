@@ -109,6 +109,7 @@ $(document).ready(function (){
 	
 	$('#user_login_name').keyup(function(){
 		formLock = true;
+		alert($(this).val());
 		if($(this).val().length < 4){
 			$('#info_user_login_name').css({color:'red'});
 			$('#info_user_login_name').html(imgWrong + nameTooShort);
