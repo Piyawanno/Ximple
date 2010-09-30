@@ -8,16 +8,22 @@ class FreeTagColumn extends ModelColumn{
 		$this->ajaxMode = 'freetag_get_ajax';
 	}
 	
-	function triggerSelect(){
+	public function triggerSelect(){
 		$this->data = input_split_comma($this->data);
 	}
 	
-	function triggerPostInsert(){
-		$this->data = join(', ', input_split_comma($this->data)).', ';
+	public function triggerPostInsert(){
+		$this->vadiladeTag();
 	}
 	
-	function triggerPostUpdate(){
-		$this->data = join(', ', input_split_comma($this->data)).', ';
+	public function triggerPostUpdate(){
+		$this->vadiladeTag();
+	}
+	
+	private function vadiladeTag(){
+		$tagArray = input_split_comma($this->data);
+		if(count($tagArray)) $this->data = join(', ', $tagArray).', ';
+		else $this->data = '';
 	}
 }
 ?>

@@ -10,18 +10,19 @@ class Page extends Content{
 	private $configuration;
 	private $pageItem;
 	
-	function Page($parent=null){
+	function Page($isEmbed=false){
 		$this->tableName = 'page';
 		$this->moduleName = 'page';
 		$this->moduleTitle = tt('Page');
-		$this->setParent($parent);
-		$this->init(new PageModel($this->parent), false);
+		$this->setParent(null);
+		$this->init(new PageModel($this->parent), $isEmbed, false);
 	}
 	
 	public function index($arg){
 		if(isset($arg['tag'])) $tag = $arg['tag'];
 		elseif(strlen(gg('tag')) != 0) $tag = gg('tag');
 		else $tag = '';
+		
 		if(strlen($tag)){
 			return $this->renderTagEntries($arg, $tag);
 		}else{
@@ -86,7 +87,6 @@ class Page extends Content{
 		elseif(gg('parent')) $this->parent = (int) gg('parent');
 	}
 	
-	
 	public function render($renderRelated=false){
 		if($this->isReadable()){
 			if($this->dataByID['publishing_status'] < 2){
@@ -128,9 +128,6 @@ class Page extends Content{
 		}
 	}
 	
-	protected function setListWriteIcon(){
-	}
-	
 	public function setConfiguration($configuration = null){
 		if($configuration!=null){
 			$this->configuration = $configuration;
@@ -140,6 +137,21 @@ class Page extends Content{
 			$this->configuration = unserialize($parentData[0]['configuration']);
 			$this->parentName = $parentData[0]['name'];
 		}
+	}
+	
+	protected function setListWriteIcon(){
+	}
+	
+	protected function getSummary(){
+		return $this->dataByID['introduction'];
+	}
+	
+	protected function formatFeedData(){
+		$data = Content::formatFeedData();
+		if(strlen($this->dataByID['author_name'])){
+			$data['writer'] = $this->dataByID['author_name'];
+		}
+		return $data;
 	}
 	
 	private function renderSingleEntry(){

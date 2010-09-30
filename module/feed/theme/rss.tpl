@@ -9,7 +9,7 @@
     <pubDate><?=$data[0]['update_time']?></pubDate>
     <lastBuildDate><?=$data[0]['update_time']?></lastBuildDate>
     <generator>Ximple-0.9</generator>
-    <webMaster><?=SITE_EMAIL?></webMaster>
+    <webMaster><?=SITE_MAIL?></webMaster>
    <?php foreach($data as $key => $value):?>
     <item>
 		<title><?=$value['topic']?></title>
@@ -20,7 +20,7 @@
 			<![CDATA[<?=$value['summary']?>]]>
         </description>
         <?php foreach($value['freetag'] as $tag):?>
-			<category>{<?=$tag?></category>
+			<category><?=$tag?></category>
 		<?php endforeach?>
 	</item>
 	<?php endforeach?>

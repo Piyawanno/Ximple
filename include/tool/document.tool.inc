@@ -87,11 +87,12 @@ function document_render_path(){
 	$i = 0;
 	$render = '';
 	$size = count($document_path);
+	$rendered = array();
 	$p = '<a href="%s">%s</a>';
 	foreach($document_path as $name => $uri){
 		if($i == 0){
 			$render .= sprintf($p, SECTION_URI, $name);
-		}elseif($i != $size-1){
+		}elseif($i != $size-1 and !in_array($name, $rendered)){
 			$render .= sprintf($p, SECTION_URI.Q.$uri, $name);
 		}else{
 			$render .= $name;
@@ -99,6 +100,7 @@ function document_render_path(){
 		if($i != $size-1){
 			$render .= '&#160;&#187;&#160;';
 		}
+		$rendered[] = $name;
 		$i++;
 	}
 	return $render;

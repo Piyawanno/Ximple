@@ -15,7 +15,7 @@ class ContentModel extends Model{
 		$this->writer->label = tt('writer');
 		$this->write_time = $this->now();
 		$this->update_time = $this->now();
-		$this->isUpdateTim = true;
+		$this->update_time->isUpdateTime = true;
 		$this->publish_time = $this->calendar(tt('publish date'));
 		$this->comment_time = $this->hidden('00-00-00', 'char');
 		$this->content = $this->text(tt('content'));

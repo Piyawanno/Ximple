@@ -15,14 +15,14 @@ class PageDirectory extends Control{
 	private $configuration;
 	private $directoryItem;
 	
-	function PageDirectory(){
+	function PageDirectory($isEmbed=false){
 		$this->tableName = 'directory';
 		$this->moduleName = 'directory';
 		$this->moduleTitle = tt('Directory');
 		$this->setID();
 		$this->setParent();
 		$this->setAccess();
-		$this->init(new PageDirectoryModel($this->parent), false);
+		$this->init(new PageDirectoryModel($this->parent), $isEmbed, false);
 	}
 	
 	public function index(){

@@ -4,19 +4,15 @@ include_once(ROOT_PATH.'module/content/Content.class.inc');
 include('VideoModel.class.inc');
 
 class Video extends Content{
-	function Video(){
+	function Video($isEmbed=false){
 		$this->tableName = 'video';
 		$this->moduleName = 'video';
 		$this->moduleTitle = tt('Video');
-		$this->init(new VideoModel(), false);
+		$this->init(new VideoModel(), $isEmbed);
 	}
 	
 	public function index($arg=null){
-		if($arg == null){
-			document_set_path($this->moduleTitle, $this->moduleName);
-			document_set_title($this->moduleTitle);
-		}
-		if(MODE_ID){
+		if((MODE_ID and MODULE == $this->moduleName) or isset($arg['id'])){
 			return $this->renderSingleVideo($arg);
 		}else{
 			return $this->renderMultipleVideos($arg);
@@ -36,7 +32,7 @@ class Video extends Content{
 			$this->addMetaData();
 			$this->dataByID['editable'] = $this->isEditable($this->dataByID['writer']['id']);
 			$category = $this->dataByID['category']['category'];
-			if($arg == null){
+			if(!$this->isEmbed){
 				document_set_path($category, 'video/tag/'.$category);
 				document_set_path($this->dataByID['topic']);
 			}
@@ -54,10 +50,10 @@ class Video extends Content{
 	
 	private function renderMultipleVideos($arg){
 		head_add_css('video.css');
-		$this->selectFirstPage($this->column, cc('video_entries_number'));
+		$this->selectFirstPage($this->column, cc('video_entries_number'), $arg);
 		$this->getCommentNumber();
 		$this->getDataEditable();
-		if($arg == null) $this->setPathMutiplePage();
+		if(!$this->isEmbed) $this->setPathMutiplePage();
 		$render = render(array('data' => $this->data), 'multiplevideos.tpl', 'multiple_videos');
 		$render.= $this->pager->render('video'.$this->getPageMode());
 		return $render;

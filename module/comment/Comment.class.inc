@@ -16,7 +16,7 @@ class Comment extends Control{
 		$this->setParent($parent);
 		$this->setPermission($permission);
 		$this->setAccess();
-		$this->init(new CommentModel($this->mode, $this->parent, $parentWriter), false);
+		$this->init(new CommentModel($this->mode, $this->parent, $parentWriter), true, false);
 	}
 	
 	public function render(){

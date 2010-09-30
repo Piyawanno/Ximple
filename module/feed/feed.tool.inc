@@ -58,7 +58,7 @@ function feed_format_render_data($data){
 		$data_out[$i] = $value;
 		$data_out[$i]['publish_time'] = date('r', strtotime($value['publish_time']));
 		$data_out[$i]['update_time'] = date('r', strtotime($value['publish_time']));
-		$data_out[$i]['feedtag'] = input_split_comma($value['freetag']);
+		$data_out[$i]['freetag'] = input_split_comma($value['freetag']);
 		$data_out[$i]['summary'] = stripslashes($value['summary']);
 		$data_out[$i]['id'] = $value['mode_id'];
 		$i++;

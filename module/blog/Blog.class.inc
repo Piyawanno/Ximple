@@ -4,18 +4,18 @@ include_once(ROOT_PATH.'module/content/Content.class.inc');
 include('BlogModel.class.inc');
 
 class Blog extends Content{
-	function Blog(){
+	function Blog($isEmbed=false){
 		$this->tableName = 'blog';
 		$this->moduleName = 'blog';
 		$this->moduleTitle = tt('Blog');
-		$this->init(new BlogModel());
+		$this->init(new BlogModel(), $isEmbed);
 	}
 	
-	public function index(){
-		if(MODE_ID){
-			return $this->renderSingleBlog();
+	public function index($arg=null){
+		if((MODE_ID and MODULE == $this->moduleName) or isset($arg['id'])){
+			return $this->renderSingleBlog($arg);
 		}else{
-			return $this->renderMultipleBlogs();
+			return $this->renderMultipleBlogs($arg);
 		}
 	}
 	
@@ -23,13 +23,14 @@ class Blog extends Content{
 		return $this->dataByID['intro'];
 	}
 	
-	private function renderSingleBlog(){
-		$this->id = MODE_ID;
+	private function renderSingleBlog($arg){
+		if(isset($arg['id'])) $this->id = $arg['id'];
+		else $this->id = MODE_ID;
 		$this->selectByID($this->column);
 		if($this->isReadable()){
 			if($this->dataByID['publishing_status'] < 2){
 				search_set_page();
-				count_increase('blog', MODE_ID);
+				count_increase('blog', $this->id);
 			}
 			$this->getSibling();
 			$this->initComment();
@@ -51,13 +52,13 @@ class Blog extends Content{
 		}
 	}
 	
-	private function renderMultipleBlogs(){
+	private function renderMultipleBlogs($arg){
 		head_add_css('blog.css');
 		$column = $this->modelConnector->getColumnNameExcepted(array('content'));
-		$this->selectFirstPage($column, cc('blog_entries_number'));
+		$this->selectFirstPage($column, cc('blog_entries_number'), $arg);
 		$this->getCommentNumber();
 		$this->getDataEditable();
-		$this->setPathMutiplePage();
+		if(!$this->isEmbed) $this->setPathMutiplePage();
 		$render = render(array('data' => $this->data), 'multipleblogs.tpl', 'multiple_blogs');
 		$render.= $this->pager->render('blog'.$this->getPageMode());
 		return $render;

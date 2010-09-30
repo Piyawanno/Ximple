@@ -89,8 +89,8 @@ abstract class Content extends Control{
 		content_drop_module($this->moduleName, $this->moduleTitle);
 	}
 	
-	protected function init($modelObj, $setPath=true){
-		Control::init($modelObj, $setPath);
+	protected function init($modelObj, $isEmbed=false, $setPath=true){
+		Control::init($modelObj, $isEmbed, $setPath);
 		$this->setAccess();
 	}
 	
@@ -110,7 +110,7 @@ abstract class Content extends Control{
 			$this->selectFirstPageTag($column, $pageLength, $arg);
 		}elseif(gg('year') or isset($arg['year'])){
 			$this->selectFirstPageArchive($column, $pageLength, $arg);
-		}elseif(MODE_PAGE == 0){
+		}elseif(MODE_PAGE == 0 or (isset($arg['page']) and $arg['page'] == 0)){
 			$this->selectFirstPageFearured($column, $pageLength);
 		}else{
 			$this->selectFirstPageCommon($column, $pageLength);
@@ -236,6 +236,17 @@ abstract class Content extends Control{
 	protected function addMetaData(){
 		document_add_keywords($this->dataByID['freetag']);
 		document_set_description($this->dataByID['description']);
+	}
+	
+	protected function formatFeedData(){
+		include_once(ROOT_PATH.'module/feed/feed.tool.inc');
+		$category = db_select_single_column('category', 'category', 'WHERE id='.$this->dataByID['category'], false);
+		$this->getCommentNumber();
+		$data = $this->data[$this->id];
+		$data['writer'] = $this->dataByID['writer_name'];
+		$data['summary'] = $this->getSummary();
+		$data['freetag'].= ', '.$category[0];
+		return $data;
 	}
 	
 	private function selectFirstPageTag($column, $pageLength, $arg){
@@ -380,17 +391,6 @@ abstract class Content extends Control{
 		$category = array_keys(db_select_single_column('category', 'id', $clause));
 		if(isset($category[0])) return 'category='.$category[0];
 		else return '';
-	}
-	
-	private function formatFeedData(){
-		include_once(ROOT_PATH.'module/feed/feed.tool.inc');
-		$category = db_select_single_column('category', 'category', 'WHERE id='.$this->dataByID['category'], false);
-		$this->getCommentNumber();
-		$data = $this->data[$this->id];
-		$data['writer'] = $this->dataByID['writer_name'];
-		$data['summary'] = $this->getSummary();
-		$data['freetag'].= ', '.$category[0];
-		return $data;
 	}
 	
 }

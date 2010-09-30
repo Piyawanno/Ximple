@@ -28,7 +28,7 @@ function execute_oop($mode, $module, $as_string, $arg=null){
 	$success = false;
 	$result = '';
 	if($class and class_exists($class)){
-		$obj = new $class();
+		$obj = new $class($as_string);
 		if(!is_a($obj, 'Authority')){
 			if(!$as_string) error_denied();
 		}else{

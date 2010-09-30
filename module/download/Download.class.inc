@@ -3,19 +3,19 @@ execute_add_class('download', 'Download');
 include('DownloadModel.class.inc');
 
 class Download extends Control{
-	function Download(){
+	function Download($isEmbed=false){
 		$this->tableName = 'download';
 		$this->moduleName = 'download';
 		$this->moduleTitle = tt('Download');
 		$this->setAdmin('download_admin');
 		$this->addAction('download_get', 'get');
 		$this->addAccessMethod('guest', 'index');
-		$this->init(new DownloadModel(), false);
+		$this->init(new DownloadModel(), $isEmbed);
 	}
 	
 	public function index($arg=null){
-		if(MODE_ID == 0 or $arg!=null){
-			if($arg==null){
+		if(MODE_ID == 0 or $this->isEmbed){
+			if(!$this->isEmbed){
 				document_set_path($this->moduleTitle, $this->moduleName);
 				document_set_title($this->moduleTitle);
 			}
@@ -82,6 +82,7 @@ class Download extends Control{
 	private function selectFile($arg){
 		if(isset($arg['category'])) $category = $arg['category'];
 		else $category = (int) gg('category');
+		
 		if($category){
 			$category = ' AND category='.$category;
 		}else{

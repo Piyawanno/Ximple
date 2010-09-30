@@ -14,6 +14,7 @@ abstract class Control extends Authority{
 	private $tableCreator;
 	private $listPage;
 	
+	
 	protected $modelConnector;
 	protected $data;
 	protected $dataByID;
@@ -39,6 +40,8 @@ abstract class Control extends Authority{
 	protected $insertNotify;
 	protected $updateNotify;
 	protected $dropNotify;
+	
+	protected $isEmbed;
 	
 	public $id;
 	public $column;
@@ -160,7 +163,8 @@ abstract class Control extends Authority{
 		$this->postSelect();
 	}
 	
-	protected function init($modelObj, $setPath= true){
+	protected function init($modelObj, $isEmbed=false, $setPath=true){
+		$this->isEmbed = $isEmbed;
 		if(empty($this->insertRedirection)) $this->insertRedirection = $this->moduleName;
 		if(empty($this->updateRedirection)) $this->updateRedirection = $this->moduleName;
 		if(empty($this->dropRedirection)) $this->dropRedirection = $this->moduleName;
@@ -193,7 +197,7 @@ abstract class Control extends Authority{
 		if(empty($this->dropNotify)){
 			$this->dropNotify = sprintf(tt('%s has been successfully dropped.'), $this->moduleTitle);
 		}
-		if(!empty($this->moduleTitle) and $setPath){
+		if(!empty($this->moduleTitle) and !$isEmbed and $setPath){
 			document_set_path($this->moduleTitle, $this->moduleName);
 			document_set_title($this->moduleTitle);
 		}
