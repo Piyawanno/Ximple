@@ -28,7 +28,9 @@ function setini(){
 	ini_set('html_errors', 1);
 	ini_set('session.use_only_cookies', 0);
 	ini_set('session.name', 'PHPSESSID');
-	ini_set('safe_mode', 0);
+	ini_set('safe_mode', 1);
+	ini_set('post_max_size', '40M');
+	ini_set('upload_max_filesize', '40M');
 }
 
 ?>

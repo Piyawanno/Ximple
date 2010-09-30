@@ -54,7 +54,7 @@ abstract class Content extends Control{
 		document_set_path($title);
 		document_set_title($title);
 		$this->listMeta->mode = $this->moduleName.'_list';
-		return $this->renderListPage($clause, '');
+		return $this->renderListPage($clause);
 	}
 	
 	public function contributorListPage(){
@@ -94,7 +94,7 @@ abstract class Content extends Control{
 		$this->setAccess();
 	}
 	
-	protected function renderListPage($clause, $description){
+	protected function renderListPage($clause){
 		$this->listMeta->title = sprintf(tt('List of %s entries'), $this->moduleTitle);
 		$this->listMeta->defaultOrderDesc = 'id';
 		$this->selectListPage(20, $clause);
