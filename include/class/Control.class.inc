@@ -145,7 +145,11 @@ abstract class Control extends Authority{
 		$this->checkColumnExist($col);
 		$this->data = db_select($this->tableName, $col, 'WHERE id='.(int)$this->id);
 		if(!$isRaw) $this->postSelect();
-		$this->dataByID = $this->data[$this->id];
+		if(isset($this->data[$this->id])){
+			$this->dataByID = $this->data[$this->id];
+		}else{
+			error_not_found();
+		}
 	}
 	
 	public function selectPage($col, $pageLength, $clause=null){

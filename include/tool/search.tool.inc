@@ -7,6 +7,17 @@ function search_set_page(){
 	$search_page = true;
 }
 
+function search_increase_point(){
+	if(gg('search_keyword')){
+		$query = 'UPDATE search SET points=points+1, clicks=clicks+1 WHERE id='.((int)gg('search_id'));
+		db_modify('search', $query);
+	}
+}
+
+function search_drop_index(){
+	db_drop('search', gg('search_id'));
+}
+
 function search_add_source_page($content){
 	global $search_page;
 	if($search_page and MODE_ID != 0){
@@ -16,7 +27,7 @@ function search_add_source_page($content){
 				'title' => document_get_title(),
 				'description' => document_get_description(),
 				'keyword' => document_get_keywords(),
-				'content' => input_trim(strip_tags($content)),
+				'content' => input_trim(htmlspecialchars_decode(strip_tags($content))),
 				'mode' => MODE,
 				'mode_id' => MODE_ID,
 				'insert_time' => NOW,

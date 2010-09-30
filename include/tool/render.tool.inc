@@ -110,6 +110,15 @@ function render_category_icon($category, $mode){
 	';
 }
 
+function render_search_form(){
+	return '
+	<form action="'.SECTION_URI.'" method="GET">
+		<input name="mode" type="hidden" value="search"/>
+		<input name="search" size="30" id="search_input"/>
+		<input type="submit" value="'.tt('search').'" id="search_submit" />
+	</form>';
+}
+
 function render_uri($mode, $data){
 	if(strlen($data['uri'])) return SECTION_URI.Q.$mode.'/'.$data['id'].'/'.$data['uri'].'.html';
 	else return SECTION_URI.Q.$mode.'/'.$data['id'];

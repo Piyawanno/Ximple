@@ -66,6 +66,7 @@ function main_render(){
 function main_render_site($body){
 	include_once('menu.tool.inc');
 	include_once('block.tool.inc');
+	search_increase_point();
 	extension_execute('pre_main_render_site', $body, $body);
 	$render_array = array(
 		'body' => $body,

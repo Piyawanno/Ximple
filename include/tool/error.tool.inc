@@ -72,6 +72,7 @@ function error_not_found(){
 		'title' => 'Page not found',
 		'message' => $message,
 	);
+	if(gg('search_id')) search_drop_index();
 	echo(render($data, 'error.tpl', 'error_not_found'));
 	db_rollback();
 	io_write_log($message, 'not_found');

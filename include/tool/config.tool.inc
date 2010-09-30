@@ -68,6 +68,7 @@ function config_default_require(){
 		'tracker' => 'tracker.module.inc',
 		'flashblock' => 'flashblock.module.inc',
 		'imageloader' => 'imageloader.module.inc',
+		'search' => 'search.module.inc',
 	);
 }
 

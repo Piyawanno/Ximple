@@ -8,11 +8,7 @@
 	<body>
 	<a name="top"></a>
 	<div id="search">
-		<form action="<?=SECTION_URI?>" method="GET">
-			<input name="mode" type="hidden" value="search"/>
-			<input name="search" size="30"/>
-			<input type="submit" value="<?=tt('search')?>">
-		</form>
+		<?=render_search_form()?>
 	</div>
 	<div id="main_container">
 		<div id="head">
