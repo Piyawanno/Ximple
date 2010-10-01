@@ -19,6 +19,15 @@ class Blog extends Content{
 		}
 	}
 	
+	public function printPage(){
+		$this->id = MODE_ID;
+		$this->selectByID($this->column);
+		execute_set_print();
+		document_set_title($this->dataByID['topic']);
+		$this->dataByID['content'] = $this->dataByID['intro'].$this->dataByID['content'];
+		return render($this->dataByID, 'content_print.tpl', 'blog_print');
+	}
+	
 	protected function getSummary(){
 		return $this->dataByID['intro'];
 	}

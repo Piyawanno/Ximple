@@ -5,7 +5,7 @@
 	<head>
 		<?=$head?>
 	</head>	
-	<body>
+	<body onload="window.print();">
 		<h1><?=$section_name?> : <?=$section_slogan?></h1>
 		<p>
 			<a href="#" onclick="window.print();return false;">

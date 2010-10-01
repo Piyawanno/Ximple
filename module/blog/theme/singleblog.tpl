@@ -34,12 +34,13 @@
 	</p>
 	<p class="blog_foot">
 		<a>read <!--{ximple_read/blog/<?=$id?>}--></a>
+		<a href="<?=SECTION_URI.Q?>blog_print/<?=$id?>" onclick="ximplePrint(this); return false;"><?=tt('print')?></a>
 		<?php if($editable):?>
 			<a href="<?=SECTION_URI.Q?>blog_edit/<?=$id?>"><?=tt('edit')?></a>
 			<a href="<?=SECTION_URI.Q?>blog_drop/<?=$id?>"><?=tt('drop')?></a>
 		<?php endif?>
 	</p>
-	<p align="center" style="magin:20px;">
+	<p style="magin:20px;text-align:center;">
 		<?php if(count($back)):?>
 			<a href="<?=render_uri('blog', $back[0])?>">&#171; <?=$back[0]['topic']?></a> | 
 		<?php endif?>

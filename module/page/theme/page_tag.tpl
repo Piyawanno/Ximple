@@ -3,7 +3,7 @@
 	<?php foreach($item as $id => $value):?>
 		<h4><a href="<?=render_uri('page', $value)?>"><?=$value['topic']?></a></h4>
 		<?php if(strlen($value['icon'])):?>
-			<img src="<?=ROOT_URI.$value['icon']?>" align="left" style="margin:10px;">
+			<img src="<?=ROOT_URI.$value['icon']?>" align="left" style="margin-left:10px;">
 		<?php endif?>
 		<?=$value['introduction']?>
 		<p class="page_info">

@@ -18,6 +18,8 @@
 			text-align:left;
 			background: #729bd3 url(<?=ROOT_URI?>theme/default/image/xhead.png) 50px 50px no-repeat;
 			min-height:120px;
+			-moz-border-radius: 8px;
+			border-radius:8px;
 		}
 
 		#message h1, h2, p{

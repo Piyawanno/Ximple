@@ -57,6 +57,14 @@ abstract class Content extends Control{
 		return $this->renderListPage($clause);
 	}
 	
+	public function printPage(){
+		$this->id = MODE_ID;
+		$this->selectByID($this->column);
+		execute_set_print();
+		document_set_title($this->dataByID['topic']);
+		return render($this->dataByID, 'content_print.tpl', $this->moduleName.'_print');
+	}
+	
 	public function contributorListPage(){
 		$title = sprintf(tt('List of %s entries for Contributor'), $this->moduleTitle);
 		document_set_path($title);

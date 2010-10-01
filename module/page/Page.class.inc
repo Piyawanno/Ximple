@@ -37,10 +37,12 @@ class Page extends Content{
 		$this->setConfiguration();
 		execute_set_print();
 		document_set_title($this->parentName);
+		$sort = $this->configuration['show_page'];
+		if(count($sort) == 0) $sort = array_keys($this->data);
 		$renderArray = array(
 			'parent_name' => $this->parentName,
 			'data' => $this->data,
-			'sort' => $this->configuration['show_page'],
+			'sort' => $sort,
 		);
 		return render($renderArray, 'page_print.tpl', 'page_print');
 	}
@@ -172,7 +174,7 @@ class Page extends Content{
 	}
 	
 	private function renderTagEntries($arg, $tag){
-		$this->selectFirstPage($this->column, 20, $arg);
+		$this->selectFirstPage($this->column, 10, $arg);
 		$this->getDataEditable();
 		$this->getCommentNumber();
 		$title = sprintf(tt('Pages tagged by %s'), $tag);
@@ -184,7 +186,9 @@ class Page extends Content{
 			'title' => $title,
 			'item' => $this->data,
 		);
-		return render($renderArray, 'page_tag.tpl', 'page_tag');
+		$render = render($renderArray, 'page_tag.tpl', 'page_tag');
+		$render.= $this->pager->render('page/tag/'.$tag);
+		return $render;
 	}
 	
 	private function getPageItem(){

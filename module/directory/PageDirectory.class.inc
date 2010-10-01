@@ -60,6 +60,7 @@ class PageDirectory extends Control{
 	public function insert(){
 		if($this->isWritable()){
 			Control::insert();
+			$this->configuration = directory_default_configuration();
 			$this->createIndexPage(pp('name'), pp('description'), pp('icon'));
 			document_set_redirect('directory/'.$this->id);
 			$this->insertIntoParentList();
@@ -106,6 +107,7 @@ class PageDirectory extends Control{
 		$this->page->initModule('Page.class.inc');
 		$category = directory_get_page_category_id();
 		$this->id = directory_create_root($category);
+		$this->configuration = directory_default_configuration();
 		if($this->id) $this->createIndexPage('ROOT Directory');
 	}
 	
@@ -151,7 +153,12 @@ class PageDirectory extends Control{
 		if(pp('category')) $category = pp('category');
 		else $category = directory_get_page_category_id();
 		$pid = directory_create_index_page($this->id, $category, $directoryName, $introduction, $icon);
-		db_update($this->tableName, array('index_page' => $pid), $this->id);
+		$this->configuration['show_page'][] = $pid;
+		$data_array = array(
+			'index_page' => $pid,
+			'configuration' => $this->configuration,
+		);
+		db_update($this->tableName, $data_array, $this->id);
 	}
 	
 	private function isWritable(){
