@@ -22,6 +22,7 @@ class PageDirectory extends Control{
 		$this->setID();
 		$this->setParent();
 		$this->setAccess();
+		$this->dropRedirection = 'directory_list';
 		$this->init(new PageDirectoryModel($this->parent), $isEmbed, false);
 	}
 	
@@ -77,6 +78,8 @@ class PageDirectory extends Control{
 			Control::drop();
 		}else{
 			notify_add_error(tt('Directory id no empty and can not be deleted.'));
+			execute_set_db();
+			document_redirect($this->dropRedirection);
 		}
 	}
 	
@@ -156,7 +159,7 @@ class PageDirectory extends Control{
 		$this->configuration['show_page'][] = $pid;
 		$data_array = array(
 			'index_page' => $pid,
-			'configuration' => $this->configuration,
+			'configuration' => serialize($this->configuration),
 		);
 		db_update($this->tableName, $data_array, $this->id);
 	}
