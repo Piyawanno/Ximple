@@ -46,7 +46,8 @@
 	<p class="page_info">
 		<?=$publish_time?> |
 		<?php if(strlen($author_name)) :?>
-			<?=tt('by')?> <?=$author_name?> |
+			<?=tt('written by')?> <?=$author_name?> |
+			<?=tt('edited by')?> <?=render_profile_link($writer)?> |
 		<?php else :?>
 			<?=tt('by')?> <?=render_profile_link($writer)?> |
 		<?php endif?>

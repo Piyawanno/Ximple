@@ -1,7 +1,6 @@
 <?php
 function module_get_info_blog(){
-	$describe = tt('Let your visitors send email to the you with out knowing your email address. ');
-	$describe.= tt('Moreover, you can show them your blog information on Blog-Page.');
+	$describe = tt('Blogging system for Ximple (see <a href="http://en.wikipedia.org/wiki/Blog">Wikipedia</a> for more information about blog).');
 	return array(
 		'name' => tt('Blog'),
 		'description' => $describe,

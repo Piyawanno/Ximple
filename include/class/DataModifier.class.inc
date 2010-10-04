@@ -8,6 +8,7 @@ class DataModifier{
 	private $columnDB;
 	private $fileColumn;
 	private $noneColumn;
+	private $multipleInsertColumn;
 
 	function DataModifier($table, $modelConnector){
 		$this->table = $table;
@@ -27,9 +28,9 @@ class DataModifier{
 	
 	public function insert($isCaptcha){
 		if(!$isCaptcha or $this->checkCaptcha()){
-			$this->getDataFromConnector();
-			$this->id = db_insert($this->table, $this->data);
-			return true;
+			$this->getMultipleInsertColumn();
+			if(count($multipleInsertColumn)) return $this->insertSingleRow();
+			else return $this->insertMultipleRows();
 		}
 		return false;
 	}
@@ -45,10 +46,9 @@ class DataModifier{
 	
 	public function update($isCaptcha){
 		if(!$isCaptcha or $this->checkCaptcha()){
-			$this->checkID();
-			$this->getDataFromConnector();
-			db_update($this->table, $this->data, $this->id);
-			return true;
+			$this->getMultipleInsertColumn();
+			if(count($multipleInsertColumn)) return $this->updateSingleRow();
+			else return $this->updateMultipleRows();
 		}
 		return false;
 	}
@@ -161,7 +161,7 @@ class DataModifier{
 	}
 	
 	private function checkID(){
-		$this->id = (int)gg('id');
+		$this->id = (int) gg('id');
 		if(empty($this->id)){
 			error_syslog(tt('Data can not be modified without any given ID.'));
 		}
@@ -199,6 +199,78 @@ class DataModifier{
 			if(!in_array($key, $this->columnDB)) unset($this->data[$key]);
 		}
 	}
+	
+	private function getMultipleInsertColumn(){
+		$this->multipleInsertColumn = $this->modelConnector->getColumnNameByBoolean('isMultipleInsert');
+	}
+	
+	private function insertSingleRow(){
+		$this->getDataFromConnector();
+		$this->id = db_insert($this->table, $this->data);
+		return true;
+	}
+	
+	private function insertMultipleRows(){
+		$this->getDataFromConnector();
+		if($this->checkDataSymmetry()){
+			$this->formatMultipleData();
+			$this->id = array();
+			foreach($this->data as $key => $value){
+				$this->id[] = db_insert($this->table, $value);
+			}
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	private function updateSingleRow(){
+		$this->checkID();
+		$this->getDataFromConnector();
+		db_update($this->table, $this->data, $this->id);
+		return true;
+	}
+	
+	private function updateMultipleRows(){
+		
+	}
+	
+	private function checkDataSymmetry(){
+		$newCount = -1;
+		$errorMessage = '';
+		foreach($this->multipleInsertColumn as $columnName){
+			if(!is_array($this->data[$columnName])){
+				$errorMessage = 'Data should be array : '.$columnName;
+				break;
+			}
+			$oldCount = $newCount;
+			$newCount = count($this->data[$columnName]);
+			if($newCount != $oldCount and $oldCount != -1){
+				$errorMessage = 'Data are not symmetry : '.$columnName);
+				break;
+			}
+		}
+		if(strlen($errorMessage)){
+			if(state_is_devalop()) notify_add_error($errorMessage);
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	private function formatMultipleData(){
+		$formattedData = array();
+		$n = count($this->data[$this->multipleInsertColumn[0]]);
+		for($i=0; $i< $n; $i++){
+			foreach($this->data as $key => $value){
+				if(in_array($key, $this->multipleInsertColumn)){
+					$formattedData[$i][$key] = $value[$i];
+				}else{
+					$formattedData[$i][$key] = $value;
+				}
+			}
+		}
+		$this->data = $formattedData;
+	}
 }
-
 ?>

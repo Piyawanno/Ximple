@@ -24,6 +24,10 @@ p.page_foot a{
 	border-left:1px solid #eee;
 }
 
+.page_tag_content{
+	min-height:120px;
+}
+
 .page_image_container{
 	width:100px;
 	padding-top:5px;

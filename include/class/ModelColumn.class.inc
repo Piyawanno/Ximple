@@ -37,6 +37,7 @@ class ModelColumn{
 	public $isExceptedAdmin = true;
 	public $isExceptedGuest = false;
 	public $isUpdateTime = false;
+	public $multipleInsert = false;
 	
 	public function getPHPType(){
 		return $this->typeMap[$this->type];
@@ -53,7 +54,7 @@ class ModelColumn{
 		
 		$selectionForm = array('radio', 'checkbox', 'select', 'multiseclect', 'checkedit');
 		$allowedForm = array(
-			'none', 'char', 'password', 'file', 'multifile',
+			'none', 'char', 'password', 'file', 'multiplefiles',
 			'hidden', 'text', 'plain', 'shorttext', 'calendar',
 			'captcha', 'autocomplete', 'group', 'email', 'imageloader',
 			'color', 'grid', 'uri',

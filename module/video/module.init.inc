@@ -1,7 +1,7 @@
 <?php
 function module_get_info_video(){
 	$describe = tt('With Video Module, you can provide video streaming on your website. ');
-	$describe.= tt('Be careful with the bandwidth. Vedio streaming is very bandwidth hungry');
+	$describe.= tt('Be careful with the bandwidth. Vedio streaming is very bandwidth hungry.');
 	return array(
 		'name' => tt('Video'),
 		'description' => $describe,

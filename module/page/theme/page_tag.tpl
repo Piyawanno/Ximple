@@ -1,11 +1,13 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
-<div class="page">
+<div class="page_container">
 	<?php foreach($item as $id => $value):?>
 		<h4><a href="<?=render_uri('page', $value)?>"><?=$value['topic']?></a></h4>
 		<?php if(strlen($value['icon'])):?>
-			<img src="<?=ROOT_URI.$value['icon']?>" align="left" style="margin-left:10px;">
+			<img src="<?=ROOT_URI.$value['icon']?>" align="left" style="margin-right:10px;">
 		<?php endif?>
-		<?=$value['introduction']?>
+		<div class="page_tag_content">
+			<?=$value['introduction']?>
+		</div>
 		<p class="page_info">
 			<?=$value['publish_time']?> | <?=tt('by')?> <?=render_profile_link($value['writer'])?> | <?=tt('tags')?>
 			<?php foreach($value['freetag'] as $key=>$tag):?>

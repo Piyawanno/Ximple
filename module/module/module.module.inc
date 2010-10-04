@@ -118,6 +118,7 @@ function module_get_init_file(){
 			}
 		}
 	}
+	sort($module_array);
 	return array($module_array, $init_array);
 }
 

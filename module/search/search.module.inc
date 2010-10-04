@@ -1,20 +1,39 @@
 <?php
 execute_add_function('search');
-include_once(ROOT_PATH.'include/class/PagerRender.class.inc');
 
 function search(){
-	$keywords = split(' ', input_trim(gg('search')));
-	$update_time = search_get_update_time($keywords);
-	$matched = search_get_match($keywords, $update_time);
-	$points = search_calculate_point($keywords, $matched);
-	search_update_index($keywords, $matched, $points);
-	return search_render_result($keywords);
-}
-
-function search_render_result($keywords){
+	mb_internal_encoding('utf8');
+	$keywords = search_check_keyword();
 	$title = tt('search keyword : ').gg('search');
 	document_set_path($title);
 	document_set_title($title);
+	if(count($keywords)){
+		$update_time = search_get_update_time($keywords);
+		$matched = search_get_match($keywords, $update_time);
+		$points = search_calculate_point($keywords, $matched);
+		search_update_index($keywords, $matched, $points);
+		return search_render_result($keywords);
+	}else{
+		return '<h3 class="title_label">'.tt('No result').'</h3>';
+	}
+}
+
+function search_check_keyword(){
+	if(strlen(gg('search'))){
+		$keywords = split(' ', input_trim(gg('search')));
+		foreach($keywords as $key => $keyword){
+			if(mb_strlen($keyword) <= 3){
+				unset($keywords[$key]);
+			}
+		}
+		return $keywords;
+	}else{
+		return array();
+	}
+}
+
+function search_render_result($keywords){
+	include_once(ROOT_PATH.'include/class/PagerRender.class.inc');
 	$clause = "WHERE keyword='".join("' OR keyword='", $keywords)."' ";
 	$result_number = db_select('search', array('COUNT(id) as result_number'), $clause);
 	$result_number = $result_number[0]['result_number'];
@@ -57,14 +76,12 @@ function search_get_match($keywords, $update_time){
 	$column = array('title', 'keyword', 'description', 'content');
 	$clause = array();
 	foreach($keywords as $keyword){
-		if(strlen($keyword) > 1){
-			if(isset($update_time[$keyword])){
-				$update_clause = "AND insert_time >='".$update_time[$keyword]."'";
-			}else{
-				$update_clause = "";
-			}
-			$clause[] = '(('.join(" LIKE '%$keyword%' OR ", $column)." LIKE '%$keyword%') ".$update_clause.')';
+		if(isset($update_time[$keyword])){
+			$update_clause = "AND insert_time >='".$update_time[$keyword]."'";
+		}else{
+			$update_clause = "";
 		}
+		$clause[] = '(('.join(" LIKE '%$keyword%' OR ", $column)." LIKE '%$keyword%') ".$update_clause.')';
 	}
 	$column[] = 'id';
 	$column[] = 'mode';
@@ -84,7 +101,6 @@ function search_get_update_time($keywords){
 }
 
 function search_update_index($keywords, $matched, $points){
-	mb_internal_encoding('utf8');
 	foreach($keywords as $keyword){
 		foreach($matched as $id => $entry){
 			$data_array = array(
