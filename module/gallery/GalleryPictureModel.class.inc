@@ -14,7 +14,7 @@ class GalleryPictureColumn extends MultipleFilesColumn{
 	function GalleryPictureColumn($galleryID){
 		$label = tt('');
 		$path = ROOT_PATH.'files/gallery/'.$galleryID.'/';
-		MultipleFilesColumn::MultipleFilesColumn($label, $path);
+		MultipleFilesColumn::MultipleFilesColumn($label, $path, 'picture');
 	}
 	
 	function triggerInsert(){

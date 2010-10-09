@@ -37,7 +37,7 @@ function search_render_result($keywords){
 	$clause = "WHERE keyword='".join("' OR keyword='", $keywords)."' ";
 	$result_number = db_select('search', array('COUNT(id) as result_number'), $clause);
 	$result_number = $result_number[0]['result_number'];
-	$clause.= 'ORDER BY points DESC LIMIT 10 OFFSET '.(10*MODE_PAGE);
+	$clause.= 'ORDER BY points DESC LIMIT 10 OFFSET '.(10*pid());
 	$column = array('id', 'topic', 'content_mode', 'content_id', 'keyword', 'keywords_no', 'rendered', 'points');
 	$data = db_select('search', $column, $clause);
 	$render_array = array(

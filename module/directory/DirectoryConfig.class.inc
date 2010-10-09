@@ -12,14 +12,14 @@ class DirectoryConfig extends ConfigControl{
 		$this->setAdmin('directory_admin');
 		$this->addAction('directory_config', 'index');
 		$this->addAction('directory_config_save', 'save');
-		$this->saveRedirection = 'directory_config/'.MODE_ID;
+		$this->saveRedirection = 'directory_config/'.mid();
 		$this->init(new DirectoryConfigModel(), false);
 	}
 	
 	public function index(){
-		$this->formMeta->mode = 'directory_config_save/'.MODE_ID;
+		$this->formMeta->mode = 'directory_config_save/'.mid();
 		$this->formMeta->title = $this->moduleTitle;
-		directory_set_path(MODE_ID);
+		directory_set_path(mid());
 		document_set_path($this->moduleTitle);
 		
 		$directory = $this->getNewConfigForm(tt('Sub-Directory Render'));
@@ -46,7 +46,7 @@ class DirectoryConfig extends ConfigControl{
 	}
 		
 	protected function getConfig(){
-		$data = db_select_single_column('directory', 'configuration', 'WHERE id='.MODE_ID, false);
+		$data = db_select_single_column('directory', 'configuration', 'WHERE id='.mid(), false);
 		$this->config = unserialize($data[0]);
 		return $this->config;
 	}
@@ -71,7 +71,7 @@ class DirectoryConfig extends ConfigControl{
 	}
 	
 	protected function saveConfig(){
-		db_update('directory', array('configuration' => serialize($this->config)), MODE_ID);
+		db_update('directory', array('configuration' => serialize($this->config)), mid());
 	}
 }
 ?>

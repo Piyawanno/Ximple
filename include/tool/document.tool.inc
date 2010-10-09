@@ -10,7 +10,9 @@
 global $document_title, $document_description;
 global $document_keywords, $document_redirect;
 global $document_form, $document_path;
+global $document_lock_set_path;
 
+$document_lock_set_path = false;
 $document_title = '';
 $document_description = '';
 $document_redirect = '';
@@ -76,31 +78,45 @@ function document_has_form(){
 	return $document_form;
 }
 
+function document_lock_set_path(){
+	global $document_lock_set_path;
+	$document_lock_set_path = true;
+}
+
+function document_release_set_path(){
+	global $document_lock_set_path;
+	$document_lock_set_path = false;
+}
+
 function document_set_path($name, $uri=''){
 	global $document_path;
-	$document_path[$name] = $uri;
+	global $document_lock_set_path;
+	if(!$document_lock_set_path){
+		$document_path[$name] = $uri;
+	}
 }
 
 function document_render_path(){
-	global $document_path;
+	global $document_path, $document_title;
 	if(IS_INDEX) return '';
 	$i = 0;
 	$render = '';
 	$size = count($document_path);
-	$rendered = array();
 	$p = '<a href="%s">%s</a>';
 	foreach($document_path as $name => $uri){
 		if($i == 0){
 			$render .= sprintf($p, SECTION_URI, $name);
-		}elseif($i != $size-1 and !in_array($name, $rendered)){
+		}elseif($i != $size-1){
 			$render .= sprintf($p, SECTION_URI.Q.$uri, $name);
 		}else{
 			$render .= $name;
+			if(strlen($document_title) == 0){
+				$document_title = $name;
+			}
 		}
 		if($i != $size-1){
 			$render .= '&#160;&#187;&#160;';
 		}
-		$rendered[] = $name;
 		$i++;
 	}
 	return $render;

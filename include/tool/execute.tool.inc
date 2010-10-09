@@ -6,43 +6,48 @@ $execute_callable = array();
 $execute_class = array();
 $execute_mode = 0;
 
-function execute($mode, $as_string=false, $arg=null){
+function execute($mode){
 	global $execute_callable;
 	$module = execute_get_module($mode);
 	execute_get_requirement($module);
 	if(!execute_is_callable($mode)) error_denied();
 	if(function_exists($mode) and in_array($mode, $execute_callable)){
-		return $mode($arg);
+		return $mode();
 	}else{
-		return execute_oop($mode, $module, $as_string, $arg);
+		return execute_oop($mode, $module);
 	}
 }
 
 function execute_string($uri){
 	$uri = execute_parse_smart_uri('/'.$uri);
-	return execute($uri['mode'], true, $uri);
+	globalvar_set_get($uri);
+	document_lock_set_path();
+	$result = execute($uri['mode'], $uri);
+	globalvar_reset_get();
+	document_release_set_path();
+	return $result;
 }
 
-function execute_oop($mode, $module, $as_string, $arg=null){
+function execute_oop($mode, $module){
 	$class = execute_get_class($module);
 	$success = false;
 	$result = '';
 	if($class and class_exists($class)){
-		$obj = new $class($as_string);
+		$obj = new $class();
 		if(!is_a($obj, 'Authority')){
-			if(!$as_string) error_denied();
+			error_denied();
 		}else{
 			$method = $obj->getAction($mode);
 			$obj->prepareMethod($method);
 			if(!$obj->isCallable($method)){
-				if(!$as_string) error_denied();
+				error_denied();
 			}elseif($method){
-				$result = $obj->$method($arg);
+				$result = $obj->$method();
 				$success = true;
 			}
 		}
 	}
-	if(!$success and !$as_string) error_not_found();
+	if(!$success) error_not_found();
 	return $result;
 }
 

@@ -16,7 +16,7 @@ class Comment extends Control{
 		$this->setParent($parent);
 		$this->setPermission($permission);
 		$this->setAccess();
-		$this->init(new CommentModel($this->mode, $this->parent, $parentWriter), true, false);
+		$this->init(new CommentModel($this->mode, $this->parent, $parentWriter));
 	}
 	
 	public function render(){
@@ -46,13 +46,13 @@ class Comment extends Control{
 			$this->insertTracker();
 			$this->insertNotify();
 			db_update($this->mode, array('comment_time' => NOW), $this->parent);
-			document_set_redirect($this->mode.'/'.$this->parent.'/page/'.MODE_PAGE.'#last_comment');
+			document_set_redirect($this->mode.'/'.$this->parent.'/page/'.pid().'#last_comment');
 		}
 	}
 	
 	public function update(){
 		Control::update();
-		document_set_redirect($this->mode.'/'.$this->parent.'/page/'.MODE_PAGE.'#comment_'.$this->id);
+		document_set_redirect($this->mode.'/'.$this->parent.'/page/'.pid().'#comment_'.$this->id);
 	}
 	
 	public function listPage(){
@@ -132,7 +132,7 @@ class Comment extends Control{
 			$this->checkDataEditable();
 			$this->setGuestName();
 			$this->checkNew();
-			$pager = $this->pager->render(MODE.'/'.MODE_ID);
+			$pager = $this->pager->render(mm().'/'.mid());
 			$render = $pager;
 			$renderArray = array(
 				'data' => $this->data,
@@ -203,7 +203,7 @@ class Comment extends Control{
 	
 	private function insertNotify(){
 		$p = tt('%s commented on <a href="%s">%s</a>.');
-		$uri = SECTION_URI.Q.$this->mode.'/'.$this->parent.'/page/'.MODE_PAGE.'#last_comment';
+		$uri = SECTION_URI.Q.$this->mode.'/'.$this->parent.'/page/'.pid().'#last_comment';
 		$message = sprintf($p, pp('writer'), $uri, $this->parentData['topic']);
 		if($this->parentData['writer'] != USER_ID){
 			notify_add_info($message, $this->parentData['writer']);

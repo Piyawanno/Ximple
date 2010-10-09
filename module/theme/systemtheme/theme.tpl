@@ -7,13 +7,13 @@
 	<li><a href="<?=SECTION_URI.Q?>theme_image">custom image</a></li>
 </ul>
 <p>
-	<?=sprintf(tt('Or you can <a href="%s"><strong>reset your theme</strong></a>.'), SECTION_URI.Q.'theme_reset/page/'.MODE_PAGE)?>
-	<?=sprintf(tt('For theme development, you should <a href="%s"><strong>clear custom theme directories</strong></a> to simplify your work.'), SECTION_URI.Q.'theme_clear_custom/page/'.MODE_PAGE)?>
+	<?=sprintf(tt('Or you can <a href="%s"><strong>reset your theme</strong></a>.'), SECTION_URI.Q.'theme_reset/page/'.pid())?>
+	<?=sprintf(tt('For theme development, you should <a href="%s"><strong>clear custom theme directories</strong></a> to simplify your work.'), SECTION_URI.Q.'theme_clear_custom/page/'.pid())?>
 </p>
 <div class="theme">
 	<table width="100%"><tbody>
-	<?php $begin = MODE_PAGE*THEME_PAGE_LENGTH;?>
-	<?php $end = MODE_PAGE*THEME_PAGE_LENGTH + THEME_PAGE_LENGTH;?>
+	<?php $begin = pid()*THEME_PAGE_LENGTH;?>
+	<?php $end = pid()*THEME_PAGE_LENGTH + THEME_PAGE_LENGTH;?>
 	<?php $end = ($end < count($data)) ? $end: count($data);?>
 	<?php $names = array_keys($data);?>
 	<?php for($i = $begin; $i < $end; $i++):?>
@@ -33,7 +33,7 @@
 						<a name="selected_theme" />
 						<a href="<?=SECTION_URI.Q?>theme_reset/"><b>reset <?=tt('current theme')?></b></a>
 					<?php else:?>
-						<a href="<?=SECTION_URI.Q?>theme_save/theme/<?=$name?>/page/<?=MODE_PAGE?>">
+						<a href="<?=SECTION_URI.Q?>theme_save/theme/<?=$name?>/page/<?=pid()?>">
 							<h4><?=$value['name']?></h4>
 							<?=tt('use this theme')?>
 						</a>

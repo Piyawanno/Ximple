@@ -3,17 +3,19 @@ execute_add_function('flashblock');
 execute_add_function('flashblock_config');
 execute_add_function('flashblock_save');
 
-function flashblock($arg){
+function flashblock(){
 	$column = array('id', 'mode', 'table_name', 'column_name', 'clause', 'item_number');
-	$data = db_select('flashblock', $column, 'WHERE id='.((int)$arg['id']));
-	$data = $data[$arg['id']];
-	$clause = $data['clause'].' LIMIT '.$data['item_number'];
-	$item = db_select_single_column($data['table_name'], $data['column_name'], $clause);
-	$render_array = array(
-		'mode' => $data['mode'],
-		'item' => $item,
-	);
-	return render($render_array, 'module/flashblock/theme/flashblock.tpl', 'flashblock');
+	$data = db_select('flashblock', $column, 'WHERE id='.((int)gg('id')));
+	if(count($data)){
+		$data = $data[gg('id')];
+		$clause = $data['clause'].' LIMIT '.$data['item_number'];
+		$item = db_select_single_column($data['table_name'], $data['column_name'], $clause);
+		$render_array = array(
+			'mode' => $data['mode'],
+			'item' => $item,
+		);
+		return render($render_array, 'module/flashblock/theme/flashblock.tpl', 'flashblock');
+	}
 }
 
 function flashblock_clear_cache($table){

@@ -4,7 +4,7 @@ include('BlockModel.class.inc');
 
 class Block extends Control{
 	function Block(){
-		$this->moduleTitle = 'Block';
+		$this->moduleTitle = tt('Block');
 		$this->moduleName = 'block';
 		$this->tableName = 'block';
 		$this->addAction('block_save_sort', 'saveSort');
@@ -14,7 +14,7 @@ class Block extends Control{
 	}
 	
 	public function index(){
-		document_set_title(tt('Block'));
+		document_set_path($this->moduleTitle);
 		$this->select($this->column, 'WHERE section='.SECTION.' ORDER BY sort_number');
 		$data = array();
 		foreach($this->data as $key => $value){
@@ -54,6 +54,8 @@ class Block extends Control{
 	}
 	
 	public function write(){
+		document_set_path($this->moduleTitle, $this->moduleName);
+		document_set_path(sprintf(tt('Add %s'), $this->moduleTitle));
 		$position = cc('block_position');
 		$this->formMeta->id = 'Block';
 		$this->formMeta->title = sprintf(tt('Add a new Block to %s'), $position[gg('position')]);
@@ -63,6 +65,8 @@ class Block extends Control{
 	}
 	
 	public function edit(){
+		document_set_path($this->moduleTitle, $this->moduleName);
+		document_set_path(sprintf(tt('Edit %s'), $this->moduleTitle));
 		$this->id = (int)gg('id');
 		$this->selectByID($this->column);
 		$this->formMeta->id = 'Block';

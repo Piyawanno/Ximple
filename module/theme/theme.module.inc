@@ -34,7 +34,7 @@ function theme_save(){
 	$theme_name = gg('theme');
 	theme_set_config($theme_name);
 	execute_set_db();
-	document_set_redirect('theme_select/page/'.MODE_PAGE.'#selected_theme');
+	document_set_redirect('theme_select/page/'.pid().'#selected_theme');
 	notify_add_info(tt('The selected theme has been successfully initialized.'));
 }
 
@@ -42,14 +42,14 @@ function theme_reset(){
 	$theme_name = cc('theme');
 	theme_set_config($theme_name);
 	execute_set_db();
-	document_set_redirect('theme_select/page/'.MODE_PAGE.'#selected_theme');
+	document_set_redirect('theme_select/page/'.pid().'#selected_theme');
 	notify_add_info(tt('Your theme has been successfully reset.'));
 }
 
 function theme_clear_custom(){
 	io_clear_directory(ROOT_PATH.'files/customtheme/'.SECTION.'/');
 	execute_set_db();
-	document_set_redirect('theme_select/page/'.MODE_PAGE.'#selected_theme');
+	document_set_redirect('theme_select/page/'.pid().'#selected_theme');
 	notify_add_info(tt('Your custom theme directories have been successfully cleared.'));
 }
 

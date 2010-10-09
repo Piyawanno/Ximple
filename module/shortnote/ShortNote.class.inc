@@ -12,7 +12,7 @@ class ShortNote extends Control{
 		$this->addAccessMethod('user', 'write');
 		$this->addAccessMethod('user', 'insert');
 		$this->insertRedirection = 'shortnote#top_note';
-		$this->updateRedirection = 'shortnote#note_'.MODE_ID;
+		$this->updateRedirection = 'shortnote#note_'.mid();
 		$this->init(new ShortNoteModel());
 	}
 	

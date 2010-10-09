@@ -5,28 +5,24 @@ include('ContactModel.class.inc');
 class Contact extends Control{
 	private $attachment;
 	
-	function Contact($isEmbed=false){
+	function Contact(){
 		$this->tableName = 'contact';
 		$this->moduleName = 'contact';
-		$this->moduleTitle = 'Contact';
+		$this->moduleTitle = tt('Contact');
 		$this->setAdmin('contact_admin');
 		$this->addAction('contact_send', 'send');
 		$this->addAccessMethod('guest', 'index');
 		$this->addAccessMethod('guest', 'send');
-		$this->init(new ContactModel(), $isEmbed);
+		document_set_path($this->moduleTitle, $this->moduleName);
+		$this->init(new ContactModel());
 	}
 	
-	public function index($arg){
-		if((MODE_ID and MODULE == $this->moduleName) or isset($arg['id'])){
-			return $this->renderContactForm($arg);
+	public function index(){
+		if(MODE_ID and MODULE == $this->moduleName){
+			return $this->renderContactForm();
 		}else{
-			if(authority_is_guest()){
-				$description = tt('Please, choose one of our Contact-Forms to send us an email.');
-			}else{
-				$description = tt('You can use this page to manage Contact-Forms in the Section.');
-			}
 			$this->selectListPage(20, 'WHERE (section='.SECTION.')');
-			return $this->renderDefaultListPage($description);
+			return $this->renderDefaultListPage();
 		}
 	}
 	
@@ -63,10 +59,9 @@ class Contact extends Control{
 		$this->dropNavigation();
 	}
 	
-	private function renderContactForm($arg){
+	private function renderContactForm(){
 		include('ContactForm.class.inc');
-		if(isset($arg['id'])) $this->id = $arg['id'];
-		else $this->id = MODE_ID;
+		$this->id = mid();
 		$this->selectByID($this->column);
 		if(authority(array(), $this->dataByID['permission'])){
 			$form = new ContactForm($this->id, $this->dataByID['name'], $this->dataByID['enable_attachment']);

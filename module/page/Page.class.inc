@@ -10,27 +10,20 @@ class Page extends Content{
 	private $configuration;
 	private $pageItem;
 	
-	function Page($isEmbed=false){
+	function Page(){
 		$this->tableName = 'page';
 		$this->moduleName = 'page';
 		$this->moduleTitle = tt('Page');
 		$this->setParent(null);
 		$this->dropRedirection = 'page_contributor_list';
-		$this->init(new PageModel($this->parent), $isEmbed, false);
+		$this->init(new PageModel($this->parent));
 	}
 	
-	public function index($arg){
-		if(isset($arg['tag'])) $tag = $arg['tag'];
-		elseif(strlen(gg('tag')) != 0) $tag = gg('tag');
-		else $tag = '';
-		
-		if(strlen($tag)){
-			return $this->renderTagEntries($arg, $tag);
-		}else{
-			if(!isset($arg['id'])) $this->id = MODE_ID;
-			else $this->id = $arg['id'];
-			return $this->renderSingleEntry();
-		}
+	public function index(){
+		$tag = gg('tag');
+		$this->id = mid();
+		if(strlen($tag)) return $this->renderTagEntries($tag);
+		else return $this->renderSingleEntry();
 	}
 	
 	public function printPage(){
@@ -174,8 +167,8 @@ class Page extends Content{
 		}
 	}
 	
-	private function renderTagEntries($arg, $tag){
-		$this->selectFirstPage($this->column, 10, $arg);
+	private function renderTagEntries($tag){
+		$this->selectFirstPage($this->column, 10);
 		$this->getDataEditable();
 		$this->getCommentNumber();
 		$title = sprintf(tt('Pages tagged by %s'), $tag);

@@ -41,8 +41,6 @@ abstract class Control extends Authority{
 	protected $updateNotify;
 	protected $dropNotify;
 	
-	protected $isEmbed;
-	
 	public $id;
 	public $column;
 	
@@ -56,7 +54,9 @@ abstract class Control extends Authority{
 		if($this->writeLabel) $this->formMeta->title = $this->writeLabel;
 		else $this->formMeta->title = sprintf(tt('Add %s'), $this->moduleTitle);
 		$this->formMeta->mode = $this->moduleName.'_insert';
-		return $this->renderInsertForm();
+		$render = $this->renderInsertForm();
+		document_set_path($this->formMeta->title);
+		return $render;
 	}
 	
 	public function edit(){
@@ -64,7 +64,9 @@ abstract class Control extends Authority{
 		if($this->editLabel) $this->formMeta->title = $this->editLabel;
 		else $this->formMeta->title = sprintf(tt('Edit %s'), $this->moduleTitle);
 		$this->formMeta->mode = $this->moduleName.'_update';
-		return $this->renderUpdateForm();
+		$render = $this->renderUpdateForm();
+		document_set_path($this->formMeta->title);
+		return $render;
 	}
 	
 	public function insert(){
@@ -167,8 +169,7 @@ abstract class Control extends Authority{
 		$this->postSelect();
 	}
 	
-	protected function init($modelObj, $isEmbed=false, $setPath=true){
-		$this->isEmbed = $isEmbed;
+	protected function init($modelObj){
 		if(empty($this->insertRedirection)) $this->insertRedirection = $this->moduleName;
 		if(empty($this->updateRedirection)) $this->updateRedirection = $this->moduleName;
 		if(empty($this->dropRedirection)) $this->dropRedirection = $this->moduleName;
@@ -200,10 +201,6 @@ abstract class Control extends Authority{
 		}
 		if(empty($this->dropNotify)){
 			$this->dropNotify = sprintf(tt('%s has been successfully dropped.'), $this->moduleTitle);
-		}
-		if(!empty($this->moduleTitle) and !$isEmbed and $setPath){
-			document_set_path($this->moduleTitle, $this->moduleName);
-			document_set_title($this->moduleTitle);
 		}
 	}
 	
@@ -306,16 +303,13 @@ abstract class Control extends Authority{
 		$this->data = $this->modelConnector->triggerSelect($this->data);
 	}
 	
-	private function prepareForm($setPath){
+	private function prepareForm(){
 		if(!$this->formRender){
 			include_once('FormRender.class.inc');
 			$this->formRender = new FormRender($this->modelConnector, $this->formMeta);
 		}
 		$this->formMeta->configForm = $this->configForm;
 		document_set_title($this->formMeta->title);
-		if($setPath){
-			document_set_path($this->formMeta->title, $this->formMeta->mode);
-		}
 	}
 	
 	private function formatDateTime(){

@@ -75,10 +75,10 @@ class ShowPageColumn extends ModelColumn{
 	
 	function getSelection(){
 		$selection = array();
-		$clause = 'WHERE (parent='.MODE_ID.") ";
+		$clause = 'WHERE (parent='.mid().") ";
 		$item = db_select_single_column('page', 'topic', $clause);
 		foreach($item as $id => $topic){
-			$mode = 'page_edit/'.$id.'/parent/'.MODE_ID;
+			$mode = 'page_edit/'.$id.'/parent/'.mid();
 			$render  = render_icon($mode, 'files/icon/edit.png', '');
 			$mode = 'page_drop/'.$id;
 			$render .= render_icon($mode, 'files/icon/drop.png', '');
@@ -109,10 +109,10 @@ class ShowDirectoryColumn extends ModelColumn{
 	
 	function getSelection(){
 		$selection = array();
-		$clause = 'WHERE (parent='.MODE_ID.") ";
+		$clause = 'WHERE (parent='.mid().") ";
 		$item = db_select_single_column('directory', 'name', $clause);
 		foreach($item as $id => $topic){
-			$mode = 'directory_edit/'.$id.'/parent/'.MODE_ID;
+			$mode = 'directory_edit/'.$id.'/parent/'.mid();
 			$render  = render_icon($mode, 'files/icon/edit.png', '');
 			$mode = 'directory_drop/'.$id;
 			$render .= render_icon($mode, 'files/icon/drop.png', '');

@@ -58,7 +58,7 @@ abstract class Content extends Control{
 	}
 	
 	public function printPage(){
-		$this->id = MODE_ID;
+		$this->id = mid();
 		$this->selectByID($this->column);
 		execute_set_print();
 		document_set_title($this->dataByID['topic']);
@@ -113,12 +113,12 @@ abstract class Content extends Control{
 		return Control::renderListPage();
 	}
 	
-	protected function selectFirstPage($column, $pageLength, $arg=array()){
-		if(gg('tag') or isset($arg['tag'])){
-			$this->selectFirstPageTag($column, $pageLength, $arg);
-		}elseif(gg('year') or isset($arg['year'])){
-			$this->selectFirstPageArchive($column, $pageLength, $arg);
-		}elseif(MODE_PAGE == 0 or (isset($arg['page']) and $arg['page'] == 0)){
+	protected function selectFirstPage($column, $pageLength){
+		if(gg('tag')){
+			$this->selectFirstPageTag($column, $pageLength);
+		}elseif(gg('year')){
+			$this->selectFirstPageArchive($column, $pageLength);
+		}elseif(pid() == 0){
 			$this->selectFirstPageFearured($column, $pageLength);
 		}else{
 			$this->selectFirstPageCommon($column, $pageLength);
@@ -257,9 +257,31 @@ abstract class Content extends Control{
 		return $data;
 	}
 	
-	private function selectFirstPageTag($column, $pageLength, $arg){
-		if(isset($arg['tag'])) $tag = $arg['tag'];
-		else $tag = gg('tag');
+	protected function isSingleEntry(){
+		return mid() and MODULE == $this->moduleName;
+	}
+	
+	protected function accessDeniedEntry(){
+		document_set_redirect($this->moduleName);
+		execute_set_db();
+		notify_add_error(sprintf(tt('You are not allowed to view the selected %s.'), $this->moduleTitle));
+	}
+	
+	protected function handlePublishingStatus(){
+		if($this->dataByID['publishing_status'] < 2){
+			search_set_page();
+			count_increase($this->moduleName, $this->id);
+		}
+	}
+	
+	protected function setDocumentData(){
+		$category = $this->dataByID['category']['category'];
+		document_set_path($category, $this->moduleName.'/tag/'.$category);
+		document_set_path($this->dataByID['topic']);
+	}
+	
+	private function selectFirstPageTag($column, $pageLength){
+		$tag = gg('tag');
 		$tag = addslashes($tag);
 		$tagClause = $this->getTagClause($tag);
 		$categoryClause = $this->getCategoryClause($tag);
@@ -278,15 +300,10 @@ abstract class Content extends Control{
 		$this->selectPage($column, $pageLength, $clause);
 	}
 	
-	private function selectFirstPageArchive($column, $pageLength, $arg){
-		if(isset($arg['year'])) $year = (int) $arg['year'];
-		else $year = (int) gg('year');
-		
-		if(isset($arg['month'])) $month = (int) $arg['month'];
-		else $month = (int) gg('month');
-		
-		if(isset($arg['day'])) $day = (int) $arg['day'];
-		else $day = (int) gg('day');
+	private function selectFirstPageArchive($column, $pageLength){
+		$year = (int) gg('year');
+		$month = (int) gg('month');
+		$day = (int) gg('day');
 		
 		$publishDate = "AND publish_time <= '".date('Y-m-d')."'";
 		if(empty($day)){
@@ -303,11 +320,18 @@ abstract class Content extends Control{
 	private function selectFirstPageFearured($column, $pageLength){
 		$clause = "WHERE (section=".SECTION." AND publishing_status=1 AND publish_time <= '".date('Y-m-d')."') ";
 		$clause.= "ORDER BY publish_time DESC";
+		
 		$this->selectPage($column, $pageLength, $clause);
 		$featuredData = $this->data;
 		
 		$this->selectFirstPageCommon($column, $pageLength);
+		$publishedData = $this->data;
+		
+		$this->data = array();
 		foreach($featuredData as $key => $value){
+			$this->data[$key] = $value;
+		}
+		foreach($publishedData as $key => $value){
 			$this->data[$key] = $value;
 		}
 	}

@@ -15,7 +15,7 @@ class PageDirectory extends Control{
 	private $configuration;
 	private $directoryItem;
 	
-	function PageDirectory($isEmbed=false){
+	function PageDirectory(){
 		$this->tableName = 'directory';
 		$this->moduleName = 'directory';
 		$this->moduleTitle = tt('Directory');
@@ -23,7 +23,7 @@ class PageDirectory extends Control{
 		$this->setParent();
 		$this->setAccess();
 		$this->dropRedirection = 'directory_list';
-		$this->init(new PageDirectoryModel($this->parent), $isEmbed, false);
+		$this->init(new PageDirectoryModel($this->parent));
 	}
 	
 	public function index(){
@@ -36,7 +36,7 @@ class PageDirectory extends Control{
 		$render.= $this->render();
 		if(strlen($this->dataByID['uri'])) $uri = '/'.$this->dataByID['uri'].'.html';
 		else $uri = '';
-		menu_activate('directory/'.MODE_ID.$uri);
+		menu_activate('directory/'.mid().$uri);
 		directory_set_path($this->parent);
 		document_set_path($this->dataByID['name']);
 		document_set_title($this->dataByID['name']);
@@ -54,7 +54,7 @@ class PageDirectory extends Control{
 	
 	public function edit(){
 		$this->setConfigForm();
-		directory_set_path(MODE_ID);
+		directory_set_path(mid());
 		return Control::edit();
 	}
 	
@@ -131,8 +131,8 @@ class PageDirectory extends Control{
 	}
 	
 	private function setID(){
-		if(MODE_ID){
-			$this->id = MODE_ID;
+		if(mid()){
+			$this->id = mid();
 		}elseif(db_exist_table($this->tableName)){
 			$clause = 'WHERE parent=0 AND section='.SECTION.' ORDER BY id LIMIT 1';
 			$id = db_select_single_column($this->tableName, 'id', $clause, false);

@@ -2,7 +2,7 @@
 video_switch();
 
 function video_switch(){
-	$splitted = split('_', MODE);
+	$splitted = split('_', mm());
 	if(count($splitted) > 1 and $splitted[1] == 'config'){
 		include('VideoConfig.class.inc');
 	}else{

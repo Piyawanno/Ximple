@@ -3,23 +3,21 @@ execute_add_class('download', 'Download');
 include('DownloadModel.class.inc');
 
 class Download extends Control{
-	function Download($isEmbed=false){
+	function Download(){
 		$this->tableName = 'download';
 		$this->moduleName = 'download';
 		$this->moduleTitle = tt('Download');
 		$this->setAdmin('download_admin');
 		$this->addAction('download_get', 'get');
 		$this->addAccessMethod('guest', 'index');
-		$this->init(new DownloadModel(), $isEmbed);
+		$this->init(new DownloadModel());
 	}
 	
-	public function index($arg=null){
-		if(MODE_ID == 0 or $this->isEmbed){
-			if(!$this->isEmbed){
-				document_set_path($this->moduleTitle, $this->moduleName);
-				document_set_title($this->moduleTitle);
-			}
-			return $this->fileList($arg);
+	public function index(){
+		if(mid() == 0){
+			document_set_path($this->moduleTitle, $this->moduleName);
+			document_set_title($this->moduleTitle);
+			return $this->fileList();
 		}else{
 			return $this->getFile();
 		}
@@ -47,7 +45,7 @@ class Download extends Control{
 	}
 	
 	private function getFile(){
-		$this->id = MODE_ID;
+		$this->id = mid();
 		$this->selectByID(array('id', 'file', 'name', 'permission'));
 		if(authority(array(), $this->dataByID['permission'])){
 			$fileName = ROOT_PATH.$this->dataByID['file'];
@@ -65,29 +63,24 @@ class Download extends Control{
 		}
 	}
 	
-	private function fileList($arg){
+	private function fileList(){
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->defaultOrder = 'id';
-		if(MODE_ID) $mode = MODE.'/'.MODE_ID;
-		else $mode = MODE;
+		if(mid()) $mode = mm().'/'.mid();
+		else $mode = mm();
 		$this->listMeta->mode = $mode;
 		$this->setListWriteIcon(tt('Upload new File'));
 		$this->setListEditIcon();
 		$this->setListDropIcon();
-		$this->selectFile($arg);
+		$this->selectFile();
 		$this->renderFileDescription();
 		return $this->renderListPage();
 	}
 	
-	private function selectFile($arg){
-		if(isset($arg['category'])) $category = $arg['category'];
-		else $category = (int) gg('category');
-		
-		if($category){
-			$category = ' AND category='.$category;
-		}else{
-			$category = '';
-		}
+	private function selectFile(){
+		$category = (int) gg('category');
+		if($category) $category = ' AND category='.$category;
+		else $category = '';
 		$this->selectListPage(10, 'WHERE (section='.SECTION.$category.')', $this->column);
 	}
 	

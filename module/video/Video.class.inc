@@ -4,56 +4,39 @@ include_once(ROOT_PATH.'module/content/Content.class.inc');
 include('VideoModel.class.inc');
 
 class Video extends Content{
-	function Video($isEmbed=false){
+	function Video(){
 		$this->tableName = 'video';
 		$this->moduleName = 'video';
 		$this->moduleTitle = tt('Video');
-		$this->init(new VideoModel(), $isEmbed);
+		$this->init(new VideoModel());
 	}
 	
-	public function index($arg=null){
-		if((MODE_ID and MODULE == $this->moduleName) or isset($arg['id'])){
-			return $this->renderSingleVideo($arg);
-		}else{
-			return $this->renderMultipleVideos($arg);
-		}
+	public function index(){
+		if($this->isSingleEntry()) return $this->renderSingleVideo();
+		else return $this->renderMultipleVideos();
 	}
 	
-	public function renderSingleVideo($arg){
-		$this->id = MODE_ID;
+	public function renderSingleVideo(){
+		$this->id = mid();
 		$this->selectByID($this->column);
 		if($this->isReadable()){
-			if($this->dataByID['publishing_status'] < 2){
-				search_set_page();
-				count_increase('video', MODE_ID);
-			}
-			$this->initComment();
-			$this->insertTracker('read');
-			$this->addMetaData();
-			$this->dataByID['editable'] = $this->isEditable($this->dataByID['writer']['id']);
-			$category = $this->dataByID['category']['category'];
-			if(!$this->isEmbed){
-				document_set_path($category, 'video/tag/'.$category);
-				document_set_path($this->dataByID['topic']);
-			}
-			head_add_css('video.css');
+			$this->prepareRender();
 			$render = render($this->dataByID, 'singlevideo.tpl', 'single_video');
 			$render.= $this->comment->render();
-			document_set_title($this->dataByID['topic']);
+			head_add_css('video.css');
+			$this->setDocumentData();
 			return $render;
 		}else{
-			document_set_redirect('video');
-			execute_set_db();
-			notify_add_error(tt('You are not allowed to view the selected Video.'));
+			$this->accessDeniedEntry();
 		}
 	}
 	
-	private function renderMultipleVideos($arg){
+	private function renderMultipleVideos(){
 		head_add_css('video.css');
-		$this->selectFirstPage($this->column, cc('video_entries_number'), $arg);
+		$this->selectFirstPage($this->column, cc('video_entries_number'));
 		$this->getCommentNumber();
 		$this->getDataEditable();
-		if(!$this->isEmbed) $this->setPathMutiplePage();
+		$this->setPathMutiplePage();
 		$render = render(array('data' => $this->data), 'multiplevideos.tpl', 'multiple_videos');
 		$render.= $this->pager->render('video'.$this->getPageMode());
 		return $render;
@@ -81,6 +64,14 @@ class Video extends Content{
 		}else{
 			notify_add_error(tt('Video support only .flv file.'));
 		}
+	}
+	
+	private function prepareRender(){
+		$this->handlePublishingStatus();
+		$this->initComment();
+		$this->insertTracker('read');
+		$this->addMetaData();
+		$this->dataByID['editable'] = $this->isEditable($this->dataByID['writer']['id']);
 	}
 }
 

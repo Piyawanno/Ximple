@@ -18,14 +18,15 @@ class About extends ConfigControl{
 	public function index(){
 		$this->getConfig();
 		$this->data['is_admin'] = authority_group('config_admin');
-		document_set_title($this->data['title']);
 		document_set_path($this->data['title']);
 		return render($this->data, 'about.tpl', 'about');
 	}
 	
 	public function edit(){
 		$this->getConfig();
+		$title = sprintf(tt('Edit %s'), $this->data['title']);
 		document_set_path($this->data['title'], 'about');
+		document_set_path($title);
 		$this->moduleTitle = sprintf(tt('Edit : %s'), $this->data['title']);
 		$this->formMeta->id = 'about';
 		$this->formMeta->title = $this->moduleTitle;

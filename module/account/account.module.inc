@@ -26,7 +26,8 @@ function account_save(){
 }
 
 function account_get_uid(){
-	if(MODE_ID != 0) return MODE_ID;
+	$mode_id = mid();
+	if($mode_id != 0) return $mode_id;
 	else return USER_ID;
 }
 

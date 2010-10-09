@@ -228,6 +228,7 @@ function main_init_uri_param(){
 	define('MODE_ID', $process_get['id']);
 	define('MODE_PAGE', $process_get['page']);
 	$_GET = $process_get;
+	globalvar_reset_get();
 }
 
 function main_process_smart_uri(){

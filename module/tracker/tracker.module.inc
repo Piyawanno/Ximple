@@ -2,7 +2,7 @@
 execute_add_function('tracker');
 
 function tracker(){
-	if(MODE_ID) $uid = MODE_ID;
+	if(mid()) $uid = mid();
 	else $uid = USER_ID;
 	$title = tracker_get_title();
 	document_set_title($title);
@@ -26,8 +26,8 @@ function tracker(){
 }
 
 function tracker_get_title(){
-	if(MODE_ID){
-		$user = db_select_single_column('users', 'login_name', 'WHERE id='.MODE_ID, false);
+	if(mid()){
+		$user = db_select_single_column('users', 'login_name', 'WHERE id='.mid(), false);
 		$user = $user[0];
 	}else{
 		$user = USER_NAME;

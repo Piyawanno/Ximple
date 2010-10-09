@@ -14,7 +14,7 @@ function syslog_render(){
 		'day' => syslog_get_previous_day(),
 		'log' => $log,
 		'type_number' => $type,
-		'selected' => MODE_ID,
+		'selected' => mid(),
 		'type' => gg('type'),
 	);
 	
@@ -22,7 +22,7 @@ function syslog_render(){
 }
 
 function syslog_read_log(){
-	$raw_log = io_read_file(io_get_log_file(MODE_ID));
+	$raw_log = io_read_file(io_get_log_file(mid()));
 	$line_log = split("\n", $raw_log);
 	$log = array();
 	foreach($line_log as $key => $value){

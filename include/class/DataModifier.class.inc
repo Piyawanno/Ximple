@@ -246,7 +246,7 @@ class DataModifier{
 			$oldCount = $newCount;
 			$newCount = count($this->data[$columnName]);
 			if($newCount != $oldCount and $oldCount != -1){
-				$errorMessage = 'Data are not symmetry : '.$columnName);
+				$errorMessage = 'Data are not symmetry : '.$columnName;
 				break;
 			}
 		}

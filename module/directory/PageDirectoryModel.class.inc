@@ -47,7 +47,7 @@ class PageColumn extends ModelColumn{
 	public function triggerUpdateForm(){
 		$this->label = tt('index page');
 		$this->form = 'select';
-		$this->selection = db_select_single_column('page', 'topic', 'WHERE parent='.MODE_ID);
+		$this->selection = db_select_single_column('page', 'topic', 'WHERE parent='.mid());
 	}
 }
 ?>

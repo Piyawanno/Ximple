@@ -7,13 +7,18 @@
 /// @author bow_der_kleine <bow_der_kleine@yahoo.de>
 /// @state complete
 
+global $global_get, $global_post;
+
+$global_get  = $_GET;
+$global_post = $_POST;
 
 /// Access $_POST variable.
 /// @param $key : key to access by default (null) the whole array is returned.
 /// @return $_POST[$key]
 function pp($key=null){
-	if($key == null) return $_POST;
-	elseif(isset($_POST[$key])) return $_POST[$key];
+	global $global_post;
+	if($key == null) return $global_post;
+	elseif(isset($global_post[$key])) return $global_post[$key];
 	else return null;
 }
 
@@ -21,8 +26,9 @@ function pp($key=null){
 /// @param $key : key to access by default (null) the whole array is returned.
 /// @return $_GET[$key]
 function gg($key=null){
-	if($key == null) return $_GET;
-	elseif(isset($_GET[$key])) return $_GET[$key];
+	global $global_get;
+	if($key == null) return $global_get;
+	elseif(isset($global_get[$key])) return $global_get[$key];
 	else return null;
 }
 
@@ -97,6 +103,38 @@ function tt($key){
 	global $locale;
 	if(isset($locale[$key]) and strlen($locale[$key])) return $locale[$key];
 	else return $key;
+}
+
+function mm(){
+	return gg('mode');
+}
+
+function mid(){
+	return gg('id');
+}
+
+function pid(){
+	return gg('page');
+}
+
+function globalvar_set_get($get){
+	global $global_get;
+	$global_get = $get;
+}
+
+function globalvar_reset_get(){
+	global $global_get;
+	$global_get = $_GET;
+}
+
+function globalvar_set_post($post){
+	global $global_post;
+	$global_post = $post;
+}
+
+function globalvar_reset_post(){
+	global $global_post;
+	$global_post = $_POST;
 }
 
 ?>
