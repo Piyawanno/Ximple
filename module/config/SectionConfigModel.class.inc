@@ -1,5 +1,4 @@
 <?php
-
 class SectionConfigModel extends Model{
 	function SectionConfigModel(){
 		$this->section_name = $this->title(tt('section name'));

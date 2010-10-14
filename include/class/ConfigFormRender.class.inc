@@ -5,12 +5,12 @@ class ConfigFormRender{
 	private $title;
 	private $modelConnector;
 	private $description;
+	private $showByDefault = false;
 	private $model = array();
 	
-	function ConfigFormRender($modelConnector, $title, $description){
+	function ConfigFormRender($modelConnector, $title){
 		$this->modelConnector = $modelConnector;
 		$this->title = $title;
-		$this->description = $description;
 	}
 	
 	public function append($col){
@@ -31,9 +31,18 @@ class ConfigFormRender{
 			'label' => $this->modelConnector->getColumnAttribute('label'),
 			'help' => $this->modelConnector->getColumnAttribute('help'),
 			'not_null' => $this->modelConnector->getColumnNameByBoolean('isNotNull'),
+			'show' => $this->showByDefault,
 			'description' => $this->description,
 		);
 		return render($rednerArray, 'configform.tpl', 'render_config_form');
+	}
+	
+	public function setDescription($description){
+		$this->description = $description;
+	}
+	
+	public function setShowByDefault($showByDefault){
+		$this->showByDefault = $showByDefault;
 	}
 }
 

@@ -6,6 +6,27 @@ include_once('ContentConfigModel.class.inc');
 
 abstract class ContentConfig extends ConfigControl{
 	private $mode;
+	
+	protected $appearanceFormGroup;
+	protected $publishFormGroup;
+	protected $commentFormGroup;
+	
+	protected function groupConfigForm(){
+		$this->appearanceFormGroup = $this->getNewConfigForm(tt('configure appearance'));
+		$this->appearanceFormGroup->setShowByDefault(true);
+		$this->appearanceFormGroup->append($this->mode.'_appearance');
+		$this->appearanceFormGroup->append($this->mode.'_comment_write_label');
+		$this->appearanceFormGroup->append($this->mode.'_comment_page_length');
+		
+		$this->publishFormGroup = $this->getNewConfigForm(tt('configure publishing status'));
+		$this->publishFormGroup->append($this->mode.'_publishing_status');
+		$this->publishFormGroup->append($this->mode.'_publishing_status_default');
+		
+		$this->commentFormGroup = $this->getNewConfigForm(tt('configure comment permission'));
+		$this->commentFormGroup->append($this->mode.'_comment_permission');
+		$this->commentFormGroup->append($this->mode.'_comment_permission_default');
+	}
+	
 	protected function setMode($mode){
 		$this->mode = $mode;
 	}
@@ -30,6 +51,9 @@ abstract class ContentConfig extends ConfigControl{
 			if(!is_array($avaiable) or count($avaiable) == 0) $value = 3;
 			elseif(!in_array($value, $avaiable)) $value = $avaiable[0];
 		}
+		
+		
+		
 		ConfigControl::setConfig($key, $value);
 	}
 	

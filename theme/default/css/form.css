@@ -35,7 +35,6 @@
 .checkbox_list ul{
 	list-style-type: none;
 	padding:0;
-	margin-top:20px;
 	margin-bottom:20px;
 	margin-left:0px;
 }
@@ -111,7 +110,6 @@
 	border-right:1px solid #ddd;
 	border-left:1px solid #ddd;
 	margin:0px 0px 10px 0px;
-	display:none;
 }
 
 .subform b{

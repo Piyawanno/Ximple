@@ -226,6 +226,9 @@ function form_render_checkedit($form_id, $name, $modelCol){
 	return $render;
 }
 
+function form_render_multiplefiles($form_id, $name, $modelCol){
+}
+
 function form_get_sortable($modelCol){
 	if($modelCol->isSortable){
 		$sortable = 'class="sortable_form"';

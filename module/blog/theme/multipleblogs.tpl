@@ -4,10 +4,11 @@
 		<h3 class="title_label"><a href="<?=render_uri('blog', $value)?>"><?=$value['topic']?></a></h3>
 		<table width="100%" ><tbody><tr>
 			<td><?=$value['intro']?></td>
-			<?php if(cc('blog_show_category')):?>
-				<?=render_category_icon($value['category'], 'blog')?>
+			<?php if($show_category):?>
+				<td valign="top" align="center">
+					<?=render_category_icon($value['category'], 'blog')?>
+				</td>
 			<?php endif?>
-			</td>
 		</tr></tbody></table>
 		<p class="blog_info">
 			<?=$value['publish_time']?> | <?=tt('by')?> <?=render_profile_link($value['writer'])?> | <?=tt('tags')?>

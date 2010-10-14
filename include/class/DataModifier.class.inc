@@ -29,8 +29,8 @@ class DataModifier{
 	public function insert($isCaptcha){
 		if(!$isCaptcha or $this->checkCaptcha()){
 			$this->getMultipleInsertColumn();
-			if(count($multipleInsertColumn)) return $this->insertSingleRow();
-			else return $this->insertMultipleRows();
+			if(count($this->multipleInsertColumn))  return $this->insertMultipleRows();
+			else return $this->insertSingleRow();
 		}
 		return false;
 	}
@@ -47,8 +47,8 @@ class DataModifier{
 	public function update($isCaptcha){
 		if(!$isCaptcha or $this->checkCaptcha()){
 			$this->getMultipleInsertColumn();
-			if(count($multipleInsertColumn)) return $this->updateSingleRow();
-			else return $this->updateMultipleRows();
+			if(count($this->multipleInsertColumn)) return $this->updateMultipleRows();
+			else return $this->updateSingleRow();
 		}
 		return false;
 	}

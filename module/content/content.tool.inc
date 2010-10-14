@@ -44,7 +44,7 @@ function content_init_module($moduleName, $moduleTitle){
 	config_set($moduleName.'_publishing_status', array(2, 3));
 	config_set($moduleName.'_publishing_status_default', 3);
 	
-	config_set($moduleName.'_comment_write_label', tt('Please, write us your opinion.'));
+	config_set($moduleName.'_comment_write_label', tt('Please, write your opinion.'));
 	config_set($moduleName.'_comment_page_length', 10);
 	config_set($moduleName.'_comment_show_avatar', false);
 	

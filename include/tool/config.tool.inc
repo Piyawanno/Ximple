@@ -69,6 +69,7 @@ function config_default_require(){
 		'flashblock' => 'flashblock.module.inc',
 		'imageloader' => 'imageloader.module.inc',
 		'search' => 'search.module.inc',
+		'forgetpassword' => 'forgetpassword.module.inc',
 	);
 }
 

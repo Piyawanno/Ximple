@@ -84,8 +84,10 @@ $(document).ready(function (){
 			$('#complete_option option').remove();
 			option.attr('rel', $(this).attr('id'));
 			$.get(sectionURI+$(this).attr('rel')+'/wildcard/'+lastWord, function(data){
-				option.append(data);
-				option.show();
+				if(data.length){
+					option.append(data);
+					option.show();
+				}
 			});
 		}
 	});

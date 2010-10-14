@@ -2,7 +2,7 @@
 
 require_once(ROOT_PATH.'include/tool/form.tool.inc');
 
-class QuickFormRender {
+class QuickFormRender{
 	private $id;
 	private $model = array();
 	

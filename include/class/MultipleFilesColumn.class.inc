@@ -3,12 +3,10 @@ class MultipleFilesColumn extends ModelColumn{
 	private $columnName;
 	private $fileArray;
 	
-	protected $isImage;
-	
 	function MultipleFilesColumn($label, $path, $columnName, $help=null){
 		$this->type = array();
 		$this->form = 'multiplefiles';
-		$this->columnName = $columnName
+		$this->columnName = $columnName;
 		$this->label = $label;
 		$this->path = $path;
 		$this->help = $help;

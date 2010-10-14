@@ -29,6 +29,7 @@ class SectionConfig extends ConfigControl{
 		$this->formMeta->title = $this->moduleTitle;
 		
 		$general = $this->getNewConfigForm(tt('General Information'));
+		$general->setShowByDefault(true);
 		$general->append('section_name');
 		$general->append('section_slogan');
 		$general->append('index_mode');
@@ -56,7 +57,8 @@ class SectionConfig extends ConfigControl{
 		$cacheDescription .= tt('This can take a long time. ');
 		$cacheDescription .= tt('It should be noted that after submitting this configuration, ');
 		$cacheDescription .= tt('all caches excepted database cache will be cleared.');
-		$cache = $this->getNewConfigForm(tt('Cache'), $cacheDescription);
+		$cache = $this->getNewConfigForm(tt('Cache'));
+		$cache->setDescription($cacheDescription);
 		$cache->append('cache_mode');
 		$cache->append('cache_time');
 		

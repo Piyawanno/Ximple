@@ -20,7 +20,7 @@ class GalleryPictureColumn extends MultipleFilesColumn{
 	function triggerInsert(){
 		MultipleFilesColumn::triggerInsert();
 		foreach($this->data as $key => $value){
-			image_generate_thumb($file, $this->path, $thumbpath)
+			image_generate_thumb($file, $this->path, $thumbpath);
 		}
 	}
 }

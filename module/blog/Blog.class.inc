@@ -9,10 +9,10 @@ class Blog extends Content{
 		$this->moduleName = 'blog';
 		$this->moduleTitle = tt('Blog');
 		$this->init(new BlogModel());
+		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	public function index(){
-		document_set_path($this->moduleTitle, $this->moduleName);
 		if($this->isSingleEntry()) return $this->renderSingleBlog();
 		else return $this->renderMultipleBlogs();
 	}
@@ -44,7 +44,11 @@ class Blog extends Content{
 		$this->getCommentNumber();
 		$this->getDataEditable();
 		$this->setPathMutiplePage();
-		$render = render(array('data' => $this->data), 'multipleblogs.tpl', 'multiple_blogs');
+		$renderArray = array(
+			'data' => $this->data,
+			'show_category' => in_array('category_icon', cc('blog_appearance')),
+		);
+		$render = render($renderArray, 'multipleblogs.tpl', 'multiple_blogs');
 		$render.= $this->pager->render('blog'.$this->getPageMode());
 		return $render;
 	}
@@ -64,6 +68,7 @@ class Blog extends Content{
 		$this->initComment();
 		$this->insertTracker('read');
 		$this->addMetaData();
+		$this->getAppearanceConfiguration();
 		$this->dataByID['editable'] = $this->isEditable($this->dataByID['writer']['id']);
 	}
 	
@@ -77,6 +82,13 @@ class Blog extends Content{
 		$back = db_select('blog', array('id', 'topic', 'uri'), $clause);
 		$this->dataByID['next'] = array_values($next);
 		$this->dataByID['back'] = array_values($back);
+	}
+	
+	private function getAppearanceConfiguration(){
+		$appearance = cc('blog_appearance');
+		$this->dataByID['show_avatar'] = in_array('avatar', $appearance);
+		$this->dataByID['show_category'] = in_array('category_icon', $appearance);
+		$this->dataByID['show_sibling'] = in_array('sibling', $appearance);
 	}
 }
 ?>

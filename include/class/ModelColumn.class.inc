@@ -37,7 +37,7 @@ class ModelColumn{
 	public $isExceptedAdmin = true;
 	public $isExceptedGuest = false;
 	public $isUpdateTime = false;
-	public $multipleInsert = false;
+	public $isMultipleInsert = false;
 	
 	public function getPHPType(){
 		return $this->typeMap[$this->type];

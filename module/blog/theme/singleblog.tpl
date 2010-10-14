@@ -4,23 +4,19 @@
 	<table><tbody>
 	<tr>
 		<td><?=$intro?></td>
-		<?php if(cc('blog_show_avatar') or cc('blog_show_category')):?>
-			<td valign="top" align="right">
-				<?php if(cc('blog_show_avatar')):?>
+		<?php if($show_avatar or $show_category):?>
+			<td valign="top" align="center">
+				<?php if($show_avatar):?>
 					<?=render_avatar($writer)?>
 				<?php endif?>
-				<?php if(cc('blog_show_category')):?>
+				<?php if($show_category):?>
 					<?=render_category_icon($category, 'blog')?>
 				<?php endif?>
 			</td>
 		<?php endif?>
 	</tr>
 	<tr>
-		<?php if(cc('blog_show_avatar') or cc('blog_show_category')):?>
-			<td colspan="2">
-		<?php else:?>
-			<td>
-		<?php endif?>
+		<td colspan="2">
 			<?=$content?>
 		</td>
 	</tr>
@@ -41,10 +37,10 @@
 		<?php endif?>
 	</p>
 	<p style="magin:20px;text-align:center;">
-		<?php if(count($back)):?>
+		<?php if(count($back) and $show_sibling):?>
 			<a href="<?=render_uri('blog', $back[0])?>">&#171; <?=$back[0]['topic']?></a> | 
 		<?php endif?>
-		<?php if(count($next)):?>
+		<?php if(count($next) and $show_sibling):?>
 			| <a href="<?=render_uri('blog', $next[0])?>"><?=$next[0]['topic']?> &#187;</a>
 		<?php endif?>
 	</p>
