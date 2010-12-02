@@ -309,7 +309,6 @@ abstract class Control extends Authority{
 			$this->formRender = new FormRender($this->modelConnector, $this->formMeta);
 		}
 		$this->formMeta->configForm = $this->configForm;
-		echo($this->moduleTitle.' : '.$this->formMeta->isSetTitle.'<br />');
 		if($this->formMeta->isSetTitle){
 			document_set_title($this->formMeta->title);
 		}

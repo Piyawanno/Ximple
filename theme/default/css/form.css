@@ -27,9 +27,19 @@
 	color:gray;
 }
 
+.multiplefiles_list ul{
+	list-style-type: none;
+	margin:0;
+	padding:0;
+}
+
+.multiplefiles_list ul li{
+	float:left;
+	width:250px;
+	padding-bottom:15px;
+}
+
 .checkbox_list ul li input{
-	padding-top:3px;
-	border:1px solid red;
 }
 
 .checkbox_list ul{

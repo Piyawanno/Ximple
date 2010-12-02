@@ -227,6 +227,16 @@ function form_render_checkedit($form_id, $name, $modelCol){
 }
 
 function form_render_multiplefiles($form_id, $name, $modelCol){
+	$render  = '<div class="multiplefiles_list" id="'.$form_id.'_'.$name.'">';
+	$render .= '<p><a onclick="return addFileInput(\''.$form_id.'_'.$name.'\', \''.$name.'\')" href="#">'.tt('Upload More File').'</a></p>';
+	$render .= '<ul>';
+	for($i=0;$i<6;$i++){
+		$render .= '<li><input type="file" name="'.$name.'[]" size="35" ></li>';	
+	}
+	$render .= '</ul>';
+	$render .= '<span id="info_'.$form_id.'_'.$name.'" style="clear:both;display:block;"></span>';
+	$render .= '</div>';
+	return $render;
 }
 
 function form_get_sortable($modelCol){

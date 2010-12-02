@@ -31,8 +31,6 @@
 			<span style="color:red;font-weight:bold;">*</span>
 			<?=tt('required fields')?>
 		</p>
-	<?php else:?>
-		<p>&#160;</p>
 	<?php endif?>
 	<input type="submit" value="<?=$meta->submitLabel?>"/>
 	</form>

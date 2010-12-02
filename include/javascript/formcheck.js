@@ -386,6 +386,11 @@ function loaderChangeImage(loaderID, src, rel){
 	$('#loader_'+loaderID).dialog('close');
 }
 
+function addFileInput(formID, formName){
+	$('#'+formID+' ul').append('<li><input type="file" name="'+formName+'[]" size="35" ></li>');
+	return false;
+}
+
 // Not verified
 
 function getAntikey(crypt1,crypt2,genTime){

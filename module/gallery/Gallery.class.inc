@@ -10,7 +10,7 @@ class Gallery extends Content{
 		$this->tableName = 'gallery';
 		$this->moduleName = 'gallery';
 		$this->moduleTitle = tt('Gallery');
-		$this->init(new GalleryModel(), $isEmbed);
+		$this->init(new GalleryModel());
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	

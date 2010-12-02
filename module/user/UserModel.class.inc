@@ -27,7 +27,6 @@ class UserLoginHash extends ModelColumn{
 	
 	function triggerPostInsert(){
 		$this->data = sha1($this->data);
-		echo($this->data);
 	}
 }
 
