@@ -11,7 +11,7 @@ function execute($mode){
 	$module = execute_get_module($mode);
 	execute_get_requirement($module);
 	if(!execute_is_callable($mode)) error_denied();
-	if(function_exists($mode) and in_array($mode, $execute_callable)){
+	if(function_exists($mode) and in_array($mode, $execute_callable)){	
 		return $mode();
 	}else{
 		return execute_oop($mode, $module);
@@ -63,7 +63,7 @@ function execute_add_class($module, $class){
 	include_once(ROOT_PATH.'include/class/Control.class.inc');
 	if(!isset($execute_class[$module])){
 		$execute_class[$module] = $class;
-	}elseif(state_is_develop){
+	}elseif(state_is_develop()){
 		$exist_class = $execute_class[$module];
 		notify_add_error('Module : '.$module.' has already defined a class : '.$exist_class);
 	}

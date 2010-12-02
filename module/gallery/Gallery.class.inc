@@ -1,4 +1,5 @@
 <?php
+execute_add_class('gallery', 'Gallery');
 include_once(ROOT_PATH.'module/content/Content.class.inc');
 include('GalleryModel.class.inc');
 

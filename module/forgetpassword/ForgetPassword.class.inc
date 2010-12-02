@@ -20,6 +20,7 @@ class ForgetPassword extends ConfigControl{
 		$this->formMeta->description  = tt('Enter your email, which you use for your account. ');
 		$this->formMeta->description .= tt('We will send you a link to this email. ');
 		$this->formMeta->description .= tt('You can use this link to reset your password.');
+		$this->formMeta->isCaptcha = true;
 		$this->formMeta->mode = 'forgetpassword_response';
 		$this->formMeta->title = $this->moduleTitle;
 		return $this->render();
@@ -30,18 +31,26 @@ class ForgetPassword extends ConfigControl{
 			$this->saveControlFile();
 			$this->sendLink();
 			notify_add_info('The link for password resetting has been already sent to the given email.');
-		}else{
-			notify_add_error(sprintf(tt('The given email : %s does not exist.'), pp('email')));
 		}
 		execute_set_db();
 	}
 	
 	private function checkEmailAddress(){
-		$clause = "WHERE email='".addslashes((string) pp('email'))."'";
-		$email = db_select_single_column('users', 'id', $clause, false);
-		$exist = count($email);
-		if($exist) $this->userID = $email[0];
-		return $exist;
+		include_once(ROOT_PATH.'include/tool/captcha.tool.inc');
+		$gentime = pp('captcha_gentime_captcha');
+		$parity = pp('captcha_code_captcha');
+		$code = pp('captcha');
+		if(!captcha_check($gentime, $code, $parity)){
+			$clause = "WHERE email='".addslashes((string) pp('email'))."'";
+			$email = db_select_single_column('users', 'id', $clause, false);
+			$exist = count($email);
+			if($exist) $this->userID = $email[0];
+			else notify_add_error(sprintf(tt('The given email : %s does not exist.'), pp('email')));
+			return $exist;
+		}else{
+			notify_add_error(tt('Your given code from the image was wrong. Data is not inserted.'));
+			return false;
+		}
 	}
 	
 	private function saveControlFile(){

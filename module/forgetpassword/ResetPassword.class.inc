@@ -22,13 +22,21 @@ class ResetPassword extends ConfigControl{
 	}
 	
 	public function save(){
-		if($this->checkKey()){
-			db_update('users', array('password' => pp('password')), $this->userID);
-			unlink($this->fileName.'.php');
-			execute_set_db();
-			notify_add_info(tt('Your pass word has been already changed, please login.'));
+		include_once(ROOT_PATH.'include/tool/captcha.tool.inc');
+		$gentime = pp('captcha_gentime_captcha');
+		$parity = pp('captcha_code_captcha');
+		$code = pp('captcha');
+		if(!captcha_check($gentime, $code, $parity)){
+			if($this->checkKey()){
+				db_update('users', array('password' => pp('password')), $this->userID);
+				unlink($this->fileName.'.php');
+				execute_set_db();
+				notify_add_info(tt('Your pass word has been already changed, please login.'));
+			}else{
+				$this->invalidLink();
+			}
 		}else{
-			$this->invalidLink();
+			notify_add_error(tt('Your given code from the image was wrong. Data is not inserted.'));
 		}
 	}
 	
@@ -36,6 +44,7 @@ class ResetPassword extends ConfigControl{
 		$this->formMeta->id = 'user';
 		$this->formMeta->mode = 'forgetpassword_reset_save/file/'.gg('file').'/key/'.gg('key');
 		$this->formMeta->title = $this->moduleTitle;
+		$this->formMeta->isCaptcha = true;
 		head_add_js_var('insertUser', true);
 		head_add_js_var('passwdTooShort', tt('Password is too short.'));
 		head_add_js_var('passwdVeryStrong', tt('Password strength is very strong.'));
