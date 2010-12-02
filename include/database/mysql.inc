@@ -223,6 +223,7 @@ function db_modify($table, $query){
 }
 
 function db_get_type($type){
+	echo($type.', ');
 	$typeMap = array(
 		'int' => 'INT',
 		'char' => 'VARCHAR(250)',

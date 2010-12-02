@@ -40,6 +40,7 @@ function content_init_module($moduleName, $moduleTitle){
 	
 	config_set($moduleName.'_comment_permission', array(0, 1, 2, 3));
 	config_set($moduleName.'_comment_permission_default', 0);
+	config_set($moduleName.'_appearance', array());
 	
 	config_set($moduleName.'_publishing_status', array(2, 3));
 	config_set($moduleName.'_publishing_status_default', 3);

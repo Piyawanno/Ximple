@@ -9,6 +9,7 @@ class FormMetaData{
 	public $additionalForm = array();
 	public $submitLabel;
 	public $isCaptcha = false;
+	public $isSetTitle = true;
 	
 	function FormMetaData(){
 		$this->submitLabel  = tt('submit');

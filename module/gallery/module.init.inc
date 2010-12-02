@@ -10,6 +10,7 @@ function module_get_info_gallery(){
 
 function module_init_gallery(){
 	include_once('Gallery.class.inc');
+	include_once('GalleryPicture.class.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
 	include_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
 	$gallery = new Gallery();
@@ -21,6 +22,9 @@ function module_init_gallery(){
 	
 	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2 AND comment_time > 0) ORDER BY comment_time DESC';
 	flashblock_add('gallery_last_commented', 'gallery', tt('Last commented Gallerys'), 'gallery', 'topic', $clause);
+	
+	$galleryPicture = new GalleryPicture();
+	$galleryPicture->initModule('GalleryPicture.class.inc');
 }
 
 function module_drop_gallery(){

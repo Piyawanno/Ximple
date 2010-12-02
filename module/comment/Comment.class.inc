@@ -31,6 +31,7 @@ class Comment extends Control{
 			$this->formMeta->title = cc($this->mode.'_comment_write_label');
 			$this->formMeta->isCaptcha = true;
 			$this->formMeta->mode = 'comment_insert/page/'.$this->pager->getNextPage();
+			$this->formMeta->isSetTitle = false;
 			return $this->renderInsertForm(false);
 		}else{
 			return '';

@@ -86,6 +86,7 @@ class Blog extends Content{
 	
 	private function getAppearanceConfiguration(){
 		$appearance = cc('blog_appearance');
+		if(!is_array($appearance)) $appearance = array();
 		$this->dataByID['show_avatar'] = in_array('avatar', $appearance);
 		$this->dataByID['show_category'] = in_array('category_icon', $appearance);
 		$this->dataByID['show_sibling'] = in_array('sibling', $appearance);

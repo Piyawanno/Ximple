@@ -309,7 +309,10 @@ abstract class Control extends Authority{
 			$this->formRender = new FormRender($this->modelConnector, $this->formMeta);
 		}
 		$this->formMeta->configForm = $this->configForm;
-		document_set_title($this->formMeta->title);
+		echo($this->moduleTitle.' : '.$this->formMeta->isSetTitle.'<br />');
+		if($this->formMeta->isSetTitle){
+			document_set_title($this->formMeta->title);
+		}
 	}
 	
 	private function formatDateTime(){
