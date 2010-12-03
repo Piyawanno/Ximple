@@ -67,8 +67,11 @@ class DataModifier{
 	
 	private function getColumn(){
 		$this->columnDB = $this->modelConnector->getColumnNameByBoolean('isDB');
-		$this->fileColumn = $this->modelConnector->getColumnNameByAttribute('form', 'file');
-		$this->fileColumn = array_intersect($this->fileColumn, $this->columnDB);
+		$fileColumn = $this->modelConnector->getColumnNameByAttribute('form', 'file');
+		$fileColumn = array_intersect($fileColumn, $this->columnDB);
+		$muliFilesColumn = $this->modelConnector->getColumnNameByAttribute('form', 'multiplefiles');
+		$muliFilesColumn = array_intersect($muliFilesColumn, $this->columnDB);
+		$this->fileColumn = array_merge($fileColumn, $muliFilesColumn);
 		$this->noneColumn = $this->modelConnector->getColumnNameByAttribute('form', 'none');
 	}
 	
@@ -251,7 +254,7 @@ class DataModifier{
 			}
 		}
 		if(strlen($errorMessage)){
-			if(state_is_devalop()) notify_add_error($errorMessage);
+			if(state_is_develop()) notify_add_error($errorMessage);
 			return false;
 		}else{
 			return true;

@@ -10,6 +10,7 @@ class Gallery extends Content{
 		$this->tableName = 'gallery';
 		$this->moduleName = 'gallery';
 		$this->moduleTitle = tt('Gallery');
+		$this->addAction('gallery_picture_insert', 'insertPicture');
 		$this->init(new GalleryModel());
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
@@ -17,6 +18,17 @@ class Gallery extends Content{
 	public function index(){
 		if($this->isSingleEntry()) return $this->renderSingleGallery();
 		else return $this->renderMultipleGalleries();
+	}
+	
+	public function insertPicture(){
+		if($this->isCallable('update')){
+			$this->id = pp('gallery');
+			$this->createDirectory();
+			$this->initPicture();
+			$this->galleryPicture->allowAccess();
+			$this->galleryPicture->insert();
+			document_set_redirect('gallery/'.$this->id);
+		}
 	}
 	
 	private function renderSingleGallery(){
@@ -66,6 +78,8 @@ class Gallery extends Content{
 	}
 	
 	private function getPictures(){
+		$clause = 'WHERE gallery='.$this->id;
+		$this->dataByID['picture'] = db_select_single_column('gallery_picture', 'picture', $clause);
 	}
 	
 	private function getAppearanceConfiguration(){
@@ -74,6 +88,18 @@ class Gallery extends Content{
 		$this->dataByID['show_avatar'] = in_array('avatar', $appearance);
 		$this->dataByID['show_category'] = in_array('category_icon', $appearance);
 		$this->dataByID['show_sibling'] = in_array('sibling', $appearance);
+	}
+	
+	private function initPicture(){
+		require_once('GalleryPicture.class.inc');
+		$this->galleryPicture = new GalleryPicture($this->id);
+	}
+	
+	private function createDirectory(){
+		$directory = ROOT_PATH.'files/gallery/';
+		if(!is_dir($directory)) mkdir($directory);
+		$directory.= $this->id;
+		if(!is_dir($directory)) mkdir($directory);
 	}
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 class MultipleFilesColumn extends ModelColumn{
 	private $columnName;
-	private $fileArray;
+	protected $fileArray;
 	
 	function MultipleFilesColumn($label, $path, $columnName, $help=null){
 		$this->type = 'char';
@@ -11,7 +11,7 @@ class MultipleFilesColumn extends ModelColumn{
 		$this->path = $path;
 		$this->help = $help;
 		$this->data = array();
-		$this->multipleInsert = true;
+		$this->isMultipleInsert = true;
 	}
 	
 	public function triggerPostInsert(){
@@ -23,9 +23,14 @@ class MultipleFilesColumn extends ModelColumn{
 	}
 	
 	private function upload(){
-		$this->fileArray = input_reorder_multiple_files();
+		$this->fileArray = input_reorder_multiple_files($this->columnName);
 		foreach($this->fileArray as $key => $value){
-			$this->data[] = io_upload($value, $this->path, $this->isImage);
+			if($value['size']){
+				$fileName = io_upload($value, $this->path, $this->isImage);
+				$this->data[] = $fileName;
+			}else{
+				unset($this->fileArray[$key]);
+			}
 		}
 	}
 }

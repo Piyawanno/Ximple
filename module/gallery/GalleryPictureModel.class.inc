@@ -12,15 +12,21 @@ class GalleryPictureModel extends Model{
 
 class GalleryPictureColumn extends MultipleFilesColumn{
 	function GalleryPictureColumn($galleryID){
+		$this->galleryID = $galleryID;
 		$label = tt('');
-		$path = ROOT_PATH.'files/gallery/'.$galleryID.'/';
-		MultipleFilesColumn::MultipleFilesColumn($label, $path, 'picture');
+		$this->path = ROOT_PATH.'files/gallery/'.$galleryID.'/';
+		MultipleFilesColumn::MultipleFilesColumn($label, $this->path, 'picture');
 	}
 	
-	function triggerInsert(){
-		MultipleFilesColumn::triggerInsert();
+	function triggerPostInsert(){
+		MultipleFilesColumn::triggerPostInsert();
+		$thumbpath = $this->path.'thumb_';
+		foreach($this->fileArray as $key => $value){
+			image_generate_thumb($value, $this->path.'/'.$value['name'], $thumbpath.$value['name']);
+		}
+		
 		foreach($this->data as $key => $value){
-			image_generate_thumb($file, $this->path, $thumbpath);
+			$this->data[$key] = str_replace('files/gallery/'.$this->galleryID.'/', '', $value);
 		}
 	}
 }
