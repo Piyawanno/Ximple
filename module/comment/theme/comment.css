@@ -19,6 +19,11 @@
 	text-align:right;
 }
 
+.comment_foot a{
+	padding:0px 10px;
+	border-left:1px solid #eee;
+}
+
 .comment{
 	margin:0px 0px 50px 0px;
 }

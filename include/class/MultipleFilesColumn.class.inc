@@ -10,7 +10,6 @@ class MultipleFilesColumn extends ModelColumn{
 		$this->label = $label;
 		$this->path = $path;
 		$this->help = $help;
-		$this->data = array();
 		$this->isMultipleInsert = true;
 	}
 	

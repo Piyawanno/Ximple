@@ -56,6 +56,11 @@ class Comment extends Control{
 		document_set_redirect($this->mode.'/'.$this->parent.'/page/'.pid().'#comment_'.$this->id);
 	}
 	
+	public function drop(){
+		Control::drop();
+		document_set_redirect($this->mode.'/'.$this->parent);
+	}
+	
 	public function listPage(){
 		$clause = 'WHERE (writer_id='.USER_ID.')';
 		$label = tt('My Comments');

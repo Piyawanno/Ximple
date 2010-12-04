@@ -14,6 +14,9 @@ function authority($users=array(), $groups=array(), $first_check=false){
 	$crypt = authority_get_crypt();
 	if($crypt != ss('authority') or authority_is_login()){
 		$user_db = authority_get_user_array();
+		if(isset($user_db[0])){
+			$_SESSION['login_name']  = $user_db[0]['login_name'];
+		}
 		authority_define_user_passwd($user_db);
 		$_SESSION['authority'] = $crypt;
 		if(USER_PASSWD == ss('login_password') and isset($user_db[0])){
@@ -107,10 +110,10 @@ function authority_init_salt(){
 function authority_get_user_array(){
 	if(strlen(ss('login_name'))){
 		$clause = "WHERE (login_name='".ss('login_name')."') LIMIT 1";
-		$user_db = db_select('users', array('id', 'password'), $clause);
+		$user_db = db_select('users', array('id', 'login_name', 'password'), $clause);
 		if(count($user_db) == 0){
 			$clause = "WHERE (email='".ss('login_name')."') ORDER BY id LIMIT 1";
-			$user_db = db_select('users', array('id', 'password'), $clause);
+			$user_db = db_select('users', array('id', 'login_name', 'password'), $clause);
 		}
 	}else{
 		$user_db = array();

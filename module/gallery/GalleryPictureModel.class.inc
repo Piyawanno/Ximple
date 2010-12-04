@@ -29,6 +29,10 @@ class GalleryPictureColumn extends MultipleFilesColumn{
 			$this->data[$key] = str_replace('files/gallery/'.$this->galleryID.'/', '', $value);
 		}
 	}
+	
+	function triggerDrop(){
+		print_r($this->data);
+	}
 }
 ?>
 

@@ -11,6 +11,7 @@ class Gallery extends Content{
 		$this->moduleName = 'gallery';
 		$this->moduleTitle = tt('Gallery');
 		$this->addAction('gallery_picture_insert', 'insertPicture');
+		$this->addAction('gallery_picture_drop', 'dropPicture');
 		$this->init(new GalleryModel());
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
@@ -27,7 +28,17 @@ class Gallery extends Content{
 			$this->initPicture();
 			$this->galleryPicture->allowAccess();
 			$this->galleryPicture->insert();
+			execute_as_db();
 			document_set_redirect('gallery/'.$this->id);
+		}
+	}
+	
+	public function dropPicture(){
+		if($this->isCallable('update')){
+			$this->id = gg('gallery');
+			$this->initPicture();
+			$this->galleryPicture->drop();
+			document_set_redirect('gallery/'.gg('gallery'));
 		}
 	}
 	
@@ -39,7 +50,7 @@ class Gallery extends Content{
 			head_add_css('gallery.css');
 			require_once('GalleryPicture.class.inc');
 			$this->galleryPicture = new GalleryPicture($this->id);
-			$this->getPictures();
+			$this->dataByID['picture'] = $this->getPictures($this->id);
 			$this->getPictureForm();
 			$this->getAppearanceConfiguration();
 			$render = render($this->dataByID, 'singlegallery.tpl', 'single_gallery');
@@ -74,12 +85,14 @@ class Gallery extends Content{
 	private function getPictureForm(){
 		if($this->isCallable('update')){
 			$this->dataByID['picture_form'] = $this->galleryPicture->renderInsertForm();
+		}else{
+			$this->dataByID['picture_form'] = '';
 		}
 	}
 	
-	private function getPictures(){
-		$clause = 'WHERE gallery='.$this->id;
-		$this->dataByID['picture'] = db_select_single_column('gallery_picture', 'picture', $clause);
+	private function getPictures($galleryID){
+		$clause = 'WHERE gallery='.$galleryID;
+		return db_select_single_column('gallery_picture', 'picture', $clause);
 	}
 	
 	private function getAppearanceConfiguration(){
