@@ -21,7 +21,7 @@ class CategoryColumn extends ModelColumn{
 	
 	public function triggerSelect(){
 		$clause = 'WHERE id='.$this->data;
-		$data = db_select('category', array('id', 'category', 'pic'), $clause);
+		$data = db_select('category', array('id', 'category', 'description', 'pic'), $clause);
 		$this->data = $data[$this->data];
 	}
 	

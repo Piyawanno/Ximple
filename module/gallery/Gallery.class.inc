@@ -66,11 +66,19 @@ class Gallery extends Content{
 		head_add_css('gallery.css');
 		$column = $this->modelConnector->getColumnNameExcepted(array('content'));
 		$this->selectFirstPage($column, cc('gallery_entries_number'));
+		foreach($this->data as $key => $value){
+			$this->data[$key]['picture'] = $this->getPictures($key);
+		}
 		$this->getCommentNumber();
 		$this->getDataEditable();
 		$this->setPathMutiplePage();
-		$render = render(array('data' => $this->data), 'multiplegallerys.tpl', 'multiple_gallerys');
-		$render.= $this->pager->render('gallery'.$this->getPageMode());
+		$renderArray = array(
+			'title' => $this->getListTitle(),
+			'description' => $this->getCategoryDescription(),
+			'data' => $this->data
+		);
+		$render  = render($renderArray, 'multiplegalleries.tpl', 'multiple_galleries');
+		$render .= $this->pager->render('gallery'.$this->getPageMode());
 		return $render;
 	}
 	
@@ -113,6 +121,25 @@ class Gallery extends Content{
 		if(!is_dir($directory)) mkdir($directory);
 		$directory.= $this->id;
 		if(!is_dir($directory)) mkdir($directory);
+	}
+	
+	private function getListTitle(){
+		$tag = gg('tag');
+		if($tag) $title = sprintf("%s %s", tt('Gallery List tagged by'), $tag);
+		else $title = tt('Gallery List');
+		return $title;
+	}
+	
+	private function getCategoryDescription(){
+		$tag = gg('tag');
+		$description = '';
+		if($tag){
+			$galleryEntries = array_values($this->data);
+			if($galleryEntries[0]['category']['category'] == $tag){
+				$description =  $galleryEntries[0]['category']['description'];
+			}
+		}
+		return $description;
 	}
 }
 ?>
