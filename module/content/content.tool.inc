@@ -64,6 +64,7 @@ function content_drop_module($moduleName, $moduleTitle){
 	module_drop_role($contributorGroup);
 	module_drop_panel($moduleTitle);
 	
+	config_drop($moduleName.'_appearance');
 	config_drop($moduleName.'_comment_permission');
 	config_drop($moduleName.'_comment_permission_default');
 	config_drop($moduleName.'_publishing_status');

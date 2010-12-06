@@ -36,7 +36,7 @@ class ContentModel extends Model{
 		if(uu('editor') == 1 or uu('editor') == 2){
 			$this->code = $this->plain(tt('code writer'));
 		}else{
-			$this->code = $this->hidden();
+			$this->code = $this->hidden('', 'shorttext');
 		}
 	}
 	
