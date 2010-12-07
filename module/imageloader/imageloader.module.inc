@@ -8,6 +8,7 @@ imageloader_avoid_up_dir(gg('file'));
 
 function imageloader(){
 	execute_set_file();
+	imageloader_check_path();
 	header('Content-Type: text/html; charset=UTF-8');
 	$path = 'files/member/'.USER_ID.'/'.gg('dir');
 	$render_array = array(
@@ -105,5 +106,12 @@ function imageloader_get_directory(){
 
 function imageloader_avoid_up_dir($dir){
 	if(count(split('\/\.\.', $dir)) >= 2) error_denied();
+}
+
+function imageloader_check_path(){
+	$path  = ROOT_PATH.'files/member/';
+	if(!is_dir($path))  mkdir($path);
+	$path .= USER_ID.'/';
+	if(!is_dir($path))  mkdir($path);
 }
 ?>
