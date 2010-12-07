@@ -23,7 +23,7 @@ function block_init_default(){
 	block_add(tt('Navigation'), 'sysblock_navigation', $position, 'sysblock_navigation_config', 'sysblock_navigation_save', 0);
 	block_add(tt('Control Panel'), 'sysblock_panel', $position, 999);
 	block_add(tt('Login'), 'sysblock_login', $position, 1000);
-	block_add(tt('Execution Info'), 'sysblock_execute_info');
+	block_add(tt('Execution Info'), 'sysblock_execute_info', 'foot');
 	return block_get_data();
 }
 
