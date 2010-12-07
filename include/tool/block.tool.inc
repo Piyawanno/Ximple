@@ -20,9 +20,9 @@ function block_render(){
 function block_init_default(){
 	include_once(ROOT_PATH.'module/module/module.tool.inc');
 	$position = cc('block_primary_position');
-	block_add(tt('Navigation'), 'sysblock_navigation', $position, 'sysblock_navigation_config', 'sysblock_navigation_save');
-	block_add(tt('Control Panel'), 'sysblock_panel', $position);
-	block_add(tt('Login'), 'sysblock_login', $position);
+	block_add(tt('Navigation'), 'sysblock_navigation', $position, 'sysblock_navigation_config', 'sysblock_navigation_save', 0);
+	block_add(tt('Control Panel'), 'sysblock_panel', $position, 999);
+	block_add(tt('Login'), 'sysblock_login', $position, 1000);
 	block_add(tt('Execution Info'), 'sysblock_execute_info');
 	return block_get_data();
 }
@@ -79,7 +79,7 @@ function block_drop_navigation($mode){
 	config_drop_by_value('navigation_enabled', $mode);
 }
 
-function block_add($title, $call_mode, $position='disabled', $form_mode='', $save_mode=''){
+function block_add($title, $call_mode, $position='disabled', $form_mode='', $save_mode='', $sort_number=1){
 	$insert_data = array(
 		'title' => (string) $title,
 		'config_form_mode' => (string) $form_mode,
@@ -89,7 +89,8 @@ function block_add($title, $call_mode, $position='disabled', $form_mode='', $sav
 		'appear_module' => (string) serialize(array()),
 		'appear_group' => (string) serialize(array(2)),
 		'body' => '',
-		'section' => SECTION
+		'sort_number' => $sort_number,
+		'section' => SECTION,
 	);
 	db_insert('block', $insert_data);
 }

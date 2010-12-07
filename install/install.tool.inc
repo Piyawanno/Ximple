@@ -368,7 +368,7 @@ function install_preconfig(){
 			'label' => tt('Community Website'),
 			'description' => tt('With community pre-configuration, your website initially contains forum, news, mailing-list and FAQ system.'),
 		),
-		'sme' => array(
+		'SME' => array(
 			'label' => tt('SME Website'),
 			'description' => tt('Website for Small and Medium Enterprise or other institution. This pre-configuration allows them to provide news and information about themselves.'),
 		),

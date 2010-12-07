@@ -141,8 +141,12 @@ function install_step4(){
 
 /// Step 5 of installation : save configuration and run pre-configuration script.
 function install_step5(){
+	include('preconfig.inc');
 	install_init_section();
 	install_init_authority();
+	$function_name = 'preconfig_'.pp('preconfig');
+	$function_name();
+	block_init_default();
 	$title = tt('Happy Ending').' : '.tt('X-BLC has been successfully installed');
 	$page  = '<h2>'.$title.'</h2>';
 	$page .= install_finish_message();

@@ -163,7 +163,7 @@ function module_get_description($module){
 }
 
 function module_prepare(){
-	require('module.tool.inc');
+	require_once('module.tool.inc');
 	module_init_panel();
 	module_init_role();
 }
