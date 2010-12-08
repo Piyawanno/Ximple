@@ -28,7 +28,7 @@ var HighlightDialog = {
 		}
 		tinyMCE.execCommand("mceCleanup");
 		var content = editor.getContent();
-		content = content.replace("<p>&nbsp;</p>\n<pre", "<pre");
+		content = content.replace(/<p>\&nbsp;<\/p>[\s]*<pre/, "<pre");
 		editor.setContent(content);
 		tinyMCEPopup.close();
 	}
