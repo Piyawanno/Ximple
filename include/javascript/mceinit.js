@@ -12,7 +12,7 @@
 		remove_script_host : false,
 		theme_advanced_resizing : true,
 		relative_urls: false,
-		apply_source_formatting : true,
+		apply_source_formatting : false,
 		theme_advanced_resizing : true,
 	});
 	
@@ -29,7 +29,7 @@
 		remove_script_host : false,
 		theme_advanced_resizing : true,
 		relative_urls: false,
-		apply_source_formatting : true,
+		apply_source_formatting : false,
 		theme_advanced_resizing : true,
 	});
 
@@ -47,7 +47,9 @@
 		remove_script_host : false,
 		theme_advanced_resizing : true,
 		relative_urls: false,
-		apply_source_formatting : true,
+		apply_source_formatting : false,
+		remove_linebreaks : true,
 		theme_advanced_resizing : true,
-
+		cleanup_on_startup : false,
+		oninit : 'preElementFormat',
 	});

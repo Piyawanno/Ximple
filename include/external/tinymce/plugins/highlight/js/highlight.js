@@ -4,10 +4,12 @@ var HighlightDialog = {
 	init : function(ed) {
 		var node = tinyMCEPopup.editor.selection.getNode();
 		var code = node.innerHTML;
-		code = code.replace("&lt;", "<");
-		code = code.replace("&gt;", ">");
+		code = code.replace(/<br>/gi, '\n');
+		code = code.replace(/\&lt;/, "<");
+		code = code.replace(/\&gt;/, ">");
 		tinyMCEPopup.resizeToInnerSize();
 		if(node.tagName == "PRE"){
+			document.getElementById("hightlight_lang").value = node.getAttribute("lang");
 			document.getElementById("hightlight_code").value = code;
 		}
 	},
@@ -16,21 +18,18 @@ var HighlightDialog = {
 		var dom = tinyMCEPopup.editor.dom;
 		var code = form.code.value;
 		var node = tinyMCEPopup.editor.selection.getNode();
-		code = code.replace("<", "&lt;");
-		code = code.replace(">", "&gt;");
+		var editor = tinyMCEPopup.editor;
+		code = code.replace(/</gi, "&lt;");
+		code = code.replace(/>/gi, "&gt;");
 		if(node.tagName == "PRE"){
 			node.innerHTML = code;
 		}else{
-			tinyMCEPopup.execCommand(
-				'mceInsertContent',
-				false,
-				dom.createHTML(
-					'pre',
-					{lang : form.language.value},
-					code
-				)
-			);
+			tinyMCEPopup.execCommand('mceInsertContent', false,	dom.createHTML('pre', {lang : form.language.value}, code));
 		}
+		tinyMCE.execCommand("mceCleanup");
+		var content = editor.getContent();
+		content = content.replace("<p>&nbsp;</p>\n<pre", "<pre");
+		editor.setContent(content);
 		tinyMCEPopup.close();
 	}
 };

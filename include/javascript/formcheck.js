@@ -391,6 +391,24 @@ function addFileInput(formID, formName){
 	return false;
 }
 
+function preElementFormat(){
+	var editors = tinyMCE.EditorManager.editors
+	var children;
+	var code;
+	for(i in editors){
+		children = editors[i].getBody().children;
+		for(j in children){
+			if(children[j].tagName == "PRE"){
+				code = children[j].innerHTML;
+				code = code.replace(/<br>/gi, '\n');
+				code = code.replace(/</gi, "&lt;");
+				code = code.replace(/>/gi, "&gt;");
+				children[j].innerHTML = code;
+			}
+		}
+	}
+}
+
 // Not verified
 
 function getAntikey(crypt1,crypt2,genTime){
