@@ -12,6 +12,7 @@ class Group extends Control{
 		$this->moduleTitle = 'User-Group';
 		$this->setAdmin('group_admin');
 		$this->init(new GroupModel());
+		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	function index(){

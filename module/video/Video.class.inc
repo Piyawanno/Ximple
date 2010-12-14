@@ -9,6 +9,7 @@ class Video extends Content{
 		$this->moduleName = 'video';
 		$this->moduleTitle = tt('Video');
 		$this->init(new VideoModel());
+		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	public function index(){
