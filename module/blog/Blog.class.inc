@@ -56,8 +56,6 @@ class Blog extends Content{
 	private function executeRender(){
 		head_add_css('blog.css');
 		$this->prepareRender();
-		include(ROOT_PATH.'include/tool/highlight.tool.inc');
-		$this->dataByID['content'] = highlight($this->dataByID['content']);
 		$render = render($this->dataByID, 'singleblog.tpl', 'single_blog');
 		$render.= $this->comment->render();
 		$this->setDocumentData();

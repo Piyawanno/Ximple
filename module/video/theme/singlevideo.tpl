@@ -50,6 +50,7 @@
 	</p>
 	<p class="video_foot">
 		<a>read <!--{ximple_read/video/<?=$id?>}--></a>
+		<a href="<?=ROOT_URI.$file?>"><?=tt('download')?></a>
 		<a href="#" onclick="videoShowEmbed();return false;"><?=tt('embed')?></a>
 		<?php if($editable):?>
 			<a href="<?=SECTION_URI.Q?>video_edit/<?=$id?>"><?=tt('edit')?></a>

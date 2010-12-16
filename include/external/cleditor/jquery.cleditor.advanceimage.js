@@ -3,11 +3,11 @@ $.cleditor.buttons.advanceimage = {
 	image: "image.png",
 	title: "Advance Image",
 	command: "inserthtml",
-	buttonClick: advanceImageClick
+	buttonClick: quoteClick
 };
  
 $.cleditor.defaultOptions.controls = $.cleditor.defaultOptions.controls.replace("link", "advanceimage link");
 
-function advanceImageClick(e, data){
+function quoteClick(e, data){
 	
 }

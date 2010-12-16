@@ -29,6 +29,7 @@
 			<?php else:?>
 				<a><?=tt('no comment')?></a>
 			<?php endif?>
+			<a href="<?=ROOT_URI.$value['file']?>"><?=tt('download')?></a>
 			<?php if($value['editable']):?>
 				<a href="<?=SECTION_URI.Q?>video_edit/<?=$value['id']?>"><?=tt('edit')?></a>
 				<a href="<?=SECTION_URI.Q?>video_drop/<?=$value['id']?>"><?=tt('drop')?></a>

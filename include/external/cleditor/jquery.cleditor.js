@@ -350,7 +350,6 @@
 
   // buttonClick - click event handler for toolbar buttons
   function buttonClick(e) {
-
     var editor = this,
         buttonDiv = e.target,
         buttonName = $.data(buttonDiv, BUTTON_NAME),
@@ -476,6 +475,7 @@
 
       // All other buttons
       else if (!execCommand(editor, data.command, data.value, data.useCSS, buttonDiv))
+      	alert('hey');
         return false;
 
     }
