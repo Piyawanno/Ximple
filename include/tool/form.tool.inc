@@ -4,9 +4,14 @@ function form($form_id, $model){
 	document_init_form();
 	$render = array();
 	head_add_css('form.css');
+	head_add_css('include/external/cleditor/jquery.cleditor.css');
 	head_add_js('include/external/jquery/jquery-form.js');
-	head_add_js('include/external/tinymce/tiny_mce.js');
-	head_add_js('include/javascript/mceinit.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.min.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.advancedtable.min.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.icon.min.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.code.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.quote.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.advancedimage.js');
 	head_add_js('include/javascript/formcheck.js');
 	head_add_js_var('uploadSuccess', tt('image successfully uploaded'));
 	head_add_js_var('pleaseFill', tt('Please, fill the required field : '));

@@ -188,7 +188,7 @@ var codeDialog = '<label>Language</label>'+
 '	<option value="zxbasic">ZXBasic</option>'+
 '</select></p>'+
 '<p><label>Code</label></p>'+
-'<p><textarea name="code" class="code_code" style="height:120px;width:100%;"></textarea></p>'+
+'<p><textarea name="code" class="code_code" style="height:120px;width:95%;"></textarea></p>'+
 '<p><input class="code_submit" type="button" value=Submit></p>';
 
 $.cleditor.buttons.code = {
@@ -202,8 +202,6 @@ $.cleditor.buttons.code = {
 	buttonClick: codeClick
 };
  
-$.cleditor.defaultOptions.controls = $.cleditor.defaultOptions.controls.replace("source", "code source");
-
 function codeClick(e, data) {
 	var popup = $(data.popup);
 	popup.find(".code_submit").unbind("click").bind("click", function(e) {
