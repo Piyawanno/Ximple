@@ -33,5 +33,6 @@
 		</p>
 	<?php endif?>
 	<input type="submit" value="<?=$meta->submitLabel?>"/>
+	<div id="advancedloader" style="display:none;"></div>
 	</form>
 </div>
