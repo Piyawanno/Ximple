@@ -26,7 +26,6 @@ class About extends ConfigControl{
 		$this->getConfig();
 		$title = sprintf(tt('Edit %s'), $this->data['title']);
 		document_set_path($this->data['title'], 'about');
-		document_set_path($title);
 		$this->moduleTitle = sprintf(tt('Edit : %s'), $this->data['title']);
 		$this->formMeta->id = 'about';
 		$this->formMeta->title = $this->moduleTitle;

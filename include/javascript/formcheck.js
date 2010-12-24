@@ -32,7 +32,7 @@ function checkCaptcha(captchaKey){
 }
 
 $(document).ready(function (){
-	$(".shorttext").cleditor({
+	$(".text").cleditor({
     	height		:	'400px',
     	width		:	'100%',
     	controls	:	"bold italic underline strikethrough subscript superscript | font size " +
@@ -41,7 +41,7 @@ $(document).ready(function (){
 						"rule advancedimage icon table link unlink | cut copy paste pastetext | print code source"
     });
     
-    $(".text").cleditor({
+    $(".shorttext").cleditor({
     	height		:	'400px',
     	width		:	'100%',
     	controls	:	"bold italic underline strikethrough bullets numbering quote link unlink icon paste pastetext source"
