@@ -1,4 +1,5 @@
 <?=head_define_js_var();?>
+
 <script type="text/javascript" src="<?=ROOT_URI?>include/external/jquery/jquery.js"></script>
 <script type="text/javascript" src="<?=ROOT_URI?>include/external/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="<?=ROOT_URI?>include/javascript/main.js"></script>
@@ -10,6 +11,7 @@
 <script type="text/javascript" src="<?=ROOT_URI?>include/external/cleditor/jquery.cleditor.code.js" ></script> 
 <script type="text/javascript" src="<?=ROOT_URI?>include/external/cleditor/jquery.cleditor.quote.js" ></script> 
 <script type="text/javascript" src="<?=ROOT_URI?>include/external/cleditor/jquery.cleditor.advancedimage.js" ></script> 
+
 <div class="form">
 <a name="edit"></a>
 <form enctype="multipart/form-data" method="post" action="index.php?mode=step4" name="xblcform" onsubmit="return formCheck()">
