@@ -25,6 +25,7 @@ imageDialog =
 '<input class="code_submit" type="button" value=Submit>';
 
 var currentImageParent = null;
+var currentImagePopup = null;
 var selectedImageSource = rootURI+'files/icon/loader.png';
 
 $.cleditor.buttons.advancedimage = {
@@ -40,22 +41,23 @@ $.cleditor.buttons.advancedimage = {
 
 function advanceImageClick(e, data){
 	var popup = $(data.popup);
+	currentImagePopup = popup;
 	popup.find(".code_submit").unbind("click").bind("click", function(e) {
 		var html = '';
 		var editor = data.editor;
 		var description = popup.find(".image_description").val();
 		var align = popup.find(".image_align").val();
 		var margin = popup.find(".image_margin").val();
-		if(description.length == 0) description = "Image";
-		if(margin.length == 0) margin = 0;
+		if(description == null || description.length == 0) description = "Image";
+		if(margin == null || margin.length == 0) margin = 0;
 		popup.find(".image_description").val('');
 		popup.find(".image_align").val('');
 		popup.find(".image_margin").val('');
 		currentImageParent.innerHTML = '<img src="'+rootURI+'files/icon/loader.png" border="0">';
-		if(align.length){
-			html = '<img alt="'+description+'" align="'+align+'" style="margin:'+margin+'px;" src="'+selectedImageSource+'"/>';
-		}else{
+		if(align == null || align.length == 0){
 			html = '<img alt="'+description+'" style="margin:'+margin+'px;" src="'+selectedImageSource+'"/>';
+		}else{
+			html = '<img alt="'+description+'" align="'+align+'" style="margin:'+margin+'px;" src="'+selectedImageSource+'"/>';
 		}
 		editor.execCommand(data.command, html, null, data.button);
 		editor.hidePopups();
@@ -89,6 +91,7 @@ function showCLEImageLoader(imageParent){
 
 function submitImageLoaderCLE(){
 	$('#image_upload_form').ajaxSubmit({success : refreshImageLoaderCLE});
+	blockHidePopups = true;
 	return false;
 }
 
@@ -106,5 +109,6 @@ function loaderChangeImageCLE(src){
 	currentImageParent.innerHTML = '<img src="'+src+'" border="0" style="max-height:145px;"/>';
 	$("#cle_image_loader").dialog('close');
 	selectedImageSource = src;
+	currentImagePopup.show();
 	blockHidePopups = true;
 }
