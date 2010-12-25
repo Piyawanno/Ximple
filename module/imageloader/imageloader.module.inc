@@ -1,26 +1,10 @@
 <?php
-execute_add_function('imageloader');
 execute_add_function('imageloader_cle');
 execute_add_function('imageloader_simple');
 execute_add_function('imageloader_upload');
 execute_add_function('imageloader_simple_upload');
 execute_add_function('imageloader_create_directory');
 imageloader_avoid_up_dir(gg('file'));
-
-function imageloader(){
-	execute_set_file();
-	imageloader_check_path();
-	header('Content-Type: text/html; charset=UTF-8');
-	$path = 'files/member/'.USER_ID.'/'.gg('dir');
-	$render_array = array(
-		'current_dir' => gg('dir'),
-		'is_guest' => authority_is_guest(),
-		'image' => imageloader_get_image($path),
-		'directory' => imageloader_get_directory(),
-	);
-	$render = render($render_array, 'imageloader.tpl', 'imageloader');
-	echo($render);
-}
 
 function imageloader_simple(){
 	if(authority_is_guest()) error_denied();
@@ -128,12 +112,5 @@ function imageloader_get_directory(){
 
 function imageloader_avoid_up_dir($dir){
 	if(count(split('\/\.\.', $dir)) >= 2) error_denied();
-}
-
-function imageloader_check_path(){
-	$path  = ROOT_PATH.'files/member/';
-	if(!is_dir($path))  mkdir($path);
-	$path .= USER_ID.'/';
-	if(!is_dir($path))  mkdir($path);
 }
 ?>
