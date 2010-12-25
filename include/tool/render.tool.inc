@@ -88,6 +88,7 @@ function render_profile_link($user){
 }
 
 function render_avatar($user){
+	if(strlen($user['avatar']) == 0) $user['avatar'] = 'files/default.png';
 	return '
 	<p align="center">
 		<a href="'.SECTION_URI.Q.'profile/'.$user['id'].'">

@@ -3,7 +3,12 @@
 	<div class="blog">
 		<h3 class="title_label"><a href="<?=render_uri('blog', $value)?>"><?=$value['topic']?></a></h3>
 		<table width="100%" ><tbody><tr>
-			<td><?=$value['intro']?></td>
+			<td>
+				<?php if(strlen($value['icon'])):?>
+					<img src="<?=ROOT_URI.$value['icon']?>" align="left" style="margin:10px;" alt="Blog Icon" />
+				<?php endif?>
+				<?=$value['intro']?>
+			</td>
 			<?php if($show_category):?>
 				<td valign="top" align="center">
 					<?=render_category_icon($value['category'], 'blog')?>

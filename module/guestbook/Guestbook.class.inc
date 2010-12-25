@@ -4,7 +4,7 @@ include('GuestbookModel.class.inc');
 
 class Guestbook extends Control{
 	function Guestbook(){
-		$this->moduleTitle = 'Guestbook';
+		$this->moduleTitle = tt('Guestbook');
 		$this->moduleName = 'guestbook';
 		$this->tableName = 'guestbook';
 		$this->addAccessMethod('guest', 'index');
@@ -19,6 +19,7 @@ class Guestbook extends Control{
 	function index(){
 		$this->selectPage($this->column, 10, 'WHERE section='.SECTION.' ORDER BY id DESC');
 		head_add_css('guestbook.css');
+		document_set_title($this->moduleTitle);
 		$rednerArray = array(
 			'is_admin' => authority_group('guestbook_admin'),
 			'data' => $this->data

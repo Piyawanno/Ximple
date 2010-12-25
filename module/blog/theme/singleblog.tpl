@@ -3,7 +3,12 @@
 	<h3 class="title_label"><?=$topic?></h3>
 	<table><tbody>
 	<tr>
-		<td><?=$intro?></td>
+		<td>
+			<?php if(strlen($icon)):?>
+				<img src="<?=ROOT_URI.$icon?>" align="left" style="margin:10px;" alt="Blog Icon" />
+			<?php endif?>
+			<?=$intro?>
+		</td>
 		<?php if($show_avatar or $show_category):?>
 			<td valign="top" align="center">
 				<?php if($show_avatar):?>

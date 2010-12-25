@@ -42,9 +42,15 @@ $(document).ready(function (){
     });
     
     $(".shorttext").cleditor({
-    	height		:	'400px',
+    	height		:	'250px',
     	width		:	'100%',
-    	controls	:	"bold italic underline strikethrough bullets numbering quote link unlink icon paste pastetext source"
+    	controls	:	"bold image italic underline strikethrough bullets numbering quote link unlink icon paste pastetext source"
+    });
+    
+    $(".usershorttext").cleditor({
+    	height		:	'250px',
+    	width		:	'100%',
+    	controls	:	"bold advancedimage italic underline strikethrough bullets numbering quote link unlink icon paste pastetext code source"
     });
     
 	initDelGrid();
