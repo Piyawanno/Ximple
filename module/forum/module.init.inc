@@ -9,7 +9,7 @@ function module_get_info_forum(){
 
 function module_init_forum(){
 	include_once('Forum.class.inc');
-	include_once('ForumEntry.class.inc');
+	include_once(ROOT_PATH.'module/forumentry/ForumEntry.class.inc');
 	$forumEntry = new ForumEntry();
 	$forumEntry->initModule('ForumEntry.class.inc');
 	
@@ -19,7 +19,7 @@ function module_init_forum(){
 
 function module_drop_forum(){
 	include_once('Forum.class.inc');
-	include_once('ForumEntry.class.inc');
+	include_once(ROOT_PATH.'module/forumentry/ForumEntry.class.inc');
 	$forumEntry = new ForumEntry();
 	$forumEntry->dropModule();
 	

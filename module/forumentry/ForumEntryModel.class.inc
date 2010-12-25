@@ -10,7 +10,7 @@ class ForumEntryModel extends ContentModel{
 class ForumColumn extends ModelColumn{
 	function ForumColumn(){
 		$forumID = gg('forum');
-		if(!$forumID and MODE == 'forumentry_edit'){
+		if(!$forumID){
 			$this->setAsSelect();
 		}else{
 			$this->setAsHidden($forumID);
@@ -32,6 +32,8 @@ class ForumColumn extends ModelColumn{
 		if(count($forumID)){
 			$clause = 'WHERE id='.join(' OR id=', $forumID);
 			$this->option = db_select_single_column('forum', 'name', $clause);
+		}else{
+			error_denied();
 		}
 	}
 }
