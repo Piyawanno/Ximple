@@ -2,19 +2,18 @@
 class ForumEntryModel extends ContentModel{
 	function ForumEntryModel(){
 		ContentModel::ContentModel('forumentry');
-		$this->checkPath();
 		$this->forum = new ForumColumn();
 		$this->extendAfter('topic', 'forum');
 	}
 }
 
 class ForumColumn extends ModelColumn{
-	function ForumClumn(){
+	function ForumColumn(){
 		$forumID = gg('forum');
-		if($forumID and MODE != 'forumentry_edit'){
-			$this->setAsHidden($forumID);
-		}else{
+		if(!$forumID and MODE == 'forumentry_edit'){
 			$this->setAsSelect();
+		}else{
+			$this->setAsHidden($forumID);
 		}
 	}
 	
@@ -26,7 +25,14 @@ class ForumColumn extends ModelColumn{
 	}
 	
 	private function setAsSelect(){
-	
+		$this->type = 'int';
+		$this->label = tt('forum');
+		$this->form = 'select';
+		$forumID = forum_get_allowed_id();
+		if(count($forumID)){
+			$clause = 'WHERE id='.join(' OR id=', $forumID);
+			$this->option = db_select_single_column('forum', 'name', $clause);
+		}
 	}
 }
 ?>

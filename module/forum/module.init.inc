@@ -10,25 +10,22 @@ function module_get_info_forum(){
 function module_init_forum(){
 	include_once('Forum.class.inc');
 	include_once('ForumEntry.class.inc');
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
-	include_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
+	$forumEntry = new ForumEntry();
+	$forumEntry->initModule('ForumEntry.class.inc');
 	
 	$forum = new Forum();
 	$forum->initModule('forum.module.inc');
-	
-	$forumEntry = new ForumEntry();
-	$forumEntry->initModule('ForumEntry.class.inc');
 }
 
 function module_drop_forum(){
 	include_once('Forum.class.inc');
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
-	include_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
+	include_once('ForumEntry.class.inc');
+	$forumEntry = new ForumEntry();
+	$forumEntry->dropModule();
+	
 	$forum = new Forum();
 	$forum->dropModule();
 	notify_add_info(tt('Forum has been successfully deactivated'));
-	config_drop('forum_entries_number');
-	flashblock_drop('forum_last_post');
-	flashblock_drop('forum_last_commented');
+	module_drop_panel('Forum');
 }
 ?>

@@ -3,27 +3,40 @@ include_once(ROOT_PATH.'include/tool/menu.tool.inc');
 
 function content_init_module($moduleName, $moduleTitle){
 	include_once(ROOT_PATH.'module/category/category.tool.inc');
+	category_init($moduleName);
+	module_add_feed($moduleName, $moduleTitle);
+	module_add_cache($moduleName);
+	
+	content_add_role($moduleName, $moduleTitle);
+	content_add_panel($moduleName, $moduleTitle);
+	content_set_config($moduleName);
+	menu_add($moduleName, $moduleTitle);
+}
+
+function content_get_group($moduleName){
 	$adminGroup = $moduleName.'_admin';
 	$editorGroup = $moduleName.'_editor';
 	$contributorGroup = $moduleName.'_contributor';
-	
+	return array($adminGroup, $editorGroup, $contributorGroup);
+}
+
+function content_add_role($moduleName, $moduleTitle){
+	list($adminGroup, $editorGroup, $contributorGroup) = content_get_group($moduleName);
+	$adminDescription = sprintf('Who can configure, insert, edit and drop %s from everyone.', $moduleTitle);
+	$editorDescription = sprintf('Who can insert, edit and drop %s from everyone.', $moduleTitle);
+	$contributorDescription = sprintf('Who can insert, edit and drop own %s.', $moduleTitle);
+	module_add_role($adminGroup, $moduleTitle.' Administrator', $adminDescription);
+	module_add_role($editorGroup, $moduleTitle.' Editor', $editorDescription);
+	module_add_role($contributorGroup, $moduleTitle.' Contributor', $contributorDescription);
+}
+
+function content_add_panel($moduleName, $moduleTitle){
+	list($adminGroup, $editorGroup, $contributorGroup) = content_get_group($moduleName);
 	$categoryMode = 'category/module/'.$moduleName;
 	$writeMode = $moduleName.'_write';
 	$editorListMode = $moduleName.'_editor_list';
 	$contributorListMode = $moduleName.'_contributor_list';
 	$configMode = $moduleName.'_config';
-	
-	category_init($moduleName);
-	module_add_feed($moduleName, $moduleTitle);
-	module_add_cache($moduleName);
-	
-	$adminDescription = sprintf('Who can configure, insert, edit and drop %s from everyone.', $moduleTitle);
-	$editorDescription = sprintf('Who can insert, edit and drop %s from everyone.', $moduleTitle);
-	$contributorDescription = sprintf('Who can insert, edit and drop own %s.', $moduleTitle);
-	
-	module_add_role($adminGroup, $moduleTitle.' Administrator', $adminDescription);
-	module_add_role($editorGroup, $moduleTitle.' Editor', $editorDescription);
-	module_add_role($contributorGroup, $moduleTitle.' Contributor', $contributorDescription);
 	
 	module_add_panel($moduleTitle, $adminGroup, $categoryMode, $moduleTitle.' category');
 	module_add_panel($moduleTitle, $adminGroup, $writeMode, 'write new '.$moduleTitle.' entry');
@@ -37,7 +50,9 @@ function content_init_module($moduleName, $moduleTitle){
 	
 	module_add_panel($moduleTitle, $contributorGroup, $writeMode, 'write new '.$moduleTitle.' entry');
 	module_add_panel($moduleTitle, $contributorGroup, $contributorListMode, 'list my '.$moduleTitle);
-	
+}
+
+function content_set_config($moduleName){
 	config_set($moduleName.'_comment_permission', array(0, 1, 2, 3));
 	config_set($moduleName.'_comment_permission_default', 0);
 	config_set($moduleName.'_appearance', array());
@@ -48,15 +63,10 @@ function content_init_module($moduleName, $moduleTitle){
 	config_set($moduleName.'_comment_write_label', tt('Please, write your opinion.'));
 	config_set($moduleName.'_comment_page_length', 10);
 	config_set($moduleName.'_comment_show_avatar', false);
-	
-	menu_add($moduleName, $moduleTitle);
 }
 
 function content_drop_module($moduleName, $moduleTitle){
-	$adminGroup = $moduleName.'_admin';
-	$editorGroup = $moduleName.'_editor';
-	$contributorGroup = $moduleName.'_contributor';
-	
+	list($adminGroup, $editorGroup, $contributorGroup) = content_get_group($moduleName);
 	module_drop_feed($moduleName);
 	module_drop_cache($moduleName);
 	module_drop_role($adminGroup);

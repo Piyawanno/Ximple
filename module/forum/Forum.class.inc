@@ -13,5 +13,10 @@ class Forum extends Control{
 		$this->setAdmin('forum_admin');
 		$this->init(new ForumModel());
 	}
+	
+	public function initModule($requirement){
+		Control::initModule($requirement);
+		forum_set_panel();
+	}
 }
 ?>
