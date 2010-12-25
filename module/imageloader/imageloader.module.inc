@@ -1,5 +1,6 @@
 <?php
 execute_add_function('imageloader');
+execute_add_function('imageloader_cle');
 execute_add_function('imageloader_simple');
 execute_add_function('imageloader_upload');
 execute_add_function('imageloader_simple_upload');
@@ -33,6 +34,19 @@ function imageloader_simple(){
 	);
 	return render($render_array, 'imageloader_simple.tpl', 'imageloader_simple');
 }
+
+function imageloader_cle(){
+	if(authority_is_guest()) error_denied();
+	execute_set_ajax();
+	$path = imageloader_get_user_image_path();
+	$render_array = array(
+		'current_dir' => $path,
+		'is_guest' => authority_is_guest(),
+		'image' => imageloader_get_image($path),
+	);
+	return render($render_array, 'imageloader_cle.tpl', 'imageloader_cle');
+}
+
 
 function imageloader_upload(){
 	execute_set_db();
@@ -79,6 +93,14 @@ function imageloader_get_image($path){
 		echo('Problem by opening image directory');
 		return array();
 	}
+}
+
+function imageloader_get_user_image_path(){
+	$path = 'files/member/'.USER_ID.'/';
+	if(!is_dir($path)) mkdir($path);
+	$path.= 'image/';
+	if(!is_dir($path)) mkdir($path);
+	return $path;
 }
 
 function imageloader_get_directory(){

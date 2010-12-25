@@ -6,7 +6,7 @@ function form($form_id, $model){
 	head_add_css('form.css');
 	head_add_css('include/external/cleditor/jquery.cleditor.css');
 	head_add_js('include/external/jquery/jquery-form.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.min.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.js');
 	head_add_js('include/external/cleditor/jquery.cleditor.advancedtable.min.js');
 	head_add_js('include/external/cleditor/jquery.cleditor.icon.min.js');
 	head_add_js('include/external/cleditor/jquery.cleditor.code.js');
@@ -200,9 +200,9 @@ function form_render_checkbox($form_id, $name, $modelCol){
 		}
 		$render .= sprintf($p, $name, $name, $key, $checked, $value);
 	}
-	$render .= '</ul><span id="info_'.$form_id.'_'.$name.'"></span></div><p style="clear:both;"></p>';
+	$render .= '</ul><span id="info_'.$form_id.'_'.$name.'"></span></div><p style="clear:both;">&#160;</p>';
 	if(count($modelCol->selection) > 1){
-		$render .= '<a href="javascript:checkAllCheckBox(\''.$name.'\')">'.tt('check all').'</a> | ';
+		$render .= '<p><a href="javascript:checkAllCheckBox(\''.$name.'\')">'.tt('check all').'</a> | ';
 		$render .= '<a href="javascript:checkNoneCheckBox(\''.$name.'\')">'.tt('check none').'</a></p>';
 	}
 	return $render;
