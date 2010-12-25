@@ -219,7 +219,7 @@ abstract class Model{
 		$modelColumn->form = 'radio';
 		$modelColumn->label = $label;
 		$modelColumn->help = $help;
-		$modelColumn->selection = array(0 => tt('disable'), 1 => tt('enable'));
+		$modelColumn->option = array(0 => tt('disable'), 1 => tt('enable'));
 		return $modelColumn;
 	}
 	
@@ -292,7 +292,7 @@ abstract class Model{
 			$formattedInterval[$sec] = date($format, $sec);
 		}
 		
-		$modelColumn->selection = $formattedInterval;
+		$modelColumn->option = $formattedInterval;
 		return $modelColumn;
 	}
 	

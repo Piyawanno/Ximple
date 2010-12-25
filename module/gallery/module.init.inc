@@ -22,8 +22,8 @@ function module_init_gallery(){
 	
 	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2 AND comment_time > 0) ORDER BY comment_time DESC';
 	flashblock_add('gallery_last_commented', 'gallery', tt('Last commented Galleries'), 'gallery', 'topic', $clause);
-	$galleryPicture = new GalleryPicture();
-	$galleryPicture->initModule('gallery.module.inc');
+#	$galleryPicture = new GalleryPicture();
+#	$galleryPicture->initModule('gallery.module.inc');
 }
 
 function module_drop_gallery(){
