@@ -83,7 +83,7 @@ function form_render_calendar($form_id, $name, $modelCol){
 function form_render_radio($form_id, $name, $modelCol){
 	$render = '<ul class="form_radio" id="'.$form_id.'_'.$name.'">';
 	$p = '<li><input type="radio" name="%s" value="%s" %s style="border:none;" />%s</li>';
-	foreach($modelCol->selection as $key => $value){
+	foreach($modelCol->option as $key => $value){
 		$checked = $key == $modelCol->data ? 'checked="checked"' : '';
 		$render .= sprintf($p, $name, $key, $checked, $value, $form_id.'_'.$key);
 	}
@@ -93,7 +93,7 @@ function form_render_radio($form_id, $name, $modelCol){
 
 function form_render_select($form_id, $name, $modelCol){
 	$render = '<select name="'.$name.'" id="'.$form_id.'_'.$name.'">';
-	foreach($modelCol->selection as $key => $value){
+	foreach($modelCol->option as $key => $value){
 		$selected = $modelCol->data == $key ? 'selected="selected"' : '';
 		$render .= '<option value="'.$key.'" '.$selected.'>'.$value.'</option>';
 	}
@@ -150,9 +150,9 @@ function form_render_group($form_id, $name, $modelCol){
 	if($modelCol->isExceptedAdmin) $excepted .= ' AND id!=1 ';
 	if($modelCol->isExceptedGuest) $excepted .= ' AND id!=2 ';
 	$group = db_select('groups', array('id', 'name'), 'WHERE ((section='.SECTION.' OR id <=3) '.$excepted.')');
-	$modelCol->selection = array();
+	$modelCol->option = array();
 	foreach($group as $key => $value){
-		$modelCol->selection[$key] = $value['name'];
+		$modelCol->option[$key] = $value['name'];
 	}
 	return form_render_checkbox($form_id, $name, $modelCol);
 }
@@ -192,7 +192,7 @@ function form_render_checkbox($form_id, $name, $modelCol){
 	list($sortable, $img) = form_get_sortable($modelCol);
 	$render = '<div class="checkbox_list"><ul '.$sortable.'>';
 	$p = '<li>'.$img.'<input type="checkbox" name="%s[]" class="checkbox_%s" value="%s" %s style="border:none;" />%s</li>';
-	foreach($modelCol->selection as $key => $value){
+	foreach($modelCol->option as $key => $value){
 		if(is_array($modelCol->data) and in_array($key, $modelCol->data)){
 			$checked = 'checked="checked"';
 		}else{
@@ -201,7 +201,7 @@ function form_render_checkbox($form_id, $name, $modelCol){
 		$render .= sprintf($p, $name, $name, $key, $checked, $value);
 	}
 	$render .= '</ul><span id="info_'.$form_id.'_'.$name.'"></span></div><p style="clear:both;">&#160;</p>';
-	if(count($modelCol->selection) > 1){
+	if(count($modelCol->option) > 1){
 		$render .= '<p><a href="javascript:checkAllCheckBox(\''.$name.'\')">'.tt('check all').'</a> | ';
 		$render .= '<a href="javascript:checkNoneCheckBox(\''.$name.'\')">'.tt('check none').'</a></p>';
 	}
@@ -214,7 +214,7 @@ function form_render_checkedit($form_id, $name, $modelCol){
 	$p1 = '<li>'.$img.'<input type="checkbox" name="check_%s[]" class="checkedit" value="%s" %s style="border:none;" rel="%s"/>';
 	$p2 = '<input id="%s" name="%s[]" size="35" value="%s" %s/></li>';
 	$i = 0;
-	foreach($modelCol->selection as $key => $value){
+	foreach($modelCol->option as $key => $value){
 		if(is_array($modelCol->data) and in_array($key, $modelCol->data)){
 			$checked = 'checked="checked"';
 			$disabled = '';

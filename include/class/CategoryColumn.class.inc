@@ -8,7 +8,7 @@ class CategoryColumn extends ModelColumn{
 		$this->label = tt('category');
 		$this->help = $help;
 		$this->module = $module;
-		$this->selection = array();
+		$this->option = array();
 	}
 	
 	public function triggerInsertForm(){
@@ -27,7 +27,7 @@ class CategoryColumn extends ModelColumn{
 	
 	private function getSelection(){
 		$clause = "WHERE (mode='".$this->module."' AND section=".SECTION.")";
-		$this->selection = db_select_single_column('category', 'category', $clause);
+		$this->option = db_select_single_column('category', 'category', $clause);
 	}
 }
 ?>

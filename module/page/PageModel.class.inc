@@ -25,7 +25,7 @@ class PageStatusColumn extends ModelColumn{
 		$this->label = $label;
 		$this->form = 'radio';
 		$this->type = 'int';
-		$this->selection = array();
+		$this->option = array();
 		$this->status = $status;
 	}
 	
@@ -52,10 +52,10 @@ class PageStatusColumn extends ModelColumn{
 		if(!(authority_group('page_admin') or authority_group('page_editor'))){
 			$enabled = $this->configuration[$this->status];
 			foreach($enabled as $key){
-				$this->selection[$key] = $option[$key];
+				$this->option[$key] = $option[$key];
 			}
 		}else{
-			$this->selection = $option;
+			$this->option = $option;
 		}
 	}
 }

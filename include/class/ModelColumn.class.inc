@@ -16,7 +16,7 @@ class ModelColumn{
 	public $help;
 	public $form;
 	public $dateFormat = 'd F Y';
-	public $selection;
+	public $option;
 	public $data;
 	public $defaultData;
 	public $path;
@@ -52,7 +52,7 @@ class ModelColumn{
 		$allowedType = array('int', 'real', 'char', 'shorttext', 'text', 'date', 'timestamp', 'array');
 		if(!in_array($this->type, $allowedType)) return 'unkown type : '.$this->type;
 		
-		$selectionForm = array('radio', 'checkbox', 'select', 'multiseclect', 'checkedit');
+		$selectiveForm = array('radio', 'checkbox', 'select', 'multiseclect', 'checkedit');
 		$allowedForm = array(
 			'none', 'char', 'password', 'file', 'multiplefiles',
 			'hidden', 'text', 'plain', 'shorttext', 'calendar',
@@ -60,9 +60,9 @@ class ModelColumn{
 			'color', 'grid', 'uri',
 		);
 		
-		if(in_array($this->form, $selectionForm)){
-			if(!is_array($this->selection)){
-				return 'unset selection';
+		if(in_array($this->form, $selectiveForm)){
+			if(!is_array($this->option)){
+				return 'unset option';
 			}
 		}elseif(!in_array($this->form, $allowedForm)){
 			return 'unkown form : '.$this->form;

@@ -19,7 +19,7 @@ class MenuBlock extends ModelColumn{
 			$this->form = 'select';
 			$p = tt('Use <a href="%s">block interface</a> for Block configuration.');
 			$this->help = sprintf($p, SECTION_URI.Q.'block');
-			$this->selection = array();
+			$this->option = array();
 		}else{
 			$this->form = 'hidden';
 			$this->defaultData = 0;
@@ -36,9 +36,9 @@ class MenuBlock extends ModelColumn{
 	
 	private function getBlock(){
 		if($this->form == 'select'){
-			$this->selection = db_select_single_column('block', 'title', 'WHERE section='.SECTION, true);
-			$this->selection[0] = cc('None');
-			ksort($this->selection);
+			$this->option = db_select_single_column('block', 'title', 'WHERE section='.SECTION, true);
+			$this->option[0] = cc('None');
+			ksort($this->option);
 		}
 	}
 }

@@ -41,7 +41,7 @@ class ShowItemColumn extends ModelColumn{
 		$this->type = 'array';
 		$this->form = 'checkbox';
 		$this->isSortable = true;
-		$this->selection = array();
+		$this->option = array();
 	}
 	
 	function triggerUpdateForm(){
@@ -51,11 +51,11 @@ class ShowItemColumn extends ModelColumn{
 	function getSelection(){
 		$option = directory_show_item_option();
 		foreach($this->data as $key){
-			$this->selection[$key] = $option[$key];
+			$this->option[$key] = $option[$key];
 		}
 		
 		foreach($option as $key => $value){
-			if(!isset($this->selection[$key])) $this->selection[$key] = $value;
+			if(!isset($this->option[$key])) $this->option[$key] = $value;
 		}
 	}
 }
@@ -66,7 +66,7 @@ class ShowPageColumn extends ModelColumn{
 		$this->type = 'array';
 		$this->form = 'checkbox';
 		$this->isSortable = true;
-		$this->selection = array();
+		$this->option = array();
 	}
 	
 	function triggerUpdateForm(){
@@ -86,10 +86,10 @@ class ShowPageColumn extends ModelColumn{
 			$selection[$id] = $render;
 		}
 		foreach($this->data as $id){
-			if(isset($selection[$id])) $this->selection[$id] = $selection[$id];
+			if(isset($selection[$id])) $this->option[$id] = $selection[$id];
 		}
 		foreach($selection as $key => $value){
-			if(!isset($this->selection[$key])) $this->selection[$key] = $value;
+			if(!isset($this->option[$key])) $this->option[$key] = $value;
 		}
 	}
 }
@@ -100,7 +100,7 @@ class ShowDirectoryColumn extends ModelColumn{
 		$this->type = 'array';
 		$this->form = 'checkbox';
 		$this->isSortable = true;
-		$this->selection = array();
+		$this->option = array();
 	}
 	
 	function triggerUpdateForm(){
@@ -120,10 +120,10 @@ class ShowDirectoryColumn extends ModelColumn{
 			$selection[$id] = $render;
 		}
 		foreach($this->data as $id){
-			$this->selection[$id] = $selection[$id];
+			$this->option[$id] = $selection[$id];
 		}
 		foreach($selection as $key => $value){
-			if(!isset($this->selection[$key])) $this->selection[$key] = $value;
+			if(!isset($this->option[$key])) $this->option[$key] = $value;
 		}
 	}
 }

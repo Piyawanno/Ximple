@@ -63,7 +63,7 @@ class ContentStatusColumn extends ModelColumn{
 		$this->status = $status;
 		$this->defaultData = cc($moduleName.'_'.$this->status.'_default');
 		$functionName = 'content_get_'.$this->status;
-		$this->selection = $functionName();
+		$this->option = $functionName();
 	}
 	
 	public function triggerInsertForm(){
@@ -75,7 +75,7 @@ class ContentStatusColumn extends ModelColumn{
 	}
 	
 	public function triggerSelect(){
-		if($this->isTriggerSelect) $this->data = $this->selection[$this->data];
+		if($this->isTriggerSelect) $this->data = $this->option[$this->data];
 	}
 	
 	private function initSelect(){
@@ -85,9 +85,9 @@ class ContentStatusColumn extends ModelColumn{
 			$config = cc($this->moduleName.'_'.$this->status);
 			$option = array();
 			foreach($config as $key){
-				$option[$key] = $this->selection[$key];
+				$option[$key] = $this->option[$key];
 			}
-			$this->selection = $option;
+			$this->option = $option;
 		}
 	}
 }

@@ -306,10 +306,9 @@ abstract class Model{
 		return new FileSizeColumn($label, $help);
 	}
 	
-	private function selective($label, $selection, $help){
+	private function selective($label, $option, $help){
 		include_once('SelectiveColumn.class.inc');
-		$modelColumn = new SelectiveColumn($label, $selection, $help);
-		$modelColumn->selection = $selection;
+		$modelColumn = new SelectiveColumn($label, $option, $help);
 		return $modelColumn;
 	}
 }

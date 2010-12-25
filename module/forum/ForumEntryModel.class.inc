@@ -3,15 +3,30 @@ class ForumEntryModel extends ContentModel{
 	function ForumEntryModel(){
 		ContentModel::ContentModel('forumentry');
 		$this->checkPath();
-		$this->icon = $this->imageLoader(tt('icon'), 'files/forum/');
-		$this->intro = $this->text(tt('introduction'));
-		$this->extendAfter('topic', 'icon');
-		$this->extendAfter('topic', 'intro');
+		$this->forum = new ForumColumn();
+		$this->extendAfter('topic', 'forum');
+	}
+}
+
+class ForumColumn extends ModelColumn{
+	function ForumClumn(){
+		$forumID = gg('forum');
+		if($forumID and MODE != 'forumentry_edit'){
+			$this->setAsHidden($forumID);
+		}else{
+			$this->setAsSelect();
+		}
 	}
 	
-	private function checkPath(){
-		$path  = ROOT_PATH.'files/forum/';
-		if(!is_dir($path))  mkdir($path);
+	private function setAsHidden($forumID){
+		$this->type = 'int';
+		$this->form = 'hidden';
+		$this->defaultData = $forumID;
+		$this->data = $forumID;
+	}
+	
+	private function setAsSelect(){
+	
 	}
 }
 ?>

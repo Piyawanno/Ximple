@@ -12,7 +12,7 @@ class ProfileTypeColumn extends ModelColumn{
 		$this->type = 'int';
 		$this->form = 'select';
 		$this->label = tt('profile type');
-		$this->selection = array();
+		$this->option = array();
 	}
 	
 	public function triggerInsertForm(){
@@ -29,7 +29,7 @@ class ProfileTypeColumn extends ModelColumn{
 	}
 	
 	private function getSelect(){
-		$this->selection = db_select_single_column('profiletype', 'name', 'WHERE section='.SECTION);
+		$this->option = db_select_single_column('profiletype', 'name', 'WHERE section='.SECTION);
 	}
 	
 }
