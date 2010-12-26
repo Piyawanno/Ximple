@@ -109,6 +109,7 @@ function sysblock_get_user_panel_array(){
 	$panel_conf = sysblock_get_panel_config();
 	$panel_out = array();
 	$groups = ss('login_group');
+	$groups[] = 3;
 	foreach($panel_conf as $key => $panel){
 		$items = array();
 		foreach($panel as $acc_ref => $item){

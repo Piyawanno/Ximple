@@ -6,13 +6,13 @@ $execute_callable = array();
 $execute_class = array();
 $execute_mode = 0;
 
-function execute($mode){
+function execute($mode, $arg=null){
 	global $execute_callable;
 	$module = execute_get_module($mode);
 	execute_get_requirement($module);
 	if(!execute_is_callable($mode)) error_denied();
 	if(function_exists($mode) and in_array($mode, $execute_callable)){	
-		return $mode();
+		return $mode($arg);
 	}else{
 		return execute_oop($mode, $module);
 	}

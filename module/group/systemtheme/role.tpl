@@ -1,4 +1,5 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
+<script type="text/javascript" src="<?=ROOT_URI?>include/external/cleditor/jquery.cleditor.js" ></script>
 <h3 class="list_label"><?=tt('Edit Group-Permission').' : '.$name?></h3>
 <p>
 	<?=tt('You can use this page to add Users into the User-Group and to give the User-Group the permissions via Roles.')?>

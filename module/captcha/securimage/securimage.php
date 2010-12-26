@@ -1194,7 +1194,6 @@ class Securimage {
 			$this->cryptcode = sha1(md5(strtolower(trim($this->code_entered)).$this->generate_time).$this->salt);
 			if ( $_SESSION['securimage_code_value'] == $this->cryptcode ) {
 				$this->correct_code = true;
-				$_SESSION['securimage_code_value'] = '';
 			}else{
 				$this->correct_code = false;
 			}

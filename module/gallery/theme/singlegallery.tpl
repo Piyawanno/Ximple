@@ -63,7 +63,7 @@
 				<img src="<?=ROOT_URI?>files/gallery/<?=$id?>/thumb_<?=$value?>" alt="<?=$value?>" border="0"/>
 			</a>
 		<?php if($editable):?>
-			<a href="<?=ROOT_URI?>gallery_picture_drop/<?=$key?>/gallery/<?=$id?>">[<?=tt('drop')?>]</a>
+			<a href="<?=SECTION_URI.Q?>gallery_picture_drop/<?=$key?>/gallery/<?=$id?>">[<?=tt('drop')?>]</a>
 		<?php endif?>
 		</td>
 	<?php if($count%3 == 0 or $count == $pictureNumber):?>

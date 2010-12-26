@@ -9,9 +9,9 @@ function module_get_info_forum(){
 
 function module_init_forum(){
 	include_once('Forum.class.inc');
-	include_once(ROOT_PATH.'module/forumentry/ForumEntry.class.inc');
+	include_once('ForumEntry.class.inc');
 	$forumEntry = new ForumEntry();
-	$forumEntry->initModule('ForumEntry.class.inc');
+#	$forumEntry->initModule('ForumEntry.class.inc');
 	
 	$forum = new Forum();
 	$forum->initModule('forum.module.inc');
@@ -19,9 +19,9 @@ function module_init_forum(){
 
 function module_drop_forum(){
 	include_once('Forum.class.inc');
-	include_once(ROOT_PATH.'module/forumentry/ForumEntry.class.inc');
+	include_once('ForumEntry.class.inc');
 	$forumEntry = new ForumEntry();
-	$forumEntry->dropModule();
+#	$forumEntry->dropModule();
 	
 	$forum = new Forum();
 	$forum->dropModule();
