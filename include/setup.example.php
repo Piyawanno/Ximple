@@ -19,8 +19,8 @@ define('DEFAULT_LANGUAGE','th');
 // Please put slash ('/') at the end of this parameters.
 // example: 'http://mydomain/' is a valid parameter but 'http://mydomain' is a invalid parameter
 // example: '/my/root/path/' is a valid parameter but '/my/root/path' is a invalid parameter
-define('ROOT_URI','http://mydomain/xblc/install/');
-define('ROOT_PATH','/var/www//xblc/install/');
+define('ROOT_URI','http://mydomain/');
+define('ROOT_PATH','/var/www/ximple/');
 
 // User upload file size
 define('MAX_UPLOADED_FILE_SIZE', 500e3);
