@@ -1,11 +1,12 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
-<div id="login_form">
+<div class="form" id="login_page">
+	<h2 class="list_label"><?=tt('Login')?></h2>
 	<form action="<?=SECTION_URI?>" method="post" onsubmit="crypt()">
-		<?=tt('name')?>
-		<input name="login_name" size="12" style="display:block;margin:5px;" class="logininput"/>
+		<p><label><?=tt('name')?></lable></p>
+		<input name="login_name" size="35"/>
 		<input name="redirect" value="<?=ORIG_REQUEST?>" type="hidden" />
-		<?=tt('password')?>
-		<input name="login_prepassword" type="password" size="12" style="display:block;margin:5px;" class="logininput" />
+		<p><label><?=tt('password')?></lable></p>
+		<input name="login_prepassword" type="password"  size="35"/>
 		<input name="login_password" type="hidden" />
 		<input name="login_salt" type="hidden" />
 		<input name="login" type="hidden" value="login"/>
@@ -13,9 +14,9 @@
 	</form>
 	<br />
 	<?php if($forget_password):?>
-		<a href="<?= SECTION_URI.Q?>forgot_password"><?=tt('forget password')?></a>
+		<p><a href="<?= SECTION_URI.Q?>forgot_password"><?=tt('forget password')?></a></p>
 	<?php endif?>
 	<?php if($registable):?>
-		<a href="<?= SECTION_URI.Q?>registration"><?=tt('registration')?></a>
+		<p><a href="<?= SECTION_URI.Q?>registration"><?=tt('registration')?></a></p>
 	<?php endif?>
 </div>

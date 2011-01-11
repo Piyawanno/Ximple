@@ -39,6 +39,10 @@ class SectionConfig extends ConfigControl{
 		$general->append('friendly_url_enable');
 		$general->append('state');
 		
+		$register = $this->getNewConfigForm(tt('Registration'));
+		$register->append('registable');
+		$register->append('forget_password');
+		
 		$time = $this->getNewConfigForm(tt('Time'));
 		$time->append('time_zone');
 		$time->append('time_format');

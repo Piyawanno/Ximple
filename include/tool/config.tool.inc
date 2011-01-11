@@ -70,6 +70,7 @@ function config_default_require(){
 		'imageloader' => 'imageloader.module.inc',
 		'search' => 'search.module.inc',
 		'forgetpassword' => 'forgetpassword.module.inc',
+		'login' => 'login.module.inc',
 	);
 }
 

@@ -25,6 +25,9 @@ class SectionConfigModel extends Model{
 		);
 		$this->state = $this->radio(tt('section state'), $option);
 		
+		$this->registable = $this->enable(('Enable registration for new users'));
+		$this->forget_password = $this->enable(('Enable password recovery'));
+		
 		$option = timezone_identifiers_list();
 		$option = array_combine($option, $option);
 		$this->time_zone = $this->select(tt('time zone'), $option);

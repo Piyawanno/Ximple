@@ -10,7 +10,10 @@ execute_add_function('sysblock_navigation_save');
 
 function sysblock_login(){
 	if(authority_is_guest()){
-		$render_array = array('allow_forget' => cc('registerable'));
+		$render_array = array(
+			'forget_password' => cc('forget_password'),
+			'registable' => cc('registable')
+		);
 		head_add_js('include/external/sha1.js');
 		return render($render_array, 'loginform.tpl', 'loginform');
 	}else{
