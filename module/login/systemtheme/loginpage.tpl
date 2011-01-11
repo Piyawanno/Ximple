@@ -1,7 +1,7 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <div class="form" id="login_page">
 	<h2 class="list_label"><?=tt('Login')?></h2>
-	<form action="<?=SECTION_URI?>" method="post" onsubmit="crypt()">
+	<form action="<?=SECTION_URI.Q?>login_submit" method="post" onsubmit="crypt()">
 		<p><label><?=tt('name')?></lable></p>
 		<input name="login_name" size="35"/>
 		<input name="redirect" value="<?=ORIG_REQUEST?>" type="hidden" />
