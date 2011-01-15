@@ -174,3 +174,13 @@ ins{
 #notify_error h4{
 	color:#d40;
 }
+
+/* ========= Write icon ========= */
+.write_icon{
+	font-weight:bold;
+}
+
+.write_icon img{
+	margin-right:5px;
+	margin-left:5px;
+}

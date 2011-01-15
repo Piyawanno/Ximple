@@ -11,6 +11,7 @@ class Profile extends Control{
 		$this->setAdmin('profile_admin');
 		$this->addAccessMethod('guest', 'index');
 		$this->init(new ProfileModel());
+		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	function index(){

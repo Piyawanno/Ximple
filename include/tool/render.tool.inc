@@ -66,9 +66,9 @@ function render_find_tpl($tpl){
 
 function render_icon($mode, $icon, $title){
 	return '
-	<a href="'.SECTION_URI.Q.$mode.'" >
-		<img src="'.ROOT_URI.$icon.'" border="0" align="left" style="margin-right:5px;margin-left:5px;">
-		<strong>'.$title.'</strong>
+	<a href="'.SECTION_URI.Q.$mode.'" class="write_icon">
+		<img src="'.ROOT_URI.$icon.'" border="0" align="left">
+		'.$title.'
 	</a>';
 }
 

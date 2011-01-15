@@ -1,3 +1,4 @@
+<?php if(!defined('XIMPLE_CMS')) die();?>
 <h3 class="list_label"><?=tt('My Message')?></h3>
 <?=render_write_icon('message_write', ('Send a Message'))?>
 <table class="message">
