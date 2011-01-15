@@ -25,7 +25,7 @@ class User extends Control{
 		$this->setListEditIcon();
 		$this->setListDropIcon();
 		/// In the main Section, you can manage users from all Sections.
-		/// In the other Section, you can manage users only in the own Sections.
+		/// In the other Section, you can manage only users in the own Sections.
 		if(SECTION != 1){
 			$this->selectListPage(20, "WHERE (status='active' AND section=".SECTION.")");
 		}else{

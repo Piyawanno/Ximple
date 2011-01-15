@@ -49,12 +49,9 @@ function account_render_form(){
 	$profile->data = uu('profile_permission');
 	$email = Model::radio(tt('who can send me an email'), $permission_select);
 	$email->data = uu('email_permission');
-	$editor = Model::radio(tt('my editor for richtext'), $editor_select);
-	$editor->data = uu('editor');
 	
 	$form_render->append('profile_permission', $profile);
 	$form_render->append('email_permission', $email);
-	$form_render->append('editor', $editor);
 	return $form_render->render();
 }
 

@@ -11,7 +11,9 @@ class Message extends Control{
 		$this->addAccessMethod('user', 'index');
 		$this->addAccessMethod('user', 'write');
 		$this->addAccessMethod('user', 'insert');
+		$this->writeLabel = tt('Send a Message');
 		$this->init(new MessageModel());
+		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	public function index(){

@@ -19,8 +19,7 @@ class Guestbook extends Control{
 	function index(){
 		$this->selectPage($this->column, 10, 'WHERE section='.SECTION.' ORDER BY id DESC');
 		head_add_css('guestbook.css');
-		document_set_title($this->moduleTitle);
-		document_set_path($this->moduleTitle, $this->moduleName);
+		document_set_path($this->moduleTitle);
 		$rednerArray = array(
 			'is_admin' => authority_group('guestbook_admin'),
 			'data' => $this->data
