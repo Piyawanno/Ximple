@@ -5,7 +5,8 @@ execute_add_function('login_submit');
 function login(){
 	document_set_title(tt('Login'));
 	document_set_path(tt('Login'));
-	return login_render();
+	if(authority_is_guest()) return login_render();
+	else return login_render_logout();
 }
 
 function login_submit(){
@@ -23,4 +24,9 @@ function login_render(){
 	return render($render_array, 'loginpage.tpl', 'loginpage');
 }
 
+function login_render_logout(){
+	head_add_css('form.css');
+	head_add_js('include/external/sha1.js');
+	return render(array(), 'logoutpage.tpl', 'logoutpage');
+}
 ?>
