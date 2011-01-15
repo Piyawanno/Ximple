@@ -16,6 +16,7 @@ function form($form_id, $model){
 	head_add_js_var('uploadSuccess', tt('image successfully uploaded'));
 	head_add_js_var('pleaseFill', tt('Please, fill the required field : '));
 	head_add_js_var('formNotCorrect', tt('Any field in the form is not correctly filled. Please correct it and try again.'));
+	head_add_js_var('isInstalled', true);
 	foreach($model as $name => $modelCol){
 		$func = 'form_render_'.$modelCol->form;
 		$render[$name] = $func($form_id, $name, $modelCol);

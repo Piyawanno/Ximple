@@ -167,14 +167,18 @@ $(document).ready(function (){
 				}else{
 					uri = sectionURI+'userinfo_check_email_exists/uid/'+uid+'/email/';
 				}
-				$.get(uri+$(this).val(), function(data){
-					if(data != 'not exist'){
-						exist = true;
-						formLock = true;
-						$('#info_user_email').css({color:'red'});
-						$('#info_user_email').html(imgWrong + emailExists);
-					}
-				});
+				if(isInstalled){
+					$.get(uri+$(this).val(), function(data){
+						if(data != 'not exist'){
+							exist = true;
+							formLock = true;
+							$('#info_user_email').css({color:'red'});
+							$('#info_user_email').html(imgWrong + emailExists);
+						}
+					});
+				}else{
+					exist = false;
+				}
 			}
 			if(!exist){
 				$('#info_'+$(this).attr('id')).html(imgCorrect);

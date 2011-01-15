@@ -273,6 +273,7 @@ function install_init_js_var_user_insert(){
 	head_add_js_var('passwdMismatch', tt('Password is mismathed.'));
 	head_add_js_var('emailNotOk', tt('Your Email address is not conformed.'));
 	head_add_js_var('insertUser', true);
+	head_add_js_var('isInstalled', false);
 }
 
 function install_get_step_label(){
