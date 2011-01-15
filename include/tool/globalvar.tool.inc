@@ -98,6 +98,7 @@ function uu($key=null){
 	else return null;
 }
 
+global $locale;
 $locale = array();
 function tt($key){
 	global $locale;
@@ -137,4 +138,8 @@ function globalvar_reset_post(){
 	$global_post = $_POST;
 }
 
+function globalvar_add_locale($additional){
+	global $locale;
+	$locale = array_merge($locale, $additional);
+}
 ?>

@@ -45,11 +45,14 @@ function account_render_form(){
 		2 => tt('Normal text editor with markdown syntax'),
 	);
 	
+	$language = MOdel::select(tt('default language for my user interface'), translate_get_language());
+	$language->data = uu('language');
 	$profile = Model::radio(tt('who can see my profile'), $permission_select);
 	$profile->data = uu('profile_permission');
 	$email = Model::radio(tt('who can send me an email'), $permission_select);
 	$email->data = uu('email_permission');
 	
+	$form_render->append('language', $language);	
 	$form_render->append('profile_permission', $profile);
 	$form_render->append('email_permission', $email);
 	return $form_render->render();
