@@ -108,34 +108,34 @@ abstract class Model{
 		return $modelColumn;
 	}
 	
-	public function radio($label, $selection, $help=null){
-		$modelColumn = Model::selective($label, $selection, $help);
+	public function radio($label, $option, $help=null){
+		$modelColumn = Model::selective($label, $option, $help);
 		$modelColumn->form = 'radio';
 		return $modelColumn;
 	}
 	
-	public function checkbox($label, $selection, $help=null){
-		$modelColumn = Model::selective($label, $selection, $help);
+	public function checkbox($label, $option, $help=null){
+		$modelColumn = Model::selective($label, $option, $help);
 		$modelColumn->form = 'checkbox';
 		$modelColumn->type = 'array';
 		return $modelColumn;
 	}
 	
-	public function checkedit($label, $selection, $help=null){
-		$modelColumn = Model::selective($label, $selection, $help);
+	public function checkedit($label, $option, $help=null){
+		$modelColumn = Model::selective($label, $option, $help);
 		$modelColumn->form = 'checkedit';
 		$modelColumn->type = 'array';
 		return $modelColumn;
 	}
 	
-	public function select($label, $selection, $help=null){
-		$modelColumn = Model::selective($label, $selection, $help);
+	public function select($label, $option, $help=null){
+		$modelColumn = Model::selective($label, $option, $help);
 		$modelColumn->form = 'select';
 		return $modelColumn;
 	}
 	
-	public function multiselect($label, $selection, $help=null){
-		$modelColumn = Model::selective($label, $selection, $help);
+	public function multiselect($label, $option, $help=null){
+		$modelColumn = Model::selective($label, $option, $help);
 		$modelColumn->form = 'multiselect';
 		$modelColumn->type = 'array';
 		return $modelColumn;
