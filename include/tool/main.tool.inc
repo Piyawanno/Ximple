@@ -15,10 +15,11 @@ function main_init(){
 	main_count_visitor();
 	main_init_config();
 	main_set_time_zone();
-	authority();
 	main_init_var();
 	main_handle_drop();
 	db_init();
+	authority();
+	translate_define_language();
 	extension_execute('main_init');
 }
 
@@ -199,7 +200,6 @@ function main_init_var(){
 	else define('Q', '?/');
 	main_init_section_uri();
 	main_init_uri_param();
-	translate_define_language();
 }
 
 /// Initialize constant SECTION_URI.
