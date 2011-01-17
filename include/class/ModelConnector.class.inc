@@ -34,13 +34,13 @@ class ModelConnector{
 	public function getFormColumn(){
 		$model = $this->model;
 		foreach($model as $key => $value){
-			if($value->isConfigForm) unset($model[$key]);
+			if(!$value->isForm) unset($model[$key]);
 		}
 		return $model;
 	}
 	
 	public function setAsConfigForm($col){
-		$this->model[$col]->isConfigForm = true;
+		$this->model[$col]->isForm = false;
 	}
 	
 	public function getColumnAttribute($attrName){

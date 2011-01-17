@@ -72,7 +72,6 @@ class ModelColumn{
 	public $isReachable = false;
 	public $isOrderable = true;
 	public $isSortable = false;
-	public $isConfigForm = false;
 	public $isAllTags = false;
 	public $isImage = false;
 	public $isExceptedAdmin = true;

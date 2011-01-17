@@ -24,7 +24,11 @@ class GridColumn extends ModelColumn{
 	
 	public function append($member){
 		if(!in_array($memer->form, $this->allowedGridForm)){
+			if(state_is_develop()){
+				notify_add_error(sprintf(tt('Grid is not allowed to contain form : %s.'), $memer->form));
+			}
 		}else{
+			$member->isForm = false;
 			$this->memberColumn[] = $member;
 		}
 	}
