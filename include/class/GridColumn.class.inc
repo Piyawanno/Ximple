@@ -6,12 +6,11 @@ class GridColumn extends ModelColumn{
 	private $memberColumn;
 	private $memberDataCount;
 	private $allowedGridForm = array(
+		'hidden',
 		'char',
 		'email',
 		'select',
 		'file',
-		'color',
-		'uri'
 	);
 	
 	function GridColumn($label, $help=null){

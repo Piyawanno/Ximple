@@ -180,7 +180,7 @@ ins{
 	font-weight:bold;
 }
 
-.write_icon img{
+.write_icon img, .warning_icon{
 	margin-right:5px;
 	margin-left:5px;
 }

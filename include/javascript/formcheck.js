@@ -2,8 +2,8 @@ var grid_string = new Array();
 var files_string = new Array();
 var captchaLock = false;
 var initedJQuery = false;
-var imgCorrect = '<img style="margin-left:15px;margin-right:10px;padding:0;" src="'+rootURI+'files/icon/correct.png" />';
-var imgWrong = '<img style="margin-left:15px;margin-right:10px;padding:0;" src="'+rootURI+'files/icon/stop.png" />';
+var imgCorrect = '<img class="warning_icon" src="'+rootURI+'files/icon/correct.png" />';
+var imgWrong = '<img class="warning_icon" src="'+rootURI+'files/icon/stop.png" />';
 var formLock = false;
 
 function changeCaptcha(captchaKey){
@@ -186,6 +186,17 @@ $(document).ready(function (){
 			}else{
 				formLock = true;
 			}
+		}
+	});
+	
+	$('.email_grid_field').keyup(function(){
+		var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		if(!reg.test($(this).val())){
+			$('#info_'+$(this).attr('rel')).css({color:'red'});
+			$('#info_'+$(this).attr('rel')).html(imgWrong + emailNotOk);
+			formLock = true;
+		}else{
+			$('#info_'+$(this).attr('rel')).html('');
 		}
 	});
 	
@@ -436,6 +447,10 @@ function preElementFormat(){
 
 function addGridRow(tableID){
 	$('#'+tableID).append(gridRowArray[tableID]);
+}
+
+function delGridRow(anchor){
+	$(anchor).parent().parent().remove();
 }
 
 // Not verified
