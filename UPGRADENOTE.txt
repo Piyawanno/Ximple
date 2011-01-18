@@ -1,0 +1,40 @@
+This file contains TO-DO list for additional procedure by software upgrading.
+
+- Create table translation.
+
+	CREATE TABLE `translation` (
+		`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+		`language` varchar(250) DEFAULT NULL,
+		`mode` varchar(250) DEFAULT NULL,
+		`mode_id` int(10) unsigned NOT NULL,
+		`translation` mediumtext,
+		PRIMARY KEY (`id`)
+	) CHARACTER SET utf8;
+
+- Set character of table to UTF-8.
+	
+	ALTER TABLE block CHARACTER SET utf8;
+	ALTER TABLE blog CHARACTER SET utf8;
+	ALTER TABLE category CHARACTER SET utf8;
+	ALTER TABLE comment CHARACTER SET utf8;
+	ALTER TABLE contact CHARACTER SET utf8;
+	ALTER TABLE feed CHARACTER SET utf8;
+	ALTER TABLE flashblock CHARACTER SET utf8;
+	ALTER TABLE freetag CHARACTER SET utf8;
+	ALTER TABLE groups CHARACTER SET utf8;
+	ALTER TABLE guestbook CHARACTER SET utf8;
+	ALTER TABLE map CHARACTER SET utf8;
+	ALTER TABLE menu CHARACTER SET utf8;
+	ALTER TABLE message CHARACTER SET utf8;
+	ALTER TABLE note CHARACTER SET utf8;
+	ALTER TABLE profile CHARACTER SET utf8;
+	ALTER TABLE profiletype CHARACTER SET utf8;
+	ALTER TABLE search CHARACTER SET utf8;
+	ALTER TABLE search_source CHARACTER SET utf8;
+	ALTER TABLE section CHARACTER SET utf8;
+	ALTER TABLE translation CHARACTER SET utf8;
+	ALTER TABLE users CHARACTER SET utf8;
+
+- Alter table search_source.
+	
+	ALTER TABLE search_source add language char(2) DEFAULT 'en' NOT NULL;

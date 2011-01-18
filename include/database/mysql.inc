@@ -211,7 +211,7 @@ function db_create_table($table, $columns){
 	foreach($columns as $column){
 		$query .= $column.', ';
 	}
-	$query.= 'PRIMARY KEY (id));';
+	$query.= 'PRIMARY KEY (id)) CHARACTER SET utf8;';
 	db_modify($table, $query);
 }
 
