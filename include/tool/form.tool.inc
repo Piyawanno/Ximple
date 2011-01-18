@@ -1,6 +1,10 @@
 <?php
 
+global $grid_row_array;
+$grid_row_array = array();
+
 function form($form_id, $model){
+	global $grid_row_array;
 	document_init_form();
 	$render = array();
 	head_add_css('form.css');
@@ -23,6 +27,8 @@ function form($form_id, $model){
 		$func = 'form_render_'.$modelCol->form;
 		$render[$name] = $func($form_id, $name, $modelCol);
 	}
+	
+	head_add_js_array('gridRowArray', $grid_row_array);
 	return $render;
 }
 
@@ -248,23 +254,25 @@ function form_render_multiplefiles($form_id, $name, $modelCol){
 }
 
 function form_render_grid($form_id, $name, $modelCol){
+	global $grid_row_array;
 	head_add_css('list.css');
-	$gridID  = $form_id.'_'.$name;
+	$grid_id  = $form_id.'_'.$name;
 	$render  = '<div class="list">';
-	$render .= '<table width="100%" id="'.$gridID.'"><tr>';
-	$gridRow = '<tr>';
+	$render .= '<table width="100%" id="'.$grid_id.'"><tr>';
+	$grid_row = '<tr>';
 	foreach($modelCol->getMember() as $key => $value){
 		$render .= '<th>'.$value->label.'</th>';
 		$functionName = 'form_render_grid_'.$value->form;
-		$gridRow.= '<td>'.$functionName($gridID, $key, $value).'</td>';
+		$grid_row.= '<td>'.$functionName($grid_id, $key, $value).'</td>';
 	}
-	$gridRow.= '</tr>';
-	$gridRow = str_replace("\n", "", $gridRow);
-	$render .= $gridRow;
+	$grid_row.= '</tr>';
+	$grid_row = str_replace("\n", "", $grid_row);
+	$grid_row_array[$grid_id] = str_replace('"', "\\\"", $grid_row);;
+	$render .= $grid_row;
 	$render .= '</tr></table>';
 	$render .= '</div>';
 	$render .= '
-		<a onclick="addGridRow(\''.$gridID.'\');return false;" href="#" class="write_icon">
+		<a onclick="addGridRow(\''.$grid_id.'\');return false;" href="#" class="write_icon">
 			<img src="'.ROOT_URI.'files/icon/add.png" border="0" align="left">
 			'.tt('add new row').'
 		</a>';

@@ -434,8 +434,8 @@ function preElementFormat(){
 	}
 }
 
-function addGridRow(tableID, gridRow){
-	$('#'+tableID).append(gridRow);
+function addGridRow(tableID){
+	$('#'+tableID).append(gridRowArray[tableID]);
 }
 
 // Not verified
