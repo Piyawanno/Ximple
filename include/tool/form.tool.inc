@@ -247,6 +247,35 @@ function form_render_multiplefiles($form_id, $name, $modelCol){
 	return $render;
 }
 
+function form_render_grid($form_id, $name, $modelCol){
+	head_add_css('list.css');
+	$gridID  = $form_id.'_'.$name;
+	$render  = '<div class="list">';
+	$render .= '<table width="100%" id="'.$gridID.'"><tr>';
+	$gridRow = '<tr>';
+	foreach($modelCol->getMember() as $key => $value){
+		$render .= '<th>'.$value->label.'</th>';
+		$functionName = 'form_render_grid_'.$value->form;
+		$gridRow.= '<td>'.$functionName($gridID, $key, $value).'</td>';
+	}
+	$gridRow.= '</tr>';
+	$gridRow = str_replace("\n", "", $gridRow);
+	$render .= $gridRow;
+	$render .= '</tr></table>';
+	$render .= '</div>';
+	$render .= '
+		<a onclick="addGridRow(\''.$gridID.'\');return false;" href="#" class="write_icon">
+			<img src="'.ROOT_URI.'files/icon/add.png" border="0" align="left">
+			'.tt('add new row').'
+		</a>';
+	return $render;
+}
+
+function form_render_grid_char($form_id, $name, $modelCol){
+	$p = '<input name="%s[]" id="%s" value="%s" size="35" maxlength="80"/><span id="info_%s"></span>';
+	return sprintf($p, $name, $form_id.'_'.$name, $modelCol->data, $form_id.'_'.$name);
+}
+
 function form_get_sortable($modelCol){
 	if($modelCol->isSortable){
 		$sortable = 'class="sortable_form"';

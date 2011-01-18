@@ -434,9 +434,13 @@ function preElementFormat(){
 	}
 }
 
+function addGridRow(tableID, gridRow){
+	$('#'+tableID).append(gridRow);
+}
+
 // Not verified
 
-function getAntikey(crypt1,crypt2,genTime){
+function getAntikey(crypt1, crypt2, genTime){
 	http.open("GET", rootURI+"ajax.php?mode=_ajax_get_antikey&section="+sectionID+"&crypt1="+crypt1+"&crypt2="+crypt2+"&gen_time="+genTime,true);
 	http.onreadystatechange = getAntikeyResponse;
 	http.send(null);

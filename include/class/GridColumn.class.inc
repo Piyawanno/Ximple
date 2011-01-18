@@ -13,23 +13,24 @@ class GridColumn extends ModelColumn{
 		'uri'
 	);
 	
-	function GridColumn($help=null){
+	function GridColumn($label, $help=null){
 		$this->type = 'array';
 		$this->form = 'grid';
 		$this->help = $help;
+		$this->label = $label;
 		$this->isMultipleInsert = true;
 		$this->memberColumn = array();
 		$this->isDB = false;
 	}
 	
-	public function append($member){
-		if(!in_array($memer->form, $this->allowedGridForm)){
+	public function append($memberName, $memberModel){
+		if(!in_array($memberModel->form, $this->allowedGridForm)){
 			if(state_is_develop()){
-				notify_add_error(sprintf(tt('Grid is not allowed to contain form : %s.'), $memer->form));
+				notify_add_error(sprintf(tt('Grid is not allowed to contain form : %s.'), $memberModel->form));
 			}
 		}else{
-			$member->isForm = false;
-			$this->memberColumn[] = $member;
+			$memberModel->isForm = false;
+			$this->memberColumn[$memberName] = $memberModel;
 		}
 	}
 	

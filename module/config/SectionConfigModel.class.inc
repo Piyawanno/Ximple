@@ -28,6 +28,11 @@ class SectionConfigModel extends Model{
 		$this->registable = $this->enable(('Enable registration for new users'));
 		$this->forget_password = $this->enable(('Enable password recovery'));
 		
+		$help = tt('Add supported language for contents in Section.');
+		$this->supported_language = $this->grid(tt('Supported language'), $help);
+		$this->supported_language->append('language_abbreviation', Model::char(tt('abbreviation')));
+		$this->supported_language->append('language_description', Model::char(tt('description')));
+		
 		$option = timezone_identifiers_list();
 		$option = array_combine($option, $option);
 		$this->time_zone = $this->select(tt('time zone'), $option);

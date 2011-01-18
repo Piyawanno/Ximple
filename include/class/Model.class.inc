@@ -274,26 +274,13 @@ abstract class Model{
 		$modelColumn->form = 'select';
 		$modelColumn->label = $label;
 		$modelColumn->help = $help;
-		
-		$formattedInterval = array();
-		foreach($interval as $sec){
-			if($sec >= 86400){
-				$format = 'z \d\a\y\s';
-				if($sec%86400) $format .= ' G \h\o\u\r\s';
-			}elseif($sec >= 3600){
-				$format = 'G \h\o\u\r\s';
-				if($sec%3600) $format .= ' i \m\u\n\i\t\e\s';
-			}elseif($sec >= 60){
-				$format = 'i \m\u\n\i\t\e\s';
-				if($sec%60) $format .= ' s \s\e\c\o\n\d\s';
-			}else{
-				$format = 's \s\e\c\o\n\d\s';
-			}
-			$formattedInterval[$sec] = date($format, $sec);
-		}
-		
-		$modelColumn->option = $formattedInterval;
+		$modelColumn->option = $this->formatTimeInterval($interval);
 		return $modelColumn;
+	}
+	
+	public function grid($label, $help=null){
+		include_once('GridColumn.class.inc');
+		return new GridColumn($label, $help);
 	}
 	
 	public function category($module, $help=null){
@@ -310,6 +297,26 @@ abstract class Model{
 		include_once('SelectiveColumn.class.inc');
 		$modelColumn = new SelectiveColumn($label, $option, $help);
 		return $modelColumn;
+	}
+	
+	private function formatTimeInterval($interval){
+		$formattedInterval = array();
+		foreach($interval as $sec){
+			if($sec >= 86400){
+				$format = 'z \d\a\y\s';
+				if($sec%86400) $format .= ' G \h\o\u\r\s';
+			}elseif($sec >= 3600){
+				$format = 'G \h\o\u\r\s';
+				if($sec%3600) $format .= ' i \m\u\n\i\t\e\s';
+			}elseif($sec >= 60){
+				$format = 'i \m\u\n\i\t\e\s';
+				if($sec%60) $format .= ' s \s\e\c\o\n\d\s';
+			}else{
+				$format = 's \s\e\c\o\n\d\s';
+			}
+			$formattedInterval[$sec] = date($format, $sec);
+		}
+		return $formattedInterval;
 	}
 }
 

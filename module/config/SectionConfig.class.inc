@@ -39,6 +39,9 @@ class SectionConfig extends ConfigControl{
 		$general->append('friendly_url_enable');
 		$general->append('state');
 		
+		$language = $this->getNewConfigForm(tt('Language'));
+		$language->append('supported_language');
+		
 		$register = $this->getNewConfigForm(tt('Registration'));
 		$register->append('registable');
 		$register->append('forget_password');
