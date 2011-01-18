@@ -13,14 +13,15 @@ class SectionConfig extends ConfigControl{
 		$this->init(new SectionConfigModel());
 	}
 	
-	function save(){
+	public function save(){
 		$oldIcon = cc('icon');
+		$this->setLanguage();
 		ConfigControl::save();
 		$this->uploadIcon($oldIcon);
 		$this->setState();
 	}
 	
-	function index(){
+	public function index(){
 		$this->formMeta->id = 'config';
 		$this->formMeta->description = tt('You can use this form to configure important parameters of the Section. ');
 		$p = tt('Or you can <a href="%s"><strong>reset configurations</strong></a> to the default values.');
@@ -101,6 +102,18 @@ class SectionConfig extends ConfigControl{
 		execute_set_db();
 		document_set_redirect('config');
 		notify_add_info(tt('Configuration have been successfully reset.'));
+	}
+	
+	private function setLanguage(){
+		$languageAbbreviation = pp('language_abbreviation');
+		$languaDescription = pp('language_description');
+		$language = array();
+		foreach($languageAbbreviation as $key => $value){
+			if(strlen($value) and strlen($languaDescription[$key])){
+				$language[$value] = $languaDescription[$key];
+			}
+		}
+		$this->setConfig('supported_language', $language);
 	}
 	
 	private function uploadIcon($oldIcon){

@@ -30,8 +30,16 @@ class SectionConfigModel extends Model{
 		
 		$help = tt('Add supported language for contents in Section.');
 		$this->supported_language = $this->grid(tt('Supported language'), $help);
-		$this->supported_language->append('language_abbreviation', Model::char(tt('abbreviation')));
-		$this->supported_language->append('language_description', Model::char(tt('description')));
+		
+		$supportedLanguageVaue = cc('supported_language');
+		$languageAbbreviation = Model::char(tt('abbreviation'));
+		$languaDescription = Model::char(tt('description'));
+		if(is_array($supportedLanguageVaue)){
+			$languageAbbreviation->data = array_keys($supportedLanguageVaue);
+			$languaDescription->data = array_values($supportedLanguageVaue);
+		}
+		$this->supported_language->append('language_abbreviation', $languageAbbreviation);
+		$this->supported_language->append('language_description', $languaDescription);
 		
 		$option = timezone_identifiers_list();
 		$option = array_combine($option, $option);

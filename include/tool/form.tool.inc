@@ -263,7 +263,16 @@ function form_render_grid($form_id, $name, $modelCol){
 	foreach($modelCol->getMember() as $key => $value){
 		$render .= '<th>'.$value->label.'</th>';
 		$functionName = 'form_render_grid_'.$value->form;
+		$value->data = null;
 		$grid_row.= '<td>'.$functionName($grid_id, $key, $value).'</td>';
+	}
+	foreach($modelCol->data as $key => $data){
+		$render .= '<tr>';
+		foreach($modelCol->getMember() as $memberName => $member){
+			$member->data = $data[$memberName];
+			$render .= '<td>'.$functionName($grid_id, $memberName, $member).'</td>';
+		}
+		$render .= '</tr>';
 	}
 	$grid_row.= '</tr>';
 	$grid_row = str_replace("\n", "", $grid_row);
