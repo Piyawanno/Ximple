@@ -9,6 +9,7 @@ include_once('ListPageMetaData.class.inc');
 
 abstract class Control extends Authority{
 	private $formRender;
+	private $translateFormRender;
 	private $configForm = array();
 	private $prepareMethodMap = array();
 	private $tableCreator;
@@ -67,6 +68,14 @@ abstract class Control extends Authority{
 		$render = $this->renderUpdateForm();
 		document_set_path($this->formMeta->title);
 		return $render;
+	}
+	
+	public function renderTranslateForm(){
+		$this->initTranslateForm();
+	}
+	
+	public function setTranslate(){
+	
 	}
 	
 	public function insert(){
@@ -308,6 +317,18 @@ abstract class Control extends Authority{
 			include_once('FormRender.class.inc');
 			$this->formRender = new FormRender($this->modelConnector, $this->formMeta);
 		}
+		$this->setFormMeta();
+	}
+	
+	private function prepareTranslateForm(){
+		if(!$this->translateFormRender){
+			include_once('FormRender.class.inc');
+			$this->translateFormRender = new TranslateFormRender($this->modelConnector, $this->formMeta);
+		}
+		$this->setFormMeta();
+	}
+	
+	private function setFormMeta(){
 		$this->formMeta->configForm = $this->configForm;
 		if($this->formMeta->isSetTitle){
 			document_set_title($this->formMeta->title);

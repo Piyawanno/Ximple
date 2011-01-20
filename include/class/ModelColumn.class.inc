@@ -40,6 +40,13 @@ class ModelColumn{
 		'uri',
 	);
 	
+	private $allowedTranslateForm = array(
+		'char',
+		'plain',
+		'text',
+		'shorttext'
+	);
+	
 	private $typeMap = array(
 		'int' => 'integer',
 		'real' => 'float',
@@ -78,9 +85,19 @@ class ModelColumn{
 	public $isExceptedGuest = false;
 	public $isUpdateTime = false;
 	public $isMultipleInsert = false;
+	public $isTranslation = false;
 	
 	public function getPHPType(){
 		return $this->typeMap[$this->type];
+	}
+	
+	public function enableTranslation(){
+		if(in_array($this->form, $this->allowedTranslateForm)){
+			$this->isTranslation = true;
+		}elseif(state_is_develop()){
+			$pattern = tt('%s is not allowed to be translated.');
+			notify_add_error(sprintf($pattern, $this->form));
+		}
 	}
 	
 	public function setDefault($data){

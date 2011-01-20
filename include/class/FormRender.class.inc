@@ -17,20 +17,24 @@ class FormRender{
 	
 	public function renderInsertForm(){
 		$this->modelConnector->triggerInsertForm();
-		$model = $this->modelConnector->resetData();
+		$this->modelConnector->resetData();
 		$this->prepareRender();
-		return $this->renderForm($model);
+		return $this->renderForm();
 	}
 	
 	public function renderUpdateForm($data){
-		$model = $this->modelConnector->setData($data);
+		$this->modelConnector->setData($data);
 		$this->modelConnector->triggerUpdateForm();
 		$this->prepareRender();
-		return $this->renderForm($model);
+		return $this->renderForm();
 	}
 	
-	private function renderForm($model){
-		$model = $this->modelConnector->getFormColumn();
+	protected function getFormColumn(){
+		return $this->modelConnector->getFormColumn();
+	}
+	
+	private function renderForm(){
+		$model = $this->getFormColumn();
 		$form = form($this->formMeta->id, $model);
 		$extensionArg = array($form, $this->formMeta);
 		$form = extension_execute('pre_render_form', $extensionArg, $form);

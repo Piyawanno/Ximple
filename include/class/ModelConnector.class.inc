@@ -34,7 +34,19 @@ class ModelConnector{
 	public function getFormColumn(){
 		$model = $this->model;
 		foreach($model as $key => $value){
-			if(!$value->isForm) unset($model[$key]);
+			if(!$value->isForm){
+				unset($model[$key]);
+			}
+		}
+		return $model;
+	}
+	
+	public function getTranslateFormColumn(){
+		$model = $this->model;
+		foreach($model as $key => $value){
+			if(!$value->isForm or !$value->isTranslateForm){
+				unset($model[$key]);
+			}
 		}
 		return $model;
 	}
