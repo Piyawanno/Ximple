@@ -28,6 +28,7 @@ $head_js = array(
 
 $head_js_var = array(
 	'rootURI' => ROOT_URI,
+	'moduleName' => MODULE,
 	'sectionID' => SECTION,
 	'sectionURI' => SECTION_URI.Q,
 	'sectionURICommon' => SECTION_URI,

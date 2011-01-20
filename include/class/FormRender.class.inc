@@ -34,6 +34,7 @@ class FormRender{
 	}
 	
 	private function renderForm(){
+		$this->getTranslateLabel();
 		$model = $this->getFormColumn();
 		$form = form($this->formMeta->id, $model);
 		$extensionArg = array($form, $this->formMeta);
@@ -70,6 +71,14 @@ class FormRender{
 	private function renderConfigForm(){
 		foreach($this->formMeta->configForm as $configForm){
 			$this->renderedConfigForm .= $configForm->render($this->formMeta);
+		}
+	}
+	
+	private function getTranslateLabel(){
+		if($this->modelConnector->hasTranslate()){
+			$pattern = tt('You can use <a %s><strong>Translate-Form</strong></a> to translate this form.');
+			$help = sprintf($pattern, 'href="#" onclick=";return false"');
+			$this->formMeta->description = '<p>'.$help.'</p>';
 		}
 	}
 }

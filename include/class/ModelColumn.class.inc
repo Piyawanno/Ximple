@@ -85,15 +85,15 @@ class ModelColumn{
 	public $isExceptedGuest = false;
 	public $isUpdateTime = false;
 	public $isMultipleInsert = false;
-	public $isTranslation = false;
+	public $isTranslate = false;
 	
 	public function getPHPType(){
 		return $this->typeMap[$this->type];
 	}
 	
-	public function enableTranslation(){
+	public function enableTranslate(){
 		if(in_array($this->form, $this->allowedTranslateForm)){
-			$this->isTranslation = true;
+			$this->isTranslate = true;
 		}elseif(state_is_develop()){
 			$pattern = tt('%s is not allowed to be translated.');
 			notify_add_error(sprintf($pattern, $this->form));

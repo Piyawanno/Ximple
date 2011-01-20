@@ -22,7 +22,7 @@ class Menu extends Control{
 	}
 	
 	public function write(){
-		$this->formMeta->id = 'Menu';
+		$this->formMeta->id = 'menu';
 		$this->formMeta->title = tt('Add a new Menu');
 		$this->formMeta->mode = 'menu_insert';
 		return $this->renderInsertForm();
@@ -31,7 +31,7 @@ class Menu extends Control{
 	public function edit(){
 		$this->id = (int)gg('id');
 		$this->selectByID($this->column);
-		$this->formMeta->id = 'Menu';
+		$this->formMeta->id = 'menu';
 		$this->formMeta->title =  tt('Edit Menu');
 		$this->formMeta->mode = 'menu_update';
 		return $this->renderUpdateForm();

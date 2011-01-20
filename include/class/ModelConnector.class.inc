@@ -44,7 +44,7 @@ class ModelConnector{
 	public function getTranslateFormColumn(){
 		$model = $this->model;
 		foreach($model as $key => $value){
-			if(!$value->isForm or !$value->isTranslateForm){
+			if(!$value->isForm or !$value->isTranslate){
 				unset($model[$key]);
 			}
 		}
@@ -187,6 +187,11 @@ class ModelConnector{
 	
 	public function checkExist($col){
 		return isset($this->model[$col]);
+	}
+	
+	public function hasTranslate(){
+		$model = $this->getTranslateFormColumn();
+		return count($model);
 	}
 	
 	private function trigger($event){

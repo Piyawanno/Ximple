@@ -190,6 +190,8 @@ abstract class Control extends Authority{
 		$this->addAction($this->moduleName.'_insert', 'insert');
 		$this->addAction($this->moduleName.'_update', 'update');
 		$this->addAction($this->moduleName.'_drop', 'drop');
+		$this->addAction($this->moduleName.'_translate_form', 'renderTranslateForm');
+		$this->addAction($this->moduleName.'_translate', 'setTranslate');
 		$this->addAction($this->moduleName.'_print', 'printPage');
 		
 		$this->prepareMethodMap['edit'] = 'prepareModifyDB';
