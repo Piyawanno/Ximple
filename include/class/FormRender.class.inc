@@ -9,6 +9,7 @@ class FormRender{
 	private $label;
 	private $help;
 	private $renderedConfigForm = '';
+	private $isTranslate;
 	
 	function FormRender($modelConnector, $formMeta){
 		$this->modelConnector = $modelConnector;
@@ -34,6 +35,7 @@ class FormRender{
 	}
 	
 	private function renderForm(){
+		$this->isTranslate = $this->modelConnector->hasTranslate();
 		$this->getTranslateLabel();
 		$model = $this->getFormColumn();
 		$form = form($this->formMeta->id, $model);
@@ -45,6 +47,7 @@ class FormRender{
 			'help' => $this->help,
 			'label' => $this->label,
 			'not_null' => $this->notNull,
+			'is_translate' => $this->isTranslate,
 			'config' => $this->renderedConfigForm,
 		);
 		$render = render($rednerArray, 'form.tpl', 'render_form');
@@ -75,7 +78,7 @@ class FormRender{
 	}
 	
 	private function getTranslateLabel(){
-		if($this->modelConnector->hasTranslate()){
+		if($this->isTranslate){
 			$pattern = tt('You can use <a %s><strong>Translate-Form</strong></a> to translate this form.');
 			$help = sprintf($pattern, 'href="#" onclick=";return false"');
 			$this->formMeta->description = '<p>'.$help.'</p>';
