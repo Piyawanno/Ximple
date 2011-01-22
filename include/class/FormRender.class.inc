@@ -3,13 +3,14 @@
 include_once(ROOT_PATH.'include/tool/form.tool.inc');
 
 class FormRender{
-	private $modelConnector;
-	private $formMeta;
+	protected $modelConnector;
+	protected $isTranslate;
+	protected $formMeta;
+	protected $label;
+	
 	private $notNull;
-	private $label;
 	private $help;
 	private $renderedConfigForm = '';
-	private $isTranslate;
 	
 	function FormRender($modelConnector, $formMeta){
 		$this->modelConnector = $modelConnector;
@@ -17,6 +18,7 @@ class FormRender{
 	}
 	
 	public function renderInsertForm(){
+		$this->isTranslate = false;
 		$this->modelConnector->triggerInsertForm();
 		$this->modelConnector->resetData();
 		$this->prepareRender();
@@ -24,6 +26,8 @@ class FormRender{
 	}
 	
 	public function renderUpdateForm($data){
+		$this->checkTranslate();
+		$this->getTranslateLabel();
 		$this->modelConnector->setData($data);
 		$this->modelConnector->triggerUpdateForm();
 		$this->prepareRender();
@@ -34,9 +38,7 @@ class FormRender{
 		return $this->modelConnector->getFormColumn();
 	}
 	
-	private function renderForm(){
-		$this->isTranslate = $this->modelConnector->hasTranslate();
-		$this->getTranslateLabel();
+	protected function renderForm(){
 		$model = $this->getFormColumn();
 		$form = form($this->formMeta->id, $model);
 		$extensionArg = array($form, $this->formMeta);
@@ -55,7 +57,11 @@ class FormRender{
 		return $render;
 	}
 	
-	private function prepareRender(){
+	protected function checkTranslate(){
+		$this->isTranslate = $this->modelConnector->hasTranslate();
+	}
+	
+	protected function prepareRender(){
 		if($this->formMeta->isCaptcha){
 			$this->modelConnector->initCaptchaColumn();
 		}
@@ -80,7 +86,7 @@ class FormRender{
 	private function getTranslateLabel(){
 		if($this->isTranslate){
 			$pattern = tt('You can use <a %s><strong>Translate-Form</strong></a> to translate this form.');
-			$help = sprintf($pattern, 'href="#" onclick=";return false"');
+			$help = sprintf($pattern, 'href="#" onclick="showTranslateDialog();return false"');
 			$this->formMeta->description = '<p>'.$help.'</p>';
 		}
 	}

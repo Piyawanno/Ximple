@@ -11,10 +11,10 @@ class Block extends Control{
 		$this->setAdmin('block_admin');
 		$this->insertRedirection = 'block#position_'.pp('position');
 		$this->init(new BlockModel());
+		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	public function index(){
-		document_set_path($this->moduleTitle);
 		$this->select($this->column, 'WHERE section='.SECTION.' ORDER BY sort_number');
 		$data = array();
 		foreach($this->data as $key => $value){
@@ -54,7 +54,6 @@ class Block extends Control{
 	}
 	
 	public function write(){
-		document_set_path($this->moduleTitle, $this->moduleName);
 		document_set_path(sprintf(tt('Add %s'), $this->moduleTitle));
 		$position = cc('block_position');
 		$this->formMeta->id = 'Block';
@@ -65,7 +64,6 @@ class Block extends Control{
 	}
 	
 	public function edit(){
-		document_set_path($this->moduleTitle, $this->moduleName);
 		document_set_path(sprintf(tt('Edit %s'), $this->moduleTitle));
 		$this->id = (int)gg('id');
 		$this->selectByID($this->column);

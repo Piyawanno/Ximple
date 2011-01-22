@@ -71,7 +71,14 @@ abstract class Control extends Authority{
 	}
 	
 	public function renderTranslateForm(){
-		$this->initTranslateForm();
+		execute_set_ajax();
+		$supportedLanguage = cc('supported_language');
+		$this->formMeta->id = $this->moduleName;
+		$this->formMeta->title = sprintf(tt('Translation : %s'), $supportedLanguage[gg('language')]);
+		$this->formMeta->mode = $this->moduleName.'_translate';
+		$this->prepareTranslateForm();
+		$render = $this->translateFormRender->renderTranslateForm($this->moduleName);
+		return $render;
 	}
 	
 	public function setTranslate(){
@@ -325,6 +332,7 @@ abstract class Control extends Authority{
 	private function prepareTranslateForm(){
 		if(!$this->translateFormRender){
 			include_once('FormRender.class.inc');
+			include_once('TranslateFormRender.class.inc');
 			$this->translateFormRender = new TranslateFormRender($this->modelConnector, $this->formMeta);
 		}
 		$this->setFormMeta();

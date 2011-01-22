@@ -453,6 +453,43 @@ function delGridRow(anchor){
 	$(anchor).parent().parent().remove();
 }
 
+var translateForm;
+
+function showTranslateDialog(){
+	var translate = $('#translate_dialog');
+	translateForm = translate.html();
+	translate.dialog({
+		bgiframe : true,
+		autoOpen : false,
+		modal : true,
+		title : 'Translate-Form',
+		close : function(event, ui){$('#translate_dialog').html(translateForm);},
+	});
+	translate.dialog('open');
+}
+
+function selectTranslateLanguage(languageSelect){
+	var translate = $('#translate_dialog');
+	var language = $(languageSelect).val();
+	var uri = sectionURI+moduleName+'_translate_form';
+	uri += '/module/'+moduleName;
+	uri += '/module_id/'+modeID;
+	uri += '/language/'+language;
+	$.get(uri, function(data){
+		translate.html(data);
+	});
+	translate.html(translateForm);
+}
+
+function submitTranslateForm(form){
+	var translate = $('#translate_dialog');
+	$(form).ajaxSubmit({success : function(){
+		translate.html(translateForm);
+		translate.dialog('close');
+	}});
+	return false;
+}
+
 // Not verified
 
 function getAntikey(crypt1, crypt2, genTime){

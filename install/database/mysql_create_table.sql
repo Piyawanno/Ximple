@@ -163,9 +163,10 @@ CREATE TABLE `search_source` (
 
 CREATE TABLE `translation` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `status` int(10) unsigned NOT NULL,
   `language` varchar(250) DEFAULT NULL,
-  `mode` varchar(250) DEFAULT NULL,
-  `mode_id` int(10) unsigned NOT NULL,
+  `module` varchar(250) DEFAULT NULL,
+  `module_id` int(10) unsigned NOT NULL,
   `translation` mediumtext,
   PRIMARY KEY (`id`)
 ) CHARACTER SET utf8;

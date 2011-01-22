@@ -10,6 +10,7 @@ class Menu extends Control{
 		$this->addAction('menu_save_sort', 'saveSort');
 		$this->setAdmin('menu_admin');
 		$this->init(new MenuModel());
+		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	public function index(){
@@ -22,6 +23,7 @@ class Menu extends Control{
 	}
 	
 	public function write(){
+		document_set_path(sprintf(tt('Add %s'), $this->moduleTitle));
 		$this->formMeta->id = 'menu';
 		$this->formMeta->title = tt('Add a new Menu');
 		$this->formMeta->mode = 'menu_insert';
@@ -29,6 +31,7 @@ class Menu extends Control{
 	}
 	
 	public function edit(){
+		document_set_path(sprintf(tt('Edit %s'), $this->moduleTitle));
 		$this->id = (int)gg('id');
 		$this->selectByID($this->column);
 		$this->formMeta->id = 'menu';

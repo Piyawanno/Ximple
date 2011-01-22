@@ -191,7 +191,7 @@ class ModelConnector{
 	
 	public function hasTranslate(){
 		$model = $this->getTranslateFormColumn();
-		return count($model);
+		return (count($model) and is_array(cc('supported_language')));
 	}
 	
 	private function trigger($event){
