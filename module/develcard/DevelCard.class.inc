@@ -24,7 +24,9 @@ class DevelCard extends Control{
 	}
 	
 	public function listPage(){
-		
+		document_set_path(tt('List of DevelCard'));
+		$this->selectListPage(20, 'WHERE (section='.SECTION.')',array('type'));
+		return $this->renderDefaultListPage();
 	}
 	
 	private function setAccess(){
@@ -46,7 +48,7 @@ class DevelCard extends Control{
 	}
 	
 	private function setAction(){
-		$this->addAction('list', 'listPage');
+		$this->addAction('delvelcard_list', 'listPage');
 	}
 	
 }

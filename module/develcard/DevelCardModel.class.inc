@@ -12,7 +12,13 @@ class DevelCardModel extends Model{
 				3 => tt('3 - No-Effect'),
 			);
 			$this->priority = $this->select(tt('priority'), $priorityOption);
-			
+			$statusOption = array(
+				0 => tt('create'),
+				1 => tt('in progress'),
+				2 => tt('closed'),
+			);
+			$this->status = $this->select(tt('status'), $statusOption);
+			$this->resolver = $this->user(tt('resolver'));
 		}else{
 			$this->deadline = $this->now();
 			$this->deadline->defaultData = 'now + 7';
@@ -26,11 +32,8 @@ class DevelCardModel extends Model{
 			3 => tt('document'),
 		);		
 		$this->type = $this->select(tt('type'), $typeOption);
-		
-		
 		$this->description = $this->shortText(tt('description'));
 		$this->description->isReachable = true;
-		$this->resolver = $this->user(tt('resolver'));
 		$this->section = $this->section();
 	}
 }
