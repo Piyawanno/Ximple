@@ -27,12 +27,13 @@ function translate_get_all($module, $module_id, $language){
 }
 
 function translate_get($clause){
-	$column = array('id', 'translation');
+	$column = array('id', 'translation', 'status');
 	$data = db_select('translation', $column, $clause);
 	if(count($data)){
 		$data = array_values($data);
 		$translation = unserialize($data[0]['translation']);
-		$translation['id'] = $data[0]['translation'];
+		$translation['id'] = $data[0]['id'];
+		$translation['status'] = $data[0]['status'];
 		return $translation;
 	}else{
 		return array();

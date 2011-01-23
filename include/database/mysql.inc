@@ -154,6 +154,7 @@ function db_update_many($table, $data, $where){
 	}
 	$value_set = substr($value_set,0, -2);
 	$query = 'UPDATE '.$table.' SET '.$value_set.' WHERE '.$where;
+	echo($query);
 	db_modify($table, $query);
 }
 

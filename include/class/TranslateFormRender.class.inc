@@ -33,8 +33,10 @@ class TranslateFormRender extends FormRender{
 			0 => tt('draft'),
 			1 => tt('published'),
 		);
+		$status = Model::select(tt('status'), $statusOption);
+		$status->data = $this->translateData['status'];
 		$model = array(
-			'status' => Model::select(tt('status'), $statusOption),
+			'status' => $status,
 			'language' => Model::hidden(gg('language')),
 			'module' => Model::hidden(MODULE),
 			'module_id' => Model::hidden(gg('module_id')),
