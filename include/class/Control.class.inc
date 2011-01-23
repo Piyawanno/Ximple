@@ -77,12 +77,15 @@ abstract class Control extends Authority{
 		$this->formMeta->title = sprintf(tt('Translation : %s'), $supportedLanguage[gg('language')]);
 		$this->formMeta->mode = $this->moduleName.'_translate';
 		$this->prepareTranslateForm();
-		$render = $this->translateFormRender->renderTranslateForm($this->moduleName);
+		$translation = translate_get_all($this->moduleName, gg('module_id'), gg('language'));
+		$render = $this->translateFormRender->renderTranslateForm($translation);
 		return $render;
 	}
 	
 	public function setTranslate(){
-	
+		execute_set_ajax();
+		translate_set(pp());
+		return tt('Your form has been successfully translated.');
 	}
 	
 	public function insert(){

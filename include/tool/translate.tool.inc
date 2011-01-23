@@ -16,11 +16,21 @@ function translate_get_language(){
 	return $language;
 }
 
-function translate_get($module, $module_id, $language){
+function translate_get_published($module, $module_id, $language){
+	$clause = "WHERE module='$module' AND module_id='$module_id' AND status=1 AND language='$language'";
+	return translate_get($clause);
+}
+
+function translate_get_all($module, $module_id, $language){
+	$clause = "WHERE module='$module' AND module_id='$module_id' AND language='$language'";
+	return translate_get($clause);
+}
+
+function translate_get($clause){
 	$column = array('id', 'translation');
-	$clause = "WHERE modeule='$module' AND module_id='$module_id' AND status=1 AND language='$language'";
 	$data = db_select('translation', $column, $clause);
 	if(count($data)){
+		$data = array_values($data);
 		$translation = unserialize($data[0]['translation']);
 		$translation['id'] = $data[0]['translation'];
 		return $translation;
@@ -30,10 +40,17 @@ function translate_get($module, $module_id, $language){
 }
 
 function translate_set($translation){
+	$data = array(
+		'status' => $translation['status'],
+		'module' => $translation['module'],
+		'module_id' => $translation['module_id'],
+		'language' => $translation['language'],
+		'translation' => serialize($translation),
+	);
 	if(isset($translation['id'])){
-	
+		db_update('translation', $data, $translation['id']);
 	}else{
-	
+		db_insert('translation', $data);
 	}
 }
 

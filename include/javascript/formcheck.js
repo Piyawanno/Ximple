@@ -472,7 +472,6 @@ function selectTranslateLanguage(languageSelect){
 	var translate = $('#translate_dialog');
 	var language = $(languageSelect).val();
 	var uri = sectionURI+moduleName+'_translate_form';
-	uri += '/module/'+moduleName;
 	uri += '/module_id/'+modeID;
 	uri += '/language/'+language;
 	$.get(uri, function(data){
