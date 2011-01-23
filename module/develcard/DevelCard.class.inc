@@ -24,9 +24,23 @@ class DevelCard extends Control{
 	}
 	
 	public function listPage(){
-		document_set_path(tt('List of DevelCard'));
-		$this->selectListPage(20, 'WHERE (section='.SECTION.')',array('type'));
-		return $this->renderDefaultListPage();
+//		document_set_path(tt('List of DevelCard'));
+		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
+		$this->listMeta->defaultOrder = 'priority';
+		if(mid()) $mode = mm().'/'.mid();
+		else $mode = mm();
+		$this->listMeta->mode = $mode;
+		$this->setListWriteIcon(tt('Add new card'));
+		$this->setListEditIcon();
+		$this->setListDropIcon();
+		//$this->selectFile();
+		//$this->renderFileDescription();
+
+//		$this->listMeta->mode = 'develcard_list';
+//		echo("bar");
+//	print_r($this->listMeta);
+		$this->selectListPage(20, 'WHERE (section='.SECTION.')');
+		return $this->renderListPage();
 	}
 	
 	private function setAccess(){

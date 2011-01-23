@@ -69,6 +69,7 @@ function db_select($table, $columns, $clause=null, $cachable=true){
 	}
 	if($cachable) cache_save_db($table, $query, $data);
 	db_increase_query($table);
+	echo($query."<br />");
 	return $data;
 }
 
