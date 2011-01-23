@@ -17,16 +17,19 @@ function module_init_develcard(){
 	
 	module_add_panel('DevelCard', 'develcard_admin', 'develcard_config', 'configure DevelCard');
 	module_add_panel('DevelCard', 'develcard_admin', 'develcard', 'DevelCard report');
-	module_add_panel('DevelCard', 'develcard_admin', 'develcard_list', 'list DevelCard');
+	module_add_panel('DevelCard', 'develcard_admin', 'develcard_list', 'list All DevelCard');
+	module_add_panel('DevelCard', 'develcard_admin', 'develcard_mylist', 'list My DevelCard');
 	module_add_panel('DevelCard', 'develcard_admin', 'category/module/develcard', 'DevelCard category');
 	module_add_panel('DevelCard', 'develcard_admin', 'develcard_write', 'submit new DevelCard');
 	
 	module_add_panel('DevelCard', 'develcard_moderator', 'develcard', 'DevelCard report');
-	module_add_panel('DevelCard', 'develcard_moderator', 'develcard_list', 'list DevelCard');
+	module_add_panel('DevelCard', 'develcard_moderator', 'develcard_list', 'list All DevelCard');
+	module_add_panel('DevelCard', 'develcard_moderator', 'develcard_mylist', 'list My DevelCard');
 	module_add_panel('DevelCard', 'develcard_moderator', 'develcard_write', 'submit new DevelCard');
 	
 	module_add_panel('DevelCard', 'develcard_reporter', 'develcard', 'DevelCard report');
 	module_add_panel('DevelCard', 'develcard_reporter', 'develcard_write', 'submit new DevelCard');
+	module_add_panel('DevelCard', 'develcard_reporter', 'develcard_mylist', 'list My DevelCard');
 }
 
 function module_drop_develcard(){
