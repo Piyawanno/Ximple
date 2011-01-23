@@ -44,7 +44,7 @@
 	<div id="translate_dialog" style="display:none;text-align:left;" class="form">
 		<p><label><?=tt('Select language')?></label></p>
 		<select onchange="selectTranslateLanguage(this)">
-			<option></option>
+			<option><?=tt('Please, select language')?></option>
 			<?php foreach(cc('supported_language') as $key => $value):?>
 				<option value="<?=$key?>"><?=$value?></option>
 			<?php endforeach?>
