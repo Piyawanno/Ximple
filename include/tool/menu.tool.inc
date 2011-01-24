@@ -16,6 +16,7 @@ function menu_render(){
 		}
 	}
 	$data = menu_check_module($data);
+	$data = menu_translate($data);
 	return render(array('data' => $data), 'menu.tpl', 'menu');
 }
 
@@ -79,4 +80,11 @@ function menu_drop($mode){
 	db_drop_many('menu', "uri='".addslashes((string)$mode)."'");
 }
 
+function menu_translate($data){
+	$translated = array();
+	foreach($data as $key => $value){
+		$translated[$key] = translate_content($value, 'menu', $value['id']);
+	}
+	return $translated;
+}
 ?>

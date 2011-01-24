@@ -1,30 +1,22 @@
 <?php
 
-include_once('Authority.class.inc');
+include_once('Translatable.class.inc');
 include_once('Model.class.inc');
 include_once('ModelFactory.class.inc');
 include_once('ModelConnector.class.inc');
 include_once('FormMetaData.class.inc');
 include_once('ListPageMetaData.class.inc');
 
-abstract class Control extends Authority{
+abstract class Control extends Translatable{
 	private $formRender;
-	private $translateFormRender;
-	private $configForm = array();
 	private $prepareMethodMap = array();
 	private $tableCreator;
 	private $listPage;
 	
 	
-	protected $modelConnector;
 	protected $data;
 	protected $dataByID;
-	
-	protected $formMeta;
 	protected $listMeta;
-	
-	protected $moduleTitle;
-	protected $moduleName;
 	protected $tableName;
 	
 	protected $ownerColumn;
@@ -68,24 +60,6 @@ abstract class Control extends Authority{
 		$render = $this->renderUpdateForm();
 		document_set_path($this->formMeta->title);
 		return $render;
-	}
-	
-	public function renderTranslateForm(){
-		execute_set_ajax();
-		$supportedLanguage = cc('supported_language');
-		$this->formMeta->id = $this->moduleName;
-		$this->formMeta->title = sprintf(tt('Translation : %s'), $supportedLanguage[gg('language')]);
-		$this->formMeta->mode = $this->moduleName.'_translate';
-		$this->prepareTranslateForm();
-		$translation = translate_get_all($this->moduleName, gg('module_id'), gg('language'));
-		$render = $this->translateFormRender->renderTranslateForm($translation);
-		return $render;
-	}
-	
-	public function setTranslate(){
-		execute_set_ajax();
-		translate_set(pp());
-		return tt('Your form has been successfully translated.');
 	}
 	
 	public function insert(){
@@ -200,8 +174,6 @@ abstract class Control extends Authority{
 		$this->addAction($this->moduleName.'_insert', 'insert');
 		$this->addAction($this->moduleName.'_update', 'update');
 		$this->addAction($this->moduleName.'_drop', 'drop');
-		$this->addAction($this->moduleName.'_translate_form', 'renderTranslateForm');
-		$this->addAction($this->moduleName.'_translate', 'setTranslate');
 		$this->addAction($this->moduleName.'_print', 'printPage');
 		
 		$this->prepareMethodMap['edit'] = 'prepareModifyDB';
@@ -329,19 +301,6 @@ abstract class Control extends Authority{
 			include_once('FormRender.class.inc');
 			$this->formRender = new FormRender($this->modelConnector, $this->formMeta);
 		}
-		$this->setFormMeta();
-	}
-	
-	private function prepareTranslateForm(){
-		if(!$this->translateFormRender){
-			include_once('FormRender.class.inc');
-			include_once('TranslateFormRender.class.inc');
-			$this->translateFormRender = new TranslateFormRender($this->modelConnector, $this->formMeta);
-		}
-		$this->setFormMeta();
-	}
-	
-	private function setFormMeta(){
 		$this->formMeta->configForm = $this->configForm;
 		if($this->formMeta->isSetTitle){
 			document_set_title($this->formMeta->title);

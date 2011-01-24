@@ -44,6 +44,9 @@ class Blog extends Content{
 		$this->getCommentNumber();
 		$this->getDataEditable();
 		$this->setPathMutiplePage();
+		foreach($this->data as $key => $value){
+			$this->data[$key] = translate_content($value, 'blog', $value['id']);
+		}
 		$renderArray = array(
 			'data' => $this->data,
 			'show_category' => in_array('category_icon', cc('blog_appearance')),
@@ -70,6 +73,7 @@ class Blog extends Content{
 		$this->addMetaData();
 		$this->getAppearanceConfiguration();
 		$this->dataByID['editable'] = $this->isEditable($this->dataByID['writer']['id']);
+		$this->dataByID = translate_content($this->dataByID, 'blog', $this->id);
 	}
 	
 	private function getSibling(){

@@ -3,7 +3,7 @@
 execute_add_function('sysblock_login');
 execute_add_function('sysblock_panel');
 execute_add_function('sysblock_execute_info');
-
+execute_add_function('sysblock_translate');
 execute_add_function('sysblock_navigation');
 execute_add_function('sysblock_navigation_config');
 execute_add_function('sysblock_navigation_save');
@@ -40,6 +40,15 @@ function sysblock_navigation(){
 		$navigation_enabled[$key] = $navigation[$key];
 	}
 	return render(array('data' => $navigation_enabled), 'navigation.tpl', 'navigation');
+}
+
+function sysblock_translate(){
+	$render_array = array();
+	$render_array['language'] = cc('supported_language');
+	if(!is_array($render_array['language'])){
+		$render_array['language'] = array();
+	}
+	return render($render_array, 'translateblock.tpl', 'translateblock');
 }
 
 function sysblock_navigation_config(){

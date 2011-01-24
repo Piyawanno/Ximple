@@ -64,6 +64,23 @@ function render_find_tpl($tpl){
 	return null;
 }
 
+function render_tag($category, $freetag, $mode){
+	$render = '';
+	if(isset($category['category']) and isset($category['reference'])){
+		$reference = $category['reference'];
+		$label = $category['category'];
+		$render .= '<a href="'.SECTION_URI.Q.$mode.'/tag/'.$reference.'/tag_label/'.$label.'">'.$label.'</a>';
+	}else{
+		$label = null;
+	}
+	foreach($freetag as $key => $value){
+		if($value != $label){
+			$render .= '<a href="'.SECTION_URI.Q.$mode.'/tag/'.$value.'">'.$value.'</a>';
+		}
+	}
+	return $render;
+}
+
 function render_icon($mode, $icon, $title){
 	return '
 	<a href="'.SECTION_URI.Q.$mode.'" class="write_icon">

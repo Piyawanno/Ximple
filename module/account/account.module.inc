@@ -45,7 +45,7 @@ function account_render_form(){
 		2 => tt('Normal text editor with markdown syntax'),
 	);
 	
-	$language = MOdel::select(tt('default language for my user interface'), translate_get_language());
+	$language = MOdel::select(tt('default language for my user interface'), translate_get_interface_language());
 	$language->data = uu('language');
 	$profile = Model::radio(tt('who can see my profile'), $permission_select);
 	$profile->data = uu('profile_permission');

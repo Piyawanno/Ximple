@@ -2,10 +2,13 @@
 
 function block_render(){
 	$data = block_get_data();
-	if(count($data) == 0) $data = block_init_default();
+	if(count($data) == 0){
+		$data = block_init_default();
+	}
 	$render = array();
 	$block_tpl = cc('block_tpl');
 	foreach($data as $key => $value){
+		$value = translate_content($value, 'block', $value['id']);
 		$pos = $value['position'];
 		$item = block_render_item($value, 'block_'.$pos.'.tpl');
 		if($item) $render[$pos][] = $item;
@@ -23,6 +26,7 @@ function block_init_default(){
 	block_add(tt('Navigation'), 'sysblock_navigation', $position, 'sysblock_navigation_config', 'sysblock_navigation_save', 0);
 	block_add(tt('Control Panel'), 'sysblock_panel', $position, 999);
 	block_add(tt('Login'), 'sysblock_login', $position, 1000);
+	block_add(tt('Language Selection'), 'sysblock_translate', 'foot');
 	block_add(tt('Execution Info'), 'sysblock_execute_info', 'foot');
 	return block_get_data();
 }

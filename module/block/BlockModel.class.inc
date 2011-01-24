@@ -2,6 +2,7 @@
 class BlockModel extends Model{
 	function BlockModel(){
 		$this->title = $this->title(tt('title'));
+		$this->title->enableTranslate();
 		$this->config_form_mode = $this->hidden();
 		$this->config_save_mode = $this->hidden();
 		$this->call_mode = $this->hidden();
@@ -22,6 +23,7 @@ class BlockModel extends Model{
 		$this->appear_group->help = tt('Check guest to allow Block appeared for everybody.');
 		
 		$this->body = $this->shorttext(tt('custom text'));
+		$this->body->enableTranslate();
 		$this->section = $this->section();
 	}
 }

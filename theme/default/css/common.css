@@ -184,3 +184,10 @@ ins{
 	margin-right:5px;
 	margin-left:5px;
 }
+
+/* ========= Translate Block ========= */
+.translate_block a{
+	margin-left:25px;
+	font-weight:bold;
+	text-decoration:underline;
+}

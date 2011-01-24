@@ -19,6 +19,7 @@ class About extends ConfigControl{
 		$this->getConfig();
 		$this->data['is_admin'] = authority_group('config_admin');
 		document_set_path($this->data['title']);
+		$this->data = translate_content($this->data, 'about', SECTION);
 		return render($this->data, 'about.tpl', 'about');
 	}
 	
@@ -59,7 +60,9 @@ class About extends ConfigControl{
 class AboutModel extends Model{
 	function AboutModel(){
 		$this->title = $this->title(tt('heading'));
+		$this->title->enableTranslate();
 		$this->body = $this->text(tt('text'));
+		$this->body->enableTranslate();
 	}
 }
 ?>

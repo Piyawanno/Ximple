@@ -165,7 +165,8 @@ function main_handle_drop(){
 
 function main_render_db(){
 	$redirect = document_get_redirect();
-	if(substr($redirect, 0, 1) == '?') $redirect = SECTION_URI.$redirect;
+	if(document_get_redirect_back()) $redirect = vv('HTTP_REFERER');
+	elseif(substr($redirect, 0, 1) == '?') $redirect = SECTION_URI.$redirect;
 	elseif(strlen($redirect)) $redirect = SECTION_URI.Q.$redirect;
 	else $redirect = SECTION_URI;
 	$confirm = SMART_URI ? '/confirm/true' : '&confirm=true';

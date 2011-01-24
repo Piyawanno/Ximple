@@ -31,7 +31,7 @@ function checkCaptcha(captchaKey){
 	})
 }
 
-$(document).ready(function (){
+function initCLEditor(){
 	$(".text").cleditor({
     	height		:	'400px',
     	width		:	'100%',
@@ -52,7 +52,10 @@ $(document).ready(function (){
     	width		:	'100%',
     	controls	:	"bold advancedimage italic underline strikethrough bullets numbering quote link unlink icon paste pastetext code source"
     });
-    
+}
+
+$(document).ready(function (){
+	initCLEditor();    
 	initDelGrid();
 	$(".plaintext_container").resizable({
 		minHeight: 120,
@@ -463,6 +466,7 @@ function showTranslateDialog(){
 		autoOpen : false,
 		modal : true,
 		title : 'Translate-Form',
+		width : 520,
 		close : function(event, ui){$('#translate_dialog').html(translateForm);},
 	});
 	translate.dialog('open');
@@ -476,6 +480,7 @@ function selectTranslateLanguage(languageSelect){
 	uri += '/language/'+language;
 	$.get(uri, function(data){
 		translate.html(data);
+		initCLEditor();
 	});
 	translate.html(translateForm);
 }

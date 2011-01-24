@@ -52,7 +52,6 @@ abstract class Content extends Control{
 		$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2 AND publish_time <= '.date('Y-m-d').')';
 		$title = sprintf(tt('List of %s entries'), $this->moduleTitle);
 		document_set_path($title);
-		document_set_title($title);
 		$this->listMeta->mode = $this->moduleName.'_list';
 		return $this->renderListPage($clause);
 	}
@@ -68,7 +67,6 @@ abstract class Content extends Control{
 	public function contributorListPage(){
 		$title = sprintf(tt('List of %s entries for Contributor'), $this->moduleTitle);
 		document_set_path($title);
-		document_set_title($title);
 		$p = tt('You as Editor can use this page to access the entries of %s in Section.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
 		$this->listMeta->mode = $this->moduleName.'_contributor_list';
@@ -79,7 +77,6 @@ abstract class Content extends Control{
 		$this->modelConnector->setAttribute('writer', 'isList', true);
 		$title = sprintf(tt('List of %s entries for Editor'), $this->moduleTitle);
 		document_set_path($title);
-		document_set_title($title);
 		$p = tt('In the following list, your own entries of %s are shown. You can use this page to access them.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
 		$this->listMeta->mode = $this->moduleName.'_editor_list';
@@ -179,7 +176,11 @@ abstract class Content extends Control{
 	
 	protected function setPathMutiplePage(){
 		if(strlen(gg('tag'))){
-			document_set_path(gg('tag'), $this->moduleName.'/tag/'.gg('tag'));
+			if(gg('tag_label')){
+				document_set_path(gg('tag_label'), $this->moduleName.'/tag/'.gg('tag'));
+			}else{
+				document_set_path(gg('tag'), $this->moduleName.'/tag/'.gg('tag'));
+			}
 		}elseif(strlen(gg('year'))){
 			$archievTime = date('F Y', strtotime('01-'.gg('month').'-20'.gg('year')));
 			document_set_path(tt('Archieve'), $this->moduleName.'_archiev');
@@ -276,7 +277,8 @@ abstract class Content extends Control{
 	
 	protected function setDocumentData(){
 		$category = $this->dataByID['category']['category'];
-		document_set_path($category, $this->moduleName.'/tag/'.$category);
+		$reference = $this->dataByID['category']['reference'];
+		document_set_path($category, $this->moduleName.'/tag/'.$reference.'/tag_label/'.$category);
 		document_set_path($this->dataByID['topic']);
 	}
 	

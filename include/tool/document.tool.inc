@@ -9,7 +9,7 @@
 
 global $document_title, $document_description;
 global $document_keywords, $document_redirect;
-global $document_form, $document_path;
+global $document_is_back, $document_form, $document_path;
 global $document_lock_set_path;
 
 $document_lock_set_path = false;
@@ -66,6 +66,16 @@ function document_set_redirect($redirect){
 function document_get_redirect(){
 	global $document_redirect;
 	return $document_redirect;
+}
+
+function document_set_redirect_back(){
+	global $document_is_back;
+	$document_is_back = true;
+}
+
+function document_get_redirect_back(){
+	global $document_is_back;
+	return $document_is_back;
 }
 
 function document_init_form(){

@@ -11,7 +11,7 @@ function execute($mode, $arg=null){
 	$module = execute_get_module($mode);
 	execute_get_requirement($module);
 	if(!execute_is_callable($mode)) error_denied();
-	if(function_exists($mode) and in_array($mode, $execute_callable)){	
+	if(function_exists($mode) and in_array($mode, $execute_callable)){
 		return $mode($arg);
 	}else{
 		return execute_oop($mode, $module);

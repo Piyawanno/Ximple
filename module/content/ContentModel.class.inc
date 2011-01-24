@@ -11,6 +11,7 @@ class ContentModel extends Model{
 		
 		$this->topic = $this->title(tt('topic'));
 		$this->topic->listMode = $moduleName;
+		$this->topic->enableTranslate();
 		$this->writer = $this->owner();
 		$this->writer->label = tt('writer');
 		$this->write_time = $this->now();
@@ -20,6 +21,7 @@ class ContentModel extends Model{
 		$this->comment_time = $this->hidden('00-00-00', 'char');
 		$this->content = $this->text(tt('content'));
 		$this->content->isReachable = true;
+		$this->content->enableTranslate();
 		$this->comment_permission = new ContentStatusColumn(tt('comment permission'), 'comment_permission', $moduleName);
 		$this->publishing_status = new ContentStatusColumn(tt('status'), 'publishing_status', $moduleName);
 		$this->publishing_status->isList = true;
