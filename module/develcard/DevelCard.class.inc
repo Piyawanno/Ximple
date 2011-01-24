@@ -25,8 +25,42 @@ class DevelCard extends Control{
 	
 	public function listPage(){
 		document_set_path(tt('List of DevelCard'));
-		$this->selectListPage(20, 'WHERE (section='.SECTION.')',array('type'));
-		return $this->renderDefaultListPage();
+		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
+		$this->listMeta->defaultOrder = 'priority';
+		if(mid()) $mode = mm().'/'.mid();
+		else $mode = mm();
+		$this->listMeta->mode = $mode;
+		$this->setListWriteIcon(tt('Add new card'));
+		$this->setListEditIcon();
+		$this->setListDropIcon();
+		$this->selectListPage(20, 'WHERE (section='.SECTION.')');
+		return $this->renderListPage();
+	}
+	
+	public function listMyPage(){
+		document_set_path(tt('List of My DevelCard'));
+		$this->listMeta->title = sprintf(tt('List of My %s'), $this->moduleTitle);
+		$this->listMeta->defaultOrder = 'createdate';
+		if(mid()) $mode = mm().'/'.mid();
+		else $mode = mm();
+		$this->listMeta->mode = $mode;
+		$this->setListWriteIcon(tt('Add new card'));
+		$this->modelConnector->setAttribute('priority', 'isList', false);
+		$this->modelConnector->setAttribute('deadline', 'isList', false);
+		$this->selectListPage(20, 'WHERE (owner='.OWNER.')');
+		return $this->renderListPage();
+	}
+	
+	public function display(){
+		document_set_path(tt('Display'));
+		$this->id = MODE_ID;
+		$this->selectByID($this->column);
+		head_add_css('list.css');
+		$renderArray = array(
+			'data' => $this->data[$this->id],
+		);
+		$render = render($renderArray, 'develcarddisplay.tpl', 'develcarddisplay');
+		return $render;
 	}
 	
 	private function setAccess(){
@@ -43,12 +77,16 @@ class DevelCard extends Control{
 			$this->addAccessMethod('develcard_reporter', 'index');
 			$this->addAccessMethod('develcard_reporter', 'write');
 			$this->addAccessMethod('develcard_reporter', 'insert');
+			$this->addAccessMethod('develcard_reporter', 'listMyPage');
 		}
 		$this->addAccessMethod('develcard_moderator', 'listPage');
+		$this->addAccessMethod('develcard_moderator', 'listMyPage');
 	}
 	
 	private function setAction(){
-		$this->addAction('delvelcard_list', 'listPage');
+//		$this->addAction('develcard_list', 'listPage');
+		$this->addAction('develcard_mylist', 'listMyPage');
+		$this->addAction('develcard_display', 'display');
 	}
 	
 }
