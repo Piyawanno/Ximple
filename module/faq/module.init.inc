@@ -9,6 +9,8 @@ function module_get_info_faq(){
 function module_init_faq(){
 	include_once('FAQ.class.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	if(!is_dir('files/faq/')) mkdir('files/faq/');
+	
 	$faq = new FAQ();
 	$faq->initModule('FAQ.class.inc');
 	module_add_role('faq_admin', 'FAQ Administrator', 'Who can configure, edit and drop Faq');
