@@ -47,6 +47,7 @@ function db_select($table, $columns, $clause=null, $cachable=true){
 	global $db_connect;
 	$table = DB_TABLE_PREFIX.$table;
 	$query = 'SELECT '.join(', ', $columns).' FROM '.$table.' '.$clause.';';
+	echo($query.'<br />');
 	if($cachable){
 		$cache_file = cache_get_db_file($table, $query);
 		if(cache_check_db($cache_file)){

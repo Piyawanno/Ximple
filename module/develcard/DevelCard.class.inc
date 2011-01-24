@@ -51,7 +51,7 @@ class DevelCard extends Control{
 		$this->setListWriteIcon(tt('Add new Develcard'));
 		$this->modelConnector->setAttribute('priority', 'isList', false);
 		$this->modelConnector->setAttribute('deadline', 'isList', false);
-		$this->selectListPage(20, 'WHERE (owner='.OWNER.')');
+		$this->selectListPage(20, 'WHERE (owner='.USER_ID.')');
 		return $this->renderListPage();
 	}
 	
@@ -69,6 +69,11 @@ class DevelCard extends Control{
 		else
 			$render = render($renderArray, 'develcarddisplay_reporter.tpl', 'develcarddisplay');
 		return $render;
+	}
+	
+	public function insert(){
+		Control::insert();
+		document_set_redirect('develcard_display/'.$this->id);
 	}
 	
 	private function setAccess(){

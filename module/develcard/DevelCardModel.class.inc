@@ -5,8 +5,12 @@ class DevelCardModel extends Model{
 		$this->topic->listMode = 'develcard_display';
 		$this->owner = $this->owner();
 		$this->createdate = $this->now();
+		$this->createdate->label = tt('created');
+		$this->createdate->dateFormat = 'd/m/y';
 		$this->createdate->isList = true;
 		$this->createdate->isReachable = true;
+		$this->deadline->defaultData = date('Y-m-d H:i:s', time()+60*60*24*7);
+		$this->deadline->data = date('Y-m-d H:i:s', time()+60*60*24*7);
 		
 		$typeOption = array(
 			0 => tt('bug'),
@@ -31,6 +35,7 @@ class DevelCardModel extends Model{
 		if(authority_group('develcard_moderator') or authority_group('develcard_admin')){
 			$this->deadline = $this->calendar(tt('deadline'));
 			$this->deadline->isList = true;
+			$this->deadline = $this->now();
 			$this->priority = $this->select(tt('priority'), $priorityOption);
 			$this->priority->isList = true;
 			$this->priority->isReachable = true;
@@ -40,8 +45,8 @@ class DevelCardModel extends Model{
 		}else{
 			$this->status->defaultData = 0;
 			$this->deadline = $this->now();
-			$this->deadline->defaultData = 'now + 7';
-			$this->deadline->data = 'now + 7';
+			$this->deadline->defaultData = time()+60*60*24*7;
+			$this->deadline->data = time()+60*60*24*7;
 			$this->priority = $this->hidden(2, 'int');
 		}
 		$this->type = $this->select(tt('type'), $typeOption);
