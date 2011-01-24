@@ -16,17 +16,19 @@ class FAQ extends Control{
 	}
 	
 	function index(){
+		head_add_css('faq.css');
 		$clause = 'WHERE section='.SECTION." AND mode='faq'";
 		$category = db_select_single_column('category', 'category', $clause);
 #		$category = db_select('category', array('id', 'category'), $clause);
 #		$this->select($this->column, $clause); # select all coulmn
 #		print_r($category);
-		$selected_category = gg('selected_category');
-		$select_clause = 'WHERE section='.SECTION." AND category='$selected_category'";
-		$this->select(array('id', 'question', 'answer'), $select_clause);
+		$selectedCategory = gg('selected_category');
+		$selectClause = 'WHERE section='.SECTION." AND status='1'";
+		if (!empty($selectedCategory)) $selectClause = $selectClause." AND category='$selectedCategory'";
+		$this->select(array('id', 'question', 'answer'), $selectClause);
 		$renderArray = array(
 			'category' => $category,
-			'selected_category' => $selected_category,
+			'selected_category' => $selectedCategory,
 			'faq_data' => $this->data
 		);
 		$page = render($renderArray, 'faqdisplay.tpl', 'show_faq');
@@ -56,7 +58,12 @@ class FAQ extends Control{
 	}
 	
 	private function setAccess(){
+		$this->addAccessMethod('guest', 'index');
 		$this->addAccessMethod('faq_moderator', 'write');
+		$this->addAccessMethod('faq_moderator', 'insert');
+		$this->addAccessMethod('faq_moderator', 'edit');
+		$this->addAccessMethod('faq_moderator', 'update');
+		$this->addAccessMethod('faq_moderator', 'drop');
 		$this->addAccessMethod('faq_moderator', 'listPage');
 	}
 	
