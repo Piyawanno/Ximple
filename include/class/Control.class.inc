@@ -175,6 +175,8 @@ abstract class Control extends Translatable{
 		$this->addAction($this->moduleName.'_update', 'update');
 		$this->addAction($this->moduleName.'_drop', 'drop');
 		$this->addAction($this->moduleName.'_print', 'printPage');
+		$this->addAction($this->moduleName.'_translate_form', 'renderTranslateForm');
+		$this->addAction($this->moduleName.'_translate', 'setTranslate');
 		
 		$this->prepareMethodMap['edit'] = 'prepareModifyDB';
 		$this->prepareMethodMap['update'] = 'prepareModifyDB';

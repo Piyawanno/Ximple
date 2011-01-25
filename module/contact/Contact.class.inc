@@ -22,6 +22,7 @@ class Contact extends Control{
 			return $this->renderContactForm();
 		}else{
 			$this->selectListPage(20, 'WHERE (section='.SECTION.')');
+			$this->translateData();
 			return $this->renderDefaultListPage();
 		}
 	}
@@ -30,6 +31,7 @@ class Contact extends Control{
 		include_once(ROOT_PATH.'include/tool/mail.tool.inc');
 		$this->id = (int)pp('id');
 		$this->selectByID($this->column);
+		$this->translateDataByID();
 		$this->uploadAttachment();
 		if(authority(array(), $this->dataByID['permission'])){
 			$this->sendReply();
@@ -63,6 +65,7 @@ class Contact extends Control{
 		include('ContactForm.class.inc');
 		$this->id = mid();
 		$this->selectByID($this->column);
+		$this->translateDataByID();
 		if(authority(array(), $this->dataByID['permission'])){
 			$form = new ContactForm($this->id, $this->dataByID['name'], $this->dataByID['enable_attachment']);
 			return $form->render($this->dataByID['description']);

@@ -28,6 +28,16 @@ abstract class Translatable extends Authority{
 		return tt('Your form has been successfully translated.');
 	}
 	
+	protected function translateData(){
+		foreach($this->data as $key => $value){
+			$this->data[$key] = translate_content($value, $this->moduleName, $value['id']);
+		}
+	}
+	
+	protected function translateDataByID(){
+		$this->dataByID = translate_content($this->dataByID, $this->moduleName, $this->id);
+	}
+	
 	private function prepareTranslateForm(){
 		if(!$this->translateFormRender){
 			include_once('FormRender.class.inc');
