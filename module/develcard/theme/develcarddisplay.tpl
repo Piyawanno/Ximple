@@ -27,5 +27,6 @@
 			<td><?=$data['description']?></td>
 		</tr>
 	</table>
-	<a href="<?=SECTION_URI.Q?>develcard_edit/<?=$data['id']?>"><?=tt('edit')?><a/>
+	<a href="<?=SECTION_URI.Q?>develcard_edit/<?=$data['id']?>"><?=tt('edit')?><a/> | 
+	<a href="<?=SECTION_URI.Q?>develcard_drop/<?=$data['id']?>"><?=tt('delete')?><a/>
 </div>

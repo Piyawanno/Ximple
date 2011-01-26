@@ -19,7 +19,11 @@ class DevelCard extends Control{
 		$renderArray = array(
 			'name' => 'value',
 		);
-		$page = render($renderArray, 'develcardreport.tpl', 'develcardreport');
+		if(authority_group('develcard_moderator') or authority_group('develcard_admin')){
+			$page = render($renderArray, 'develcardreport.tpl', 'develcardreport');
+		}else{
+			$page = render($renderArray, 'develcardreport_reporter.tpl', 'develcardreport');
+		}
 		return $page;
 	}
 	
@@ -30,7 +34,7 @@ class DevelCard extends Control{
 		if(mid()) $mode = mm().'/'.mid();
 		else $mode = mm();
 		$this->listMeta->mode = $mode;
-		$this->setListWriteIcon(tt('Add new card'));
+		$this->setListWriteIcon(tt('Add new Develcard'));
 		$this->setListEditIcon();
 		$this->setListDropIcon();
 		$this->selectListPage(20, 'WHERE (section='.SECTION.')');
@@ -44,7 +48,7 @@ class DevelCard extends Control{
 		if(mid()) $mode = mm().'/'.mid();
 		else $mode = mm();
 		$this->listMeta->mode = $mode;
-		$this->setListWriteIcon(tt('Add new card'));
+		$this->setListWriteIcon(tt('Add new Develcard'));
 		$this->modelConnector->setAttribute('priority', 'isList', false);
 		$this->modelConnector->setAttribute('deadline', 'isList', false);
 		$this->selectListPage(20, 'WHERE (owner='.OWNER.')');
@@ -59,7 +63,11 @@ class DevelCard extends Control{
 		$renderArray = array(
 			'data' => $this->data[$this->id],
 		);
-		$render = render($renderArray, 'develcarddisplay.tpl', 'develcarddisplay');
+		echo('display function');
+		if(authority_group('develcard_moderator') or authority_group('develcard_admin'))
+			$render = render($renderArray, 'develcarddisplay.tpl', 'develcarddisplay');
+		else
+			$render = render($renderArray, 'develcarddisplay_reporter.tpl', 'develcarddisplay');
 		return $render;
 	}
 	

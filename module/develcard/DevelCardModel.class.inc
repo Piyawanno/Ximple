@@ -37,7 +37,6 @@ class DevelCardModel extends Model{
 			$this->status = $this->select(tt('status'), $statusOption);
 			$this->resolver = $this->user(tt('resolver'));
 			$this->type = $this->select(tt('type'), $typeOption);
-//			echo("foo");
 		}else{
 			$this->status->defaultData = 0;
 			$this->deadline = $this->now();
