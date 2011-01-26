@@ -10,6 +10,7 @@ function flashblock(){
 		$data = $data[gg('id')];
 		$clause = $data['clause'].' LIMIT '.$data['item_number'];
 		$item = db_select_single_column($data['table_name'], $data['column_name'], $clause);
+		$item = flashblock_translate($data['mode'], $data['column_name'], $item);
 		$render_array = array(
 			'mode' => $data['mode'],
 			'item' => $item,
@@ -61,6 +62,19 @@ function flashblock_config($arg){
 
 function flashblock_save($arg){
 	db_update('flashblock', array('item_number' => pp('flashblock_item_number')), $arg['id']);
+}
+
+function flashblock_translate($mode, $column_name, $data){
+	$splitted = explode('_', $mode);
+	foreach($data as $key => $value){
+		$content_array = array(
+			'id' => $key,
+			$column_name => $value
+		);
+		$translated = translate_content($content_array, $splitted[0], $key);
+		$data[$key] = $translated[$column_name];
+	}
+	return $data;
 }
 
 ?>
