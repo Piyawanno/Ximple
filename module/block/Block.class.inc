@@ -72,6 +72,7 @@ class Block extends Control{
 		$this->formMeta->mode = 'block_update';
 		$configMode = $this->dataByID['config_form_mode'];
 		if(!empty($configMode)){
+			$configMode .= '/is_translate/false';
 			$this->formMeta->additionalForm = array(execute_string($configMode));
 		}
 		$this->setConfigForm();
@@ -80,9 +81,25 @@ class Block extends Control{
 	
 	public function update(){
 		$configMode = $this->dataByID['config_save_mode'];
-		if(!empty($configMode)) execute_string($configMode);
+		if(!empty($configMode)){
+			$configMode .= '/is_translate/false';
+			execute_string($configMode);
+		}
 		Control::update();
 		document_set_redirect('block#block_'.$this->id);
+	}
+	
+	public function renderTranslateForm(){
+		$this->id = gg('module_id');
+		$this->selectByID($this->column);
+		$configMode = $this->dataByID['config_form_mode'];
+		if(!empty($configMode)){
+			$configMode .= '/is_translate/true';
+			$configMode .= '/module_id/'.gg('module_id');
+			$configMode .= '/language/'.gg('language');
+			$this->formMeta->additionalForm = array(execute_string($configMode));
+		}
+		return Control::renderTranslateForm();
 	}
 	
 	private function setConfigForm(){

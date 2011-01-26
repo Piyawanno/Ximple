@@ -54,7 +54,8 @@ function block_render_item($item, $tpl){
 function block_get_body($item){
 	$body = $item['body'];
 	if(strlen($item['call_mode'])){
-		$body .= execute_string($item['call_mode']);
+		$call_mode = $item['call_mode'].'/'.$item['id'];
+		$body .= execute_string($call_mode);
 	}
 	return $body;
 }

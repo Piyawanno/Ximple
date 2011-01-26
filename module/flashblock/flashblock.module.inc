@@ -48,16 +48,18 @@ function flashblock_drop($reference){
 	}
 }
 
-function flashblock_config($arg){
-	include_once(ROOT_PATH.'include/class/QuickFormRender.class.inc');
-	include_once(ROOT_PATH.'include/class/Model.class.inc');
-	$quickform = new QuickFormRender('block');
-	$item_number_data = db_select_single_column('flashblock', 'item_number', 'WHERE id='.$arg['id'], false);
-	$option = array(3 => 3, 5 => 5, 8 => 8, 10 => 10, 15 => 15);
-	$item_number = Model::select(tt('number of shown items'), $option);
-	$item_number->data = $item_number_data[0];
-	$quickform->append('flashblock_item_number', $item_number);
-	return $quickform->render();
+function flashblock_config(){
+	if(gg('is_translate') == 'false'){
+		include_once(ROOT_PATH.'include/class/QuickFormRender.class.inc');
+		include_once(ROOT_PATH.'include/class/Model.class.inc');
+		$quickform = new QuickFormRender('block');
+		$item_number_data = db_select_single_column('flashblock', 'item_number', 'WHERE id='.$arg['id'], false);
+		$option = array(3 => 3, 5 => 5, 8 => 8, 10 => 10, 15 => 15);
+		$item_number = Model::select(tt('number of shown items'), $option);
+		$item_number->data = $item_number_data[0];
+		$quickform->append('flashblock_item_number', $item_number);
+		return $quickform->render();
+	}
 }
 
 function flashblock_save($arg){

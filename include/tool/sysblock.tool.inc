@@ -35,6 +35,7 @@ function sysblock_panel(){
 function sysblock_navigation(){
 	$navigation = cc('navigation');
 	$navigation['home'] = cc('home_label');
+	$navigation = translate_content($navigation, 'block', gg('id'));
 	$navigation_enabled = array();
 	foreach(cc('navigation_enabled') as $key){
 		$navigation_enabled[$key] = $navigation[$key];
@@ -53,6 +54,11 @@ function sysblock_translate(){
 
 function sysblock_navigation_config(){
 	require_once(ROOT_PATH.'include/class/QuickFormRender.class.inc');
+	if(gg('is_translate') == 'false') return  sysblock_navigation_general_config();
+	else return sysblock_navigation_translate_config();
+}
+
+function sysblock_navigation_general_config(){
 	$navigation = cc('navigation');
 	$navigation['home'] = cc('home_label');
 	$quickForm = new QuickFormRender('navigation');
@@ -60,6 +66,20 @@ function sysblock_navigation_config(){
 	$modelCol->data = cc('navigation_enabled');
 	$modelCol->isSortable = true;
 	$quickForm->append('navigation', $modelCol);
+	return $quickForm->render();
+}
+
+function sysblock_navigation_translate_config(){
+	$quickForm = new QuickFormRender('navigation');
+	$translated = translate_get_all_data('block', gg('module_id'), gg('language'));
+	$navigation = cc('navigation');
+	foreach($navigation as $key => $value){
+		$model = Model::char($value);
+		if(isset($translated[$key])){
+			$model->data = $translated[$key];
+		}
+		$quickForm->append($key, $model);
+	}
 	return $quickForm->render();
 }
 
