@@ -87,7 +87,7 @@ class FormRender{
 		if($this->isTranslate){
 			$pattern = tt('You can use <a %s><strong>Translate-Form</strong></a> to translate this form.');
 			$help = sprintf($pattern, 'href="#" onclick="showTranslateDialog();return false"');
-			$this->formMeta->description = '<p>'.$help.'</p>';
+			$this->formMeta->description .= '<p>'.$help.'</p>';
 		}
 	}
 }

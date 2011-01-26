@@ -2,8 +2,11 @@
 class SectionConfigModel extends Model{
 	function SectionConfigModel(){
 		$this->section_name = $this->title(tt('section name'));
+		$this->section_name->enableTranslate();
 		$this->section_slogan = $this->char(tt('section solgan'));
+		$this->section_slogan->enableTranslate();
 		$this->home_label = $this->title(tt('home lable'));
+		$this->home_label->enableTranslate();
 		$this->index_mode = $this->select('fronpage module', cc('module_name'));
 		$this->icon = $this->image(tt('section icon (16x16)'), 'files/misc/');
 		
