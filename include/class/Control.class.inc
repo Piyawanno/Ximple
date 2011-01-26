@@ -12,6 +12,7 @@ abstract class Control extends Translatable{
 	private $prepareMethodMap = array();
 	private $tableCreator;
 	private $listPage;
+	private $modelHasCategory;
 	
 	
 	protected $data;
@@ -111,6 +112,10 @@ abstract class Control extends Translatable{
 		if(!$this->tableCreator){
 			include_once('TableCreator.class.inc');
 			$this->tableCreator = new TableCreator($this->modelConnector, $this->tableName);
+			if($this->modelHasCategory){
+				require_once(ROOT_PATH.'include/tool/category.tool.inc');
+				category_init('download');
+			}
 		}
 		$this->tableCreator->create();
 		module_add($this->moduleName, $requirement, $this->moduleTitle);
@@ -163,6 +168,8 @@ abstract class Control extends Translatable{
 	}
 	
 	protected function init($modelObj){
+		$this->modelHasCategory = $modelObj->hasCategory();
+		
 		if(empty($this->insertRedirection)) $this->insertRedirection = $this->moduleName;
 		if(empty($this->updateRedirection)) $this->updateRedirection = $this->moduleName;
 		if(empty($this->dropRedirection)) $this->dropRedirection = $this->moduleName;

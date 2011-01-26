@@ -6,6 +6,7 @@ abstract class Model{
 	
 	private $extendedObjBefore = array();
 	private $extendedObjAfter = array();
+	private $caegorized = false;
 	
 	public function getExtendedBefore($columnName){
 		if(isset($this->extendedObjBefore[$columnName])){
@@ -21,6 +22,10 @@ abstract class Model{
 		}else{
 			return null;
 		}
+	}
+	
+	public function hasCategory(){
+		return $this->caegorized;
 	}
 	
 	protected function extendBefore($beforeColumnName, $extendedColumnName){
@@ -284,6 +289,7 @@ abstract class Model{
 	}
 	
 	public function category($module, $help=null){
+		$this->caegorized = true;
 		include_once('CategoryColumn.class.inc');
 		return new CategoryColumn($module, $help);
 	}
