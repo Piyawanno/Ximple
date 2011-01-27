@@ -22,7 +22,7 @@ function useronline_block_cont(){
 
 function useronline_profile_test($params, $result){
 	$result[] = array(
-		'mode' => 'useronline',
+		'mode' => 'useronline/'.gg('id'),
 		'icon' => 'files/icon/folder.png',
 		'label' => tt('Who is online'),
 	);
