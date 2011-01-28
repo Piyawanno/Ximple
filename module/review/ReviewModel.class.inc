@@ -2,6 +2,7 @@
 class ReviewModel extends Model{
 	function ReviewModel(){
 		$this->reviewee = $this->hidden(gg('id'), 'int');
+		$this->reviewee->isList = true;
 		$this->reviewee->isReachable = true;
 		$this->reviewer = $this->owner();
 		$this->reviewer->label = tt('reviewer');
