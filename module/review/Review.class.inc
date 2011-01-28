@@ -15,10 +15,10 @@ class Review extends Control{
 	}
 	
 	public function index(){
-		return $page;
+		return $this->reviewee_list();
 	}
 	
-	public function listPage(){
+	public function listPage(){ // for admin to manage
 		document_set_path(tt('List of Review for ID'.gg('id')));
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->defaultOrder = 'createdate';
@@ -33,30 +33,44 @@ class Review extends Control{
 		return $this->renderListPage();
 	}
 	
-	public function listMyPage(){
-	
-		$selectClause = 'WHERE section='.SECTION." AND reviewer='".$this->owner."'";
-		$this->select(array('reviewee', 'star', 'description'), $selectClause);
+	public function reviewee_list(){
+#		print_r($this->owner);
+		$selectClause = 'WHERE section='.SECTION." AND reviewee='".gg('id')."'";
+		$this->select(array('reviewer', 'star','createdate', 'description'), $selectClause);
 		foreach($this->data as $key => $value){
 			$this->data[$key]['reviewer'] = render_profile_link($value['reviewer']);
 		}
 		$renderArray = array(
 			'review_data' => $this->data
 		);
-		$page = render($renderArray, 'reviewdisplay.tpl', 'show_faq');
+		$page = render($renderArray, 'revieweedisplay.tpl', 'show_faq');
+		return $page;
+	}
+	
+	public function reviewer_list(){
+#		print_r($this->owner);
+		$selectClause = 'WHERE section='.SECTION." AND reviewer='".gg('id')."'";
+		$this->select(array('reviewee', 'star','createdate', 'description'), $selectClause);
+		foreach($this->data as $key => $value){
+			$this->data[$key]['reviewee'] = render_profile_link($value['reviewee']);
+		}
+		$renderArray = array(
+			'review_data' => $this->data
+		);
+		$page = render($renderArray, 'reviewerdisplay.tpl', 'show_faq');
 		return $page;
 	}
 	
 	public function insert(){
 		Control::insert();
-		document_set_redirect('review_list/'.pp('reviewee'));
+		document_set_redirect('review_reviewee_list/'.pp('reviewee'));
 	}
 	
 	public function write(){
 		if(strlen(gg('id')) == 0 or gg('id') == 0){
 			notify_add_error(tt('Please choose reviewee before review.'));
 			execute_set_db();
-			document_set_redirect('review_list');
+			document_set_redirect('review_reviewee_list');
 		}
 		else{
 			$userInfo = userinfo_get_info_by_id(gg('id'));
@@ -70,25 +84,27 @@ class Review extends Control{
 		$this->addAccessMethod('review_reviewer', 'write');
 		$this->addAccessMethod('review_reviewer', 'insert');
 		$this->addAccessMethod('review_reviewer', 'listMyPage');
-		$this->addAccessMethod('review_reviewer', 'listPage');
 	}
 	
 	private function setAction(){
 //		$this->addAction('review', 'index');
 //		$this->addAction('review_write', 'write');
 //		$this->addAction('review_list', 'listPage');
-		$this->addAction('review_mylist', 'listMyPage');
+		$this->addAction('review_reviewer_list', 'reviewer_list');
+		$this->addAction('review_reviewee_list', 'reviewee_list');
 //		$this->addAction('review_manage', 'manage');
 	}
 	
 }
 execute_add_function('review_add_link');
 function review_add_link($params, $result){
+	// ?? if selected profile is reviewee
 	$result[] = array(
-		'mode' => 'review_list/'.$params['id'],
+		'mode' => 'review_reviewee_list/'.$params['id'],
 		'icon' => 'review/theme/test.png',
 		'label' => sprintf(tt('show all reviews of %s'),$params['login_name']),
 	);
+	// ?? if selected profile is reviewer do nothing
 	return $result;
 }
 ?>
