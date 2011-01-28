@@ -12,7 +12,6 @@ class Review extends Control{
 		$this->setAdmin('review_admin');
 		$this->init(new ReviewModel());
 		document_set_path($this->moduleTitle, $this->moduleName);
-		$this->writeLabel = tt('Submit new Review');
 	}
 	
 	public function index(){
@@ -20,32 +19,50 @@ class Review extends Control{
 	}
 	
 	public function listPage(){
-		$this->id = MODE_ID;
-		document_set_path(tt('List of Review for ID'.$this->id));
+		document_set_path(tt('List of Review for ID'.gg('id')));
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->defaultOrder = 'createdate';
 		$this->listMeta->mode = $mode;
-		$this->setListWriteIcon(tt('Add new Review'));
+		$this->setListWriteIcon(tt('Add new Review'), 'review_write/'.gg('id'));
 		$this->setListEditIcon();
 		$this->setListDropIcon();
-		$this->selectListPage(20, 'WHERE (section='.SECTION.') AND (toid='.$this->id.')');
+		$this->selectListPage(20, 'WHERE (section='.SECTION.') AND (reviewee='.gg('id').')');
+		foreach($this->data as $key => $value){
+			$this->data[$key]['reviewer'] = render_profile_link($value['reviewer']);
+		}
 		return $this->renderListPage();
 	}
 	
 	public function listMyPage(){
-		document_set_path(tt('List of My Review'));
-		$this->listMeta->title = sprintf(tt('List of My %s'), $this->moduleTitle);
-		$this->listMeta->defaultOrder = 'createdate';
-		$this->listMeta->mode = $mode;
-#		$this->modelConnector->setAttribute('priority', 'isList', false);
-#		$this->modelConnector->setAttribute('deadline', 'isList', false);
-		$this->selectListPage(20, 'WHERE (owner='.USER_ID.') AND (section='.SECTION.')');
-		return $this->renderListPage();
+	
+		$selectClause = 'WHERE section='.SECTION." AND reviewer='".$this->owner."'";
+		$this->select(array('reviewee', 'star', 'description'), $selectClause);
+		foreach($this->data as $key => $value){
+			$this->data[$key]['reviewer'] = render_profile_link($value['reviewer']);
+		}
+		$renderArray = array(
+			'review_data' => $this->data
+		);
+		$page = render($renderArray, 'reviewdisplay.tpl', 'show_faq');
+		return $page;
 	}
 	
 	public function insert(){
 		Control::insert();
-		document_set_redirect('review_listPage/'.$this->id);
+		document_set_redirect('review_list/'.pp('reviewee'));
+	}
+	
+	public function write(){
+		if(strlen(gg('id')) == 0 or gg('id') == 0){
+			notify_add_error(tt('Please choose reviewee before review.'));
+			execute_set_db();
+			document_set_redirect('review_list');
+		}
+		else{
+			$userInfo = userinfo_get_info_by_id(gg('id'));
+			$this->writeLabel = sprintf(tt('Submit new Review for %s'), $userInfo['login_name']);
+			return Control::write();
+		}
 	}
 	
 	private function setAccess(){
