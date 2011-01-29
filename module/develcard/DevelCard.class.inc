@@ -16,10 +16,15 @@ class DevelCard extends Control{
 	}
 	
 	public function index(){
-		$renderArray = array(
-			'name' => 'value',
-		);
+//		head_add_js('module/develcard/systemtheme/bluff-min.js');
+//		head_add_js('module/develcard/systemtheme/excanvas.js');
 		if(authority_group('develcard_moderator') or authority_group('develcard_admin')){
+			document_set_path(tt('DevelCard Summerize'));
+			head_add_css('list.css');
+//			$result = db_select($this->tableName, this->column, 'WHERE id='.(int)$this->id);
+//			$renderArray = array(
+//			'data' => $this->data
+//		);
 			$page = render($renderArray, 'develcardreport.tpl', 'develcardreport');
 		}else{
 			$page = render($renderArray, 'develcardreport_reporter.tpl', 'develcardreport');
@@ -63,7 +68,6 @@ class DevelCard extends Control{
 		$renderArray = array(
 			'data' => $this->data[$this->id],
 		);
-		echo('display function');
 		if(authority_group('develcard_moderator') or authority_group('develcard_admin'))
 			$render = render($renderArray, 'develcarddisplay.tpl', 'develcarddisplay');
 		else
