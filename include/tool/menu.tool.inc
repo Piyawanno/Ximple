@@ -55,7 +55,8 @@ function menu_check_module($data){
 		}
 	}else{
 		foreach($data as $key => $value){
-			$splitted = split('_', $value['uri']);
+			$splitted = split('/', $value['uri']);
+			$splitted = split('_', $splitted[0]);
 			$data[$key]['is_called_module'] = ($splitted[0] == MODULE);
 			if(substr($value['uri'], 0, 7) != 'http://'){
 				$data[$key]['uri'] = SECTION_URI.Q.$value['uri'];
