@@ -28,16 +28,7 @@ class ListPage{
 	}
 	
 	public function getClause($where){
-		$clause = '';
-		list($col, $search) = $this->getSearchRequest();
-		if(!empty($search)){
-			if(!empty($where)){
-				$clause = $where.' AND '.$col." LIKE '%".$search."%'";
-			}else{
-				$clause = 'WHERE '.$col." LIKE '%".$search."%'";
-			}
-		}
-		if(empty($clause)) $clause = $where;
+		$clause = $this->getWhereClause($where);
 		$order = gg('order');
 		$order_desc = gg('order_desc');
 		if(!empty($order) and in_array($order, $this->column)){
@@ -106,10 +97,33 @@ class ListPage{
 	private function getSearchRequest(){
 		$search = addslashes(str_replace(' ', '', trim((string)gg('search'))));
 		$col = gg('col');
-		if(!empty($search) and !empty($col) and in_array($col, $this->column)){
+		if(strlen($search) and strlen($col) and in_array($col, $this->column)){
 			return array($col, $search);
 		}
 		return array('', '');
+	}
+	
+	private function getWhereClause($where){
+		list($col, $search) = $this->getSearchRequest();
+		if(strlen($search) == 0) return $where;
+		
+		$columnType = $this->modelConnector->getColumnAttribute('type');
+		$numeric = array('int', 'real');
+		if(in_array($columnType[$col], $numeric)){
+			if(!empty($where)){
+				$clause = $where.' AND '.$col." LIKE '%".$search."%'";
+			}else{
+				$clause = 'WHERE '.$col." LIKE '%".$search."%'";
+			}
+		}else{
+			if(!empty($where)){
+				$clause = $where.' AND '.$col."=".$search;
+			}else{
+				$clause = 'WHERE '.$col."=".$search;
+			}
+		}
+		if(empty($clause)) $clause = $where;
+		return $clause;
 	}
 }
 ?>
