@@ -21,7 +21,8 @@ function search_drop_index(){
 function search_add_source_page($content){
 	global $search_page;
 	if($search_page and MODE_ID != 0){
-		$source = db_select('search_source', array('id'), "WHERE mode='".MODE."' AND mode_id=".MODE_ID);
+		$clause = 'WHERE '.search_get_where_clause(MODE, MODE_ID);
+		$source = db_select('search_source', array('id'), $clause);
 		if(count($source) == 0){
 			$data = array(
 				'title' => document_get_title(),
@@ -31,6 +32,7 @@ function search_add_source_page($content){
 				'mode' => MODE,
 				'mode_id' => MODE_ID,
 				'insert_time' => NOW,
+				'language' => translate_get_language(),
 			);
 			db_insert('search_source', $data);
 		}
@@ -46,12 +48,14 @@ function search_add_source($mode, $mode_id, $title, $description, $keywords, $co
 		'mode' => $mode,
 		'mode_id' => $mode_id,
 		'insert_time' => NOW,
+		'language' => translate_get_language(),
 	);
 	db_insert('search_source', $data);
 }
 
 function search_drop_source($mode=MODE, $mode_id=MODE_ID){
-	db_drop_many('search_source', "mode='".$mode."' AND mode_id=".$mode_id);
+	$clause = search_get_where_clause($mode, $mode_id);
+	db_drop_many('search_source', $clause);
 }
 
 function search_update_source($mode, $mode_id, $title, $description, $keywords, $content){
@@ -64,6 +68,14 @@ function search_update_source($mode, $mode_id, $title, $description, $keywords, 
 		'mode_id' => $mode_id,
 		'insert_time' => NOW,
 	);
-	db_update_many('search_source', $data, "mode='".$mode."' AND mode_id=".$mode_id);
+	$clause = search_get_where_clause($mode, $mode_id);
+	db_update_many('search_source', $data, $clause);
+}
+
+function search_get_where_clause($mode, $mode_id){
+	$clause  = "mode='".$mode."' ";
+	$clause .= "AND mode_id=".$mode_id." ";
+	$clause .= "AND language='".translate_get_language()."'";
+	return $clause;
 }
 ?>

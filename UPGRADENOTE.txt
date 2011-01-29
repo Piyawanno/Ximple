@@ -38,4 +38,4 @@ This file contains TO-DO list for additional procedure by software upgrading.
 
 - Alter table search_source.
 	
-	ALTER TABLE search_source add language char(2) DEFAULT 'en' NOT NULL;
+	ALTER TABLE search_source ADD `language` varchar(250) DEFAULT NULL;

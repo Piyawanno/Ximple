@@ -157,6 +157,7 @@ CREATE TABLE `search_source` (
   `mode` varchar(250) DEFAULT NULL,
   `mode_id` int(11) DEFAULT NULL,
   `insert_time` timestamp NOT NULL,
+  `language` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) CHARACTER SET utf8;
 

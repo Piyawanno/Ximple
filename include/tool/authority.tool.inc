@@ -88,11 +88,14 @@ function authority_is_admin(){
 /// @return TRUE, if user is in given array of users of groups.
 function authority_check_users_groups($users, $groups){
 	if(is_array($groups) and in_array(2, $groups)) return true;
-	$groups = array();
 	foreach($users as $key => $user){
 		if($user == -1) unset($users[$key]);
 	}
-	$intersect_groups = array_intersect(ss('login_group'), $groups);
+	if(is_array($groups)){
+		$intersect_groups = array_intersect(ss('login_group'), $groups);
+	}else{
+		$intersect_groups = array();
+	}
 	$in_groups = count($intersect_groups);
 	$in_users  = in_array(USER_ID, $users);
 	return $in_groups or $in_users or in_array(1, ss('login_group'));
