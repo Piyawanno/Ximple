@@ -20,7 +20,17 @@ function translate_get_interface_language(){
 }
 
 function translate_get_language(){
-	return ss('language');
+	$language = ss('language');
+	if(strlen($language) == 0){
+		$language = cc('supported_language');
+		if(is_array($language) and count($language)){	
+			$language = array_keys($language);
+			$language = $language[0];
+		}else{
+			$language = 'DEFAULT';
+		}
+	}
+	return $language;
 }
 
 function translate_set_language(){
