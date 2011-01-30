@@ -1,6 +1,9 @@
 <?php
 class ReviewModel extends Model{
 	function ReviewModel(){
+#		$userInfo = userinfo_get_info_by_id(gg('id'));   
+#		$this->reviewee = $this->hidden(gg('id'), 'int');
+#		$this->reviewee = $this->title(tt('id reviewee'));
 		$this->reviewee = $this->hidden(gg('id'), 'int');
 		$this->reviewee->isList = true;
 		$this->reviewee->isReachable = true;
