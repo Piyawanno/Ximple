@@ -17,7 +17,7 @@ function module_init_review(){
 	
 	module_add_panel('Review', 'review_admin', 'review_list', 'manage all reviews');
 
-//	module_add_panel('Review', 'review_reviewer', 'review_reviewee_list', 'list all reviews for selected user');
+	module_add_panel('Review', 'review_reviewer', 'review_reviewee_list', 'list all reviews for selected user');
 	module_add_panel('Review', 'review_reviewer', 'review_reviewer_list', 'list all reviews create by user');
 //	module_add_panel('Review', 'review_reviewer', 'review_write', 'write new review');
 

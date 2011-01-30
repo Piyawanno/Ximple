@@ -15,7 +15,14 @@ class Review extends Control{
 	}
 	
 	public function index(){
+		if(authority_group('review_reviewer'))
+		{
+		return $this->reviewer_list();
+		}
+		else
+		{
 		return $this->reviewee_list();
+		}
 	}
 	
 	public function listPage(){ // for admin to manage

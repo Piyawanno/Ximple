@@ -13,7 +13,7 @@ class ReviewModel extends Model{
 		$this->reviewer->isReachable = true;
 		$this->createdate = $this->now();
 		$this->createdate->label = tt('created');
-		$this->createdate->dateFormat = 'd/m/y';
+		$this->createdate->dateFormat = 'd/m/y H:i:s';
 		$this->createdate->isList = true;
 		$this->createdate->isReachable = true;
 
