@@ -87,6 +87,28 @@ function db_get_rows_number($table, $clause=null){
 	return $row['rows_number'];
 }
 
+function db_count_group_by($table, $column, $where=null, $cachable=true){
+	global $db_connect;
+	$table = DB_TABLE_PREFIX.$table;
+	if(strlen($where)) $where = 'WHERE '.$where;
+	$query = "SELECT $column, COUNT($column) as number FROM $table $where GROUP BY $column";
+	$cache_file = cache_get_db_file($table, $query);
+	if($cachable){
+		if(cache_check_db($cache_file)){
+			return cache_get_db_data($cache_file);
+		}
+	}
+	@$state = mysql_db_query(DB_NAME, $query, $db_connect) or error_db_log($query, mysql_error());
+	$data = array();
+	while($row = mysql_fetch_assoc($state)){
+		$row[$column] = stripslashes($row[$column]);
+		$data[] = $row;
+	}
+	if($cachable) cache_save_db($table, $query, $data);
+	db_increase_query($table);
+	return $data;
+}
+
 function db_increase_query($table){
 	global $db_query_number;
 	global $db_query_all_number;

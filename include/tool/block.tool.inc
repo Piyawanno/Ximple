@@ -27,7 +27,7 @@ function block_init_default(){
 	block_add(tt('Control Panel'), 'sysblock_panel', $position, 999);
 	block_add(tt('Login'), 'sysblock_login', $position, 1000);
 	block_add(tt('Language Selection'), 'sysblock_translate', 'foot');
-	block_add(tt('Execution Info'), 'sysblock_execute_info', 'foot');
+	block_add(tt('Execution Information'), 'sysblock_execute_info', 'foot');
 	return block_get_data();
 }
 
