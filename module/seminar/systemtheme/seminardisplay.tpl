@@ -31,13 +31,4 @@
 			<td><?=$data['description']?></td>
 		</tr>
 	</table>
-	<?php if($enrollFlag): ?>
-		<a href="<?=SECTION_URI.Q?>seminar_insert_map/<?=$data['id']?>"><?=tt('enroll')?><a/> |	
-	<?php else: ?>
-		<a href="<?=SECTION_URI.Q?>seminar_cancel/<?=$data['id']?>"><?=tt('cancel')?><a/> |	
-	<?php endif ?>
-	<a href="<?=SECTION_URI.Q?>seminar_attendantlist/<?=$data['id']?>"><?=tt('status')?><a/> |
-	<a href="<?=SECTION_URI.Q?>seminar_write/<?=$data['id']?>"><?=tt('add')?><a/> |
-	<a href="<?=SECTION_URI.Q?>seminar_edit/<?=$data['id']?>"><?=tt('edit')?><a/> | 
-	<a href="<?=SECTION_URI.Q?>seminar_drop/<?=$data['id']?>"><?=tt('drop')?><a/>
 </div>
