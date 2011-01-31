@@ -34,6 +34,10 @@ input{
 	border:1px solid gray;
 }
 
+label{
+	font-weight:bold;
+}
+
 /* ========= Labels ========= */
 .list_label{
 	padding:10px 0px 10px 0px;
@@ -237,7 +241,6 @@ input{
 	padding:8px 20px 8px 20px;
 	margin:0;
 	font-size:15px;
-	color:white;
 }
 
 .block_middle_head{
@@ -266,17 +269,6 @@ input{
 
 .panel_head a{
 	text-decoration:none;
-}
-
-/* ========= Right Blocks ========= */
-
-#block_right{
-	width: 158px;
-	height:200px;
-	margin:0px 0px 0px 15px;
-	padding:0;
-	float:left;
-	border:1px solid red;
 }
 
 /* ========= Foot ========= */
@@ -358,6 +350,120 @@ input{
 
 }
 
+/* ========= Forum Box ========= */
+
+.forum_box{
+	padding:0;
+	margin:0px 0px 10px 0px;
+}
+
+.forum_box_head{
+	margin:0;
+	padding:0;
+	background:url(../image/forumbox_head.png) no-repeat;
+	width:1020px;
+	height:15px;
+}
+
+.forum_box_body{
+	margin:0;
+	padding:5px 5px 15px 5px;
+	background:url(../image/forumbox_body.png) repeat-y;
+	width:1020px;
+}
+
+.forum_box_content{
+	width:980px;
+	margin-left:10px;
+}
+
+.forum_box_foot{
+	margin:0;
+	padding:0;
+	background:url(../image/forumbox_foot.png) no-repeat;
+	width:1020px;
+	height:18px;
+}
+
+/* ========= Facebook Box ========= */
+
+.facebook_box{
+	padding:0;
+	margin:0px 0px 10px 0px;
+}
+
+.facebook_box_head{
+	margin:0;
+	padding:0;
+	background:url(../image/facebookbox_head.png) no-repeat;
+	width:300px;
+	height:15px;
+}
+
+.facebook_box_body{
+	margin:0;
+	padding:5px 5px 15px 5px;
+	background:url(../image/facebookbox_body.png) repeat-y;
+	width:300px;
+}
+
+.facebook_box_content{
+	margin-left:15px;
+}
+
+.facebook_box_foot{
+	margin:0;
+	padding:0;
+	background:url(../image/facebookbox_foot.png) no-repeat;
+	width:300px;
+	height:18px;
+}
+
+/* ========= Right Blocks ========= */
+
+#block_right{
+	width: 158px;
+	height:200px;
+	margin:0px 0px 0px 15px;
+	padding:0;
+	float:left;
+}
+
+/* ========= Right Box ========= */
+
+.right_box{
+	padding:0;
+	margin:0px 0px 10px 0px;
+}
+
+.right_box_head{
+	margin:0;
+	padding:0;
+	background:url(../image/rightbox_head.png) no-repeat;
+	width:160px;
+	height:15px;
+}
+
+.right_box_body{
+	margin:0;
+	padding:5px 5px 15px 5px;
+	background:url(../image/rightbox_body.png) repeat-y;
+	width:160px;
+}
+
+.right_box_content{
+	margin-left:15px;
+}
+
+.right_box_foot{
+	margin:0;
+	padding:0;
+	background:url(../image/rightbox_foot.png) no-repeat;
+	width:160px;
+	height:18px;
+}
+
+
 /* ========= Operation bar ========= */
 
 #operation_bar{
@@ -366,5 +472,36 @@ input{
 	left:0;
 	height:36px;
 	width:100%;
-	border:1px solid red;
+	background:url(../image/loginbar.png) repeat-x;
+	text-align:right;
+}
+
+#operation_bar a{
+	color:white;
+	text-decoration:none;
+	font-weight:bold;
+	font-size:13px;
+	margin:auto 15px;
+}
+
+#operation_content, #search_bar{
+	margin: 6px auto auto 1%;
+	width:48%;
+	float:left;
+	height:20px;
+}
+
+#search_bar{
+	text-align:left;
+}
+
+#login_popup{
+	border:1px solid #666;
+	padding:15px;
+	background:white;
+	width:240px;
+	position:fixed;
+	top:36px;
+	right:0px;
+	text-align:left;
 }

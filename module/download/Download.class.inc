@@ -14,7 +14,7 @@ class Download extends Control{
 	}
 	
 	public function index(){
-		if(mid() == 0){
+		if(MODE_ID == 0){
 			document_set_path($this->moduleTitle, $this->moduleName);
 			document_set_title($this->moduleTitle);
 			return $this->fileList();
@@ -67,8 +67,8 @@ class Download extends Control{
 	private function fileList(){
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->defaultOrder = 'id';
-		if(mid()) $mode = mm().'/'.mid();
-		else $mode = mm();
+		if(MODE_ID) $mode = MODE.'/'.MODE_ID;
+		else $mode = MODE;
 		$this->listMeta->mode = $mode;
 		$this->setListWriteIcon(tt('Upload new File'));
 		$this->setListEditIcon();
