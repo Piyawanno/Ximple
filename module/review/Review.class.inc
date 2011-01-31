@@ -43,13 +43,26 @@ class Review extends Control{
 #		$pageLength = 10
 #		$this->selectPage(array('review.id', 'review.reviewer', 'review.star','review.createdate', 'review.description','review_rating.point'), $pageLength,$selectClause);
 		$selectClause = 'WHERE section='.SECTION." AND reviewee='".gg('id')."'".' ORDER BY CREATEDATE DESC';
-		$this->select(array('id', 'reviewer', 'star','createdate', 'description'),$selectClause);
+		$this->data = db_select('review',array('id', 'reviewer', 'star','createdate', 'description', 'point1', 'point2'),$selectClause);
+		$total = 0;
+		$count = 0;
 		foreach($this->data as $key => $value){
-			$this->data[$key]['reviewer'] = render_profile_link($value['reviewer']);
+			$this->data[$key]['reviewer'] = render_profile_link(userinfo_get_info_by_id($value['reviewer']));
+			$all = ($value['point1'] + $value['point2']);
+			$total = $total + ($value['star'] * ($value['point1'] / $all));
+			$count++;
 		}
+		if ($count == 0){
+			$total = 0;
+		}else{
+			$total = $total/$count;
+		}
+		$reviewee = userinfo_get_info_by_id(gg('id'));
 		$renderArray = array(
 			'reviewer' => USER_ID,
 			'reviewee' => gg('id'),
+			'reviewee_name' => $reviewee['login_name'],
+			'total' => $total,
 			'review_data' => $this->data,
 		);
 		$page = render($renderArray, 'revieweedisplay.tpl', 'show_faq');
@@ -62,9 +75,20 @@ class Review extends Control{
 			'scorer' => (int)gg('scorer'),
 			'point' => (int)gg('point'), 
 		);
-		print_r($data);
+#		print_r($data);
 		db_insert('review_rating', $data);
 		execute_set_db(); //after insert coz no display.
+		$this->id = gg('reviewId');
+		$this->selectByID($this->column);
+		$assignedPoint = (int)gg('point');
+		$point1 = $this->data[$this->id]['point1'];
+		$point2 = $this->data[$this->id]['point2'];
+		if ($assignedPoint > 0){
+			$point1 = $point1 + $assignedPoint;
+		} else {
+			$point2 = $point2 - $assignedPoint;
+		}
+		db_update('review',array('point1' => $point1, 'point2' => $point2),$this->id);
 		document_set_redirect('review_reviewee_list/'.gg('id'));
 	}
 	

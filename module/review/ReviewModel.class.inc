@@ -18,11 +18,11 @@ class ReviewModel extends Model{
 		$this->createdate->isReachable = true;
 
 		$starOption = array(
-			0 => tt('*'),
-			1 => tt('**'),
-			2 => tt('***'),
-			3 => tt('****'),
-			4 => tt('*****')
+			20 => tt('*'),
+			40 => tt('**'),
+			60 => tt('***'),
+			80 => tt('****'),
+			100 => tt('*****')
 		);
 		$this->star = $this->select(tt('star'), $starOption);
 		$this->star->isList = true;
@@ -31,6 +31,11 @@ class ReviewModel extends Model{
 		$this->description = $this->shortText(tt('description'));
 		$this->description->isList = true;
 		$this->description->isReachable = true;
+		
+		$this->point1 = $this->hidden(1, 'int');
+		$this->point1->isList = true;
+		$this->point2 = $this->hidden(0, 'int');
+		$this->point2->isList = true;
 		
 		$this->section = $this->section();
 	}
