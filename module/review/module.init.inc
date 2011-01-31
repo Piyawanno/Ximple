@@ -8,10 +8,12 @@ function module_get_info_review(){
 
 function module_init_review(){
 	include_once('Review.class.inc');
+	include_once('review.tool.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
 	
 	$review = new Review();
 	$review->initModule('Review.class.inc');
+	review_rating_create_table();
 	module_add_role('review_admin', 'Review Administrator', 'Who can configure, drop Review');
 	module_add_role('review_reviewer', 'Review Reviewer', 'Who can write, rate the review and give opinion point.');
 	
