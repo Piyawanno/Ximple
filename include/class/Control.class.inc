@@ -114,7 +114,7 @@ abstract class Control extends Translatable{
 			$this->tableCreator = new TableCreator($this->modelConnector, $this->tableName);
 			if($this->modelHasCategory){
 				require_once(ROOT_PATH.'include/tool/category.tool.inc');
-				category_init('download');
+				category_init($this->moduleName);
 			}
 		}
 		$this->tableCreator->create();

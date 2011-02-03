@@ -33,11 +33,11 @@ function imageloader_cle(){
 
 
 function imageloader_upload(){
-	execute_set_db();
-	if(!authority_is_guest()){
+#	execute_set_db();
+#	if(!authority_is_guest()){
 		io_upload(ff('file_to_upload'), ROOT_PATH.'files/member/'.USER_ID.'/'.pp('upload_dir'));
-	}
-	document_set_redirect('?mode=imageloader&dir='.pp('upload_dir'));
+#	}
+#	document_set_redirect('?mode=imageloader&dir='.pp('upload_dir'));
 }
 
 function imageloader_simple_upload(){

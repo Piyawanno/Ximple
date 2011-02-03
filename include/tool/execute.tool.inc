@@ -139,6 +139,7 @@ function execute_get_module($mode){
 function execute_get_requirement($module){
 	$module_require = cc('module_require');
 	if(isset($module_require[$module])){
+		translate_add_directory(ROOT_PATH.'module/'.$module.'/');
 		$require = ROOT_PATH.'module/'.$module.'/'.$module_require[$module];
 		if(is_file($require)){
 			include_once($require);

@@ -18,7 +18,7 @@ class ContentModel extends Model{
 		$this->update_time = $this->now();
 		$this->update_time->isUpdateTime = true;
 		$this->publish_time = $this->calendar(tt('publish date'));
-		$this->comment_time = $this->hidden('00-00-00', 'char');
+		$this->comment_time = $this->hidden('0000-00-00', 'timestamp');
 		$this->content = $this->text(tt('content'));
 		$this->content->isReachable = true;
 		$this->content->enableTranslate();

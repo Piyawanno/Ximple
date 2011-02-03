@@ -40,7 +40,7 @@ function form_render_none($form_id, $name, $modelCol){
 }
 
 function form_render_char($form_id, $name, $modelCol){
-	$p = '<input name="%s" id="%s" value="%s" size="35" maxlength="80"/><span id="info_%s"></span>';
+	$p = '<input name="%s" id="%s" value="%s" size="35"/><span id="info_%s"></span>';
 	return sprintf($p, $name, $form_id.'_'.$name, $modelCol->data, $form_id.'_'.$name);
 }
 

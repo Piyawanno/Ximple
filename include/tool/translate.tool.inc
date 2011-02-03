@@ -111,4 +111,44 @@ function translate_add_directory($directory){
 		require_once($locale_file);
 	}
 }
+
+function translate_date_th($date){
+	$date = date('j F ', strtotime($date));
+	$year = (date('Y', strtotime($date)) + 543);
+	$date = $date.substr($year,2,2);
+	$number = array(
+		'0' => '๐',
+		'1' => '๑',
+		'2' => '๒',
+		'3' => '๓',
+		'4' => '๔',
+		'5' => '๕',
+		'6' => '๖',
+		'7' => '๗',
+		'8' => '๘',
+		'9' => '๙',
+	);
+	$month = array(
+		'January' => 'ม.ค.',
+		'February' => 'ก.พ.',
+		'March' => 'มี.ค.',
+		'April' => 'เม.ย.',
+		'May' => 'พ.ค.',
+		'June' => 'มิ.ย.',
+		'July' => 'ก.ค.',
+		'August' => 'ส.ค.',
+		'September' => 'ก.ย.',
+		'October' => 'ต.ค.',
+		'November' => 'พ.ย.',
+		'December' => 'ธ.ค.',
+	);
+	foreach($number as $key => $value){
+		$date = str_replace($key, $value, $date);
+	}
+	
+	foreach($month as $key => $value){
+		$date = str_replace($key, $value, $date);
+	}
+	return $date;
+}
 ?>

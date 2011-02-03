@@ -67,7 +67,7 @@ abstract class Content extends Control{
 	public function contributorListPage(){
 		$title = sprintf(tt('List of %s entries for Contributor'), $this->moduleTitle);
 		document_set_path($title);
-		$p = tt('You as Editor can use this page to access the entries of %s in Section.');
+		$p = tt('In the following list, your own entries of %s are shown. You can use this page to access them.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
 		$this->listMeta->mode = $this->moduleName.'_contributor_list';
 		return $this->renderListPage('WHERE (writer='.USER_ID.')');
@@ -77,7 +77,7 @@ abstract class Content extends Control{
 		$this->modelConnector->setAttribute('writer', 'isList', true);
 		$title = sprintf(tt('List of %s entries for Editor'), $this->moduleTitle);
 		document_set_path($title);
-		$p = tt('In the following list, your own entries of %s are shown. You can use this page to access them.');
+		$p = tt('You as Editor can use this page to access the entries of %s in Section.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
 		$this->listMeta->mode = $this->moduleName.'_editor_list';
 		return $this->renderListPage('WHERE (section='.SECTION.')');

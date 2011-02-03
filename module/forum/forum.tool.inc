@@ -18,17 +18,17 @@ function forum_set_panel(){
 	menu_add('forum', tt('Forum'));
 	list($adminGroup, $editorGroup, $contributorGroup) = content_get_group('forumentry');
 	module_add_panel('Forum', $adminGroup, 'category/module/forum', 'Forum category');
-	module_add_panel('Forum', $adminGroup, 'forumentry_write', 'write new Forum entry');
-	module_add_panel('Forum', $adminGroup, 'forumentry_contributor_list', 'list my Forum entry');
-	module_add_panel('Forum', $adminGroup, 'forumentry_editor_list', 'list Forum entry in Section');
+	module_add_panel('Forum', $adminGroup, 'forum_entry_write', 'write new Forum entry');
+	module_add_panel('Forum', $adminGroup, 'forum_entry_contributor_list', 'list my Forum entry');
+	module_add_panel('Forum', $adminGroup, 'forum_entry_editor_list', 'list Forum entry in Section');
 	module_add_panel('Forum', $adminGroup, 'forum_config', 'configure Forum');
 	module_add_panel('Forum', $adminGroup, 'forum_manage', 'sort and manage Forum');
 	
-	module_add_panel('Forum', $editorGroup, 'forumentry_write', 'write new Forum entry');
-	module_add_panel('Forum', $editorGroup, 'forumentry_contributor_list', 'list my Forum entry');
-	module_add_panel('Forum', $editorGroup, 'forumentry_editor_list', 'list Forum entry in Section');
+	module_add_panel('Forum', $editorGroup, 'forum_entry_write', 'write new Forum entry');
+	module_add_panel('Forum', $editorGroup, 'forum_entry_contributor_list', 'list my Forum entry');
+	module_add_panel('Forum', $editorGroup, 'forum_entry_editor_list', 'list Forum entry in Section');
 	
-	module_add_panel('Forum', $contributorGroup, 'forumentry_write', 'write new Forum entry');
-	module_add_panel('Forum', $contributorGroup, 'forumentry_contributor_list', 'list my Forum entry');
+	module_add_panel('Forum', $contributorGroup, 'forum_entry_write', 'write new Forum entry');
+	module_add_panel('Forum', $contributorGroup, 'forum_entry_contributor_list', 'list my Forum entry');
 }
 ?>

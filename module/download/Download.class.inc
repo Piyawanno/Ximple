@@ -52,7 +52,7 @@ class Download extends Control{
 			$mime = mime_content_type($fileName);
 			$extension = split('\.', $this->dataByID['file']);
 			$extension = $extension[count($extension) -1 ];
-			header('Content-type: '.$mime);
+			header('Content-type: application/pdf');
 			header('Content-Disposition: attachment; filename="'.$this->dataByID['name'].'.'.$extension.'"');
 			readfile($fileName);
 			execute_set_file();

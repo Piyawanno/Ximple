@@ -39,3 +39,10 @@ This file contains TO-DO list for additional procedure by software upgrading.
 - Alter table search_source.
 	
 	ALTER TABLE search_source ADD `language` varchar(250) DEFAULT NULL;
+
+- Alter table content
+	
+	ALTER TABLE blog MODIFY comment_time TIMESTAMP DEFAULT '0000-00-00';
+	ALTER TABLE page MODIFY comment_time TIMESTAMP DEFAULT '0000-00-00';
+
+
