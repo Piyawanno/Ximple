@@ -9,7 +9,8 @@ class ForumModel extends Model{
 		$this->position = $this->hidden(0, 'int');
 		$this->comment_no = $this->hidden(0, 'int');
 		$this->topic_no = $this->hidden(0, 'int');
-		$this->last_topic = $this->hidden(0, 'int');
+		$this->last_posted = $this->hidden(0, 'int');
+		$this->last_commented = $this->hidden(0, 'int');
 		$this->section = $this->section();
 	}
 }

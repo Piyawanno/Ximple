@@ -31,4 +31,19 @@ function forum_set_panel(){
 	module_add_panel('Forum', $contributorGroup, 'forum_entry_write', 'write new Forum entry');
 	module_add_panel('Forum', $contributorGroup, 'forum_entry_contributor_list', 'list my Forum entry');
 }
+
+function forum_render_marked_entry($entry_id, $label){
+	if(!empty($entry_id)){
+		$column = array('topic', 'writer', 'write_time');
+		$cluase = "WHERE id=".((int) $entry_id);
+		$data = db_select('forum_entry', $column, $clause);
+		$data = $data[0];
+		$render = '<p><label>'.$label.' : </label>';
+		$render.= '<a href="'.SECTION_URI.Q.'forum_entry/'.$entry_id.'">'.$data['topic'].'</a> ';
+		$render.= tt('by').' '.render_profile_link(userinfo_get_info_by_id($data['writer'])).' ';
+		$redner.= '@ '.date(cc('time_format'), $data['write_time']).'</p>';
+		return $render;
+	}
+	
+}
 ?>

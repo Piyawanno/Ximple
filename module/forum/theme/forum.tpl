@@ -20,6 +20,8 @@
 			<td>
 				<h4 class="title_label"><a href="<?=SECTION_URI.Q.'forum_entry_list/'.$forum['id']?>"><?=$forum['name']?></a></h4>
 				<p><?=$forum['description']?></p>
+				<?=forum_render_marked_entry($forum['last_posted'], tt('Last posted'))?>
+				<?=forum_render_marked_entry($forum['last_commented'], tt('Last commented'))?>
 			</td>
 			<td align="center">
 				<?=$forum['topic_no']?>

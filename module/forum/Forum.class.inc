@@ -22,7 +22,7 @@ class Forum extends Control{
 		$clause = "WHERE mode='forum' AND section=".SECTION;
 		$category = db_select('category', array('id', 'pic', 'category', 'description'), $clause);
 		$renderArray = array(
-			'data' => $this->getSortedData(),
+			'data' => $this->getAllowedData(),
 			'category' => $category,
 		);
 		head_add_css('forum.css');
@@ -75,6 +75,19 @@ class Forum extends Control{
 	public function initModule($requirement){
 		Control::initModule($requirement);
 		forum_set_panel();
+	}
+	
+	private function getAllowedData(){
+		$clause = "WHERE section=".SECTION.' ORDER BY position';
+		$this->select($this->column, $clause);
+		$allowedData = array();
+		$allowedID = forum_get_allowed_id();
+		foreach($this->data as $key => $value){
+			if(isset($value['category']['id']) and in_array($value['id'], $allowedID)){
+				$allowedData[$value['category']['id']][$key] = $value;
+			}
+		}
+		return $allowedData;
 	}
 	
 	private function getSortedData(){
