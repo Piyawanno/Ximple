@@ -1,6 +1,6 @@
 <?php
 function forum_get_allowed_id(){
-	$forum_permission = db_select_single_column('forum', 'access_group', 'WHERE section='.SECTION);
+	$forum_permission = db_select_single_column('forum', 'allowed_group', 'WHERE section='.SECTION);
 	$allowed_id = array();
 	foreach($forum_permission as $key => $value){
 		$group = unserialize($value);
@@ -12,7 +12,7 @@ function forum_get_allowed_id(){
 }
 
 function forum_set_panel(){
-	menu_drop('forumentry');
+	menu_drop('forum_entry');
 	module_drop_panel('Forum');
 	module_drop_panel('Forum Entry');
 	menu_add('forum', tt('Forum'));

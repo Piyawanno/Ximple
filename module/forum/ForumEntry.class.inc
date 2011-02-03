@@ -10,6 +10,7 @@ class ForumEntry extends Content{
 		$this->moduleName = 'forum_entry';
 		$this->moduleTitle = tt('Forum Entry');
 		$this->init(new ForumEntryModel());
+		$this->writeLabel = tt('Write new Forum Entry');
 		document_set_path(tt('Forum'), 'forum');
 		menu_activate('forum');
 	}

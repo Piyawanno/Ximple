@@ -8,39 +8,39 @@
 <p>
 	<?=tt('You can use this form to sort and manage forums by drag-and-drop. Please, do not forget to click submit.')?>
 </p>
-
-<form action="<?=SECTION_URI.Q?>forum_save_sort" method="post" onsubmit="getPosition()">
+<p>
+	<?=render_write_icon('category_write/module/forum', tt('Create new Category'))?>
+</p>
+<p>
+	<?=render_write_icon('forum_write', tt('Create new Forum'))?>
+</p>
+<form action="<?=SECTION_URI.Q?>forum_save_sort" method="post" onsubmit="getCategory()">
 <?php $sortable_id = "";?>
-<?php foreach($position as $reference => $title):?>
-<a name="position_<?=$reference?>" />
+<?php foreach($category as $reference => $title):?>
+<a name="category_<?=$reference?>" />
 <fieldset>
-	<legend><label><?=$title?></label></legend>
-	<?php $sortable_id .= '#block_sort_'.$reference.', ';?>
-	<ul id="block_sort_<?=$reference?>" class="sortable">
+	<legend><label><?=tt('Category').' : '.$title?></label></legend>
+	<?php $sortable_id .= '#forum_sort_'.$reference.', ';?>
+	<ul id="forum_sort_<?=$reference?>" class="sortable">
 	<?php if(isset($data[$reference])):?>
-		<?php foreach($data[$reference] as $block):?>
+		<?php foreach($data[$reference] as $forum):?>
 		<li>
-			<a name="block_<?=$block['id']?>" />
+			<a name="forum_<?=$forum['id']?>" />
 			<img src="<?=ROOT_URI?>files/icon/move.png" align="left"/> 
-			<a href="<?=SECTION_URI.Q.'block_edit/'.$block['id']?>" style="text-decoration:none;">
+			<a href="<?=SECTION_URI.Q.'forum_edit/'.$forum['id']?>" style="text-decoration:none;">
 				<img src="<?=ROOT_URI?>files/icon/edit.png" align="left" border="0"/>
 			</a>
-			<?=$block['title']?>
-			<input type="hidden" name="position[]" class="position_input" value=""/>
-			<input type="hidden" name="block[]" value="<?=$block['id']?>"/>
-			<input type="hidden" name="call_mode[]" value="<?=$block['call_mode']?>"/>
+			<?=$forum['name']?>
+			<input type="hidden" name="category[]" class="category_input" value=""/>
+			<input type="hidden" name="forum[]" value="<?=$forum['id']?>"/>
 		</li>
 		<?php endforeach?>
 	<?php endif?>
 	</ul>
-	<a href="<?=SECTION_URI.Q?>block_write/position/<?=$reference?>" style="text-decoration:none;">
-		<img src="<?=ROOT_URI?>files/icon/add.png" align="left" border="0" style="margin-right:15px;"/>
-		<?=sprintf(tt('Add new block into %s'), $title)?>
-	</a>
 </fieldset>
 <?php endforeach?>
 
-<input type="submit" value="<?=tt('save blocks')?>" />
+<input type="submit" value="<?=tt('save forums')?>" />
 </form>
 
 <script type="text/javascript">
@@ -52,9 +52,9 @@ $(function() {
 	$("<?=substr($sortable_id, 0, -2)?>").disableSelection();
 });
 
-function getPosition(){
-	<?php foreach($position as $reference => $title):?>
-		$('#block_sort_<?=$reference?> li .position_input').attr('value', "<?=$reference?>");
+function getCategory(){
+	<?php foreach($category as $reference => $title):?>
+		$('#forum_sort_<?=$reference?> li .category_input').attr('value', "<?=$reference?>");
 	<?php endforeach?>
 }
 </script>

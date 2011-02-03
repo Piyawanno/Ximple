@@ -7,7 +7,9 @@ abstract class Content extends Control{
 	
 	public function write(){
 		$this->setConfigForm();
-		$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
+		if(strlen($this->writeLabel) == 0){
+			$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
+		}
 		return Control::write();
 	}
 	

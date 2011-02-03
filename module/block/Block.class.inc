@@ -22,7 +22,7 @@ class Block extends Control{
 		}
 		$renderArray = array(
 			'data' => $data,
-			'position' => array_merge(cc('block_position')),
+			'position' => cc('block_position'),
 		);
 		head_add_css('block.css');
 		head_add_css('list.css');

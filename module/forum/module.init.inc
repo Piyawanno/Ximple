@@ -27,5 +27,6 @@ function module_drop_forum(){
 	$forum->dropModule();
 	notify_add_info(tt('Forum has been successfully deactivated'));
 	module_drop_panel('Forum');
+	menu_drop('forum');
 }
 ?>
