@@ -26,10 +26,13 @@ class ContentModel extends Model{
 		$this->publishing_status = new ContentStatusColumn(tt('status'), 'publishing_status', $moduleName);
 		$this->publishing_status->isList = true;
 		$this->publishing_status->isTriggerSelect = true;
-		$this->description = $this->plain(tt('description'));
-		$this->description->isReachable = true;
-		$this->uri = $this->char(tt('URI'));
+		$help = tt('You can use "extended URI" to increase search engine optimozation. ');
+		$help.= tt('This will appear in URI to this entry without any effect.');
+		$this->uri = $this->char(tt('extended URI'), $help);
 		$this->uri->isReachable = true;
+		$help = tt('Short description about this content for search engine optimization. ');
+		$this->description = $this->plain(tt('description'), $help);
+		$this->description->isReachable = true;
 		$this->category = $this->category($moduleName);
 		$this->freetag = new FreeTagColumn();
 		$this->freetag->isReachable = true;

@@ -4,6 +4,23 @@ class ForumEntryModel extends ContentModel{
 		ContentModel::ContentModel('forum_entry');
 		$this->forum = new ForumColumn();
 		$this->extendAfter('topic', 'forum');
+		$this->last_commentator = $this->hidden('', 'char');
+		$this->publish_time = $this->now();
+		
+		$this->category->form = 'hidden';
+		$this->category->defaultData = 0;
+		
+		$this->freetag->form = 'hidden';
+		$this->freetag->isReachable = false;
+		$this->freetag->help = null;
+		
+		$this->uri->form = 'hidden';
+		$this->uri->isReachable = false;
+		$this->uri->help = null;
+		
+		$this->description->form = 'hidden';
+		$this->description->isReachable = false;
+		$this->description->help = null;
 	}
 }
 

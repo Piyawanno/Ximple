@@ -11,6 +11,17 @@ function forum_get_allowed_id(){
 	return $allowed_id;
 }
 
+function forum_set_path($forum_id){
+	$clause = 'WHERE id='.((int) $forum_id);
+	$forum = db_select('forum', array('category', 'name', 'description'), $clause);
+	$category_id = $forum[0]['category'];
+	$clause = 'WHERE id='.$category_id;
+	$category = db_select('category', array('category'), $clause);
+	document_set_path($category[0]['category'], 'forum/category/'.$category_id);
+	document_set_path($forum[0]['name'], 'forum_entry_list/forum/'.$forum_id);
+	return array($forum[0]['name'], $forum[0]['description']);
+}
+
 function forum_set_panel(){
 	menu_drop('forum_entry');
 	module_drop_panel('Forum');
@@ -44,6 +55,5 @@ function forum_render_marked_entry($entry_id, $label){
 		$redner.= '@ '.date(cc('time_format'), $data['write_time']).'</p>';
 		return $render;
 	}
-	
 }
 ?>
