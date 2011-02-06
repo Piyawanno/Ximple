@@ -158,7 +158,7 @@ class Comment extends Control{
 	
 	private function isWritable(){
 		if($this->permission == 0) return true;
-		elseif($this->permission == 0 and !authority_is_guest()) return true;
+		elseif($this->permission == 1 and !authority_is_guest()) return true;
 		else return false;
 	}
 	

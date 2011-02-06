@@ -1,9 +1,9 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <div class="forum">
 <div class="list">
-	<h4 class="list_label"><?=sprintf(tt('List of Forum Entry in %s'), $forum_name)?></h4>
-	<p><?=$forum_description?></p>
-	<p><?=render_write_icon('forum_entry_write/forum/'.gg('forum'), sprintf(tt('Write new Forum Entry in %s'), $forum_name))?></p>
+	<h4 class="list_label"><?=sprintf(tt('List of Forum Entry in %s'), $forum['name'])?></h4>
+	<p><?=$forum['description']?></p>
+	<p><?=render_write_icon('forum_entry_write/forum/'.gg('forum'), sprintf(tt('Write new Forum Entry in %s'), $forum['name']))?></p>
 	<table width="100%">
 		<tr>
 			<th></th>
@@ -12,7 +12,39 @@
 			<th><?=tt('comments')?></th>
 			<th><?=tt('last commented')?></th>
 		</tr>
+	<?php foreach($data as $key => $value):?>
+		<tr>
+			<td style="padding:0;">
+				<img src="<?=ROOT_URI?>module/forum/theme/<?=$value['icon']?>.png" style="padding:0;"/>
+			</td>
+			<td>
+				<a href="<?=SECTION_URI.Q.'forum_entry/'.$value['id']?>"><?=$value['topic']?></a>
+				<br />
+				<?=render_profile_link($value['writer'])?> @ <?=$value['write_time']?>
+			</td>
+			<td>
+				<!--{ximple_read/forum_entry/<?=$value['id']?>}-->
+			</td>
+			<td>
+				<?php if(isset($value['comment_no'])):?>
+					<?=$value['comment_no']?>
+				<?php else:?>
+					<?=tt('no comment')?>
+				<?php endif?>
+			</td>
+			<td>
+				<?php if(strlen($value['last_commentator'])):?>
+					<?=$value['last_commentator']?>
+					<br />
+					<?=$value['comment_time']?>
+				<?php else:?>
+					-
+				<?php endif?>
+			</td>
+		</tr>
+	<?php endforeach?>
 	</table>
+	<?=$pager?>
 	<ul style="float:left;">
 		<li><img src="<?=ROOT_URI?>module/forum/theme/default.png" /> : <?=tt('regular topic')?></li>
 		<li><img src="<?=ROOT_URI?>module/forum/theme/stick.png" /> : <?=tt('stick topic')?></li>

@@ -46,21 +46,24 @@ function menu_render_block($data){
 
 function menu_check_module($data){
 	global $menu_activated;
-	if(count($menu_activated)){
+	if(MODE == cc('index_mode')){
+		foreach($data as $key => $value){
+			$data[$key]['is_called_module'] = ($value['uri'] == SECTION_URI);
+		}
+	}else if(count($menu_activated)){
 		foreach($data as $key => $value){
 			$data[$key]['is_called_module'] = in_array($value['uri'], $menu_activated);
-			if(substr($value['uri'], 0, 7) != 'http://'){
-				$data[$key]['uri'] = SECTION_URI.Q.$value['uri'];
-			}
 		}
 	}else{
 		foreach($data as $key => $value){
 			$splitted = split('/', $value['uri']);
 			$splitted = split('_', $splitted[0]);
 			$data[$key]['is_called_module'] = ($splitted[0] == MODULE);
-			if(substr($value['uri'], 0, 7) != 'http://'){
-				$data[$key]['uri'] = SECTION_URI.Q.$value['uri'];
-			}
+		}
+	}
+	foreach($data as $key => $value){
+		if(substr($value['uri'], 0, 7) != 'http://'){
+			$data[$key]['uri'] = SECTION_URI.Q.$value['uri'];
 		}
 	}
 	return $data;

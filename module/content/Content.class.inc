@@ -256,7 +256,7 @@ abstract class Content extends Control{
 		$data = $this->data[$this->id];
 		$data['writer'] = $this->dataByID['writer_name'];
 		$data['summary'] = $this->getSummary();
-		$data['freetag'].= ', '.$category[0];
+		if(isset($category[0])) $data['freetag'].= ', '.$category[0];
 		return $data;
 	}
 	
