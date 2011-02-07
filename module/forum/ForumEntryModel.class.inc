@@ -1,26 +1,32 @@
 <?php
-class ForumEntryModel extends ContentModel{
+class ForumEntryModel extends Model{
 	function ForumEntryModel(){
-		ContentModel::ContentModel('forum_entry');
+		$this->commentPermission = content_get_comment_permission();
+		$this->publishingStatus = content_get_publishing_status();
+		
+		$moduleName = 'forum_entry';
+		$this->topic = $this->title(tt('topic'));
+		$this->topic->listMode = $moduleName;
 		$this->forum = new ForumColumn();
-		$this->extendAfter('topic', 'forum');
+		$this->writer = $this->owner();
+		$this->writer->label = tt('writer');
+		if(authority_is_guest()){
+			$this->writer_name= $this->title(tt('your name'));
+		}else{
+			$this->writer_name= $this->hidden(USER_NAME, 'char');
+		}
+		$this->write_time = $this->now();
+		$this->update_time = $this->now();
+		$this->update_time->isUpdateTime = true;
+		$this->comment_time = $this->hidden('0000-00-00', 'timestamp');
+		$this->content = $this->text(tt('content'));
+		$this->content->isReachable = true;
+		$this->comment_permission = new ContentStatusColumn(tt('comment permission'), 'comment_permission', $moduleName);
+		$this->publishing_status = new ContentStatusColumn(tt('status'), 'publishing_status', $moduleName);
+		$this->publishing_status->isList = true;
+		$this->publishing_status->isTriggerSelect = true;
+		$this->section = $this->section();
 		$this->last_commentator = $this->hidden('', 'char');
-		$this->publish_time = $this->now();
-		
-		$this->category->form = 'hidden';
-		$this->category->defaultData = 0;
-		
-		$this->freetag->form = 'hidden';
-		$this->freetag->isReachable = false;
-		$this->freetag->help = null;
-		
-		$this->uri->form = 'hidden';
-		$this->uri->isReachable = false;
-		$this->uri->help = null;
-		
-		$this->description->form = 'hidden';
-		$this->description->isReachable = false;
-		$this->description->help = null;
 	}
 }
 

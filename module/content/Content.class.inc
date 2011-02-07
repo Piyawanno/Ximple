@@ -23,7 +23,7 @@ abstract class Content extends Control{
 		$this->selectByID($this->column, true);
 		$this->updateFreeTag();
 		$this->insertTracker('write');
-		if($this->isReadable(false)){
+		if($this->isFeed() and $this->isReadable(false)){
 			$feedData = $this->formatFeedData();
 			feed_insert($this->moduleName, $feedData);
 		}
@@ -237,16 +237,15 @@ abstract class Content extends Control{
 		$searchEngine = $this->getNewConfigForm(tt('search engine'));
 		$searchEngine->append('uri');
 		$searchEngine->append('description');
-		
-		if(uu('editor') == 1 or uu('editor') == 2){
-			$code = $this->getNewConfigForm(tt('code writer'));
-			$code->append('code');
-		}
 	}
 	
 	protected function addMetaData(){
 		document_add_keywords($this->dataByID['freetag']);
 		document_set_description($this->dataByID['description']);
+	}
+	
+	protected function isFeed(){
+		return in_array($this->moduleName, cc('feed_mode')) or true;
 	}
 	
 	protected function formatFeedData(){

@@ -15,13 +15,27 @@ class ForumEntry extends Content{
 		menu_activate('forum');
 	}
 	
+	public function index(){
+		$this->id = gg('id');
+		$this->selectByID($this->column);
+		print_r($this->dataByID);
+	}
+	
 	public function write(){
 		$this->prepareForum();
 		return Content::write();
 	}
 	
 	public function insert(){
-		Content::insert();
+		Control::insert();
+		$this->selectByID($this->column);
+		$this->dataByID['category'] = forum_get_category_id($this->id);
+		$this->insertTracker('write');
+		if($this->isFeed() and $this->isReadable(false)){
+			$feedData = $this->formatFeedData();
+			feed_insert($this->moduleName, $feedData);
+		}
+		document_set_redirect('forum_entry/'.$this->id);
 	}
 	
 	public function edit(){
@@ -38,6 +52,36 @@ class ForumEntry extends Content{
 			'pager' => $this->pager->render('forum_entry_list/forum/'.gg('forum')),
 		);
 		return render($renderArray, 'forumlist.tpl', 'forumlist');
+	}
+	
+	protected function setConfigForm(){
+		$publish = $this->getNewConfigForm(tt('publishing and comment'));
+		$publish->append('publishing_status');
+		$publish->append('comment_permission');
+	}
+	
+	protected function postSelect(){
+		Control::postSelect();
+		foreach($this->data as $key => $value){
+			$this->data[$key]['uri'] = 	$value['topic'];
+		}
+	}
+	
+	protected function isReadable(){
+		if($this->dataByID['publishing_status'] < 2) return true;
+		elseif($this->isEditable($this->dataByID['writer']['id'])) return true;
+		else return false;
+	}
+	
+	protected function formatFeedData(){
+		include_once(ROOT_PATH.'module/feed/feed.tool.inc');
+		$this->getCommentNumber();
+		$data = $this->data[$this->id];
+		$data['writer']  = $this->dataByID['writer_name'];
+		$data['summary'] = $this->dataByID['content'];
+		$forum = forum_get_info($this->dataByID['forum']);
+		$data['freetag'] = $forum['name'];
+		return $data;
 	}
 	
 	private function prepareForum(){

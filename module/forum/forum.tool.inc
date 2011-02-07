@@ -17,6 +17,11 @@ function forum_get_info($forum_id){
 	return $forum[0];
 }
 
+function forum_get_category_id($forum_id){
+	$forum = forum_get_info($forum_id);
+	return $forum['category'];
+}
+
 function forum_set_path($forum_id){
 	$forum = forum_get_info($forum_id);
 	$category_id = $forum['category'];
