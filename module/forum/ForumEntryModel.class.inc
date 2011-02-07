@@ -27,6 +27,7 @@ class ForumEntryModel extends Model{
 		$this->publishing_status->isTriggerSelect = true;
 		$this->section = $this->section();
 		$this->last_commentator = $this->hidden('', 'char');
+		$this->last_commentator_id = $this->owner();
 	}
 }
 

@@ -9,6 +9,8 @@ class ForumEntry extends Content{
 		$this->tableName = 'forum_entry';
 		$this->moduleName = 'forum_entry';
 		$this->moduleTitle = tt('Forum Entry');
+		$this->addAction('forum_entry_insert_comment', 'insertComment');
+		$this->addAccessMethod('guest', 'insertComment');
 		$this->init(new ForumEntryModel());
 		$this->writeLabel = tt('Write new Forum Entry');
 		document_set_path(tt('Forum'), 'forum');
@@ -18,7 +20,28 @@ class ForumEntry extends Content{
 	public function index(){
 		$this->id = gg('id');
 		$this->selectByID($this->column);
-		print_r($this->dataByID);
+		
+		count_increase($this->moduleName, $this->id);
+		if(!authority_is_guest()){
+			count_increase('forum_entry'.USER_ID, $this->id);
+		}
+		head_add_css('forum.css');
+		forum_set_path($this->dataByID['forum']);
+		document_set_path($this->dataByID['topic']);
+		
+		$writerID = $this->dataByID['writer']['id'];
+		$this->dataByID['show_avatar'] = true;
+		$this->dataByID['editable'] = $this->isEditable($writerID);
+		
+		$this->initComment();
+		$this->insertTracker('read');
+		$this->comment->setTemplate('forumcomment.tpl');
+		$this->comment->setInsertMode('forum_entry_insert_comment');
+		
+		$render = render($this->dataByID, 'forumentry.tpl', 'forumentry');
+		$render.= $this->comment->render();
+		
+		return $render;
 	}
 	
 	public function write(){
@@ -36,6 +59,20 @@ class ForumEntry extends Content{
 			feed_insert($this->moduleName, $feedData);
 		}
 		document_set_redirect('forum_entry/'.$this->id);
+		count_increase('forum_entry_no', $this->dataByID['forum']);
+	}
+	
+	public function insertComment(){
+		$this->initComment();
+		$this->comment->insert();
+		$data = array(
+			'last_commentator' => pp('writer'),
+			'last_commentator_id' => USER_ID,
+		);
+		db_update('forum_entry', $data, pp('parent'));
+		$this->id = pp('parent');
+		$this->selectByID($this->column);
+		count_increase('forum_comment_no', $this->dataByID['forum']);
 	}
 	
 	public function edit(){
@@ -64,6 +101,9 @@ class ForumEntry extends Content{
 		Control::postSelect();
 		foreach($this->data as $key => $value){
 			$this->data[$key]['uri'] = 	$value['topic'];
+			if($value['writer']['id'] == -1){
+				$this->data[$key]['writer']['login_name'] = $value['writer_name'];
+			}
 		}
 	}
 	
@@ -105,19 +145,9 @@ class ForumEntry extends Content{
 		}
 		$regularData = $this->checkNew($regularData);
 		foreach($regularData as $key => $value){
-			if(isset($value['comment_no'])){
-				if($value['comment_no'] > 25) $value['icon'] = 'veryhot';
-				elseif($value['comment_no'] > 15) $value['icon'] = 'hot';
-			}elseif(!$this->isCommentable($value['comment_permission'])){
-				$value['icon'] = 'lock';
-			}elseif($value['is_new']){
-				$value['icon'] = 'new';
-			}else{
-				$value['icon'] = 'default';
-			}
-			$data[] = $value;
+			$data[$key] = $this->getIcon($value);
+			$data[$key] = $this->getCommentator($data[$key]);
 		}
-		
 		return $data;
 	}
 	
@@ -143,13 +173,36 @@ class ForumEntry extends Content{
 			'write_time',
 			'writer',
 			'last_commentator',
+			'last_commentator_id',
 			'comment_time',
 			'comment_permission'
 		);
 		$pattern = "WHERE forum=%d AND publishing_status=%d ORDER by comment_time DESC";
-		$this->selectPage($column, 20, sprintf($pattern, $forumID, 0));
+		$this->selectPage($column, 20, sprintf($pattern, $forumID, $status));
 		$this->getCommentNumber();
 		return $this->data;
+	}
+	
+	private function getIcon($entry){
+		if(isset($entry['comment_no'])){
+			if($entry['comment_no'] > 25) $entry['icon'] = 'veryhot';
+			elseif($entry['comment_no'] > 15) $entry['icon'] = 'hot';
+			else $entry['icon'] = 'default';
+		}elseif(!$this->isCommentable($entry['comment_permission'])){
+			$entry['icon'] = 'lock';
+		}elseif($entry['is_new']){
+			$entry['icon'] = 'new';
+		}else{
+			$entry['icon'] = 'default';
+		}
+		return $entry;
+	}
+	
+	private function getCommentator($entry){	
+		if(strlen($entry['last_commentator']) and $entry['last_commentator_id']['id'] != -1){
+			$entry['last_commentator'] = render_profile_link($entry['last_commentator_id']);
+		}
+		return $entry;
 	}
 }
 ?>

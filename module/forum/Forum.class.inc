@@ -80,6 +80,7 @@ class Forum extends Control{
 	private function getAllowedData(){
 		$clause = "WHERE section=".SECTION.' ORDER BY position';
 		$this->select($this->column, $clause);
+		$this->getCount();
 		$allowedData = array();
 		$allowedID = forum_get_allowed_id();
 		foreach($this->data as $key => $value){
@@ -102,6 +103,16 @@ class Forum extends Control{
 			}
 		}
 		return $data;
+	}
+	
+	private function getCount(){
+		$dataID = array_keys($this->data);
+		$countEntry = count_get_array('forum_entry_no', $dataID);
+		$countComment = count_get_array('forum_comment_no', $dataID);
+		foreach($this->data as $key => $value){
+			$this->data[$key]['comment_no'] = $countComment[$key];
+			$this->data[$key]['topic_no'] = $countEntry[$key];
+		}
 	}
 }
 ?>

@@ -1,7 +1,7 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <div class="blog">
 	<h3 class="title_label"><?=$topic?></h3>
-	<table><tbody>
+	<table  style="width:100%;"><tbody>
 	<tr>
 		<td>
 			<?php if(strlen($icon)):?>

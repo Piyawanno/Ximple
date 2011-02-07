@@ -7,6 +7,8 @@ class Comment extends Control{
 	private $parent;
 	private $permission;
 	private $parentData;
+	private $template;
+	private $insertMode;
 	
 	function Comment($mode=null, $parent=null, $permission=null, $parentWriter=null){
 		$this->tableName = 'comment';
@@ -16,6 +18,8 @@ class Comment extends Control{
 		$this->setParent($parent);
 		$this->setPermission($permission);
 		$this->setAccess();
+		$this->template = 'module/comment/theme/comment.tpl';
+		$this->insertMode = 'comment_insert';
 		$this->init(new CommentModel($this->mode, $this->parent, $parentWriter));
 	}
 	
@@ -30,7 +34,8 @@ class Comment extends Control{
 			$this->formMeta->id = $this->moduleName;
 			$this->formMeta->title = cc($this->mode.'_comment_write_label');
 			$this->formMeta->isCaptcha = true;
-			$this->formMeta->mode = 'comment_insert/page/'.$this->pager->getNextPage();
+			$this->formMeta->mode  = $this->insertMode;
+			$this->formMeta->mode .= '/page/'.$this->pager->getNextPage();
 			$this->formMeta->isSetTitle = false;
 			return $this->renderInsertForm(false);
 		}else{
@@ -80,6 +85,14 @@ class Comment extends Control{
 		$label = sprintf(tt('Comments in %s'), cc('section_name'));
 		$description = '';
 		return $this->renderListPage($clause, $label, $description);
+	}
+	
+	public function setTemplate($template){
+		$this->template = $template;
+	}
+	
+	public function setInsertMode($insertMode){
+		$this->insertMode = $insertMode;
 	}
 	
 	private function setAccess(){
@@ -144,7 +157,7 @@ class Comment extends Control{
 				'data' => $this->data,
 				'is_avatar' => cc($this->mode.'_comment_show_avatar'),
 			);
-			$render.= render($renderArray, 'module/comment/theme/comment.tpl', 'comment');
+			$render.= render($renderArray, $this->template, 'comment');
 			$render.= $pager;
 			return $render;
 		}else{

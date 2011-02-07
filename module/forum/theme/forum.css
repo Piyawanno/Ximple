@@ -32,3 +32,24 @@ fieldset{
 .sortable li img{
 	margin-right:15px;
 }
+
+p.forum_info{
+	color:gray;
+	font-size:11px;
+	margin-bottom:-5px;
+}
+
+p.forum_foot{
+	border-top:1px solid #eee;
+	text-align:right;
+}
+
+p.forum_foot a{
+	text-decoration:none;
+	padding:0px 10px 0px 10px;
+	border-left:1px solid #eee;
+}
+
+.forum{
+	margin:0px 0px 50px 0px;
+}
