@@ -11,12 +11,6 @@ function form($form_id, $model){
 	head_add_css('include/external/cleditor/jquery.cleditor.css');
 	
 	head_add_js('include/external/jquery/jquery-form.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.advancedtable.min.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.icon.min.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.code.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.quote.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.advancedimage.js');
 	head_add_js('include/javascript/formcheck.js');
 	
 	head_add_js_var('uploadSuccess', tt('image successfully uploaded'));
@@ -33,6 +27,21 @@ function form($form_id, $model){
 	
 	head_add_js_array('gridRowArray', $grid_row_array);
 	return $render;
+}
+
+function form_prepare_editor(){
+	head_add_js('include/external/cleditor/jquery.cleditor.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.advancedtable.min.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.icon.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.code.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.quote.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.advancedimage.js');
+	$smiley_dir = ROOT_PATH.'files/smiley';
+	if(!is_dir($smiley_dir)){
+		mkdir($smiley_dir);
+		$cle_dir = ROOT_PATH.'include/external/cleditor/images/icons/';
+		io_copy_directory($cle_dir, $smiley_dir);
+	}
 }
 
 function form_render_none($form_id, $name, $modelCol){
@@ -66,11 +75,13 @@ function form_render_hidden($form_id, $name, $modelCol){
 }
 
 function form_render_text($form_id, $name, $modelCol){
+	form_prepare_editor();
 	$p = '<textarea name="%s" id="%s" style="width:100%%;" rows="20" cols="" class="text">%s</textarea><span id="info_%s"></span>';
 	return sprintf($p, $name, $form_id.'_'.$name, $modelCol->data, $form_id.'_'.$name);
 }
 
 function form_render_shorttext($form_id, $name, $modelCol){
+	form_prepare_editor();
 	$p = '<textarea name="%s" id="%s" style="width:100%%;" rows="10" cols="" class="%s">%s</textarea><span id="info_%s"></span>';
 	if(authority_is_guest()) return sprintf($p, $name, $form_id.'_'.$name, "shorttext", $modelCol->data, $form_id.'_'.$name);
 	else return sprintf($p, $name, $form_id.'_'.$name, "usershorttext", $modelCol->data, $form_id.'_'.$name);

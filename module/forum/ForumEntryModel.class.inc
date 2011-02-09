@@ -8,26 +8,37 @@ class ForumEntryModel extends Model{
 		$this->topic = $this->title(tt('topic'));
 		$this->topic->listMode = $moduleName;
 		$this->forum = new ForumColumn();
+		
 		$this->writer = $this->owner();
 		$this->writer->label = tt('writer');
+		
 		if(authority_is_guest()){
-			$this->writer_name= $this->title(tt('your name'));
+			$this->writer_name = $this->title(tt('your name'));
 		}else{
-			$this->writer_name= $this->hidden(USER_NAME, 'char');
+			$this->writer_name = $this->hidden(USER_NAME, 'char');
+			$this->writer_name->label = tt('writer');
+			$this->writer_name->isList = true;
 		}
+		
 		$this->write_time = $this->now();
 		$this->update_time = $this->now();
 		$this->update_time->isUpdateTime = true;
-		$this->comment_time = $this->hidden('0000-00-00', 'timestamp');
+		$this->comment_time = $this->now();
 		$this->content = $this->text(tt('content'));
 		$this->content->isReachable = true;
-		$this->comment_permission = new ContentStatusColumn(tt('comment permission'), 'comment_permission', $moduleName);
-		$this->publishing_status = new ContentStatusColumn(tt('status'), 'publishing_status', $moduleName);
-		$this->publishing_status->isList = true;
-		$this->publishing_status->isTriggerSelect = true;
 		$this->section = $this->section();
 		$this->last_commentator = $this->hidden('', 'char');
 		$this->last_commentator_id = $this->owner();
+		
+		if(!authority_is_guest()){
+			$this->comment_permission = new ContentStatusColumn(tt('comment permission'), 'comment_permission', $moduleName);
+			$this->publishing_status = new ContentStatusColumn(tt('status'), 'publishing_status', $moduleName);
+			$this->publishing_status->isList = true;
+			$this->publishing_status->isTriggerSelect = true;
+		}else{
+			$this->comment_permission = $this->hidden(cc('forum_comment_permission_default'), 'int');
+			$this->publishing_status = $this->hidden(cc('forum_publishing_status_default'), 'int');
+		}
 	}
 }
 

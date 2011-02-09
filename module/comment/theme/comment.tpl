@@ -9,7 +9,11 @@
 <a name="comment_<?=$value['id']?>">
 <div class="comment">
 	<h3 class="title_label">
-		<a href="<?=$value['homepage']?>"><?=$value['writer']?></a>
+		<?php if($value['writer_id']['id'] == -1):?>
+			<a href="<?=$value['homepage']?>"><?=$value['writer']?></a>
+		<?php else:?>
+			<?=render_profile_linke($value['writer_id'])?>
+		<?php endif?>
 	</h3>
 	<?php if($value['is_new']):?>
 		<p>
@@ -21,7 +25,7 @@
 		<tr>
 			<td valign="top"><?=$value['comment']?></td>
 			<?php if($is_avatar):?>
-				<td align="center" width="10%"><?=render_avatar($value['writer_id'])?></td>
+				<td align="center" width="10%"><?=render_avatar($value['writer_id'], false)?></td>
 			<?php endif?>
 		</tr>
 	</table>

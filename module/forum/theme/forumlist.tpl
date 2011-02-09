@@ -3,7 +3,9 @@
 <div class="list">
 	<h4 class="list_label"><?=sprintf(tt('List of Forum Entry in %s'), $forum['name'])?></h4>
 	<p><?=$forum['description']?></p>
-	<p><?=render_write_icon('forum_entry_write/forum/'.gg('forum'), sprintf(tt('Write new Forum Entry in %s'), $forum['name']))?></p>
+	<?php if($writable):?>
+		<p><?=render_write_icon('forum_entry_write/forum/'.gg('forum'), sprintf(tt('Write new Forum Entry in %s'), $forum['name']))?></p>
+	<?php endif?>
 	<table width="100%">
 		<tr>
 			<th></th>

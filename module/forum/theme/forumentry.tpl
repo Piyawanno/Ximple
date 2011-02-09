@@ -6,9 +6,14 @@
 		<td>
 			<?=$content?>
 		</td>
-		<?php if($show_avatar):?>
+		<?php if($show_avatar or $show_level):?>
 			<td valign="top" align="center">
+			<?php if($show_avatar):?>
 				<?=render_avatar($writer)?>
+			<?php endif?>
+			<?php if($show_level):?>
+				<?=forum_render_level($writer['id'])?>
+			<?php endif?>
 			</td>
 		<?php endif?>
 	</tr>

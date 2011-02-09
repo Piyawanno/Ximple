@@ -28,6 +28,7 @@ abstract class Content extends Control{
 			feed_insert($this->moduleName, $feedData);
 		}
 		document_set_redirect($this->moduleName.'/'.$this->id);
+		count_increase('contribution', USER_ID);
 	}
 	
 	public function update(){
@@ -68,6 +69,7 @@ abstract class Content extends Control{
 	
 	public function contributorListPage(){
 		$title = sprintf(tt('List of %s entries for Contributor'), $this->moduleTitle);
+		$this->listMeta->title =  $title;
 		document_set_path($title);
 		$p = tt('In the following list, your own entries of %s are shown. You can use this page to access them.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
@@ -78,6 +80,7 @@ abstract class Content extends Control{
 	public function editorListPage(){
 		$this->modelConnector->setAttribute('writer', 'isList', true);
 		$title = sprintf(tt('List of %s entries for Editor'), $this->moduleTitle);
+		$this->listMeta->title =  $title;
 		document_set_path($title);
 		$p = tt('You as Editor can use this page to access the entries of %s in Section.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
@@ -102,7 +105,6 @@ abstract class Content extends Control{
 	}
 	
 	protected function renderListPage($clause){
-		$this->listMeta->title = sprintf(tt('List of %s entries'), $this->moduleTitle);
 		$this->listMeta->defaultOrderDesc = 'id';
 		$this->selectListPage(20, $clause);
 		$this->renderWriter();
@@ -211,9 +213,11 @@ abstract class Content extends Control{
 			if(!is_array($this->dataByID['writer'])){
 				$clause = 'WHERE id='.$this->dataByID['writer'];
 				$writerName = db_select_single_column('users', 'login_name', $clause, false);
-				$this->dataByID['writer_name'] = $writerName[0];
-				$data['writer'] = $this->dataByID['writer'];
-				$data['writer_name'] = $writerName[0];
+				if(isset($writerName[0])){
+					$this->dataByID['writer_name'] = $writerName[0];
+					$data['writer'] = $this->dataByID['writer'];
+					$data['writer_name'] = $writerName[0];
+				}
 			}else{
 				$data['writer'] = $this->dataByID['writer']['id'];
 				$data['writer_name'] = $this->dataByID['writer']['login_name'];

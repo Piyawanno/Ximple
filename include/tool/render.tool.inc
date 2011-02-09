@@ -104,15 +104,18 @@ function render_profile_link($user){
 	else return '<a href="'.SECTION_URI.Q.'profile/'.$user['id'].'">'.$user['login_name'].'</a>';
 }
 
-function render_avatar($user){
+function render_avatar($user, $show_profile=true){
 	if(strlen($user['avatar']) == 0) $user['avatar'] = 'files/default.png';
-	return '
+	$render = '
 	<p align="center">
 		<a href="'.SECTION_URI.Q.'profile/'.$user['id'].'">
 			<img src="'.ROOT_URI.$user['avatar'].'" border="0" />
 		</a>
-	</p>
-	<p align="center">'.render_profile_link($user).'</p>';
+	</p>';
+	if($show_profile){
+		$render .= '<p align="center">'.render_profile_link($user).'</p>';
+	}
+	return $render;
 }
 
 function render_category_icon($category, $mode){

@@ -6,9 +6,8 @@ class ForumModel extends Model{
 		$this->description = $this->plain(tt('description'));
 		$help = tt('Check guest to allowe everyone.');
 		$this->allowed_group = $this->group(tt('allowed group'), $help);
+		$this->guest_postable = $this->enable(tt('allow guest to post forum entry'));
 		$this->position = $this->hidden(0, 'int');
-		$this->comment_no = $this->hidden(0, 'int');
-		$this->topic_no = $this->hidden(0, 'int');
 		$this->last_posted = $this->hidden(0, 'int');
 		$this->last_commented = $this->hidden(0, 'int');
 		$this->section = $this->section();

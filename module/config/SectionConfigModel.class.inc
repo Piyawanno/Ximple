@@ -1,4 +1,6 @@
 <?php
+require_once(ROOT_PATH.'include/class/MultipleFilesColumn.class.inc');
+
 class SectionConfigModel extends Model{
 	function SectionConfigModel(){
 		$this->section_name = $this->title(tt('section name'));
@@ -91,6 +93,8 @@ class SectionConfigModel extends Model{
 		$this->syslog_time = $this->timeInterval(tt('system logging expiration'), $timeInterval);
 		$this->tracker_enable = $this->enable(tt('user tracker enable'));
 		$this->tracker_time = $this->timeInterval(tt('user tracker expiration'), $timeInterval);
+		
+		$this->smiley = new MultipleFilesColumn(tt('smiley'), ROOT_PATH.'files/smiley/', 'smiley');
 	}
 }
 

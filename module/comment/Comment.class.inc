@@ -46,6 +46,7 @@ class Comment extends Control{
 	public function insert(){
 		if($this->isWritable()){
 			Control::insert();
+			count_increase('contribution', USER_ID);
 			$column = array('id', 'topic', 'writer');
 			$this->parentData = db_select($this->mode, $column, 'WHERE id='.$this->parent);
 			$this->parentData = $this->parentData[$this->parent];
@@ -155,7 +156,7 @@ class Comment extends Control{
 			$render = $pager;
 			$renderArray = array(
 				'data' => $this->data,
-				'is_avatar' => cc($this->mode.'_comment_show_avatar'),
+				'is_avatar' => $this->checkAvatar(),
 			);
 			$render.= render($renderArray, $this->template, 'comment');
 			$render.= $pager;
@@ -208,12 +209,14 @@ class Comment extends Control{
 		if(!authority_is_guest()){
 			include_once(ROOT_PATH.'module/tracker/tracker.tool.inc');
 			$writerName = db_select_single_column('users', 'login_name', 'WHERE id='.$this->parentData['writer'], false);
+			if(isset($writerName[0])) $writerName = $writerName[0];
+			else $writerName = tt('guest');
 			$trackerData = array(
 				'mode' => $this->mode,
 				'id' => $this->parent,
 				'topic' => $this->parentData['topic'],
 				'writer' => $this->parentData['writer'],
-				'writer_name' => $writerName[0],
+				'writer_name' => $writerName,
 				'action' => 'comment',
 			);
 			tracker_insert($trackerData);
@@ -253,6 +256,12 @@ class Comment extends Control{
 			$topic = $parent[$value['mode']][$value['parent']]['topic'];
 			$this->data[$key]['parent'] = '<a href="'.$uri.'">'.$topic.'</a>';
 		}
+	}
+	
+	private function checkAvatar(){
+		$appearance = cc($this->mode.'_appearance');
+		if(!is_array($appearance)) $appearance = array();
+		return in_array('comment_avatar', $appearance);
 	}
 }
 

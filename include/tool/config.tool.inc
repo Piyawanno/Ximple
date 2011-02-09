@@ -20,6 +20,12 @@ function config_drop($key){
 	unset($GLOBALS['config'][$key]);
 }
 
+function config_has_value($name, $value){
+	$config = cc($name);
+	if(!is_array($config)) $config = array();
+	return in_array($value, $config);
+}
+
 function config_drop_by_value($key, $value){
 	if(isset($GLOBALS['config'][$key]) and is_array($GLOBALS['config'][$key])){
 		$conf = $GLOBALS['config'][$key];

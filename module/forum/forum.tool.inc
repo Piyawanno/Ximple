@@ -1,4 +1,27 @@
 <?php
+function forum_guest_postable($forum_id){
+	$forum = forum_get_info($forum_id);
+	return $forum['guest_postable'];
+}
+
+function forum_check_permission($forum_id){
+	$allowed_forums = forum_get_allowed_id();
+	return in_array($forum_id, $allowed_forums);
+}
+
+function forum_get_last_entry($forum_id){
+	$clause = 'WHERE forum='.$forum_id.' ORDER BY comment_time DESC LIMIT 1';
+	$column = array('id', 'topic', 'writer', 'writer_name', 'write_time');
+	$forum_entry = db_select('forum_entry', $column, $clause);
+	if(count($forum_entry)){
+		$forum_entry = array_values($forum_entry);
+		$forum_entry[0]['writer'] = userinfo_get_info_by_id($forum_entry[0]['writer']);
+		return $forum_entry[0];
+	}else{
+		return array();
+	}
+}
+
 function forum_get_allowed_id(){
 	$forum_permission = db_select_single_column('forum', 'allowed_group', 'WHERE section='.SECTION);
 	$allowed_id = array();
@@ -13,7 +36,8 @@ function forum_get_allowed_id(){
 
 function forum_get_info($forum_id){
 	$clause = 'WHERE id='.((int) $forum_id);
-	$forum = db_select('forum', array('category', 'name', 'description'), $clause);
+	$column = array('category', 'name', 'description', 'guest_postable');
+	$forum = db_select('forum', $column, $clause);
 	return $forum[0];
 }
 
@@ -52,17 +76,39 @@ function forum_set_panel(){
 	module_add_panel('Forum', $contributorGroup, 'forum_entry_contributor_list', 'list my Forum entry');
 }
 
-function forum_render_marked_entry($entry_id, $label){
-	if(!empty($entry_id)){
-		$column = array('topic', 'writer', 'write_time');
-		$cluase = "WHERE id=".((int) $entry_id);
-		$data = db_select('forum_entry', $column, $clause);
-		$data = $data[0];
-		$render = '<p><label>'.$label.' : </label>';
-		$render.= '<a href="'.SECTION_URI.Q.'forum_entry/'.$entry_id.'">'.$data['topic'].'</a> ';
-		$render.= tt('by').' '.render_profile_link(userinfo_get_info_by_id($data['writer'])).' ';
-		$redner.= '@ '.date(cc('time_format'), $data['write_time']).'</p>';
+function forum_render_last_entry($data){
+	if(count($data)){
+		$render = '<p><label>'.tt('last entry').' : </label>';
+		$render.= '<a href="'.SECTION_URI.Q.'forum_entry/'.$data['id'].'">'.$data['topic'].'</a> ';
+		$render.= tt('by').' '.render_profile_link($data['writer']).' ';
+		$render.= '@ '.date(cc('time_format'), strtotime($data['write_time']))	.'</p>';
 		return $render;
 	}
 }
+
+function forum_show_level(){
+	return config_has_value('forum_appearance', 'level');
+}
+
+function forum_render_level($user_id){
+	if($user_id != -1 and forum_show_level()){
+		$contribution = count_get('contribution', $user_id);
+		$level = cc('forum_user_level');
+		$i = 1;
+		foreach($level as $key => $value){
+			$userLevel = $i;
+			$userLevelName = $value;
+			if($contribution < $key) break;
+			$i++;
+		}
+		$star = '';
+		for($i=0;$i < $userLevel;$i++){
+			$star .= '<img src="'.ROOT_URI.'files/icon/star.png" alt="star" style="padding:0;margin:0;"/>';
+		}
+		$render  = '<p style="text-align:center;">'.$star.'</p>';
+		$render .= '<p style="text-align:center;">'.$userLevelName.' ['.$contribution.']'.'</p>';
+		return $render;
+	}
+}
+
 ?>

@@ -47,7 +47,11 @@
 	<?php foreach($tracker as $key => $value ):?>
 		<tr class="tracker_<?=$value[5]?>">
 			<td><a href="<?=SECTION_URI.Q.$value[0]?>/<?=$value[1]?>"><?=$value[2]?></a></td>
-			<td><a href="<?=SECTION_URI.Q?>profile/<?=$value[3]?>"><?=$value[4]?></a></td>
+			<?php if($value[3] != -1):?>
+				<td><a href="<?=SECTION_URI.Q?>profile/<?=$value[3]?>"><?=$value[4]?></a></td>
+			<?php else:?>
+				<td><?=$value[4]?></td>
+			<?php endif?>
 			<td><?=$value[5]?></td>
 		</tr>
 	<?php endforeach?>

@@ -10,6 +10,8 @@ class ForumEntry extends Content{
 		$this->moduleName = 'forum_entry';
 		$this->moduleTitle = tt('Forum Entry');
 		$this->addAction('forum_entry_insert_comment', 'insertComment');
+		$this->addAccessMethod('guest', 'write');
+		$this->addAccessMethod('guest', 'insert');
 		$this->addAccessMethod('guest', 'insertComment');
 		$this->init(new ForumEntryModel());
 		$this->writeLabel = tt('Write new Forum Entry');
@@ -21,6 +23,9 @@ class ForumEntry extends Content{
 		$this->id = gg('id');
 		$this->selectByID($this->column);
 		
+		if(!forum_check_permission($this->dataByID['forum'])){
+			error_denied();
+		}
 		count_increase($this->moduleName, $this->id);
 		if(!authority_is_guest()){
 			count_increase('forum_entry'.USER_ID, $this->id);
@@ -29,8 +34,8 @@ class ForumEntry extends Content{
 		forum_set_path($this->dataByID['forum']);
 		document_set_path($this->dataByID['topic']);
 		
+		$this->getAppearanceConfiguration();
 		$writerID = $this->dataByID['writer']['id'];
-		$this->dataByID['show_avatar'] = true;
 		$this->dataByID['editable'] = $this->isEditable($writerID);
 		
 		$this->initComment();
@@ -45,8 +50,13 @@ class ForumEntry extends Content{
 	}
 	
 	public function write(){
-		$this->prepareForum();
-		return Content::write();
+		if($this->isWritable()){
+			if(gg('forum')) forum_set_path(gg('forum'));
+			$this->formMeta->isCaptcha = true;
+			return Content::write();
+		}else{
+			error_denied();
+		}
 	}
 	
 	public function insert(){
@@ -76,8 +86,9 @@ class ForumEntry extends Content{
 	}
 	
 	public function edit(){
-		$this->prepareForum();
-		return Content::edit();
+		$render = Content::edit();
+		forum_set_path($this->dataByID['forum']);
+		return $render;
 	}
 	
 	public function listPage(){
@@ -86,9 +97,31 @@ class ForumEntry extends Content{
 		$renderArray = array(
 			'data' => $this->getListData(),
 			'forum' => forum_get_info(gg('forum')),
+			'writable' => $this->isWritable(),
 			'pager' => $this->pager->render('forum_entry_list/forum/'.gg('forum')),
 		);
 		return render($renderArray, 'forumlist.tpl', 'forumlist');
+	}
+	
+	public function contributorListPage(){
+		$this->modelConnector->setAttribute('writer_name', 'isList', false);
+		$title = sprintf(tt('List of %s for Contributor'), $this->moduleTitle);
+		$this->listMeta->title =  $title;
+		document_set_path($title);
+		$p = tt('In the following list, your own %s are shown. You can use this page to access them.');
+		$this->listMeta->description = sprintf($p, $this->moduleTitle);
+		$this->listMeta->mode = $this->moduleName.'_contributor_list';
+		return $this->renderListPage('WHERE (writer='.USER_ID.')');
+	}
+	
+	public function editorListPage(){
+		$title = sprintf(tt('List of %s for Editor'), $this->moduleTitle);
+		$this->listMeta->title =  $title;
+		document_set_path($title);
+		$p = tt('You as Editor can use this page to access %s in Section.');
+		$this->listMeta->description = sprintf($p, $this->moduleTitle);
+		$this->listMeta->mode = $this->moduleName.'_editor_list';
+		return $this->renderListPage('WHERE (section='.SECTION.')');
 	}
 	
 	protected function setConfigForm(){
@@ -101,7 +134,7 @@ class ForumEntry extends Content{
 		Control::postSelect();
 		foreach($this->data as $key => $value){
 			$this->data[$key]['uri'] = 	$value['topic'];
-			if($value['writer']['id'] == -1){
+			if(isset($value['writer']) and $value['writer']['id'] == -1){
 				$this->data[$key]['writer']['login_name'] = $value['writer_name'];
 			}
 		}
@@ -126,13 +159,8 @@ class ForumEntry extends Content{
 	
 	private function prepareForum(){
 		$forumID = gg('forum');
-		if($forumID){
-			$allowedForums = forum_get_allowed_id();
-			if(!in_array($forumID, $allowedForums)){
-				error_denied();
-			}
-			forum_set_path($forumID);
-		}
+		if($forumID and forum_check_permission($forumID)) forum_set_path($forumID);
+		else error_denied();
 	}
 	
 	private function getListData(){
@@ -158,9 +186,15 @@ class ForumEntry extends Content{
 	}
 	
 	private function checkNew($data){
-		$count = count_get_array('forum_entry'.USER_ID, array_keys($data));
-		foreach($count as $id => $number){
-			$data[$id]['is_new'] = ($number == 0);
+		if(!authority_is_guest()){
+			$count = count_get_array('forum_entry'.USER_ID, array_keys($data));
+			foreach($count as $id => $number){
+				$data[$id]['is_new'] = ($number == 0);
+			}
+		}else{
+			foreach($data as $id => $value){
+				$data[$id]['is_new'] = false;
+			}
 		}
 		return $data;
 	}
@@ -172,6 +206,7 @@ class ForumEntry extends Content{
 			'topic',
 			'write_time',
 			'writer',
+			'writer_name',
 			'last_commentator',
 			'last_commentator_id',
 			'comment_time',
@@ -203,6 +238,23 @@ class ForumEntry extends Content{
 			$entry['last_commentator'] = render_profile_link($entry['last_commentator_id']);
 		}
 		return $entry;
+	}
+	
+	private function getAppearanceConfiguration(){
+		$appearance = cc('forum_appearance');
+		if(!is_array($appearance)) $appearance = array();
+		$this->dataByID['show_avatar'] = in_array('avatar', $appearance);
+		$this->dataByID['show_level'] = in_array('level', $appearance);
+	}
+	
+	private function isWritable(){
+		if(gg('forum') and forum_guest_postable(gg('forum'))){
+			return true;
+		}
+		foreach(content_get_group('forum_entry') as $group){
+			if(authority_group($group)) return true;
+		}
+		return false;
 	}
 }
 ?>

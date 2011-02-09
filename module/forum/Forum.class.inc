@@ -15,6 +15,7 @@ class Forum extends Control{
 		$this->insertRedirection = 'forum_manage';
 		$this->updateRedirection = 'forum_manage';
 		$this->init(new ForumModel());
+		$this->setConfigForm();
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
@@ -85,6 +86,7 @@ class Forum extends Control{
 		$allowedID = forum_get_allowed_id();
 		foreach($this->data as $key => $value){
 			if(isset($value['category']['id']) and in_array($value['id'], $allowedID)){
+				$value['last_entry'] = forum_get_last_entry($value['id']);
 				$allowedData[$value['category']['id']][$key] = $value;
 			}
 		}
@@ -113,6 +115,12 @@ class Forum extends Control{
 			$this->data[$key]['comment_no'] = $countComment[$key];
 			$this->data[$key]['topic_no'] = $countEntry[$key];
 		}
+	}
+	
+	private function setConfigForm(){
+		$appearance = $this->getNewConfigForm(tt('Permission'));
+		$appearance->append('allowed_group');
+		$appearance->append('guest_postable');
 	}
 }
 ?>

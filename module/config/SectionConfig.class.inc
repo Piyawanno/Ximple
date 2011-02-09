@@ -19,6 +19,7 @@ class SectionConfig extends ConfigControl{
 		ConfigControl::save();
 		$this->uploadIcon($oldIcon);
 		$this->setState();
+		$this->modelConnector->triggerPostInsert();
 	}
 	
 	public function index(){
@@ -58,6 +59,9 @@ class SectionConfig extends ConfigControl{
 		$html = $this->getNewConfigForm(tt('HTML'));
 		$html->append('meta_data');
 		$html->append('allowed_tags');
+		
+		$smiley = $this->getNewConfigForm(tt('Smiley'));
+		$smiley->append('smiley');
 		
 		$cacheDescription  = tt('Database cache is a part of the system. It can not be disabled. ');
 		$p = tt('You can, however, <a href="%s"><strong>clear database cache clicking here</strong></a>. ');
