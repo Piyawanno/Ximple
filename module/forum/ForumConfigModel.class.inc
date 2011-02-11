@@ -6,6 +6,7 @@ class ForumConfigModel extends ContentConfigModel{
 			'avatar' => tt('show avatar'),
 			'comment_avatar' => tt('show avatar for comments'),
 			'level' => tt('show user level'),
+			'signature' => tt('user signature'),
 		);
 		$this->forum_appearance = $this->checkbox(tt('show in rendered forum'), $option);
 		

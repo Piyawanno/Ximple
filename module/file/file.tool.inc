@@ -143,4 +143,13 @@ function file_get_mode_path($mode){
 function file_avoid_up_dir($dir){
 	if(count(split('\/\.\.', $dir)) >= 2) error_denied();
 }
+
+function file_check_allow(){
+	if(SECTION == 1) return true;
+	$allowed_dir = array(
+		'smiley/'.SECTION.'/',
+	);
+	if(in_array(gg('dir'), $allowed_dir)) return true;
+	return false;
+}
 ?>

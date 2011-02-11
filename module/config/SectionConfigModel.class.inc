@@ -94,7 +94,11 @@ class SectionConfigModel extends Model{
 		$this->tracker_enable = $this->enable(tt('user tracker enable'));
 		$this->tracker_time = $this->timeInterval(tt('user tracker expiration'), $timeInterval);
 		
-		$this->smiley = new MultipleFilesColumn(tt('smiley'), ROOT_PATH.'files/smiley/', 'smiley');
+		$path = ROOT_PATH.'files/smiley/'.SECTION.'/';
+		$this->smiley = new MultipleFilesColumn(tt('smiley'), $path, 'smiley');
+		$pattern = tt('You can also use <a href="%s">File Manage</a> to manage smiley in Section');
+		$link = SECTION_URI.'?mode=file_manage_admin&dir=smiley/'.SECTION.'/';
+		$this->smiley->help = sprintf($pattern, $link);
 	}
 }
 

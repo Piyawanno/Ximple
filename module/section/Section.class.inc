@@ -17,8 +17,10 @@ class Section extends Control{
 		$this->moduleName = 'section';
 		$this->moduleTitle = 'Section';
 		$this->addAction('section_redirect', 'redirect');
+		$this->addAction('section_manage', 'index');
 		$this->setAdmin('section_admin');
 		$this->init(new SectionModel());
+		document_set_path($this->moduleTitle, 'section_manage');
 	}
 	
 	public function index(){
@@ -49,16 +51,10 @@ class Section extends Control{
 	}
 	
 	public function insert(){
-		$success = true;
-		$path = ROOT_PATH.'section/'.pp('path').'/';
-		if(!is_dir($path)) @mkdir($path) or $success = false;
-		if($success) Control::insert();
-		if($success and !empty($this->id)){
-			io_write_file($path.'index.php', sprintf(SECTION_SCRIPT, $this->id));
-		}else{
-			$p = tt('Section can not be created. Please check permission of %s.');
-			notify_add_error(sprintf($p, ROOT_PATH.'section'));
-		}
+		$this->initScript();
+		$this->initConfig();
+		$this->initAdminMap();
+		document_set_redirect('section_manage');
 	}
 	
 	public function update(){
@@ -68,6 +64,7 @@ class Section extends Control{
 			Control::update();
 			$this->updateConfig();
 		}
+		document_set_redirect('section_manage');
 	}
 	
 	public function drop(){
@@ -106,6 +103,36 @@ class Section extends Control{
 		$config['section_name'] = pp('name');
 		$config['section_path'] = pp('path');
 		io_serialize($config, $path);
+	}
+	
+	private function initScript(){
+		$success = true;
+		$path = ROOT_PATH.'section/'.pp('path').'/';
+		if(!is_dir($path)) @mkdir($path) or $success = false;
+		if($success) Control::insert();
+		if($success and !empty($this->id)){
+			io_write_file($path.'index.php', sprintf(SECTION_SCRIPT, $this->id));
+		}else{
+			$p = tt('Section can not be created. Please check permission of %s.');
+			notify_add_error(sprintf($p, ROOT_PATH.'section'));
+		}
+	}
+	
+	private function initConfig(){
+		$path = ROOT_PATH.'files/config/config'.$this->id;
+		$config = config_check_default(array());
+		$config['section_name'] = pp('name');
+		$config['section_path'] = pp('path');
+		io_serialize($config, $path);
+	}
+	
+	private function initAdminMap(){
+		$data = array(
+			'users' => USER_ID,
+			'groups' => 1,
+			'section' => $this->id,
+		);
+		db_insert('map', $data);
 	}
 }
 ?>

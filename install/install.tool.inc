@@ -437,8 +437,8 @@ function install_finish_message(){
 	$m = tt('You can use %sTheme Manage%s to customize looks and feels of your site.').'</li>';
 	$item .= '<li>'.sprintf($m, '<a href="'.ROOT_URI.'admin/?/select_themes"><b>', '</b></a>');
 	$remove   = tt('After this step, please remove directory "install" for security of your website.');
-	$thank    = tt('Have fun, %sX-BLC Team%s');
-	$thank    = sprintf($thank, '<a href="http://www.biolawcom.de/xblc/">', '</a>');
+	$thank    = tt('Have fun, %sXimple Team%s');
+	$thank    = sprintf($thank, '<a href="http://www.ximplesoft.com/">', '</a>');
 	$message  = '<ul>'.$item.'</ul>';
 	$message .= '<p style="color:red;">'.$remove.'</p>';
 	$message .= '<p>'.$thank.'</p>';

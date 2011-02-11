@@ -12,9 +12,12 @@
 		<?php if($value['writer_id']['id'] == -1):?>
 			<a href="<?=$value['homepage']?>"><?=$value['writer']?></a>
 		<?php else:?>
-			<?=render_profile_linke($value['writer_id'])?>
+			<?=render_profile_link($value['writer_id'])?>
 		<?php endif?>
 	</h3>
+	<?php if(strlen(uu('signature')) and $show_signature):?>
+		<p class="comment_signature">[<?=uu('signature')?>]</p>
+	<?php endif?>
 	<?php if($value['is_new']):?>
 		<p>
 			<img src="<?=ROOT_URI?>files/icon/new.png" border="0" style="margin-right:15px;" align="left"/>
@@ -24,7 +27,7 @@
 	<table width="100%">
 		<tr>
 			<td valign="top"><?=$value['comment']?></td>
-			<?php if($is_avatar):?>
+			<?php if($show_avatar):?>
 				<td align="center" width="10%"><?=render_avatar($value['writer_id'], false)?></td>
 			<?php endif?>
 		</tr>

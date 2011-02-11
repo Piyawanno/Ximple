@@ -11,8 +11,13 @@ function form($form_id, $model){
 	head_add_css('include/external/cleditor/jquery.cleditor.css');
 	
 	head_add_js('include/external/jquery/jquery-form.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.advancedtable.min.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.icon.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.code.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.quote.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.advancedimage.js');
 	head_add_js('include/javascript/formcheck.js');
-	
 	head_add_js_var('uploadSuccess', tt('image successfully uploaded'));
 	head_add_js_var('pleaseFill', tt('Please, fill the required field : '));
 	head_add_js_var('formNotCorrect', tt('Any field in the form is not correctly filled. Please correct it and try again.'));
@@ -30,18 +35,19 @@ function form($form_id, $model){
 }
 
 function form_prepare_editor(){
-	head_add_js('include/external/cleditor/jquery.cleditor.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.advancedtable.min.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.icon.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.code.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.quote.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.advancedimage.js');
-	$smiley_dir = ROOT_PATH.'files/smiley';
+	$smiley_dir  = ROOT_PATH.'files/smiley/';
+	if(!is_dir($smiley_dir)) mkdir($smiley_dir);
+	$smiley_dir .= SECTION.'/';
 	if(!is_dir($smiley_dir)){
 		mkdir($smiley_dir);
 		$cle_dir = ROOT_PATH.'include/external/cleditor/images/icons/';
 		io_copy_directory($cle_dir, $smiley_dir);
 	}
+	$icon_array = io_get_directory_entry($smiley_dir);
+	foreach($icon_array as $key => $value){
+		$icon_array[$key] = ROOT_URI.'files/smiley/'.SECTION.'/'.$value;
+	}
+	head_add_js_array('iconArray', $icon_array);
 }
 
 function form_render_none($form_id, $name, $modelCol){

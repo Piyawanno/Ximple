@@ -5,7 +5,8 @@ abstract class ContentConfigModel extends Model{
 		$option = array(
 			'avatar' => tt('avatar'),
 			'category_icon' => tt('category icon'),
-			'comment_avatar' => tt('avatar for comments')
+			'comment_avatar' => tt('avatar for comments'),
+			'signature' => tt('user signature'),
 		);
 		$this->$appearance = $this->checkbox(tt('show in rendered page'), $option);
 		

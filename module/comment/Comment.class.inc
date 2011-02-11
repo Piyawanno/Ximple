@@ -156,7 +156,8 @@ class Comment extends Control{
 			$render = $pager;
 			$renderArray = array(
 				'data' => $this->data,
-				'is_avatar' => $this->checkAvatar(),
+				'show_avatar' => $this->checkAvatar(),
+				'show_signature' => $this->checkSignature(),
 			);
 			$render.= render($renderArray, $this->template, 'comment');
 			$render.= $pager;
@@ -259,9 +260,11 @@ class Comment extends Control{
 	}
 	
 	private function checkAvatar(){
-		$appearance = cc($this->mode.'_appearance');
-		if(!is_array($appearance)) $appearance = array();
-		return in_array('comment_avatar', $appearance);
+		return config_has_value($this->mode.'_appearance', 'comment_avatar');
+	}
+	
+	private function checkSignature(){
+		return config_has_value($this->mode.'_appearance', 'signature');
 	}
 }
 

@@ -39,8 +39,7 @@ function render_get_tpl($tpl){
 	else{
 		$tpl_out = render_find_tpl($tpl);
 		if($tpl_out == null){
-			if(state_is_develop()) die('Template file can not be found : '.$tpl);
-			else die();
+			die('Template file can not be found : '.$tpl);
 		}
 	}
 	

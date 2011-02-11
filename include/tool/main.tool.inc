@@ -207,10 +207,12 @@ function main_init_var(){
 function main_init_section_uri(){
 	if(SECTION == 1){
 		define('SECTION_URI', ROOT_URI);
-	}elseif(isset($config['section_uri']) and strlen($config['section_uri'])){
-		define('SECTION_URI', cc('section_uri'));
-	}else{
-		define('SECTION_URI', ROOT_URI.'section/'.cc('section_path').'/');
+	}elseif(!defined('SECTION_URI')){
+		if(isset($config['section_uri']) and strlen($config['section_uri'])){
+			define('SECTION_URI', cc('section_uri'));
+		}else{
+			define('SECTION_URI', ROOT_URI.'section/'.cc('section_path').'/');
+		}
 	}
 }
 

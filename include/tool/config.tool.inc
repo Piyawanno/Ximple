@@ -146,7 +146,7 @@ function config_default_panel_access(){
 			),
 		),
 		'Themes' => array(  
-			'theme_admin' => array(  
+			'theme_admin' => array(
 				'select themes' => 'theme_select',
 				'configure theme' => 'theme_config',
 				'custom css' => 'theme_css',
@@ -155,7 +155,7 @@ function config_default_panel_access(){
 		),
 	);
 	if(SECTION == 1){
-		$panel['System Admin']['section_admin']['add section'] = 'section';
+		$panel['System Admin']['section_admin']['manage section'] = 'section_manage';
 	}
 	return $panel;
 }

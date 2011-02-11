@@ -11,6 +11,7 @@ function account(){
 	$user = new User();
 	$user->id = account_get_uid();
 	$user->selectByID($user->column);
+	document_set_path(tt('Configure Account'));
 	return $user->account(account_render_additional($form));
 }
 
@@ -20,7 +21,9 @@ function account_save(){
 	$user->update();
 	$account_dir = ROOT_PATH.'files/account/';
 	if(!is_dir($account_dir)) mkdir($account_dir);
-	io_serialize(pp(), $account_dir.USER_ID);
+	$config = pp();
+	$config['signature'] = strip_tags($config['signature']);
+	io_serialize($config, $account_dir.USER_ID);
 	document_set_redirect('account');
 	notify_add_info(tt('Your account configuration has been successfully updated.'));
 }
@@ -45,14 +48,17 @@ function account_render_form(){
 		2 => tt('Normal text editor with markdown syntax'),
 	);
 	
-	$language = MOdel::select(tt('default language for my user interface'), translate_get_interface_language());
+	$signature = Model::char(tt('signature'));
+	$signature->data = uu('signature');
+	$language = Model::select(tt('default language for my user interface'), translate_get_interface_language());
 	$language->data = uu('language');
 	$profile = Model::radio(tt('who can see my profile'), $permission_select);
 	$profile->data = uu('profile_permission');
 	$email = Model::radio(tt('who can send me an email'), $permission_select);
 	$email->data = uu('email_permission');
 	
-	$form_render->append('language', $language);	
+	$form_render->append('signature', $signature);
+	$form_render->append('language', $language);
 	$form_render->append('profile_permission', $profile);
 	$form_render->append('email_permission', $email);
 	return $form_render->render();

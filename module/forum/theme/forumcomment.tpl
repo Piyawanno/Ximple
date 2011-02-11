@@ -15,6 +15,9 @@
 			<?=render_profile_link($value['writer_id'])?>
 		<?php endif?>
 	</h3>
+	<?php if(strlen(uu('signature')) and $show_signature):?>
+		<p class="comment_signature">[<?=uu('signature')?>]</p>
+	<?php endif?>
 	<?php if($value['is_new']):?>
 		<p>
 			<img src="<?=ROOT_URI?>files/icon/new.png" border="0" style="margin-right:15px;" align="left"/>

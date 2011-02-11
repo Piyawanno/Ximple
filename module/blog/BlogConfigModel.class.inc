@@ -7,6 +7,7 @@ class BlogConfigModel extends ContentConfigModel{
 			'avatar' => tt('show avatar'),
 			'category_icon' => tt('show category icon'),
 			'comment_avatar' => tt('show avatar for comments'),
+			'signature' => tt('user signature'),
 			'sibling' => tt('next/previous entry'),
 		);
 		$this->blog_appearance = $this->checkbox(tt('show in rendered blog'), $option);

@@ -15,16 +15,22 @@
 }
 
 .comment_foot{
-	border-top:1px solid #eee;
+	border-top:1px solid #ddd;
 	text-align:right;
 }
 
 .comment_foot a{
 	padding:0px 10px;
-	border-left:1px solid #eee;
+	border-left:1px solid #ddd;
 }
 
 .comment{
 	margin:0px 0px 50px 0px;
+}
+
+.comment_signature{
+	margin-top:-10px;
+	font-size:11px;
+	color:#666;
 }
 
