@@ -32,6 +32,7 @@ class PageDirectory extends Control{
 		$this->selectByID($this->column);
 		$this->parent = $this->dataByID['parent'];
 		$this->configuration = $this->dataByID['configuration'];
+		$this->configuration = 
 		$render = $this->renderIconBar();
 		$render.= $this->render();
 		if(strlen($this->dataByID['uri'])) $uri = '/'.$this->dataByID['uri'].'.html';

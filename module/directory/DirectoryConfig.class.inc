@@ -21,6 +21,7 @@ class DirectoryConfig extends ConfigControl{
 		$this->formMeta->title = $this->moduleTitle;
 		directory_set_path(mid());
 		document_set_path($this->moduleTitle);
+		head_add_js_var('translateModuleName', 'directory_config');
 		
 		$directory = $this->getNewConfigForm(tt('Sub-Directory Render'));
 		$directory->append('directory_list_label');

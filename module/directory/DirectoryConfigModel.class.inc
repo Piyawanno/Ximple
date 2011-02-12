@@ -5,8 +5,13 @@ class DirectoryConfigModel extends Model{
 	function DirectoryConfigModel(){
 		$this->show_item = new ShowItemColumn();
 		$this->extension_mode = $this->char(tt('extension URI'));
+		
 		$this->page_list_label = $this->char(tt('label for list of pages'));
+		$this->page_list_label->enableTranslate();
+		
 		$this->related_page_label  = $this->char(tt('label for related pages'));
+		$this->related_page_label->enableTranslate();
+		
 		$option = array(
 			'introduction' => tt('description with icon'),
 			'related' => tt('show related pages by rendered page'),
@@ -18,6 +23,8 @@ class DirectoryConfigModel extends Model{
 		$this->show_page = new ShowPageColumn();
 		
 		$this->directory_list_label = $this->char(tt('label for list of sub-directories'));
+		$this->directory_list_label->enableTranslate();
+		
 		$this->show_directory = new ShowDirectoryColumn();
 		
 		$option = content_get_publishing_status();
@@ -28,6 +35,8 @@ class DirectoryConfigModel extends Model{
 		$this->comment_page_length = $this->select(tt('number of shown comments per page'), $option);
 		$this->comment_show_avatar = $this->enable(tt('enable avatar by comment'));
 		$this->comment_write_label = $this->title(tt('label for comment write form'));
+		$this->comment_write_label->enableTranslate();
+		
 		$option = content_get_comment_permission();
 		$this->comment_permission = $this->checkbox(tt('available publishing status for contributor'), $option);
 		$this->comment_permission_default = $this->radio(tt('default publishing status for contributor'), $option);
@@ -50,8 +59,10 @@ class ShowItemColumn extends ModelColumn{
 	
 	function getSelection(){
 		$option = directory_show_item_option();
-		foreach($this->data as $key){
-			$this->option[$key] = $option[$key];
+		if(is_array($this->data)){
+			foreach($this->data as $key){
+				$this->option[$key] = $option[$key];
+			}
 		}
 		
 		foreach($option as $key => $value){
@@ -85,9 +96,13 @@ class ShowPageColumn extends ModelColumn{
 			$render .= '<a href="'.SECTION_URI.Q.'page/'.$id.'">'.$topic.'</a>';
 			$selection[$id] = $render;
 		}
-		foreach($this->data as $id){
-			if(isset($selection[$id])) $this->option[$id] = $selection[$id];
+		
+		if(is_array($this->data)){
+			foreach($this->data as $id){
+				if(isset($selection[$id])) $this->option[$id] = $selection[$id];
+			}
 		}
+		
 		foreach($selection as $key => $value){
 			if(!isset($this->option[$key])) $this->option[$key] = $value;
 		}
@@ -119,9 +134,13 @@ class ShowDirectoryColumn extends ModelColumn{
 			$render .= '<a href="'.SECTION_URI.Q.'directory/'.$id.'">'.$topic.'</a>';
 			$selection[$id] = $render;
 		}
-		foreach($this->data as $id){
-			$this->option[$id] = $selection[$id];
+		
+		if(is_array($this->data)){
+			foreach($this->data as $id){
+				$this->option[$id] = $selection[$id];
+			}
 		}
+		
 		foreach($selection as $key => $value){
 			if(!isset($this->option[$key])) $this->option[$key] = $value;
 		}

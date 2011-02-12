@@ -475,9 +475,14 @@ function showTranslateDialog(){
 function selectTranslateLanguage(languageSelect){
 	var translate = $('#translate_dialog');
 	var language = $(languageSelect).val();
-	var uri = sectionURI+moduleName+'_translate_form';
+	if(translateModuleName == null){
+		var uri = sectionURI+moduleName+'_translate_form';
+	}else{
+		var uri = sectionURI+translateModuleName+'_translate_form';
+	}
 	uri += '/module_id/'+modeID;
 	uri += '/language/'+language;
+	alert(uri);
 	$.get(uri, function(data){
 		translate.html(data);
 		initCLEditor();

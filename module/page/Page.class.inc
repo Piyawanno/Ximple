@@ -85,6 +85,7 @@ class Page extends Content{
 	
 	public function render($renderRelated=false){
 		if($this->isReadable()){
+			$this->dataByID = translate_content($this->dataByID, 'page', $this->id);
 			if($this->dataByID['publishing_status'] < 2){
 				search_set_page();
 				count_increase('page', $this->id);

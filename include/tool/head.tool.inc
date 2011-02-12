@@ -29,6 +29,7 @@ $head_js = array(
 $head_js_var = array(
 	'rootURI' => ROOT_URI,
 	'moduleName' => MODULE,
+	'translateModuleName' => null,
 	'modeName' => MODE,
 	'modeID' => MODE_ID,
 	'sectionID' => SECTION,
@@ -105,7 +106,8 @@ function head_define_js_var(){
 	global $head_js_var;
 	$js_var = '';
 	foreach($head_js_var as $key => $value){
-		if(is_string($value)) $js_var .= 'var '.$key.' = "'.$value.'";'."\n\t\t";
+		if($value == null) $js_var .= 'var '.$key.' = null;';
+		elseif(is_string($value)) $js_var .= 'var '.$key.' = "'.$value.'";'."\n\t\t";
 		elseif(is_bool($value)) $js_var .= 'var '.$key.' = '.($value?'true':'false').';'."\n\t\t";
 		else $js_var .= 'var '.$key.' = '.$value.';'."\n\t\t";
 	}

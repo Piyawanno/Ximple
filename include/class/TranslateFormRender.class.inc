@@ -2,8 +2,10 @@
 class TranslateFormRender extends FormRender{
 	private $moduleID;
 	private $translateData;
+	private $moduleName;
 	
-	function TranslateFormRender($modelConnector, $formMeta){
+	function TranslateFormRender($modelConnector, $formMeta, $moduleName){
+		$this->moduleName = $moduleName;
 		FormRender::FormRender($modelConnector, $formMeta);	
 	}
 	

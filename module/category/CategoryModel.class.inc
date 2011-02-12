@@ -8,6 +8,7 @@ class CategoryModel extends Model{
 		$this->description = $this->shortText(tt('description'));
 		$this->description->isList = true;
 		$this->description->isReachable = true;
+		$this->description->enableTranslate();
 		$this->mode = $this->hidden($mode, 'char');
 		$this->section = $this->section();
 	}
