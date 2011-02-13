@@ -37,6 +37,7 @@ function directory_set_path($pid){
 	while($pid != 0){
 		$parentData = db_select('directory', array('parent', 'name', 'uri'), 'WHERE id='.$pid, false);
 		$parentData[0]['id'] = $pid;
+		$parentData[0] = translate_content($parentData[0], 'directory', $pid);
 		$path[] = $parentData[0];
 		if(strlen($parentData[0]['uri'])) $uri = '/'.$parentData[0]['uri'].'.html';
 		else $uri = '';

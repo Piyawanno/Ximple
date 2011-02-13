@@ -482,7 +482,6 @@ function selectTranslateLanguage(languageSelect){
 	}
 	uri += '/module_id/'+modeID;
 	uri += '/language/'+language;
-	alert(uri);
 	$.get(uri, function(data){
 		translate.html(data);
 		initCLEditor();

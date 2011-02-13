@@ -40,7 +40,7 @@ class TranslateFormRender extends FormRender{
 		$model = array(
 			'status' => $status,
 			'language' => Model::hidden(gg('language')),
-			'module' => Model::hidden(MODULE),
+			'module' => Model::hidden($this->moduleName),
 			'module_id' => Model::hidden(gg('module_id')),
 		);
 		if(isset($this->translateData['id'])){

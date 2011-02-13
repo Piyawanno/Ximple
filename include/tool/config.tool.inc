@@ -139,7 +139,7 @@ function config_default_panel_access(){
 				'manage module' => 'module_manage'
 			),
 			'config_admin' => array(  
-				'configure section' => 'config',
+				'configure section' => 'config/'.SECTION,
 			),
 			'syslog_admin' => array(  
 				'system log' => 'syslog_render'
@@ -272,5 +272,10 @@ function config_check_default($config){
 		$config['theme'] = 'default';
 	}
 	return $config;
+}
+
+function config_translate(){
+	$GLOBALS['untranslated_config'] = $GLOBALS['config'];
+	$GLOBALS['config'] = translate_content($GLOBALS['config'], 'config', SECTION);
 }
 ?>

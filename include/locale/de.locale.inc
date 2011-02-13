@@ -1,4 +1,8 @@
 <?php
-$locale['Add %s'] = '%s hinzufügen';
-$locale['Edit %s'] = '%s ändern';
+globalvar_add_locale(array(
+	'Add %s' => '%s hinzufügen',
+	'Edit %s' => '%s ändern',
+	'edit' => 'ändern',
+	'drop' => 'löschen',
+));
 ?>

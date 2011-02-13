@@ -20,6 +20,7 @@ function main_init(){
 	db_init();
 	authority();
 	translate_define_language();
+	config_translate();
 	extension_execute('main_init');
 }
 
