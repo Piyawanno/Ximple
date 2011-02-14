@@ -3,9 +3,14 @@ execute_add_function('translate_set_language');
 
 function translate_define_language(){
 	if(!defined('LANGUAGE')){
-		$language = uu('language');
-		if($language) define('LANGUAGE', $language);
-		else define('LANGUAGE', DEFAULT_LANGUAGE);
+		$language = ss('language');
+		if($language){
+			define('LANGUAGE', $language);
+		}else{ 
+			$language = uu('language');
+			if($language) define('LANGUAGE', $language);
+			else define('LANGUAGE', DEFAULT_LANGUAGE);
+		}
 	}
 	translate_add_directory(ROOT_PATH.'include');
 }
@@ -81,13 +86,14 @@ function translate_get_data($clause){
 	$data = db_select('translation', $column, $clause);
 	if(count($data)){
 		$data = array_values($data);
-		$translation = unserialize($data[0]['translation']);
-		$translation['id'] = $data[0]['id'];
-		$translation['status'] = $data[0]['status'];
-		return $translation;
-	}else{
-		return array('status' => 0);
+		if(strlen($data[0]['translation'])){
+			$translation = unserialize($data[0]['translation']);
+			$translation['id'] = $data[0]['id'];
+			$translation['status'] = $data[0]['status'];
+			return $translation;
+		}
 	}
+	return array('status' => 0);
 }
 
 function translate_set_data($translation){

@@ -10,6 +10,7 @@ class PageModel extends ContentModel{
 		$this->icon = $this->imageLoader(tt('icon'), 'files/directory/');
 		$this->author_name = $this->char(tt('author name'), tt('If blank, your login-name will be shown.'));
 		$this->introduction = $this->shortText(tt('introduction'));
+		$this->introduction->enableTranslate();
 		$this->extendAfter('topic', 'icon');
 		$this->extendAfter('topic', 'author_name');
 		$this->extendAfter('topic', 'introduction');

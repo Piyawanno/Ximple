@@ -3,11 +3,13 @@ class PageDirectoryModel extends Model{
 	function PageDirectoryModel($parent){
 		$this->name = $this->title(tt('directory name'));
 		$this->name->listMode = 'directory';
+		$this->name->enableTranslate();
 		$this->uri = $this->char(tt('URI'));
 		$this->category = $this->category('page');
 		$this->index_page = new PageColumn();
 		$this->icon = $this->imageLoader(tt('icon'), 'files/directory/');
 		$this->description = $this->shortText(tt('description'));
+		$this->description->enableTranslate();
 		$this->permission = $this->group(tt('editor group'));
 		$this->permission->isExceptedGuest = true;
 		$this->permission->isExceptedAdmin = true;

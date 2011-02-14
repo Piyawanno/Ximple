@@ -71,7 +71,7 @@ abstract class ConfigControl extends Translatable{
 	}
 	
 	protected function getConfig(){
-		return cc();
+		return ucc();
 	}
 	
 	protected function setConfig($key, $value){

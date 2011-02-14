@@ -85,7 +85,7 @@ class Page extends Content{
 	
 	public function render($renderRelated=false){
 		if($this->isReadable()){
-			$this->dataByID = translate_content($this->dataByID, 'page', $this->id);
+			$this->translateDataByID();
 			if($this->dataByID['publishing_status'] < 2){
 				search_set_page();
 				count_increase('page', $this->id);
@@ -134,6 +134,7 @@ class Page extends Content{
 			$this->configuration = unserialize($parentData[0]['configuration']);
 			$this->parentName = $parentData[0]['name'];
 		}
+		$this->configuration = translate_content($this->configuration, 'directory_config', $this->parent);
 	}
 	
 	protected function setListWriteIcon(){
@@ -153,6 +154,7 @@ class Page extends Content{
 	
 	private function renderSingleEntry(){
 		$this->selectByID($this->column);
+		$this->translateDataByID();
 		if($this->isReadable()){
 			$this->parent = $this->dataByID['parent'];
 			$this->setConfiguration();
@@ -202,6 +204,7 @@ class Page extends Content{
 		if(!is_array($this->pageItem)){
 			$this->pageItem = array();
 		}
+		$this->translateItem();
 	}
 	
 	private function renderRelatedPage(){
@@ -225,8 +228,14 @@ class Page extends Content{
 			}
 			$clause = 'WHERE id='.$prePage.' OR id='.$postPage;
 			$sibling = db_select($this->tableName, array('id', 'topic', 'uri'), $clause);
-			if(isset($sibling[$prePage])) $this->dataByID['back'] = $sibling[$prePage];
-			if(isset($sibling[$postPage])) $this->dataByID['next'] = $sibling[$postPage];
+			if(isset($sibling[$prePage])){
+				$this->dataByID['back'] = $sibling[$prePage];
+				$this->dataByID['back'] = translate_content($sibling[$prePage], 'page', $sibling[$prePage]['id']);
+			}
+			if(isset($sibling[$postPage])){
+				$this->dataByID['next'] = $sibling[$postPage];
+				$this->dataByID['next'] = translate_content($sibling[$postPage], 'page', $sibling[$postPage]['id']);
+			}
 		}
 	}
 	
@@ -236,6 +245,12 @@ class Page extends Content{
 		$this->dataByID['show_introduction'] = in_array('introduction', $renderItem);
 		$this->dataByID['show_avatar'] = in_array('avatar', $renderItem);
 		$this->dataByID['show_category'] = in_array('category', $renderItem);
+	}
+	
+	private function translateItem(){
+		foreach($this->pageItem as $key => $value){
+			$this->pageItem[$key] = translate_content($value, 'page', $key);
+		}
 	}
 }
 ?>
