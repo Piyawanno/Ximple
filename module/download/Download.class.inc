@@ -56,6 +56,7 @@ class Download extends Control{
 			header('Content-Disposition: attachment; filename="'.$this->dataByID['name'].'.'.$extension.'"');
 			readfile($fileName);
 			execute_set_file();
+			count_increase('download', $this->id);
 		}else{
 			execute_set_db();
 			document_set_redirect('download');
@@ -97,6 +98,7 @@ class Download extends Control{
 			$render = '<h4>'.$icon.'<a href="'.SECTION_URI.Q.'download/'.$key.'">'.$value['name'].'</a></h4>';
 			$render.= $value['description'];
 			$render.= '<p>'.$uploader.' @ '.$value['upload_time'].' in '.$category.'</p>';
+			$render.= '<p>'.sprintf(tt('%s times downloaded'), '<!--{ximple_read/download/'.$key.'}-->').'</p>';
 			
 			$this->data[$key]['name'] = $render;
 			document_add_keyword($value['category']['category']);
