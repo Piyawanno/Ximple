@@ -130,7 +130,7 @@ class DataModifier{
 		$maxWidth = $this->modelConnector->getColumnAttribute('maxWidth');
 		foreach($this->fileColumn as $name){
 			$image = in_array($name, $isImage);
-			$fileName = io_upload(ff($name), $path[$name], $image);
+			$fileName = io_upload(ff($name), ROOT_PATH.$path[$name], $image);
 			if($image and $fileName){
 				$imagePath = ROOT_PATH.$fileName;
 				image_check_max_width(ff($name), $imagePath, $maxWidth[$name]);
@@ -144,7 +144,7 @@ class DataModifier{
 		foreach($this->fileColumn as $name){
 			$file = ff($name);
 			if(((isset($file['size']) and $file['size']) or $checkInput) and !empty($this->dataDB[$name])){
-				if(is_file(ROOT_PATH.$this->dataDB[$name])){
+				if(is_file(ROOT_PATH.$this->dataDB[$name]) and $this->dataDB[$name] != 'files/icon/uncategorized.png'){
 					io_drop_file(ROOT_PATH.$this->dataDB[$name]);
 				}
 			}

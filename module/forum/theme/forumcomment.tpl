@@ -15,8 +15,11 @@
 			<?=render_profile_link($value['writer_id'])?>
 		<?php endif?>
 	</h3>
-	<?php if(strlen(uu('signature')) and $show_signature):?>
-		<p class="comment_signature">[<?=uu('signature')?>]</p>
+	<?php
+		
+	?>
+	<?php if($show_signature):?>
+		<?=render_signature($value['writer_id'])?>
 	<?php endif?>
 	<?php if($value['is_new']):?>
 		<p>
@@ -28,7 +31,7 @@
 		<tr>
 			<td valign="top"><?=$value['comment']?></td>
 			<td align="center" width="10%">
-			<?php if($is_avatar):?>
+			<?php if($show_avatar):?>
 				<?=render_avatar($value['writer_id'], false)?>
 				<?=forum_render_level($value['writer_id']['id'])?>
 			<?php endif?>

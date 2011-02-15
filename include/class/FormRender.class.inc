@@ -41,8 +41,6 @@ class FormRender{
 	protected function renderForm(){
 		$model = $this->getFormColumn();
 		$form = form($this->formMeta->id, $model);
-		$extensionArg = array($form, $this->formMeta);
-		$form = extension_execute('pre_render_form', $extensionArg, $form);
 		$rednerArray = array(
 			'form' => $form,
 			'meta' => $this->formMeta,
@@ -53,7 +51,6 @@ class FormRender{
 			'config' => $this->renderedConfigForm,
 		);
 		$render = render($rednerArray, 'form.tpl', 'render_form');
-		$render = extension_execute('post_render_form', $render, $render);
 		return $render;
 	}
 	

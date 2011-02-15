@@ -82,7 +82,6 @@ function main_render_site($body){
 	);
 	search_add_source_page($body);
 	$render = render($render_array, 'main.tpl', 'main');
-	$render = extension_execute('post_main_render_site', null, $render);
 	return $render;
 }
 

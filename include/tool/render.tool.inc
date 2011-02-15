@@ -103,6 +103,17 @@ function render_profile_link($user){
 	else return '<a href="'.SECTION_URI.Q.'profile/'.$user['id'].'">'.$user['login_name'].'</a>';
 }
 
+function render_signature($user){
+	if(isset($user['config']['signature'])){
+		$signature = $user['config']['signature'];
+	}else{
+		$signature = null;
+	}
+	if(strlen($signature)){
+		return '<p class="signature">['.$signature.']</p>';
+	}
+}
+
 function render_avatar($user, $show_profile=true){
 	if(strlen($user['avatar']) == 0) $user['avatar'] = 'files/default.png';
 	$render = '

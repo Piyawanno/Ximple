@@ -45,6 +45,7 @@ class Gallery extends Content{
 	private function renderSingleGallery(){
 		$this->id = mid();
 		$this->selectByID($this->column);
+		$this->translateDataByID();
 		if($this->isReadable()){
 			$this->prepareRender();
 			head_add_css('gallery.css');
@@ -66,6 +67,7 @@ class Gallery extends Content{
 		head_add_css('gallery.css');
 		$column = $this->modelConnector->getColumnNameExcepted(array('content'));
 		$this->selectFirstPage($column, cc('gallery_entries_number'));
+		$this->translateData();
 		foreach($this->data as $key => $value){
 			$this->data[$key]['picture'] = $this->getPictures($key);
 		}

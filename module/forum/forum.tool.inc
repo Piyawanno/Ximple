@@ -95,6 +95,8 @@ function forum_render_level($user_id){
 		$contribution = count_get('contribution', $user_id);
 		$level = cc('forum_user_level');
 		$i = 1;
+		$userLevel = 0;
+		$userLevelName = tt('undefined level');
 		foreach($level as $key => $value){
 			$userLevel = $i;
 			$userLevelName = $value;

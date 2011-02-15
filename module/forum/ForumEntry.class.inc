@@ -22,14 +22,15 @@ class ForumEntry extends Content{
 	public function index(){
 		$this->id = gg('id');
 		$this->selectByID($this->column);
+		$this->getCommentNumber();
+		if(!authority_is_guest()){
+			count_set('forum_entry'.USER_ID, $this->id, time());
+		}
 		
 		if(!forum_check_permission($this->dataByID['forum'])){
 			error_denied();
 		}
 		count_increase($this->moduleName, $this->id);
-		if(!authority_is_guest()){
-			count_increase('forum_entry'.USER_ID, $this->id);
-		}
 		head_add_css('forum.css');
 		forum_set_path($this->dataByID['forum']);
 		document_set_path($this->dataByID['topic']);
@@ -188,8 +189,9 @@ class ForumEntry extends Content{
 	private function checkNew($data){
 		if(!authority_is_guest()){
 			$count = count_get_array('forum_entry'.USER_ID, array_keys($data));
-			foreach($count as $id => $number){
-				$data[$id]['is_new'] = ($number == 0);
+			foreach($count as $id => $accessTime){
+				$commentTime = strtotime($this->data[$id]['unformatted_comment_time']);
+				$data[$id]['is_new'] = ($accessTime < $commentTime);
 			}
 		}else{
 			foreach($data as $id => $value){
@@ -219,16 +221,14 @@ class ForumEntry extends Content{
 	}
 	
 	private function getIcon($entry){
+		if($entry['is_new']) $entry['icon'] = 'new';
+		else $entry['icon'] = 'default';
+		
 		if(isset($entry['comment_no'])){
 			if($entry['comment_no'] > 25) $entry['icon'] = 'veryhot';
 			elseif($entry['comment_no'] > 15) $entry['icon'] = 'hot';
-			else $entry['icon'] = 'default';
 		}elseif(!$this->isCommentable($entry['comment_permission'])){
 			$entry['icon'] = 'lock';
-		}elseif($entry['is_new']){
-			$entry['icon'] = 'new';
-		}else{
-			$entry['icon'] = 'default';
 		}
 		return $entry;
 	}

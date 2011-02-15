@@ -17,9 +17,9 @@ class About extends ConfigControl{
 	
 	public function index(){
 		$this->getConfig();
+		$this->data = translate_content($this->data, 'about', SECTION);
 		$this->data['is_admin'] = authority_group('config_admin');
 		document_set_path($this->data['title']);
-		$this->data = translate_content($this->data, 'about', SECTION);
 		return render($this->data, 'about.tpl', 'about');
 	}
 	
@@ -51,7 +51,7 @@ class About extends ConfigControl{
 	
 	protected function saveConfig(){
 		if(!is_dir(dirname($this->path))) mkdir(dirname($this->path));
-		io_serialize($this->data, $this->path);
+		io_serialize(input_strip_slash_array($this->data), $this->path);
 		config_append_assc('navigation', 'about', pp('title'));
 		config_save();
 	}

@@ -18,6 +18,8 @@ function userinfo_get_info($data, $column){
 			if(empty($user_info[$id]['avatar'])){
 				$user_info[$id]['avatar'] = 'files/avatar/default.png';
 			}
+			$user_config = io_unserialize(ROOT_PATH.'files/account/'.$id);
+			$user_info[$id]['config'] = $user_config;
 			$data[$key][$column] = $user_info[$id];
 		}
 	}

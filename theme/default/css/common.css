@@ -191,3 +191,9 @@ ins{
 	font-weight:bold;
 	text-decoration:underline;
 }
+
+.signature{
+	margin-top:-10px;
+	font-size:11px;
+	color:#666;
+}
