@@ -102,7 +102,7 @@ function translate_set_data($translation){
 		'module' => $translation['module'],
 		'module_id' => $translation['module_id'],
 		'language' => $translation['language'],
-		'translation' => serialize($translation),
+		'translation' => input_strip_slash_array(serialize($translation)),
 	);
 	if(isset($translation['id'])){
 		db_update('translation', $data, $translation['id']);
