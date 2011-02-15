@@ -70,6 +70,21 @@ function count_get($mode, $id){
 	return $count[1];
 }
 
+function count_get_all($mode){
+	$file_name = ROOT_PATH.'files/count/'.SECTION.'/'.$mode.'.bin';
+	if(!is_file($file_name)) return array();
+	$file = fopen($file_name, 'r');
+	$size = filesize($file_name)/4;
+	$result = array();
+	for($i=0;$i<$size;$i++){
+		fseek($file, $i*4);
+		$count = unpack('V', fread($file, 4));
+		$result[] = $count[1];
+	}
+	return $result;
+}
+
+
 function count_get_array($mode, $id_array){
 	$file_name = ROOT_PATH.'files/count/'.SECTION.'/'.$mode.'.bin';
 	if(!is_file($file_name)){
