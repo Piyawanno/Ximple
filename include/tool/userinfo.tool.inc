@@ -1,5 +1,4 @@
 <?php
-
 execute_add_function('userinfo_get_ajax_name');
 execute_add_function('userinfo_check_user_exists');
 execute_add_function('userinfo_check_email_exists');
