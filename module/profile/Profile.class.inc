@@ -21,19 +21,15 @@ class Profile extends Control{
 	}
 	
 	public function index(){
-		$uid = $this->getUID();
-		$this->select($this->column, 'WHERE owner='.$uid);
-		$user_info = userinfo_get_info_by_id($uid);
 		head_add_css('profile.css');
-		$data = array();
-		foreach($this->data as $key => $value){
-			$data[$value['profiletype']][] = $value['profile'];
-		}
+		$uid = $this->getUID();
 		$editable = authority_owner('profile_admin', $uid);
+		$additional_link = extension_execute('additional_profile_link', null, array());
 		$renderArray = array(
-			'user' => $user_info,
-			'data' => $data,
+			'user' => userinfo_get_info_by_id($uid),
+			'data' => $this->prepareIndexData(),
 			'uid' => $uid,
+			'additional_link' => $additional_link,
 			'allow_email' => $this->getAllowEmail($editable),
 			'readable' => $this->getReadable($editable),
 			'editable' => $editable,
@@ -88,6 +84,15 @@ class Profile extends Control{
 		if(empty($uid)) $uid = USER_ID;
 		if($uid <= 0) error_denied(); 
 		return $uid;
+	}
+	
+	private function prepareIndexData(){
+		$this->select($this->column, 'WHERE owner='.$this->getUID());
+		$data = array();
+		foreach($this->data as $key => $value){
+			$data[$value['profiletype']][] = $value['profile'];
+		}
+		return $data;
 	}
 }
 ?>

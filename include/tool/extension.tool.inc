@@ -1,14 +1,13 @@
 <?php
 
-function extension_execute($reference, $params=null){
+function extension_execute($reference, $params=null, $result=null){
 	$extension = cc('extension');
 	if(isset($extension[$reference])){
-		$res = array();
 		foreach($extension[$reference] as $key => $value){
-			$res[] = execute_string($value, $params);
+			$result = execute_string($value, $params, $result);
 		}
-		return $res;
 	}
+	return $result;
 }
 
 function extension_add($reference, $extension_name){

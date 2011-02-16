@@ -35,7 +35,6 @@ class DevelCardModel extends Model{
 		if(authority_group('develcard_moderator') or authority_group('develcard_admin')){
 			$this->deadline = $this->calendar(tt('deadline'));
 			$this->deadline->isList = true;
-			$this->deadline = $this->now();
 			$this->priority = $this->select(tt('priority'), $priorityOption);
 			$this->priority->isList = true;
 			$this->priority->isReachable = true;
