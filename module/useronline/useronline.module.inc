@@ -3,6 +3,7 @@ execute_add_function('useronline');
 execute_add_function('useronline_block_cont');
 execute_add_function('useronline_block_user_list');
 execute_add_function('useronline_set_access');
+execute_add_function('useronline_profile_test');
 
 function useronline(){
 	document_set_path(tt('Who is online'));
@@ -17,6 +18,15 @@ function useronline_block_cont(){
 	$content = sprintf(tt('%d people are online.'), $count);
 	$content = '<a href="'.SECTION_URI.'useronline">'.$content.'</a>';
 	return $content;
+}
+
+function useronline_profile_test($params, $result){
+	$result[] = array(
+		'mode' => 'useronline',
+		'icon' => 'files/icon/folder.png',
+		'label' => tt('Who is online'),
+	);
+	return $result;
 }
 
 function useronline_block_user_list(){

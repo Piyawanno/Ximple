@@ -9,6 +9,9 @@
 		<p><?=render_icon('message_write/send_to/'.$user['login_name'], 'files/icon/message.png', sprintf(tt('Send a message to %s'), $user['login_name']));?></p>
 		<p><?=render_icon('tracker/'.$user['id'], 'files/icon/tracker.png', sprintf(tt('See tracker of  %s'), $user['login_name']));?></p>
 	<?php endif?>
+	<?php foreach($additional_link as $key => $value):?>
+		<p><?=render_icon($value['mode'], $value['icon'], $value['label']);?></p>
+	<?php endforeach?>
 	<?=render_write_icon('profile_write', tt('Add new User-Profile'))?>
 	<?php if($readable):?>
 		<?php foreach($data as $key => $value):?>

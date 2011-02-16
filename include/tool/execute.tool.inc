@@ -12,9 +12,7 @@ function execute($mode, $params=null, $result=null){
 	execute_get_requirement($module);
 	if(!execute_is_callable($mode)) error_denied();
 	if(function_exists($mode) and in_array($mode, $execute_callable)){
-		if(!empty($result)) return $mode($params, $result);
-		elseif(!empty($params)) return $mode($params);
-		else return $mode();
+		return $mode($params, $result);
 	}else{
 		return execute_oop($mode, $module, $params, $result);
 	}
@@ -44,9 +42,7 @@ function execute_oop($mode, $module, $params, $result){
 			if(!$obj->isCallable($method)){
 				error_denied();
 			}elseif($method){
-				if(!empty($result)) $result = $obj->$method($params, $result);
-				elseif(!empty($params)) $result = $obj->$method($params);
-				else $result = $obj->$method();
+				$result = $obj->$method();
 				$success = true;
 			}
 		}
