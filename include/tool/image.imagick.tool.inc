@@ -75,6 +75,15 @@ function image_get_src($file, $path){
 	}
 }
 
+function image_get_size($path){
+	$im = new Imagick();
+	$im->readImage($path);
+	return array(
+		$im->getImageWidth(),
+		$im->getImageHeight(),
+	);
+}
+
 
 /// Generate gradient image.
 /// Source http://www.bradshawenterprises.com/blog/2010/dynamically-drawing-gradients-with-php/

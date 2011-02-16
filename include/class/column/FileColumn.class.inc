@@ -2,11 +2,12 @@
 require_once('CharColumn.class.inc');
 class FileColumn extends CharColumn{
 	public $isImage = false;
+	public $path;
 	
 	protected $fileArray = array();
+	protected $dataDB;
 	
 	private $id;
-	private $dataDB;
 	
 	function FileColumn($label, $path, $help=null){
 		CharColumn::CharColumn($label, $help);
@@ -37,6 +38,12 @@ class FileColumn extends CharColumn{
 	public function triggerDrop(){
 		$this->getData();
 		if(is_file(ROOT_PATH.$this->dataDB)) unlink(ROOT_PATH.$this->dataDB);
+	}
+	
+	protected function getData(){
+		$clause = 'WHERE id='.$this->id;
+		$data = db_select_single_column($this->tableName, $this->name, $clause);
+		$this->dataDB = $data[$this->id];
 	}
 	
 	private function singleInsert(){
@@ -82,12 +89,6 @@ class FileColumn extends CharColumn{
 				unset($this->fileArray[$key]);
 			}
 		}
-	}
-	
-	private function getData(){
-		$clause = 'WHERE id='.$this->id;
-		$data = db_select_single_column($this->tableName, $this->name, $clause);
-		$this->dataDB = $data[$this->id];
 	}
 	
 	private function getMultipleData(){

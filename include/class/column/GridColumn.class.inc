@@ -32,7 +32,7 @@ class GridColumn extends ModelColumn{
 		$this->dropMode = $modelObj->dropMode;
 		$this->isLink = true;
 		$this->isDB = false;
-		$this->initModelConnector($modelObj->moduleName, $modelObj);
+		$this->initModelConnector($modelObj);
 		$this->mergeModel();
 		$this->parentColumn = $this->modelConnector->getParentColumnName();
 		return $this;
@@ -49,7 +49,6 @@ class GridColumn extends ModelColumn{
 		$formRender->setGridColumn($this);
 		return $formRender->renderForm($formID);
 	}
-	
 	
 	public function triggerSelect(){
 		$this->getDBData();
@@ -78,6 +77,13 @@ class GridColumn extends ModelColumn{
 				$this->modelConnector->triggerSetParent($this->id);
 				$this->dataModifier->update(false);
 			}
+		}
+	}
+	
+	public function triggerDBDrop(){
+		if($this->isLink){
+			$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
+			db_drop_many($this->childTableName, $clause);
 		}
 	}
 	
@@ -154,7 +160,7 @@ class GridColumn extends ModelColumn{
 		$this->data = db_select($this->childTableName, $column, $clause);
 	}
 	
-	private function initModelConnector($moduleName, $modelObj){
+	private function initModelConnector($modelObj){
 		$modelFactory = new ModelFactory($modelObj);
 		$this->modelConnector = $modelFactory->bind();
 	}

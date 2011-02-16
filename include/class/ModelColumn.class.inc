@@ -27,6 +27,7 @@ abstract class ModelColumn{
 	public $isLink = false;
 	public $isRepresentative = false;
 	public $isForm = true;
+	public $isOverlayGridForm = false;
 	public $isConfigFormAllowed = true;
 	public $isGridForm = true;
 	public $isFormLabel = true;

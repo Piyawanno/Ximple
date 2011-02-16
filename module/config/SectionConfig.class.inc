@@ -21,6 +21,7 @@ class SectionConfig extends ConfigControl{
 		$this->uploadIcon($oldIcon);
 		$this->setState();
 		$this->modelConnector->triggerPostInsert();
+		$this->setDefaultSubscription();
 	}
 	
 	public function index(){
@@ -38,7 +39,6 @@ class SectionConfig extends ConfigControl{
 		$general->append('index_mode');
 		$general->append('home_label');
 		$general->append('icon');
-		$general->append('notify_interval');
 		$general->append('friendly_url_enable');
 		$general->append('state');
 		
@@ -89,11 +89,13 @@ class SectionConfig extends ConfigControl{
 		$spam->append('antispam_salt');
 		$spam->append('antispam_time');
 		
-		$syslog = $this->getNewConfigForm(tt('System Log'));
+		$syslog = $this->getNewConfigForm(tt('System Log & Notification'));
 		$syslog->append('syslog_enable');
 		$syslog->append('syslog_time');
 		$syslog->append('tracker_enable');
 		$syslog->append('tracker_time');
+		$syslog->append('notify_interval');
+		$syslog->append('notify_default_subscription');
 		
 		$this->renderAdditionalConfig();
 		
@@ -117,6 +119,10 @@ class SectionConfig extends ConfigControl{
 		execute_set_db();
 		document_set_redirect('config');
 		notify_add_info(tt('Configuration have been successfully reset.'));
+	}
+	
+	public function getConfigValue($reference){
+		return cc($reference);
 	}
 	
 	private function setLanguage(){
@@ -157,17 +163,17 @@ class SectionConfig extends ConfigControl{
 	}
 	
 	private function renderAdditionalConfig(){
-		include_once(INCLUDE_PATH.'class/ConfigFormRender.class.inc');
-		$configModel = extension_execute_append_result('section_config', null, array());
-		if(is_array($configModel)){
-			foreach($configModel as $label => $modelArray){
-				$configForm = new ConfigFormRender($label, $this->modelConnector);
-				$this->configForm[] = $configForm;
-				foreach($modelArray as $name => $model){
-					$model->data = cc($name);
-					$configForm->appendModel($name, $model);
-				}
-			}
+		include_once(INCLUDE_PATH.'class/ExtendedConfigFormRender.class.inc');
+		$formRender = new ExtendedConfigFormRender($this, 'section_config');
+		$formRender->render();
+	}
+	
+	private function setDefaultSubscription(){
+		$default = cc('notify_default_subscription');
+		$directory = notify_create_subscribe_directory();
+		$uid = db_select_single_column('users', 'id', 'WHERE section='.SECTION);
+		foreach($default as $key => $value){
+			io_serialize($uid, $directory.$value);
 		}
 	}
 }

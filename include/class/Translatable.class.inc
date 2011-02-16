@@ -31,9 +31,10 @@ abstract class Translatable extends Authority{
 		notify_add_info(tt('Your translated content has been successfully updated.'));
 	}
 	
-	protected function init(){
+	protected function init($modelObj){
 		if(strlen($this->moduleExtension) == 0) $this->fullModuleName = $this->moduleName;
 		else $this->fullModuleName = $this->moduleName.'_'.$this->moduleExtension;
+		$this->checkAtribute($modelObj);
 	}
 	
 	protected function translateData(){
@@ -55,6 +56,31 @@ abstract class Translatable extends Authority{
 		$this->formMeta->configForm = $this->configForm;
 		if($this->formMeta->isSetTitle){
 			document_set_title($this->formMeta->title);
+		}
+	}
+	
+	private function checkAtribute($modelObj){
+		if(state_is_develop()){
+			$message = array();
+			$pattern = tt('Atrribute mismatched Model & Control (%s) : %s vs %s.');
+			$attribute = array(	
+				'moduleName',
+				'moduleExtension',
+				'fullModuleName',
+				'tableName',
+			);
+			foreach($attribute as $key => $value){
+				if(strlen($modelObj->$value)){
+					if(strlen($this->$value) == 0){
+						$this->$value = $modelObj->$value;
+					}elseif($this->$value != $modelObj->$value){
+						$message[] = sprintf($pattern, $value, $this->$value, $modelObj->$value);
+					}
+				}
+			}
+			foreach($message as $key => $value){
+				notify_add_error($value);
+			}
 		}
 	}
 }

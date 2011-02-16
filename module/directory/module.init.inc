@@ -37,7 +37,7 @@ function module_init_directory(){
 	$contributor->submit();
 	
 	$panel = new PanelManager('Directory');
-	$panel->setControl($directory);
+	$panel->appendControl($directory);
 	$panel->appendRole($admin);
 	$panel->appendRole($contributor);
 	$panel->append('directory_list', 'list my Directory');
@@ -45,7 +45,7 @@ function module_init_directory(){
 	$panel->submit();
 	
 	list($admin, $editor, $contributor) = content_add_role('page', tt('Page'));
-	$panel->setControl($page);
+	$panel->appendControl($page);
 	$panel->append('category/module/page', 'Page category');
 	$panel->append('page_contributor_list', 'list my Page');
 	$panel->append('page_editor_list', 'list Page in Section');

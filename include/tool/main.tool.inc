@@ -65,6 +65,8 @@ function main_render(){
 	}elseif(execute_as_print()){
 		header('Content-Type: text/html; charset=UTF-8');
 		$render = main_render_print($body);
+	}else{
+		return null;
 	}
 	$render = extension_execute('post_main_render', $render);
 	return $render;

@@ -11,6 +11,10 @@ class CalendarColumn extends CharColumn{
 		$this->dateFormat = cc('time_format');
 	}
 	
+	public function triggerGetJavaScript(){
+		head_add_js('include/javascript/calendar.column.js');
+	}
+	
 	public function triggerSelect(){
 		if($this->formatDateBySelect){
 			$this->data = date($this->dateFormat, strtotime($this->data));
@@ -18,7 +22,6 @@ class CalendarColumn extends CharColumn{
 	}
 	
 	public function renderForm($formID){
-		head_add_js('include/javascript/calendar.column.js');
 		if($this->data){
 			$this->data = date('d F Y', strtotime($this->data));
 		}else{

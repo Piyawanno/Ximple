@@ -75,6 +75,7 @@ class GridFormRender{
 	
 	private function renderRowForm($id, $model){
 		if($model->isGridForm){
+			if(method_exists($model, 'triggerGetJavaScript')) $model->triggerGetJavaScript();
 			if($model->isFormLabel){
 				return '<td>'.$model->renderGridForm($id).'</td>';
 			}else{

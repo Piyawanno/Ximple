@@ -25,7 +25,7 @@ function module_init_faq(){
 	$contributor->submit();
 	
 	$panel = new PanelManager('FAQ');
-	$panel->setControl($faq);
+	$panel->appendControl($faq);
 	$panel->append('category/module/faq', 'FAQ category');
 	$panel->append('faq_arrange', 'rearrage FAQ');
 	$panel->append('faq_list', 'list all questions');

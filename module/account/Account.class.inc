@@ -3,6 +3,8 @@ require_once(MODULE_PATH.'user/User.class.inc');
 execute_add_class('account', 'Account');
 
 class Account extends User{
+	private $additionConfigForm = array();
+	
 	public function Account(){
 		$this->tableName = 'users';
 		$this->moduleName = 'account';
@@ -32,15 +34,18 @@ class Account extends User{
 		if(isset($config['subscribe'])) $this->updateSubscriber($config['subscribe']);
 		else $this->updateSubscriber(array());
 		
-		$config = extension_execute('account_update', $config);
+		$config = extension_execute_append_result('account_config_save', null, $config);
 		io_serialize($config, $accountDirectory.$this->id);
 		document_set_redirect('account');
 		notify_add_info(tt('Your account configuration has been successfully updated.'));
 		document_set_redirect('account/'.$this->id);
 	}
 	
+	public function getConfigValue($reference){
+		return user_info_get_config($this->id, $reference);
+	}
+	
 	private function renderForm(){
-		$additionalForm = $this->renderAdditionForm();
 		$this->initJS();
 		head_add_js_var('insertUser', false);
 		head_add_js_var('uid', gg('id'));
@@ -48,49 +53,22 @@ class Account extends User{
 		$this->formMeta->id = 'user';
 		$this->formMeta->title = $this->moduleTitle;
 		$this->formMeta->mode = 'account_update';
-		$this->formMeta->additionalForm = $additionalForm;
+		$this->renderConfigForm();
 		$this->renderAvatar();
+		$this->renderAdditionalConfig();
 		return $this->renderUpdateForm();
 	}
 	
-	private function renderAdditionForm(){
-		$form = array($this->renderConfigForm());
-		$additional = cc('account_config');
-		if(is_array($additional)){
-			foreach($additional as $key => $value){
-				$form[] = execute_string($value);
-			}
-		}
-		return $form;
+	private function renderAdditionalConfig(){
+		include_once(INCLUDE_PATH.'class/ExtendedConfigFormRender.class.inc');
+		$formRender = new ExtendedConfigFormRender($this, 'account_config');
+		$formRender->render();
 	}
 	
 	private function renderConfigForm(){
-		include_once(INCLUDE_PATH.'class/QuickFormRender.class.inc');
-		$formRender = new QuickFormRender('user');
-		
-		$signature = Model::char(tt('signature'));
-		$signature->data = user_info_get_config($this->id, 'signature');
-		
-		$language = Model::select(tt('default language for my user interface'), translate_get_interface_language());
-		$language->data = user_info_get_config($this->id, 'language');
-		
-		$subscribeOption = $this->getSubcribeOption();
-		$subscribe = Model::checkbox(tt('send me an email by'), $subscribeOption);
-		$subscribe->data = user_info_get_config($this->id, 'subscribe');
-		
-		$permissionOption = $this->getProfilePermissionOption();
-		$profile = Model::radio(tt('who can see my profile'), $permissionOption);
-		$profile->data = user_info_get_config($this->id, 'profile_permission');
-		
-		$email = Model::radio(tt('who can send me an email'), $permissionOption);
-		$email->data = user_info_get_config($this->id, 'email_permission');
-	
-		$formRender->append('signature', $signature);
-		$formRender->append('language', $language);
-		$formRender->append('subscribe', $subscribe);
-		$formRender->append('profile_permission', $profile);
-		$formRender->append('email_permission', $email);
-		return $formRender->render();
+		require_once('AccountConfigModel.class.inc');
+		$generic = $this->getNewConfigForm(tt('General Configuration'), $this->modelConnector);
+		$generic->appendModel('generic', new AccountConfigModel($this->id));
 	}
 	
 	private function getUID(){
@@ -99,25 +77,8 @@ class Account extends User{
 		else $this->id = USER_ID;
 	}
 	
-	private function getProfilePermissionOption(){
-		return array(
-			0 => tt('Everybody included anonymous visitor'),
-			1 => tt('All authenticated users'),
-			2 => tt('Only you and administration'),
-		);
-	}
-	
-	private function getSubcribeOption(){
-		$configSubscribe = notify_get_subscribable_module();
-		if(!is_array($configSubscribe)) $configSubscribe = array();
-		$option = array(
-			'comment' => tt('someone comments on my contributions'),
-		);
-		return array_merge($option, $configSubscribe);
-	}
-	
 	private function updateSubscriber($subscribe){
-		$subscribeDir = $this->createSubcribeDirectory();
+		$subscribeDir = notify_create_subscribe_directory();
 		$this->addSubscriber($subscribe, $subscribeDir);
 		$this->dropSubscriber($subscribe, $subscribeDir);
 	}
@@ -134,7 +95,7 @@ class Account extends User{
 	}
 	
 	private function dropSubscriber($subscribe, $subscribeDir){
-		$configSubscribe = cc('subscribable_module');
+		$configSubscribe = notify_get_subscribable_module();
 		foreach($configSubscribe  as $key => $value){
 			if(!in_array($key, $subscribe)){
 				$subscriber = io_unserialize($subscribeDir.$key);
@@ -142,14 +103,6 @@ class Account extends User{
 				io_serialize($subscriber, $subscribeDir.$key);
 			}
 		}
-	}
-	
-	private function createSubcribeDirectory(){
-		$subscribeDir = FILES_PATH.'subscribe/';
-		if(!is_dir($subscribeDir)) mkdir($subscribeDir);
-		$subscribeDir.= SECTION.'/';
-		if(!is_dir($subscribeDir)) mkdir($subscribeDir);
-		return $subscribeDir;
 	}
 }
 ?>

@@ -3,11 +3,25 @@ include_once('ModelColumn.class.inc');
 
 abstract class Model{
 	public $tableName;
+	public $moduleName;
+	public $moduleExtension;
+	public $fullModuleName;
+	public $dropMode;
+	public $isOverlayGridForm = false;
 	
 	private $extendedObjBefore = array();
 	private $extendedObjAfter = array();
 	private $caegorized = false;
 	private $sectionColumn = false;
+	private $factory = null;
+	
+	public function asArray(){
+		if(empty($this->factory)){
+			require_once('ModelFactory.class.inc');
+			$this->factory = new ModelFactory($this);
+		}
+		return $this->factory->getModelArray();
+	}
 	
 	public function getExtendedBefore($columnName){
 		if(isset($this->extendedObjBefore[$columnName])){
@@ -227,6 +241,11 @@ abstract class Model{
 	public function grid($label, $help=null){
 		include_once('column/GridColumn.class.inc');
 		return new GridColumn($label, $help);
+	}
+	
+	public function overlayGrid($label, $childModuleName, $help=null){
+		include_once('column/OverlayGridColumn.class.inc');
+		return new OverlayGridColumn($label, $childModuleName, $help);
 	}
 }
 ?>

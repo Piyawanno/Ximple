@@ -14,6 +14,7 @@ class ShortNote extends Control{
 		$this->insertRedirection = 'shortnote#top_note';
 		$this->updateRedirection = 'shortnote#note_'.mid();
 		$this->init(new ShortNoteModel());
+		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	public function index(){

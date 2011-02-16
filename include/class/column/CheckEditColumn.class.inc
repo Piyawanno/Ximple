@@ -8,8 +8,11 @@ class CheckEditColumn extends SelectiveColumn{
 		$this->setType('array');
 	}
 	
-	public function renderForm($formID){
+	public function triggerGetJavaScript(){
 		head_add_js('include/javascript/checkedit.column.js');
+	}
+	
+	public function renderForm($formID){
 		$id = $formID.'_'.$this->name;
 		$this->checkSortable();
 		$render = '<div class="checkedit_list">';

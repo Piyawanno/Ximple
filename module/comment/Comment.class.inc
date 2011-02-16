@@ -13,6 +13,8 @@ class Comment extends Control{
 	private $insertMode;
 	private $parentAdminGroup;
 	private $parentPermissionColumn = 'comment_permission';
+	private $subscribeMode = null;
+	private $subscribeMessage = null;
 	
 	function Comment($isInit=true){
 		$this->tableName = 'comment';
@@ -21,6 +23,18 @@ class Comment extends Control{
 		$this->template = 'comment.tpl';
 		$this->insertMode = 'comment_insert';
 		if($isInit) $this->parentlessInit();
+	}
+	
+	public function index(){
+		$this->id = (int) gg('id');
+		if($this->id){
+			$this->selectByID(array('mode', 'parent'));
+			$uri = $this->dataByID['mode'].'/'.$this->dataByID['parent'].'#comment_'.$this->id;
+			document_set_redirect($uri);
+			execute_set_db();
+		}else{
+			error_not_found();
+		}
 	}
 	
 	public function parentlessInit(){
@@ -47,6 +61,10 @@ class Comment extends Control{
 		if($parent) $this->parent = $parent;
 		elseif(pp('parent')) $this->parent = (int) pp('parent');
 		elseif(gg('parent')) $this->parent = (int) gg('parent');
+	}
+	
+	public function setSubscribeMode($mode){
+		$this->subscribeMode = $mode;
 	}
 	
 	public function setParentWriter($parentWriter){
@@ -185,6 +203,7 @@ class Comment extends Control{
 				'data' => $this->data,
 				'show_avatar' => $this->checkAvatar(),
 				'show_signature' => $this->checkSignature(),
+				'addition_operation' => $this->getExtendedOperation(),
 			);
 			$render.= render($renderArray, $this->template, 'comment');
 			$render.= $pager;
@@ -192,6 +211,17 @@ class Comment extends Control{
 		}else{
 			return '';
 		}
+	}
+	
+	private function getExtendedOperation(){
+		$operation = array();
+		foreach($this->data as $id => $data){
+			$data['module'] = 'comment';
+			if(is_array($data['writer_id'])) $data['owner'] = $data['writer_id']['id'];
+			else $data['owner'] = $data['writer_id'];
+			$operation[$id] = extension_execute_append_result('comment_operation', $data, array());
+		}
+		return $operation;
 	}
 	
 	private function isReadable(){
@@ -270,6 +300,9 @@ class Comment extends Control{
 			}
 		}
 		notify_multiple_subscribe($message, $relatedUser, 'comment');
+		if($this->subscribeMode){
+			notify_subscribe_by_mode($this->subscribeMode, $message);
+		}
 	}
 	
 	private function renderParentTopic(){

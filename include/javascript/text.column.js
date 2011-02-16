@@ -18,7 +18,7 @@ function initTextColumn(){
 		form.cleditor({
 			height		:	'250px',
 			width		:	'100%',
-			controls	:	"bold image italic underline strikethrough bullets numbering quote link unlink icon paste pastetext source"
+			controls	:	"bold image italic underline strikethrough bullets numbering quote outdent indent link unlink icon paste pastetext source"
 		});
 	});
 
@@ -26,7 +26,7 @@ function initTextColumn(){
 		form.cleditor({
 			height		:	'250px',
 			width		:	'100%',
-			controls	:	"bold image advancedimage italic underline strikethrough bullets numbering quote link unlink icon paste pastetext code source"
+			controls	:	"bold image advancedimage italic underline strikethrough bullets numbering quote  outdent indent link unlink icon paste pastetext code source"
 		});
 	});
 }

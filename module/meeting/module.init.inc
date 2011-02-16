@@ -63,12 +63,6 @@ function module_drop_meeting(){
 	$meetingConfig = new MeetingConfig();
 	$meetingConfig->dropModule();
 	
-	$flash = new FlashWidgetManager('meeting_last_post');
-	$flash->drop();
-	
-	$flash = new FlashWidgetManager('meeting_last_commented');
-	$flash->drop();
-	
 	config_drop('meeting_entries_number');
 }
 ?>

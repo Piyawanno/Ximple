@@ -50,13 +50,7 @@ function module_drop_activity(){
 	
 	$activityConfig = new ActivityConfig();
 	$activityConfig->dropModule();
-	
-	$flash = new FlashWidgetManager('activity_last_post');
-	$flash->drop();
-	
-	$flash = new FlashWidgetManager('activity_last_commented');
-	$flash->drop();
-	
+			
 	notify_add_info(tt('Activity has been successfully deactivated'));
 	config_drop('activity_entries_number');
 }

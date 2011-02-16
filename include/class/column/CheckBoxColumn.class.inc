@@ -6,8 +6,11 @@ class CheckBoxColumn extends SelectiveColumn{
 		$this->setType('array');
 	}
 	
-	public function renderForm($formID){
+	public function triggerGetJavaScript(){
 		head_add_js('include/javascript/checkbox.column.js');
+	}
+	
+	public function renderForm($formID){
 		$id = $formID.'_'.$this->name;
 		$this->checkSortable();
 		$this->divisionClass = 'checkbox_list';

@@ -36,5 +36,8 @@
 			<?=render_operation_link('activity_edit', $id, tt('edit'))?>
 			<?=render_operation_link('activity_drop', $id, tt('drop'))?>
 		<?php endif?>
+		<?php foreach($addition_operation as $link):?>
+			<?=$link?>
+		<?php endforeach?>
 	</p>
 </div>

@@ -9,11 +9,9 @@ include_once('ListPageMetaData.class.inc');
 
 abstract class Control extends Translatable{
 	private $formRender;
-	private $prepareMethodMap = array();
 	private $tableCreator;
 	private $listPage;
 	private $modelHasCategory;
-	
 	
 	protected $data;
 	protected $dataByID;
@@ -34,6 +32,8 @@ abstract class Control extends Translatable{
 	protected $insertNotify;
 	protected $updateNotify;
 	protected $dropNotify;
+	
+	protected $prepareMethodMap = array();
 	
 	protected $isOwnerMode = false;
 	
@@ -57,7 +57,9 @@ abstract class Control extends Translatable{
 		$this->formMeta->id = $this->fullModuleName;
 		if($this->writeLabel) $this->formMeta->title = $this->writeLabel;
 		else $this->formMeta->title = sprintf(tt('Add %s'), $this->moduleTitle);
-		$this->formMeta->mode = $this->fullModuleName.'_insert';
+		if(empty($this->formMeta->mode)){
+			$this->formMeta->mode = $this->fullModuleName.'_insert';
+		}
 		$render = $this->renderInsertForm();
 		document_set_path($this->formMeta->title);
 		return $render;
@@ -65,9 +67,12 @@ abstract class Control extends Translatable{
 	
 	public function edit(){
 		$this->formMeta->id = $this->fullModuleName;
+		head_add_js_var('translateModuleName', $this->fullModuleName);
 		if($this->editLabel) $this->formMeta->title = $this->editLabel;
 		else $this->formMeta->title = sprintf(tt('Edit %s'), $this->moduleTitle);
-		$this->formMeta->mode = $this->fullModuleName.'_update';
+		if(empty($this->formMeta->mode)){
+			$this->formMeta->mode = $this->fullModuleName.'_update';
+		}
 		$render = $this->renderUpdateForm();
 		document_set_path($this->formMeta->title);
 		return $render;
@@ -169,6 +174,17 @@ abstract class Control extends Translatable{
 		}
 	}
 	
+	public function selectBySection($column, $isRaw=false){
+		if($this->modelConnector->hasSection()){
+			$dbColumn = $this->checkDBColumn($column);
+			$this->data = db_select($this->tableName, $dbColumn, 'WHERE section='.SECTION);
+			$this->unserializeData();
+			if(!$isRaw) $this->postSelect($column);
+		}elseif(state_is_develop()){
+			notify_add_error(sprintf(tt('%s does not have SECTION (selectBySection).'), $this->fullModuleName));
+		}
+	}
+	
 	public function selectPage($column, $pageLength, $clause=null, $isRaw=false){
 		$dbColumn = $this->checkDBColumn($column);
 		$this->listPageColumn = $dbColumn;
@@ -192,8 +208,32 @@ abstract class Control extends Translatable{
 		$this->selectPage($this->listPageColumn, $pageLength, $this->listPage->getClause($where), $isRaw);
 	}
 	
+	public function createTable(){
+		if(!$this->tableCreator){
+			include_once('TableCreator.class.inc');
+			$this->tableCreator = new TableCreator($this->modelConnector, $this->tableName);
+		}
+		$this->tableCreator->create();
+	}
+	
+	public function getNewConfigForm($title, $description=null){
+		if(!$this->modelConnector and state_is_develop()) {
+			$message  = 'You should call Control::createModel';
+			$message .= 'before calling Control::initConfigForm().';
+			notify_add_error($message);
+		}
+		include_once('ConfigFormRender.class.inc');
+		$configForm = new ConfigFormRender($title, $this->modelConnector, $description);
+		$this->configForm[] = $configForm;
+		return $configForm;
+	}
+	
+	public function getParentColumnName(){
+		return $this->modelConnector->getParentColumnName();
+	}
+	
 	protected function init($modelObj){
-		Translatable::init();
+		Translatable::init($modelObj);
 		$this->modelHasCategory = $modelObj->hasCategory();
 		$this->setDefaultRedirect();
 		$this->setDefaultAction();
@@ -232,14 +272,6 @@ abstract class Control extends Translatable{
 		}
 	}
 	
-	public function createTable(){
-		if(!$this->tableCreator){
-			include_once('TableCreator.class.inc');
-			$this->tableCreator = new TableCreator($this->modelConnector, $this->tableName);
-		}
-		$this->tableCreator->create();
-	}
-	
 	protected function renderDefaultListPage($description=null){
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->mode = $this->fullModuleName;
@@ -265,18 +297,6 @@ abstract class Control extends Translatable{
 	
 	protected function setPrepareAction($methodName, $prepareMethodName){
 		$this->prepareMethodMap[$mode] = $methodName;
-	}
-	
-	protected function getNewConfigForm($title, $description=null){
-		if(!$this->modelConnector and state_is_develop()) {
-			$message  = 'You should call Control::createModel';
-			$message .= 'before calling Control::initConfigForm().';
-			notify_add_error($message);
-		}
-		include_once('ConfigFormRender.class.inc');
-		$configForm = new ConfigFormRender($title, $this->modelConnector, $description);
-		$this->configForm[] = $configForm;
-		return $configForm;
 	}
 	
 	protected function renderInsertForm($setPath=true){
@@ -315,6 +335,16 @@ abstract class Control extends Translatable{
 		$column = array_merge(array('id'), $column);
 		$this->listPageColumn = array_merge($column, $additionColumn);
 		$this->listPageColumn = array_unique($this->listPageColumn);
+	}
+	
+	protected function renderWriteIcon(){
+		if($this->isCallable('write')){
+			if(strlen($this->writeLabel) == 0){
+				$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
+			}
+			$mode = $this->fullModuleName.'_write';
+			return render_write_icon($mode, $this->writeLabel);
+		}
 	}
 		
 	private function initDataModifier(){
@@ -395,7 +425,7 @@ abstract class Control extends Translatable{
 	
 	private function initObject($modelObj){
 		$modelFactory = new ModelFactory($modelObj);
-		$this->modelConnector = $modelFactory->bind($this);
+		$this->modelConnector = $modelFactory->bind();
 		$this->column = $this->modelConnector->getColumnName();
 		$this->formMeta = new FormMetaData();
 		$this->listMeta = new ListPageMetaData();

@@ -20,7 +20,7 @@ function module_init_download(){
 	$admin->submit();
 
 	$panel = new PanelManager('Download');
-	$panel->setControl($download);
+	$panel->appendControl($download);
 	$panel->append('download_write', 'upload new file');
 	$panel->append('download', 'list & manage  download');
 	$panel->append('category/module/download', 'download category');

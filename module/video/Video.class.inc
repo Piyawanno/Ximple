@@ -73,6 +73,8 @@ class Video extends Content{
 		$this->insertTracker('read');
 		$this->addMetaData();
 		$this->dataByID['editable'] = $this->isEditable($this->dataByID['writer']['id']);
+		$operation = $this->getExtendedOperation();
+		$this->dataByID['addition_operation'] = $operation[$this->id];
 	}
 }
 

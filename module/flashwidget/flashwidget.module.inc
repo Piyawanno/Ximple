@@ -6,16 +6,18 @@ execute_add_function('flashwidget_save');
 function flashwidget(){
 	$column = array('id', 'mode', 'table_name', 'column_name', 'clause', 'item_number');
 	$data = db_select('flashwidget', $column, 'WHERE id='.((int)gg('id')));
-	if(count($data)){
-		$data = $data[gg('id')];
-		$clause = $data['clause'].' LIMIT '.$data['item_number'];
-		$item = db_select_single_column($data['table_name'], $data['column_name'], $clause);
+	$data = $data[gg('id')];
+	$clause = $data['clause'].' LIMIT '.$data['item_number'];
+	$item = db_select_single_column($data['table_name'], $data['column_name'], $clause);
+	if(count($item)){
 		$item = flashwidget_translate($data['mode'], $data['column_name'], $item);
 		$render_array = array(
 			'mode' => $data['mode'],
 			'item' => $item,
 		);
 		return render($render_array, 'module/flashwidget/theme/flashwidget.tpl', 'flashwidget');
+	}else{
+		return null;
 	}
 }
 
@@ -25,16 +27,22 @@ function flashwidget_clear_cache($table){
 
 function flashwidget_add($reference, $mode, $name, $table, $column, $clause){
 	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
-	$data = array(
-		'reference' => $reference,
-		'mode' => $mode,
-		'table_name' => $table,
-		'column_name' => $column,
-		'clause' => $clause,
-		'section' => SECTION,
-		'item_number' => 5,
-	);
-	$id = db_insert('flashwidget', $data);
+	$check_clause = 'WHERE section='.SECTION." AND reference='$reference'";
+	$existence_data = db_select_single_column('flashwidget', 'id', $check_clause, false);
+	if(count($existence_data) == 0){
+		$data = array(
+			'reference' => $reference,
+			'mode' => $mode,
+			'table_name' => $table,
+			'column_name' => $column,
+			'clause' => $clause,
+			'section' => SECTION,
+			'item_number' => 5,
+		);
+		$id = db_insert('flashwidget', $data);
+	}else{
+		$id = $existence_data[0];
+	}
 	widget_add($name, 'flashwidget/'.$id, 'disabled', 'flashwidget_config/'.$id, 'flashwidget_save/'.$id);
 }
 

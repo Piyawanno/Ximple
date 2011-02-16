@@ -63,6 +63,9 @@
 			<?=render_operation_link('page_edit', $id, ('edit'))?>
 			<?=render_operation_link('page_drop', $id, ('drop'))?>
 		<?php endif?>
+		<?php foreach($addition_operation as $link):?>
+			<?=$link?>
+		<?php endforeach?>
 	</p>
 	<p class="page_sibling">
 		<?php if(isset($back)):?>

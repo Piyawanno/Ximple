@@ -48,6 +48,9 @@ class ForumEntry extends Content{
 		$this->comment->setTemplate('forum_comment.tpl');
 		$this->comment->setInsertMode('forum_entry_insert_comment');
 		
+		$operation = $this->getExtendedOperation();
+		$this->dataByID['addition_operation'] = $operation[$this->id];
+		
 		$render = render($this->dataByID, 'forum_entry.tpl', 'forumentry');
 		$render.= $this->comment->render();
 		

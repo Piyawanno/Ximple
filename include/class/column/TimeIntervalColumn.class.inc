@@ -14,8 +14,13 @@ class TimeIntervalColumn extends ModelColumn{
 		$this->help = $help;
 	}
 	
+	public function triggerGetJavaScript(){
+		head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
+		head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
+		head_add_js('include/javascript/timeinterval.column.js');
+	}
+	
 	public function renderForm($formID){
-		$this->prepareHead();		
 		$id = $formID.'_'.$this->name;
 		list($day, $hour, $minute, $second) = $this->processTimeInterval($this->data);
 		$this->renderDay($id, $day); 
@@ -84,12 +89,6 @@ class TimeIntervalColumn extends ModelColumn{
 			$this->helpArray[] = tt('seconds');
 			$this->renderArray[] = '<input '.$this->renderFormAttribute().'/>';
 		}
-	}
-	
-	private function prepareHead(){
-		head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
-		head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
-		head_add_js('include/javascript/timeinterval.column.js');
 	}
 	
 	private function processTimeInterval($second){

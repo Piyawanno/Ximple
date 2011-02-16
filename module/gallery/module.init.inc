@@ -61,12 +61,6 @@ function module_drop_gallery(){
 	$galleryConfig = new GalleryConfig();
 	$galleryConfig->dropModule();
 	
-	$flash = new FlashWidgetManager('gallery_last_post');
-	$flash->drop();
-	
-	$flash = new FlashWidgetManager('gallery_last_commented');
-	$flash->drop();
-	
 	notify_add_info(tt('Gallery has been successfully deactivated'));
 	config_drop('gallery_entries_number');
 }

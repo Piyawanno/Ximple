@@ -322,6 +322,17 @@ abstract class Content extends Control{
 		}
 	}
 	
+	protected function getExtendedOperation(){
+		$operation = array();
+		foreach($this->data as $id => $data){
+			$data['module'] = $this->fullModuleName;
+			if(is_array($data['writer'])) $data['owner'] = $data['writer']['id'];
+			else $data['owner'] = $data['writer'];
+			$operation[$id] = extension_execute_append_result('content_operation', $data, array());
+		}
+		return $operation;
+	}
+	
 	private function extendFormDescription($mode){
 		$description = $this->formMeta->description;
 		$description = extension_execute($mode, $description);
@@ -343,7 +354,7 @@ abstract class Content extends Control{
 		}
 
 		$clause  = "WHERE (section=".SECTION." AND publishing_status < 2 ";
-		$clause .= "AND publish_time <= '".date('Y-m-d')."' $tagClause )";
+		$clause .= "AND publish_time <= '".date('Y-m-d')." 23:59:59' $tagClause )";
 		$clause .= "ORDER BY publish_time DESC, id DESC";
 		$this->selectPage($column, $pageLength, $clause);
 	}
@@ -366,9 +377,8 @@ abstract class Content extends Control{
 	}
 	
 	private function selectFirstPageFearured($column, $pageLength){
-		$clause = "WHERE (section=".SECTION." AND publishing_status=1 AND publish_time <= '".date('Y-m-d')."') ";
+		$clause = "WHERE (section=".SECTION." AND publishing_status=1 AND publish_time <= '".date('Y-m-d')." 23:59:59') ";
 		$clause.= "ORDER BY publish_time DESC, id DESC";
-		
 		$this->selectPage($column, $pageLength, $clause);
 		$featuredData = $this->data;
 		
@@ -385,7 +395,7 @@ abstract class Content extends Control{
 	}
 	
 	private function selectFirstPageCommon($column, $pageLength){
-		$clause = "WHERE (section=".SECTION." AND publishing_status=0 AND publish_time <= '".date('Y-m-d')."') ";
+		$clause = "WHERE (section=".SECTION." AND publishing_status=0 AND publish_time <= '".date('Y-m-d')." 23:59:59') ";
 		$clause.= "ORDER BY publish_time DESC, id DESC";
 		$this->selectPage($column, $pageLength, $clause);
 	}

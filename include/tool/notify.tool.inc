@@ -150,11 +150,13 @@ function notify_multiple_subscribe($message, $uid, $reference){
 	}
 }
 
-function notify_subscribe_by_mode($message, $mode){
+function notify_subscribe_by_mode($message, $mode, $send_message=true){
 	$uid = io_unserialize(FILES_PATH.'subscribe/'.SECTION.'/'.$mode);
 	if(is_array($uid)){
-		foreach($uid as $key => $value){
-			notify_add_info($message, $value);
+		if($send_message){
+			foreach($uid as $key => $value){
+				notify_add_info($message, $key);
+			}
 		}
 		notify_send_mail($message, userinfo_get_email(array_keys($uid)));
 	}
@@ -208,9 +210,20 @@ function notify_drop_subscribe($module){
 function notify_get_subscribable_module(){
 	$subscribe = cc('subscribable_module');
 	$translated = array();
-	foreach($subscribe as $mode => $label){
-		$translated[$mode] = tt($label);
+	if(is_array($subscribe)){
+		foreach($subscribe as $mode => $label){
+			$translated[$mode] = tt($label);
+		}
 	}
+	$translated['comment']= tt('someone comments on my contributions');
 	return $translated;
+}
+
+function notify_create_subscribe_directory(){
+	$directory = FILES_PATH.'subscribe/';
+	if(!is_dir($directory)) mkdir($directory);
+	$directory.= SECTION.'/';
+	if(!is_dir($directory)) mkdir($directory);
+	return $directory;
 }
 ?>

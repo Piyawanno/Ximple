@@ -38,6 +38,9 @@
 			<?=render_operation_link('comment_edit', $value['id'].'/module/'.$value['mode'].'/parent/'.$value['parent'], tt('edit'))?>
 			<?=render_operation_link('comment_drop', $value['id'].'/module/'.$value['mode'].'/parent/'.$value['parent'], tt('drop'))?>
 		<?php endif?>
+		<?php foreach($addition_operation[$key] as $link):?>
+			<?=$link?>
+		<?php endforeach?>
 	</p>
 </div>
 <?php endforeach?>

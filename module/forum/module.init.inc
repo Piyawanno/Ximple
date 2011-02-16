@@ -34,12 +34,12 @@ function module_init_forum(){
 	$panel->appendRole($editor);
 	$panel->appendRole($contributor);
 	
-	$panel->setControl($forum);
+	$panel->appendControl($forum);
 	$panel->append('forum_config', 'configure Forum');
 	$panel->append('forum_manage', 'sort and manage Forum');
 	$panel->submit();
 	
-	$panel->setControl($forumEntry);
+	$panel->appendControl($forumEntry);
 	$panel->append('category/module/forum', 'Forum category');
 	$panel->append('forum_entry_write', 'write new Forum entry');
 	$panel->append('forum_entry_contributor_list', 'list my Forum entry');
@@ -94,15 +94,6 @@ function module_drop_forum(){
 	
 	$panel = new PanelManager('Forum');
 	$panel->drop();
-	
-	$flash = new FlashWidgetManager('forum_entry_last_post');
-	$flash->drop();
-	
-	$flash = new FlashWidgetManager('forum_entry_last_commented');
-	$flash->drop();
-	
-	$flash = new FlashWidgetManager('forum_list');
-	$flash->drop();
 	
 	$widget = new WidgetManager(tt('Advanced Last commented Forum Entries'), 'forum_entry_last_commented');
 	$widget->drop();

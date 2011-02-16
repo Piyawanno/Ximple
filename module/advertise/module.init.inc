@@ -22,7 +22,7 @@ function module_init_advertise(){
 	$admin->submit();
 	
 	$panel = new PanelManager('Advertise');
-	$panel->setControl($advertise);
+	$panel->appendControl($advertise);
 	$panel->append('advertise_write', 'create new Advertise');
 	$panel->append('advertise_list', 'list Advertise');
 	$panel->append('advertise_config', 'config Advertise');

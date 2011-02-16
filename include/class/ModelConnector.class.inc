@@ -22,6 +22,13 @@ class ModelConnector{
 		$this->triggerGetID($id);
 	}
 	
+	public function setAsOverlayGridForm(){
+		$this->modelObject->isOverlayGridForm = true;
+		foreach($this->model as $key => $modelColumn){
+			$modelColumn->isOverlayGridForm = true;
+		}
+	}
+	
 	public function setParentID($parentID){
 		$this->parentID = $parentID;
 	}
@@ -208,6 +215,10 @@ class ModelConnector{
 	
 	public function triggerCheckNull(){
 		$this->trigger('CheckNull');
+	}
+	
+	public function triggerGetJavaScript(){
+		$this->trigger('GetJavaScript');
 	}
 	
 	public function triggerSetParent(){
