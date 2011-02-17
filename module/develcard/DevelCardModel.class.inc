@@ -43,7 +43,7 @@ class DevelCardModel extends Model{
 			$this->type = $this->select(tt('type'), $typeOption);
 		}else{
 			$this->status->defaultData = 0;
-			$this->deadline = $this->now();
+//			$this->deadline = $this->now();
 			$this->deadline->defaultData = time()+60*60*24*7;
 			$this->deadline->data = time()+60*60*24*7;
 			$this->priority = $this->hidden(2, 'int');
