@@ -15,21 +15,23 @@
 			<th style="min-width:80px;"><?=tt('topics')?></th>
 			<th style="min-width:80px;"><?=tt('comments')?></th>
 		</tr>
-		<?foreach ($data[$key] as $forum):?>
-		<tr>
-			<td>
-				<h4 class="title_label"><a href="<?=SECTION_URI.Q.'forum_entry_list/forum/'.$forum['id']?>"><?=$forum['name']?></a></h4>
-				<p><?=$forum['description']?></p>
-				<?=forum_render_last_entry($forum['last_entry'])?>
-			</td>
-			<td align="center">
-				<?=$forum['topic_no']?>
-			</td>
-			<td align="center">
-				<?=$forum['comment_no']?>
-			</td>
-		</tr>
-		<?php endforeach?>
+		<?php if(isset($data[$key])):?>
+			<?foreach ($data[$key] as $forum):?>
+			<tr>
+				<td>
+					<h4 class="title_label"><a href="<?=SECTION_URI.Q.'forum_entry_list/forum/'.$forum['id']?>"><?=$forum['name']?></a></h4>
+					<p><?=$forum['description']?></p>
+					<?=forum_render_last_entry($forum['last_entry'])?>
+				</td>
+				<td align="center">
+					<?=$forum['topic_no']?>
+				</td>
+				<td align="center">
+					<?=$forum['comment_no']?>
+				</td>
+			</tr>
+			<?php endforeach?>
+		<?php endif?>
 	</table>
 	</div>
 <?php endforeach?>

@@ -24,12 +24,15 @@ class Profile extends Control{
 		head_add_css('profile.css');
 		$uid = $this->getUID();
 		$editable = authority_owner('profile_admin', $uid);
-		$additional_link = extension_execute('additional_profile_link', null, array());
+		$userInfo = userinfo_get_info_by_id($uid);
+		$additionalLink = extension_execute('additional_profile_link', $userInfo, array());
+		$additionalProfile = extension_execute('additional_profile', $userInfo, array());
 		$renderArray = array(
 			'user' => userinfo_get_info_by_id($uid),
 			'data' => $this->prepareIndexData(),
 			'uid' => $uid,
-			'additional_link' => $additional_link,
+			'additional_link' => $additionalLink,
+			'additional_profile' => $additionalProfile,
 			'allow_email' => $this->getAllowEmail($editable),
 			'readable' => $this->getReadable($editable),
 			'editable' => $editable,
