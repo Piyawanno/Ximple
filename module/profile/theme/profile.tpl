@@ -12,6 +12,7 @@
 	<?php foreach($additional_link as $key => $value):?>
 		<p><?=render_icon($value['mode'], $value['icon'], $value['label']);?></p>
 	<?php endforeach?>
+	<br />
 	<?=render_write_icon('profile_write', tt('Add new User-Profile'))?>
 	<?php if($readable):?>
 		<?php foreach($data as $key => $value):?>

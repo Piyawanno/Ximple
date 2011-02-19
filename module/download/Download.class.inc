@@ -45,7 +45,7 @@ class Download extends Control{
 	}
 	
 	private function getFile(){
-		$this->id = mid();
+		$this->id = gg('id');
 		$this->selectByID(array('id', 'file', 'name', 'permission'));
 		if(authority(array(), $this->dataByID['permission'])){
 			$fileName = ROOT_PATH.$this->dataByID['file'];

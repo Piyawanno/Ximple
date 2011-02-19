@@ -31,7 +31,6 @@ function imageloader_cle(){
 	return render($render_array, 'imageloader_cle.tpl', 'imageloader_cle');
 }
 
-
 function imageloader_upload(){
 	execute_set_db();
 	if(!authority_is_guest()){
@@ -69,7 +68,7 @@ function imageloader_get_image($path){
 				if(in_array(strtolower($ext), $accepted_ext)){
 					$size = filesize($path.$entry);
 					$image[] = array(
-						'src' => 'files/member/'.USER_ID.'/image/'.$entry,
+						'src' => $path.$entry,
 						'size' => $size
 					);
 				}

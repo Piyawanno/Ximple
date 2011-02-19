@@ -177,7 +177,7 @@ class DataModifier{
 		$allowed_tag = cc('allowed_tags');
 		foreach($columnName as $name){
 			if($type[$name] == 'string'){
-				$this->data[$name] = strip_tags($this->data[$name], $allowed_tag);
+				$this->data[$name] = input_strip_tags($this->data[$name], $allowed_tag);
 			}
 		}
 	}
