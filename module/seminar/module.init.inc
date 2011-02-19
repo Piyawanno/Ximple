@@ -16,18 +16,19 @@ function module_init_seminar(){
 	seminar_map_create_table();
 	
 	module_add_role('seminar_admin', 'Seminar Administrator', 'Who can configure, edit and drop seminar.');
-	module_add_role('seminar_moderator', 'Seminar Moderator', 'Who can edit and drop seminar.');
-	module_add_role('seminar_seminarr', 'Seminarr', 'Who can set seminar.');
+	module_add_role('seminar_moderator', 'Seminar Moderator', 'Who can edit, drop seminar and admin');
+	module_add_role('seminar_organizer', 'Seminar Organizer', 'Who can set seminar.');
+	module_add_role('seminar_attendant', 'Seminar Attendant', 'Who attend the seminar.');
 	
 	module_add_panel('Seminar', 'seminar_admin', 'seminar_config', 'configure seminar');
 	module_add_panel('Seminar', 'seminar_admin', 'seminar', 'seminar report');
-	module_add_panel('Seminar', 'seminar_admin', 'seminar_list', 'list all seminar');
+	module_add_panel('Seminar', 'seminar_admin', 'seminar_list', 'list all seminars');
 	module_add_panel('Seminar', 'seminar_admin', 'seminar_mylist', 'list my seminar');
 	module_add_panel('Seminar', 'seminar_admin', 'category/module/seminar', 'seminar category');
 	module_add_panel('Seminar', 'seminar_admin', 'seminar_write', 'submit new seminar');
 	
 	module_add_panel('Seminar', 'seminar_moderator', 'seminar', 'seminar report');
-	module_add_panel('Seminar', 'seminar_moderator', 'seminar_list', 'list all seminar');
+	module_add_panel('Seminar', 'seminar_moderator', 'seminar_list', 'list all seminars');
 	module_add_panel('Seminar', 'seminar_moderator', 'seminar_mylist', 'list my seminar');
 	module_add_panel('Seminar', 'seminar_moderator', 'seminar_write', 'submit new seminar');
 	
@@ -37,6 +38,7 @@ function module_init_seminar(){
 	
 	module_add_panel('Seminar', 'seminar_attendant', 'seminar', 'seminar report');
 	module_add_panel('Seminar', 'seminar_attendant', 'seminar_mylist', 'list my seminar');
+	module_add_panel('Seminar', 'seminar_attendant', 'seminar_list', 'list all seminars');
 }
 
 function module_drop_seminar(){
@@ -46,7 +48,8 @@ function module_drop_seminar(){
 	$seminar->dropModule();
 	module_drop_role('seminar_admin');
 	module_drop_role('seminar_moderator');
-	module_drop_role('seminar_seminarr');	
+	module_drop_role('seminar_organizer');
+	module_drop_role('seminar_attendant');
 	module_drop_panel('Seminar');
 }
 ?>

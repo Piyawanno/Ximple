@@ -4,12 +4,12 @@
 <h3 class="title_label">Seminar Summarize</h3>
 <table width="100%">
 	<tr>
-		<th><?=tt('Type');?></th>
+		<th><?=tt('Seminar');?></th>
 		<th><?=tt('Number of seminars');?></th>
 	</tr>
 	<tr>
 		<td><?=tt('test');?></td>
-		<td><?=render_profile_link($data['owner'])?></td>
+		<td><?=render_profile_link($data['id'])?></td>
 	</tr>
 	<tr>
 		<td><?=tt('size');?></td>

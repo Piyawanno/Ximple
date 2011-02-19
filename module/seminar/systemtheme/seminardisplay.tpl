@@ -32,6 +32,7 @@
 		</tr>
 	</table>
 	<a href="<?=SECTION_URI.Q?>seminar_insert_map/<?=$data['id']?>"><?=tt('enroll')?><a/> |
+	<a href="<?=SECTION_URI.Q?>seminar_attendantlist/<?=$data['id']?>"><?=tt('status')?><a/> |
 	<a href="<?=SECTION_URI.Q?>seminar_write/<?=$data['id']?>"><?=tt('new')?><a/> |
 	<a href="<?=SECTION_URI.Q?>seminar_edit/<?=$data['id']?>"><?=tt('edit')?><a/> | 
 	<a href="<?=SECTION_URI.Q?>seminar_drop/<?=$data['id']?>"><?=tt('delete')?><a/>

@@ -15,13 +15,35 @@ class Seminar extends Control{
 		$this->writeLabel = tt('Submit new seminar');
 	}
 	
+	public function seminarMapGetData(){
+		document_set_path(tt('Seminar Attendants'));
+		$this->id = gg('id');
+		$this->selectByID($this->column);
+		$seminarName = $this->dataByID;
+		
+		head_add_css('list.css');
+		$column = array('seminar', 'attendant');
+		$clause = 'WHERE seminar='.gg('id');
+		$map = db_select('seminar_map', $column, $clause);
+		$renderArray = array(
+			'seminar' => $this->dataByID,
+			'attendant' => userinfo_get_info($map, 'attendant'),
+		);
+		
+		if(authority_group('seminar_moderator') or authority_group('seminar_admin'))
+			$render = render($renderArray, 'seminarAttendantList.tpl', 'seminardisplay');
+		else
+			notify_add_info(tt('You have no permission, '));
+		return $render;
+	}
+	
 	public function index(){
 		if(authority_group('seminar_moderator') or authority_group('seminar_admin')){
-			document_set_path(tt('Seminar Summerize'));
+			document_set_path(tt('Seminar Summarize'));
 			head_add_css('list.css');
 			$page = render($renderArray, 'seminarreport.tpl', 'seminar_seminarreport');
 		}else{
-			$page = render($renderArray, 'seminar_seminarreport_reporter.tpl', 'seminar_seminarreport');
+			$page = render($renderArray, 'seminarreport.tpl', 'seminar_seminarreport');
 		}
 		return $page;
 	}
@@ -43,14 +65,17 @@ class Seminar extends Control{
 	public function listMyPage(){
 		document_set_path(tt('List of My Seminar'));
 		$this->listMeta->title = sprintf(tt('List of My %s'), $this->moduleTitle);
-		$this->listMeta->defaultOrder = 'createdate';
+		$this->listMeta->defaultOrder = 'date';
 		if(mid()) $mode = mm().'/'.mid();
 		else $mode = mm();
 		$this->listMeta->mode = $mode;
 		$this->setListWriteIcon(tt('Add new Seminar'));
 		$this->modelConnector->setAttribute('size', 'isList', false);
 		$this->modelConnector->setAttribute('classdate', 'isList', false);
-		$this->selectListPage(20, 'WHERE (owner='.USER_ID.')');
+		if(authority_group('seminar_moderator') or authority_group('seminar_admin') or authority_group('seminar_organizer')){
+			$this->selectListPage(20, 'WHERE (owner='.USER_ID.')');
+		}else{
+			$this->selectListPage(20, 'WHERE (id='.USER_ID.')');
 		return $this->renderListPage();
 	}
 	
@@ -91,13 +116,20 @@ class Seminar extends Control{
 		$access = cc('seminar_access');
 		$this->addAccessMethod('guest', 'index');
 		
-//		$this->addAccessMethod('seminar_attendant', 'insertMap');
 		$this->addAccessMethod('seminar_admin', 'insertMap');
-		
+		$this->addAccessMethod('seminar_attendant', 'insertMap');
+		$this->addAccessMethod('seminar_attendant', 'listMyPage');
+		$this->addAccessMethod('seminar_attendant', 'listPage');
+		$this->addAccessMethod('seminar_attendant', 'display');
+
 		$this->addAccessMethod('seminar_organizer', 'insert');
+		$this->addAccessMethod('seminar_organizer', 'write');
 		$this->addAccessMethod('seminar_organizer', 'listMyPage');
 		
 		$this->addAccessMethod('seminar_moderator', 'listPage');
+		$this->addAccessMethod('seminar_moderator', 'attendantList');
+		
+		$this->addAccessMethod('seminar_admin', 'attendantList');
 	}
 	
 	private function setAction(){
@@ -105,6 +137,7 @@ class Seminar extends Control{
 		$this->addAction('seminar_mylist', 'listMyPage');
 		$this->addAction('seminar_display', 'display');
 		$this->addAction('seminar_insert_map', 'insertMap');
+		$this->addAction('seminar_attendantlist', 'seminarMapGetData');
 	}
 	
 	private function checkFull(){
