@@ -1,0 +1,353 @@
+/* ========= HTML-TAG ========= */
+html{
+	height:100%;
+}
+
+body{
+	font-family: Tahoma;
+	font-size: 12px ;
+	line-height:20px;
+	margin:0px;
+	padding:5px 0px;
+	text-align:center;
+	height:100%;
+	background:url(../image/bgpaper.png);
+}
+
+td{
+	font-family: Tahoma;
+	font-size: 12px ;
+	line-height:20px;
+
+}
+
+h1, h2, h3, h4{
+	margin-top:0px;
+}
+
+a{
+	color:#444;
+}
+
+input{
+	font-size:12px;
+	border:1px solid gray;
+}
+
+/* ========= Labels ========= */
+.list_label{
+	padding:10px 0px 10px 0px;
+	font-size:18px;
+	font-weight:bold;
+	border-bottom:1px solid #ddd;
+	border-top:1px solid #ddd;
+	text-decoration:underline;
+	color:#666;
+}
+
+.title_label{
+	font-size:18px;
+	color:rgb(25%,25%,25%);
+	text-decoration:underline;
+}
+
+.small_label{
+	font-size:14px;
+	color:rgb(25%,25%,25%);
+	text-decoration:underline;
+}
+
+.sublist_label{
+	padding:10px 0px 10px 0px;
+	font-size:14px;
+	font-weight:bold;
+	border-bottom:1px solid #ddd;
+	text-decoration:underline;
+	color:#666;
+}
+
+
+/* ========= Head ========= */
+#head{
+	height:181px;
+	width:1020px;
+	margin:0;
+}
+
+#head a{
+	text-decoration:none;
+}
+
+#head a h1{
+	padding-top:30px;
+}
+
+#head a h1, #head h2{
+	margin-left:30px;
+	color:white;
+}
+
+/* ========= Main Layout ========= */
+#second_background{
+	width:1190px;
+	margin:0 auto;
+	text-align:center;
+	background:url(../image/head1.png) top left no-repeat;
+}
+
+#main_container{
+	width:1025px;
+	margin:0 auto;
+	text-align:left;
+}
+
+#main{
+	width:1025px;
+	margin: 15px auto 0px auto;
+	text-align:left;
+	clear:both;
+}
+
+#body{
+	height:auto;
+	margin:0px;
+}
+
+#content{
+	width:530px;
+	margin: 0px;
+	padding-top: 0px;
+	padding-bottom:5px;
+	float:left;
+}
+
+#content a{
+	color:#214478;
+}
+
+/* ========= Menu ========= */
+#menu_container{
+	width:1025px;
+	margin:0px 0px 0px 45px;
+	padding:0;
+	height:23px;
+}
+
+#menu{
+	margin: 0;
+	padding: 0;
+}
+
+#menu li{
+	float: left;
+	list-style: none;
+}
+
+#menu li a{
+	padding: 4px 20px;
+	color: white;
+	font-size:13px;
+	font-weight:bold;
+	white-space: nowrap;
+	display: block;
+	text-decoration:none;
+}
+
+#menu li a:hover{
+	background:#bbb;
+	color:white;
+}
+
+#menu li a#active_page{
+	background:#1c83b7;
+	color:white;
+}
+
+.submenu{
+	border:1px solid gray;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	background:#fff;
+	display:none;
+}
+
+.submenu_body{
+	background:white;
+	padding:0;
+}
+
+.submenu_body ul{
+	padding:0;
+}
+
+.submenu_body ul li{
+	float: none;
+	display:block;
+	line-height:30px;
+	padding:0px 25px 0px 25px
+}
+
+.submenu_body ul li:hover{
+	background:#ddd;
+	border-top:#1c83b7 solid 1px;
+	border-bottom:#1c83b7 solid 1px;
+}
+
+.submenu_body ul li a{
+	color: #333;
+	width: auto;
+	font-size:12px;
+	font-weight:normal;
+}
+
+.submenu_head{
+	background:#1c83b7;
+	padding:0;
+	height:35px;
+}
+
+.submenu_head h4{
+	padding:5px 35px 5px 35px;
+	font-size:13px;
+	font-weight:bold;
+	color:white;
+}
+
+/* ========= Search Blocks ========= */
+#search_box{
+	width:300px;
+	height:232px;
+	margin:0;
+	padding:0;
+	background:url(../image/purplebox.png);
+}
+
+
+/* ========= Midlle Blocks ========= */
+#block_middle{
+	width: 300px;
+	margin:0px 0px 0px 5px;
+	padding:0;
+	float:left;
+}
+
+.block_middle_head h3{
+	background:url(../image/bar.png) no-repeat top left;
+	padding:8px 20px 8px 20px;
+	margin:0;
+	font-size:15px;
+	color:white;
+}
+
+.block_middle_head{
+	background:url(../image/bar.png) no-repeat bottom left;
+	padding-bottom:5px ;
+}
+
+.block_middle_body{
+	width:200px;
+	margin:15px 0px;
+	padding-left:25px;
+}
+
+.block_middle_body ul{
+	list-style:none;
+	padding:0px;
+	margin-left:20px;
+}
+
+.block_middle_body ul li{
+	line-height:2.4em;
+	padding:0;
+	margin:0;
+	border:1px solid white;
+}
+
+.panel_head a{
+	text-decoration:none;
+}
+
+/* ========= Right Blocks ========= */
+
+#block_right{
+	width: 158px;
+	height:200px;
+	margin:0px 0px 0px 15px;
+	padding:0;
+	float:left;
+	border:1px solid red;
+}
+
+/* ========= Foot ========= */
+#foot{
+	clear:both;
+	width:1020px;
+}
+
+#foot a{
+	color:gray;
+}
+
+#foot, #foot_head{
+	padding:0;
+	margin:0;
+	width:1020px;
+}
+
+#foot_head{
+	height:40px;
+	background:url(../image/bottom_head.png) no-repeat top left;
+}
+
+#foot_body{
+	background:url(../image/bottom_body.png) repeat-y;
+	margin:0;
+	padding:5px 20px 20px 30px;
+	min-height:50px;
+}
+
+#siteInfo {
+	display:block;
+}
+
+/* ========= Main Box ========= */
+
+.main_box{
+	padding:0;
+	margin:0px 0px 10px 0px;
+}
+
+.main_box_head{
+	margin:0;
+	padding:0;
+	background:url(../image/mainbox_head.png) no-repeat;
+	width:530px;
+	height:15px;
+}
+
+.main_box_body{
+	margin:0;
+	padding:0px 10px 0px 10px;
+	background:url(../image/mainbox_body.png) repeat-y;
+	width:530px;
+}
+
+.main_box_foot{
+	margin:0;
+	padding:0;
+	background:url(../image/mainbox_foot.png) no-repeat;
+	width:530px;
+	height:18px;
+}
+
+.main_box_read_more{
+	text-align:right;
+	font-size:13px;
+	padding-right:35px;
+}
+
+.main_box_read_more a{
+	color:#666;
+	font-weight:bold;
+}

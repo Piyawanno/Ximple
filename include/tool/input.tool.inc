@@ -60,4 +60,13 @@ function input_strip_slash_array($array){
 	return $array;
 }
 
+function input_strip_tags($data, $allowed_tag){
+	$data = str_replace('<!--', '&lt;!--', $data);
+	$data = str_replace('--!>', '--!&gt;', $data);
+	$data = strip_tags($data, $allowed_tag);
+	$data = str_replace('&lt;!--', '<!--', $data);
+	$data = str_replace('--!&gt;', '--!>', $data);
+	return $data;
+}
+
 ?>

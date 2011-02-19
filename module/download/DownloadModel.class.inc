@@ -2,6 +2,7 @@
 class DownloadModel extends Model{
 	function DownloadModel(){
 		$this->name = $this->title(tt('name'));
+		$this->icon = $this->imageLoader(tt('icon'), 'files/download/');
 		$this->file = $this->file(tt('upload file'), 'files/download/');
 		$this->size = $this->fileSize(tt('size'));
 		$this->category = $this->category('download');

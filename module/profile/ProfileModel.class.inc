@@ -10,9 +10,10 @@ class ProfileModel extends Model{
 class ProfileTypeColumn extends ModelColumn{
 	function ProfileTypeColumn(){
 		$this->type = 'int';
-		$this->form = 'select';
+		$this->form = 'radio';
 		$this->label = tt('profile type');
 		$this->option = array();
+		$this->data = 1;
 	}
 	
 	public function triggerInsertForm(){
@@ -36,6 +37,9 @@ class ProfileTypeColumn extends ModelColumn{
 			$groups = unserialize($value['allowed_group']);
 			if(authority_check_users_groups(array(), $groups)){
 				$this->option[$value['id']] = $value['name'];
+				if(!isset($this->defaultData)){
+					$this->defaultData = $value['id'];
+				}
 			}
 		}
 	}

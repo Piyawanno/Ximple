@@ -7,7 +7,6 @@ class ModelConnector{
 	private $cacheAttribute = array();
 	
 	function ModelConnector($model, $modelObject){
-		print_r($this->model);
 		$this->model = $model;
 		$this->modelObject = $modelObject;
 	}
