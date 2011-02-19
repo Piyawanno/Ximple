@@ -29,7 +29,7 @@ class Seminar extends Control{
 	public function listPage(){
 		document_set_path(tt('List of Seminar'));
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
-		$this->listMeta->defaultOrder = 'size';
+		$this->listMeta->defaultOrder = 'createdate';
 		if(mid()) $mode = mm().'/'.mid();
 		else $mode = mm();
 		$this->listMeta->mode = $mode;
@@ -74,30 +74,41 @@ class Seminar extends Control{
 		document_set_redirect('seminar_display/'.$this->id);
 	}
 	
+	public function insertMap(){
+		if($this->checkFull()){
+			$data = array(
+				'seminar' => gg('id'),
+				'attendant' => USER_ID 
+			);
+			db_insert('seminar_map', $data);
+			execute_set_db(); //after insert coz no display.
+			document_set_redirect('seminar_mylist');
+			notify_add_info(tt('You have been added to the seminar.'));
+		}
+	}
+	
 	private function setAccess(){
 		$access = cc('seminar_access');
-		if($access == 0){
-			$this->addAccessMethod('guest', 'index');
-			$this->addAccessMethod('guest', 'write');
-			$this->addAccessMethod('guest', 'insert');
-		}elseif($access == 1){
-			$this->addAccessMethod('user', 'index');
-			$this->addAccessMethod('user', 'write');
-			$this->addAccessMethod('user', 'insert');
-		}else{
-			$this->addAccessMethod('seminar_seminarr', 'index');
-			$this->addAccessMethod('seminar_seminarr', 'write');
-			$this->addAccessMethod('seminar_seminarr', 'insert');
-			$this->addAccessMethod('seminar_seminarr', 'listMyPage');
-		}
+		$this->addAccessMethod('guest', 'index');
+		
+//		$this->addAccessMethod('seminar_attendant', 'insertMap');
+		$this->addAccessMethod('seminar_admin', 'insertMap');
+		
+		$this->addAccessMethod('seminar_organizer', 'insert');
+		$this->addAccessMethod('seminar_organizer', 'listMyPage');
+		
 		$this->addAccessMethod('seminar_moderator', 'listPage');
-		$this->addAccessMethod('seminar_moderator', 'listMyPage');
 	}
 	
 	private function setAction(){
 //		$this->addAction('seminar_list', 'listPage');
 		$this->addAction('seminar_mylist', 'listMyPage');
 		$this->addAction('seminar_display', 'display');
+		$this->addAction('seminar_insert_map', 'insertMap');
+	}
+	
+	private function checkFull(){
+		return true;
 	}
 	
 }

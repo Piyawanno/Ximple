@@ -10,8 +10,11 @@ function module_init_seminar(){
 	include_once('Seminar.class.inc');
 	include_once('seminar.tool.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	
 	$seminar = new seminar();
 	$seminar->initModule('Seminar.class.inc');
+	seminar_map_create_table();
+	
 	module_add_role('seminar_admin', 'Seminar Administrator', 'Who can configure, edit and drop seminar.');
 	module_add_role('seminar_moderator', 'Seminar Moderator', 'Who can edit and drop seminar.');
 	module_add_role('seminar_seminarr', 'Seminarr', 'Who can set seminar.');
@@ -28,9 +31,9 @@ function module_init_seminar(){
 	module_add_panel('Seminar', 'seminar_moderator', 'seminar_mylist', 'list my seminar');
 	module_add_panel('Seminar', 'seminar_moderator', 'seminar_write', 'submit new seminar');
 	
-	module_add_panel('Seminar', 'seminar_seminarr', 'seminar', 'seminar report');
-	module_add_panel('Seminar', 'seminar_seminarr', 'seminar_write', 'submit new seminar');
-	module_add_panel('Seminar', 'seminar_seminarr', 'seminar_mylist', 'list my seminar');
+	module_add_panel('Seminar', 'seminar_organizer', 'seminar', 'seminar report');
+	module_add_panel('Seminar', 'seminar_organizer', 'seminar_write', 'submit new seminar');
+	module_add_panel('Seminar', 'seminar_organizer', 'seminar_mylist', 'list my seminar');
 	
 	module_add_panel('Seminar', 'seminar_attendant', 'seminar', 'seminar report');
 	module_add_panel('Seminar', 'seminar_attendant', 'seminar_mylist', 'list my seminar');
