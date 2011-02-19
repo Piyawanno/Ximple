@@ -29,7 +29,15 @@ class ProfileTypeColumn extends ModelColumn{
 	}
 	
 	private function getSelect(){
-		$this->option = db_select_single_column('profiletype', 'name', 'WHERE section='.SECTION);
+		$column = array('id', 'name', 'allowed_group');
+		$allType = db_select('profiletype', $column, 'WHERE section='.SECTION);
+		$this->option = array();
+		foreach($allType as $key => $value){
+			$groups = unserialize($value['allowed_group']);
+			if(authority_check_users_groups(array(), $groups)){
+				$this->option[$value['id']] = $value['name'];
+			}
+		}
 	}
 	
 }

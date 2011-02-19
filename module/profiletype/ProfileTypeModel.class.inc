@@ -5,6 +5,8 @@ class ProfileTypeModel extends Model{
 		$this->description = $this->plain(tt('description'));
 		$this->description->isList = true;
 		$this->description->isReachable = true;
+		$this->allowed_group = $this->group(tt('allowed group'));
+		$this->allowed_group->isExceptedGuest = true;
 		$this->section = $this->section();
 	}
 }

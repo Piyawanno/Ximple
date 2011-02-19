@@ -33,4 +33,7 @@
 			</tbody></table>
 		<?php endforeach?>
 	<?php endif?>
+	<?php foreach($additional_profile as $key => $value):?>
+		<?=$value?>
+	<?php endforeach?>
 </div>

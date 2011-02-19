@@ -45,4 +45,6 @@ This file contains TO-DO list for additional procedure by software upgrading.
 	ALTER TABLE blog MODIFY comment_time TIMESTAMP DEFAULT '0000-00-00';
 	ALTER TABLE page MODIFY comment_time TIMESTAMP DEFAULT '0000-00-00';
 
-
+- Alter table profiletype
+	
+	ALTER TABLE profiletype ADD `allowed_group` text;

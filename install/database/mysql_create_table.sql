@@ -130,6 +130,7 @@ CREATE TABLE `profiletype` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(250) DEFAULT NULL,
   `description` varchar(250) DEFAULT NULL,
+  `allowed_group` text,
   `section` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) CHARACTER SET utf8;

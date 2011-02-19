@@ -348,7 +348,7 @@ abstract class Control extends Translatable{
 		$p = '<img alt="%s" src="%s" border="0" />';
 		foreach($columns as $column){
 			foreach($this->data as $key => $value){
-				if(isset($value[$column])){
+				if(isset($value[$column]) and strlen($value[$column])){
 					$this->data[$key][$column] = sprintf($p, $column, ROOT_URI.$value[$column]);
 				}
 			}
