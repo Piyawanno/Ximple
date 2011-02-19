@@ -65,7 +65,7 @@ class Seminar extends Control{
 	public function listMyPage(){
 		document_set_path(tt('List of My Seminar'));
 		$this->listMeta->title = sprintf(tt('List of My %s'), $this->moduleTitle);
-		$this->listMeta->defaultOrder = 'date';
+		$this->listMeta->defaultOrder = 'createdate';
 		if(mid()) $mode = mm().'/'.mid();
 		else $mode = mm();
 		$this->listMeta->mode = $mode;
@@ -76,6 +76,7 @@ class Seminar extends Control{
 			$this->selectListPage(20, 'WHERE (owner='.USER_ID.')');
 		}else{
 			$this->selectListPage(20, 'WHERE (id='.USER_ID.')');
+		}
 		return $this->renderListPage();
 	}
 	
