@@ -19,7 +19,7 @@ class Review extends Control{
 	}
 	
 	public function listPage(){ // for admin to manage
-		document_set_path(tt('List of Review for ID'.gg('id')));
+		document_set_path(tt('List of all Review'));
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->defaultOrder = 'createdate';
 		$this->listMeta->mode = $mode;
@@ -80,10 +80,11 @@ class Review extends Control{
 	}
 	
 	private function setAccess(){
+		$this->addAccessMethod('guest', 'reviewee_list');
 		$this->addAccessMethod('guest', 'index');
 		$this->addAccessMethod('review_reviewer', 'write');
 		$this->addAccessMethod('review_reviewer', 'insert');
-		$this->addAccessMethod('review_reviewer', 'listMyPage');
+		$this->addAccessMethod('review_reviewer', 'reviewer_list');
 	}
 	
 	private function setAction(){
