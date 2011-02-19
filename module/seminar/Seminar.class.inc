@@ -30,7 +30,7 @@ class Seminar extends Control{
 			'attendant' => userinfo_get_info($map, 'attendant'),
 		);
 		
-		if(authority_group('seminar_moderator') or authority_group('seminar_admin'))
+		if(authority_group('seminar_moderator') or authority_group('seminar_admin') or authority_group('seminar_organizer'))
 			$render = render($renderArray, 'seminarAttendantList.tpl', 'seminardisplay');
 		else
 			notify_add_info(tt('You have no permission, '));
@@ -88,7 +88,7 @@ class Seminar extends Control{
 		$renderArray = array(
 			'data' => $this->data[$this->id],
 		);
-		if(authority_group('seminar_moderator') or authority_group('seminar_admin'))
+		if(authority_group('seminar_moderator') or authority_group('seminar_admin') or authority_group('seminar_organizer'))
 			$render = render($renderArray, 'seminardisplay.tpl', 'seminardisplay');
 		else
 			$render = render($renderArray, 'seminardisplay_attendant.tpl', 'seminardisplay');
@@ -126,11 +126,13 @@ class Seminar extends Control{
 		$this->addAccessMethod('seminar_organizer', 'insert');
 		$this->addAccessMethod('seminar_organizer', 'write');
 		$this->addAccessMethod('seminar_organizer', 'listMyPage');
+		$this->addAccessMethod('seminar_organizer', 'display');
+		$this->addAccessMethod('seminar_organizer', 'seminarMapGetData');
 		
 		$this->addAccessMethod('seminar_moderator', 'listPage');
-		$this->addAccessMethod('seminar_moderator', 'attendantList');
+		$this->addAccessMethod('seminar_moderator', 'seminarMapGetData');
 		
-		$this->addAccessMethod('seminar_admin', 'attendantList');
+		$this->addAccessMethod('seminar_admin', 'seminarMapGetData');
 	}
 	
 	private function setAction(){
