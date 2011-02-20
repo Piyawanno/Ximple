@@ -11,8 +11,8 @@
 			<td><?=render_profile_link($data['owner'])?></td>
 		</tr>
 		<tr>
-			<td><?=tt('size');?></td>
-			<td><?=$data['size']?></td>
+			<td><?=tt('Time');?></td>
+			<td><?=$data['classtime']?></td>
 		</tr>
 		<tr>
 			<td><?=tt('created');?></td>
@@ -23,8 +23,8 @@
 			<td><?=$data['classdate']?></td>
 		</tr>
 		<tr>
-			<td><?=tt('Time');?></td>
-			<td><?=$data['classtime']?></td>
+			<td><?=tt('Size');?></td>
+			<td><?=$data['size']?></td>
 		</tr>
 		<tr>
 			<td><?=tt('description');?></td>
