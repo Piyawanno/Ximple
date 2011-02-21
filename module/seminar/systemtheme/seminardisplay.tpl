@@ -7,16 +7,16 @@
 			<th><?=tt('Description');?></th>
 		</tr>
 		<tr>
-			<td><?=tt('owner');?></td>
-			<td><?=render_profile_link($data['owner'])?></td>
+			<td><?=tt('created');?></td>
+			<td><?=$data['createdate']?></td>
 		</tr>
 		<tr>
 			<td><?=tt('size');?></td>
 			<td><?=$data['size']?></td>
 		</tr>
 		<tr>
-			<td><?=tt('created');?></td>
-			<td><?=$data['createdate']?></td>
+			<td><?=tt('owner');?></td>
+			<td><?=render_profile_link($data['owner'])?></td>
 		</tr>
 		<tr>
 			<td><?=tt('Date');?></td>

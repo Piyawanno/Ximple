@@ -35,7 +35,7 @@ class Review extends Control{
 	
 	public function reviewee_list(){
 #		print_r($this->owner);
-		$selectClause = 'WHERE section='.SECTION." AND reviewee='".gg('id')."'";
+		$selectClause = 'WHERE section='.SECTION." AND reviewee='".gg('id')."'".' ORDER BY CREATEDATE DESC';
 		$this->select(array('reviewer', 'star','createdate', 'description'), $selectClause);
 		foreach($this->data as $key => $value){
 			$this->data[$key]['reviewer'] = render_profile_link($value['reviewer']);
@@ -85,6 +85,8 @@ class Review extends Control{
 		$this->addAccessMethod('review_reviewer', 'write');
 		$this->addAccessMethod('review_reviewer', 'insert');
 		$this->addAccessMethod('review_reviewer', 'reviewer_list');
+#		$this->addAccessMethod('guest', 'write');
+#		$this->addAccessMethod('guest', 'insert');
 	}
 	
 	private function setAction(){
