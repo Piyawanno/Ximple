@@ -97,7 +97,7 @@ input{
 
 #main_container{
 	width:1025px;
-	margin:0 auto;
+	margin:34px auto 0px auto;
 	text-align:left;
 }
 
@@ -355,4 +355,16 @@ input{
 .main_box_read_more a{
 	color:#666;
 	font-weight:bold;
+
+}
+
+/* ========= Operation bar ========= */
+
+#operation_bar{
+	position:fixed;
+	top:0;
+	left:0;
+	height:36px;
+	width:100%;
+	border:1px solid red;
 }
