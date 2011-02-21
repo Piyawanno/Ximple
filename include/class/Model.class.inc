@@ -274,13 +274,8 @@ abstract class Model{
 	}
 	
 	public function timeInterval($label, $interval, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'int';
-		$modelColumn->form = 'select';
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		$modelColumn->option = $this->formatTimeInterval($interval);
-		return $modelColumn;
+		include_once('TimeIntervalColumn.class.inc');
+		return new TimeIntervalColumn($label, $interval, $help);
 	}
 	
 	public function grid($label, $help=null){
@@ -304,26 +299,5 @@ abstract class Model{
 		$modelColumn = new SelectiveColumn($label, $option, $help);
 		return $modelColumn;
 	}
-	
-	private function formatTimeInterval($interval){
-		$formattedInterval = array();
-		foreach($interval as $sec){
-			if($sec >= 86400){
-				$format = 'z \d\a\y\s';
-				if($sec%86400) $format .= ' G \h\o\u\r\s';
-			}elseif($sec >= 3600){
-				$format = 'G \h\o\u\r\s';
-				if($sec%3600) $format .= ' i \m\u\n\i\t\e\s';
-			}elseif($sec >= 60){
-				$format = 'i \m\u\n\i\t\e\s';
-				if($sec%60) $format .= ' s \s\e\c\o\n\d\s';
-			}else{
-				$format = 's \s\e\c\o\n\d\s';
-			}
-			$formattedInterval[$sec] = date($format, $sec);
-		}
-		return $formattedInterval;
-	}
 }
-
 ?>

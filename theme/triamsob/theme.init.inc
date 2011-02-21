@@ -1,5 +1,4 @@
 <?php
-
 function theme_get_info_triamsob(){
 	return array(
 		'name' => 'TriamSob',
@@ -7,7 +6,12 @@ function theme_get_info_triamsob(){
 		'preview' => 'preview.png',
 		'block_position' => array(
 			'middle' => 'Middle Sidebar',
-			'right' => 'Right Sidebar',
+			'right_top' => 'Top Right Sidebar',
+			'right_bottom' => 'Bottom Right Sidebar',
+			'top' => 'Content Top',
+			'bottom' => 'Content Bottom',
+			'forum_top' => 'Forum Top',
+			'forum_bottom' => 'Forum Bottom',
 			'foot' => 'Foot',
 		),
 		'block_primary_position' => 'middle',

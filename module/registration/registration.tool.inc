@@ -5,7 +5,7 @@ function registration_off(){
 	document_set_redirect('');
 }
 
-function registration_save_user(){
+function registration_save_user($reply_mode='registration_confirm'){
 	$name = pp('login_name');
 	$exist = userinfo_check_user_exists($name);
 	$passwd = pp('password');
@@ -23,7 +23,7 @@ function registration_save_user(){
 		$user['avatar'] = io_upload(ff('avatar'), ROOT_PATH.'files/avatar/');
 		if(!$user['avatar']) $user['avatar'] = '';
 		io_serialize($user, $register_dir.$key1);
-		registration_reply(SECTION_URI.Q.'registration_confirm/key1/'.$key1.'/key2/'.$key2);
+		registration_reply(SECTION_URI.Q.$reply_mode.'/key1/'.$key1.'/key2/'.$key2);
 		execute_set_db();
 		document_set_redirect('');
 	}else{

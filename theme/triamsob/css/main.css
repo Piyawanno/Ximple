@@ -328,9 +328,14 @@ input{
 
 .main_box_body{
 	margin:0;
-	padding:0px 10px 0px 10px;
+	padding:5px 5px 15px 5px;
 	background:url(../image/mainbox_body.png) repeat-y;
 	width:530px;
+}
+
+.main_box_content{
+	width:490px;
+	margin-left:10px;
 }
 
 .main_box_foot{

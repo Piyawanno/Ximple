@@ -92,14 +92,7 @@ class User extends Control{
 		document_set_redirect('user');
 	}
 	
-	private function renderAvatar(){
-		$avatar = $this->dataByID['avatar'];
-		if(empty($avatar)) $avatar = 'files/avatar/default.png';
-		$image = ROOT_URI.$avatar;
-		$this->formMeta->description = '<p align="center"><img src="'.$image.'"></p>';
-	}
-	
-	private function initJS(){
+	protected function initJS(){
 		head_add_js_var('nameTooShort', tt('Login name is too short.'));
 		head_add_js_var('nameNotConformed', tt('Login name is not conformed.'));
 		head_add_js_var('nameExists', tt('Login name exists.'));
@@ -112,6 +105,13 @@ class User extends Control{
 		head_add_js_var('passwdWeak', tt('Password strength is weak.'));
 		head_add_js_var('passwdMismatch', tt('Password is mismathed.'));
 		head_add_js('include/external/sha1.js');
+	}
+	
+	protected function renderAvatar(){
+		$avatar = $this->dataByID['avatar'];
+		if(empty($avatar)) $avatar = 'files/avatar/default.png';
+		$image = ROOT_URI.$avatar;
+		$this->formMeta->description = '<p align="center"><img src="'.$image.'"></p>';
 	}
 }
 ?>

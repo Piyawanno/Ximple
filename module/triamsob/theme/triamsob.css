@@ -1,9 +1,10 @@
-#addmission_content, #exercise_content, #exam_content, #scholar_content, #forum_content{
+#admission_content, #exercise_content, #exam_content, #scholar_content, #forum_content{
 	min-height:155px;
 	padding-top:40px;
+	padding-left:15px;
 }
 
-#addmission_content{
+#admission_content{
 	background:url(admissionbg.png) top left no-repeat;
 }
 
