@@ -10,7 +10,6 @@ class SeminarModel extends Model{
 
 		$this->createdate = $this->now();
 		$this->createdate->label = tt('created');
-		$this->createdate->dateFormat = 'd/m/y';
 		$this->createdate->isList = true;
 		$this->createdate->isReachable = true;
 
@@ -49,7 +48,14 @@ class SeminarModel extends Model{
 			);
 		$this->classtime = $this->select(tt('time'), $timeOption);
 		
-		$this->duration = $this->title(tt('duration'));
+		$classduration = array(
+		1800, 3600, 5400, 7200, 9000, 12600, 14400, 16200, 18000, 19800, 21600, 23400, 
+		25200, 27000, 28800, 30600, 32400, 34200, 36000, 37800, 39600, 41400, 43200,
+		);
+		
+		$this->duration = $this->timeInterval('duration', $classduration);
+		
+//		$this->duration = $this->title(tt('duration'));
 		
 		$this->size = $this->title(tt('size'));
 		

@@ -82,11 +82,23 @@ class Seminar extends Control{
 	
 	public function display(){
 		document_set_path(tt('Display'));
+		$enrollFlag = FALSE;
+		
+		$column = array('seminar', 'attendant');
+		$clause = 'WHERE attendant='.USER_ID.' AND seminar='.gg('id');
+		$map = db_select('seminar_map', $column, $clause);
+		
+		if(count($map) == 0)
+			$enrollFlag = TRUE;
+		else
+			$enrollFlag = FALSE;
+		
 		$this->id = MODE_ID;
 		$this->selectByID($this->column);
 		head_add_css('list.css');
 		$renderArray = array(
 			'data' => $this->data[$this->id],
+			'enrollFlag' => $enrollFlag,
 		);
 		if(authority_group('seminar_moderator') or authority_group('seminar_admin') or authority_group('seminar_organizer'))
 			$render = render($renderArray, 'seminardisplay.tpl', 'seminardisplay');
