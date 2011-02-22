@@ -20,25 +20,21 @@ function module_init_seminar(){
 	module_add_role('seminar_organizer', 'Seminar Organizer', 'Who can set seminar.');
 	module_add_role('seminar_attendant', 'Seminar Attendant', 'Who attend the seminar.');
 	
-	module_add_panel('Seminar', 'seminar_admin', 'seminar_config', 'configure seminar');
-	module_add_panel('Seminar', 'seminar_admin', 'seminar', 'seminar report');
+//	module_add_panel('Seminar', 'seminar_admin', 'seminar_config', 'configure seminar');
 	module_add_panel('Seminar', 'seminar_admin', 'seminar_list', 'list all seminars');
-	module_add_panel('Seminar', 'seminar_admin', 'seminar_mylist', 'list my seminar');
+	module_add_panel('Seminar', 'seminar_admin', 'seminar_displayAll', 'show all seminars');
+//	module_add_panel('Seminar', 'seminar_admin', 'seminar_mylist', 'list my seminar');
 	module_add_panel('Seminar', 'seminar_admin', 'category/module/seminar', 'seminar category');
 	module_add_panel('Seminar', 'seminar_admin', 'seminar_write', 'submit new seminar');
 	
-	module_add_panel('Seminar', 'seminar_moderator', 'seminar', 'seminar report');
-	module_add_panel('Seminar', 'seminar_moderator', 'seminar_list', 'list all seminars');
-	module_add_panel('Seminar', 'seminar_moderator', 'seminar_mylist', 'list my seminar');
+	module_add_panel('Seminar', 'seminar_moderator', 'seminar_displayAll', 'show all seminars');
 	module_add_panel('Seminar', 'seminar_moderator', 'seminar_write', 'submit new seminar');
 	
-	module_add_panel('Seminar', 'seminar_organizer', 'seminar', 'seminar report');
+	module_add_panel('Seminar', 'seminar_organizer', 'seminar_displayAll', 'show all seminars');
 	module_add_panel('Seminar', 'seminar_organizer', 'seminar_write', 'submit new seminar');
-	module_add_panel('Seminar', 'seminar_organizer', 'seminar_mylist', 'list my seminar');
-	
-	module_add_panel('Seminar', 'seminar_attendant', 'seminar', 'seminar report');
-	module_add_panel('Seminar', 'seminar_attendant', 'seminar_mylist', 'list my seminar');
-	module_add_panel('Seminar', 'seminar_attendant', 'seminar_list', 'list all seminars');
+
+	module_add_panel('Seminar', 'seminar_organizer', 'seminar_displayAll', 'show all seminars');	
+	module_add_panel('Seminar', 'seminar_attendant', 'seminar_write', 'submit new seminar');
 }
 
 function module_drop_seminar(){

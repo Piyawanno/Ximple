@@ -79,20 +79,19 @@ class Seminar extends Control{
 		}
 		return $this->renderListPage();
 	}
-	
 	public function display(){
 		document_set_path(tt('Display'));
 		$enrollFlag = FALSE;
-		
+
 		$column = array('seminar', 'attendant');
 		$clause = 'WHERE attendant='.USER_ID.' AND seminar='.gg('id');
 		$map = db_select('seminar_map', $column, $clause);
-		
+
 		if(count($map) == 0)
 			$enrollFlag = TRUE;
 		else
 			$enrollFlag = FALSE;
-		
+
 		$this->id = MODE_ID;
 		$this->selectByID($this->column);
 		head_add_css('list.css');
@@ -104,6 +103,56 @@ class Seminar extends Control{
 			$render = render($renderArray, 'seminardisplay.tpl', 'seminardisplay');
 		else
 			$render = render($renderArray, 'seminardisplay_attendant.tpl', 'seminardisplay');
+		return $render;
+	}
+	
+	public function displayAll(){
+	echo('test');
+		document_set_path(tt('Display Seminars'));
+		$enrollFlag = FALSE;
+		$statusFlag = FALSE;
+		$controlFlag = FALSE;
+		$attendantFlag = FALSE;
+		
+		if(authority_group('seminar_attendant')){
+			$attendantFlag = TRUE;
+		
+			$column = array('seminar', 'attendant');
+			$clause = 'WHERE attendant='.USER_ID.' AND seminar='.gg('id');
+			$map = db_select('seminar_map', $column, $clause);
+		
+			if(count($map) == 0)
+				$enrollFlag = TRUE;
+			else
+				$enrollFlag = FALSE;
+		}
+		elseif(authority_group('seminar_organizer')){
+			$statusFlag = TRUE;
+			/*select the list for organizer*/
+		}
+		else {
+			$statusFlag = TRUE;
+			$controlFlag = TRUE;
+			/*select the list for organizer*/
+		}
+		$this->id = MODE_ID;
+		$this->selectByID($this->column);
+		head_add_css('list.css');
+		if(mid()) $mode = mm().'/'.mid();
+		else $mode = mm();
+		$this->listMeta->mode = $mode;
+		$this->setListWriteIcon(tt('Add new Seminar'));
+		$this->selectListPage(20, 'WHERE (section='.SECTION.')');
+		$renderArray = array(
+//			'data' => $this->data[$this->id],
+			'data' => $this->dataByID,
+			'enrollFlag' => $enrollFlag,
+			'attendantFlag' => $attendantFlag,
+			'$statusFlag' => $statusFlag,
+			'$controlFlag' => $controlFlag,
+		);
+		
+		$render = render($renderArray, 'seminardisplayall.tpl', 'seminardisplay');
 		return $render;
 	}
 	
@@ -127,29 +176,27 @@ class Seminar extends Control{
 	
 	private function setAccess(){
 		$access = cc('seminar_access');
-		$this->addAccessMethod('guest', 'index');
+		$this->addAccessMethod('guest', 'display');
 		
 		$this->addAccessMethod('seminar_admin', 'insertMap');
+
 		$this->addAccessMethod('seminar_attendant', 'insertMap');
-		$this->addAccessMethod('seminar_attendant', 'listMyPage');
-		$this->addAccessMethod('seminar_attendant', 'listPage');
-		$this->addAccessMethod('seminar_attendant', 'display');
 
 		$this->addAccessMethod('seminar_organizer', 'insert');
 		$this->addAccessMethod('seminar_organizer', 'write');
-		$this->addAccessMethod('seminar_organizer', 'listMyPage');
-		$this->addAccessMethod('seminar_organizer', 'display');
 		$this->addAccessMethod('seminar_organizer', 'seminarMapGetData');
 		
-		$this->addAccessMethod('seminar_moderator', 'listPage');
+		$this->addAccessMethod('seminar_moderator', 'insert');
+		$this->addAccessMethod('seminar_moderator', 'write');
 		$this->addAccessMethod('seminar_moderator', 'seminarMapGetData');
 		
 		$this->addAccessMethod('seminar_admin', 'seminarMapGetData');
 	}
 	
 	private function setAction(){
-//		$this->addAction('seminar_list', 'listPage');
-		$this->addAction('seminar_mylist', 'listMyPage');
+		$this->addAction('seminar_list', 'listPage');
+//		$this->addAction('seminar_mylist', 'listMyPage');
+		$this->addAction('seminar_displayAll', 'displayAll');
 		$this->addAction('seminar_display', 'display');
 		$this->addAction('seminar_insert_map', 'insertMap');
 		$this->addAction('seminar_attendantlist', 'seminarMapGetData');
