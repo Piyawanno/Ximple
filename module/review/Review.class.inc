@@ -15,13 +15,10 @@ class Review extends Control{
 	}
 	
 	public function index(){
-		if(authority_group('review_reviewer'))
-		{
-		return $this->reviewer_list();
-		}
-		else
-		{
-		return $this->reviewee_list();
+		if(authority_group('review_reviewer')) {
+			return $this->reviewerList();
+		} else {
+			return $this->revieweeList();
 		}
 	}
 	
@@ -40,21 +37,38 @@ class Review extends Control{
 		return $this->renderListPage();
 	}
 	
-	public function reviewee_list(){
+	public function revieweeList(){
 #		print_r($this->owner);
+#		$selectClause = ' inner join review_rating on review.id = review_rating.reviewId WHERE section='.SECTION." AND reviewee='".gg('id')."'".' ORDER BY CREATEDATE DESC';
+#		$pageLength = 10
+#		$this->selectPage(array('review.id', 'review.reviewer', 'review.star','review.createdate', 'review.description','review_rating.point'), $pageLength,$selectClause);
 		$selectClause = 'WHERE section='.SECTION." AND reviewee='".gg('id')."'".' ORDER BY CREATEDATE DESC';
-		$this->select(array('reviewer', 'star','createdate', 'description'), $selectClause);
+		$this->select(array('id', 'reviewer', 'star','createdate', 'description'),$selectClause);
 		foreach($this->data as $key => $value){
 			$this->data[$key]['reviewer'] = render_profile_link($value['reviewer']);
 		}
 		$renderArray = array(
-			'review_data' => $this->data
+			'reviewer' => USER_ID,
+			'reviewee' => gg('id'),
+			'review_data' => $this->data,
 		);
 		$page = render($renderArray, 'revieweedisplay.tpl', 'show_faq');
 		return $page;
 	}
 	
-	public function reviewer_list(){
+	public function reviewRating(){
+		$data = array(
+			'reviewId' => gg('reviewId'),
+			'scorer' => (int)gg('scorer'),
+			'point' => (int)gg('point'), 
+		);
+		print_r($data);
+		db_insert('review_rating', $data);
+		execute_set_db(); //after insert coz no display.
+		document_set_redirect('review_reviewee_list/'.gg('id'));
+	}
+	
+	public function reviewerList(){
 #		print_r($this->owner);
 		$selectClause = 'WHERE section='.SECTION." AND reviewer='".gg('id')."'";
 		$this->select(array('reviewee', 'star','createdate', 'description'), $selectClause);
@@ -87,11 +101,12 @@ class Review extends Control{
 	}
 	
 	private function setAccess(){
-		$this->addAccessMethod('guest', 'reviewee_list');
+		$this->addAccessMethod('guest', 'revieweeList');
 		$this->addAccessMethod('guest', 'index');
 		$this->addAccessMethod('review_reviewer', 'write');
 		$this->addAccessMethod('review_reviewer', 'insert');
-		$this->addAccessMethod('review_reviewer', 'reviewer_list');
+		$this->addAccessMethod('review_reviewer', 'reviewerList');
+		$this->addAccessMethod('review_reviewer', 'reviewRating');
 #		$this->addAccessMethod('guest', 'write');
 #		$this->addAccessMethod('guest', 'insert');
 	}
@@ -100,8 +115,9 @@ class Review extends Control{
 //		$this->addAction('review', 'index');
 //		$this->addAction('review_write', 'write');
 //		$this->addAction('review_list', 'listPage');
-		$this->addAction('review_reviewer_list', 'reviewer_list');
-		$this->addAction('review_reviewee_list', 'reviewee_list');
+		$this->addAction('review_reviewer_list', 'reviewerList');
+		$this->addAction('review_reviewee_list', 'revieweeList');
+		$this->addAction('review_rating', 'reviewRating');
 //		$this->addAction('review_manage', 'manage');
 	}
 	
