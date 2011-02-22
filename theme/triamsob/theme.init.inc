@@ -6,8 +6,7 @@ function theme_get_info_triamsob(){
 		'preview' => 'preview.png',
 		'block_position' => array(
 			'middle' => 'Middle Sidebar',
-			'right_top' => 'Top Right Sidebar',
-			'right_bottom' => 'Bottom Right Sidebar',
+			'right' => 'Right Sidebar',
 			'top' => 'Content Top',
 			'bottom' => 'Content Bottom',
 			'forum_top' => 'Forum Top',

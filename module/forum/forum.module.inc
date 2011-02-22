@@ -15,6 +15,7 @@ function forum_switch(){
 }
 
 function forum_entry_last_commented(){
+	include_once('forum.tool.inc');
 	$column = array(
 		'id',
 		'topic',

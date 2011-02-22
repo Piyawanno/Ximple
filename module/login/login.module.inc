@@ -1,10 +1,17 @@
-<?
+<?php
 execute_add_function('login');
+execute_add_function('login_ajax');
 execute_add_function('login_submit');
 
 function login(){
 	document_set_title(tt('Login'));
 	document_set_path(tt('Login'));
+	if(authority_is_guest()) return login_render();
+	else return login_render_logout();
+}
+
+function login_ajax(){
+	execute_set_ajax();
 	if(authority_is_guest()) return login_render();
 	else return login_render_logout();
 }

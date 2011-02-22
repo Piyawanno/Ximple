@@ -1,0 +1,20 @@
+p.tutorialschool_info{
+	color:gray;
+	font-size:11px;
+	margin-bottom:-5px;
+}
+
+p.tutorialschool_foot{
+	border-top:1px solid #eee;
+	text-align:right;
+}
+
+p.tutorialschool_foot a{
+	text-decoration:none;
+	padding:0px 10px 0px 10px;
+	border-left:1px solid #eee;
+}
+
+.tutorialschool{
+	margin:0px 0px 50px 0px;
+}

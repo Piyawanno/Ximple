@@ -48,7 +48,9 @@ function triamsob_render_content_box($param, $body){
 	$exeption_mode = array(
 		'triamsob',
 	);
-	if(!in_array(MODE, $exeption_mode)){
+	if(MODULE == 'forum'){
+		$body = triamsob_render_box($body, null, 'forum_box');
+	}elseif(!in_array(MODE, $exeption_mode)){
 		$body = triamsob_render_box($body);
 	}
 	return $body;
