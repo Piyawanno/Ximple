@@ -90,10 +90,10 @@ class Profile extends Control{
 	}
 	
 	private function prepareIndexData(){
-		$this->select($this->column, 'WHERE owner='.$this->getUID());
+		$this->select($this->column, 'WHERE owner='.$this->getUID().' ORDER BY id');
 		$data = array();
 		foreach($this->data as $key => $value){
-			$data[$value['profiletype']][] = $value['profile'];
+			$data[$value['profiletype']][$key] = $value['profile'];
 		}
 		return $data;
 	}

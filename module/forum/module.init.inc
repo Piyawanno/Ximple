@@ -26,7 +26,7 @@ function module_init_forum(){
 	flashblock_add('forum_entry_last_commented', 'forum_entry', tt('Last commented Forum Entries'), 'forum_entry', 'topic', $clause);
 	
 	$clause = 'WHERE section='.SECTION.' AND category != 0 ORDER BY position';
-	flashblock_add('forum_list', 'forum', tt('List of Forums'), 'forum', 'name', $clause);
+	flashblock_add('forum_list', 'forum_entry_list/forum', tt('List of Forums'), 'forum', 'name', $clause);
 	
 	block_add(tt('Advanced Last commented Forum Entries'), 'forum_entry_last_commented');
 }

@@ -57,5 +57,6 @@
 		<li><img src="<?=ROOT_URI?>module/forum/theme/hot.png" /> : <?=tt('hot topic (more than 15 comments)')?></li>
 		<li><img src="<?=ROOT_URI?>module/forum/theme/veryhot.png" /> : <?=tt('very hot topic (more than 25 comments)')?></li>
 	</ul>
+	<p style="clear:both;"></p>
 </div>
 </div>

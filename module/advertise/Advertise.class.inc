@@ -1,5 +1,5 @@
 <?php
-execute_add_class('advertise', 'Advertise');
+include_once(ROOT_PATH.'include/class/Control.class.inc');
 include('AdvertiseModel.class.inc');
 
 class Advertise extends Control{
@@ -8,8 +8,6 @@ class Advertise extends Control{
 		$this->moduleName = 'advertise';
 		$this->tableName = 'advertise';
 		$this->setAdmin('advertise_admin');
-		$this->addAction('advertise_redirect', 'redirect');
-		$this->addAction('advertise_banner', 'renderBanner');
 		$this->addAccessMethod('guest', 'redirect');
 		$this->init(new AdvertiseModel());
 		document_set_path($this->moduleTitle, 'advertise_list');
@@ -31,7 +29,6 @@ class Advertise extends Control{
 		head_add_css('advertise.css');
 		$clause = 'WHERE position='.gg('id').' AND section='.SECTION;
 		$this->select(array('id', 'banner', 'uri', 'name'), $clause);
-		print_r($this->data);
 		return render(array('data' => $this->data), 'banner.tpl', 'banner');
 	}
 	

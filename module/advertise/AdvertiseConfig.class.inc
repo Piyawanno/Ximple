@@ -1,5 +1,4 @@
 <?php
-execute_add_class('advertise', 'AdvertiseConfig');
 include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
 include('AdvertiseConfigModel.class.inc');
 
@@ -21,7 +20,11 @@ class AdvertiseConfig extends ConfigControl{
 	}
 	
 	public function save(){
-		config_set('advertise_block_position', pp('advertise_block_position'));
+		$position = pp('advertise_block_position');
+		foreach($position as $key => $value){
+			if(strlen($value) == 0) unset($position[$key]);
+		}
+		config_set('advertise_block_position', $position);
 		config_save();
 		document_set_redirect('advertise_config');
 		$this->updateBlock();

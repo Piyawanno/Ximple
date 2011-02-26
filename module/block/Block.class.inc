@@ -80,12 +80,12 @@ class Block extends Control{
 	}
 	
 	public function update(){
+		Control::update();
 		$configMode = $this->dataByID['config_save_mode'];
 		if(!empty($configMode)){
 			$configMode .= '/is_translate/false';
 			execute_string($configMode);
 		}
-		Control::update();
 		document_set_redirect('block#block_'.$this->id);
 	}
 	

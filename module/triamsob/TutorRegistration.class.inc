@@ -17,7 +17,7 @@ class TutorRegistration extends User{
 		$this->initJS();
 		head_add_js_var('insertUser', true);
 		$this->moduleTitle = tt('Tutor Registration');
-		$this->formMeta->id = 'TutorRegistration';
+		$this->formMeta->id = 'user';
 		$this->formMeta->title = $this->moduleTitle;
 		$this->formMeta->mode = 'triamsob_tutor_registration_save';
 		$description = io_read_file(ROOT_PATH.'module/triamsob/registration.txt');

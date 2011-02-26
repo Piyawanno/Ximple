@@ -12,7 +12,6 @@ function module_init_useronline(){
 	block_add(tt('Who is online (count)'), 'useronline_block_cont');
 	block_add(tt('Who is online (list)'), 'useronline_block_user_list');
 	extension_add('main_init', 'useronline_set_access');
-	extension_add('additional_profile_link', 'useronline_profile_test');
 }
 
 function module_drop_useronline(){
@@ -21,6 +20,5 @@ function module_drop_useronline(){
 	block_drop('useronline_block_count');
 	block_drop('useronline_block_user_list');
 	extension_drop('main_init', 'useronline_set_access');
-	extension_drop('additional_profile_link', 'useronline_profile_test');
 }
 ?>

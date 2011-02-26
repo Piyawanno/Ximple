@@ -60,7 +60,7 @@ function forum_set_panel(){
 	module_drop_panel('Forum');
 	module_drop_panel('Forum Entry');
 	menu_add('forum', tt('Forum'));
-	list($adminGroup, $editorGroup, $contributorGroup) = content_get_group('forumentry');
+	list($adminGroup, $editorGroup, $contributorGroup) = content_get_group('forum_entry');
 	module_add_panel('Forum', $adminGroup, 'category/module/forum', 'Forum category');
 	module_add_panel('Forum', $adminGroup, 'forum_entry_write', 'write new Forum entry');
 	module_add_panel('Forum', $adminGroup, 'forum_entry_contributor_list', 'list my Forum entry');

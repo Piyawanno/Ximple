@@ -9,6 +9,8 @@ class ProfileType extends Control{
 		$this->moduleTitle = 'Profile-Type';
 		$this->setAdmin('profile_admin');
 		$this->init(new ProfileTypeModel());
+		document_set_path(tt('User'), 'user');
+		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	function index(){

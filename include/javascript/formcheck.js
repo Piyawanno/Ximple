@@ -101,9 +101,9 @@ $(document).ready(function (){
 			var option = $('#complete_option');
 			var pos = $(this).offset();
 			option.css({
-				 top: pos.top + $(this).height() + 4,
-				 left: pos.left,
-				 width: $(this).width() + 2,
+				top: pos.top + $(this).height() + 4 + autoCompleteTop,
+				left: pos.left + autoCompleteLeft,
+				width: $(this).width() + 2,
 			});
 			$('#complete_option option').remove();
 			option.attr('rel', $(this).attr('id'));

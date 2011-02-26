@@ -1,7 +1,8 @@
 #admission_content, #exercise_content, #exam_content, #scholar_content, #forum_content{
 	min-height:155px;
-	padding-top:40px;
+	padding-top:2px;
 	padding-left:15px;
+	width:490px;
 }
 
 #admission_content{
@@ -24,6 +25,22 @@
 	background:url(forumbg.png) top left no-repeat;
 }
 
+#forum_content h3{
+	font-size:13px;
+	color:#69c;
+}
+
+.triamsob_read_more{
+	text-align:right;
+	font-size:13px;
+	padding-right:35px;
+}
+
+.triamsob_read_more a:hover{
+	font-weight:bold;
+	font-size:14px;
+}
+
 .triamsob_item{
 	width:320px;
 	float:left;
@@ -37,4 +54,45 @@
 .triamsob_icon{
 	float:left;
 	margin-left:10px;
+}
+
+.tutor_visual{
+	width:130px;
+	float:left;
+	margin-right:10px;
+}
+
+.tutor_avatar{
+	height:120px;
+	width:120px;
+	padding:5px;
+	border:1px solid #eee;
+}
+
+.tutor_ribbon{
+	position:relative;
+	top:-125px;
+	left:5px;
+	margin-bottom:-44px;
+}
+
+.tutor_profile{
+	width:350px;
+	float:left;
+}
+
+.tutor_button{
+	text-align:center;
+	background:url(buttongray.png) no-repeat;
+	display:block;
+	width:130px;
+	height:22px;
+	color:white;
+	text-decoration:none;
+	margin-bottom:10px;
+}
+
+.traimsob_linkbox{
+	width:450px;
+	height:30px;
 }

@@ -22,6 +22,7 @@ function main_init(){
 	translate_define_language();
 	config_translate();
 	extension_execute('main_init');
+	translate_add_directory(ROOT_PATH.'theme/'.cc('theme'));
 }
 
 function main_exec(){

@@ -20,15 +20,6 @@ function useronline_block_cont(){
 	return $content;
 }
 
-function useronline_profile_test($params, $result){
-	$result[] = array(
-		'mode' => 'useronline/'.gg('id'),
-		'icon' => 'files/icon/folder.png',
-		'label' => tt('Who is online'),
-	);
-	return $result;
-}
-
 function useronline_block_user_list(){
 	$user_info = useronline_get_array_info();
 	$render_array = array('user' => $user_info);

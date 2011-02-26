@@ -357,13 +357,14 @@ function update_user(){
 /// @return Information array of system-preconfiguration.
 function install_preconfig(){
 	$preconfig = array(
-		'personal' => array(
-			'label' => tt('Personal Website'),
-			'description' => tt('This pre-configuration allows you to create your personal website with blogging system and image gallery.'),
-		),
 		'blog' => array(
 			'label' => tt('Bloging System'),
 			'description' => tt('Minimal configuration with blog module.'),
+		),
+		/* In planning
+		'personal' => array(
+			'label' => tt('Personal Website'),
+			'description' => tt('This pre-configuration allows you to create your personal website with blogging system and image gallery.'),
 		),
 		'community' => array(
 			'label' => tt('Community Website'),
@@ -373,7 +374,6 @@ function install_preconfig(){
 			'label' => tt('SME Website'),
 			'description' => tt('Website for Small and Medium Enterprise or other institution. This pre-configuration allows them to provide news and information about themselves.'),
 		),
-		/* In planning
 		'magazin' => array(
 			'label' => tt('Online Magazin'),
 			'description' => tt(''),

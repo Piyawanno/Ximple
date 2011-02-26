@@ -4,6 +4,7 @@
 		<div class="main_box_head"></div>
 		<div class="main_box_body">
 			<div id="<?=$reference?>_content">
+				<?=triamsob_render_category_link($category[$data['category']], $data['category'], 'journal', '<div class="traimsob_linkbox"></div>')?>
 				<h3 class="title_label" style="display:none;"><?=$data['label']?></h3>
 				<?php foreach($data['data'] as $key => $value):?>
 				<?php if(strlen($value['icon'])):?>
@@ -17,8 +18,8 @@
 				<?php endforeach?>
 				</ul>
 			</div>
-			<div class="main_box_read_more">
-				<?=triamsob_render_category_link($category[$data['category']], $data['category'],'journal')?>
+			<div class="triamsob_read_more">
+				<?=triamsob_render_category_link($category[$data['category']], $data['category'], 'journal', tt('read more'))?>
 			</div>
 		</div>
 		<div class="main_box_foot"></div>
@@ -29,21 +30,22 @@
 	<div class="main_box_head"></div>
 	<div class="main_box_body">
 		<div id="forum_content">
-			<h3 class="title_label"><?=tt('Last commented Forum')?></h3>
+			<a href="<?=SECTION_URI.Q.'forum'?>"><div class="traimsob_linkbox"></div></a>
+			<h3><?=tt('Last commented Forum')?></h3>
 			<ul>
 			<?php foreach($last_posted_forum as $key => $value):?>
 				<li><a href="<?=SECTION_URI.Q.'forum_entry/'.$key?>"><?=$value?></a></li>
 			<?php endforeach?>
 			</ul>
 			
-			<h3 class="title_label"><?=tt('Last posted Forum')?></h3>
+			<h3><?=tt('Last posted Forum')?></h3>
 			<ul>
 			<?php foreach($last_commented_forum as $key => $value):?>
 				<li><a href="<?=SECTION_URI.Q.'forum_entry/'.$key?>"><?=$value?></a></li>
 			<?php endforeach?>
 			</ul>
 		</div>
-		<div class="main_box_read_more">
+		<div class="triamsob_read_more">
 			<a href="<?=SECTION_URI.Q.'forum'?>"><?=tt('read more')?></a>
 		</div>
 	</div>

@@ -37,6 +37,8 @@ $head_js_var = array(
 	'sectionURICommon' => SECTION_URI,
 	'checkNotifyInterval' => cc('notify_interval')*1000,
 	'isGuest' => authority_is_guest(),
+	'autoCompleteTop' => 0,
+	'autoCompleteLeft' => 0,
 );
 
 $head_js_array = array();

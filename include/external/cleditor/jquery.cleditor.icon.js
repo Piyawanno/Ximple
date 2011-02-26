@@ -15,6 +15,7 @@ $.cleditor.buttons.icon = {
 
 
 var content = '<div style="max-width:150px;">';
+if(iconArray = undefined) iconArray = new Array();
 for(i in iconArray){
 	content += '<a href="#" onclick="return iconClick(\''+iconArray[i]+'\')"><img src="'+iconArray[i]+'" border="0"/>';
 }

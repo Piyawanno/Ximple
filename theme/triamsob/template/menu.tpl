@@ -26,7 +26,7 @@
 		var pos = $(this).offset();
 		var height = $(this).parent().height();
 		$('#'+$(this).attr('rel')).css({
-			 top: pos.top + height, left: pos.left
+			 top: pos.top + height - 195, left: pos.left
 		});
 		$('#'+$(this).attr('rel')+':hidden').show('blind');
 		hideLock = true;

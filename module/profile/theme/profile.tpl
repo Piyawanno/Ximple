@@ -23,10 +23,10 @@
 				<td><?=$profile?></td>
 				<?php if($editable):?>
 				<td width="10%">
-					<a href="<?=SECTION_URI.Q?>profile_edit/<?=$uid?>" ><img alt="edit" src="<?=ROOT_URI?>files/icon/edit.png" border="0"/></a>
+					<a href="<?=SECTION_URI.Q?>profile_edit/<?=$index?>" ><img alt="edit" src="<?=ROOT_URI?>files/icon/edit.png" border="0"/></a>
 				</td>
 				<td width="10%">
-					<a href="<?=SECTION_URI.Q?>profile_drop/<?=$uid?>"><img alt="delete" src="<?=ROOT_URI?>files/icon/stop.png" border="0"/></a>
+					<a href="<?=SECTION_URI.Q?>profile_drop/<?=$index?>"><img alt="delete" src="<?=ROOT_URI?>files/icon/stop.png" border="0"/></a>
 				</td>
 				<?php endif?>
 			</tr>

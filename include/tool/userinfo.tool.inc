@@ -95,6 +95,15 @@ function userinfo_check_user_exists(){
 	}
 }
 
+function userinfo_get_profile($uid){
+	$column = array('id', 'owner', 'profile', 'profiletype');
+	$profile = db_select('profile', $column, 'WHERE owner='.$uid);
+	foreach($profile as $key => $value){
+		$profile[$value['profiletype']] = $value['profile'];
+	}
+	return $profile;
+}
+
 function userinfo_check_email_exists(){
 	$uid = gg('uid');
 	if(empty($uid)){

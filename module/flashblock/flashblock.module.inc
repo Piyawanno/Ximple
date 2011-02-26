@@ -62,8 +62,8 @@ function flashblock_config(){
 	}
 }
 
-function flashblock_save($arg){
-	db_update('flashblock', array('item_number' => pp('flashblock_item_number')), $arg['id']);
+function flashblock_save(){
+	db_update('flashblock', array('item_number' => pp('flashblock_item_number')),gg('id'));
 }
 
 function flashblock_translate($mode, $column_name, $data){

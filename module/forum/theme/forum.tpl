@@ -1,6 +1,7 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <div class="forum">
 <?foreach ($category as $key => $value):?>
+	<?php if(isset($data[$key]) and count($data[$key])):?>
 	<h3 class="list_label"><?=$value['category']?></h3>
 	<p>
 		<?php if(strlen($value['pic'])):?>
@@ -34,5 +35,6 @@
 		<?php endif?>
 	</table>
 	</div>
+	<?php endif?>
 <?php endforeach?>
 </div>

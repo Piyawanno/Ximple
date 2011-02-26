@@ -1,4 +1,6 @@
 <?php
+include('triamsob.module.inc');
+
 function module_get_info_triamsob(){
 	return array(
 		'name' => tt('TriamSob'),
@@ -8,24 +10,22 @@ function module_get_info_triamsob(){
 
 function module_init_triamsob(){
 	require_once(ROOT_PATH.'include/tool/block.tool.inc');
+	require_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
+	require_once('TutorSubject.class.inc');
+	$tutorSubject = new TutorSubject();
+	$tutorSubject->createTable();
 	module_add('triamsob', 'triamsob.module.inc', 'TriamSob');
 	extension_add('pre_main_render_site', 'triamsob_render_content_box');
-	
-	$clause = 'WHERE (publishing_status < 2 AND category='.TRIAMSOB_TUTOR_CATEGORY.') ';
-	$clause.= 'ORDER BY publish_time DESC';
-	flashblock_add('tutor_article', 'journal', tt('Tutor Article'), 'journal', 'topic', $clause);
-	
-	$clause = 'WHERE (publishing_status < 2 AND category='.TRIAMSOB_STUDENT_CATEGORY.') ';
-	$clause.= 'ORDER BY publish_time DESC';
-	flashblock_add('student_article', 'journal', tt('Student Article'), 'journal', 'topic', $clause);
-	
+	extension_add('additional_profile_link', 'triamsob_tutor_subject_icon');
+	module_add_role('triamsob_tutor', 'Tutor', 'Who can add subject to his profile.');
 }
 
 function module_drop_triamsob(){
 	require_once(ROOT_PATH.'include/tool/block.tool.inc');
+	require_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
+	module_drop_role('triamsob_tutor');
 	module_drop('triamsob');
 	extension_drop('pre_main_render_site', 'triamsob_render_content_box');
-	flashblock_drop('tutor_article');
-	flashblock_drop('student_article');
+	extension_drop('additional_profile_link', 'triamsob_tutor_subject_icon');
 }
 ?>
