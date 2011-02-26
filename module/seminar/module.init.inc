@@ -33,7 +33,7 @@ function module_init_seminar(){
 	module_add_panel('Seminar', 'seminar_organizer', 'seminar_displayAll', 'show all seminars');
 	module_add_panel('Seminar', 'seminar_organizer', 'seminar_write', 'submit new seminar');
 
-	module_add_panel('Seminar', 'seminar_organizer', 'seminar_displayAll', 'show all seminars');	
+	module_add_panel('Seminar', 'seminar_attendant', 'seminar_displayAll', 'show all seminars');	
 	module_add_panel('Seminar', 'seminar_attendant', 'seminar_write', 'submit new seminar');
 }
 

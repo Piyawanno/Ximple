@@ -107,7 +107,6 @@ class Seminar extends Control{
 	}
 	
 	public function displayAll(){
-	echo('test');
 		document_set_path(tt('Display Seminars'));
 		$enrollFlag = FALSE;
 		$statusFlag = FALSE;
@@ -116,7 +115,7 @@ class Seminar extends Control{
 		
 		if(authority_group('seminar_attendant')){
 			$attendantFlag = TRUE;
-		
+			echo('_attendant_');
 			$column = array('seminar', 'attendant');
 			$clause = 'WHERE attendant='.USER_ID.' AND seminar='.gg('id');
 			$map = db_select('seminar_map', $column, $clause);
@@ -128,24 +127,28 @@ class Seminar extends Control{
 		}
 		elseif(authority_group('seminar_organizer')){
 			$statusFlag = TRUE;
+			echo('_organizer_');
 			/*select the list for organizer*/
 		}
 		else {
+			echo('_mod_and_admin_');
 			$statusFlag = TRUE;
 			$controlFlag = TRUE;
 			/*select the list for organizer*/
 		}
 		$this->id = MODE_ID;
-		$this->selectByID($this->column);
+//		$this->selectByID($this->column);
+		echo('test2');
 		head_add_css('list.css');
 		if(mid()) $mode = mm().'/'.mid();
 		else $mode = mm();
 		$this->listMeta->mode = $mode;
 		$this->setListWriteIcon(tt('Add new Seminar'));
-		$this->selectListPage(20, 'WHERE (section='.SECTION.')');
+		$selcolumn = array('owner', 'classtime', 'duration', 'description');
+		$this->selectListPage(20, 'WHERE (section='.SECTION.')',$selcolumn);
 		$renderArray = array(
 //			'data' => $this->data[$this->id],
-			'data' => $this->dataByID,
+			'data' => $this->data,
 			'enrollFlag' => $enrollFlag,
 			'attendantFlag' => $attendantFlag,
 			'$statusFlag' => $statusFlag,
@@ -177,6 +180,7 @@ class Seminar extends Control{
 	private function setAccess(){
 		$access = cc('seminar_access');
 		$this->addAccessMethod('guest', 'display');
+		$this->addAccessMethod('guest', 'listPage');
 		
 		$this->addAccessMethod('seminar_admin', 'insertMap');
 
