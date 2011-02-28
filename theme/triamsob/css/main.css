@@ -142,6 +142,10 @@ label{
 	color:#369;
 }
 
+#content a:hover{
+	background:#9cf;
+}
+
 /* ========= Menu ========= */
 #menu_container{
 	width:100%;

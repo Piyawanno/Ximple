@@ -22,8 +22,8 @@
 						<div class="social_body">
 						<div class="social_content">
 							<a href="http://www.facebook.com/TriamSob"><img src="<?=ROOT_URI?>theme/triamsob/image/bottoncanfb.png" alt="facebook" border="0" /></a>
-							<a href=""><img src="<?=ROOT_URI?>theme/triamsob/image/bottoncantwitter.png" alt="facebook" border="0" /></a>
-							<a href=""><img src="<?=ROOT_URI?>theme/triamsob/image/bottoncanyoutube.png" alt="facebook" border="0" /></a>
+							<a href="http://twitter.com/triamsob"><img src="<?=ROOT_URI?>theme/triamsob/image/bottoncantwitter.png" alt="facebook" border="0" /></a>
+							<a href="http://www.youtube.com/triamsob"><img src="<?=ROOT_URI?>theme/triamsob/image/bottoncanyoutube.png" alt="facebook" border="0" /></a>
 						</div>	
 						</div>
 						<div class="social_foot"></div>
