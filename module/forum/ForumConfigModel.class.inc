@@ -8,8 +8,8 @@ class ForumConfigModel extends ContentConfigModel{
 			'level' => tt('show user level'),
 			'signature' => tt('user signature'),
 		);
-		$this->forum_appearance = $this->checkbox(tt('show in rendered forum'), $option);
 		
+		$this->forum_appearance = $this->checkbox(tt('show in rendered forum'), $option);
 		$this->forum_user_level = $this->grid(tt('User Levels'));
 		$userLevel = cc('forum_user_level');
 		$userLevelNumber = Model::char(tt('contribution number'));

@@ -12,9 +12,9 @@
 	<div class="list">
 	<table width="100%">
 		<tr>
-			<th><?=tt('Forum')?></th>
-			<th style="min-width:80px;"><?=tt('topics')?></th>
-			<th style="min-width:80px;"><?=tt('comments')?></th>
+			<th style="width:70%;"><?=tt('Forum')?></th>
+			<th style="min-width:80px;width:15%;"><?=tt('topics')?></th>
+			<th style="min-width:80px;width:15%;"><?=tt('comments')?></th>
 		</tr>
 		<?php if(isset($data[$key])):?>
 			<?foreach ($data[$key] as $forum):?>

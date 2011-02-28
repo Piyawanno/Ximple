@@ -12,7 +12,22 @@ class TutorialSchoolConfigModel extends ContentConfigModel{
 		);
 		$this->tutorialschool_appearance = $this->checkbox(tt('show in rendered tutorialschool'), $option);
 		
-		$option = array(3 => 3, 5 => 5, 8 => 8, 10 => 10, 15 => 15, 20 => 20);
+		$option = array(
+			5 => 5,
+			10 => 10,
+			15 => 15,
+			20 => 20,
+			30 => 30,
+			40 => 40,
+			50 => 50,
+			60 => 60,
+			70 => 70,
+			80 => 80,
+			90 => 90,
+			100 => 100,
+			110 => 110,
+			120 => 120,
+		);
 		$this->tutorialschool_entries_number = $this->select(tt('tutorialschool entries per page'), $option);
 		$this->extendBefore('tutorialschool_comment_write_label', 'tutorialschool_entries_number');
 	}

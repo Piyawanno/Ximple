@@ -53,7 +53,7 @@
 			<?php foreach($block['foot'] as $key => $item):?>
 				<?=$item?>
 			<?php endforeach?>
-		<div>
+		</div>
 		<div style="clear:both;"></div>
 	</div>
 	<?php include('operationbar.tpl')?>

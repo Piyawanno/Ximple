@@ -5,10 +5,10 @@ function triamsob_define_constant(){
 	define('TRIAMSOB_SCHOLAR_CATEGORY', 6);
 	define('TRIAMSOB_EXERCISE_CATEGORY', 7);
 	define('TRIAMSOB_EXAM_CATEGORY', 8);
-	define('TRIAMSOB_TUTOR_CATEGORY', 9);
-	define('TRIAMSOB_STUDENT_CATEGORY', 10);
+	define('TRIAMSOB_TUTOR_CATEGORY', 10);
+	define('TRIAMSOB_STUDENT_CATEGORY', 9);
 
-	define('TRIAMSOB_WORD_WRAP', 3);
+	define('TRIAMSOB_WORD_WRAP', 6);
 	define('TRIAMSOB_TUTOR_GROUP', 4);
 	define('TRIAMSOB_PENDING_TUTOR_GROUP', 5);
 	define('TRIAMSOB_TUTOR_PER_PAGE', 10);
@@ -68,7 +68,7 @@ function triamsob_render_content_box($param, $body){
 	);
 	if(MODULE == 'forum'){
 		$body = triamsob_render_box($body, null, 'forum_box');
-	}elseif(!in_array(MODE, $exeption_mode)){
+	}elseif(!in_array(MODE, $exeption_mode) and !(MODE == 'journal' and MODE_ID == 0)){
 		$body = triamsob_render_box($body);
 	}
 	return $body;

@@ -28,7 +28,13 @@ function module_init_forum(){
 	$clause = 'WHERE section='.SECTION.' AND category != 0 ORDER BY position';
 	flashblock_add('forum_list', 'forum_entry_list/forum', tt('List of Forums'), 'forum', 'name', $clause);
 	
-	block_add(tt('Advanced Last commented Forum Entries'), 'forum_entry_last_commented');
+	block_add(
+		tt('Advanced Last commented Forum Entries'),
+		'forum_entry_last_commented',
+		'disabled',
+		'forum_entry_last_commented_config',
+		'forum_entry_last_commented_config_save'
+	);
 }
 
 function module_drop_forum(){

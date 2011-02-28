@@ -17,7 +17,7 @@
 				<p>
 					<label><?=tt('subject')?></label>
 					<?php foreach($subject as $key => $sid):?>
-						<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/'.$sid?>" class="tutor_subject"><?=$subject_list[$sid]?></a>
+						<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/'.$sid.'/'.$subject_list[$sid]?>" class="tutor_subject"><?=$subject_list[$sid]?></a>
 					<?php endforeach?>
 				</p>
 				<?=triamsob_render_profile_item($profile, TRIAMSOB_PLACE_TYPE, tt('place'))?>

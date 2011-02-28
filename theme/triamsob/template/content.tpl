@@ -29,16 +29,30 @@
 		<?=$item?>
 	<?php endforeach?>
 	<div class="essay">
-		<div id="essay_student_head"></div>
+		<a href="<?=SECTION_URI.Q.'journal/tag/บทความนักเรียน/tag_label/บทความนักเรียน'?>">
+			<div id="essay_student_head" border="0"></div>
+		</a>
 		<div class="essay_body">
+		<div class="essay_content">
 			<?=execute_string('triamsob_student_article')?>
+			<p align="right">
+				<a href="<?=SECTION_URI.Q.'journal/tag/บทความนักเรียน/tag_label/บทความนักเรียน'?>"><?=tt('read more')?></a>
+			</p>
+		</div>
 		</div>
 		<div class="essay_foot"></div>
 	</div>
 	<div class="essay">
-		<div id="essay_tutor_head"></div>
+		<a href="<?=SECTION_URI.Q.'journal/tag/บทความติวเตอร์/tag_label/บทความติวเตอร์'?>">
+			<div id="essay_tutor_head" border="0"></div>
+		</a>
 		<div class="essay_body">
+		<div class="essay_content">
 			<?=execute_string('triamsob_tutor_article')?>
+			<p align="right">
+				<a href="<?=SECTION_URI.Q.'journal/tag/บทความติวเตอร์/tag_label/บทความติวเตอร์'?>"><?=tt('read more')?></a>
+			</p>
+		</div>
 		</div>
 		<div class="essay_foot"></div>
 	</div>
