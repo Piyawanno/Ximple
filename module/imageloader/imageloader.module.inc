@@ -15,6 +15,7 @@ function imageloader_simple(){
 		'is_guest' => authority_is_guest(),
 		'image' => imageloader_get_image($path),
 		'loader_id' => gg('loader_id'),
+		'is_file_admin' => authority_group('file_admin'),
 	);
 	return render($render_array, 'imageloader_simple.tpl', 'imageloader_simple');
 }

@@ -22,6 +22,9 @@
 	<input value="uploade image" type="submit" style="width:120px;" >
 </form>
 <p><strong><?=tt('click on image to select')?> <span id="loader_info" style="color:red;"></span></strong></p>
+<?php if($is_file_admin):?>
+	<p><strong><a href="<?=SECTION_URI.Q?>/?mode=file_manage_admin&dir=<?=gg('dir')?>" target="_blank" ><?=tt('manage files')?></a></strong></p>
+<?php endif ?>
 <?php foreach($image as $key => $value):?>
 	<div class="image_container">
 		<a href="#" onclick="loaderChangeImageCLE('<?=ROOT_URI.$value['src']?>');return false;">
