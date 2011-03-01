@@ -49,6 +49,9 @@ class Download extends Control{
 		$this->selectByID(array('id', 'file', 'name', 'permission'));
 		if(authority(array(), $this->dataByID['permission'])){
 			$fileName = ROOT_PATH.$this->dataByID['file'];
+			if(!function_exists('mime_coumime_content_typentent_type')){
+				include_once(ROOT_PATH.'include/external/upgradephp/upgrade.php');
+			}
 			$mime = mime_content_type($fileName);
 			$extension = split('\.', $this->dataByID['file']);
 			$extension = $extension[count($extension) -1 ];
