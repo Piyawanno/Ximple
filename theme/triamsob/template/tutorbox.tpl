@@ -37,21 +37,21 @@
 <div class="facebook_box_body">
 	<div class="facebook_box_content">
 		<h3 class="title_label"><?=tt('Tutor in the Can')?></h3>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/0'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/canmat1.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/1'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/canmat2.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/2'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/canmat3.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/3'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/caneng1.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/4'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/caneng2.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/5'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/caneng3.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/6'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/canphy.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/7'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/canchem.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/8'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/canbio.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/9'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/cansci1.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/10'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/cansci2.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/11'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/cansci3.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/12'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/cantha.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/13'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/canso.png'?>" border="" alt=""/></a>
-		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/14'?>" class="tutor_subject"><img src="<?=ROOT_URI.'theme/triamsob/image/canother.png'?>" border="" alt=""/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/0/คณิต ประถม'?>" class="tutor_subject"><img alt="คณิต ประถม" src="<?=ROOT_URI.'theme/triamsob/image/canmat1.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/1/คณิต ม.ต้น'?>" class="tutor_subject"><img alt="คณิต ม.ต้น" src="<?=ROOT_URI.'theme/triamsob/image/canmat2.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/2/คณิต ม.ปลาย'?>" class="tutor_subject"><img alt="คณิต ม.ปลาย" src="<?=ROOT_URI.'theme/triamsob/image/canmat3.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/3/อังกฤษ ประถม'?>" class="tutor_subject"><img alt="อังกฤษ ประถม" src="<?=ROOT_URI.'theme/triamsob/image/caneng1.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/4/อังกฤษ ม.ต้น'?>" class="tutor_subject"><img alt="อังกฤษ ม.ต้น" src="<?=ROOT_URI.'theme/triamsob/image/caneng2.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/5/อังกฤษ ม.ปลาย'?>" class="tutor_subject"><img alt="อังกฤษ ม.ปลาย" src="<?=ROOT_URI.'theme/triamsob/image/caneng3.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/6/ฟิสิกส์'?>" class="tutor_subject"><img alt="ฟิสิกส์" src="<?=ROOT_URI.'theme/triamsob/image/canphy.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/7/เคมี'?>" class="tutor_subject"><img alt="เคมี" src="<?=ROOT_URI.'theme/triamsob/image/canchem.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/8/ชีวะ'?>" class="tutor_subject"><img alt="ชีวะ" src="<?=ROOT_URI.'theme/triamsob/image/canbio.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/9/วิทยาศาสตร์ ประถม'?>" class="tutor_subject"><img alt="วิทยาศาสตร์ ประถม" src="<?=ROOT_URI.'theme/triamsob/image/cansci1.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/10/วิทยาศาสตร์ ม.ต้น'?>" class="tutor_subject"><img alt="วิทยาศาสตร์ ม.ต้น" src="<?=ROOT_URI.'theme/triamsob/image/cansci2.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/11/วิทยาศาสตร์ ม.ปลาย'?>" class="tutor_subject"><img alt="วิทยาศาสตร์ ม.ปลาย" src="<?=ROOT_URI.'theme/triamsob/image/cansci3.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/12/ไทย'?>" class="tutor_subject"><img alt="ไทย" src="<?=ROOT_URI.'theme/triamsob/image/cantha.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/13/สังคม'?>" class="tutor_subject"><img alt="สังคม" src="<?=ROOT_URI.'theme/triamsob/image/canso.png'?>" border="0"/></a>
+		<a href="<?=SECTION_URI.Q.'triamsob_tutor_subject/14/อื่นๆ'?>" class="tutor_subject"><img alt="อื่นๆ" src="<?=ROOT_URI.'theme/triamsob/image/canother.png'?>" border="0"/></a>
 	</div>
 </div>
 <div class="facebook_box_foot"></div>

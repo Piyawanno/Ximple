@@ -155,6 +155,7 @@ function authority_handle_guest(){
 function authority_handle_user($uid){
 	$map = db_select_single_column('map', 'groups', "WHERE users='".(int)$uid."' AND section=".SECTION, false);
 	$_SESSION['login_group'] = $map;
+	$_SESSION['login_group'][] = 3;
 	$_SESSION['ximple_id'] = $uid;
 }
 

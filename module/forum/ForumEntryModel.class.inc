@@ -76,11 +76,11 @@ class ForumColumn extends ModelColumn{
 	}
 	
 	private function getOption(){
-		$forumID = forum_get_allowed_id();
+		$forumID = forum_get_writable_id();
 		if(count($forumID)){
 			$clause = 'WHERE id='.join(' OR id=', $forumID);
 			$this->option = db_select_single_column('forum', 'name', $clause);
-		}elseif(authority_group('forum_admin')){
+		}elseif(forum_check_authority_group()){
 			$this->option = array();
 			$pattern = tt('No Forum is created, please <a href="%s">create forum</a> before write a new entry.');
 			$message = sprintf($pattern, SECTION_URI.Q.'forum_manage');

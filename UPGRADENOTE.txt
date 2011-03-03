@@ -48,3 +48,10 @@ This file contains TO-DO list for additional procedure by software upgrading.
 - Alter table profiletype
 	
 	ALTER TABLE profiletype ADD `allowed_group` text;
+
+- Alter table forum
+	
+	ALTER TABLE forum CHANGE allowed_group writable_group text;
+	ALTER TABLE forum ADD readable_group text;
+	ALTER TABLE forum ADD publishable_group text;
+	ALTER TABLE forum DROP guest_postable;

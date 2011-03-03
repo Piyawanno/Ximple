@@ -32,7 +32,6 @@ class ModelColumn{
 		'calendar',
 		'captcha',
 		'autocomplete',
-		'group',
 		'email',
 		'imageloader',
 		'color',
@@ -81,8 +80,6 @@ class ModelColumn{
 	public $isSortable = false;
 	public $isAllTags = false;
 	public $isImage = false;
-	public $isExceptedAdmin = true;
-	public $isExceptedGuest = false;
 	public $isUpdateTime = false;
 	public $isMultipleInsert = false;
 	public $isTranslate = false;

@@ -4,13 +4,19 @@ function forum_guest_postable($forum_id){
 	return $forum['guest_postable'];
 }
 
-function forum_check_permission($forum_id){
-	$allowed_forums = forum_get_allowed_id();
+function forum_check_authority_group(){
+	if(authority_group('forum_entry_admin')) return true;
+	if(authority_group('forum_entry_editor')) return true;
+	return false;
+}
+
+function forum_check_readable($forum_id){
+	$allowed_forums = forum_get_readable_id();
 	return in_array($forum_id, $allowed_forums);
 }
 
 function forum_get_last_entry($forum_id){
-	$clause = 'WHERE forum='.$forum_id.' ORDER BY comment_time DESC LIMIT 1';
+	$clause = 'WHERE forum='.$forum_id.' AND publishing_status < 2 ORDER BY comment_time DESC LIMIT 1';
 	$column = array('id', 'topic', 'writer', 'writer_name', 'write_time');
 	$forum_entry = db_select('forum_entry', $column, $clause);
 	if(count($forum_entry)){
@@ -22,12 +28,27 @@ function forum_get_last_entry($forum_id){
 	}
 }
 
-function forum_get_allowed_id(){
-	$forum_permission = db_select_single_column('forum', 'allowed_group', 'WHERE section='.SECTION);
+function forum_get_readable_id(){
+	return forum_get_allowed_id('readable_group');
+}
+
+function forum_get_writable_id(){
+	return forum_get_allowed_id('writable_group');
+}
+
+function forum_get_publishable_id(){
+	return forum_get_allowed_id('publishable_group');
+}
+
+function forum_get_allowed_id($permission_column){
+	$forum_permission = db_select_single_column('forum', $permission_column, 'WHERE section='.SECTION);
 	$allowed_id = array();
 	foreach($forum_permission as $key => $value){
 		$group = unserialize($value);
-		if(authority(array(), $group) or authority_group('forum_admin')){
+		$enable = authority(array(), $group);
+		$enable = ($enable or authority_group('forum_entry_admin'));
+		$enable = ($enable or authority_group('forum_entry_editor'));
+		if($enable){
 			$allowed_id[] = $key;
 		}
 	}
@@ -36,7 +57,7 @@ function forum_get_allowed_id(){
 
 function forum_get_info($forum_id){
 	$clause = 'WHERE id='.((int) $forum_id);
-	$column = array('category', 'name', 'description', 'guest_postable');
+	$column = array('category', 'name', 'description');
 	$forum = db_select('forum', $column, $clause);
 	return $forum[0];
 }

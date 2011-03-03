@@ -185,15 +185,8 @@ abstract class Model{
 	}
 	
 	public function group($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'array';
-		$modelColumn->form = 'group';
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		$modelColumn->defaultData = array(2);
-		$modelColumn->data = array(2);
-		$modelColumn->isSerialize = true;
-		return $modelColumn;
+		include_once('GroupColumn.class.inc');
+		return new GroupColumn($label, $help);
 	}
 	
 	public function user($label, $help=null){

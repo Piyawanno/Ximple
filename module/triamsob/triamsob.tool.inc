@@ -45,9 +45,9 @@ function triamsob(){
 		'exercise' => triamsob_get_data(tt('Exercise'), TRIAMSOB_EXERCISE_CATEGORY),
 		'exam' => triamsob_get_data(tt('Old Exam'), TRIAMSOB_EXAM_CATEGORY),
 	);
-	$clause = 'WHERE section='.SECTION.' ORDER BY comment_time DESC LIMIT 5';
+	$clause = 'WHERE section='.SECTION.' AND publishing_status < 2 ORDER BY comment_time DESC LIMIT 5';
 	$last_commented_forum = db_select_single_column('forum_entry', 'topic', $clause);
-	$clause = 'WHERE section='.SECTION.' ORDER BY id DESC LIMIT 5';
+	$clause = 'WHERE section='.SECTION.' AND publishing_status < 2 ORDER BY id DESC LIMIT 5';
 	$last_posted_forum = db_select_single_column('forum_entry', 'topic', $clause);
 	$render_array = array(
 		'journal' => $journal,
@@ -172,17 +172,6 @@ function triamsob_tutor_subject(){
 	}
 }
 
-function triamsob_tutor_subject_icon($params, $result){
-	if(authority_group('triamsob_tutor')){
-		$result[] = array(
-			'mode' => 'triamsob_tutor_subject_edit/'.$params['id'],
-			'icon' => 'files/icon/edit.png',
-			'label' => tt('Edit provided subject'),
-		);
-	}
-	return $result;
-}
-
 function triamsob_get_data($label, $refernce){
 	$p  = "WHERE category=%d AND publishing_status < 2 AND publish_time < '".NOW;
 	$p .= "' ORDER BY publish_time DESC LIMIT 5";
@@ -239,10 +228,10 @@ function triamsob_wrap_paragraph($content){
 function triamsob_get_tutor_subjects(){
 	return array(
 		0 => 'คณิต ประถม',
-		1 => 'คณิต ม.ต้น ',
+		1 => 'คณิต ม.ต้น',
 		2 => 'คณิต ม.ปลาย',
 		3 => 'อังกฤษ ประถม',
-		4 => 'อังกฤษ ม.ต้น ',
+		4 => 'อังกฤษ ม.ต้น',
 		5 => 'อังกฤษ ม.ปลาย',
 		6 => 'ฟิสิกส์',
 		7 => 'เคมี',

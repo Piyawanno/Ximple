@@ -83,7 +83,7 @@ class Forum extends Control{
 		$this->select($this->column, $clause);
 		$this->getCount();
 		$allowedData = array();
-		$allowedID = forum_get_allowed_id();
+		$allowedID = forum_get_readable_id();
 		foreach($this->data as $key => $value){
 			if(isset($value['category']['id']) and in_array($value['id'], $allowedID)){
 				$value['last_entry'] = forum_get_last_entry($value['id']);
@@ -119,8 +119,9 @@ class Forum extends Control{
 	
 	private function setConfigForm(){
 		$appearance = $this->getNewConfigForm(tt('Permission'));
-		$appearance->append('allowed_group');
-		$appearance->append('guest_postable');
+		$appearance->append('writable_group');
+		$appearance->append('readable_group');
+		$appearance->append('publishable_group');
 	}
 }
 ?>

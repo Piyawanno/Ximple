@@ -25,8 +25,8 @@
 		<a>read <!--{ximple_read/forum_entry/<?=$id?>}--></a>
 		<a href="<?=SECTION_URI.Q?>forum_print/<?=$id?>" onclick="ximplePrint(this); return false;"><?=tt('print')?></a>
 		<?php if($editable):?>
-			<a href="<?=SECTION_URI.Q?>forum_edit/<?=$id?>"><?=tt('edit')?></a>
-			<a href="<?=SECTION_URI.Q?>forum_drop/<?=$id?>"><?=tt('drop')?></a>
+			<a href="<?=SECTION_URI.Q?>forum_entry_edit/<?=$id?>"><?=tt('edit')?></a>
+			<a href="<?=SECTION_URI.Q?>forum_entry_drop/<?=$id?>"><?=tt('drop')?></a>
 		<?php endif?>
 	</p>
 </div>

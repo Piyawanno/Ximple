@@ -9,7 +9,7 @@ class TutorSubject extends Control{
 		$this->setAdmin('triamsob_tutor');
 		$this->addAction('triamsob_tutor_subject_edit', 'edit');
 		$this->addAction('triamsob_tutor_subject_save', 'update');
-		$this->init(new TutorSubjectModel());
+		$this->init(new TutorSubjectModel($this->getOwnerID()));
 	}
 	
 	public function edit(){
@@ -24,6 +24,7 @@ class TutorSubject extends Control{
 	}
 	
 	public function update(){
+		print_r(pp());
 		$owner = (int) pp('owner');
 		db_drop_many($this->tableName, 'owner='.$owner);
 		$data = array('owner' => $owner);
@@ -40,6 +41,11 @@ class TutorSubject extends Control{
 	}
 	
 	public function prepareMethod($method){
+	}
+	
+	private function getOwnerID(){
+		if(gg('id')) return gg('id');
+		else return USER_ID;
 	}
 }
 ?>

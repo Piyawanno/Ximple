@@ -2,10 +2,11 @@
 class CategoryColumn extends ModelColumn{
 	private $module;
 	
-	function CategoryColumn($module, $help=null){
+	function CategoryColumn($module, $label=null, $help=null){
 		$this->type = 'int';
 		$this->form = 'select';
-		$this->label = tt('category');
+		if($label) $this->label = $label;
+		else $this->label = tt('category');
 		$this->help = $help;
 		$this->module = $module;
 		$this->option = array();

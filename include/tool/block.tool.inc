@@ -2,9 +2,7 @@
 
 function block_render(){
 	$data = block_get_data();
-	if(count($data) == 0){
-		$data = block_init_default();
-	}
+	block_init_default();
 	$render = array();
 	$block_tpl = cc('block_tpl');
 	foreach($data as $key => $value){
@@ -21,14 +19,17 @@ function block_render(){
 }
 
 function block_init_default(){
-	include_once(ROOT_PATH.'module/module/module.tool.inc');
-	$position = cc('block_primary_position');
-	block_add(tt('Navigation'), 'sysblock_navigation', $position, 'sysblock_navigation_config', 'sysblock_navigation_save', 0);
-	block_add(tt('Control Panel'), 'sysblock_panel', $position, 999);
-	block_add(tt('Login'), 'sysblock_login', $position, 1000);
-	block_add(tt('Language Selection'), 'sysblock_translate', 'foot');
-	block_add(tt('Execution Information'), 'sysblock_execute_info', 'foot');
-	return block_get_data();
+	$data = db_select_single_column('block', 'id', 'WHERE section='.SECTION);
+	if(count($data) == 0){
+		include_once(ROOT_PATH.'module/module/module.tool.inc');
+		$position = cc('block_primary_position');
+		block_add(tt('Navigation'), 'sysblock_navigation', $position, 'sysblock_navigation_config', 'sysblock_navigation_save', 0);
+		block_add(tt('Control Panel'), 'sysblock_panel', $position, 999);
+		block_add(tt('Login'), 'sysblock_login', $position, 1000);
+		block_add(tt('Language Selection'), 'sysblock_translate', 'foot');
+		block_add(tt('Execution Information'), 'sysblock_execute_info', 'foot');
+		return block_get_data();
+	}
 }
 
 function block_get_data(){

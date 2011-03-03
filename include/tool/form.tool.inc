@@ -174,18 +174,6 @@ function form_render_captcha($form_id, $name, $modelCol){
 	';
 }
 
-function form_render_group($form_id, $name, $modelCol){
-	$excepted = '';
-	if($modelCol->isExceptedAdmin) $excepted .= ' AND id!=1 ';
-	if($modelCol->isExceptedGuest) $excepted .= ' AND id!=2 ';
-	$group = db_select('groups', array('id', 'name'), 'WHERE ((section='.SECTION.' OR id <=3) '.$excepted.')');
-	$modelCol->option = array();
-	foreach($group as $key => $value){
-		$modelCol->option[$key] = $value['name'];
-	}
-	return form_render_checkbox($form_id, $name, $modelCol);
-}
-
 function form_render_color($form_id, $name, $modelCol){
 	head_add_js('include/external/farbtastic/farbtastic.js');
 	head_add_css('include/external/farbtastic/farbtastic.css');

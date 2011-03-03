@@ -18,12 +18,16 @@ function module_init_triamsob(){
 	extension_add('pre_main_render_site', 'triamsob_render_content_box');
 	extension_add('additional_profile_link', 'triamsob_tutor_subject_icon');
 	module_add_role('triamsob_tutor', 'Tutor', 'Who can add subject to his profile.');
+	module_add_role('triamsob_admin', 'TriamSob Administrator', 'Who can configure TriamSob Module');
+	module_add_panel('TriamSob', 'triamsob_admin', 'triamsob_config', 'configure Triamsob');
 }
 
 function module_drop_triamsob(){
 	require_once(ROOT_PATH.'include/tool/block.tool.inc');
 	require_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
 	module_drop_role('triamsob_tutor');
+	module_drop_role('triamsob_admin');
+	module_drop_panel('TriamSob');
 	module_drop('triamsob');
 	extension_drop('pre_main_render_site', 'triamsob_render_content_box');
 	extension_drop('additional_profile_link', 'triamsob_tutor_subject_icon');

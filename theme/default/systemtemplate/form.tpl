@@ -36,7 +36,7 @@
 			<?=tt('required fields')?>
 		</p>
 	<?php endif?>
-	<input type="submit" value="<?=$meta->submitLabel?>"/>
+	<input type="submit" value="<?=$meta->submitLabel?>" style="display:block;margin-top:15px;"/>
 	</form>
 </div>
 <div id="cle_image_loader" style="display:none;"></div>

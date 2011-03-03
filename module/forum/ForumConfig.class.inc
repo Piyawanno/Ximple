@@ -23,7 +23,10 @@ class ForumConfig extends ContentConfig{
 	}
 	
 	public function save(){
-		config_set('forum_entry_appearance', pp('forum_appearance'));
+		foreach(pp() as $key => $value){
+			$entryKey = str_replace('forum_', 'forum_entry_', $key);
+			config_set($entryKey, $value);
+		}
 		$levelNumber = pp('forum_user_level_number');
 		$levelName = pp('forum_user_level_name');
 		$level = array();

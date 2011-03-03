@@ -26,10 +26,11 @@ class ForumEntry extends Content{
 		if(!authority_is_guest()){
 			count_set('forum_entry'.USER_ID, $this->id, time());
 		}
-		
-		if(!forum_check_permission($this->dataByID['forum'])){
+		$status = ($this->dataByID['publishing_status'] > 1);
+		if($status or !forum_check_readable($this->dataByID['forum'])){
 			error_denied();
 		}
+		
 		count_increase($this->moduleName, $this->id);
 		head_add_css('forum.css');
 		forum_set_path($this->dataByID['forum']);
@@ -63,7 +64,7 @@ class ForumEntry extends Content{
 	public function insert(){
 		Control::insert();
 		$this->selectByID($this->column);
-		$this->dataByID['category'] = forum_get_category_id($this->id);
+		$this->dataByID['category'] = forum_get_category_id($this->dataByID['forum']);
 		$this->insertTracker('write');
 		if($this->isFeed() and $this->isReadable(false)){
 			$feedData = $this->formatFeedData();
@@ -71,6 +72,7 @@ class ForumEntry extends Content{
 		}
 		document_set_redirect('forum_entry/'.$this->id);
 		count_increase('forum_entry_no', $this->dataByID['forum']);
+		$this->checkPublishable();
 	}
 	
 	public function insertComment(){
@@ -92,8 +94,13 @@ class ForumEntry extends Content{
 		return $render;
 	}
 	
+	public function update(){
+		Content::update();
+		$this->checkPublishable();
+	}
+	
 	public function listPage(){
-		$this->prepareForum();
+		$this->prepareList();
 		head_add_css('list.css');
 		$renderArray = array(
 			'data' => $this->getListData(),
@@ -158,9 +165,9 @@ class ForumEntry extends Content{
 		return $data;
 	}
 	
-	private function prepareForum(){
+	private function prepareList(){
 		$forumID = gg('forum');
-		if($forumID and forum_check_permission($forumID)) forum_set_path($forumID);
+		if($forumID and forum_check_readable($forumID)) forum_set_path($forumID);
 		else error_denied();
 	}
 	
@@ -174,8 +181,8 @@ class ForumEntry extends Content{
 		}
 		$regularData = $this->checkNew($regularData);
 		foreach($regularData as $key => $value){
-			$data[$key] = $this->getIcon($value);
-			$data[$key] = $this->getCommentator($data[$key]);
+			$value = $this->getIcon($value);
+			$data[] = $this->getCommentator($value);
 		}
 		return $data;
 	}
@@ -248,13 +255,26 @@ class ForumEntry extends Content{
 	}
 	
 	private function isWritable(){
-		if(gg('forum') and forum_guest_postable(gg('forum'))){
+		if(forum_check_authority_group()){
 			return true;
 		}
-		foreach(content_get_group('forum_entry') as $group){
-			if(authority_group($group)) return true;
+		if(gg('forum')){
+			if(in_array(gg('forum'), forum_get_writable_id())){
+				return true;
+			}
 		}
-		return false;
+		return true;
+	}
+	
+	private function checkPublishable(){
+		$publishableForum = forum_get_publishable_id();
+		if(!in_array($this->id, $publishableForum)){
+			$data = array('publishing_status' => 2);
+			db_update('forum_entry', $data, $this->id);
+			$message  = tt("You don't have permission to publish forum entry. ");
+			$message .= tt('Your forum entry is in review.');
+			notify_add_warning($message);
+		}
 	}
 }
 ?>

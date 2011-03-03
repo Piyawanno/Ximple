@@ -15,6 +15,18 @@ function triamsob_switch(){
 	}
 }
 
+function triamsob_tutor_subject_icon($params, $result){
+	if(authority_group('triamsob_tutor')){
+		$result[] = array(
+			'mode' => 'triamsob_tutor_subject_edit/'.$params['id'],
+			'icon' => 'files/icon/edit.png',
+			'label' => tt('Edit provided subject'),
+		);
+	}
+	return $result;
+}
+
+
 function triamsob_tutor_article(){
 	$clause = 'WHERE (publishing_status < 2 AND category='.TRIAMSOB_TUTOR_CATEGORY.') ';
 	$clause.= 'ORDER BY publish_time DESC';

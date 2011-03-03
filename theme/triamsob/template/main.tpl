@@ -54,7 +54,7 @@
 				<?=$item?>
 			<?php endforeach?>
 		</div>
-		<div style="clear:both;"></div>
+		<div style="clear:both;color:#336699;"><!--{site_info}--></div>
 	</div>
 	<?php include('operationbar.tpl')?>
 	</body>
