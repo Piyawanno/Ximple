@@ -20,8 +20,7 @@ class TutorRegistration extends User{
 		$this->formMeta->id = 'user';
 		$this->formMeta->title = $this->moduleTitle;
 		$this->formMeta->mode = 'triamsob_tutor_registration_save';
-		$description = io_read_file(ROOT_PATH.'module/triamsob/registration.txt');
-		$description = str_replace("\n", '<br />', $description);
+		$description = cc('triamsob_registration_text');
 		$this->formMeta->description = $description;
 		$this->formMeta->isCaptcha = true;
 		return $this->renderInsertForm();

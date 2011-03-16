@@ -2,7 +2,7 @@
 class TriamsobConfigModel extends Model{
 	function TriamsobConfigModel(){
 		for($i=2; $i<=20;$i++){
-			$option[] = $i;
+			$option[$i] = $i;
 		}
 		$this->triamsob_word_wrap = $this->select(tt('number of shown senteces in index page'), $option);
 		$this->triamsob_tutor_per_page = $this->select(tt('number of shown Tutors per page'), $option);
@@ -16,8 +16,10 @@ class TriamsobConfigModel extends Model{
 		
 		$this->triamsob_tutor_group = $this->group(tt('tutor group'));
 		$this->triamsob_tutor_group->form = 'select';
+		$this->triamsob_tutor_group->type = 'int';
 		$this->triamsob_pretutor_group = $this->group(tt('pending tutor group'));
 		$this->triamsob_pretutor_group->form = 'select';
+		$this->triamsob_pretutor_group->type = 'int';
 		
 		$this->triamsob_admission_category = $this->category('journal', 'admission category');
 		$this->triamsob_scholar_category = $this->category('journal', 'scholar category');

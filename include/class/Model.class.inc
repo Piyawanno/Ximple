@@ -49,15 +49,25 @@ abstract class Model{
 		$modelColumn->data = SECTION;
 		return $modelColumn;
 	}
+	
+	public function listDummy($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->isForm = false;
+		$modelColumn->isDB = false;
+		$modelColumn->isList = true;
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		return $modelColumn;
+	}
 
 	public function title($label, $help=null){
 		$modelColumn = new ModelColumn;
 		$modelColumn->type = 'char';
 		$modelColumn->form = 'char';
-		$modelColumn->label = $label;
 		$modelColumn->isList = true;
 		$modelColumn->isReachable = true;
 		$modelColumn->isNotNull = true;
+		$modelColumn->label = $label;
 		$modelColumn->help = $help;
 		return $modelColumn;
 	}

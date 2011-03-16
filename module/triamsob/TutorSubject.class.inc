@@ -24,7 +24,6 @@ class TutorSubject extends Control{
 	}
 	
 	public function update(){
-		print_r(pp());
 		$owner = (int) pp('owner');
 		db_drop_many($this->tableName, 'owner='.$owner);
 		$data = array('owner' => $owner);

@@ -5,26 +5,14 @@ function registration_off(){
 	document_set_redirect('');
 }
 
-function registration_save_user($reply_mode){
-	$name = pp('login_name');
-	$exist = userinfo_check_user_exists($name);
-	$passwd = pp('password');
-	if(!empty($name) and input_is_email(pp('email')) and !empty($passwd) and $exist != 'exist'){	
-		$key1 = sha1(rand());
-		$key2 = sha1(rand());
-		$user = pp();
-		$user['key'] = $key2;
+function registration_save_user($reply_mode, $text){
+	if(registration_verify_data()){	
 		$register_dir = ROOT_PATH.'files/registration/';
 		if(!is_dir($register_dir)) mkdir($register_dir);
-		unset($user['confirm_password']);
-		unset($user['captcha']);
-		unset($user['captcha_code_captcha']);
-		unset($user['captcha_gentime_captcha']);
-		$user['avatar'] = io_upload(ff('avatar'), ROOT_PATH.'files/avatar/');
-		if(!$user['avatar']) $user['avatar'] = '';
+		list($user, $key1, $key2) = registration_get_user_data();
 		io_serialize($user, $register_dir.$key1);
-		echo($reply_mode);
-		registration_reply(SECTION_URI.Q.$reply_mode.'/key1/'.$key1.'/key2/'.$key2);
+		$confirm_uri = SECTION_URI.Q.$reply_mode.'/key1/'.$key1.'/key2/'.$key2;
+		registration_reply($confirm_uri, $text);
 		execute_set_db();
 		document_set_redirect('');
 	}else{
@@ -32,9 +20,36 @@ function registration_save_user($reply_mode){
 	}
 }
 
-function registration_reply($confirm_uri){
+function registration_verify_data(){
+	$name = pp('login_name');
+	$exist = userinfo_check_user_exists($name);
+	$passwd = pp('password');
+	$verify = !empty($name);
+	$verify = ($verify and input_is_email(pp('email')));
+	$verify = ($verify and !empty($passwd));
+	$verify = ($verify and $exist != 'exist');
+	return $verify;
+}
+
+function registration_get_user_data(){
+	$key1 = sha1(rand());
+	$key2 = sha1(rand());
+	$user = pp();
+	$user['key'] = $key2;
+	
+	unset($user['confirm_password']);
+	unset($user['captcha']);
+	unset($user['captcha_code_captcha']);
+	unset($user['captcha_gentime_captcha']);
+	
+	$user['avatar'] = io_upload(ff('avatar'), ROOT_PATH.'files/avatar/');
+	if(!$user['avatar']) $user['avatar'] = '';
+	return array($user, $key1, $key2);
+}
+
+function registration_reply($confirm_uri, $reply_text){
 	$subject = tt('Register confirmation')." (".cc('section_name').")";
-	$message = cc('registration_reply')."
+	$message = $reply_text."
 	<p>
 		".tt('Confirm URL')." : <a href=\"".$confirm_uri."\">".tt('Click here to confirm')."</a>
 	</p>

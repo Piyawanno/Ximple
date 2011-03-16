@@ -1,25 +1,67 @@
 <?php
+function triamsob(){
+	head_add_css('triamsob.css');
+	$journal = array(
+		'admission' => triamsob_get_data(tt('Admission'), TRIAMSOB_ADMISSION_CATEGORY, TRIAMSOB_ADMISSION_NUMBER),
+		'scholar' => triamsob_get_data(tt('Scholar'), TRIAMSOB_SCHOLAR_CATEGORY, TRIAMSOB_SCHOLAR_NUMBER),
+		'exercise' => triamsob_get_data(tt('Exercise'), TRIAMSOB_EXERCISE_CATEGORY, TRIAMSOB_EXERCISE_NUMBER),
+		'exam' => triamsob_get_data(tt('Old Exam'), TRIAMSOB_EXAM_CATEGORY, TRIAMSOB_EXAM_NUMBER),
+	);
+	$clause = 'WHERE section='.SECTION.' AND publishing_status < 2 ORDER BY comment_time DESC ';
+	$clause.= 'LIMIT '.TRIAMSOB_FORUM_NUMBER;
+	$last_commented_forum = db_select_single_column('forum_entry', 'topic', $clause);
+	
+	$clause = 'WHERE section='.SECTION.' AND publishing_status < 2 ORDER BY id DESC ';
+	$clause.= 'LIMIT '.TRIAMSOB_FORUM_NUMBER;
+	$last_posted_forum = db_select_single_column('forum_entry', 'topic', $clause);
+	
+	$render_array = array(
+		'journal' => $journal,
+		'last_commented_forum' => $last_commented_forum,
+		'last_posted_forum' => $last_posted_forum,
+		'category' => triamsob_get_category(),
+	);
+	return render($render_array, 'triamsob.tpl', 'triamsob');
+}
 
 function triamsob_define_constant(){
-	define('TRIAMSOB_ADMISSION_CATEGORY', 4);
-	define('TRIAMSOB_SCHOLAR_CATEGORY', 6);
-	define('TRIAMSOB_EXERCISE_CATEGORY', 7);
-	define('TRIAMSOB_EXAM_CATEGORY', 8);
-	define('TRIAMSOB_TUTOR_CATEGORY', 10);
-	define('TRIAMSOB_STUDENT_CATEGORY', 9);
+	triamsob_get_config('triamsob_admission_category', 4);
+	triamsob_get_config('triamsob_scholar_category', 6);
+	triamsob_get_config('triamsob_exercise_category', 7);
+	triamsob_get_config('triamsob_exam_category', 8);
+	triamsob_get_config('triamsob_tutor_category', 10);
+	triamsob_get_config('triamsob_student_category', 9);
+	
+	triamsob_get_config('triamsob_admission_number', 5);
+	triamsob_get_config('triamsob_scholar_number', 5);
+	triamsob_get_config('triamsob_exercise_number', 5);
+	triamsob_get_config('triamsob_exam_number', 5);
+	triamsob_get_config('triamsob_tutor_number', 5);
+	triamsob_get_config('triamsob_student_number', 5);
+	triamsob_get_config('triamsob_forum_number', 5);
 
-	define('TRIAMSOB_WORD_WRAP', 6);
-	define('TRIAMSOB_TUTOR_GROUP', 4);
-	define('TRIAMSOB_PENDING_TUTOR_GROUP', 5);
-	define('TRIAMSOB_TUTOR_PER_PAGE', 10);
+	triamsob_get_config('triamsob_word_wrap', 6);
+	triamsob_get_config('triamsob_tutor_group', 4);
+	triamsob_get_config('triamsob_pending_tutor_group', 5);
+	triamsob_get_config('triamsob_tutor_per_page', 10);
+	
+	triamsob_get_config('triamsob_subject_type', 1);
+	triamsob_get_config('triamsob_place_type', 2);
+	triamsob_get_config('triamsob_phone_type', 3);
+	triamsob_get_config('triamsob_facebook_type', 4);
+	triamsob_get_config('triamsob_degree_type', 5);
+	triamsob_get_config('triamsob_experience_type', 6);
+	triamsob_get_config('triamsob_etc_type', 7);
+}
 
-	define('TRIAMSOB_SUBJECT_TYPE', 1);
-	define('TRIAMSOB_PLACE_TYPE', 2);
-	define('TRIAMSOB_PHONE_TYPE', 3);
-	define('TRIAMSOB_FACEBOOK_TYPE', 4);
-	define('TRIAMSOB_DEGREE_TYPE', 5);
-	define('TRIAMSOB_EXPERIENCE_TYPE', 6);
-	define('TRIAMSOB_ETC_TYPE', 7);
+function triamsob_get_config($reference, $default){
+	$config = cc($reference);
+	$constant = strtoupper($reference);
+	if(!defined($constant)){
+		if($config != null) define($constant, $config);
+		else define($constant, $default);
+	}
+	return $config;
 }
 
 function triamsob_add_execute(){
@@ -35,27 +77,15 @@ function triamsob_add_execute(){
 	execute_add_function('triamsob_tutor_search_result');
 	execute_add_function('triamsob_tutor_subject');
 	execute_add_function('triamsob_tutor_subject_icon');
+	execute_add_function('triamsob_tutor_help');
 }
 
-function triamsob(){
-	head_add_css('triamsob.css');
-	$journal = array(
-		'admission' => triamsob_get_data(tt('Admission'), TRIAMSOB_ADMISSION_CATEGORY),
-		'scholar' => triamsob_get_data(tt('Scholar'), TRIAMSOB_SCHOLAR_CATEGORY),
-		'exercise' => triamsob_get_data(tt('Exercise'), TRIAMSOB_EXERCISE_CATEGORY),
-		'exam' => triamsob_get_data(tt('Old Exam'), TRIAMSOB_EXAM_CATEGORY),
-	);
-	$clause = 'WHERE section='.SECTION.' AND publishing_status < 2 ORDER BY comment_time DESC LIMIT 5';
-	$last_commented_forum = db_select_single_column('forum_entry', 'topic', $clause);
-	$clause = 'WHERE section='.SECTION.' AND publishing_status < 2 ORDER BY id DESC LIMIT 5';
-	$last_posted_forum = db_select_single_column('forum_entry', 'topic', $clause);
-	$render_array = array(
-		'journal' => $journal,
-		'last_commented_forum' => $last_commented_forum,
-		'last_posted_forum' => $last_posted_forum,
-		'category' => triamsob_get_category(),
-	);
-	return render($render_array, 'triamsob.tpl', 'triamsob');
+function triamsob_tutor_help(){
+	document_set_path(tt('Tutor'), 'triamsob_tutor_list');
+	document_set_path(tt('Tutor Help'));
+	$render = '<h3 class="title_label">'.tt('Tutor Help').'</h3>';
+	$render.= cc('triamsob_tutor_help_text');
+	return $render;
 }
 
 function triamsob_render_content_box($param, $body){
@@ -84,7 +114,9 @@ function triamsob_tutor_registration(){
 
 function triamsob_tutor_registration_save(){
 	include_once(ROOT_PATH.'module/registration/registration.module.inc');
-	registration_save('triamsob_tutor_registration_confirm');
+	$mode = 'triamsob_tutor_registration_confirm';
+	$text = cc('triamsob_registration_reply');
+	registration_save_user($mode, $text);
 }
 
 function triamsob_tutor_registration_confirm(){
@@ -172,14 +204,14 @@ function triamsob_tutor_subject(){
 	}
 }
 
-function triamsob_get_data($label, $refernce){
+function triamsob_get_data($label, $reference, $per_page){
 	$p  = "WHERE category=%d AND publishing_status < 2 AND publish_time < '".NOW;
-	$p .= "' ORDER BY publish_time DESC LIMIT 5";
+	$p .= "' ORDER BY publish_time DESC LIMIT ".$per_page;
 	$column = array('id', 'topic', 'uri', 'intro', 'icon');
 	return array(
 		'label' => $label,
-		'data' => db_select('journal', $column, sprintf($p, $refernce)),
-		'category' => $refernce,
+		'data' => db_select('journal', $column, sprintf($p, $reference)),
+		'category' => $reference,
 	);
 }
 
@@ -267,8 +299,10 @@ function triamsob_get_tutor_info($clause){
 			$users[$key]['avatar'] = 'files/default.png';
 		}
 	}
-	$users = triamsob_get_tutor_profile($users);
-	$users = triamsob_get_tutor_subject($users);
+	if(count($users)){
+		$users = triamsob_get_tutor_profile($users);
+		$users = triamsob_get_tutor_subject($users);
+	}
 	return $users;
 }
 

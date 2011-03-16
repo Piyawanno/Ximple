@@ -25,10 +25,10 @@ function registration(){
 	}
 }
 
-function registration_save($reply_mode){
+function registration_save(){
 	if(cc('registration_enable')){
-		if(strlen($reply_mode) == 0) $reply_mode = 'registration_confirm';
-		registration_save_user($reply_mode);
+		$reply_mode = 'registration_confirm';
+		registration_save_user($reply_mode, cc('registration_reply'));
 	}else{
 		registration_off();
 	}

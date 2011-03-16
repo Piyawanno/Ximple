@@ -8,7 +8,6 @@ body{
 	font-size: 12px ;
 	line-height:20px;
 	margin:0px;
-	padding:5px 0px;
 	text-align:center;
 	height:100%;
 }
@@ -74,63 +73,54 @@ label{
 /* ========= Head ========= */
 #head{
 	height:174px;
-	width:1020px;
 	margin:0;
-}
-
-#head a{
-	text-decoration:none;
-}
-
-#head a h1{
-	padding-top:30px;
-}
-
-#head a h1, #head h2{
-	margin-left:30px;
-	color:white;
+	padding:0;
 }
 
 /* ========= Main Layout ========= */
 #second_background{
-	width:1190px;
+	max-width:1182px;
+	padding:0;
 	margin:40px auto auto auto;
 	text-align:center;
-	background:url(../image/heading.png) top right no-repeat;
+	background:url(../image/heading.png) top center no-repeat;
 }
 
 #main_container{
-	width:1040px;
+	width:1008px;
 	margin:34px auto 0px auto;
 	text-align:left;
+	padding:0;
 }
 
 #main{
-	width:1110px;
-	margin: 15px auto 0px -70px;
+	width:1008px;
+	margin: 15px auto 0px auto;
 	text-align:left;
 	clear:both;
+	padding:0;
 }
 
 #social_tab{
-	float:left;
-	width:70px;
+	float:left; 
+	width:35px;
 	height:400px;
-	margin:50px 0px auto 0px;
+	margin:50px 4px auto 0px;
 	padding-top:180px;
 	background:url(../image/logothai.png) no-repeat;
 }
 
 #body{
-	width:1040px;
+	width:968px;
 	height:auto;
 	margin:0px;
 	position:relative;
 	float:left;
+	padding:0;
 }
 
 #content{
-	width:530px;
+	width:500px;
 	margin: 0px;
 	padding-top: 0px;
 	padding-bottom:5px;
@@ -166,7 +156,7 @@ label{
 #menu{
 	margin: 0 auto;
 	padding: 0;
-	width:1020px;
+	width:948px;
 	line-height:25px;
 }
 
@@ -285,7 +275,7 @@ label{
 /* ========= Midlle Blocks ========= */
 #block_middle{
 	width: 300px;
-	margin:0px 0px 0px 5px;
+	margin:0px 0px 0px 4px;
 	padding:0;
 	float:left;
 }
@@ -339,13 +329,13 @@ label{
 
 #foot_body{
 	margin:0 auto;
-	padding:10px ;
+	padding:10px 10px 10px 40px;
 	min-height:50px;
-	width:1020px;
+	width:940px;
 }
 
 .block_foot{
-	width:240px;
+	width:220px;
 	margin:40px 10px 10px 5px;
 	float:left;
 	text-align:left;
@@ -370,7 +360,7 @@ label{
 	margin:0;
 	padding:0;
 	background:url(../image/mainbox_head.png) no-repeat;
-	width:530px;
+	width:500px;
 	height:15px;
 }
 
@@ -378,11 +368,11 @@ label{
 	margin:0;
 	padding:5px 5px 15px 5px;
 	background:url(../image/mainbox_body.png) repeat-y;
-	width:530px;
+	width:490px;
 }
 
 .main_box_content{
-	width:490px;
+	width:480px;
 	margin-left:10px;
 }
 
@@ -390,7 +380,7 @@ label{
 	margin:0;
 	padding:0;
 	background:url(../image/mainbox_foot.png) no-repeat;
-	width:530px;
+	width:500px;
 	height:18px;
 	clear:both;
 }
@@ -412,7 +402,7 @@ label{
 	margin:0;
 	padding:0;
 	background:url(../image/forumbox_head.png) no-repeat;
-	width:1020px;
+	width:1008px;
 	height:15px;
 }
 
@@ -420,7 +410,7 @@ label{
 	margin:0;
 	padding:5px 5px 15px 5px;
 	background:url(../image/forumbox_body.png) repeat-y;
-	width:1020px;
+	width:1008px;
 }
 
 .forum_box_content{
@@ -432,7 +422,7 @@ label{
 	margin:0;
 	padding:0;
 	background:url(../image/forumbox_foot.png) no-repeat;
-	width:1020px;
+	width:1008px;
 	height:18px;
 }
 
@@ -518,9 +508,9 @@ label{
 /* ========= Right Blocks ========= */
 
 #block_right{
-	width: 180px;
+	width: 160px;
 	height:200px;
-	margin:0px 0px 0px 10px;
+	margin:0px 0px 0px 4px;
 	padding:0;
 	float:left;
 }
@@ -534,20 +524,20 @@ label{
 	margin:0;
 	padding:0;
 	background:url(../image/rightbox_head.png) no-repeat;
-	width:180px;
+	width:160px;
 	height:15px;
 }
 
 .right_box_body{
 	margin:0;
-	padding:5px 5px 15px 5px;
+	padding:0;
 	background:url(../image/rightbox_body.png) repeat-y;
-	width:180px;
+	width:160px;
 }
 
 .right_box_content{
 	margin-left:5px;
-	width:165px;
+	width:150px;
 }
 
 .right_box_content ul{
@@ -558,7 +548,7 @@ label{
 	margin:0;
 	padding:0;
 	background:url(../image/rightbox_foot.png) no-repeat;
-	width:180px;
+	width:160px;
 	height:18px;
 }
 
@@ -624,29 +614,3 @@ label{
 	margin:10px auto;
 }
 
-.social_head{
-	margin:0;
-	padding:0;
-	background:url(../image/social_head.png) no-repeat;
-	width:64px;
-	height:15px;
-}
-
-.social_body{
-	margin:0;
-	padding:5px 5px 15px 5px;
-	background:url(../image/social_body.png) repeat-y;
-	width:64px;
-}
-
-.social_content{
-	margin-left:-3px;
-}
-
-.social_foot{
-	margin:0;
-	padding:0;
-	background:url(../image/social_foot.png) no-repeat;
-	width:64px;
-	height:22px;
-}

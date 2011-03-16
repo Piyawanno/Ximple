@@ -1,5 +1,4 @@
 <?php
-
 triamsob_switch();
 
 function triamsob_switch(){
@@ -26,21 +25,19 @@ function triamsob_tutor_subject_icon($params, $result){
 	return $result;
 }
 
-
 function triamsob_tutor_article(){
 	$clause = 'WHERE (publishing_status < 2 AND category='.TRIAMSOB_TUTOR_CATEGORY.') ';
-	$clause.= 'ORDER BY publish_time DESC';
+	$clause.= 'ORDER BY publish_time DESC LIMIT '.TRIAMSOB_TUTOR_NUMBER;
 	return triamsob_list_block('journal', $clause);
 }
 
 function triamsob_student_article(){
 	$clause = 'WHERE (publishing_status < 2 AND category='.TRIAMSOB_STUDENT_CATEGORY.') ';
-	$clause.= 'ORDER BY publish_time DESC';
+	$clause.= 'ORDER BY publish_time DESC LIMIT '.TRIAMSOB_STUDENT_NUMBER;
 	return triamsob_list_block('journal', $clause);
 }
 
 function triamsob_list_block($table, $clause){
-	$clause = $clause.' LIMIT 5';
 	$item = db_select_single_column($table, 'topic', $clause);
 	$render_array = array(
 		'mode' => $table,
