@@ -90,6 +90,7 @@ function imageloader_get_user_image_path(){
 	if(!is_dir($path)) mkdir($path);
 	$path.= 'image/';
 	if(!is_dir($path)) mkdir($path);
+	$path = substr($path, strlen(ROOT_PATH));
 	return $path;
 }
 

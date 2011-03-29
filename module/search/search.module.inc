@@ -116,10 +116,11 @@ function search_update_index($keywords, $matched, $points){
 			);
 			$clause = "WHERE keyword='$keyword' AND content_mode='".$entry['mode']."' AND content_id=".$entry['mode_id'];
 			$check_exist = db_select('search', array('id', 'clicks'), $clause);
+			$check_exist = array_values($check_exist);
 			if(count($check_exist)){
 				$data_array['points'] += $check_exist[0]['clicks'];
 				$data_array['clicks'] += $check_exist[0]['clicks'];
-				db_update('search', $data_array,$check_exist[0]['id']);
+				db_update('search', $data_array, $check_exist[0]['id']);
 			}else{
 				db_insert('search', $data_array);
 			}
