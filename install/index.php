@@ -146,8 +146,8 @@ function install_step5(){
 	install_init_authority();
 	$function_name = 'preconfig_'.pp('preconfig');
 	$function_name();
-	block_init_default();
-	$title = tt('Happy Ending').' : '.tt('X-BLC has been successfully installed');
+	block_init_default(true);
+	$title = tt('Happy Ending').' : '.tt('Ximple has been successfully installed');
 	$page  = '<h2>'.$title.'</h2>';
 	$page .= install_finish_message();
 	io_write_file(ROOT_PATH.'files/state/install', "");

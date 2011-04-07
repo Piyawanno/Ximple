@@ -2,8 +2,8 @@ var grid_string = new Array();
 var files_string = new Array();
 var captchaLock = false;
 var initedJQuery = false;
-var imgCorrect = '<img style="margin-left:15px;margin-right:10px;padding:0;" src="'+rootURI+'files/icon/correct.png" />';
-var imgWrong = '<img style="margin-left:15px;margin-right:10px;padding:0;" src="'+rootURI+'files/icon/stop.png" />';
+var imgCorrect = '<img class="warning_icon" src="'+rootURI+'files/icon/correct.png" />';
+var imgWrong = '<img class="warning_icon" src="'+rootURI+'files/icon/stop.png" />';
 var formLock = false;
 
 function changeCaptcha(captchaKey){
@@ -31,7 +31,7 @@ function checkCaptcha(captchaKey){
 	})
 }
 
-$(document).ready(function (){
+function initCLEditor(){
 	$(".text").cleditor({
     	height		:	'400px',
     	width		:	'100%',
@@ -52,7 +52,10 @@ $(document).ready(function (){
     	width		:	'100%',
     	controls	:	"bold advancedimage italic underline strikethrough bullets numbering quote link unlink icon paste pastetext code source"
     });
-    
+}
+
+$(document).ready(function (){
+	initCLEditor();    
 	initDelGrid();
 	$(".plaintext_container").resizable({
 		minHeight: 120,
@@ -98,9 +101,9 @@ $(document).ready(function (){
 			var option = $('#complete_option');
 			var pos = $(this).offset();
 			option.css({
-				 top: pos.top + $(this).height() + 4,
-				 left: pos.left,
-				 width: $(this).width() + 2,
+				top: pos.top + $(this).height() + 4 + autoCompleteTop,
+				left: pos.left + autoCompleteLeft,
+				width: $(this).width() + 2,
 			});
 			$('#complete_option option').remove();
 			option.attr('rel', $(this).attr('id'));
@@ -167,14 +170,18 @@ $(document).ready(function (){
 				}else{
 					uri = sectionURI+'userinfo_check_email_exists/uid/'+uid+'/email/';
 				}
-				$.get(uri+$(this).val(), function(data){
-					if(data != 'not exist'){
-						exist = true;
-						formLock = true;
-						$('#info_user_email').css({color:'red'});
-						$('#info_user_email').html(imgWrong + emailExists);
-					}
-				});
+				if(isInstalled){
+					$.get(uri+$(this).val(), function(data){
+						if(data != 'not exist'){
+							exist = true;
+							formLock = true;
+							$('#info_user_email').css({color:'red'});
+							$('#info_user_email').html(imgWrong + emailExists);
+						}
+					});
+				}else{
+					exist = false;
+				}
 			}
 			if(!exist){
 				$('#info_'+$(this).attr('id')).html(imgCorrect);
@@ -182,6 +189,17 @@ $(document).ready(function (){
 			}else{
 				formLock = true;
 			}
+		}
+	});
+	
+	$('.email_grid_field').keyup(function(){
+		var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		if(!reg.test($(this).val())){
+			$('#info_'+$(this).attr('rel')).css({color:'red'});
+			$('#info_'+$(this).attr('rel')).html(imgWrong + emailNotOk);
+			formLock = true;
+		}else{
+			$('#info_'+$(this).attr('rel')).html('');
 		}
 	});
 	
@@ -430,9 +448,59 @@ function preElementFormat(){
 	}
 }
 
+function addGridRow(tableID){
+	$('#'+tableID).append(gridRowArray[tableID]);
+}
+
+function delGridRow(anchor){
+	$(anchor).parent().parent().remove();
+}
+
+var translateForm;
+
+function showTranslateDialog(){
+	var translate = $('#translate_dialog');
+	translateForm = translate.html();
+	translate.dialog({
+		bgiframe : true,
+		autoOpen : false,
+		modal : true,
+		title : 'Translate-Form',
+		width : 520,
+		close : function(event, ui){$('#translate_dialog').html(translateForm);},
+	});
+	translate.dialog('open');
+}
+
+function selectTranslateLanguage(languageSelect){
+	var translate = $('#translate_dialog');
+	var language = $(languageSelect).val();
+	if(translateModuleName == null){
+		var uri = sectionURI+moduleName+'_translate_form';
+	}else{
+		var uri = sectionURI+translateModuleName+'_translate_form';
+	}
+	uri += '/module_id/'+modeID;
+	uri += '/language/'+language;
+	$.get(uri, function(data){
+		translate.html(data);
+		initCLEditor();
+	});
+	translate.html(translateForm);
+}
+
+function submitTranslateForm(form){
+	var translate = $('#translate_dialog');
+	$(form).ajaxSubmit({success : function(){
+		translate.html(translateForm);
+		translate.dialog('close');
+	}});
+	return false;
+}
+
 // Not verified
 
-function getAntikey(crypt1,crypt2,genTime){
+function getAntikey(crypt1, crypt2, genTime){
 	http.open("GET", rootURI+"ajax.php?mode=_ajax_get_antikey&section="+sectionID+"&crypt1="+crypt1+"&crypt2="+crypt2+"&gen_time="+genTime,true);
 	http.onreadystatechange = getAntikeyResponse;
 	http.send(null);

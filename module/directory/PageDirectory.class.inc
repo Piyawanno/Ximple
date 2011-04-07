@@ -30,8 +30,10 @@ class PageDirectory extends Control{
 		include_once(ROOT_PATH.'include/tool/menu.tool.inc');
 		head_add_css('directory.css');
 		$this->selectByID($this->column);
+		$this->translateDataByID();
 		$this->parent = $this->dataByID['parent'];
 		$this->configuration = $this->dataByID['configuration'];
+		$this->configuration = translate_content($this->configuration, 'directory_config', $this->id);
 		$render = $this->renderIconBar();
 		$render.= $this->render();
 		if(strlen($this->dataByID['uri'])) $uri = '/'.$this->dataByID['uri'].'.html';

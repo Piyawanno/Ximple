@@ -27,7 +27,8 @@ function registration(){
 
 function registration_save(){
 	if(cc('registration_enable')){
-		registration_save_user();
+		$reply_mode = 'registration_confirm';
+		registration_save_user($reply_mode, cc('registration_reply'));
 	}else{
 		registration_off();
 	}
@@ -39,12 +40,13 @@ function registration_confirm(){
 	if(is_array($user) and $user['key'] == gg('key2')){
 		$user['login_name_hash'] = sha1($user['login_name']);
 		unset($user['key']);
-		db_insert('users', $user);
+		$uid = db_insert('users', $user);
 		$p = tt('Congratulation and welcome to %s. Your registration is completed.');
 		notify_add_info(sprintf($p, cc('section_name')));
 		unlink($register_dir.gg('key1').'.php');
 		execute_set_db();
 		document_set_redirect('');
+		return $uid;
 	}else{
 		registration_error();
 		execute_set_db();

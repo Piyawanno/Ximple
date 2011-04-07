@@ -6,6 +6,11 @@ class Category extends Control{
 	private $mode;
 	private $modeName;
 	private $indexMode;
+	private $checkRequirement = true;
+	private $translateMode = array(
+		'category_translate_form',
+		'category_translate'
+	);
 	
 	function Category(){
 		$this->tableName = 'category';
@@ -22,15 +27,27 @@ class Category extends Control{
 	
 	public function isCallable($methodName){
 		$this->getMode();
-		$this->checkRequirement();
 		$this->indexMode = 'category/module/'.$this->mode;
 		$this->setAdmin($this->mode.'_admin');
 		$this->uriMode = 'category/module/'.$this->mode;
-		$this->getModuleName();
+		if(!in_array(MODE, $this->translateMode)){
+			$this->getModuleName();
+			$this->checkRequirement();
+		}
 		$this->documentSetPath();
 		$this->insertRedirection = $this->indexMode;
 		$this->updateRedirection = $this->indexMode;
 		return Authority::isCallable($methodName);
+	}
+	
+	public function renderTranslateForm(){
+		$this->checkRequirement = false;
+		return Control::renderTranslateForm();
+	}
+	
+	public function setTranslate(){
+		$this->checkRequirement = false;
+		Control::setTranslate();
 	}
 	
 	private function setListMeta(){
@@ -49,7 +66,7 @@ class Category extends Control{
 	
 	private function checkRequirement(){
 		$mode_require = cc('module_require');
-		if(!isset($mode_require[$this->mode])){
+		if($this->checkRequirement and !isset($mode_require[$this->mode])){
 			error_syslog('The called mode for category does not exist.');
 		}
 	}

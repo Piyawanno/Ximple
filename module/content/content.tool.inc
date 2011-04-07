@@ -2,8 +2,6 @@
 include_once(ROOT_PATH.'include/tool/menu.tool.inc');
 
 function content_init_module($moduleName, $moduleTitle){
-	include_once(ROOT_PATH.'module/category/category.tool.inc');
-	category_init($moduleName);
 	module_add_feed($moduleName, $moduleTitle);
 	module_add_cache($moduleName);
 	

@@ -7,7 +7,9 @@ abstract class Content extends Control{
 	
 	public function write(){
 		$this->setConfigForm();
-		$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
+		if(strlen($this->writeLabel) == 0){
+			$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
+		}
 		return Control::write();
 	}
 	
@@ -21,11 +23,12 @@ abstract class Content extends Control{
 		$this->selectByID($this->column, true);
 		$this->updateFreeTag();
 		$this->insertTracker('write');
-		if($this->isReadable(false)){
+		if($this->isFeed() and $this->isReadable(false)){
 			$feedData = $this->formatFeedData();
 			feed_insert($this->moduleName, $feedData);
 		}
 		document_set_redirect($this->moduleName.'/'.$this->id);
+		count_increase('contribution', USER_ID);
 	}
 	
 	public function update(){
@@ -52,7 +55,6 @@ abstract class Content extends Control{
 		$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2 AND publish_time <= '.date('Y-m-d').')';
 		$title = sprintf(tt('List of %s entries'), $this->moduleTitle);
 		document_set_path($title);
-		document_set_title($title);
 		$this->listMeta->mode = $this->moduleName.'_list';
 		return $this->renderListPage($clause);
 	}
@@ -67,9 +69,9 @@ abstract class Content extends Control{
 	
 	public function contributorListPage(){
 		$title = sprintf(tt('List of %s entries for Contributor'), $this->moduleTitle);
+		$this->listMeta->title =  $title;
 		document_set_path($title);
-		document_set_title($title);
-		$p = tt('You as Editor can use this page to access the entries of %s in Section.');
+		$p = tt('In the following list, your own entries of %s are shown. You can use this page to access them.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
 		$this->listMeta->mode = $this->moduleName.'_contributor_list';
 		return $this->renderListPage('WHERE (writer='.USER_ID.')');
@@ -78,9 +80,9 @@ abstract class Content extends Control{
 	public function editorListPage(){
 		$this->modelConnector->setAttribute('writer', 'isList', true);
 		$title = sprintf(tt('List of %s entries for Editor'), $this->moduleTitle);
+		$this->listMeta->title =  $title;
 		document_set_path($title);
-		document_set_title($title);
-		$p = tt('In the following list, your own entries of %s are shown. You can use this page to access them.');
+		$p = tt('You as Editor can use this page to access the entries of %s in Section.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
 		$this->listMeta->mode = $this->moduleName.'_editor_list';
 		return $this->renderListPage('WHERE (section='.SECTION.')');
@@ -103,7 +105,6 @@ abstract class Content extends Control{
 	}
 	
 	protected function renderListPage($clause){
-		$this->listMeta->title = sprintf(tt('List of %s entries'), $this->moduleTitle);
 		$this->listMeta->defaultOrderDesc = 'id';
 		$this->selectListPage(20, $clause);
 		$this->renderWriter();
@@ -179,7 +180,11 @@ abstract class Content extends Control{
 	
 	protected function setPathMutiplePage(){
 		if(strlen(gg('tag'))){
-			document_set_path(gg('tag'), $this->moduleName.'/tag/'.gg('tag'));
+			if(gg('tag_label')){
+				document_set_path(gg('tag_label'), $this->moduleName.'/tag/'.gg('tag'));
+			}else{
+				document_set_path(gg('tag'), $this->moduleName.'/tag/'.gg('tag'));
+			}
 		}elseif(strlen(gg('year'))){
 			$archievTime = date('F Y', strtotime('01-'.gg('month').'-20'.gg('year')));
 			document_set_path(tt('Archieve'), $this->moduleName.'_archiev');
@@ -208,9 +213,11 @@ abstract class Content extends Control{
 			if(!is_array($this->dataByID['writer'])){
 				$clause = 'WHERE id='.$this->dataByID['writer'];
 				$writerName = db_select_single_column('users', 'login_name', $clause, false);
-				$this->dataByID['writer_name'] = $writerName[0];
-				$data['writer'] = $this->dataByID['writer'];
-				$data['writer_name'] = $writerName[0];
+				if(isset($writerName[0])){
+					$this->dataByID['writer_name'] = $writerName[0];
+					$data['writer'] = $this->dataByID['writer'];
+					$data['writer_name'] = $writerName[0];
+				}
 			}else{
 				$data['writer'] = $this->dataByID['writer']['id'];
 				$data['writer_name'] = $this->dataByID['writer']['login_name'];
@@ -234,16 +241,15 @@ abstract class Content extends Control{
 		$searchEngine = $this->getNewConfigForm(tt('search engine'));
 		$searchEngine->append('uri');
 		$searchEngine->append('description');
-		
-		if(uu('editor') == 1 or uu('editor') == 2){
-			$code = $this->getNewConfigForm(tt('code writer'));
-			$code->append('code');
-		}
 	}
 	
 	protected function addMetaData(){
 		document_add_keywords($this->dataByID['freetag']);
 		document_set_description($this->dataByID['description']);
+	}
+	
+	protected function isFeed(){
+		return in_array($this->moduleName, cc('feed_mode')) or true;
 	}
 	
 	protected function formatFeedData(){
@@ -253,7 +259,7 @@ abstract class Content extends Control{
 		$data = $this->data[$this->id];
 		$data['writer'] = $this->dataByID['writer_name'];
 		$data['summary'] = $this->getSummary();
-		$data['freetag'].= ', '.$category[0];
+		if(isset($category[0])) $data['freetag'].= ', '.$category[0];
 		return $data;
 	}
 	
@@ -276,7 +282,8 @@ abstract class Content extends Control{
 	
 	protected function setDocumentData(){
 		$category = $this->dataByID['category']['category'];
-		document_set_path($category, $this->moduleName.'/tag/'.$category);
+		$reference = $this->dataByID['category']['reference'];
+		document_set_path($category, $this->moduleName.'/tag/'.$reference.'/tag_label/'.$category);
 		document_set_path($this->dataByID['topic']);
 	}
 	

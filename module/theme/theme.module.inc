@@ -234,9 +234,13 @@ function theme_check_info(&$theme_info){
 	}
 	$info = array('name', 'description', 'block_position', 'block_primary_position', 'menu_include_block', 'preview');
 	$complete = count(array_intersect($info, array_keys($theme_info))) == count($info);
-	$complete = $complete and isset($theme_info['block_position']);
-	$complete = $complete and count($theme_info['block_position']);
-	$complete = $complete and array_key_exists($theme_info['block_primary_position'], $theme_info['block_position']);
+	$complete = ($complete and isset($theme_info['block_position']));
+	$complete = ($complete and count($theme_info['block_position']));
+	$check_primary_block = array_key_exists($theme_info['block_primary_position'], $theme_info['block_position']);
+	$complete = ($complete and $check_primary_block);
+	if(!$check_primary_block and state_is_develop()){
+		notify_add_error(tt('The given primary block position does not exist.'));
+	}
 	return $complete;
 }
 

@@ -12,7 +12,7 @@ CREATE TABLE `block` (
   `body` text,
   `section` int(11) NOT NULL  DEFAULT 1,
   PRIMARY KEY (`id`)
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `category` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -22,7 +22,7 @@ CREATE TABLE `category` (
   `section` int(11) NOT NULL DEFAULT 1,
   `description` text,
   PRIMARY KEY (`id`)
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `comment` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -37,7 +37,7 @@ CREATE TABLE `comment` (
   `parent_writer` int(11) DEFAULT NULL,
   `email` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `feed` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -52,7 +52,7 @@ CREATE TABLE `feed` (
   `uri` varchar(250) DEFAULT NULL,
   `freetag` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `flashblock` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -64,13 +64,13 @@ CREATE TABLE `flashblock` (
   `section` int(11) DEFAULT NULL,
   `item_number` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `freetag` (
   `freetag` varchar(255) DEFAULT NULL,
   `mode` varchar(80) DEFAULT NULL,
   `content_id` int(11) DEFAULT NULL
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `groups` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -79,13 +79,13 @@ CREATE TABLE `groups` (
   `section` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `map` (
   `users` int(11) DEFAULT NULL,
   `groups` int(11) DEFAULT NULL,
   `section` int(11) NOT NULL DEFAULT 1
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -95,7 +95,7 @@ CREATE TABLE `menu` (
   `sort_number` int(11) DEFAULT NULL,
   `section` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `message` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -106,7 +106,7 @@ CREATE TABLE `message` (
   `status` varchar(5) DEFAULT 'new',
   `section` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `note` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -115,7 +115,7 @@ CREATE TABLE `note` (
   `note` text,
   `section` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `profile` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -123,16 +123,17 @@ CREATE TABLE `profile` (
   `profiletype` int(11) DEFAULT NULL,
   `profile` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) CHARACTER SET utf8;
 
 
 CREATE TABLE `profiletype` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(250) DEFAULT NULL,
   `description` varchar(250) DEFAULT NULL,
+  `allowed_group` text,
   `section` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `search` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -146,7 +147,7 @@ CREATE TABLE `search` (
   `clicks` int(11) DEFAULT NULL,
   `keywords_no` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `search_source` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -157,8 +158,20 @@ CREATE TABLE `search_source` (
   `mode` varchar(250) DEFAULT NULL,
   `mode_id` int(11) DEFAULT NULL,
   `insert_time` timestamp NOT NULL,
+  `language` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) CHARACTER SET utf8;
+
+
+CREATE TABLE `translation` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `status` int(10) unsigned NOT NULL,
+  `language` varchar(250) DEFAULT NULL,
+  `module` varchar(250) DEFAULT NULL,
+  `module_id` int(10) unsigned NOT NULL,
+  `translation` mediumtext,
+  PRIMARY KEY (`id`)
+) CHARACTER SET utf8;
 
 CREATE TABLE `section` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -167,7 +180,7 @@ CREATE TABLE `section` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `path` (`path`),
   UNIQUE KEY `section` (`name`)
-);
+) CHARACTER SET utf8;
 
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -184,7 +197,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_name` (`login_name`),
   UNIQUE KEY `email` (`email`)
-);
+) CHARACTER SET utf8;
 
 INSERT INTO groups VALUES (1, 'admin', 'An Admin can manage everthing on the Web.<br />This group ist not editable or deltetable.',1);
 INSERT INTO groups VALUES (2, 'guest', 'Guest of Website, who did not log in.<br />This group ist not editable, deletetable or managable.',1);

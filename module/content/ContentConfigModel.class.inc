@@ -5,7 +5,8 @@ abstract class ContentConfigModel extends Model{
 		$option = array(
 			'avatar' => tt('avatar'),
 			'category_icon' => tt('category icon'),
-			'comment_avatar' => tt('avatar for comments')
+			'comment_avatar' => tt('avatar for comments'),
+			'signature' => tt('user signature'),
 		);
 		$this->$appearance = $this->checkbox(tt('show in rendered page'), $option);
 		
@@ -13,7 +14,22 @@ abstract class ContentConfigModel extends Model{
 		$this->$comment_write_label = $this->title(tt('label for comment write form'));
 		
 		$comment_page_length = $mode.'_comment_page_length';
-		$option = array(5 => 5, 10 => 10, 15 => 15, 20 => 20, 50 => 50);
+		$option = array(
+			5 => 5,
+			10 => 10,
+			15 => 15,
+			20 => 20,
+			30 => 30,
+			40 => 40,
+			50 => 50,
+			60 => 60,
+			70 => 70,
+			80 => 80,
+			90 => 90,
+			100 => 100,
+			110 => 110,
+			120 => 120,
+		);
 		$this->$comment_page_length = $this->select(tt('comments per page'), $option);
 		
 		$option = content_get_comment_permission();

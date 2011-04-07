@@ -6,29 +6,29 @@ $execute_callable = array();
 $execute_class = array();
 $execute_mode = 0;
 
-function execute($mode, $arg=null){
+function execute($mode, $params=null, $result=null){
 	global $execute_callable;
 	$module = execute_get_module($mode);
 	execute_get_requirement($module);
 	if(!execute_is_callable($mode)) error_denied();
-	if(function_exists($mode) and in_array($mode, $execute_callable)){	
-		return $mode($arg);
+	if(function_exists($mode) and in_array($mode, $execute_callable)){
+		return $mode($params, $result);
 	}else{
-		return execute_oop($mode, $module);
+		return execute_oop($mode, $module, $params, $result);
 	}
 }
 
-function execute_string($uri){
+function execute_string($uri, $params=null, $result=null){
 	$uri = execute_parse_smart_uri('/'.$uri);
 	globalvar_set_get($uri);
 	document_lock_set_path();
-	$result = execute($uri['mode'], $uri);
+	$result = execute($uri['mode'], $params, $result);
 	globalvar_reset_get();
 	document_release_set_path();
 	return $result;
 }
 
-function execute_oop($mode, $module){
+function execute_oop($mode, $module, $params, $result){
 	$class = execute_get_class($module);
 	$success = false;
 	$result = '';
@@ -139,6 +139,7 @@ function execute_get_module($mode){
 function execute_get_requirement($module){
 	$module_require = cc('module_require');
 	if(isset($module_require[$module])){
+		translate_add_directory(ROOT_PATH.'module/'.$module.'/');
 		$require = ROOT_PATH.'module/'.$module.'/'.$module_require[$module];
 		if(is_file($require)){
 			include_once($require);

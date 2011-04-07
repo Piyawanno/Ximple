@@ -19,7 +19,7 @@ function mail_send($receiver, $subject, $body, $is_html=false, $attachment=null)
 	
 	$server_info = split(":", SMTP_SERVER);
 	$mail->Host = $server_info[0];
-	if(count($server_info)) $mail->Port = $server_info[1];
+	if(count($server_info) > 1) $mail->Port = $server_info[1];
 
 	if(strlen(SMTP_LOGIN) == 0){
 		$mail->SMTPAuth = false;

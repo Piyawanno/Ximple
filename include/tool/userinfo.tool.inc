@@ -1,5 +1,4 @@
 <?php
-
 execute_add_function('userinfo_get_ajax_name');
 execute_add_function('userinfo_check_user_exists');
 execute_add_function('userinfo_check_email_exists');
@@ -18,6 +17,8 @@ function userinfo_get_info($data, $column){
 			if(empty($user_info[$id]['avatar'])){
 				$user_info[$id]['avatar'] = 'files/avatar/default.png';
 			}
+			$user_config = io_unserialize(ROOT_PATH.'files/account/'.$id);
+			$user_info[$id]['config'] = $user_config;
 			$data[$key][$column] = $user_info[$id];
 		}
 	}
@@ -92,6 +93,15 @@ function userinfo_check_user_exists(){
 	}else{
 		return 'not exist';
 	}
+}
+
+function userinfo_get_profile($uid){
+	$column = array('id', 'owner', 'profile', 'profiletype');
+	$profile = db_select('profile', $column, 'WHERE owner='.$uid);
+	foreach($profile as $key => $value){
+		$profile[$value['profiletype']] = $value['profile'];
+	}
+	return $profile;
 }
 
 function userinfo_check_email_exists(){

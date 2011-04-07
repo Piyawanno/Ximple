@@ -13,14 +13,16 @@ class SectionConfig extends ConfigControl{
 		$this->init(new SectionConfigModel());
 	}
 	
-	function save(){
+	public function save(){
 		$oldIcon = cc('icon');
+		$this->setLanguage();
 		ConfigControl::save();
 		$this->uploadIcon($oldIcon);
 		$this->setState();
+		$this->modelConnector->triggerPostInsert();
 	}
 	
-	function index(){
+	public function index(){
 		$this->formMeta->id = 'config';
 		$this->formMeta->description = tt('You can use this form to configure important parameters of the Section. ');
 		$p = tt('Or you can <a href="%s"><strong>reset configurations</strong></a> to the default values.');
@@ -39,6 +41,13 @@ class SectionConfig extends ConfigControl{
 		$general->append('friendly_url_enable');
 		$general->append('state');
 		
+		$language = $this->getNewConfigForm(tt('Language'));
+		$language->append('supported_language');
+		
+		$register = $this->getNewConfigForm(tt('Registration'));
+		$register->append('registable');
+		$register->append('forget_password');
+		
 		$time = $this->getNewConfigForm(tt('Time'));
 		$time->append('time_zone');
 		$time->append('time_format');
@@ -50,6 +59,9 @@ class SectionConfig extends ConfigControl{
 		$html = $this->getNewConfigForm(tt('HTML'));
 		$html->append('meta_data');
 		$html->append('allowed_tags');
+		
+		$smiley = $this->getNewConfigForm(tt('Smiley'));
+		$smiley->append('smiley');
 		
 		$cacheDescription  = tt('Database cache is a part of the system. It can not be disabled. ');
 		$p = tt('You can, however, <a href="%s"><strong>clear database cache clicking here</strong></a>. ');
@@ -94,6 +106,18 @@ class SectionConfig extends ConfigControl{
 		execute_set_db();
 		document_set_redirect('config');
 		notify_add_info(tt('Configuration have been successfully reset.'));
+	}
+	
+	private function setLanguage(){
+		$languageAbbreviation = pp('language_abbreviation');
+		$languaDescription = pp('language_description');
+		$language = array();
+		foreach($languageAbbreviation as $key => $value){
+			if(strlen($value) and strlen($languaDescription[$key])){
+				$language[$value] = $languaDescription[$key];
+			}
+		}
+		$this->setConfig('supported_language', $language);
 	}
 	
 	private function uploadIcon($oldIcon){

@@ -34,13 +34,27 @@ class ModelConnector{
 	public function getFormColumn(){
 		$model = $this->model;
 		foreach($model as $key => $value){
-			if($value->isConfigForm) unset($model[$key]);
+			if(!$value->isForm){
+				unset($model[$key]);
+			}
+		}
+		return $model;
+	}
+	
+	public function getTranslateFormColumn(){
+		$model = $this->model;
+		foreach($model as $key => $value){
+			if(!$value->isTranslate){
+				unset($model[$key]);
+			}
 		}
 		return $model;
 	}
 	
 	public function setAsConfigForm($col){
-		$this->model[$col]->isConfigForm = true;
+		if($this->model[$col]->form != 'hidden'){
+			$this->model[$col]->isForm = false;
+		}
 	}
 	
 	public function getColumnAttribute($attrName){
@@ -175,6 +189,11 @@ class ModelConnector{
 	
 	public function checkExist($col){
 		return isset($this->model[$col]);
+	}
+	
+	public function hasTranslate(){
+		$model = $this->getTranslateFormColumn();
+		return (count($model) and is_array(cc('supported_language')));
 	}
 	
 	private function trigger($event){

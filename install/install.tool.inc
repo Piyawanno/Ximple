@@ -273,6 +273,7 @@ function install_init_js_var_user_insert(){
 	head_add_js_var('passwdMismatch', tt('Password is mismathed.'));
 	head_add_js_var('emailNotOk', tt('Your Email address is not conformed.'));
 	head_add_js_var('insertUser', true);
+	head_add_js_var('isInstalled', false);
 }
 
 function install_get_step_label(){
@@ -356,13 +357,14 @@ function update_user(){
 /// @return Information array of system-preconfiguration.
 function install_preconfig(){
 	$preconfig = array(
-		'personal' => array(
-			'label' => tt('Personal Website'),
-			'description' => tt('This pre-configuration allows you to create your personal website with blogging system and image gallery.'),
-		),
 		'blog' => array(
 			'label' => tt('Bloging System'),
 			'description' => tt('Minimal configuration with blog module.'),
+		),
+		/* In planning
+		'personal' => array(
+			'label' => tt('Personal Website'),
+			'description' => tt('This pre-configuration allows you to create your personal website with blogging system and image gallery.'),
 		),
 		'community' => array(
 			'label' => tt('Community Website'),
@@ -372,7 +374,6 @@ function install_preconfig(){
 			'label' => tt('SME Website'),
 			'description' => tt('Website for Small and Medium Enterprise or other institution. This pre-configuration allows them to provide news and information about themselves.'),
 		),
-		/* In planning
 		'magazin' => array(
 			'label' => tt('Online Magazin'),
 			'description' => tt(''),
@@ -436,8 +437,8 @@ function install_finish_message(){
 	$m = tt('You can use %sTheme Manage%s to customize looks and feels of your site.').'</li>';
 	$item .= '<li>'.sprintf($m, '<a href="'.ROOT_URI.'admin/?/select_themes"><b>', '</b></a>');
 	$remove   = tt('After this step, please remove directory "install" for security of your website.');
-	$thank    = tt('Have fun, %sX-BLC Team%s');
-	$thank    = sprintf($thank, '<a href="http://www.biolawcom.de/xblc/">', '</a>');
+	$thank    = tt('Have fun, %sXimple Team%s');
+	$thank    = sprintf($thank, '<a href="http://www.ximplesoft.com/">', '</a>');
 	$message  = '<ul>'.$item.'</ul>';
 	$message .= '<p style="color:red;">'.$remove.'</p>';
 	$message .= '<p>'.$thank.'</p>';

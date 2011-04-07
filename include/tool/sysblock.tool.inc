@@ -3,14 +3,17 @@
 execute_add_function('sysblock_login');
 execute_add_function('sysblock_panel');
 execute_add_function('sysblock_execute_info');
-
+execute_add_function('sysblock_translate');
 execute_add_function('sysblock_navigation');
 execute_add_function('sysblock_navigation_config');
 execute_add_function('sysblock_navigation_save');
 
 function sysblock_login(){
 	if(authority_is_guest()){
-		$render_array = array('allow_forget' => cc('registerable'));
+		$render_array = array(
+			'forget_password' => cc('forget_password'),
+			'registable' => cc('registable')
+		);
 		head_add_js('include/external/sha1.js');
 		return render($render_array, 'loginform.tpl', 'loginform');
 	}else{
@@ -32,6 +35,7 @@ function sysblock_panel(){
 function sysblock_navigation(){
 	$navigation = cc('navigation');
 	$navigation['home'] = cc('home_label');
+	$navigation = translate_content($navigation, 'block', gg('id'));
 	$navigation_enabled = array();
 	foreach(cc('navigation_enabled') as $key){
 		$navigation_enabled[$key] = $navigation[$key];
@@ -39,8 +43,22 @@ function sysblock_navigation(){
 	return render(array('data' => $navigation_enabled), 'navigation.tpl', 'navigation');
 }
 
+function sysblock_translate(){
+	$render_array = array();
+	$render_array['language'] = cc('supported_language');
+	if(!is_array($render_array['language'])){
+		$render_array['language'] = array();
+	}
+	return render($render_array, 'translateblock.tpl', 'translateblock');
+}
+
 function sysblock_navigation_config(){
 	require_once(ROOT_PATH.'include/class/QuickFormRender.class.inc');
+	if(gg('is_translate') == 'false') return  sysblock_navigation_general_config();
+	else return sysblock_navigation_translate_config();
+}
+
+function sysblock_navigation_general_config(){
 	$navigation = cc('navigation');
 	$navigation['home'] = cc('home_label');
 	$quickForm = new QuickFormRender('navigation');
@@ -48,6 +66,20 @@ function sysblock_navigation_config(){
 	$modelCol->data = cc('navigation_enabled');
 	$modelCol->isSortable = true;
 	$quickForm->append('navigation', $modelCol);
+	return $quickForm->render();
+}
+
+function sysblock_navigation_translate_config(){
+	$quickForm = new QuickFormRender('navigation');
+	$translated = translate_get_all_data('block', gg('module_id'), gg('language'));
+	$navigation = cc('navigation');
+	foreach($navigation as $key => $value){
+		$model = Model::char($value);
+		if(isset($translated[$key])){
+			$model->data = $translated[$key];
+		}
+		$quickForm->append($key, $model);
+	}
 	return $quickForm->render();
 }
 
@@ -125,7 +157,7 @@ function sysblock_get_user_panel_array(){
 }
 
 function sysblock_get_panel_config(){
-	$panel = io_unserialize('files/config/panel'.SECTION);
+	$panel = io_unserialize(ROOT_PATH.'files/config/panel'.SECTION);
 	if(!is_array($panel)) $panel = array();
 	$panel = array_merge($panel, config_default_panel_access());
 	return $panel;

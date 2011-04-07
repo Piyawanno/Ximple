@@ -14,12 +14,12 @@ class Guestbook extends Control{
 		$this->init(new GuestbookModel());
 		$this->formMeta->isCaptcha = true;
 		$this->writeLabel = sprintf(tt('Sign on %s'), cc('section_name'));
+		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	function index(){
 		$this->selectPage($this->column, 10, 'WHERE section='.SECTION.' ORDER BY id DESC');
 		head_add_css('guestbook.css');
-		document_set_title($this->moduleTitle);
 		$rednerArray = array(
 			'is_admin' => authority_group('guestbook_admin'),
 			'data' => $this->data

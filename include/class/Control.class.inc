@@ -1,29 +1,23 @@
 <?php
 
-include_once('Authority.class.inc');
+include_once('Translatable.class.inc');
 include_once('Model.class.inc');
 include_once('ModelFactory.class.inc');
 include_once('ModelConnector.class.inc');
 include_once('FormMetaData.class.inc');
 include_once('ListPageMetaData.class.inc');
 
-abstract class Control extends Authority{
+abstract class Control extends Translatable{
 	private $formRender;
-	private $configForm = array();
 	private $prepareMethodMap = array();
 	private $tableCreator;
 	private $listPage;
+	private $modelHasCategory;
 	
 	
-	protected $modelConnector;
 	protected $data;
 	protected $dataByID;
-	
-	protected $formMeta;
 	protected $listMeta;
-	
-	protected $moduleTitle;
-	protected $moduleName;
 	protected $tableName;
 	
 	protected $ownerColumn;
@@ -118,6 +112,10 @@ abstract class Control extends Authority{
 		if(!$this->tableCreator){
 			include_once('TableCreator.class.inc');
 			$this->tableCreator = new TableCreator($this->modelConnector, $this->tableName);
+			if($this->modelHasCategory){
+				require_once(ROOT_PATH.'include/tool/category.tool.inc');
+				category_init($this->moduleName);
+			}
 		}
 		$this->tableCreator->create();
 		module_add($this->moduleName, $requirement, $this->moduleTitle);
@@ -170,6 +168,8 @@ abstract class Control extends Authority{
 	}
 	
 	protected function init($modelObj){
+		$this->modelHasCategory = $modelObj->hasCategory();
+		
 		if(empty($this->insertRedirection)) $this->insertRedirection = $this->moduleName;
 		if(empty($this->updateRedirection)) $this->updateRedirection = $this->moduleName;
 		if(empty($this->dropRedirection)) $this->dropRedirection = $this->moduleName;
@@ -182,6 +182,8 @@ abstract class Control extends Authority{
 		$this->addAction($this->moduleName.'_update', 'update');
 		$this->addAction($this->moduleName.'_drop', 'drop');
 		$this->addAction($this->moduleName.'_print', 'printPage');
+		$this->addAction($this->moduleName.'_translate_form', 'renderTranslateForm');
+		$this->addAction($this->moduleName.'_translate', 'setTranslate');
 		
 		$this->prepareMethodMap['edit'] = 'prepareModifyDB';
 		$this->prepareMethodMap['update'] = 'prepareModifyDB';
@@ -346,7 +348,7 @@ abstract class Control extends Authority{
 		$p = '<img alt="%s" src="%s" border="0" />';
 		foreach($columns as $column){
 			foreach($this->data as $key => $value){
-				if(isset($value[$column])){
+				if(isset($value[$column]) and strlen($value[$column])){
 					$this->data[$key][$column] = sprintf($p, $column, ROOT_URI.$value[$column]);
 				}
 			}

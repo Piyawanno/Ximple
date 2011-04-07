@@ -1,19 +1,13 @@
 <?php
 
-include_once('Authority.class.inc');
+include_once('Translatable.class.inc');
 include_once('Model.class.inc');
 include_once('ModelFactory.class.inc');
 include_once('ModelConnector.class.inc');
 include_once('FormMetaData.class.inc');
 
-abstract class ConfigControl extends Authority{
-	private $modelConnector;
+abstract class ConfigControl extends Translatable{
 	private $formRender;
-	private $configForm = array();
-	
-	protected $formMeta;
-	protected $moduleName;
-	protected $moduleTitle;
 	protected $saveRedirection;
 	
 	protected function init($modelObj){
@@ -22,6 +16,8 @@ abstract class ConfigControl extends Authority{
 		$this->formMeta = new FormMetaData();
 		$this->addAction($this->moduleName, 'index');
 		$this->addAction($this->moduleName.'_save', 'save');
+		$this->addAction($this->moduleName.'_translate_form', 'renderTranslateForm');
+		$this->addAction($this->moduleName.'_translate', 'setTranslate');
 		if(!$this->saveRedirection){
 			$this->saveRedirection = $this->moduleName;
 		}
@@ -75,7 +71,7 @@ abstract class ConfigControl extends Authority{
 	}
 	
 	protected function getConfig(){
-		return cc();
+		return ucc();
 	}
 	
 	protected function setConfig($key, $value){

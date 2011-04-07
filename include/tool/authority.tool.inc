@@ -1,13 +1,27 @@
 <?php
 /// @file
 /// This file provides functions for authority checking.
-///
-/// @author bow_der_kleine <bow_der_kleine@yahoo.de>
 
-/// Authorization function of X-BLC.
-/// It should be minimal and fast.
-/// @param $users  : array of user id, which should get permission.
-/// @param $groups : array of group id, which should get permission.
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
+
+/// Security Note
+/// To avoid system attack by password eavesdropping, Ximple use
+/// JavaScript to encrypt User's password with SHA1 algorithm and
+/// a random key (saved in $_SESSION['login_salt']).
+/// Encryption of User's password can be given by :
+///
+///		sha1(sha1(PASSWORD).$_SESSION['login_salt']).
+///
+/// The encrypted password of User (sha1(PASSWORD)) is stored in database.
+/// To check the authority of User, the sent encrypted password
+/// and the encrypted password from database must be matched.
+/// With this method, PASSWORD and sha1(PASSWORD) must not be transmitted
+/// and password eavesdropping can be complicated.
+
+/// Check permission of given User-ID and Group-ID.
+/// @param $users  : array of User-ID for checking permission.
+/// @param $groups : array of Group-ID for checking permission.
+/// @return TRUE, if the give User-ID and Group-ID have permission to access.
 function authority($users=array(), $groups=array(), $first_check=false){
 	authority_handle_login();
 	authority_init_salt();
@@ -47,7 +61,7 @@ function authority_handle_login(){
 	}
 }
 
-/// Check user authority by group name.
+/// Check user authority by Role name.
 function authority_group($gid){
 	return authority(array(), cc($gid));
 }
@@ -58,7 +72,7 @@ function authority_user($uid){
 	return authority(array($uid), array());
 }
 
-/// Check user authority by group name and User-ID (most used for checking data owner).
+/// Check user authority by Role name and User-ID (most used for checking data owner).
 function authority_owner($gid, $uid){
 	return authority(array($uid), cc($gid));
 }
@@ -88,11 +102,14 @@ function authority_is_admin(){
 /// @return TRUE, if user is in given array of users of groups.
 function authority_check_users_groups($users, $groups){
 	if(is_array($groups) and in_array(2, $groups)) return true;
-	$groups = array();
 	foreach($users as $key => $user){
 		if($user == -1) unset($users[$key]);
 	}
-	$intersect_groups = array_intersect(ss('login_group'), $groups);
+	if(is_array($groups)){
+		$intersect_groups = array_intersect(ss('login_group'), $groups);
+	}else{
+		$intersect_groups = array();
+	}
 	$in_groups = count($intersect_groups);
 	$in_users  = in_array(USER_ID, $users);
 	return $in_groups or $in_users or in_array(1, ss('login_group'));
@@ -152,6 +169,7 @@ function authority_handle_guest(){
 function authority_handle_user($uid){
 	$map = db_select_single_column('map', 'groups', "WHERE users='".(int)$uid."' AND section=".SECTION, false);
 	$_SESSION['login_group'] = $map;
+	$_SESSION['login_group'][] = 3;
 	$_SESSION['ximple_id'] = $uid;
 }
 
@@ -167,7 +185,7 @@ function authority_define_const(){
 		define('USER_PASSWD', ss('login_password'));
 	}
 }
-
+ 
 function authority_is_login(){
 	return pp('login') == 'login';
 }

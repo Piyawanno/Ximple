@@ -2,8 +2,8 @@
 function preconfig_init(){
 	include(ROOT_PATH.'include/tool/main.tool.inc');
 	include(ROOT_PATH.'include/tool/extension.tool.inc');
-	include(ROOT_PATH.'include/tool/locale.tool.inc');
 	include(ROOT_PATH.'include/tool/execute.tool.inc');
+	include(ROOT_PATH.'include/tool/translate.tool.inc');
 	include(ROOT_PATH.'include/tool/notify.tool.inc');
 	include(ROOT_PATH.'include/tool/document.tool.inc');
 	include(ROOT_PATH.'include/tool/count.tool.inc');

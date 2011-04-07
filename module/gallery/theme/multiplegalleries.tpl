@@ -44,13 +44,13 @@ function setStop(gid){
 	<tr>
 		<td class="tumbnail" valign="center" align="center" onmouseover="changeThumb(<?=$key?>)"" onmouseout="setStop(<?=$key?>)">
 			<?php if(count($value['picture'])):?>
-			<a href="<?=ROOT_URI.Q?>gallery/<?=$key?>">
+			<a href="<?=SECTION_URI.Q?>gallery/<?=$key?>">
 				<img src="<?=ROOT_URI?>files/gallery/<?=$key?>/thumb_<?=$pictureName[0]?>" border="0" id="thumb_<?=$key?>"/>
 			</a>
 			<?php endif?>
 		</td>
 		<td class="preview_info" valign="top">
-			<h4><a href="<?=ROOT_URI.Q?>gallery/<?=$key?>"><?=$value['topic']?></a></h4>
+			<h4><a href="<?=SECTION_URI.Q?>gallery/<?=$key?>"><?=$value['topic']?></a></h4>
 			<p>
 				<?=tt('by')?> <?=render_profile_link($value['writer'])?> @ <?=$value['publish_time']?>
 			</p>

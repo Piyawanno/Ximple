@@ -28,11 +28,17 @@ $head_js = array(
 
 $head_js_var = array(
 	'rootURI' => ROOT_URI,
+	'moduleName' => MODULE,
+	'translateModuleName' => null,
+	'modeName' => MODE,
+	'modeID' => MODE_ID,
 	'sectionID' => SECTION,
 	'sectionURI' => SECTION_URI.Q,
 	'sectionURICommon' => SECTION_URI,
 	'checkNotifyInterval' => cc('notify_interval')*1000,
 	'isGuest' => authority_is_guest(),
+	'autoCompleteTop' => 0,
+	'autoCompleteLeft' => 0,
 );
 
 $head_js_array = array();
@@ -102,7 +108,8 @@ function head_define_js_var(){
 	global $head_js_var;
 	$js_var = '';
 	foreach($head_js_var as $key => $value){
-		if(is_string($value)) $js_var .= 'var '.$key.' = "'.$value.'";'."\n\t\t";
+		if(empty($value)) $js_var .= 'var '.$key.' = null;';
+		elseif(is_string($value)) $js_var .= 'var '.$key.' = "'.$value.'";'."\n\t\t";
 		elseif(is_bool($value)) $js_var .= 'var '.$key.' = '.($value?'true':'false').';'."\n\t\t";
 		else $js_var .= 'var '.$key.' = '.$value.';'."\n\t\t";
 	}

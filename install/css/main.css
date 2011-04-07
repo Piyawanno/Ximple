@@ -71,6 +71,7 @@ input{
 	text-align:right;
 	font-weight:bold;
 	color:white;
+	min-width:1200px;
 }
 
 #head{
@@ -82,6 +83,7 @@ input{
 	border-top:2px solid #729bd3;
 	border-bottom:2px solid #bbb;
 	text-align:left;
+	min-width:1200px;
 }
 
 #install_label{

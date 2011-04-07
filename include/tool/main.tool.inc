@@ -19,7 +19,10 @@ function main_init(){
 	main_handle_drop();
 	db_init();
 	authority();
+	translate_define_language();
+	config_translate();
 	extension_execute('main_init');
+	translate_add_directory(ROOT_PATH.'theme/'.cc('theme'));
 }
 
 function main_exec(){
@@ -67,7 +70,7 @@ function main_render_site($body){
 	include_once('menu.tool.inc');
 	include_once('block.tool.inc');
 	search_increase_point();
-	extension_execute('pre_main_render_site', $body, $body);
+	$body = extension_execute('pre_main_render_site', $body, $body);
 	$render_array = array(
 		'body' => $body,
 		'path' => document_render_path(),
@@ -80,7 +83,6 @@ function main_render_site($body){
 	);
 	search_add_source_page($body);
 	$render = render($render_array, 'main.tpl', 'main');
-	$render = extension_execute('post_main_render_site', null, $render);
 	return $render;
 }
 
@@ -114,13 +116,13 @@ function main_include(){
 	include('authority.tool.inc');
 	include('postrender.tool.inc');
 	include('extension.tool.inc');
-	include('locale.tool.inc');
 	include('execute.tool.inc');
 	include('notify.tool.inc');
 	include('document.tool.inc');
 	include('config.tool.inc');
 	include('input.tool.inc');
 	include('count.tool.inc');
+	include('translate.tool.inc');
 	include(ROOT_PATH.'include/database/'.DB_TYPE.'.inc');
 }
 
@@ -164,7 +166,8 @@ function main_handle_drop(){
 
 function main_render_db(){
 	$redirect = document_get_redirect();
-	if(substr($redirect, 0, 1) == '?') $redirect = SECTION_URI.$redirect;
+	if(document_get_redirect_back()) $redirect = vv('HTTP_REFERER');
+	elseif(substr($redirect, 0, 1) == '?') $redirect = SECTION_URI.$redirect;
 	elseif(strlen($redirect)) $redirect = SECTION_URI.Q.$redirect;
 	else $redirect = SECTION_URI;
 	$confirm = SMART_URI ? '/confirm/true' : '&confirm=true';
@@ -199,17 +202,18 @@ function main_init_var(){
 	else define('Q', '?/');
 	main_init_section_uri();
 	main_init_uri_param();
-	locale_define_language();
 }
 
 /// Initialize constant SECTION_URI.
 function main_init_section_uri(){
 	if(SECTION == 1){
 		define('SECTION_URI', ROOT_URI);
-	}elseif(isset($config['section_uri']) and strlen($config['section_uri'])){
-		define('SECTION_URI', cc('section_uri'));
-	}else{
-		define('SECTION_URI', ROOT_URI.'section/'.cc('section_path').'/');
+	}elseif(!defined('SECTION_URI')){
+		if(isset($config['section_uri']) and strlen($config['section_uri'])){
+			define('SECTION_URI', cc('section_uri'));
+		}else{
+			define('SECTION_URI', ROOT_URI.'section/'.cc('section_path').'/');
+		}
 	}
 }
 

@@ -10,6 +10,7 @@ function flashblock(){
 		$data = $data[gg('id')];
 		$clause = $data['clause'].' LIMIT '.$data['item_number'];
 		$item = db_select_single_column($data['table_name'], $data['column_name'], $clause);
+		$item = flashblock_translate($data['mode'], $data['column_name'], $item);
 		$render_array = array(
 			'mode' => $data['mode'],
 			'item' => $item,
@@ -47,20 +48,35 @@ function flashblock_drop($reference){
 	}
 }
 
-function flashblock_config($arg){
-	include_once(ROOT_PATH.'include/class/QuickFormRender.class.inc');
-	include_once(ROOT_PATH.'include/class/Model.class.inc');
-	$quickform = new QuickFormRender('block');
-	$item_number_data = db_select_single_column('flashblock', 'item_number', 'WHERE id='.$arg['id'], false);
-	$option = array(3 => 3, 5 => 5, 8 => 8, 10 => 10, 15 => 15);
-	$item_number = Model::select(tt('number of shown items'), $option);
-	$item_number->data = $item_number_data[0];
-	$quickform->append('flashblock_item_number', $item_number);
-	return $quickform->render();
+function flashblock_config(){
+	if(gg('is_translate') == 'false'){
+		include_once(ROOT_PATH.'include/class/QuickFormRender.class.inc');
+		include_once(ROOT_PATH.'include/class/Model.class.inc');
+		$quickform = new QuickFormRender('block');
+		$item_number_data = db_select_single_column('flashblock', 'item_number', 'WHERE id='.gg('id'), false);
+		$option = array(3 => 3, 5 => 5, 8 => 8, 10 => 10, 15 => 15);
+		$item_number = Model::select(tt('number of shown items'), $option);
+		$item_number->data = $item_number_data[0];
+		$quickform->append('flashblock_item_number', $item_number);
+		return $quickform->render();
+	}
 }
 
-function flashblock_save($arg){
-	db_update('flashblock', array('item_number' => pp('flashblock_item_number')), $arg['id']);
+function flashblock_save(){
+	db_update('flashblock', array('item_number' => pp('flashblock_item_number')),gg('id'));
+}
+
+function flashblock_translate($mode, $column_name, $data){
+	$splitted = explode('_', $mode);
+	foreach($data as $key => $value){
+		$content_array = array(
+			'id' => $key,
+			$column_name => $value
+		);
+		$translated = translate_content($content_array, $splitted[0], $key);
+		$data[$key] = $translated[$column_name];
+	}
+	return $data;
 }
 
 ?>

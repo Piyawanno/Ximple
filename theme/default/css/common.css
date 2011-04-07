@@ -1,3 +1,11 @@
+/* ========= loginform ========= */
+#login_form a{
+	padding:0;
+	margin:0;
+	background:none;
+	display:block;
+}
+
 /* ========= calenda ========= */
 
 table.calendar{
@@ -165,4 +173,27 @@ ins{
 
 #notify_error h4{
 	color:#d40;
+}
+
+/* ========= Write icon ========= */
+.write_icon{
+	font-weight:bold;
+}
+
+.write_icon img, .warning_icon{
+	margin-right:5px;
+	margin-left:5px;
+}
+
+/* ========= Translate Block ========= */
+.translate_block a{
+	margin-left:25px;
+	font-weight:bold;
+	text-decoration:underline;
+}
+
+.signature{
+	margin-top:-10px;
+	font-size:11px;
+	color:#666;
 }

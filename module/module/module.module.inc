@@ -25,11 +25,15 @@ function module_init(){
 	$module_array = module_get_information();
 	$submit_array = pp();
 	foreach($submit_array as $key => $value){
-		if($key == $value){
-			if(isset($module_array[$key]) and !$module_array[$key]['installed']){
-				$function = 'module_init_'.$key;
-				$function();
-			}
+		if(isset($module_array[$key]) and !$module_array[$key]['installed']){
+			$function = 'module_init_'.$key;
+			$function();
+		}
+	}
+	foreach($module_array as $key => $value){
+		if(!isset($submit_array[$key]) and $value['installed']){
+			$function = 'module_drop_'.$key;
+			$function();
 		}
 	}
 	config_save();

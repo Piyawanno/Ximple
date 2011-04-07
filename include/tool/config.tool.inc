@@ -20,6 +20,12 @@ function config_drop($key){
 	unset($GLOBALS['config'][$key]);
 }
 
+function config_has_value($name, $value){
+	$config = cc($name);
+	if(!is_array($config)) $config = array();
+	return in_array($value, $config);
+}
+
 function config_drop_by_value($key, $value){
 	if(isset($GLOBALS['config'][$key]) and is_array($GLOBALS['config'][$key])){
 		$conf = $GLOBALS['config'][$key];
@@ -70,6 +76,7 @@ function config_default_require(){
 		'imageloader' => 'imageloader.module.inc',
 		'search' => 'search.module.inc',
 		'forgetpassword' => 'forgetpassword.module.inc',
+		'login' => 'login.module.inc',
 	);
 }
 
@@ -132,14 +139,14 @@ function config_default_panel_access(){
 				'manage module' => 'module_manage'
 			),
 			'config_admin' => array(  
-				'configure section' => 'config',
+				'configure section' => 'config/'.SECTION,
 			),
 			'syslog_admin' => array(  
 				'system log' => 'syslog_render'
 			),
 		),
 		'Themes' => array(  
-			'theme_admin' => array(  
+			'theme_admin' => array(
 				'select themes' => 'theme_select',
 				'configure theme' => 'theme_config',
 				'custom css' => 'theme_css',
@@ -148,7 +155,7 @@ function config_default_panel_access(){
 		),
 	);
 	if(SECTION == 1){
-		$panel['System Admin']['section_admin']['add section'] = 'section';
+		$panel['System Admin']['section_admin']['manage section'] = 'section_manage';
 	}
 	return $panel;
 }
@@ -249,6 +256,7 @@ function config_default(){
 		'tracker_enable' => true,
 		'tracker_time' => 604800,
 		'time_zone' => 'UTC',
+		'time_format' => 'd F Y',
 	);
 }
 
@@ -265,5 +273,10 @@ function config_check_default($config){
 		$config['theme'] = 'default';
 	}
 	return $config;
+}
+
+function config_translate(){
+	$GLOBALS['untranslated_config'] = $GLOBALS['config'];
+	$GLOBALS['config'] = translate_content($GLOBALS['config'], 'config', SECTION);
 }
 ?>

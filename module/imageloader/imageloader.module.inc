@@ -15,6 +15,8 @@ function imageloader_simple(){
 		'is_guest' => authority_is_guest(),
 		'image' => imageloader_get_image($path),
 		'loader_id' => gg('loader_id'),
+		'is_file_admin' => authority_group('file_admin'),
+		'manage_file_path' => substr($path, -8),
 	);
 	return render($render_array, 'imageloader_simple.tpl', 'imageloader_simple');
 }
@@ -31,7 +33,6 @@ function imageloader_cle(){
 	return render($render_array, 'imageloader_cle.tpl', 'imageloader_cle');
 }
 
-
 function imageloader_upload(){
 	execute_set_db();
 	if(!authority_is_guest()){
@@ -43,7 +44,7 @@ function imageloader_upload(){
 function imageloader_simple_upload(){
 	execute_set_db();
 	if(!authority_is_guest()){
-		io_upload(ff('file_to_upload'), ROOT_PATH.pp('current_dir'));
+		io_upload(ff('file_to_upload'), pp('current_dir'));
 	}
 }
 
@@ -59,38 +60,44 @@ function imageloader_create_directory(){
 function imageloader_get_image($path){
 	$accepted_ext = array('gif', 'png', 'jpg', 'jpeg', 'tiff');
 	$success = true;
-	@$d = dir(ROOT_PATH.$path) or $success=false;
+	@$d = dir($path) or $success=false;
 	if($success and !authority_is_guest()){
 		$image = array();
 		while (false !== ($entry = $d->read())){
-			if(is_file(ROOT_PATH.$path.$entry)){
+			if(is_file($path.$entry)){
 				$ext = split('\.', $entry);
 				$ext = $ext[count($ext)-1];
 				if(in_array(strtolower($ext), $accepted_ext)){
-					$size = filesize(ROOT_PATH.$path.$entry);
-					$image[] = array('src' => $path.$entry, 'size' => $size);
+					$size = filesize($path.$entry);
+					$image[] = array(
+						'src' => $path.$entry,
+						'size' => $size
+					);
 				}
 			}
 		}
 		return $image;
 	}else{
-		echo('Problem by opening image directory');
+		notify_error('Problem by opening image directory');
 		return array();
 	}
 }
 
 function imageloader_get_user_image_path(){
-	$path = 'files/member/'.USER_ID.'/';
+	$path = ROOT_PATH.'files/member/';
+	if(!is_dir($path)) mkdir($path);
+	$path.= USER_ID.'/';
 	if(!is_dir($path)) mkdir($path);
 	$path.= 'image/';
 	if(!is_dir($path)) mkdir($path);
+	$path = substr($path, strlen(ROOT_PATH));
 	return $path;
 }
 
 function imageloader_get_directory(){
 	$success = true;
 	$path = 'files/member/'.USER_ID.'/'.gg('dir');
-	@$d = dir(ROOT_PATH.$path) or $success=false;
+	@$d = dir($path) or $success=false;
 	if($success and !authority_is_guest()){
 		$directory = array();
 		if(strlen(gg('dir'))){

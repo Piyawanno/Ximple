@@ -7,6 +7,8 @@ class Comment extends Control{
 	private $parent;
 	private $permission;
 	private $parentData;
+	private $template;
+	private $insertMode;
 	
 	function Comment($mode=null, $parent=null, $permission=null, $parentWriter=null){
 		$this->tableName = 'comment';
@@ -16,6 +18,8 @@ class Comment extends Control{
 		$this->setParent($parent);
 		$this->setPermission($permission);
 		$this->setAccess();
+		$this->template = 'module/comment/theme/comment.tpl';
+		$this->insertMode = 'comment_insert';
 		$this->init(new CommentModel($this->mode, $this->parent, $parentWriter));
 	}
 	
@@ -30,7 +34,8 @@ class Comment extends Control{
 			$this->formMeta->id = $this->moduleName;
 			$this->formMeta->title = cc($this->mode.'_comment_write_label');
 			$this->formMeta->isCaptcha = true;
-			$this->formMeta->mode = 'comment_insert/page/'.$this->pager->getNextPage();
+			$this->formMeta->mode  = $this->insertMode;
+			$this->formMeta->mode .= '/page/'.$this->pager->getNextPage();
 			$this->formMeta->isSetTitle = false;
 			return $this->renderInsertForm(false);
 		}else{
@@ -41,6 +46,7 @@ class Comment extends Control{
 	public function insert(){
 		if($this->isWritable()){
 			Control::insert();
+			count_increase('contribution', USER_ID);
 			$column = array('id', 'topic', 'writer');
 			$this->parentData = db_select($this->mode, $column, 'WHERE id='.$this->parent);
 			$this->parentData = $this->parentData[$this->parent];
@@ -80,6 +86,14 @@ class Comment extends Control{
 		$label = sprintf(tt('Comments in %s'), cc('section_name'));
 		$description = '';
 		return $this->renderListPage($clause, $label, $description);
+	}
+	
+	public function setTemplate($template){
+		$this->template = $template;
+	}
+	
+	public function setInsertMode($insertMode){
+		$this->insertMode = $insertMode;
 	}
 	
 	private function setAccess(){
@@ -142,9 +156,10 @@ class Comment extends Control{
 			$render = $pager;
 			$renderArray = array(
 				'data' => $this->data,
-				'is_avatar' => cc($this->mode.'_comment_show_avatar'),
+				'show_avatar' => $this->checkAvatar(),
+				'show_signature' => $this->checkSignature(),
 			);
-			$render.= render($renderArray, 'module/comment/theme/comment.tpl', 'comment');
+			$render.= render($renderArray, $this->template, 'comment');
 			$render.= $pager;
 			return $render;
 		}else{
@@ -158,7 +173,7 @@ class Comment extends Control{
 	
 	private function isWritable(){
 		if($this->permission == 0) return true;
-		elseif($this->permission == 0 and !authority_is_guest()) return true;
+		elseif($this->permission == 1 and !authority_is_guest()) return true;
 		else return false;
 	}
 	
@@ -195,12 +210,14 @@ class Comment extends Control{
 		if(!authority_is_guest()){
 			include_once(ROOT_PATH.'module/tracker/tracker.tool.inc');
 			$writerName = db_select_single_column('users', 'login_name', 'WHERE id='.$this->parentData['writer'], false);
+			if(isset($writerName[0])) $writerName = $writerName[0];
+			else $writerName = tt('guest');
 			$trackerData = array(
 				'mode' => $this->mode,
 				'id' => $this->parent,
 				'topic' => $this->parentData['topic'],
 				'writer' => $this->parentData['writer'],
-				'writer_name' => $writerName[0],
+				'writer_name' => $writerName,
 				'action' => 'comment',
 			);
 			tracker_insert($trackerData);
@@ -240,6 +257,14 @@ class Comment extends Control{
 			$topic = $parent[$value['mode']][$value['parent']]['topic'];
 			$this->data[$key]['parent'] = '<a href="'.$uri.'">'.$topic.'</a>';
 		}
+	}
+	
+	private function checkAvatar(){
+		return config_has_value($this->mode.'_appearance', 'comment_avatar');
+	}
+	
+	private function checkSignature(){
+		return config_has_value($this->mode.'_appearance', 'signature');
 	}
 }
 

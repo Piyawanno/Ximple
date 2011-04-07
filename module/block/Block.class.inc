@@ -11,10 +11,10 @@ class Block extends Control{
 		$this->setAdmin('block_admin');
 		$this->insertRedirection = 'block#position_'.pp('position');
 		$this->init(new BlockModel());
+		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	public function index(){
-		document_set_path($this->moduleTitle);
 		$this->select($this->column, 'WHERE section='.SECTION.' ORDER BY sort_number');
 		$data = array();
 		foreach($this->data as $key => $value){
@@ -22,7 +22,7 @@ class Block extends Control{
 		}
 		$renderArray = array(
 			'data' => $data,
-			'position' => array_merge(cc('block_position')),
+			'position' => cc('block_position'),
 		);
 		head_add_css('block.css');
 		head_add_css('list.css');
@@ -54,7 +54,6 @@ class Block extends Control{
 	}
 	
 	public function write(){
-		document_set_path($this->moduleTitle, $this->moduleName);
 		document_set_path(sprintf(tt('Add %s'), $this->moduleTitle));
 		$position = cc('block_position');
 		$this->formMeta->id = 'Block';
@@ -65,7 +64,6 @@ class Block extends Control{
 	}
 	
 	public function edit(){
-		document_set_path($this->moduleTitle, $this->moduleName);
 		document_set_path(sprintf(tt('Edit %s'), $this->moduleTitle));
 		$this->id = (int)gg('id');
 		$this->selectByID($this->column);
@@ -74,6 +72,7 @@ class Block extends Control{
 		$this->formMeta->mode = 'block_update';
 		$configMode = $this->dataByID['config_form_mode'];
 		if(!empty($configMode)){
+			$configMode .= '/is_translate/false';
 			$this->formMeta->additionalForm = array(execute_string($configMode));
 		}
 		$this->setConfigForm();
@@ -81,10 +80,26 @@ class Block extends Control{
 	}
 	
 	public function update(){
-		$configMode = $this->dataByID['config_save_mode'];
-		if(!empty($configMode)) execute_string($configMode);
 		Control::update();
+		$configMode = $this->dataByID['config_save_mode'];
+		if(!empty($configMode)){
+			$configMode .= '/is_translate/false';
+			execute_string($configMode);
+		}
 		document_set_redirect('block#block_'.$this->id);
+	}
+	
+	public function renderTranslateForm(){
+		$this->id = gg('module_id');
+		$this->selectByID($this->column);
+		$configMode = $this->dataByID['config_form_mode'];
+		if(!empty($configMode)){
+			$configMode .= '/is_translate/true';
+			$configMode .= '/module_id/'.gg('module_id');
+			$configMode .= '/language/'.gg('language');
+			$this->formMeta->additionalForm = array(execute_string($configMode));
+		}
+		return Control::renderTranslateForm();
 	}
 	
 	private function setConfigForm(){

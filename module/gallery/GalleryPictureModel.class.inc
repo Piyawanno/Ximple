@@ -31,8 +31,6 @@ class GalleryPictureColumn extends MultipleFilesColumn{
 	}
 	
 	function triggerDrop(){
-		print_r($this->data);
 	}
 }
 ?>
-

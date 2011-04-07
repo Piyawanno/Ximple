@@ -39,8 +39,7 @@ function render_get_tpl($tpl){
 	else{
 		$tpl_out = render_find_tpl($tpl);
 		if($tpl_out == null){
-			if(state_is_develop()) die('Template file can not be found : '.$tpl);
-			else die();
+			die('Template file can not be found : '.$tpl);
 		}
 	}
 	
@@ -64,11 +63,28 @@ function render_find_tpl($tpl){
 	return null;
 }
 
+function render_tag($category, $freetag, $mode){
+	$render = '';
+	if(isset($category['category']) and isset($category['reference'])){
+		$reference = $category['reference'];
+		$label = $category['category'];
+		$render .= '<a href="'.SECTION_URI.Q.$mode.'/tag/'.$reference.'/tag_label/'.$label.'">'.$label.'</a> ';
+	}else{
+		$label = null;
+	}
+	foreach($freetag as $key => $value){
+		if($value != $label){
+			$render .= '<a href="'.SECTION_URI.Q.$mode.'/tag/'.$value.'">'.$value.'</a> ';
+		}
+	}
+	return $render;
+}
+
 function render_icon($mode, $icon, $title){
 	return '
-	<a href="'.SECTION_URI.Q.$mode.'" >
-		<img src="'.ROOT_URI.$icon.'" border="0" align="left" style="margin-right:5px;margin-left:5px;">
-		<strong>'.$title.'</strong>
+	<a href="'.SECTION_URI.Q.$mode.'" class="write_icon">
+		<img src="'.ROOT_URI.$icon.'" border="0" align="left">
+		'.$title.'
 	</a>';
 }
 
@@ -87,15 +103,29 @@ function render_profile_link($user){
 	else return '<a href="'.SECTION_URI.Q.'profile/'.$user['id'].'">'.$user['login_name'].'</a>';
 }
 
-function render_avatar($user){
+function render_signature($user){
+	if(isset($user['config']['signature'])){
+		$signature = $user['config']['signature'];
+	}else{
+		$signature = null;
+	}
+	if(strlen($signature)){
+		return '<p class="signature">['.$signature.']</p>';
+	}
+}
+
+function render_avatar($user, $show_profile=true){
 	if(strlen($user['avatar']) == 0) $user['avatar'] = 'files/default.png';
-	return '
+	$render = '
 	<p align="center">
 		<a href="'.SECTION_URI.Q.'profile/'.$user['id'].'">
 			<img src="'.ROOT_URI.$user['avatar'].'" border="0" />
 		</a>
-	</p>
-	<p align="center">'.render_profile_link($user).'</p>';
+	</p>';
+	if($show_profile){
+		$render .= '<p align="center">'.render_profile_link($user).'</p>';
+	}
+	return $render;
 }
 
 function render_category_icon($category, $mode){

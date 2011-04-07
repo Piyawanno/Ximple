@@ -1,7 +1,7 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <div id="login_form">
 	<form action="<?=SECTION_URI?>" method="post" onsubmit="crypt()">
-		<?=tt('name')?>
+		<?=tt('name or email')?>
 		<input name="login_name" size="12" style="display:block;margin:5px;" class="logininput"/>
 		<input name="redirect" value="<?=ORIG_REQUEST?>" type="hidden" />
 		<?=tt('password')?>
@@ -12,7 +12,10 @@
 		<input type="submit" id="loginsubmit" value="login" style="display:block;margin:5px;"/>
 	</form>
 	<br />
-	<?php if($allow_forget):?>
-	<a style="padding:0;margin:0;background:none;" href="<?= SECTION_URI.Q?>forgot_password"><?=tt('forgot password')?></a>
+	<?php if($forget_password):?>
+		<a href="<?= SECTION_URI.Q?>forgot_password"><?=tt('forget password')?></a>
+	<?php endif?>
+	<?php if($registable):?>
+		<a href="<?= SECTION_URI.Q?>registration"><?=tt('registration')?></a>
 	<?php endif?>
 </div>

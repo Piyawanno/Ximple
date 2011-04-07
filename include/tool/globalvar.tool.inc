@@ -11,6 +11,7 @@ global $global_get, $global_post;
 
 $global_get  = $_GET;
 $global_post = $_POST;
+$global_config_translated = false;
 
 /// Access $_POST variable.
 /// @param $key : key to access by default (null) the whole array is returned.
@@ -80,6 +81,18 @@ function cc($key=null){
 	else return null;
 }
 
+function ucc($key=null){
+	$config = $GLOBALS['untranslated_config'];
+	$config['increase_read'] = array();
+	$config['interp_info'] = '1';
+	$config['language'] = 'th';
+	$config['dash_icons'] = array();
+	if($key == null) return $config;
+	elseif(isset($GLOBALS['tmp_config'][$key])) return $GLOBALS['tmp_config'][$key];
+	elseif(isset($config[$key])) return $config[$key];
+	else return null;
+}
+
 function uu($key=null){
 	if(!isset($GLOBALS['account'])){
 		$account_dir = ROOT_PATH.'files/account/';
@@ -98,6 +111,7 @@ function uu($key=null){
 	else return null;
 }
 
+global $locale;
 $locale = array();
 function tt($key){
 	global $locale;
@@ -137,4 +151,8 @@ function globalvar_reset_post(){
 	$global_post = $_POST;
 }
 
+function globalvar_add_locale($additional){
+	global $locale;
+	$locale = array_merge($locale, $additional);
+}
 ?>

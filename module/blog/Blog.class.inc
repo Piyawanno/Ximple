@@ -44,6 +44,7 @@ class Blog extends Content{
 		$this->getCommentNumber();
 		$this->getDataEditable();
 		$this->setPathMutiplePage();
+		$this->translateData();
 		$renderArray = array(
 			'data' => $this->data,
 			'show_category' => in_array('category_icon', cc('blog_appearance')),
@@ -63,6 +64,7 @@ class Blog extends Content{
 	}
 	
 	private function prepareRender(){
+		$this->translateDataByID();
 		$this->handlePublishingStatus();
 		$this->getSibling();
 		$this->initComment();

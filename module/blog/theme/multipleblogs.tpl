@@ -17,9 +17,7 @@
 		</tr></tbody></table>
 		<p class="blog_info">
 			<?=$value['publish_time']?> | <?=tt('by')?> <?=render_profile_link($value['writer'])?> | <?=tt('tags')?>
-			<?php foreach($value['freetag'] as $tag):?>
-				<a href="<?=SECTION_URI.Q?>blog/tag/<?=$tag?>" class="tag"><?=$tag?></a>
-			<?php endforeach?>
+			<?=render_tag($value['category'], $value['freetag'], 'blog')?>
 		</p>
 		<p class="blog_foot">
 			<a>read <!--{ximple_read/blog/<?=$value['id']?>}--></a>

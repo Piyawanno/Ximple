@@ -19,7 +19,7 @@ function file_manage_user(){
 /// The root path set to ROOT_PATH/files.
 /// @return Associate array of rendered user-interface to file manager.
 function file_manage_admin(){
-	if(!(authority_group('file_admin') and SECTION==1)){
+	if(!(authority_group('file_admin') and file_check_allow())){
 		error_denied();
 	}
 	$dir = gg('dir');

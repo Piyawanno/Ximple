@@ -6,6 +6,7 @@ abstract class Model{
 	
 	private $extendedObjBefore = array();
 	private $extendedObjAfter = array();
+	private $caegorized = false;
 	
 	public function getExtendedBefore($columnName){
 		if(isset($this->extendedObjBefore[$columnName])){
@@ -21,6 +22,10 @@ abstract class Model{
 		}else{
 			return null;
 		}
+	}
+	
+	public function hasCategory(){
+		return $this->caegorized;
 	}
 	
 	protected function extendBefore($beforeColumnName, $extendedColumnName){
@@ -44,15 +49,25 @@ abstract class Model{
 		$modelColumn->data = SECTION;
 		return $modelColumn;
 	}
+	
+	public function listDummy($label, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->isForm = false;
+		$modelColumn->isDB = false;
+		$modelColumn->isList = true;
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
+		return $modelColumn;
+	}
 
 	public function title($label, $help=null){
 		$modelColumn = new ModelColumn;
 		$modelColumn->type = 'char';
 		$modelColumn->form = 'char';
-		$modelColumn->label = $label;
 		$modelColumn->isList = true;
 		$modelColumn->isReachable = true;
 		$modelColumn->isNotNull = true;
+		$modelColumn->label = $label;
 		$modelColumn->help = $help;
 		return $modelColumn;
 	}
@@ -108,34 +123,34 @@ abstract class Model{
 		return $modelColumn;
 	}
 	
-	public function radio($label, $selection, $help=null){
-		$modelColumn = Model::selective($label, $selection, $help);
+	public function radio($label, $option, $help=null){
+		$modelColumn = Model::selective($label, $option, $help);
 		$modelColumn->form = 'radio';
 		return $modelColumn;
 	}
 	
-	public function checkbox($label, $selection, $help=null){
-		$modelColumn = Model::selective($label, $selection, $help);
+	public function checkbox($label, $option, $help=null){
+		$modelColumn = Model::selective($label, $option, $help);
 		$modelColumn->form = 'checkbox';
 		$modelColumn->type = 'array';
 		return $modelColumn;
 	}
 	
-	public function checkedit($label, $selection, $help=null){
-		$modelColumn = Model::selective($label, $selection, $help);
+	public function checkedit($label, $option, $help=null){
+		$modelColumn = Model::selective($label, $option, $help);
 		$modelColumn->form = 'checkedit';
 		$modelColumn->type = 'array';
 		return $modelColumn;
 	}
 	
-	public function select($label, $selection, $help=null){
-		$modelColumn = Model::selective($label, $selection, $help);
+	public function select($label, $option, $help=null){
+		$modelColumn = Model::selective($label, $option, $help);
 		$modelColumn->form = 'select';
 		return $modelColumn;
 	}
 	
-	public function multiselect($label, $selection, $help=null){
-		$modelColumn = Model::selective($label, $selection, $help);
+	public function multiselect($label, $option, $help=null){
+		$modelColumn = Model::selective($label, $option, $help);
 		$modelColumn->form = 'multiselect';
 		$modelColumn->type = 'array';
 		return $modelColumn;
@@ -180,15 +195,8 @@ abstract class Model{
 	}
 	
 	public function group($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'array';
-		$modelColumn->form = 'group';
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		$modelColumn->defaultData = array(2);
-		$modelColumn->data = array(2);
-		$modelColumn->isSerialize = true;
-		return $modelColumn;
+		include_once('GroupColumn.class.inc');
+		return new GroupColumn($label, $help);
 	}
 	
 	public function user($label, $help=null){
@@ -269,34 +277,17 @@ abstract class Model{
 	}
 	
 	public function timeInterval($label, $interval, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'int';
-		$modelColumn->form = 'select';
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		
-		$formattedInterval = array();
-		foreach($interval as $sec){
-			if($sec >= 86400){
-				$format = 'z \d\a\y\s';
-				if($sec%86400) $format .= ' G \h\o\u\r\s';
-			}elseif($sec >= 3600){
-				$format = 'G \h\o\u\r\s';
-				if($sec%3600) $format .= ' i \m\u\n\i\t\e\s';
-			}elseif($sec >= 60){
-				$format = 'i \m\u\n\i\t\e\s';
-				if($sec%60) $format .= ' s \s\e\c\o\n\d\s';
-			}else{
-				$format = 's \s\e\c\o\n\d\s';
-			}
-			$formattedInterval[$sec] = date($format, $sec);
-		}
-		
-		$modelColumn->option = $formattedInterval;
-		return $modelColumn;
+		include_once('TimeIntervalColumn.class.inc');
+		return new TimeIntervalColumn($label, $interval, $help);
+	}
+	
+	public function grid($label, $help=null){
+		include_once('GridColumn.class.inc');
+		return new GridColumn($label, $help);
 	}
 	
 	public function category($module, $help=null){
+		$this->caegorized = true;
 		include_once('CategoryColumn.class.inc');
 		return new CategoryColumn($module, $help);
 	}
@@ -312,5 +303,4 @@ abstract class Model{
 		return $modelColumn;
 	}
 }
-
 ?>

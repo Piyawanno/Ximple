@@ -14,7 +14,7 @@ class Download extends Control{
 	}
 	
 	public function index(){
-		if(mid() == 0){
+		if(MODE_ID == 0){
 			document_set_path($this->moduleTitle, $this->moduleName);
 			document_set_title($this->moduleTitle);
 			return $this->fileList();
@@ -45,17 +45,21 @@ class Download extends Control{
 	}
 	
 	private function getFile(){
-		$this->id = mid();
+		$this->id = gg('id');
 		$this->selectByID(array('id', 'file', 'name', 'permission'));
 		if(authority(array(), $this->dataByID['permission'])){
 			$fileName = ROOT_PATH.$this->dataByID['file'];
+			if(!function_exists('mime_content_type')){
+				include_once(ROOT_PATH.'include/external/upgradephp/ext/mime.php');
+			}
 			$mime = mime_content_type($fileName);
 			$extension = split('\.', $this->dataByID['file']);
 			$extension = $extension[count($extension) -1 ];
-			header('Content-type: '.$mime);
+			header('Content-type: application/pdf');
 			header('Content-Disposition: attachment; filename="'.$this->dataByID['name'].'.'.$extension.'"');
 			readfile($fileName);
 			execute_set_file();
+			count_increase('download', $this->id);
 		}else{
 			execute_set_db();
 			document_set_redirect('download');
@@ -66,8 +70,8 @@ class Download extends Control{
 	private function fileList(){
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->defaultOrder = 'id';
-		if(mid()) $mode = mm().'/'.mid();
-		else $mode = mm();
+		if(MODE_ID) $mode = MODE.'/'.MODE_ID;
+		else $mode = MODE;
 		$this->listMeta->mode = $mode;
 		$this->setListWriteIcon(tt('Upload new File'));
 		$this->setListEditIcon();
@@ -97,6 +101,7 @@ class Download extends Control{
 			$render = '<h4>'.$icon.'<a href="'.SECTION_URI.Q.'download/'.$key.'">'.$value['name'].'</a></h4>';
 			$render.= $value['description'];
 			$render.= '<p>'.$uploader.' @ '.$value['upload_time'].' in '.$category.'</p>';
+			$render.= '<p>'.sprintf(tt('%s times downloaded'), '<!--{ximple_read/download/'.$key.'}-->').'</p>';
 			
 			$this->data[$key]['name'] = $render;
 			document_add_keyword($value['category']['category']);

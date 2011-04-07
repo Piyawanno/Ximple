@@ -32,6 +32,10 @@
 	color:#444;
 }
 
+.profile ul li{
+	line-height:35px;
+}
+
 td.option a{
 	text-decoration:none;
 }

@@ -3,10 +3,12 @@
 include_once(ROOT_PATH.'include/tool/form.tool.inc');
 
 class FormRender{
-	private $modelConnector;
-	private $formMeta;
+	protected $modelConnector;
+	protected $isTranslate;
+	protected $formMeta;
+	protected $label;
+	
 	private $notNull;
-	private $label;
 	private $help;
 	private $renderedConfigForm = '';
 	
@@ -16,38 +18,47 @@ class FormRender{
 	}
 	
 	public function renderInsertForm(){
+		$this->isTranslate = false;
 		$this->modelConnector->triggerInsertForm();
-		$model = $this->modelConnector->resetData();
+		$this->modelConnector->resetData();
 		$this->prepareRender();
-		return $this->renderForm($model);
+		return $this->renderForm();
 	}
 	
 	public function renderUpdateForm($data){
-		$model = $this->modelConnector->setData($data);
+		$this->checkTranslate();
+		$this->getTranslateLabel();
+		$this->modelConnector->setData($data);
 		$this->modelConnector->triggerUpdateForm();
 		$this->prepareRender();
-		return $this->renderForm($model);
+		return $this->renderForm();
 	}
 	
-	private function renderForm($model){
-		$model = $this->modelConnector->getFormColumn();
+	protected function getFormColumn(){
+		return $this->modelConnector->getFormColumn();
+	}
+	
+	protected function renderForm(){
+		$model = $this->getFormColumn();
 		$form = form($this->formMeta->id, $model);
-		$extensionArg = array($form, $this->formMeta);
-		$form = extension_execute('pre_render_form', $extensionArg, $form);
 		$rednerArray = array(
 			'form' => $form,
 			'meta' => $this->formMeta,
 			'help' => $this->help,
 			'label' => $this->label,
 			'not_null' => $this->notNull,
+			'is_translate' => $this->isTranslate,
 			'config' => $this->renderedConfigForm,
 		);
 		$render = render($rednerArray, 'form.tpl', 'render_form');
-		$render = extension_execute('post_render_form', $render, $render);
 		return $render;
 	}
 	
-	private function prepareRender(){
+	protected function checkTranslate(){
+		$this->isTranslate = $this->modelConnector->hasTranslate();
+	}
+	
+	protected function prepareRender(){
 		if($this->formMeta->isCaptcha){
 			$this->modelConnector->initCaptchaColumn();
 		}
@@ -66,6 +77,14 @@ class FormRender{
 	private function renderConfigForm(){
 		foreach($this->formMeta->configForm as $configForm){
 			$this->renderedConfigForm .= $configForm->render($this->formMeta);
+		}
+	}
+	
+	private function getTranslateLabel(){
+		if($this->isTranslate){
+			$pattern = tt('You can use <a %s><strong>Translate-Form</strong></a> to translate this form.');
+			$help = sprintf($pattern, 'href="#" onclick="showTranslateDialog();return false"');
+			$this->formMeta->description .= '<p>'.$help.'</p>';
 		}
 	}
 }

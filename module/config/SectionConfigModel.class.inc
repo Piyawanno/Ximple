@@ -1,9 +1,14 @@
 <?php
+require_once(ROOT_PATH.'include/class/MultipleFilesColumn.class.inc');
+
 class SectionConfigModel extends Model{
 	function SectionConfigModel(){
 		$this->section_name = $this->title(tt('section name'));
+		$this->section_name->enableTranslate();
 		$this->section_slogan = $this->char(tt('section solgan'));
+		$this->section_slogan->enableTranslate();
 		$this->home_label = $this->title(tt('home lable'));
+		$this->home_label->enableTranslate();
 		$this->index_mode = $this->select('fronpage module', cc('module_name'));
 		$this->icon = $this->image(tt('section icon (16x16)'), 'files/misc/');
 		
@@ -24,6 +29,22 @@ class SectionConfigModel extends Model{
 			'maintain' => tt('maintenance'),
 		);
 		$this->state = $this->radio(tt('section state'), $option);
+		
+		$this->registable = $this->enable(('Enable registration for new users'));
+		$this->forget_password = $this->enable(('Enable password recovery'));
+		
+		$help = tt('Add supported language for contents in Section.');
+		$this->supported_language = $this->grid(tt('Supported language'), $help);
+		
+		$supportedLanguageVaue = cc('supported_language');
+		$languageAbbreviation = Model::char(tt('abbreviation'));
+		$languaDescription = Model::char(tt('description'));
+		if(is_array($supportedLanguageVaue)){
+			$languageAbbreviation->data = array_keys($supportedLanguageVaue);
+			$languaDescription->data = array_values($supportedLanguageVaue);
+		}
+		$this->supported_language->append('language_abbreviation', $languageAbbreviation);
+		$this->supported_language->append('language_description', $languaDescription);
 		
 		$option = timezone_identifiers_list();
 		$option = array_combine($option, $option);
@@ -72,6 +93,12 @@ class SectionConfigModel extends Model{
 		$this->syslog_time = $this->timeInterval(tt('system logging expiration'), $timeInterval);
 		$this->tracker_enable = $this->enable(tt('user tracker enable'));
 		$this->tracker_time = $this->timeInterval(tt('user tracker expiration'), $timeInterval);
+		
+		$path = ROOT_PATH.'files/smiley/'.SECTION.'/';
+		$this->smiley = new MultipleFilesColumn(tt('smiley'), $path, 'smiley');
+		$pattern = tt('You can also use <a href="%s">File Manage</a> to manage smiley in Section');
+		$link = SECTION_URI.'?mode=file_manage_admin&dir=smiley/'.SECTION.'/';
+		$this->smiley->help = sprintf($pattern, $link);
 	}
 }
 

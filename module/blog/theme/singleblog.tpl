@@ -1,7 +1,7 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <div class="blog">
 	<h3 class="title_label"><?=$topic?></h3>
-	<table><tbody>
+	<table  style="width:100%;"><tbody>
 	<tr>
 		<td>
 			<?php if(strlen($icon)):?>
@@ -28,10 +28,7 @@
 	</tbody></table>
 	<p class="blog_info">
 		<?=$publish_time?> | <?=tt('by')?> <?=render_profile_link($writer)?> | <?=tt('tags')?>
-		<?php foreach($freetag as $key=>$tag):?>
-			<a href="<?=SECTION_URI.Q?>blog/tag/<?=$tag?>" class="tag"><?=$tag?></a>
-		<?php endforeach?>
-		
+		<?=render_tag($category, $freetag, 'blog')?>
 	</p>
 	<p class="blog_foot">
 		<a>read <!--{ximple_read/blog/<?=$id?>}--></a>

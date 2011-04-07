@@ -9,7 +9,6 @@ function module_get_info_download(){
 }
 
 function module_init_download(){
-	include_once(ROOT_PATH.'module/category/category.tool.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
 	include_once('Download.class.inc');
 	$download = new Download();

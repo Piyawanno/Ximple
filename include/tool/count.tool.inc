@@ -11,6 +11,23 @@ function count_increase($mode, $id, $offset=0){
 	if($file) fclose($file);
 }
 
+function count_set($mode, $id, $value){
+	$count_dir = ROOT_PATH.'files/count/';
+	if(!is_dir($count_dir)) mkdir($count_dir);
+	$count_dir.= SECTION.'/';
+	if(!is_dir($count_dir)) mkdir($count_dir);
+	$file_name = $count_dir.$mode.'.bin';
+	if(is_file($file_name)) $file = fopen($file_name, 'r+');
+	else $file = fopen($file_name, 'x');
+	$bin = pack('V', $value);
+	fseek($file, $id*4);
+	flock($file, LOCK_EX);
+	fwrite($file, $bin);
+	flock($file, LOCK_UN);
+	if($file) fclose($file);
+}
+
+
 function count_increase_scalar($file_name, $file, $id, $offset){
 	if(is_file($file_name)){
 		$size = filesize($file_name);
@@ -52,6 +69,21 @@ function count_get($mode, $id){
 	$count = unpack('V', fread($file, 4));
 	return $count[1];
 }
+
+function count_get_all($mode){
+	$file_name = ROOT_PATH.'files/count/'.SECTION.'/'.$mode.'.bin';
+	if(!is_file($file_name)) return array();
+	$file = fopen($file_name, 'r');
+	$size = filesize($file_name)/4;
+	$result = array();
+	for($i=0;$i<$size;$i++){
+		fseek($file, $i*4);
+		$count = unpack('V', fread($file, 4));
+		$result[] = $count[1];
+	}
+	return $result;
+}
+
 
 function count_get_array($mode, $id_array){
 	$file_name = ROOT_PATH.'files/count/'.SECTION.'/'.$mode.'.bin';
