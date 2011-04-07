@@ -60,15 +60,15 @@ function imageloader_create_directory(){
 function imageloader_get_image($path){
 	$accepted_ext = array('gif', 'png', 'jpg', 'jpeg', 'tiff');
 	$success = true;
-	@$d = dir($path) or $success=false;
+	@$d = dir(ROOT_PATH.$path) or $success=false;
 	if($success and !authority_is_guest()){
 		$image = array();
 		while (false !== ($entry = $d->read())){
-			if(is_file($path.$entry)){
+			if(is_file(ROOT_PATH.$path.$entry)){
 				$ext = split('\.', $entry);
 				$ext = $ext[count($ext)-1];
 				if(in_array(strtolower($ext), $accepted_ext)){
-					$size = filesize($path.$entry);
+					$size = filesize(ROOT_PATH.$path.$entry);
 					$image[] = array(
 						'src' => $path.$entry,
 						'size' => $size
@@ -78,7 +78,7 @@ function imageloader_get_image($path){
 		}
 		return $image;
 	}else{
-		notify_error('Problem by opening image directory');
+		notify_add_error('Problem by opening image directory');
 		return array();
 	}
 }

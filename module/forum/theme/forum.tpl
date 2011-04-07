@@ -5,7 +5,7 @@
 	<h3 class="list_label"><?=$value['category']?></h3>
 	<p>
 		<?php if(strlen($value['pic'])):?>
-		<img src="<?=ROOT_URI.$value['pic']?>" align="middle" alt="$value['category']" />
+		<img src="<?=ROOT_URI.$value['pic']?>" align="left" alt="<?=$value['category']?>" />
 		<?php endif?>
 		<?=$value['description']?>
 	</p>
