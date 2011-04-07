@@ -33,7 +33,7 @@ function block_init_default($checked=false){
 }
 
 function block_get_data(){
-	$column = array('id', 'title', 'body', 'position', 'call_mode', 'appear_group', 'appear_module');
+	$column = array('id', 'title', 'body', 'position', 'call_mode', 'appear_group', 'appear_module', 'appear_uri');
 	$clause = 'WHERE section='.SECTION.' AND position != \'disabled\' ORDER BY sort_number';
 	return db_select('block', $column, $clause);
 }
@@ -64,7 +64,13 @@ function block_get_body($item){
 function block_check_permision($item){
 	$appear_module = unserialize($item['appear_module']);
 	$appear_group = unserialize($item['appear_group']);
-	if(count($appear_module) == 0 or in_array(MODULE, $appear_module)){
+	if(strlen($item['appear_uri'])){
+		if($item['appear_uri'] == MODE.'/'.MODE_ID or $item['appear_uri'] == MODE){
+			return true;
+		}else{
+			return false;
+		}
+	}elseif(count($appear_module) == 0 or in_array(MODULE, $appear_module)){
 		if(in_array(2, $appear_group)){
 			return true;
 		}
