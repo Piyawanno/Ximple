@@ -121,12 +121,14 @@ class SectionConfig extends ConfigControl{
 	}
 	
 	private function uploadIcon($oldIcon){
-		$dir = ROOT_PATH.'files/misc';
+		$dir = ROOT_PATH.'files/misc/';
 		if(!is_dir($dir)) mkdir($dir);
-		$icon = io_upload(ff('icon'), 'files/misc/');
+		$icon = io_upload(ff('icon'), ROOT_PATH.'files/misc/');
 		if(strlen($icon)){
 			config_set('icon', $icon);
-			if(is_file(ROOT_PATH.$oldIcon)) unlink(ROOT_PATH.$oldIcon);
+			if(is_file(ROOT_PATH.$oldIcon) and $oldIcon != 'files/misc/ximple.png'){
+				unlink(ROOT_PATH.$oldIcon);
+			}
 		}else{
 			config_set('icon', $oldIcon);
 		}

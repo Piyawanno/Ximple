@@ -139,8 +139,7 @@ function io_upload($file, $path, $is_image=false, $increase_space=true){
 			@move_uploaded_file($file['tmp_name'], $name) or $error = true;
 			if($error) return null;
 			break;
-		}
-		else{
+		}else{
 			$name = $path.$i.'_'.$file['name'];
 			$i++;
 		}
