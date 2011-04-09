@@ -37,7 +37,8 @@ function document_set_description($description){
 
 function document_get_description(){
 	global $document_description;
-	return $document_description;
+	if(strlen($document_description)) return $document_description;
+	else return cc('section_description');
 }
 
 function document_add_keyword($keyword){
@@ -55,7 +56,8 @@ function document_add_keywords($keywords){
 function document_get_keywords(){
 	global $document_keywords;
 	$keywords = join(', ', $document_keywords);
-	return empty($keywords) ? '': $keywords;
+	if(strlen($keywords)) return $keywords;
+	else return cc('section_keywords');
 }
 
 function document_set_redirect($redirect){
