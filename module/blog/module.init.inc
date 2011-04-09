@@ -20,6 +20,8 @@ function module_init_blog(){
 	
 	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2 AND comment_time > 0) ORDER BY comment_time DESC';
 	flashblock_add('blog_last_commented', 'blog', tt('Last commented Blogs'), 'blog', 'topic', $clause);
+	
+	block_add(tt('Promoted Blogs'), 'blog_promote_block');
 }
 
 function module_drop_blog(){
