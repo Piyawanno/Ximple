@@ -134,4 +134,10 @@ function forum_render_level($user_id){
 	}
 }
 
+
+function forum_get_publishing_status(){
+	$publishing_status = content_get_publishing_status();
+	$publishing_status[4] = tt('private');
+	return $publishing_status;
+}
 ?>

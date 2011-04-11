@@ -25,9 +25,7 @@
 <p><strong><a href="<?=SECTION_URI?>?mode=file_manage_user&dir=image/" target="_blank" ><?=tt('manage files')?></a></strong></p>
 <?php foreach($image as $key => $value):?>
 	<div class="image_container">
-		<a href="#" onclick="loaderChangeImageCLE('<?=ROOT_URI.$value['src']?>');return false;">
-			<img src="<?=ROOT_URI.$value['src']?>" border="0"/>
-		</a>
+		<a href="#" onclick="loaderChangeImageCLE('<?=ROOT_URI.$value['src']?>');return false;"><img src="<?=ROOT_URI.$value['src']?>" border="0"/></a>
 		<br />
 		<strong>size : </strong><?=render_file_size($value['size']);?>
 	</div>

@@ -36,7 +36,6 @@ abstract class ContentModel extends Model{
 		$commentPermission->setOption($this->getCommentPermission());
 		$this->comment_permission = $commentPermission;
 		
-		
 		$publishingStatus = new ContentStatusColumn(tt('status'), $moduleName);
 		$publishingStatus->setStatus('publishing_status');
 		$publishingStatus->setOption($this->getPublishingStatus());

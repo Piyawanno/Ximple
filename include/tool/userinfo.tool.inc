@@ -71,7 +71,7 @@ function userinfo_get_ajax_name(){
 	if(!authority_is_guest()){
 		$wildcard = addslashes((string) gg('wildcard'));
 		if(strlen($wildcard)){
-			$clause = "WHERE login_name LIKE '".$wildcard."%' and section=".SECTION;
+			$clause = "WHERE login_name LIKE '".$wildcard."%'";
 			$user_name = db_select_single_column('users', 'login_name', $clause);
 			execute_set_ajax();
 			return '<option>'.join('</option><option>', $user_name).'</option>';

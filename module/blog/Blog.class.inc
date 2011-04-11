@@ -35,6 +35,12 @@ class Blog extends Content{
 		return blog_get_publishing_status();
 	}
 	
+	protected function isReadable(){
+		$status = $this->dataByID['publishing_status'];
+		$promote = blog_get_publishing_status();
+		return (Content::isReadable() or ($status == $promote[4]));
+	}
+	
 	private function renderSingleBlog(){
 		$this->id = mid();
 		$this->selectByID($this->column);
