@@ -2,7 +2,6 @@ $(document).ready(function (){
 	$('#customuri_mapped_URI').keyup(function(){
 		var uri = sectionURI + 'customuri_check_mapped_exist/mapped_URI/'+$(this).val();
 		var exist = false;
-		alert($(this).val().length);
 		if($(this).val().length > 7){
 			if(customURIUpdate){
 				uri += '/URI_ID/'+customURIID;

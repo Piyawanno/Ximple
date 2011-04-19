@@ -112,9 +112,11 @@ function translate_set_data($translation){
 }
 
 function translate_add_directory($directory){
-	$locale_file = $directory.'/locale/'.LANGUAGE.'.locale.inc';
-	if(is_file($locale_file)){
-		require_once($locale_file);
+	if(defined('LANGUAGE')){
+		$locale_file = $directory.'/locale/'.LANGUAGE.'.locale.inc';
+		if(is_file($locale_file)){
+			require_once($locale_file);
+		}
 	}
 }
 

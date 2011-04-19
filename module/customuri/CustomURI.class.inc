@@ -19,7 +19,10 @@ class CustomURI extends Control{
 	}
 	
 	public function index(){
-		
+		$this->selectPage($this->column, 20, 'WHERE (section='.SECTION.')');
+		$this->translateData();
+		$this->getMappedLink();
+		return $this->renderDefaultListPage();
 	}
 	
 	public function write(){
@@ -36,7 +39,7 @@ class CustomURI extends Control{
 		head_add_js_var('customURIExists', $this->existLabel);
 		head_add_js_var('customURITooShort', $this->tooShortLabel);
 		head_add_js('module/customuri/customuri.js');
-		return Control::write();
+		return Control::edit();
 	}
 	
 	public function insert(){
@@ -48,9 +51,10 @@ class CustomURI extends Control{
 	}
 	
 	public function update(){
-		if(!$this->checkMappedExist(pp('mapped_URI'), pp('id'))){
+		if(!$this->checkMappedExist(pp('mapped_URI'), gg('id'))){
 			Control::update();
 		}else{
+			execute_set_db();
 			notify_add_error(tt('The given mapped URI exists.'));		
 		}
 	}
@@ -62,7 +66,7 @@ class CustomURI extends Control{
 	}
 	
 	private function checkMappedExist($mappedURI, $updateID=0){
-		if($updateID != 0){
+		if($updateID == 0){
 			$clause = "WHERE mapped_URI='$mappedURI' and section=".SECTION;
 		}else{
 			$clause = "WHERE mapped_URI='$mappedURI' and section=".SECTION." AND id!=$updateID";
@@ -70,6 +74,12 @@ class CustomURI extends Control{
 		$this->select(array('id'), $clause);
 		if(count($this->data)) return true;
 		else return false;
+	}
+	
+	private function getMappedLink(){
+		foreach($this->data as $key => $value){
+			$this->data[$key]['page_name'] = '<a href="'.SECTION_URI.Q.$value['mapped_URI'].'">'.$value['page_name'].'</a>';
+		}
 	}
 }
 ?>

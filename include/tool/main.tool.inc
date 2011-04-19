@@ -14,14 +14,14 @@ function main_init(){
 	main_include();
 	main_count_visitor();
 	main_init_config();
+	db_init();
+	extension_execute('main_init');
 	main_set_time_zone();
 	main_init_var();
 	main_handle_drop();
-	db_init();
 	authority();
 	translate_define_language();
 	config_translate();
-	extension_execute('main_init');
 	translate_add_directory(ROOT_PATH.'theme/'.cc('theme'));
 }
 
@@ -52,18 +52,19 @@ function main_render(){
 	$body = execute(MODE);
 	if(execute_as_site()){
 		header('Content-Type: text/html; charset=UTF-8');
-		return main_render_site($body);
+		$render = main_render_site($body);
 	}elseif(execute_as_db()){
 		header('Content-Type: text/html; charset=UTF-8');
-		return main_render_db();
+		$render = main_render_db();
 	}elseif(execute_as_ajax()){
 		header('Content-Type: text; charset=UTF-8');
-		return $body;
+		$render = $body;
 	}elseif(execute_as_print()){
 		header('Content-Type: text/html; charset=UTF-8');
-		return main_render_print($body);
+		$render = main_render_print($body);
 	}
-	extension_execute('post_main_render');
+	$render = extension_execute('post_main_render', $render, $render);
+	return $render;
 }
 
 function main_render_site($body){
