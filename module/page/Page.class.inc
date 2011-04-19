@@ -162,6 +162,11 @@ class Page extends Content{
 			directory_set_path($this->dataByID['parent']);
 			document_set_path($this->dataByID['topic']);
 			document_set_title($this->dataByID['topic']);
+			if(strlen($this->dataByID['uri'])){
+				menu_activate('page/'.$this->id.'/'.$this->dataByID['uri'].'.html');
+			}else{
+				menu_activate('page/'.$this->id);
+			}
 			return $render;
 		}else{
 			document_set_redirect('directory');

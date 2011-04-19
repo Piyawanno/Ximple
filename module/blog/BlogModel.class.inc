@@ -14,5 +14,9 @@ class BlogModel extends ContentModel{
 		$path  = ROOT_PATH.'files/blog/';
 		if(!is_dir($path))  mkdir($path);
 	}
+	
+	public function getPublishingStatus(){
+		return blog_get_publishing_status();
+	}
 }
 ?>

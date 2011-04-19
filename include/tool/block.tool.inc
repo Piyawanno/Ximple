@@ -18,6 +18,7 @@ function block_render(){
 	return $render;
 }
 
+<<<<<<< HEAD
 function block_init_default(){
 	$data = db_select_single_column('block', 'id', 'WHERE section='.SECTION);
 	if(count($data) == 0){
@@ -26,6 +27,16 @@ function block_init_default(){
 		block_add(tt('Navigation'), 'sysblock_navigation', $position, 'sysblock_navigation_config', 'sysblock_navigation_save', 0);
 		block_add(tt('Control Panel'), 'sysblock_panel', $position, 999);
 		block_add(tt('Login'), 'sysblock_login', $position, 1000);
+=======
+function block_init_default($checked=false){
+	$data = db_select_single_column('block', 'id', 'WHERE section='.SECTION);
+	if(count($data) == 0 or $checked){
+		include_once(ROOT_PATH.'module/module/module.tool.inc');
+		$position = cc('block_primary_position');
+		block_add(tt('Navigation'), 'sysblock_navigation', $position, 'sysblock_navigation_config', 'sysblock_navigation_save', 0);
+		block_add(tt('Control Panel'), 'sysblock_panel', $position, '', '', 999);
+		block_add(tt('Login'), 'sysblock_login', $position, '', '', 1000);
+>>>>>>> 50ec279340597ee852a53be710f1b90c2c45e8ee
 		block_add(tt('Language Selection'), 'sysblock_translate', 'foot');
 		block_add(tt('Execution Information'), 'sysblock_execute_info', 'foot');
 		return block_get_data();
@@ -33,7 +44,7 @@ function block_init_default(){
 }
 
 function block_get_data(){
-	$column = array('id', 'title', 'body', 'position', 'call_mode', 'appear_group', 'appear_module');
+	$column = array('id', 'title', 'body', 'position', 'call_mode', 'appear_group', 'appear_module', 'appear_uri');
 	$clause = 'WHERE section='.SECTION.' AND position != \'disabled\' ORDER BY sort_number';
 	return db_select('block', $column, $clause);
 }
@@ -64,7 +75,13 @@ function block_get_body($item){
 function block_check_permision($item){
 	$appear_module = unserialize($item['appear_module']);
 	$appear_group = unserialize($item['appear_group']);
-	if(count($appear_module) == 0 or in_array(MODULE, $appear_module)){
+	if(strlen($item['appear_uri'])){
+		if($item['appear_uri'] == MODE.'/'.MODE_ID or $item['appear_uri'] == MODE){
+			return true;
+		}else{
+			return false;
+		}
+	}elseif(count($appear_module) == 0 or in_array(MODULE, $appear_module)){
 		if(in_array(2, $appear_group)){
 			return true;
 		}

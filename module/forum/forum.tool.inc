@@ -105,6 +105,43 @@ function forum_render_last_entry($data){
 		$render.= '@ '.date(cc('time_format'), strtotime($data['write_time']))	.'</p>';
 		return $render;
 	}
+<<<<<<< HEAD
+=======
+}
+
+function forum_show_level(){
+	return config_has_value('forum_appearance', 'level');
+}
+
+function forum_render_level($user_id){
+	if($user_id != -1 and forum_show_level()){
+		$contribution = count_get('contribution', $user_id);
+		$level = cc('forum_user_level');
+		$i = 1;
+		$userLevel = 0;
+		$userLevelName = tt('undefined level');
+		foreach($level as $key => $value){
+			$userLevel = $i;
+			$userLevelName = $value;
+			if($contribution < $key) break;
+			$i++;
+		}
+		$star = '';
+		for($i=0;$i < $userLevel;$i++){
+			$star .= '<img src="'.ROOT_URI.'files/icon/star.png" alt="star" style="padding:0;margin:0;"/>';
+		}
+		$render  = '<p style="text-align:center;">'.$star.'</p>';
+		$render .= '<p style="text-align:center;">'.$userLevelName.' ['.$contribution.']'.'</p>';
+		return $render;
+	}
+}
+
+
+function forum_get_publishing_status(){
+	$publishing_status = content_get_publishing_status();
+	$publishing_status[4] = tt('private');
+	return $publishing_status;
+>>>>>>> 50ec279340597ee852a53be710f1b90c2c45e8ee
 }
 
 function forum_show_level(){

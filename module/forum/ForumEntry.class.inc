@@ -26,8 +26,14 @@ class ForumEntry extends Content{
 		if(!authority_is_guest()){
 			count_set('forum_entry'.USER_ID, $this->id, time());
 		}
+<<<<<<< HEAD
 		$status = ($this->dataByID['publishing_status'] > 1);
 		if($status or !forum_check_readable($this->dataByID['forum'])){
+=======
+		$readable_status = ($this->dataByID['publishing_status'] <= 1);
+		$readable_status = ($readable_status or ($this->dataByID['writer']['id'] == USER_ID));
+		if(!$readable_status or !forum_check_readable($this->dataByID['forum'])){
+>>>>>>> 50ec279340597ee852a53be710f1b90c2c45e8ee
 			error_denied();
 		}
 		
@@ -172,8 +178,13 @@ class ForumEntry extends Content{
 	}
 	
 	private function getListData(){
+<<<<<<< HEAD
 		$featuredData = $this->getListDataFromDB(1);
 		$regularData = $this->getListDataFromDB(0);
+=======
+		$featuredData = $this->getFeaturedData();
+		$regularData = $this->getRegularData();
+>>>>>>> 50ec279340597ee852a53be710f1b90c2c45e8ee
 		$data = array();
 		foreach($featuredData as $key => $value){
 			$value['icon'] = 'stick';
@@ -208,9 +219,39 @@ class ForumEntry extends Content{
 		return $data;
 	}
 	
+<<<<<<< HEAD
 	private function getListDataFromDB($status){
 		$forumID = (int) gg('forum');
 		$column = array(
+=======
+	private function getFeaturedData(){
+		$forumID = (int) gg('forum');
+		$pattern = "WHERE forum=%d AND publishing_status=0 ORDER by comment_time DESC";
+		return $this->getDataFromDB(sprintf($pattern, $forumID));
+	}
+	
+	private function getRegularData(){
+		$forumID = (int) gg('forum');
+		if(authority_group('forum_entry_editor') or authority_group('forum_entry_admin')){
+			$pattern = "WHERE forum=%d AND (publishing_status=0 OR publishing_status=4) ORDER by comment_time DESC";
+			$clause = sprintf($pattern, $forumID);
+		}else{
+			$pattern = "WHERE forum=%d AND (publishing_status=0 OR (publishing_status=4 AND writer=%d)) ORDER by comment_time DESC";
+			$clause = sprintf($pattern, $forumID, USER_ID);
+		}
+		return $this->getDataFromDB($clause);
+	}
+	
+	private function getDataFromDB($clause){
+		$column = $this->getListColumn();
+		$this->selectPage($column, 20, $clause);
+		$this->getCommentNumber();
+		return $this->data;
+	}
+	
+	private function getListColumn(){
+		return array(
+>>>>>>> 50ec279340597ee852a53be710f1b90c2c45e8ee
 			'id',
 			'topic',
 			'write_time',
@@ -221,10 +262,13 @@ class ForumEntry extends Content{
 			'comment_time',
 			'comment_permission'
 		);
+<<<<<<< HEAD
 		$pattern = "WHERE forum=%d AND publishing_status=%d ORDER by comment_time DESC";
 		$this->selectPage($column, 20, sprintf($pattern, $forumID, $status));
 		$this->getCommentNumber();
 		return $this->data;
+=======
+>>>>>>> 50ec279340597ee852a53be710f1b90c2c45e8ee
 	}
 	
 	private function getIcon($entry){

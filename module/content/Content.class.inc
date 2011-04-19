@@ -156,7 +156,7 @@ abstract class Content extends Control{
 	protected function isReadable($checkEdit=true){
 		$publishTime = strtotime($this->dataByID['publish_time']);
 		if(strlen($this->dataByID['publishing_status']) > 1){
-			$publishingMap = array_flip(content_get_publishing_status());
+			$publishingMap = array_flip($this->getPublishingStatus());
 			$publishingStatus = $publishingMap[$this->dataByID['publishing_status']];
 		}else{
 			$publishingStatus = $this->dataByID['publishing_status'];
@@ -285,6 +285,10 @@ abstract class Content extends Control{
 		$reference = $this->dataByID['category']['reference'];
 		document_set_path($category, $this->moduleName.'/tag/'.$reference.'/tag_label/'.$category);
 		document_set_path($this->dataByID['topic']);
+	}
+	
+	protected function getPublishingStatus(){
+		return content_get_publishing_status();
 	}
 	
 	private function selectFirstPageTag($column, $pageLength){

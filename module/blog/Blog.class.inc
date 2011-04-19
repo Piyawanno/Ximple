@@ -1,6 +1,7 @@
 <?php
 execute_add_class('blog', 'Blog');
 include_once(ROOT_PATH.'module/content/Content.class.inc');
+include('blog.tool.inc');
 include('BlogModel.class.inc');
 
 class Blog extends Content{
@@ -28,6 +29,16 @@ class Blog extends Content{
 	
 	protected function getSummary(){
 		return $this->dataByID['intro'];
+	}
+	
+	protected function getPublishingStatus(){
+		return blog_get_publishing_status();
+	}
+	
+	protected function isReadable(){
+		$status = $this->dataByID['publishing_status'];
+		$promote = blog_get_publishing_status();
+		return (Content::isReadable() or ($status == $promote[4]));
 	}
 	
 	private function renderSingleBlog(){

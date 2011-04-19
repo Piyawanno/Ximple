@@ -146,7 +146,11 @@ function install_step5(){
 	install_init_authority();
 	$function_name = 'preconfig_'.pp('preconfig');
 	$function_name();
+<<<<<<< HEAD
 	block_init_default();
+=======
+	block_init_default(true);
+>>>>>>> 50ec279340597ee852a53be710f1b90c2c45e8ee
 	$title = tt('Happy Ending').' : '.tt('Ximple has been successfully installed');
 	$page  = '<h2>'.$title.'</h2>';
 	$page .= install_finish_message();
