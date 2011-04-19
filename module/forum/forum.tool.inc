@@ -105,8 +105,6 @@ function forum_render_last_entry($data){
 		$render.= '@ '.date(cc('time_format'), strtotime($data['write_time']))	.'</p>';
 		return $render;
 	}
-<<<<<<< HEAD
-=======
 }
 
 function forum_show_level(){
@@ -141,7 +139,6 @@ function forum_get_publishing_status(){
 	$publishing_status = content_get_publishing_status();
 	$publishing_status[4] = tt('private');
 	return $publishing_status;
->>>>>>> 50ec279340597ee852a53be710f1b90c2c45e8ee
 }
 
 function forum_show_level(){
