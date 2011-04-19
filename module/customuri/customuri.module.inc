@@ -14,10 +14,12 @@ function customuri_map(){
 }
 
 function customuri_post_render($render){
-	$clause = "WHERE section=".SECTION;
-	$data = db_select('customuri', array('original_URI', 'mapped_URI'), $clause);
-	foreach($data as $key => $value){
-		$render = str_replace($value['original_URI'], $value['mapped_URI'], $render);
+	if(!document_has_form()){
+		$clause = "WHERE section=".SECTION;
+		$data = db_select('customuri', array('original_URI', 'mapped_URI'), $clause);
+		foreach($data as $key => $value){
+			$render = str_replace($value['original_URI'], $value['mapped_URI'], $render);
+		}
 	}
 	return $render;
 }
