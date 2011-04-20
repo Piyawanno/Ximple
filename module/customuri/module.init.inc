@@ -1,8 +1,9 @@
 <?php
 function module_get_info_customuri(){
 	$describe = tt('Customize URI of each page to improve SEO (Search Engine Optimization).');
+	$describe.= tt('Custom URI can only be enabled by enabling "friendly URI".');
 	return array(
-		'name' => tt('Custom URI'),
+		'name' => tt('CustomURI'),
 		'description' => $describe,
 	);
 }
