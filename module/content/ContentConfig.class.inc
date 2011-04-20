@@ -11,6 +11,11 @@ abstract class ContentConfig extends ConfigControl{
 	protected $publishFormGroup;
 	protected $commentFormGroup;
 	
+	public function save(){
+		$this->executeExtension();
+		ConfigControl::save();
+	}
+	
 	protected function groupConfigForm(){
 		$this->appearanceFormGroup = $this->getNewConfigForm(tt('configure appearance'));
 		$this->appearanceFormGroup->setShowByDefault(true);
@@ -25,6 +30,7 @@ abstract class ContentConfig extends ConfigControl{
 		$this->commentFormGroup = $this->getNewConfigForm(tt('configure comment permission'));
 		$this->commentFormGroup->append($this->mode.'_comment_permission');
 		$this->commentFormGroup->append($this->mode.'_comment_permission_default');
+		$this->executeExtension();
 	}
 	
 	protected function setMode($mode){
@@ -51,9 +57,6 @@ abstract class ContentConfig extends ConfigControl{
 			if(!is_array($avaiable) or count($avaiable) == 0) $value = 3;
 			elseif(!in_array($value, $avaiable)) $value = $avaiable[0];
 		}
-		
-		
-		
 		ConfigControl::setConfig($key, $value);
 	}
 	
@@ -62,6 +65,33 @@ abstract class ContentConfig extends ConfigControl{
 			notify_add_error('Mode of configuration is not set. Use ContentConfig::setMode() to set it.');
 		}
 		return cc();
+	}
+	
+	private function executeExtension(){
+		$additionalConfig = $this->getAdditionalConfig();
+		foreach($additionalConfig as $label => $models){
+			$configForm = $this->getNewConfigForm($label);
+			foreach($models as $key => $model){
+				if($this->checkModelClass($key, $model)){
+					$name = $this->mode.'_'.$key;
+					$this->modelConnector->addModel($name, $model);
+					$configForm->append($name);
+				}
+			}
+		}
+	}
+	
+	private function checkModelClass($name, $model){
+		if(is_a($model, 'ModelColumn'))return true;
+		elseif(state_is_develop()) notify_add_error(sprintf(tt('%s is not an instance of ModelColumn.'), $name)); 
+		return false;
+	}
+	
+	private function getAdditionalConfig(){
+		$additionalConfig = array('module' => $this->mode);
+		$additionalConfig = extension_execute('content_config', $additionalConfig, $additionalConfig);
+		unset($additionalConfig['module']);
+		return $additionalConfig;
 	}
 }
 ?>

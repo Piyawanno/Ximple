@@ -130,6 +130,10 @@ abstract class Content extends Control{
 		Control::postSelect();
 		$this->addCategoryToFreeTag();
 		$this->clearDailyCache();
+		foreach($this->data as $key => $value){
+			$this->data[$key]['module'] = $this->moduleName;
+		}
+		$this->data = extension_execute('content_post_select', $this->data, $this->data);
 	}
 	
 	protected function getCommentNumber(){

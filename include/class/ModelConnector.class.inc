@@ -77,6 +77,10 @@ class ModelConnector{
 		return $model;
 	}
 	
+	public function addModel($name, $model){
+		$this->model[$name] = $model;
+	}
+	
 	public function setData($data){
 		$model = $this->model;
 		foreach($model as $key => $value){
