@@ -55,23 +55,23 @@ function form_render_none($form_id, $name, $modelCol){
 }
 
 function form_render_char($form_id, $name, $modelCol){
-	$p = '<input name="%s" id="%s" value="%s" size="35"/><span id="info_%s"></span>';
+	$p = '<input name="%s" id="%s" value="%s" size="25"/><span id="info_%s"></span>';
 	return sprintf($p, $name, $form_id.'_'.$name, $modelCol->data, $form_id.'_'.$name);
 }
 
 function form_render_email($form_id, $name, $modelCol){
 	head_add_js_var('emailNotOk', tt('Your Email address is not conformed.'));
-	$p = '<input name="%s" id="%s" value="%s" size="35" maxlength="80" class="email_field"/><span id="info_%s"></span>';
+	$p = '<input name="%s" id="%s" value="%s" size="25" maxlength="80" class="email_field"/><span id="info_%s"></span>';
 	return sprintf($p, $name, $form_id.'_'.$name, $modelCol->data, $form_id.'_'.$name);
 }
 
 function form_render_password($form_id, $name, $modelCol){
-	$p = '<input name="%s" id="%s" value="%s" size="35" type="password"/><span id="info_%s"></span>';
+	$p = '<input name="%s" id="%s" value="%s" size="25" type="password"/><span id="info_%s"></span>';
 	return sprintf($p, $name, $form_id.'_'.$name, $modelCol->data, $form_id.'_'.$name);
 }
 
 function form_render_file($form_id, $name, $modelCol){
-	$p = '<input name="%s" id="%s" size="35" type="file"/><span id="info_%s"></span>';
+	$p = '<input name="%s" id="%s" size="25" type="file"/><span id="info_%s"></span>';
 	return sprintf($p, $name, $form_id.'_'.$name, $form_id.'_'.$name);
 }
 
@@ -164,7 +164,7 @@ function form_render_captcha($form_id, $name, $modelCol){
 	return '
 	<input name="captcha_gentime_'.$name.'" type="hidden" value="'.$gentime.'"/>
 	<input name="captcha_code_'.$name.'" id="captcha_code_'.$name.'" type="hidden" value="" />
-	<input name="'.$name.'" size="35" maxlength="6" onkeyup="checkCaptcha(\''.$name.'\')" id="captcha_input_'.$name.'"/>
+	<input name="'.$name.'" size="25" maxlength="6" onkeyup="checkCaptcha(\''.$name.'\')" id="captcha_input_'.$name.'"/>
 	<font id="captcha_info_'.$name.'" style="font-weight:bold;"></font>
 	<br /><br />
 	<img src="'.SECTION_URI.Q.'captcha/gentime/'.$gentime.'" style="padding:0;" border="0" id="captcha_img_'.$name.'"/>
@@ -181,7 +181,7 @@ function form_render_color($form_id, $name, $modelCol){
 	else $color = $modelCol->data;
 	$id = $form_id.'_'.$name;
 	$out  = '<div id="picker_'.$id.'"></div>';
-	$out .= '<input name="'.$name.'" id="'.$id.'" value="'.$color.'" size="35" maxlength="7"/>';
+	$out .= '<input name="'.$name.'" id="'.$id.'" value="'.$color.'" size="25" maxlength="7"/>';
 	$out .= '<span id="info_'.$form_id.'_'.$name.'"></span>';
 	$out .= '<script type="text/javascript">
 				$("#picker_'.$id.'").farbtastic("#'.$id.'");
@@ -201,7 +201,7 @@ function form_render_color($form_id, $name, $modelCol){
 }
 
 function form_render_autocomplete($form_id, $name, $modelCol){
-	$p = '<input name="%s" value="%s" size="35" maxlength="80" class="auto_complete" id="%s" rel="%s"/>';
+	$p = '<input name="%s" value="%s" size="25" maxlength="80" class="auto_complete" id="%s" rel="%s"/>';
 	return sprintf($p, $name, $modelCol->data, $form_id.'_'.$name, $modelCol->ajaxMode);
 }
 
@@ -229,7 +229,7 @@ function form_render_checkedit($form_id, $name, $modelCol){
 	list($sortable, $img) = form_get_sortable($modelCol);
 	$render = '<div class="checkedit_list"><ul '.$sortable.'>';
 	$p1 = '<li>'.$img.'<input type="checkbox" name="check_%s[]" class="checkedit" value="%s" %s style="border:none;" rel="%s"/>';
-	$p2 = '<input id="%s" name="%s[]" size="35" value="%s" %s/></li>';
+	$p2 = '<input id="%s" name="%s[]" size="25" value="%s" %s/></li>';
 	$i = 0;
 	foreach($modelCol->option as $key => $value){
 		if(is_array($modelCol->data) and in_array($key, $modelCol->data)){
@@ -253,7 +253,7 @@ function form_render_multiplefiles($form_id, $name, $modelCol){
 	$render .= '<p><a onclick="return addFileInput(\''.$form_id.'_'.$name.'\', \''.$name.'\')" href="#">'.tt('Upload More File').'</a></p>';
 	$render .= '<ul>';
 	for($i=0;$i<6;$i++){
-		$render .= '<li><input type="file" name="'.$name.'[]" size="35" ></li>';	
+		$render .= '<li><input type="file" name="'.$name.'[]" size="25" ></li>';	
 	}
 	$render .= '</ul>';
 	$render .= '<span id="info_'.$form_id.'_'.$name.'" style="clear:both;display:block;"></span>';
@@ -318,18 +318,18 @@ function form_render_grid_hidden($form_id, $name, $modelCol){
 }
 
 function form_render_grid_char($form_id, $name, $modelCol){
-	$p = '<input name="%s[]" value="%s" size="35" maxlength="80"/>';
+	$p = '<input name="%s[]" value="%s" size="25" maxlength="80"/>';
 	return sprintf($p, $name, $modelCol->data);
 }
 
 function form_render_grid_email($form_id, $name, $modelCol){
 	head_add_js_var('emailNotOk', tt('Your Email address is not conformed.'));
-	$p = '<input name="%s[]" value="%s" size="35" maxlength="80" class="email_grid_field" rel="%s"/>';
+	$p = '<input name="%s[]" value="%s" size="25" maxlength="80" class="email_grid_field" rel="%s"/>';
 	return sprintf($p, $name, $modelCol->data, $form_id);
 }
 
 function form_render_grid_file($form_id, $name, $modelCol){
-	$p = '<input name="%s[]" size="35" type="file"/>';
+	$p = '<input name="%s[]" size="25" type="file"/>';
 	return sprintf($p, $name);
 }
 

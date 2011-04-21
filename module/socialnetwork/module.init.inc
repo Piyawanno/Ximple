@@ -13,7 +13,7 @@ function module_init_socialnetwork(){
 	module_add('socialnetwork', 'socialnetwork.module.inc', 'SocialNetwork');
 	$blocks = socialnetwork_get_block_array();
 	foreach($blocks as $key => $value){
-		block_add($value, $key, 'disabled', $key.'_config', $key.'_save');
+		block_add($value, $key, 'disabled', $key.'_config', 'socialnetwork_save_config');
 	}
 	extension_add('content_post_select', 'socialnetwork_share');
 	extension_add('content_config', 'socialnetwork_share_config');

@@ -73,7 +73,7 @@ class Block extends Control{
 		$configMode = $this->dataByID['config_form_mode'];
 		if(!empty($configMode)){
 			$configMode .= '/is_translate/false';
-			$this->formMeta->additionalForm = array(execute_string($configMode));
+			$this->renderAdditionalConfig($configMode);
 		}
 		$this->setConfigForm();
 		return $this->renderUpdateForm();
@@ -97,7 +97,7 @@ class Block extends Control{
 			$configMode .= '/is_translate/true';
 			$configMode .= '/module_id/'.gg('module_id');
 			$configMode .= '/language/'.gg('language');
-			$this->formMeta->additionalForm = array(execute_string($configMode));
+			$this->renderAdditionalConfig($configMode);
 		}
 		return Control::renderTranslateForm();
 	}
@@ -107,6 +107,18 @@ class Block extends Control{
 		$appearConfig->append('appear_group');
 		$appearConfig->append('appear_module');
 		$appearConfig->append('appear_uri');
+	}
+	
+	private function renderAdditionalConfig($configMode){
+		include_once(ROOT_PATH.'include/class/QuickFormRender.class.inc');
+		$configModel = execute_string($configMode);
+		$quickForm = new QuickFormRender('block');
+		if(is_array($configModel)){
+			foreach($configModel as $key => $value){
+				$quickForm->append($key, $value);
+			}
+		}
+		$this->formMeta->additionalForm = array($quickForm->render());
 	}
 }
 ?>

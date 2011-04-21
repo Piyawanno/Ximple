@@ -43,13 +43,10 @@ function forum_entry_last_commented(){
 }
 
 function forum_entry_last_commented_config(){
-	require_once(ROOT_PATH.'include/class/QuickFormRender.class.inc');
-	$formRender = new QuickFormRender('forum_last_commented');
 	$option = array(5 => 5, 10 => 10, 15 => 15, 20 => 20, 30 => 30, 40 => 40, 50 => 50);
 	$number = Model::select(tt('number of last commented enties'), $option);
 	$number->data = cc('forum_last_commented_number');
-	$formRender->append('forum_last_commented_number', $number);
-	return $formRender->render();
+	return array('forum_last_commented_number' => $number);
 }
 
 function forum_entry_last_commented_config_save(){
