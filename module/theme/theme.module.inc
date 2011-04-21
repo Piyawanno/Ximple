@@ -281,7 +281,8 @@ function theme_reset_block_position($primary_position){
 	db_update_many('block', array('position' => 'disabled'), 'section='.SECTION);
 	$list = sysblock_get_list();
 	$list = $list['primary'];
-	$clause = "call_mode='".join("' OR call_mode='", $list)."'";
+	$clause = "call_mode='".join("' OR call_mode='", $list)."' ";
+	$clause.= 'AND section='.SECTION
 	db_update_many('block', array('position' => $primary_position), $clause);
 }
 

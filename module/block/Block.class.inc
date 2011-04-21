@@ -18,7 +18,11 @@ class Block extends Control{
 		$this->select($this->column, 'WHERE section='.SECTION.' ORDER BY sort_number');
 		$data = array();
 		foreach($this->data as $key => $value){
-			$data[$value['position']][] = $value;
+			if(!in_array($value['position'], array_keys(cc('block_position')))){
+				$data['disabled'][] = $value;
+			}else{
+				$data[$value['position']][] = $value;
+			}
 		}
 		$renderArray = array(
 			'data' => $data,
