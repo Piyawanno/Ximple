@@ -86,6 +86,18 @@ abstract class Model{
 		return $modelColumn;
 	}
 	
+	public function spin($label, $min, $max, $step=1, $help=null){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = 'int';
+		$modelColumn->form = 'spin';
+		$modelColumn->label = $label;
+		$modelColumn->max = $max;
+		$modelColumn->min = $min;
+		$modelColumn->step = $step;
+		$modelColumn->help = $help;
+		return $modelColumn;
+	}
+	
 	public function password($label, $help=null){
 		$modelColumn = new ModelColumn;
 		$modelColumn->type = 'char';

@@ -12,13 +12,19 @@ function socialnetwork_like_type_config(){
 }
 
 function socialnetwork_width_config($data=null){
-	$model = Model::char(tt('width'));
+	$model = Model::spin(tt('width'), 80, 1024);
 	$model->data = $data;
 	return $model;
 }
 
 function socialnetwork_height_config($data=null){
-	$model = Model::char(tt('height'));
+	$model = Model::spin(tt('height'), 80, 1024);
+	$model->data = $data;
+	return $model;
+}
+
+function socialnetwork_number_config($label, $data=null){
+	$model = Model::spin($label, 1, 256);
 	$model->data = $data;
 	return $model;
 }

@@ -37,6 +37,7 @@ class ModelColumn{
 		'color',
 		'grid',
 		'uri',
+		'spin',
 	);
 	
 	private $allowedTranslateForm = array(

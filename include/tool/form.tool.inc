@@ -59,6 +59,24 @@ function form_render_char($form_id, $name, $modelCol){
 	return sprintf($p, $name, $form_id.'_'.$name, $modelCol->data, $form_id.'_'.$name);
 }
 
+function form_render_spin($form_id, $name, $modelCol){
+	$id = $form_id.'_'.$name;
+	head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
+	head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
+	$p = '<input name="%s" id="%s" value="%s" size="8" class="spinbox"/><span id="info_%s"></span>';
+	$render = sprintf($p, $name, $id, $modelCol->data, $id);
+	$render.= '
+	<script>
+		$("#'.$id.'").spinbox({
+			min  : '.$modelCol->min.',
+			max  : '.$modelCol->max.',
+			step : '.$modelCol->step.',
+		});
+	</script>';
+	return $render;
+}
+
+
 function form_render_email($form_id, $name, $modelCol){
 	head_add_js_var('emailNotOk', tt('Your Email address is not conformed.'));
 	$p = '<input name="%s" id="%s" value="%s" size="25" maxlength="80" class="email_field"/><span id="info_%s"></span>';
@@ -353,5 +371,4 @@ function form_get_sortable($modelCol){
 	}
 	return array($sortable, $img);
 }
-
 ?>

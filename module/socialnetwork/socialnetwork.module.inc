@@ -83,7 +83,7 @@ function socialnetwork_profile(){
 function socialnetwork_profile_config(){
 	$form = array(
 		'socialnetwork_profile_user_name' => socialnetwork_uri_config(tt('user name'), cc('socialnetwork_profile_user_name')),
-		'socialnetwork_profile_number' => socialnetwork_uri_config(tt('tweets number'), cc('socialnetwork_profile_number')),
+		'socialnetwork_profile_number' => socialnetwork_number_config(tt('tweets number'), cc('socialnetwork_profile_number')),
 		'socialnetwork_profile_width' => socialnetwork_width_config(cc('socialnetwork_profile_width')),
 		'socialnetwork_profile_height' => socialnetwork_height_config(cc('socialnetwork_profile_height')),
 		'socialnetwork_profile_appearance' => socialnetwork_profile_appearance_config(),
@@ -112,7 +112,7 @@ function socialnetwork_faves_config(){
 		'socialnetwork_faves_user_name' => socialnetwork_uri_config(tt('user name'), cc('socialnetwork_faves_user_name')),
 		'socialnetwork_faves_title' => socialnetwork_uri_config(tt('title'), cc('socialnetwork_faves_title')),
 		'socialnetwork_faves_caption' => socialnetwork_uri_config(tt('caption'), cc('socialnetwork_faves_caption')),
-		'socialnetwork_faves_number' => socialnetwork_uri_config(tt('tweets number'), cc('socialnetwork_faves_number')),
+		'socialnetwork_faves_number' => socialnetwork_number_config(tt('tweets number'), cc('socialnetwork_faves_number')),
 		'socialnetwork_faves_width' => socialnetwork_width_config(cc('socialnetwork_faves_width')),
 		'socialnetwork_faves_height' => socialnetwork_height_config(cc('socialnetwork_faves_height')),
 		'socialnetwork_faves_appearance' => socialnetwork_faves_appearance_config(),
