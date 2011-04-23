@@ -7,9 +7,6 @@ abstract class ContentModel extends Model{
 	private $publishingStatus;
 	
 	function ContentModel($moduleName){
-		$this->commentPermission = content_get_comment_permission();
-		$this->publishingStatus = content_get_publishing_status();
-		
 		$this->topic = $this->title(tt('topic'));
 		$this->topic->listMode = $moduleName;
 		$this->topic->enableTranslate();
@@ -62,11 +59,11 @@ abstract class ContentModel extends Model{
 	}
 	
 	public function getCommentPermission(){
-		return $this->commentPermission;
+		return content_get_comment_permission();
 	}
 	
 	public function getPublishingStatus(){
-		return $this->publishingStatus;
+		return content_get_publishing_status();
 	}
 }
 ?>

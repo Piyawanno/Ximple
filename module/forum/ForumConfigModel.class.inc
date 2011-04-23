@@ -1,4 +1,6 @@
 <?php
+require('forum.tool.inc');
+
 class ForumConfigModel extends ContentConfigModel{
 	function ForumConfigModel(){
 		ContentConfigModel::ContentConfigModel('forum');
@@ -20,6 +22,10 @@ class ForumConfigModel extends ContentConfigModel{
 		}
 		$this->forum_user_level->append('forum_user_level_number', $userLevelNumber);
 		$this->forum_user_level->append('forum_user_level_name', $userLevelName);
+	}
+	
+	public function getPublishingStatus(){
+		return forum_get_publishing_status();
 	}
 }
 ?>

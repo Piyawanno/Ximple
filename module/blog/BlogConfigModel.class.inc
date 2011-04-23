@@ -1,4 +1,6 @@
 <?php
+require('blog.tool.inc');
+
 class BlogConfigModel extends ContentConfigModel{
 	function BlogConfigModel(){
 		ContentConfigModel::ContentConfigModel('blog');
@@ -15,6 +17,10 @@ class BlogConfigModel extends ContentConfigModel{
 		$option = array(3 => 3, 5 => 5, 8 => 8, 10 => 10, 15 => 15, 20 => 20);
 		$this->blog_entries_number = $this->select(tt('blog entries per page'), $option);
 		$this->extendBefore('blog_comment_write_label', 'blog_entries_number');
+	}
+	
+	public function getPublishingStatus(){
+		return blog_get_publishing_status();
 	}
 }
 ?>

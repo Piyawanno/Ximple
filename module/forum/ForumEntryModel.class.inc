@@ -6,9 +6,6 @@ class ForumEntryModel extends Model{
 	private $publishingStatus;
 	
 	function ForumEntryModel(){
-		$this->commentPermission = content_get_comment_permission();
-		$this->publishingStatus = forum_get_publishing_status();
-		
 		$moduleName = 'forum_entry';
 		$this->topic = $this->title(tt('topic'));
 		$this->topic->listMode = $moduleName;
@@ -38,12 +35,12 @@ class ForumEntryModel extends Model{
 		if(!authority_is_guest()){
 			$commentPermission = new ContentStatusColumn(tt('comment permission'), $moduleName);
 			$commentPermission->setStatus('comment_permission');
-			$commentPermission->setOption($this->commentPermission);
+			$commentPermission->setOption($this->getCommentPermission());
 			$this->comment_permission = $commentPermission;
 	
 			$publishingStatus = new ContentStatusColumn(tt('status'), $moduleName);
 			$publishingStatus->setStatus('publishing_status');
-			$publishingStatus->setOption($this->publishingStatus);
+			$publishingStatus->setOption($this->getPublishingStatus());
 			$publishingStatus->isList = true;
 			$publishingStatus->isTriggerSelect = true;
 			$this->publishing_status = $publishingStatus;
@@ -51,6 +48,14 @@ class ForumEntryModel extends Model{
 			$this->comment_permission = $this->hidden(cc('forum_comment_permission_default'), 'int');
 			$this->publishing_status = $this->hidden(cc('forum_publishing_status_default'), 'int');
 		}
+	}
+	
+	public function getCommentPermission(){
+		return content_get_comment_permission();
+	}
+	
+	public function getPublishingStatus(){
+		return forum_get_publishing_status();
 	}
 }
 ?>

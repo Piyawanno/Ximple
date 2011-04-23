@@ -10,11 +10,11 @@ class ContentStatusColumn extends ModelColumn{
 		$this->form = 'radio';
 		$this->type = 'int';
 		$this->moduleName = $moduleName;
-		$this->defaultData = cc($moduleName.'_'.$this->status.'_default');
 	}
 	
 	function setStatus($status){
 		$this->status = $status;
+		$this->defaultData = cc($this->moduleName.'_'.$this->status.'_default');
 	}
 	
 	function setOption($option){
