@@ -120,4 +120,14 @@ function userinfo_check_email_exists(){
 	}
 }
 
+function userinfo_get_uid_by_role($role){
+	$gid = cc($role);
+	if(count($gid)){
+		$clause = 'WHERE groups='.join(' OR groups=', $gid);
+		return db_select_single_column('map', 'users', $clause, false);
+	}else{
+		return array();
+	}
+}
+
 ?>

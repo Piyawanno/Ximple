@@ -46,7 +46,7 @@ function group_render($gid){
 function group_update_map($gid){
 	$map = group_get_map($gid);
 	$drop = group_get_drop_array();
-	$insert = group_get_insert_array();
+	$insert = group_get_users_insert_array();
 	foreach($drop as $key => $value){
 		if(!in_array($value, $insert) and in_array($value, $map)){
 			db_drop_many('map', 'users='.$value.' AND section='.SECTION.' AND groups='.$gid);
@@ -111,7 +111,7 @@ function group_get_drop_array(){
 	return $drop;
 }
 
-function group_get_insert_array(){
+function group_get_users_insert_array(){
 	$splitted = split(',', addslashes(pp('insert_user')));
 	$name_list = array();
 	foreach($splitted as $name){

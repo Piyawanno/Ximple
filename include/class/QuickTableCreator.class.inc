@@ -1,4 +1,6 @@
 <?php
+require_once('ModelFactory.class.inc');
+
 class QuickTableCreator{
 	private $moduleName;
 	private $modelFactory;
@@ -7,8 +9,8 @@ class QuickTableCreator{
 	
 	function QuickTableCreator($moduleName, $model){
 		$this->modelFactory = new ModelFactory($moduleName, $model);
-		$this->modelConnector = $modelFactory->bind();
-		$this->tableCreator = new TableCreator($modelConnector, $moduleName);
+		$this->modelConnector = $this->modelFactory->bind();
+		$this->tableCreator = new TableCreator($this->modelConnector, $moduleName);
 	}
 	
 	public function create(){
