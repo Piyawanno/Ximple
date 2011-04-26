@@ -9,6 +9,9 @@ class ListPageMetaData{
 	public $writeLabel;
 	public $defaultOrder;
 	public $defaultOrderDesc;
+	public $groupBy;
+	
+	private $addtionalParameter = array();
 	
 	public function addOperation($mode, $label, $icon, $additionParameter=null){
 		$this->operation[$mode]['label'] = $label;
@@ -18,6 +21,14 @@ class ListPageMetaData{
 		}elseif(is_file(ROOT_PATH.'module/'.MODULE.'/theme/'.$icon)){
 			$this->operation[$mode]['icon'] = 'module/'.MODULE.'/theme/'.$icon;
 		}
+	}
+	
+	public function addParameter($name, $value){
+		$this->addtionalParameter[$name] = $value;
+	}
+	
+	public function getParameter(){
+		return $this->addtionalParameter;
 	}
 }
 ?>

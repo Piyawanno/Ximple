@@ -18,13 +18,13 @@ function module_init_evaluation(){
 	
 	module_add_role('evaluation_admin', 'Evaluation Administrator', 'Who can map evaluator to evaluatee and get report.');
 	module_add_role('evaluation_evaluator', 'Evaluatior', 'Who can fill evaluation form.');
-	module_add_role('evaluation_evaluatee', 'Evaluatiee', 'Who must be evaluated.');
+	module_add_role('evaluation_evaluatee', 'Evaluatee', 'Who must be evaluated.');
 	
 	module_add_panel('Evaluation', 'evaluation_admin', 'evaluation_manage', 'manage Evaluation');
-	module_add_panel('Evaluation', 'evaluation_admin', 'evaluation_report', 'report Evaluation');
+	module_add_panel('Evaluation', 'evaluation_admin', 'evaluation', 'report Evaluation');
 	module_add_panel('Evaluation', 'evaluation_admin', 'evaluation_fill', 'fill Evaluation');
 	module_add_panel('Evaluation', 'evaluation_evaluator', 'evaluation_fill', 'fill Evaluation');
-	module_add_panel('Evaluation', 'evaluation_evaluatee', 'evaluation_report', 'report Evaluation');
+	module_add_panel('Evaluation', 'evaluation_evaluatee', 'evaluation', 'report Evaluation');
 }
 
 function module_drop_evaluation(){

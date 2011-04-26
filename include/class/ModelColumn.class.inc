@@ -72,6 +72,7 @@ class ModelColumn{
 	public $maxWidth;
 	
 	public $isDB = true;
+	public $isUser = false;
 	public $isForm = true;
 	public $isNotNull = false;
 	public $isSerialize = false;

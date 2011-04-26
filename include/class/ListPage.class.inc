@@ -1,6 +1,7 @@
 <?php
 class ListPage{
 	private $modelConnector;
+	private $addtionalParameter;
 	private $listMeta;
 	private $data;
 	private $column;
@@ -29,6 +30,9 @@ class ListPage{
 	
 	public function getClause($where){
 		$clause = $this->getWhereClause($where);
+		if(!empty($this->listMeta->groupBy)){
+			$clause .= ' GROUP BY '.$this->listMeta->groupBy;
+		}
 		$order = gg('order');
 		$order_desc = gg('order_desc');
 		if(!empty($order) and in_array($order, $this->column)){
@@ -57,8 +61,9 @@ class ListPage{
 			$renderArray = array(
 				'request' => gg(),
 				'meta' => $this->listMeta,
+				'param' => $this->listMeta->getParameter(),
 				'col' => $reachableColumn,
-				'searchColumn' => $searchColumn,
+				'search_col' => $searchColumn,
 				'search' => $search,
 				'label' => $this->label,
 			);
@@ -109,9 +114,19 @@ class ListPage{
 		list($col, $search) = $this->getSearchRequest();
 		if(strlen($search) == 0) return $where;
 		
+		$isUser = $this->modelConnector->getColumnNameByBoolean('isUser');
 		$columnType = $this->modelConnector->getColumnAttribute('type');
 		$numeric = array('int', 'real');
-		if(in_array($columnType[$col], $numeric)){
+		if(in_array($col, $isUser)){
+			$uid = db_select_single_column('users', 'id', "WHERE login_name LIKE '%$search%'");
+			if(count($uid)){
+				$clause = $col.'='.join(' OR '.$col.'=', $uid);
+				if(!empty($where)) $clause = $where.' AND '.$clause;
+				else $clause = 'WHERE '.$clause;
+			}else{
+				$clause = $where.' AND false';
+			}
+		}elseif(in_array($columnType[$col], $numeric)){
 			if(!empty($where)){
 				$clause = $where.' AND '.$col." LIKE '%".$search."%'";
 			}else{

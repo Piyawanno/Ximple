@@ -11,10 +11,17 @@
 			<?php endif?>
 		<?php endforeach?>
 		</select>
+		<?php foreach($param as $key => $value):?>
+			<input type="hidden" name="<?=$key?>" value="<?=$value?>"/>
+		<?php endforeach?>
 		<input style="width:200px;" name="search" value="<?=$search?>"/>
 		<input type="submit" value="<?=tt('search')?>"/>
 		<?php if(strlen($search)):?>
-			<a href="<?=SECTION_URI.Q.$meta->mode?>" style="margin-left:20px;"><?=tt('clear search')?></a>
+			<?php $mode=$meta->mode?>
+			<?php foreach($param as $key => $value):?>
+				<?php $mode.= '/'.$key.'/'.$value?>
+			<?php endforeach?>
+			<a href="<?=SECTION_URI.Q.$mode?>" style="margin-left:20px;"><?=tt('clear search')?></a>
 		<?php endif?>
 	</form>
 </div>

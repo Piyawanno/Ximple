@@ -125,15 +125,15 @@ abstract class Control extends Translatable{
 		module_drop($this->moduleName);
 	}
 	
-	public function select($col, $clause=null){
-		$this->checkColumnExist($col);
-		$this->data = db_select($this->tableName, $col, $clause);
-		$this->postSelect();
+	public function select($column, $clause=null, $isRaw=false){
+		$column = $this->checkColumnExist($column);
+		$this->data = db_select($this->tableName, $column, $clause);
+		if(!$isRaw) $this->postSelect();
 	}
 	
-	public function selectSingleColumn($col, $clause=null){
-		$this->checkColumnExist(array($col));
-		$this->select(array('id', $col), $clause);
+	public function selectSingleColumn($col, $clause=null, $isRaw=false){
+		$column = $this->checkColumnExist(array($column));
+		$this->select(array('id', $col), $clause, $isRaw);
 		$data = array();
 		foreach($this->data as $key => $value){
 			$data[$key] = $value[$col];
@@ -141,9 +141,9 @@ abstract class Control extends Translatable{
 		return $data;
 	}
 	
-	public function selectByID($col, $isRaw=false){
-		$this->checkColumnExist($col);
-		$this->data = db_select($this->tableName, $col, 'WHERE id='.(int)$this->id);
+	public function selectByID($column, $isRaw=false){
+		$column = $this->checkColumnExist($column);
+		$this->data = db_select($this->tableName, $column, 'WHERE id='.(int)$this->id);
 		if(!$isRaw) $this->postSelect();
 		if(isset($this->data[$this->id])){
 			$this->dataByID = $this->data[$this->id];
@@ -152,8 +152,8 @@ abstract class Control extends Translatable{
 		}
 	}
 	
-	public function selectPage($col, $pageLength, $clause=null){
-		$this->checkColumnExist($col);
+	public function selectPage($column, $pageLength, $clause=null, $isRaw=false){
+		$column = $this->checkColumnExist($column);
 		$rowsNumber = db_get_rows_number($this->tableName, $clause);
 		if(!$this->pager){
 			include_once('PagerRender.class.inc');
@@ -163,8 +163,8 @@ abstract class Control extends Translatable{
 		$this->pager->setRowsNumber($rowsNumber);
 		
 		$clause .= ' LIMIT '.(int)$pageLength.' OFFSET '.(int)(MODE_PAGE*$pageLength);
-		$this->data = db_select($this->tableName, $col, $clause);
-		$this->postSelect();
+		$this->data = db_select($this->tableName, $column, $clause);
+		if(!$isRaw) $this->postSelect();
 	}
 	
 	protected function init($modelObj){
@@ -231,12 +231,12 @@ abstract class Control extends Translatable{
 		}
 	}
 	
-	public function selectListPage($pageLength=20, $where=null, $additionColumn=array()){
+	public function selectListPage($pageLength=20, $where=null, $additionColumn=array(), $isRaw=false){
 		$this->initListPage();
-		$col = $this->modelConnector->getColumnNameByBoolean('isList');
-		$col = array_merge(array('id'), $col);
-		$col = array_unique(array_merge($col, $additionColumn));
-		$this->selectPage($col, $pageLength, $this->listPage->getClause($where));
+		$column = $this->modelConnector->getColumnNameByBoolean('isList');
+		$column = array_merge(array('id'), $column);
+		$column = array_unique(array_merge($column, $additionColumn));
+		$this->selectPage($column, $pageLength, $this->listPage->getClause($where), $isRaw);
 	}
 	
 	protected function renderDefaultListPage($description=null){
@@ -371,12 +371,10 @@ abstract class Control extends Translatable{
 	}
 	
 	private function checkColumnExist($columns){
-		if(!state_is_develop()) return null;
-		foreach($columns as $col){
-			if(!in_array($col, $this->column)){
-				notify_add_error('Selected column : '.$col.' ( in '.$this->moduleName.') does not exist.');
-			}
-		}
+		$dbColumn = $this->modelConnector->getColumnNameByBoolean('isDB');
+		$columns = array_intersect($columns, $dbColumn);
+		$columns[] = 'id';
+		return $columns;
 	}
 }
 ?>
