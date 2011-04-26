@@ -1,15 +1,26 @@
 <?php
-require('EvaluateeColumn.class.inc');
-require('EvaluatorColumn.class.inc');
 require_once('evaluation.tool.inc');
-
 class EvaluationModel extends Model{
 	function EvaluationModel(){
-		$this->model = $this->select(tt('evaluation model'), evaluation_get_model_name());
-		$this->evaluatee = new EvaluateeColumn();
-		$this->evaluator = new EvaluatorColumn();
+		if(evaluation_check_model_exists(gg('model'))){
+			$this->model = $this->hidden(gg('model'), 'char');
+		}else{
+			$modelArray = evaluation_get_model_name();
+			$this->model = $this->select(tt('evaluation model'), $modelArray);
+		}
+		$option = userinfo_get_login_name_by_role('evaluation_evaluatee');
+		$this->evaluatee = $this->select(tt('evaluatee'), $option);
+		$this->evaluatee->isList = true;
+		$this->evaluatee->listMode = 'evaluation_report';
+		$this->evaluatee->type = 'int';
+		
+		$option = userinfo_get_login_name_by_role('evaluation_evaluator');
+		$this->evaluator = $this->checkBox(tt('evaluators'), $option);
+		$this->evaluator->type = 'int';
+		
 		$this->opinion = $this->hidden('', 'text');
 		$this->status = $this->hidden(0, 'int');
+		$this->section = $this->section();
 	}
 }
 ?>

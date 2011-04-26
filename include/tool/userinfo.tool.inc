@@ -130,4 +130,14 @@ function userinfo_get_uid_by_role($role){
 	}
 }
 
+
+function userinfo_get_login_name_by_role($role){
+	$uid = userinfo_get_uid_by_role($role);
+	if(count($uid)){
+		$clause = 'WHERE id='.join(' OR id=', $uid);
+		return db_select_single_column('users', 'login_name', $clause);
+	}else{
+		return array();
+	}
+}
 ?>

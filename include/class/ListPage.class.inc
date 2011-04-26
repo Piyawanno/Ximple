@@ -51,17 +51,19 @@ class ListPage{
 	}
 	
 	public function renderSearchForm(){
-		list($search_col, $search) = $this->getSearchRequest();
-		$renderArray = array(
-			'request' => gg(),
-			'meta' => $this->listMeta,
-			'col' => $this->modelConnector->getColumnNameByBoolean('isReachable'),
-			'search_col' => $search_col,
-			'search' => $search,
-			'label' => $this->label,
-		);
-		
-		return render($renderArray, 'listsearch.tpl', 'list_search');
+		list($searchColumn, $search) = $this->getSearchRequest();
+		$reachableColumn = $this->modelConnector->getColumnNameByBoolean('isReachable');
+		if(count($reachableColumn)){
+			$renderArray = array(
+				'request' => gg(),
+				'meta' => $this->listMeta,
+				'col' => $reachableColumn,
+				'searchColumn' => $searchColumn,
+				'search' => $search,
+				'label' => $this->label,
+			);
+			return render($renderArray, 'listsearch.tpl', 'list_search');
+		}
 	}
 	
 	private function prepareRender(){

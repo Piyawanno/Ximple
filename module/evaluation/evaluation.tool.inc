@@ -21,4 +21,9 @@ function evaluation_get_model_name(){
 	}
 	return $model_name;
 }
+
+function evaluation_check_model_exists($model){
+	$model_array = evaluation_get_model();
+	return in_array($model, array_keys($model_array));
+}
 ?>

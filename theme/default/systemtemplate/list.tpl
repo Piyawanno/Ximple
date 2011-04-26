@@ -44,11 +44,11 @@
 				<?php foreach($meta->operation as $op_mode => $op_data):?>
 					<td style="width:20px;" align="center">
 						<?php if(isset($op_data['icon'])):?>
-							<a href="<?=SECTION_URI.Q.$op_mode.'/'.$value['id']?>">
+							<a href="<?=SECTION_URI.Q.$op_mode.'/'.$value['id'].'/'.$op_data['addition']?>">
 								<img alt="<?=$op_data['label']?>" src="<?=ROOT_URI.$op_data['icon']?>" border="0"/>
 							</a>
 						<?php else:?>
-							<a href="<?=SECTION_URI.Q.$op_mode.'/'.$value['id']?>"><?=$op_data['label']?></a>
+							<a href="<?=SECTION_URI.Q.$op_mode.'/'.$value['id'].'/'.$op_data['addition']?>"><?=$op_data['label']?></a>
 						<?php endif?>
 					</td>
 				<?php endforeach?>

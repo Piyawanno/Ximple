@@ -10,8 +10,9 @@ class ListPageMetaData{
 	public $defaultOrder;
 	public $defaultOrderDesc;
 	
-	public function addOperation($mode, $label, $icon){
+	public function addOperation($mode, $label, $icon, $additionParameter=null){
 		$this->operation[$mode]['label'] = $label;
+		$this->operation[$mode]['addition'] = $additionParameter;
 		if(is_file(ROOT_PATH.'files/icon/'.$icon)){
 			$this->operation[$mode]['icon'] = 'files/icon/'.$icon;
 		}elseif(is_file(ROOT_PATH.'module/'.MODULE.'/theme/'.$icon)){
