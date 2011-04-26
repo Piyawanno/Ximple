@@ -53,11 +53,11 @@
 					<?php endif?>
 				</tr>
 			<?php endforeach?>
-			<tr>
-				<td align="center" colspan="<?=$result_number+1?>"><h4><u><?=tt('sum')?></u></h4></td>
-				<td align="center">0</td>
-			</tr>
 		<?php endforeach?>
+		<tr>
+			<td align="center" colspan="<?=$result_number+1?>"><h4><u><?=tt('sum')?></u></h4></td>
+			<td align="center">0</td>
+		</tr>
 	</table>
 </div>
 		

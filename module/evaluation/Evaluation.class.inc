@@ -35,6 +35,16 @@ class Evaluation extends Control{
 		}
 	}
 	
+	public function fill(){
+		$this->setFillPath();
+		$model = gg('model');
+		if(evaluation_check_model_exists($model)){
+			return $this->renderFillForm($model);
+		}else{
+			return $this->renderFillSummary();
+		}
+	}
+	
 	public function write(){
 		$this->setManagePath();
 		return Control::write();
@@ -110,6 +120,11 @@ class Evaluation extends Control{
 		return render($renderArray, 'evaluation_report.tpl', 'evaluation_report');
 	}
 	
+	private function renderFillSummary(){
+		$renderArray = array('data' => evaluation_get_model());
+		return render($renderArray, 'evaluation_fill.tpl', 'evaluation_fill');
+	}
+	
 	private function renderReport(){
 		$this->id = (int) gg('id');
 		$this->selectByID($this->column, true);
@@ -146,6 +161,15 @@ class Evaluation extends Control{
 		if(evaluation_check_model_exists($model)){
 			$modelName = evaluation_get_model_name();
 			document_set_path($modelName[$model], 'evaluation/model/'.$model);
+		}
+	}
+	
+	private function setFillPath(){
+		$model = gg('model');
+		document_set_path(tt('Fill Form'), 'evaluation_fill');
+		if(evaluation_check_model_exists($model)){
+			$modelName = evaluation_get_model_name();
+			document_set_path($modelName[$model], 'evaluation_fill/model/'.$model);
 		}
 	}
 	
