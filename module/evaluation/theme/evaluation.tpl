@@ -31,20 +31,20 @@
 			<?php endforeach?>
 			<td  align="center"><?=tt('averaged')?></td>
 		</tr>
-		<?php foreach($model['model'] as $name => $subModel):?>
+		<?php foreach($model['model'] as $name => $sub_model):?>
 			<tr>
 				<td colspan="<?=$result_number+2?>"><h4><?=$name?></h4></td>
 			</tr>
-			<?php foreach($subModel as $key => $value):?>
+			<?php foreach($sub_model as $key => $value):?>
 				<tr>
 					<td>
 						<?=$value['name']?> (<?=$value['max']?>)
 						<p style="color:#666;font-size:11px;"><?=$value['description']?></p>
 					</td>
 					<?php $sum=0;?>
-					<?php foreach($data as $dataKey => $dataValue):?>
-						<?php $sum+=$result[$dataKey][$key];?>
-						<td align="center"><?=$result[$dataKey][$key]?></td>
+					<?php foreach($data as $data_key => $data_value):?>
+						<?php $sum+=$result[$data_key][$key];?>
+						<td align="center"><?=$result[$data_key][$key]?></td>
 					<?php endforeach?>
 					<?php if($result_number):?>
 						<td align="center"><?=($sum/$result_number)?></td>

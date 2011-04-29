@@ -19,9 +19,13 @@
 			<img src="<?=ROOT_URI?>files/icon/stop.png" border="0" alt="delete" style="margin:0px;"/>
 			: <?=tt('delete file')?>
 		</li>
-		<li>
+		<li style="float:left;width:240px;">
 			<img src="<?=ROOT_URI?>files/icon/misc.png" border="0" alt="permission" style="margin:0px;"/>
 			: <?=tt('change file permission')?>
+		</a>
+		<li>
+			<img src="<?=ROOT_URI?>files/icon/html.png" border="0" alt="permission" style="margin:0px;"/>
+			: <?=tt('file URL')?>
 		</a>
 	</ul>
 	<p><b>Used Space : <?=$user_used_space?>, Free Space : <?=$free_space?></b></p>
@@ -49,7 +53,7 @@
 					size
 				<a href="<?=$uri?>&amp;order=size">&gt;</a>
 			</th>
-			<th width="170px">operation</th>
+			<th width="200px">operation</th>
 		</tr>
 		<?php for($i=0;$i<2;$i++):?>
 			<?php foreach($filelist as $key => $value): ?>
@@ -62,7 +66,7 @@
 						<img src="<?=$value['icon']?>" border="0" alt="" title="<?=$value['type']?>"/>
 					</td>
 					<td>
-						<?=$value['uri']?>
+						<?=$value['href']?>
 					</td>
 					<td align="center">
 						<?=$value['time']?>
@@ -86,6 +90,11 @@
 						<a href="javascript:chmodDialog('<?=$key?>', <?=$value['permission']?>)" title="change permission">
 							<img src="<?=ROOT_URI?>files/icon/misc.png" border="0" alt="permission" style="margin:0px;"/>
 						</a>
+						<?php if(!$value['is_dir']):?>
+							<a href="javascript:urlDialog('<?=$value['uri']?>')" title="URL">
+								<img src="<?=ROOT_URI?>files/icon/html.png" border="0" alt="permission" style="margin:0px;"/>
+							</a>
+						<?php endif?>
 					</td>
 				</tr>
 				<?php endif?>
@@ -157,6 +166,8 @@
 		</p>
 	</div>
 	
+	<div id="url_dialog" title="<?=tt('File URL')?>"></div>
+	
 	<div id="chmod_dialog" title="<?=tt('Permission Change Mode')?>" style="text-align:left;" class="list">
 		<p><label id="chmod_head"></label></p>
 		<p><label id="chmod_owner"></label></p>
@@ -220,6 +231,11 @@
 		$('#rename_dialog').dialog('open');
 	}
 	
+	function urlDialog(URI){
+		$('#url_dialog').html('<h4>'+URI+'</h4>');
+		$('#url_dialog').dialog('open');
+	}
+	
 	function chmodDialog(fname, owner, group, or, ow, ox, gr, gw, gx, ar, aw, ax){
 		$('#chmod_file_name').attr('value', fname);
 		$('#chmod_head').html("<?=tt('Permission Change Mode')?> : "+fname);
@@ -252,6 +268,10 @@
 			modal: true
 		});
 		$('#image_dialog').dialog({
+			bgiframe: true,
+			autoOpen: false
+		});
+		$('#url_dialog').dialog({
 			bgiframe: true,
 			autoOpen: false
 		});

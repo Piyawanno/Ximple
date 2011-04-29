@@ -26,4 +26,16 @@ function evaluation_check_model_exists($model){
 	$model_array = evaluation_get_model();
 	return in_array($model, array_keys($model_array));
 }
+
+function evaluation_get_reference($model_name){
+	$model_array = evaluation_get_model();
+	$model = $model_array[$model_name]['model'];
+	$reference = array();
+	foreach($model as $name => $sub_model){
+		foreach($sub_model as $key => $value){
+			$reference[] = $key;
+		}
+	}
+	return $reference;
+}
 ?>

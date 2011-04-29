@@ -53,6 +53,7 @@ class Evaluation extends Control{
 	public function edit(){
 		$model = $this->dataByID['model'];
 		$caluse = 'WHERE evaluatee='.$this->dataByID['evaluatee']." AND model='".$model."' AND section=".SECTION;
+		$this->formMeta->description = tt('<strong style="color:red;">Warning : </strong>All evaluation results will be reset.');
 		$this->dataByID['evaluator'] = db_select_single_column($this->tableName, 'evaluator', $caluse);
 		$this->data[$this->id] = $this->dataByID;
 		$this->setManagePath();
@@ -147,6 +148,10 @@ class Evaluation extends Control{
 		return render($renderArray, 'evaluation.tpl', 'evaluation');
 	}
 	
+	private function renderFillForm($model){
+		
+	}
+	
 	private function setManagePath(){
 		document_set_path(tt('Manage'), 'evaluation_manage');
 		$model = gg('model');
@@ -208,9 +213,11 @@ class Evaluation extends Control{
 			'model' => pp('model'),
 			'section' => SECTION,
 		);
+		$reference = evaluation_get_reference(pp('model'));
 		foreach(pp('evaluator') as $key => $valuator){
 			$dataArray['evaluator'] = $valuator;
-			db_insert($this->tableName, $dataArray);
+			$evaluationID = db_insert($this->tableName, $dataArray);
+			$this->initResult($evaluationID, $reference);
 		}
 	}
 	
@@ -346,6 +353,17 @@ class Evaluation extends Control{
 		$this->data = userinfo_get_info($this->data, 'evaluator');
 		$this->data = userinfo_get_info($this->data, 'evaluatee');
 		return $result;
+	}
+	
+	private function initResult($evaluationID, $reference){
+		$insertArray = array(
+			'evaluation' => $evaluationID,
+			'result' => 0,
+		);
+		foreach($reference as $key => $value){
+			$insertArray['reference'] = $value;
+			db_insert('evaluationresult', $insertArray);
+		}
 	}
 }
 ?>

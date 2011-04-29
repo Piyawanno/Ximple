@@ -54,7 +54,7 @@ function file_manage($root_path, $dir, $mode, $title){
 		'file_copy_list' => file_copy_list(),
 		'file_cut_list' => file_cut_list(),
 		'filelist' => $file_list,
-		'uri' => SECTION_URI.'?mode='.$mode.'&amp;dir='.$dir,
+		'href' => SECTION_URI.'?mode='.$mode.'&amp;dir='.$dir,
 		'user_used_space' => render_file_size($user_used_space),
 		'free_space' => render_file_size($free_space),
 	);
@@ -129,7 +129,7 @@ function file_sort($file_list, $root_path){
 /// @return File list with directory information.
 function file_set_dir_info($file_list, $entry, $dir, $mode, $name){
 	$file_list[$entry]['type'] = '.dir';
-	$file_list[$entry]['uri'] = '<a href="?mode='.$mode.'&amp;dir='.$dir.$entry.'/">'.$name.'</a>';
+	$file_list[$entry]['href'] = '<a href="?mode='.$mode.'&amp;dir='.$dir.$entry.'/">'.$name.'</a>';
 	$file_list[$entry]['is_dir'] = true;
 	return $file_list;
 }
@@ -149,10 +149,11 @@ function file_set_info($file_list, $entry, $root_path, $name){
 	$uri = ROOT_URI.str_replace(ROOT_PATH, '',$root_path).$entry;
 	
 	if(in_array($type_name, $image_type)){
-		$file_list[$entry]['uri'] = '<a href="javascript:showImage(\''.$uri.'\')" >'.$name.'</a>';
+		$file_list[$entry]['href'] = '<a href="javascript:showImage(\''.$uri.'\')" >'.$name.'</a>';
 	}else{
-		$file_list[$entry]['uri'] = '<a href="'.$uri.'" target="_blank">'.$name.'</a>';
+		$file_list[$entry]['href'] = '<a href="'.$uri.'" target="_blank">'.$name.'</a>';
 	}
+	$file_list[$entry]['uri'] = $uri;
 	$file_list[$entry]['is_dir'] = false;
 	return $file_list;
 }
