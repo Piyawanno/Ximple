@@ -151,9 +151,11 @@ class Evaluation extends Control{
 		if($this->getEditAccess()){
 			$data = $this->getFillData($model);
 			if(count($data)){
-				head_add_css('form.css');
 				$accessVadilate = true;
 				$modelDescription = evaluation_get_model();
+				head_add_css('form.css');
+				head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
+				head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
 				$renderArray = array(
 					'model' => $modelDescription[$model],
 					'evaluatee' => userinfo_get_info_by_id($data[0]['evaluatee']),
