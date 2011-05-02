@@ -23,7 +23,10 @@ function module_init_evaluation(){
 	module_add_panel('Evaluation', 'evaluation_admin', 'evaluation_manage', 'manage Evaluation');
 	module_add_panel('Evaluation', 'evaluation_admin', 'evaluation', 'report Evaluation');
 	module_add_panel('Evaluation', 'evaluation_admin', 'evaluation_fill', 'fill Evaluation');
+	
 	module_add_panel('Evaluation', 'evaluation_evaluator', 'evaluation_fill', 'fill Evaluation');
+	module_add_panel('Evaluation', 'evaluation_evaluator', 'evaluation', 'report Evaluation');
+	
 	module_add_panel('Evaluation', 'evaluation_evaluatee', 'evaluation', 'report Evaluation');
 }
 

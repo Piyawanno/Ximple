@@ -133,13 +133,11 @@ class Evaluation extends Control{
 		$evaluatee = userinfo_get_info_by_id($this->dataByID['evaluatee']);
 		$modelDescription = evaluation_get_model();
 		$result = $this->getReportData($model);
-		$profile_access = authority_group('evaluation_evaluator');
-		$profile_access = ($profile_access or authority_group('evaluation_admin'));
 		$renderArray = array(
 			'data' => $this->data,
 			'model' => $modelDescription[$model],
 			'result' => $result,
-			'profile_access' => $profile_access,
+			'profile_access' => $this->getEditAccess(),
 			'evaluatee' => $evaluatee,
 		);
 		document_set_path($modelDescription[$model]['name'], 'evaluation/model/'.$model);
@@ -149,7 +147,22 @@ class Evaluation extends Control{
 	}
 	
 	private function renderFillForm($model){
-		
+		$accessVadilate = false;
+		if($this->getEditAccess()){
+			$data = $this->getFillData($model);
+			if(count($data)){
+				head_add_css('form.css');
+				$accessVadilate = true;
+				$modelDescription = evaluation_get_model();
+				$renderArray = array(
+					'model' => $modelDescription[$model],
+					'evaluatee' => userinfo_get_info_by_id($data[0]['evaluatee']),
+					'result' => $this->getResultData($data[0]['id']),
+				);
+				return render($renderArray, 'evaluation_form.tpl', 'evaluation_form');
+			}
+		}
+		if(!$accessVadilate) $this->fillAccessDenied();
 	}
 	
 	private function setManagePath(){
@@ -305,6 +318,8 @@ class Evaluation extends Control{
 		foreach($result as $evaluation => $reference){
 			$evaluatee = $related[$evaluation];
 			foreach($reference as $key => $value){
+				if(!isset($sum[$evaluatee][$key])) $sum[$evaluatee][$key] = 0;
+				if(!isset($count[$evaluatee][$key])) $count[$evaluatee][$key] = 0;
 				$sum[$evaluatee][$key] += $value;
 				$count[$evaluatee][$key] += 1;
 			}
@@ -312,6 +327,7 @@ class Evaluation extends Control{
 		
 		foreach($sum as $evaluatee => $reference){
 			foreach($reference as $key => $value){
+				if(!isset($averaged[$evaluatee])) $averaged[$evaluatee] = 0;
 				$averaged[$evaluatee] += $value/$count[$evaluatee][$key];
 			}
 		}
@@ -335,7 +351,7 @@ class Evaluation extends Control{
 	private function checkResultPermission($result){
 		if(authority_group('evaluation_evaluator')){
 			foreach($result as $key => $value){
-				if($this->data[$key]['evaluator'] != USER_ID){
+				if(!isset($this->data[$key]['evaluator']) or $this->data[$key]['evaluator'] != USER_ID){
 					unset($result[$key]);
 					unset($this->data[$key]);
 				}
@@ -364,6 +380,37 @@ class Evaluation extends Control{
 			$insertArray['reference'] = $value;
 			db_insert('evaluationresult', $insertArray);
 		}
+	}
+	
+	private function getEditAccess(){
+		$access = authority_group('evaluation_evaluator');
+		$access = ($access or authority_group('evaluation_admin'));
+		return $access;
+	}
+	
+	private function getFillData($model){
+		$clause = 'WHERE evaluator='.USER_ID." AND model='".$model."'";
+		$this->select($this->column, $clause, true);
+		return array_values($this->data);
+	}
+	
+	private function fillAccessDenied(){
+		notify_add_error(tt('You do not have permission to access evaluation form.'));
+		execute_set_db();
+		document_set_redirect('evaluation_fill');
+	}
+	
+	private function getResultData($evaluationID){
+		$clause = 'WHERE evaluation='.$evaluationID;
+		$resultDB = db_select('evaluationresult', array('reference', 'result'), $clause);
+		$result = array();
+		foreach($resultDB as $key => $value){
+			$result[$value['reference']] = array(
+				'id' => $key,
+				'result' => $value['result'],
+			);
+		}
+		return $result;
 	}
 }
 ?>
