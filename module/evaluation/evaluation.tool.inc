@@ -1,5 +1,5 @@
 <?php
-function evaluation_get_model(){
+function evaluation_get_model($model_reference=null){
 	$model_directory = ROOT_PATH.'module/evaluation/model/';
 	$model_array = io_get_directory_entry($model_directory);
 	$model = array();
@@ -10,7 +10,8 @@ function evaluation_get_model(){
 			$model[$model_name] = $model_name();
 		}
 	}
-	return $model;
+	if(!isset($model[$model_reference])) return $model;
+	else $model[$model_reference];
 }
 
 function evaluation_get_model_name(){

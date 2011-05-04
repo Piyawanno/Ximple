@@ -38,8 +38,12 @@ class Evaluation extends Control{
 	public function fill(){
 		$this->setFillPath();
 		$model = gg('model');
-		if(evaluation_check_model_exists($model)){
+		$this->id = (int) gg('id');
+		$model = gg('model');
+		if($this->id){
 			return $this->renderFillForm($model);
+		}elseif(evaluation_check_model_exists($model)){
+			return $this->renderEvaluateeFillList($model);
 		}else{
 			return $this->renderFillSummary();
 		}
@@ -83,9 +87,10 @@ class Evaluation extends Control{
 			'status' => pp('status'),
 		);
 		db_update('evaluation', $dataArray, gg('id'));
-		print_r(pp('result'));
+		$dataArray = array('evaluation' => gg('id'));
 		foreach(pp('result') as $key => $value){
-			
+			$dataArray['result'] = $value;
+			db_update('evaluationresult', $dataArray, $key);
 		}
 		execute_set_db();
 		document_set_redirect('evaluation/model/'.$this->dataByID['model']);
@@ -160,27 +165,31 @@ class Evaluation extends Control{
 		return render($renderArray, 'evaluation.tpl', 'evaluation');
 	}
 	
+	private function renderEvaluateeFillList($model){
+		$this->listMeta->mode = 'evaluation_fill';
+		$this->listMeta->addParameter('model', $model);
+		$this->listMeta->addOperation('evaluation_fill', tt('edit'), 'edit.png', 'model/'.$model);
+		$this->listMeta->title = tt('List of Evaluatee');
+		$this->selectListPage(20, "WHERE model='$model' AND evaluator=".USER_ID.' AND status!=2');
+		return $this->renderListPage();
+	}
+	
 	private function renderFillForm($model){
-		$accessVadilate = false;
-		if($this->getEditAccess()){
-			$data = $this->getFillData($model);
-			if(count($data)){
-				$accessVadilate = true;
-				$modelDescription = evaluation_get_model();
-				head_add_css('form.css');
-				head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
-				head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
-				$renderArray = array(
-					'id' => $data[0]['id'],
-					'model' => $modelDescription[$model],
-					'evaluatee' => userinfo_get_info_by_id($data[0]['evaluatee']),
-					'result' => $this->getResultData($data[0]['id']),
-					'opinion' => $data[0]['opinion'],
-				);
-				return render($renderArray, 'evaluation_form.tpl', 'evaluation_form');
-			}
+		$this->id = gg('id');
+		$this->selectByID($this->column, true);
+		if($this->getEditAccess() and count($this->data) and $this->dataByID['status'] != 2){
+			include_once(ROOT_PATH.'include/tool/form.tool.inc');
+			form_get_head();
+			$this->dataByID['evaluatee'] = userinfo_get_info_by_id($this->dataByID['evaluatee']);
+			$modelDescription = evaluation_get_model();
+			$renderArray = array(
+				'data' => $this->dataByID,
+				'model' => $modelDescription[$model],
+				'result' => $this->getResultData($this->id),
+			);
+			return render($renderArray, 'evaluation_form.tpl', 'evaluation_form');
 		}
-		if(!$accessVadilate) $this->fillAccessDenied();
+		$this->fillAccessDenied();
 	}
 	
 	private function setManagePath(){
@@ -239,16 +248,21 @@ class Evaluation extends Control{
 	}
 	
 	private function insertData(){
-		$dataArray = array(
-			'evaluatee' => pp('evaluatee'),
-			'model' => pp('model'),
-			'section' => SECTION,
-		);
-		$reference = evaluation_get_reference(pp('model'));
-		foreach(pp('evaluator') as $key => $valuator){
-			$dataArray['evaluator'] = $valuator;
-			$evaluationID = db_insert($this->tableName, $dataArray);
-			$this->initResult($evaluationID, $reference);
+		if($this->checkMapExists(pp('evaluatee'), pp('model'))){
+			$dataArray = array(
+				'evaluatee' => pp('evaluatee'),
+				'model' => pp('model'),
+				'status' => 0,
+				'section' => SECTION,
+			);
+			$reference = evaluation_get_reference(pp('model'));
+			foreach(pp('evaluator') as $key => $valuator){
+				$dataArray['evaluator'] = $valuator;
+				$evaluationID = db_insert($this->tableName, $dataArray);
+				$this->initResult($evaluationID, $reference);
+			}
+		}else{
+			notify_add_error(tt('Evaluatee in this evaluation exists. Data have been not inserted.'));
 		}
 	}
 	
@@ -272,7 +286,7 @@ class Evaluation extends Control{
 	}
 	
 	private function averageResult($model){
-		$related = $this->getRelated($model);
+		$related = $this->getRelated($model, true);
 		$result = $this->getResult(array_keys($related));
 		$result = $this->averageRowWise($result, $related);
 		foreach($this->data as $key => $value){
@@ -284,7 +298,7 @@ class Evaluation extends Control{
 		}
 	}
 	
-	private function getRelated($model){
+	private function getRelated($model, $isFinish=false){
 		if(count($this->data)){
 			$evaluatee = array();
 			foreach($this->data as $key => $value){
@@ -292,6 +306,7 @@ class Evaluation extends Control{
 			}
 			$clause = "WHERE model='$model' AND section=".SECTION.' AND ';
 			$clause.= '(evaluatee='.join(' OR evaluatee=', $evaluatee).')';
+			if($isFinish) $clause.= ' AND status=2';
 			return db_select_single_column('evaluation', 'evaluatee', $clause);
 		}else{
 			return array();
@@ -317,8 +332,15 @@ class Evaluation extends Control{
 			foreach($statusDB as $key => $value){
 				$evaluatee = $value['evaluatee'];
 				
-				if(isset($status[$evaluatee])) $status[$evaluatee]['all'] += 1;
-				else $status[$evaluatee] = array('all' => 1);
+				if(isset($status[$evaluatee])){
+					$status[$evaluatee]['all'] += 1;
+				}else{
+					$status[$evaluatee] = array(
+						'all' => 1,
+						'draft' => 0,
+						'finish' => 0,
+					);
+				}
 				
 				if($value['status'] == 1) $status[$evaluatee]['draft'] += 1;
 				if($value['status'] == 2) $status[$evaluatee]['finish'] += 1;
@@ -349,6 +371,10 @@ class Evaluation extends Control{
 				$averaged[$evaluatee] += $value/$count[$evaluatee][$key];
 			}
 		}
+
+		foreach($averaged as $key => $value){
+			$averaged[$key] = sprintf('%.2f', $value);
+		}
 		return $averaged;
 	}
 	
@@ -359,23 +385,27 @@ class Evaluation extends Control{
 				$number  = $result['all'].'/';
 				$number .= isset($result['finish']) ? $result['finish'].'/' : '0/';
 				$number .= isset($result['draft'])  ? $result['draft'].'/'  : '0/';
-				$this->data[$key]['number'] = $number;
+				$this->data[$key]['number'] = '<center>'.$number.'</center>';
 			}else{
-				$this->data[$key]['number'] = '0/0/0';
+				$this->data[$key]['number'] = '<center>0/0/0</center>';
 			}
 		}
 	}
 	
 	private function checkResultPermission($result){
-		if(authority_group('evaluation_evaluator')){
-			foreach($result as $key => $value){
-				if(!isset($this->data[$key]['evaluator']) or $this->data[$key]['evaluator'] != USER_ID){
-					unset($result[$key]);
-					unset($this->data[$key]);
-				}
+		foreach($result as $key => $value){
+			if(!isset($this->data[$key]['evaluator'])){
+				unset($result[$key]);
+				unset($this->data[$key]);
 			}
 		}
 		return $result;
+	}
+	
+	private function checkMapExists($evaluateeID, $model){
+		$clause = 'WHERE evaluatee='.$evaluateeID." AND model='$model'";
+		$data = db_select('evaluation', array('id'), $clause);
+		return (count($data) == 0);
 	}
 	
 	private function getReportData($model){
@@ -406,12 +436,6 @@ class Evaluation extends Control{
 		return $access;
 	}
 	
-	private function getFillData($model){
-		$clause = 'WHERE evaluator='.USER_ID." AND model='".$model."'";
-		$this->select($this->column, $clause, true);
-		return array_values($this->data);
-	}
-	
 	private function fillAccessDenied(){
 		notify_add_error(tt('You do not have permission to access evaluation form.'));
 		execute_set_db();
@@ -420,11 +444,11 @@ class Evaluation extends Control{
 	
 	private function getResultData($evaluationID){
 		$clause = 'WHERE evaluation='.$evaluationID;
-		$resultDB = db_select('evaluationresult', array('reference', 'result'), $clause);
+		$resultDB = db_select('evaluationresult', array('id', 'reference', 'result'), $clause);
 		$result = array();
 		foreach($resultDB as $key => $value){
 			$result[$value['reference']] = array(
-				'id' => $key,
+				'id' => $value['id'],
 				'result' => $value['result'],
 			);
 		}

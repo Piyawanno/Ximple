@@ -31,6 +31,7 @@
 			<?php endforeach?>
 			<td  align="center"><?=tt('averaged')?></td>
 		</tr>
+		<?php $average_sum=0?>
 		<?php foreach($model['model'] as $name => $sub_model):?>
 			<tr>
 				<td colspan="<?=$result_number+2?>"><h4><?=$name?></h4></td>
@@ -47,16 +48,17 @@
 						<td align="center"><?=$result[$data_key][$key]?></td>
 					<?php endforeach?>
 					<?php if($result_number):?>
-						<td align="center"><?=($sum/$result_number)?></td>
+						<td align="center"><?=sprintf('%.2f', ($sum/$result_number))?></td>
 					<?php else:?>
 						<td align="center">0</td>
 					<?php endif?>
+					<?php $average_sum += $sum/$result_number;?>
 				</tr>
 			<?php endforeach?>
 		<?php endforeach?>
 		<tr>
 			<td align="center" colspan="<?=$result_number+1?>"><h4><u><?=tt('sum')?></u></h4></td>
-			<td align="center">0</td>
+			<td align="center"><?=$average_sum?></td>
 		</tr>
 	</table>
 </div>

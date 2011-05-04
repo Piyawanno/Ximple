@@ -17,7 +17,7 @@ function module_init_evaluation(){
 	$tableCreator->create();
 	
 	module_add_role('evaluation_admin', 'Evaluation Administrator', 'Who can map evaluator to evaluatee and get report.');
-	module_add_role('evaluation_evaluator', 'Evaluatior', 'Who can fill evaluation form.');
+	module_add_role('evaluation_evaluator', 'Evaluator', 'Who can fill evaluation form.');
 	module_add_role('evaluation_evaluatee', 'Evaluatee', 'Who must be evaluated.');
 	
 	module_add_panel('Evaluation', 'evaluation_admin', 'evaluation_manage', 'manage Evaluation');

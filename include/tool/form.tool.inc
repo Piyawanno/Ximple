@@ -6,23 +6,8 @@ $grid_row_array = array();
 function form($form_id, $model){
 	global $grid_row_array;
 	document_init_form();
+	form_get_head();
 	$render = array();
-	head_add_css('form.css');
-	head_add_css('include/external/cleditor/jquery.cleditor.css');
-	
-	head_add_js('include/external/jquery/jquery-form.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.advancedtable.min.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.icon.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.code.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.quote.js');
-	head_add_js('include/external/cleditor/jquery.cleditor.advancedimage.js');
-	head_add_js('include/javascript/formcheck.js');
-	head_add_js_var('uploadSuccess', tt('image successfully uploaded'));
-	head_add_js_var('pleaseFill', tt('Please, fill the required field : '));
-	head_add_js_var('formNotCorrect', tt('Any field in the form is not correctly filled. Please correct it and try again.'));
-	head_add_js_var('isInstalled', true);
-	
 	if(is_array($model)){
 		foreach($model as $name => $modelCol){
 			$func = 'form_render_'.$modelCol->form;
@@ -32,6 +17,26 @@ function form($form_id, $model){
 	
 	head_add_js_array('gridRowArray', $grid_row_array);
 	return $render;
+}
+
+function form_get_head(){
+	head_add_css('form.css');
+	head_add_css('include/external/cleditor/jquery.cleditor.css');
+	head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
+	
+	head_add_js('include/external/jquery/jquery-form.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.advancedtable.min.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.icon.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.code.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.quote.js');
+	head_add_js('include/external/cleditor/jquery.cleditor.advancedimage.js');
+	head_add_js('include/javascript/formcheck.js');
+	head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
+	head_add_js_var('uploadSuccess', tt('image successfully uploaded'));
+	head_add_js_var('pleaseFill', tt('Please, fill the required field : '));
+	head_add_js_var('formNotCorrect', tt('Any field in the form is not correctly filled. Please correct it and try again.'));
+	head_add_js_var('isInstalled', true);
 }
 
 function form_prepare_editor(){
@@ -61,8 +66,6 @@ function form_render_char($form_id, $name, $modelCol){
 
 function form_render_spin($form_id, $name, $modelCol){
 	$id = $form_id.'_'.$name;
-	head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
-	head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
 	$p = '<input name="%s" id="%s" value="%s" size="8" class="spinbox"/><span id="info_%s"></span>';
 	$render = sprintf($p, $name, $id, $modelCol->data, $id);
 	$render.= '
@@ -113,10 +116,9 @@ function form_render_shorttext($form_id, $name, $modelCol){
 
 function form_render_plain($form_id, $name, $modelCol){
 	$p = '
-	<div class="plaintext_container" style="width:100%%;height:150px;border:1px solid #eee;">
-		<textarea name="%s" id="%s" class="plaintext" style="width:98%%;height:120px;margin:5px;">%s</textarea>
-		<span id="info_%s"></span>
-	</div>';
+	<textarea name="%s" id="%s" class="plaintext" style="width:98%%;height:120px;">%s</textarea>
+	<span id="info_%s"></span>
+	';
 	return sprintf($p, $name, $form_id.'_'.$name, $modelCol->data, $form_id.'_'.$name);
 }
 
