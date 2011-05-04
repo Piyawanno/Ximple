@@ -7,7 +7,7 @@ class Evaluation extends Control{
 		$this->moduleTitle = tt('Evaluation');
 		$this->moduleName = 'evaluation';
 		$this->tableName = 'evaluation';
-		$this-> setAccess();
+		$this->setAccess();
 		$this->init(new EvaluationModel());
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
@@ -77,12 +77,26 @@ class Evaluation extends Control{
 		document_set_redirect('evaluation_manage/model/'.pp('model'));
 	}
 	
-	public function drop(){
+	public function save(){
+		$dataArray = array(
+			'opinion' => pp('opinion'),
+			'status' => pp('status'),
+		);
+		db_update('evaluation', $dataArray, gg('id'));
+		print_r(pp('result'));
+		foreach(pp('result') as $key => $value){
+			
+		}
 		execute_set_db();
+		document_set_redirect('evaluation/model/'.$this->dataByID['model']);
+	}
+	
+	public function drop(){
 		$this->id = (int) gg('id');
 		$this->selectByID($this->column, true);
 		$clause = 'WHERE evaluatee='.$this->dataByID['evaluatee']." AND model='".$this->dataByID['model']."'";
 		$this->dropByClause($clause);
+		execute_set_db();
 		document_set_redirect('evaluation_manage/model/'.$this->dataByID['model']);
 	}
 	
@@ -157,9 +171,11 @@ class Evaluation extends Control{
 				head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
 				head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
 				$renderArray = array(
+					'id' => $data[0]['id'],
 					'model' => $modelDescription[$model],
 					'evaluatee' => userinfo_get_info_by_id($data[0]['evaluatee']),
 					'result' => $this->getResultData($data[0]['id']),
+					'opinion' => $data[0]['opinion'],
 				);
 				return render($renderArray, 'evaluation_form.tpl', 'evaluation_form');
 			}
