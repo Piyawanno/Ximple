@@ -7,7 +7,7 @@ class InformationModel extends Model{
 		$this->content = $this->text(tt('content'));
 		$this->source_date = $this->calendar(tt('date'));
 		$this->freetag = new FreeTagColumn();
-		$this->freetag->isReachable = true;
+		$this->section = $this->section();
 	}
 }
 ?>

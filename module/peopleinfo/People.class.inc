@@ -1,6 +1,8 @@
 <?php
+execute_add_class('peopleinfo', 'People');
 
-
+include_once('PeopleModel.class.inc');
+include_once('peopleinfo.tool.inc');
 
 class People extends Control{
 	function People(){

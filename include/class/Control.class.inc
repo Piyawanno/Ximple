@@ -239,6 +239,14 @@ abstract class Control extends Translatable{
 		$this->selectPage($column, $pageLength, $this->listPage->getClause($where), $isRaw);
 	}
 	
+	public function createTable(){
+		if(!$this->tableCreator){
+			include_once('TableCreator.class.inc');
+			$this->tableCreator = new TableCreator($this->modelConnector, $this->tableName);
+		}
+		$this->tableCreator->create();
+	}
+	
 	protected function renderDefaultListPage($description=null){
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->mode = $this->moduleName;
@@ -289,14 +297,6 @@ abstract class Control extends Translatable{
 		}elseif(state_is_develop()){
 			notify_add_error('No data for update-form rendering.');
 		}
-	}
-	
-	protected function createTable(){
-		if(!$this->tableCreator){
-			include_once('TableCreator.class.inc');
-			$this->tableCreator = new TableCreator($this->modelConnector, $this->tableName);
-		}
-		$this->tableCreator->create();
 	}
 	
 	protected function postSelect(){

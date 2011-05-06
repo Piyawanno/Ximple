@@ -4,6 +4,7 @@ class FreeTagColumn extends ModelColumn{
 		$this->type = 'shorttext';
 		$this->form = 'autocomplete';
 		$this->label = tt('tags');
+		$this->isReachable = true;
 		$this->help = tt('Use comma for multiple tags.');
 		$this->ajaxMode = 'freetag_get_ajax';
 	}
