@@ -11,7 +11,7 @@ class CustomURI extends Control{
 		$this->moduleName = 'customuri';
 		$this->tableName = 'customuri';
 		$this->setAdmin('customuri_admin');
-		$this->addAction('customuri_check_mapped_exist', 'checkMappedExist');
+		$this->addAction('customuri_check_mapped_exist', 'ajaxCheckMappedExist');
 		$this->init(new CustomURIModel());
 		$this->existLabel = tt('The choosen mapped URI exists. Please select other URI.');
 		$this->tooShortLabel = tt('The choosen mapped URI is too short.');

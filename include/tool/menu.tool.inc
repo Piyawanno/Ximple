@@ -50,11 +50,15 @@ function menu_check_module($data){
 		foreach($data as $key => $value){
 			$data[$key]['is_called_module'] = ($value['uri'] == SECTION_URI);
 		}
-	}else if(count($menu_activated)){
+	}elseif(count($menu_activated)){
+		echo(1);
+		print_r($menu_activated);
 		foreach($data as $key => $value){
 			$data[$key]['is_called_module'] = in_array($value['uri'], $menu_activated);
 		}
 	}else{
+		echo(2);
+		print_r($data);
 		foreach($data as $key => $value){
 			$splitted = split('/', $value['uri']);
 			$splitted = split('_', $splitted[0]);

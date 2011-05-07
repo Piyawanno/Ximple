@@ -131,12 +131,12 @@ abstract class Control extends Translatable{
 		if(!$isRaw) $this->postSelect();
 	}
 	
-	public function selectSingleColumn($col, $clause=null, $isRaw=false){
-		$column = $this->checkColumnExist(array($column));
-		$this->select(array('id', $col), $clause, $isRaw);
+	public function selectSingleColumn($column, $clause=null, $isRaw=false){
+		$columnArray = $this->checkColumnExist(array($column));
+		$this->select(array('id', $column), $clause, $isRaw);
 		$data = array();
 		foreach($this->data as $key => $value){
-			$data[$key] = $value[$col];
+			$data[$key] = $value[$column];
 		}
 		return $data;
 	}

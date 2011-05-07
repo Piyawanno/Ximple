@@ -7,6 +7,7 @@ $(document).ready(function (){
 				uri += '/URI_ID/'+customURIID;
 			}
 			$.get(uri, function(data){
+				alert(data);
 				if(data != 'not exist'){
 					exist = true;
 					formLock = true;

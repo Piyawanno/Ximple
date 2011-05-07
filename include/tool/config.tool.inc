@@ -219,7 +219,7 @@ function config_default(){
 		'index_mode' => 'about',
 		'start' => '2006-09-19',
 		'meta_data' => '',
-		'allowed_tags' => '<a><p><img><strong><h3><h4><h5><obj><param><embed><span><em><blockquote><table><tbody><tr><td><ul><ol><li><br><pre>',
+		'allowed_tags' => '<a><p><img><strong><h3><h4><h5><obj><param><embed><span><em><blockquote><table><tbody><tr><td><ul><ol><li><br><pre><b><u><i><div><s><sub><sup><hr><font><span>',
 		'cachable_mode' => array( ),
 		'cache_mode' => 'txt',
 		'cache_time' => '18000',
