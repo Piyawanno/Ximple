@@ -12,7 +12,7 @@ body{
 }
 
 a{
-	color:#666;
+	color:#b6a071;
 }
 
 input{
@@ -24,7 +24,6 @@ input{
 .list_label, .title_label{
 	color:#ccc;
 	font-size:24px;
-	margin:5px 10px;
 	font-family:Century Gothic, sans-serif;
 	color:#fff8c4;
 	font-weight:normal;
@@ -193,10 +192,11 @@ input{
 
 /* ========= Blocks ========= */
 #left_block{
-	width: 340px;
-	height:520px;
+	width: 330px;
+	height:510px;
 	float:right;
 	margin:0px 5px 0px 0px;
+	padding:5px;
 	background:url(../image/leftbox.png) bottom right no-repeat;
 }
 

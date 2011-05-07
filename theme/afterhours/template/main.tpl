@@ -4,6 +4,12 @@
 <html>
 	<head>
 		<?=$head?>
+		<script>
+			function changeBlock(contentID){
+				$('#left_block').html($('#'+contentID).html());
+				return false;
+			}
+		</script>
 	</head>	
 	<body>
 	<a name="top"></a>

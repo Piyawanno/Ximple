@@ -15,31 +15,4 @@
 		</div>
 	<?php endif?>
 <?php endforeach?>
-<script>
-	var hideLock = false;
-	function hideSubMenu(){
-		if(!hideLock) $('.submenu:visible').hide();
-	}
-	
-	$("#menu li a").mouseover(function (){
-		$('.submenu:visible').hide();
-		var pos = $(this).offset();
-		var height = $(this).parent().height();
-		$('#'+$(this).attr('rel')).css({
-			 top: pos.top + height, left: pos.left
-		});
-		$('#'+$(this).attr('rel')+':hidden').show('blind');
-		hideLock = true;
-	});
-	
-	$("#menu li a, .submenu").mouseout(function (){
-		hideLock = false;
-		setTimeout("hideSubMenu()", 1000);
-	});
-	
-	$(".submenu").mouseover(function (){
-		hideLock = true;
-	});
-	
-</script>
 
