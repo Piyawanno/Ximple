@@ -9,7 +9,7 @@ function theme_get_info_afterhours(){
 			'left' => 'Left',
 		),
 		'block_primary_position' => 'foot',
-		'menu_include_block' => false,
+		'menu_include_block' => true,
 	);
 }
 

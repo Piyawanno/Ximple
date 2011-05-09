@@ -6,7 +6,10 @@
 		<?=$head?>
 		<script>
 			function changeBlock(contentID){
-				$('#left_block').html($('#'+contentID).html());
+				var leftBlock = $('#left_block_content');
+				leftBlock.hide();
+				leftBlock.html($('#'+contentID).html());
+				leftBlock.show('scale');
 				return false;
 			}
 		</script>
@@ -28,9 +31,11 @@
 				<table><tr>
 					<td>
 						<div id="left_block">
-							<?php foreach($block['left'] as $key => $item):?>
-								<?=$item?>
-							<?php endforeach?>
+							<div id="left_block_content">
+								<?php foreach($block['left'] as $key => $item):?>
+									<?=$item?>
+								<?php endforeach?>
+							</div>
 						</div>
 					</td>
 					<td valign="bottom">

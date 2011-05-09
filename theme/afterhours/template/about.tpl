@@ -1,6 +1,6 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
-<div style="display:none;">
-	<h3 class="list_label"><?=$title?></h3>
+<div>
+	<h3 class="list_label" style="display:none;"><?=$title?></h3>
 	<p><?=$body?></p>
 </div>
 <?php if($is_admin):?>

@@ -426,7 +426,7 @@ function loaderChangeImage(loaderID, src, rel){
 }
 
 function addFileInput(formID, formName){
-	$('#'+formID+' ul').append('<li><input type="file" name="'+formName+'[]" size="35" ></li>');
+	$('#'+formID+' ul').append('<li><input type="file" name="'+formName+'[]" size="25" ></li>');
 	return false;
 }
 
