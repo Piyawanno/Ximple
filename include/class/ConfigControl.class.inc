@@ -70,6 +70,10 @@ abstract class ConfigControl extends Translatable{
 		return $configForm;
 	}
 	
+	public function initModule($requirement){
+		module_add($this->moduleName, $requirement, $this->moduleTitle);
+	}
+	
 	protected function getConfig(){
 		return ucc();
 	}

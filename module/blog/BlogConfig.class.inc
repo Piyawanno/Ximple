@@ -1,11 +1,11 @@
 <?php
-execute_add_class('blog', 'BlogConfig');
+execute_add_class_extension('blog', 'config', 'BlogConfig');
 include_once(ROOT_PATH.'module/content/ContentConfig.class.inc');
-include('BlogConfigModel.class.inc');
+include_once('BlogConfigModel.class.inc');
 
 class BlogConfig extends ContentConfig{
 	function BlogConfig(){
-		$this->moduleName = 'blog_config';
+		$this->moduleName = 'blog';
 		$this->moduleTitle = tt('Blog Configuration');
 		$this->setAdmin('blog_admin');
 		$this->addAction('blog_config', 'index');

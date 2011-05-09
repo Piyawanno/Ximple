@@ -1,15 +1,5 @@
 <?php
-blog_switch();
 execute_add_function('blog_promote_block');
-
-function blog_switch(){
-	$splitted = split('_', MODE);
-	if(count($splitted) > 1 and $splitted[1] == 'config'){
-		include('BlogConfig.class.inc');
-	}else{
-		include('Blog.class.inc');
-	}
-}
 
 function blog_promote_block(){
 	$column = array('id', 'topic', 'icon', 'intro', 'uri');

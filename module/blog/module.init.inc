@@ -9,10 +9,16 @@ function module_get_info_blog(){
 
 function module_init_blog(){
 	include_once('Blog.class.inc');
+	include_once('BlogConfig.class.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
 	include_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
+	
 	$blog = new Blog();
-	$blog->initModule('blog.module.inc');
+	$blog->initModule('Blog.class.inc');
+	
+	$blogConfig = new BlogConfig();
+	$blogConfig->initModule('BlogConfig.class.inc');
+	
 	config_set('blog_entries_number', 5);
 	
 	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2) ORDER BY publish_time DESC';

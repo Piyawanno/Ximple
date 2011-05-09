@@ -45,7 +45,20 @@ function module_drop_panel($module_name){
 
 
 function module_add($reference, $requirement, $name){
-	config_append_assc('module_require', $reference, $requirement);
+	$module_require = cc('module_require');
+	if(isset($module_require[$reference])){
+		if(is_array($module_require[$reference])){
+			$module_require[$reference][] = $requirement;
+		}else{
+			$module_require[$reference] = array(
+				$module_require[$reference],
+				$requirement
+			);		
+		}
+	}else{
+		$module_require[$reference] = $requirement;
+	}
+	config_set('module_require', $module_require);
 	config_append_assc('module_name', $reference, $name);
 }
 

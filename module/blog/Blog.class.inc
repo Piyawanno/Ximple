@@ -1,8 +1,9 @@
 <?php
 execute_add_class('blog', 'Blog');
 include_once(ROOT_PATH.'module/content/Content.class.inc');
-include('blog.tool.inc');
-include('BlogModel.class.inc');
+include_once('blog.tool.inc');
+include_once('blog.module.inc');
+include_once('BlogModel.class.inc');
 
 class Blog extends Content{
 	function Blog(){

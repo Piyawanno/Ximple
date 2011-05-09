@@ -1,15 +1,16 @@
 <?php
 
-global $execute_callable, $execute_mode, $execute_class;
+global $execute_callable, $execute_mode, $execute_class, $execute_class_extension;
 
 $execute_callable = array();
+$execute_class_extension = array();
 $execute_class = array();
 $execute_mode = 0;
 
 function execute($mode, $params=null, $result=null){
 	global $execute_callable;
 	$module = execute_get_module($mode);
-	execute_get_requirement($module);
+	execute_include_files($module);
 	if(!execute_is_callable($mode)) error_denied();
 	if(function_exists($mode) and in_array($mode, $execute_callable)){
 		return $mode($params, $result);
@@ -29,7 +30,8 @@ function execute_string($uri, $params=null, $result=null){
 }
 
 function execute_oop($mode, $module, $params, $result){
-	$class = execute_get_class($module);
+	$class = execute_get_class($mode, $module);
+	echo('class : '.$class);
 	$success = false;
 	$result = '';
 	if($class and class_exists($class)){
@@ -69,10 +71,37 @@ function execute_add_class($module, $class){
 	}
 }
 
-function execute_get_class($module){
+function execute_add_class_extension($module, $extension, $class){
+	global $execute_class_extension;
+	include_once(ROOT_PATH.'include/class/Control.class.inc');
+	if(isset($execute_class_extension[$module])){
+		if(!isset($execute_class_extension[$module][$extension])){
+			$execute_class_extension[$module][$extension] = $class;
+		}elseif(state_is_develop()){
+			$exist_class = $execute_class[$module];
+			notify_add_error('Module : '.$module.' has already defined a class : '.$exist_class);
+		}
+	}else{
+		$execute_class_extension[$module] = array($extension => $class);
+	}
+	print_r($execute_class_extension);
+}
+
+function execute_get_class($mode, $module){
 	global $execute_class;
-	if(isset($execute_class[$module])) return $execute_class[$module];
-	else return null;
+	global $execute_class_extension;
+	$splitted =  split('_', $mode);
+	if(count($splitted) > 1){
+		if(isset($execute_class_extension[$module][$splitted[1]])){
+			return $execute_class_extension[$module][$splitted[1]];
+		}
+	}
+	
+	if(isset($execute_class[$module])){
+		return $execute_class[$module];
+	}else{
+		return null;
+	}
 }
 
 function execute_set_site(){
@@ -136,18 +165,28 @@ function execute_get_module($mode){
 	return $split[0];
 }
 
-function execute_get_requirement($module){
+function execute_include_files($module){
 	$module_require = cc('module_require');
 	if(isset($module_require[$module])){
+		$module_require = $module_require[$module];
 		translate_add_directory(ROOT_PATH.'module/'.$module.'/');
-		$require = ROOT_PATH.'module/'.$module.'/'.$module_require[$module];
-		if(is_file($require)){
-			include_once($require);
-		}elseif(state_is_develop()){
-			error_syslog('Error execute_get_requirement by module : '.$module.', file : '.$require);
+		if(!is_array($module_require)){
+			execute_include(ROOT_PATH.'module/'.$module.'/'.$module_require);
 		}else{
-			error_not_found();
+			foreach($module_require as $key => $value){
+				execute_include(ROOT_PATH.'module/'.$module.'/'.$value);
+			}
 		}
+	}
+}
+
+function execute_include($require){
+	if(is_file($require)){
+		include_once($require);
+	}elseif(state_is_develop()){
+		error_syslog('Error execute_include_files by module : '.$module.', file : '.$require);
+	}else{
+		error_not_found();
 	}
 }
 

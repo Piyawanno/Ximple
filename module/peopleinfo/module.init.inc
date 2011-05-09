@@ -56,7 +56,7 @@ function module_drop_peopleinfo(){
 	include_once('People.class.inc');
 	$people = new People();
 	$people->dropModule();
-	
+	module_drop('people');
 	module_drop_role('peopleinfo_admin');
 	module_drop_panel('People Information Center');
 }

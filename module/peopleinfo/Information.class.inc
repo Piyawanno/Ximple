@@ -1,5 +1,7 @@
 <?php
-execute_add_class('peopleinfo', 'Information');
+if(execute_get_class('peopleinfo') == null){
+	execute_add_class('peopleinfo', 'Information');
+}
 
 include_once('InformationModel.class.inc');
 include_once('peopleinfo.tool.inc');

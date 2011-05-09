@@ -1,5 +1,5 @@
 <?php
-require('blog.tool.inc');
+require_once('blog.tool.inc');
 
 class BlogConfigModel extends ContentConfigModel{
 	function BlogConfigModel(){
