@@ -18,11 +18,13 @@ function module_init_peopleinfo(){
 	include_once(ROOT_PATH.'include/class/QuickTableCreator.class.inc');
 	
 	$people = new People();
-	$people->initModule('peopleinfo.module.inc');
+	$people->initModule('People.class.inc');
+	
 	$event = new Event();
-	$event->createTable();
+	$event->initModule('Event.class.inc');
+	
 	$information = new Information();
-	$information->createTable();
+	$information->initModule('Information.class.inc');
 	
 	$peopleRelationCreator = new QuickTableCreator('people_relation', new PeopleRelationModel());
 	$peopleRelationCreator->create();

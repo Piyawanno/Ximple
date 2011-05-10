@@ -1,8 +1,5 @@
 <?php
-if(execute_get_class('peopleinfo') == null){
-	echo('what sap');
-	execute_add_class('peopleinfo', 'Event');
-}
+execute_add_extended_class('peopleinfo', 'event', 'Event');
 
 include_once('EventModel.class.inc');
 include_once('peopleinfo.tool.inc');
