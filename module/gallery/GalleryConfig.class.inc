@@ -1,11 +1,11 @@
 <?php
-execute_add_class('gallery', 'GalleryConfig');
+execute_add_extended_class('gallery', 'config', 'GalleryConfig');
 include_once(ROOT_PATH.'module/content/ContentConfig.class.inc');
-include('GalleryConfigModel.class.inc');
+include_once('GalleryConfigModel.class.inc');
 
 class GalleryConfig extends ContentConfig{
 	function GalleryConfig(){
-		$this->moduleName = 'gallery_config';
+		$this->moduleName = 'gallery';
 		$this->moduleTitle = tt('Gallery Configuration');
 		$this->setAdmin('gallery_admin');
 		$this->addAction('gallery_config', 'index');

@@ -83,6 +83,7 @@ function execute_add_extended_class($module, $extension, $class){
 	}else{
 		$execute_class_extension[$module] = array($extension => $class);
 	}
+	
 }
 
 function execute_get_class($mode, $module){

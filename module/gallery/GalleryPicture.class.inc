@@ -1,6 +1,6 @@
 <?php
-if(execute_get_class('gallery') == null) execute_add_class('gallery', 'GalleryPicture');
-require('GalleryPictureModel.class.inc');
+execute_add_extended_class('gallery', 'picture', 'GalleryPicture');
+require_once('GalleryPictureModel.class.inc');
 
 class GalleryPicture extends Control{
 	private $galleryID;
