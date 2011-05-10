@@ -32,10 +32,15 @@ function module_init_blog(){
 
 function module_drop_blog(){
 	include_once('Blog.class.inc');
+	include_once('BlogConfig.class.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
 	include_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
+	
 	$blog = new Blog();
 	$blog->dropModule();
+	$blogConfig = new BlogConfig();
+	$blogConfig->dropModule();
+	
 	notify_add_info(tt('Blog has been successfully deactivated'));
 	config_drop('blog_entries_number');
 	flashblock_drop('blog_last_post');

@@ -2,7 +2,6 @@
 execute_add_class('blog', 'Blog');
 include_once(ROOT_PATH.'module/content/Content.class.inc');
 include_once('blog.tool.inc');
-include_once('blog.module.inc');
 include_once('BlogModel.class.inc');
 
 class Blog extends Content{
@@ -10,6 +9,8 @@ class Blog extends Content{
 		$this->tableName = 'blog';
 		$this->moduleName = 'blog';
 		$this->moduleTitle = tt('Blog');
+		$this->addAction('blog_promote_block', 'renderPromoteBlock');
+		$this->addAccessMethod('guest', 'renderPromoteBlock');
 		$this->init(new BlogModel());
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
@@ -26,6 +27,15 @@ class Blog extends Content{
 		document_set_title($this->dataByID['topic']);
 		$this->dataByID['content'] = $this->dataByID['intro'].$this->dataByID['content'];
 		return render($this->dataByID, 'content_print.tpl', 'blog_print');
+	}
+	
+	public function renderPromoteBlock(){
+		$column = array('id', 'topic', 'icon', 'intro', 'uri');
+		$clause = 'WHERE section='.SECTION.' AND publishing_status=4';
+		$data = db_select('blog', $column, $clause);
+		$renderArray = array('data' => array_values($data));
+		head_add_css('blog.css');
+		return render($renderArray, 'promotedblogs.tpl', 'promotedblogs');
 	}
 	
 	protected function getSummary(){
