@@ -11,10 +11,13 @@ function module_get_info_directory(){
 
 function module_init_directory(){
 	include_once('PageDirectory.class.inc');
+	include_once('DirectoryConfig.class.inc');
 	include_once(ROOT_PATH.'include/tool/menu.tool.inc');
 	
 	$directory = new PageDirectory();
 	$directory->initModule();
+	$directoryConfig = new DirectoryConfig();
+	$directoryConfig->initModule('DirectoryConfig.class.inc');
 	
 	$directory_name = ROOT_PATH.'files/directory';
 	if(!is_dir($directory_name)) mkdir($directory_name);
@@ -37,10 +40,14 @@ function module_init_directory(){
 
 function module_drop_directory(){
 	include_once('PageDirectory.class.inc');
+	include_once('DirectoryConfig.class.inc');
 	include_once(ROOT_PATH.'include/tool/menu.tool.inc');
 	
 	$directory = new PageDirectory();
 	$directory->dropModule();
+	
+	$directoryConfig = new DirectoryConfig();
+	$directoryConfig->dropModule();
 	
 	menu_drop('directory');
 	module_drop_role('directory_admin');

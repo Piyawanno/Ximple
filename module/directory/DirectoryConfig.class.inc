@@ -1,5 +1,5 @@
 <?php
-execute_add_class('directory', 'DirectoryConfig');
+execute_add_extended_class('directory', 'config', 'DirectoryConfig');
 include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
 include_once('directory.tool.inc');
 include('DirectoryConfigModel.class.inc');
@@ -7,7 +7,7 @@ include('DirectoryConfigModel.class.inc');
 class DirectoryConfig extends ConfigControl{
 	private $config;
 	function DirectoryConfig(){
-		$this->moduleName = 'directory_config';
+		$this->moduleName = 'directory';
 		$this->moduleTitle = tt('Directory Configuration');
 		$this->setAdmin('directory_admin');
 		$this->addAction('directory_config', 'index');

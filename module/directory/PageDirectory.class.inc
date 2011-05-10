@@ -107,7 +107,7 @@ class PageDirectory extends Control{
 	}
 	
 	public function initModule(){
-		Control::initModule('directory.module.inc');
+		Control::initModule('PageDirectory.class.inc');
 		$this->initPage();
 		$this->page->initModule('Page.class.inc');
 		$category = directory_get_page_category_id();
