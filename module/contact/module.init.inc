@@ -10,9 +10,15 @@ function module_get_info_contact(){
 
 function module_init_contact(){
 	include_once('Contact.class.inc');
+	include_once('ContactConfig.class.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	
 	$contact = new Contact();
-	$contact->initModule('contact.module.inc');
+	$contact->initModule('Contact.class.inc');
+	
+	$contactConfig = new ContactConfig();
+	$contactConfig->initModule('ContactConfig.class.inc');
+	
 	module_add_role('contact_admin', 'Contact Administrator', 'Who can insert, edit and drop Contact.');
 	module_add_cache('contact');
 	module_add_panel('Contact', 'contact_admin', 'contact_write', 'create new contact');
@@ -29,9 +35,15 @@ function module_init_contact(){
 
 function module_drop_contact(){
 	include_once('Contact.class.inc');
+	include_once('ContactConfig.class.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	
 	$contact = new Contact();
 	$contact->dropModule();
+	
+	$contactConfig = new ContactConfig();
+	$contactConfig->dropModule();
+	
 	module_drop_role('contact_admin');
 	module_drop_cache('contact');
 	module_drop_panel('Contact');
