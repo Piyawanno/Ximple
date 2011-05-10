@@ -1,5 +1,6 @@
 <?php
 execute_add_class('group', 'Group');
+include('role.module.inc');
 include('GroupModel.class.inc');
 
 class Group extends Control{

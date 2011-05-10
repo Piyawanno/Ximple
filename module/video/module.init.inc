@@ -10,10 +10,16 @@ function module_get_info_video(){
 
 function module_init_video(){
 	include_once('Video.class.inc');
+	include_once('VideoConfig.class.inc');
+	
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
 	include_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
+	
 	$video = new Video();
-	$video->initModule('video.module.inc');
+	$video->initModule('Video.class.inc');
+	$videoConfig = new VideoConfig();
+	$videoConfig->initModule('VideoConfig.class.inc');
+	
 	config_set('video_entries_number', 5);
 	config_set('video_width', 480);
 	config_set('video_height', 390);
@@ -29,10 +35,15 @@ function module_init_video(){
 
 function module_drop_video(){
 	include_once('Video.class.inc');
+	include_once('VideoConfig.class.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
 	include_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
+	
 	$video = new Video();
 	$video->dropModule();
+	$videoConfig = new VideoConfig();
+	$videoConfig->dropModule();
+	
 	notify_add_info(tt('Video has been successfully deactivated'));
 	config_drop('video_entries_number');
 	config_drop('video_width');

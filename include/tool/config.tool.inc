@@ -61,7 +61,7 @@ function config_default_require(){
 		'config' => 'SectionConfig.class.inc',
 		'theme' => 'theme.module.inc',
 		'user' => 'User.class.inc',
-		'group' => 'group.module.inc',
+		'group' => 'Group.class.inc',
 		'profiletype' => 'ProfileType.class.inc',
 		'profile' => 'Profile.class.inc',
 		'registration' => 'registration.module.inc',
