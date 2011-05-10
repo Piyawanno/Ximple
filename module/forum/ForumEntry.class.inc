@@ -1,8 +1,8 @@
 <?php
-if(execute_get_class('forum') == null)  execute_add_class('forum', 'ForumEntry');
+execute_add_extended_class('forum', 'entry', 'ForumEntry');
 include_once(ROOT_PATH.'module/content/Content.class.inc');
 include_once('forum.tool.inc');
-include('ForumEntryModel.class.inc');
+include_once('ForumEntryModel.class.inc');
 
 class ForumEntry extends Content{
 	function ForumEntry(){
@@ -131,6 +131,11 @@ class ForumEntry extends Content{
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
 		$this->listMeta->mode = $this->moduleName.'_editor_list';
 		return $this->renderListPage('WHERE (section='.SECTION.')');
+	}
+	
+	public function initModule(){
+		Content::initModule('ForumEntry.class.inc');
+		module_add('forum', 'ForumEntry.class.inc', tt('Forum'));
 	}
 	
 	protected function setConfigForm(){

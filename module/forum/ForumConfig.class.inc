@@ -1,11 +1,11 @@
 <?php
-execute_add_class('forum', 'ForumConfig');
+execute_add_extended_class('forum', 'config', 'ForumConfig');
 include_once(ROOT_PATH.'module/content/ContentConfig.class.inc');
-include('ForumConfigModel.class.inc');
+include_once('ForumConfigModel.class.inc');
 
 class ForumConfig extends ContentConfig{
 	function ForumConfig(){
-		$this->moduleName = 'forum_config';
+		$this->moduleName = 'forum';
 		$this->moduleTitle = tt('Forum Configuration');
 		$this->setAdmin('forum_admin');
 		$this->addAction('forum_config', 'index');

@@ -1,5 +1,5 @@
 <?php
-require('forum.tool.inc');
+require_once('forum.tool.inc');
 
 class ForumConfigModel extends ContentConfigModel{
 	function ForumConfigModel(){

@@ -10,14 +10,18 @@ function module_get_info_forum(){
 function module_init_forum(){
 	include_once('Forum.class.inc');
 	include_once('ForumEntry.class.inc');
+	include_once('ForumConfig.class.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
 	include_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
 	
 	$forumEntry = new ForumEntry();
-	$forumEntry->initModule('ForumEntry.class.inc');
+	$forumEntry->initModule();
 	
 	$forum = new Forum();
-	$forum->initModule('forum.module.inc');
+	$forum->initModule('Forum.class.inc');
+	
+	$forumConfig = new ForumConfig();
+	$forumConfig->initModule('ForumConfig.class.inc');
 	
 	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2) ORDER BY id DESC';
 	flashblock_add('forum_entry_last_post', 'forum_entry', tt('Last posted Forum Entries'), 'forum_entry', 'topic', $clause);
@@ -40,6 +44,7 @@ function module_init_forum(){
 function module_drop_forum(){
 	include_once('Forum.class.inc');
 	include_once('ForumEntry.class.inc');
+	include_once('ForumConfig.class.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
 	include_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
 	
@@ -48,6 +53,11 @@ function module_drop_forum(){
 	
 	$forum = new Forum();
 	$forum->dropModule();
+	
+	$forumConfig = new ForumConfig();
+	$forumConfig->dropModule();
+	
+	
 	notify_add_info(tt('Forum has been successfully deactivated'));
 	module_drop_panel('Forum');
 	menu_drop('forum');

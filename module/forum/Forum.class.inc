@@ -1,7 +1,9 @@
 <?php
 execute_add_class('forum', 'Forum');
-include('ForumModel.class.inc');
+
+include_once('ForumModel.class.inc');
 include_once('forum.tool.inc');
+include_once('forum.module.inc');
 
 class Forum extends Control{
 	function Forum(){

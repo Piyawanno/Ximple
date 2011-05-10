@@ -1,20 +1,7 @@
 <?php
-forum_switch();
-
 execute_add_function('forum_entry_last_commented');
 execute_add_function('forum_entry_last_commented_config');
 execute_add_function('forum_entry_last_commented_config_save');
-
-function forum_switch(){
-	$splitted = split('_', MODE);
-	if(count($splitted) > 1 and $splitted[1] == 'config'){
-		include('ForumConfig.class.inc');
-	}elseif(count($splitted) > 1 and $splitted[1] == 'entry'){
-		include('ForumEntry.class.inc');
-	}else{
-		include('Forum.class.inc');
-	}
-}
 
 function forum_entry_last_commented(){
 	include_once('forum.tool.inc');

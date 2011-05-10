@@ -35,7 +35,7 @@ function flashblock_add($reference, $mode, $name, $table, $column, $clause){
 		'item_number' => 5,
 	);
 	$id = db_insert('flashblock', $data);
-	block_add($name, 'flashblock/'.$id, cc('block_primary_position'), 'flashblock_config/'.$id, 'flashblock_save/'.$id);
+	block_add($name, 'flashblock/'.$id, 'disabled', 'flashblock_config/'.$id, 'flashblock_save/'.$id);
 }
 
 function flashblock_drop($reference){
