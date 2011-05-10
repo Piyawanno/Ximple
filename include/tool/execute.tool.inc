@@ -31,7 +31,6 @@ function execute_string($uri, $params=null, $result=null){
 
 function execute_oop($mode, $module, $params, $result){
 	$class = execute_get_class($mode, $module);
-	echo('class : '.$class);
 	$success = false;
 	$result = '';
 	if($class and class_exists($class)){
@@ -71,7 +70,7 @@ function execute_add_class($module, $class){
 	}
 }
 
-function execute_add_class_extension($module, $extension, $class){
+function execute_add_extended_class($module, $extension, $class){
 	global $execute_class_extension;
 	include_once(ROOT_PATH.'include/class/Control.class.inc');
 	if(isset($execute_class_extension[$module])){
@@ -84,7 +83,7 @@ function execute_add_class_extension($module, $extension, $class){
 	}else{
 		$execute_class_extension[$module] = array($extension => $class);
 	}
-	print_r($execute_class_extension);
+	
 }
 
 function execute_get_class($mode, $module){

@@ -1,6 +1,7 @@
 <?php
+execute_add_class('advertise', 'Advertise');
 include_once(ROOT_PATH.'include/class/Control.class.inc');
-include('AdvertiseModel.class.inc');
+include_once('AdvertiseModel.class.inc');
 
 class Advertise extends Control{
 	function Advertise(){
@@ -8,6 +9,8 @@ class Advertise extends Control{
 		$this->moduleName = 'advertise';
 		$this->tableName = 'advertise';
 		$this->setAdmin('advertise_admin');
+		$this->addAction('advertise_banner', 'renderBanner');
+		$this->addAccessMethod('guest', 'renderBanner');
 		$this->addAccessMethod('guest', 'redirect');
 		$this->init(new AdvertiseModel());
 		document_set_path($this->moduleTitle, 'advertise_list');

@@ -74,6 +74,10 @@ abstract class ConfigControl extends Translatable{
 		module_add($this->moduleName, $requirement, $this->moduleTitle);
 	}
 	
+	public function dropModule(){
+		module_drop($this->moduleName);
+	}
+	
 	protected function getConfig(){
 		return ucc();
 	}

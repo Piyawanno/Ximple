@@ -1,10 +1,11 @@
 <?php
+execute_add_extended_class('advertise', 'config', 'AdvertiseConfig');
 include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
-include('AdvertiseConfigModel.class.inc');
+include_once('AdvertiseConfigModel.class.inc');
 
 class AdvertiseConfig extends ConfigControl{
 	function AdvertiseConfig(){
-		$this->moduleName = 'advertise_config';
+		$this->moduleName = 'advertise';
 		$this->moduleTitle = tt('Advertise Configuration');
 		$this->setAdmin('advertise_admin');
 		$this->addAction('advertise_config', 'index');
@@ -31,7 +32,7 @@ class AdvertiseConfig extends ConfigControl{
 		execute_set_db();
 	}
 	
-	private function updateBlock(){
+	public function updateBlock(){
 		$position = pp('advertise_block_position');
 		include_once(ROOT_PATH.'include/tool/block.tool.inc');
 		foreach($position as $key => $value){
