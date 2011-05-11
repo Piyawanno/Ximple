@@ -5,6 +5,7 @@ class AdvertiseModel extends Model{
 		$this->name->listMode = 'advertise';
 		$this->uri = $this->title('URI');
 		$this->uri->isList = false;
+		$this->address = $this->title(tt('address'));
 		$this->banner = $this->image(tt('banner'), 'files/advertise/');
 		$option = cc('advertise_block_position');
 		if(!is_array($option)) $option = array();

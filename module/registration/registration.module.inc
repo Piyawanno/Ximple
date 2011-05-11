@@ -17,9 +17,9 @@ function registration_switch_load(){
 function registration(){
 	if(cc('registration_enable')){
 		include(ROOT_PATH.'include/class/Control.class.inc');
-		include(ROOT_PATH.'module/user/User.class.inc');
-		$user = new User();
-		return $user->registration();
+		include('Registration.class.inc');
+		$registration = new Registration();
+		return $registration->write();
 	}else{
 		registration_off();
 	}

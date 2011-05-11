@@ -3,6 +3,8 @@ execute_add_class('user', 'User');
 include('UserModel.class.inc');
 
 class User extends Control{
+	private $groupForm;
+	
 	function User(){
 		$this->tableName = 'users';
 		$this->moduleName = 'user';
@@ -39,22 +41,16 @@ class User extends Control{
 		document_set_path(tt('User'), 'user');
 		$this->initJS();
 		head_add_js_var('insertUser', true);
+		$this->injectGroupForm();
 		$this->formMeta->id = $this->moduleName;
 		$this->formMeta->title = tt('Add a new User');
 		$this->formMeta->mode = 'user_insert';
 		return $this->renderInsertForm();
 	}
 	
-	public function registration(){
-		$this->initJS();
-		head_add_js_var('insertUser', true);
-		$this->moduleTitle = tt('Registration');
-		$this->formMeta->id = 'user';
-		$this->formMeta->title = $this->moduleTitle;
-		$this->formMeta->mode = 'registration_save';
-		$this->formMeta->description = cc('registration_page');
-		$this->formMeta->isCaptcha = true;
-		return $this->renderInsertForm();
+	public function insert(){
+		Control::insert();
+		$this->updateMap();
 	}
 	
 	public function account($additionalForm ){
@@ -76,11 +72,18 @@ class User extends Control{
 		$this->initJS();
 		head_add_js_var('insertUser', false);
 		head_add_js_var('uid', gg('id'));
+		$this->injectGroupForm();
+		$this->getGroupData();
 		$this->formMeta->id = $this->moduleName;
 		$this->formMeta->title = tt('Update User : ').$this->dataByID['login_name'];
 		$this->formMeta->mode = 'user_update';
 		$this->renderAvatar();
 		return $this->renderUpdateForm();
+	}
+	
+	public function update(){
+		Control::update();
+		$this->updateMap();
 	}
 	
 	public function drop(){
@@ -112,6 +115,35 @@ class User extends Control{
 		if(empty($avatar)) $avatar = 'files/avatar/default.png';
 		$image = ROOT_URI.$avatar;
 		$this->formMeta->description = '<p align="center"><img src="'.$image.'"></p>';
+	}
+	
+	private function injectGroupForm(){
+		$this->groupForm = Model::group(tt('groups'));
+		$this->groupForm->isExceptedAdmin = false;
+		$this->groupForm->isExceptedGuest = true;
+		$this->groupForm->isExceptedUser  = true;
+		$this->groupForm->isDB = false;
+		$this->modelConnector->addModel('groups', $this->groupForm);
+	}
+	
+	private function getGroupData(){
+		$clause = 'WHERE users='.$this->id;
+		$this->groupForm->data = db_select_single_column('map', 'groups', $clause, false);
+	}
+	
+	private function updateMap(){
+		if(is_array(pp('groups'))){
+			$clause = 'users='.((int) $this->id);
+			db_drop_many('map', $clause);
+			$data = array(
+				'users' => $this->id,
+				'section' => SECTION,
+			);
+			foreach(pp('groups') as $key => $value){
+				$data['groups'] = $value;
+				db_insert('map', $data);
+			}
+		}
 	}
 }
 ?>
