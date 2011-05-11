@@ -50,19 +50,19 @@
 		</tr>
 		<?php $module_label=true?>
 		<?php foreach($role as $key => $value):?>
-		<?php if($value['is_system']):?>
-		<tr class="system_role">
-		<?php elseif($module_label):?>
-		<?php $module_label=false;?>
-		<tr>
-			<td colspan="3">
-				<strong><?=tt('Module-Role')?> : </strong>
-				<?=tt('Roles from the initialized Modules.')?>
-			</td>
-		</tr>
-		<?php else:?>
-		<tr>
-		<?php endif?>
+			<?php if($value['is_system']):?>
+				<tr class="system_role">
+			<?php elseif($module_label):?>
+				<?php $module_label=false;?>
+				<tr>
+					<td colspan="3">
+						<strong><?=tt('Module-Role')?> : </strong>
+						<?=tt('Roles from the initialized Modules.')?>
+					</td>
+				</tr>
+			<?php else:?>
+				<tr>
+			<?php endif?>
 			<td><?=$value['name']?></td>
 			<td><?=$value['description']?></td>
 			<td align="center">

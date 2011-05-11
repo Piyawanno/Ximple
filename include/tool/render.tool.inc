@@ -80,9 +80,17 @@ function render_tag($category, $freetag, $mode){
 	return $render;
 }
 
-function render_icon($mode, $icon, $title){
+function render_icon($mode, $icon, $title, $onclick=null){
 	return '
 	<a href="'.SECTION_URI.Q.$mode.'" class="write_icon">
+		<img src="'.ROOT_URI.$icon.'" border="0" align="left">
+		'.$title.'
+	</a>';
+}
+
+function render_ajax_icon($onclick, $icon, $title){
+	return '
+	<a href="#" onclick="return '.$onclick.'()" class="write_icon">
 		<img src="'.ROOT_URI.$icon.'" border="0" align="left">
 		'.$title.'
 	</a>';

@@ -151,6 +151,7 @@ function group_get_user($gid){
 function group_init_role(){
 	$system_role = config_default_role();
 	$module_role = io_unserialize(ROOT_PATH.'files/config/role'.SECTION);
+	ksort($module_role);
 	return array($system_role, $module_role);
 }
 

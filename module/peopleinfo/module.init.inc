@@ -14,6 +14,7 @@ function module_init_peopleinfo(){
 	include_once('PeopleFileModel.class.inc');
 	include_once('EventRelationModel.class.inc');
 	include_once('PeopleConfig.class.inc');
+	include_once('PeopleUser.class.inc');
 	include_once(ROOT_PATH.'include/class/QuickTableCreator.class.inc');
 	
 	$people = new People();
@@ -25,6 +26,12 @@ function module_init_peopleinfo(){
 	$information = new Information();
 	$information->initModule('Information.class.inc');
 	
+	$peopleConfig = new PeopleConfig();
+	$peopleConfig->initModule('PeopleConfig.class.inc');
+	
+	$peopleUser = new PeopleUser();
+	$peopleUser->initModule('PeopleUser.class.inc');
+	
 	$peopleRelationCreator = new QuickTableCreator('people_relation', new PeopleRelationModel());
 	$peopleRelationCreator->create();
 	
@@ -33,9 +40,6 @@ function module_init_peopleinfo(){
 	
 	$eventRelationCreator = new QuickTableCreator('event_relation', new EventRelationModel());
 	$eventRelationCreator->create();
-	
-	$peopleConfig = new PeopleConfig();
-	$peopleConfig->initModule('PeopleConfig.class.inc');
 	
 	module_add_role('peopleinfo_admin', 'People Information Administrator', 'Who manages all about People Information Center.');
 	module_add_role('peopleinfo_observer', 'People Information Observer', 'Who observes all information in People Information Center.');
@@ -61,6 +65,7 @@ function module_drop_peopleinfo(){
 	include_once('Event.class.inc');
 	include_once('Information.class.inc');
 	include_once('PeopleConfig.class.inc');
+	include_once('PeopleUser.class.inc');
 	
 	$people = new People();
 	$people->dropModule();
@@ -73,6 +78,9 @@ function module_drop_peopleinfo(){
 	
 	$peopleConfig = new PeopleConfig();
 	$peopleConfig->dropModule();
+	
+	$peopleUser = new PeopleUser();
+	$peopleUser->dropModule();
 	
 	module_drop('people');
 	module_drop_role('peopleinfo_admin');

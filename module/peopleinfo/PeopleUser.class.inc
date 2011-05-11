@@ -1,0 +1,55 @@
+<?php
+execute_add_extended_class('peopleinfo', 'user', 'PeopleUser');
+include_once(ROOT_PATH.'module/user/User.class.inc');
+include_once('peopleinfo.tool.inc');
+
+class PeopleUser extends User{
+	function PeopleUser(){
+		User::User();
+		$this->addAction('peopleinfo_user_write', 'write');
+		$this->addAction('peopleinfo_user_save', 'insert');
+		$this->addAction('peopleinfo_user_get', 'getUserOption');
+		$this->moduleName = 'peopleinfo';
+	}
+	
+	public function write(){
+		execute_set_ajax();
+		$this->initJS();
+		head_add_js_var('insertUser', true);
+		$this->moduleTitle = tt('Add User to People Information Center');
+		$this->formMeta->id = 'user';
+		$this->formMeta->title = $this->moduleTitle;
+		$this->formMeta->isAjax = true;
+		$this->formMeta->ajaxFunction = 'submitPeopleUserForm';
+		$this->formMeta->mode = 'peopleinfo_user_save';
+		return $this->renderInsertForm();
+	}
+	
+	public function insert(){
+		User::insert();
+		$groups = cc('peopleinfo_related');
+		if(count($groups)){
+			foreach($groups as $key => $value){
+				$clause = 'users='.((int) $this->id).' AND groups='.$value;
+				db_drop_many('map', $clause);
+				$data = array(
+					'users' => $this->id,
+					'groups' => $value,
+					'section' => SECTION,
+				);
+				db_insert('map', $data);
+			}
+		}
+	}
+	
+	public function getUserOption(){
+		execute_set_ajax();
+		$people = peopleinfo_get_unprocessed_user();
+		$render = '';
+		foreach($people as $key => $value){
+			$render .= '<option value="'.$key.'">'.$value.'</option>';
+		}
+		return $render;
+	}
+}
+?>

@@ -22,6 +22,16 @@ function peopleinfo_get_people(){
 	return userinfo_get_info($people, 'people');
 }
 
+function peopleinfo_get_unprocessed_user(){
+	$people = userinfo_get_login_name_by_role('peopleinfo_related');
+	$processed_people = peopleinfo_get_people();
+	$processed_people = array_keys($processed_people);
+	foreach($people as $key => $value){
+		if(in_array($key, $processed_people)) unset($people[$key]);
+	}
+	return $people;
+}
+
 function peopleinfo_get_people_name(){
 	$people_name = array();
 	$people = peopleinfo_get_people();

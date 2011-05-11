@@ -7,7 +7,7 @@ include_once('peopleinfo.tool.inc');
 class Information extends Control{
 	function Information(){
 		$this->moduleTitle = tt('Information');
-		$this->moduleName = 'people';
+		$this->moduleName = 'peopleinfo';
 		$this->tableName = 'information';
 		$this->setAdmin('peopleinfo_admin');
 		$this->init(new InformationModel());

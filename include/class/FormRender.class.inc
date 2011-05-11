@@ -63,6 +63,9 @@ class FormRender{
 			$this->modelConnector->initCaptchaColumn();
 		}
 		$this->notNull = $this->modelConnector->getColumnNameByBoolean('isNotNull');
+		foreach($this->notNull as $key => $value){
+			$this->notNull[$key] = $this->formMeta->id.'_'.$value;
+		}
 		$this->label = $this->modelConnector->getColumnAttribute('label');
 		$hidden = $this->modelConnector->getColumnNameByAttribute('form', 'hidden');
 		foreach($hidden as $name){
