@@ -12,6 +12,14 @@ class Information extends Control{
 		$this->setAdmin('peopleinfo_admin');
 		$this->init(new InformationModel());
 	}
+	
+	public function renderPeopleInformation($userID){
+		
+	}
+	
+	public function renderEventInformation($eventID){
+		
+	}
 }
 
 ?>

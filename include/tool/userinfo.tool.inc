@@ -25,6 +25,20 @@ function userinfo_get_info($data, $column){
 	return $data;
 }
 
+function userinfo_get_login_name($data, $column){
+	if(count($data) == 0) return $data;
+	$uid = array();
+	foreach($data as $key => $value){
+		$uid[] = (int)$value[$column];
+	}
+	$clause = 'WHERE id='.join(' OR id=', $uid);
+	$user_name = db_select_single_column('users', 'login_name', $clause);
+	foreach($data as $key => $value){
+		$data[$key][$column] = $user_name[$value[$column]];
+	}
+	return $data;
+}
+
 function userinfo_get_info_by_id($uid){
 	$dummy = array($uid => array('id' => $uid));
 	$info = userinfo_get_info($dummy, 'id');

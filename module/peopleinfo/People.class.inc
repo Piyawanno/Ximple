@@ -3,6 +3,7 @@ execute_add_class('peopleinfo', 'People');
 
 include_once(ROOT_PATH.'module/freetag/freetag.tool.inc');
 include_once('PeopleModel.class.inc');
+include_once('Information.class.inc');
 include_once('peopleinfo.tool.inc');
 
 class People extends Control{
@@ -11,13 +12,40 @@ class People extends Control{
 		$this->moduleName = 'peopleinfo';
 		$this->tableName = 'people';
 		$this->setAdmin('peopleinfo_admin');
+		$this->setOwner('people');
+		
+		$this->addAction('peopleinfo_list', 'renderListPage');
+		$this->addAccessMethod('listPage', 'peopleinfo_observer');
+		$this->addAccessMethod('index', 'peopleinfo_observer');
+		$this->dropAccessMethod('index');
+		
 		$this->init(new PeopleModel());
-		document_set_path(tt('People'), 'peopleinfo');
+		document_set_path(tt('People'), 'peopleinfo_list');
 	}
 	
 	public function index(){
-		if(gg('id')) return $this->renderPage();
-		else return $this->renderAdminListPage();
+		$this->id = (int) gg('id');
+		$this->selectByID($this->column);
+		$information = new Information();
+		$this->dataByID['people'] = userinfo_get_info_by_id($this->dataByID['people']);
+		$renderData = array(
+			'data' => $this->dataByID,
+			'information' => $information->renderPeopleInformation($this->dataByID['people']['id']),
+			'tag' => 
+		);
+		document_set_path($this->dataByID['people']['login_name']);
+		return render($renderData, 'people.tpl', 'peopleinfo_people');
+	}
+	
+	public function listPage(){
+		$this->listMeta->title = tt('List of People recorded in People Information Center');
+		$this->listMeta->mode = 'peopleinfo';
+		$this->selectListPage(20, 'WHERE section='.SECTION);
+		$this->data = userinfo_get_login_name($this->data, 'people');
+		$this->setListWriteIcon(tt('Add User to People Information Center'), 'peopleinfo_write');
+		$this->setListEditIcon();
+		$this->setListDropIcon();
+		return $this->renderListPage();
 	}
 	
 	public function write(){
@@ -51,19 +79,6 @@ class People extends Control{
 		freetag_update(pp('freetag'), 'people', $this->id);
 	}
 	
-	private function renderPage(){
-	
-	}
-	
-	private function renderAdminListPage(){
-		$this->listMeta->title = tt('List of People recorded in People Information Center');
-		$this->listMeta->mode = 'peopleinfo';
-		$this->selectListPage(20, 'WHERE section='.SECTION);
-		$this->setListWriteIcon(tt('Add User to People Information Center'), 'peopleinfo_write');
-		$this->setListEditIcon();
-		$this->setListDropIcon();
-		return $this->renderListPage();
-	}
 }
 
 ?>

@@ -45,19 +45,12 @@ function module_init_peopleinfo(){
 	module_add_role('peopleinfo_observer', 'People Information Observer', 'Who observes all information in People Information Center.');
 	module_add_role('peopleinfo_related', 'People Information Related', 'Who edit own information in People Information Center.');
 	
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_event', 'event - show');
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_event_list', 'event - manage');
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_event_write', 'event - add');
-	
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_info', 'information - show');
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_info_list', 'information - manage');
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_info_write', 'information - add');
-	
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo', 'people - show');
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_list', 'people - manage');
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_write', 'people - add');
-	
+	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_event', 'event');
+	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_info_list', 'information');
+	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_list', 'people');
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_config', 'configuration PIC');
+	
+	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_list', 'people');
 }
 
 function module_drop_peopleinfo(){

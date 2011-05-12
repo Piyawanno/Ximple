@@ -92,6 +92,13 @@ abstract class Authority{
 		$this->accesMethod[$methodName][] = $gid;
 	}
 	
+	
+	/// Drop Role from access permission.
+	/// @param $methodName : name of the mapped method.
+	protected function dropAccessMethod($methodName){
+		unset($this->accesMethod[$methodName]);
+	}
+	
 	/// Map ximple_mode with method name to enable access permission.
 	/// @param $mode : name of ximple_mode.
 	/// @param $methodName : name of the mapped method.

@@ -5,10 +5,12 @@ include_once('peopleinfo.tool.inc');
 class PeopleModel extends Model{
 	function PeopleModel(){
 		$this->people = $this->hidden(NULL);
+		$this->people->label = tt('user');
 		$this->people->isList = true;
 		$this->people->isUser = true;
 		$this->people->isOrderable = false;
 		$this->people->isReachable = true;
+		$this->people->listMode = 'peopleinfo';
 		
 		$this->status = $this->select(tt('status'), peopleinfo_get_people_status());
 		$this->status->isList = true;
