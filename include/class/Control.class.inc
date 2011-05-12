@@ -167,6 +167,14 @@ abstract class Control extends Translatable{
 		if(!$isRaw) $this->postSelect();
 	}
 	
+	public function selectListPage($pageLength=20, $where=null, $additionColumn=array(), $isRaw=false){
+		$this->initListPage();
+		$column = $this->modelConnector->getColumnNameByBoolean('isList');
+		$column = array_merge(array('id'), $column);
+		$column = array_unique(array_merge($column, $additionColumn));
+		$this->selectPage($column, $pageLength, $this->listPage->getClause($where), $isRaw);
+	}
+	
 	protected function init($modelObj){
 		$this->modelHasCategory = $modelObj->hasCategory();
 		
@@ -229,14 +237,6 @@ abstract class Control extends Translatable{
 			if(empty($mode)) $mode = $this->moduleName.'_drop';
 			$this->listMeta->addOperation($mode, $label, 'drop.png');
 		}
-	}
-	
-	public function selectListPage($pageLength=20, $where=null, $additionColumn=array(), $isRaw=false){
-		$this->initListPage();
-		$column = $this->modelConnector->getColumnNameByBoolean('isList');
-		$column = array_merge(array('id'), $column);
-		$column = array_unique(array_merge($column, $additionColumn));
-		$this->selectPage($column, $pageLength, $this->listPage->getClause($where), $isRaw);
 	}
 	
 	public function createTable(){
@@ -305,7 +305,7 @@ abstract class Control extends Translatable{
 		$this->data = $this->modelConnector->triggerSelect($this->data);
 	}
 	
-	private function prepareForm(){
+	protected function prepareForm(){
 		if(!$this->formRender){
 			include_once('FormRender.class.inc');
 			$this->formRender = new FormRender($this->modelConnector, $this->formMeta);

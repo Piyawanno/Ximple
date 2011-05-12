@@ -24,8 +24,11 @@ function peopleinfo_get_people(){
 
 function peopleinfo_get_unprocessed_user(){
 	$people = userinfo_get_login_name_by_role('peopleinfo_related');
-	$processed_people = peopleinfo_get_people();
-	$processed_people = array_keys($processed_people);
+	$people_info = peopleinfo_get_people();
+	$processed_people = array();
+	foreach($people_info as $key => $value){
+		$processed_people[] = $value['people']['id'];
+	}
 	foreach($people as $key => $value){
 		if(in_array($key, $processed_people)) unset($people[$key]);
 	}

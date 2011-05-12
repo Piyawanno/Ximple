@@ -156,7 +156,7 @@ class ModelConnector{
 	
 	public function triggerSelect($data){
 		if(method_exists($this->modelObject, 'triggerSelect')){
-			$this->modelObject->triggerSelect();
+			$this->modelObject->triggerSelect($data);
 		}
 		$triggerColumn = array();
 		foreach($this->model as $key => $value){
