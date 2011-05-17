@@ -28,6 +28,7 @@ function initAjaxForm(){
 $(document).ready(initAjaxForm);
 
 function checkForm(notNull, label){
+	alert($('#peopleinfo_event_occur_date').val());
 	if(formLock){
 		alert(formNotCorrect);
 		return false;
@@ -36,7 +37,7 @@ function checkForm(notNull, label){
 	ok = ok && verifyCaptcha();
 	if(!ok) return false;
 	ok = ok && checkNotNull(notNull, label);
-	if(ok) encryptPasswd();
+//	if(ok) encryptPasswd();
 	return ok;
 }
 
@@ -414,7 +415,7 @@ function checkNoneCheckBox(className){
 }
 
 function encryptPasswd(){
-	if(!insertUser && $('#user_password').val().length == 0){
+	if($('#user_password').val().length == 0 && !insertUser){
 		alert(passwdNotChange);
 	}
 	if($('#user_password').val() == $('#user_confirm_password').val()){

@@ -36,6 +36,7 @@ class Event extends Control{
 	
 	public function update(){
 		print_r(pp());
+		Control::update();
 	}
 	
 	public function drop(){
