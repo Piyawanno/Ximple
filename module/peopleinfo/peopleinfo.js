@@ -1,6 +1,5 @@
 function checkPeopleUser(event, ui){
 	if(peopleUserNumber == 0 ||  peopleUserNumber == null){
-		alert(peopleinfoRoleWarning);
 		addPeopleUser();
 	}
 }

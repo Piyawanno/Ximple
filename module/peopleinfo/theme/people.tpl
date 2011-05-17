@@ -9,5 +9,6 @@
 </p>
 <p>
 	<?=tt('tags')?>
-	<?=render_tag($category, $freetag, 'peopleinfo')?>
+	<?=render_tag(null, $data['freetag'], 'peopleinfo')?>
 </p>
+<?=$information?>

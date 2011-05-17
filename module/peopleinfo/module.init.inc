@@ -51,6 +51,8 @@ function module_init_peopleinfo(){
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_config', 'configuration PIC');
 	
 	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_list', 'people');
+	
+	notify_add_warning();
 }
 
 function module_drop_peopleinfo(){
