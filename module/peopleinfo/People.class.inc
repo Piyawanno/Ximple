@@ -36,7 +36,6 @@ class People extends Control{
 		$this->data = userinfo_get_login_name($this->data, 'people');
 		$this->setListWriteIcon(tt('Add User to People Information Center'), 'peopleinfo_write');
 		$this->setListEditIcon();
-		$this->setListDropIcon();
 		return $this->renderListPage();
 	}
 	
@@ -61,6 +60,11 @@ class People extends Control{
 		$userInfo = userinfo_get_info_by_id($this->dataByID['people']);
 		$this->editLabel = tt('Edit People Information').' : '.$userInfo['login_name'];
 		return Control::edit();
+	}
+	
+	public function drop(){
+		notify_add_error('Information about People can not be dropped due to the linked Information.');
+		execute_set_db();
 	}
 	
 	public function insert(){

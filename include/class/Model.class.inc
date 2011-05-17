@@ -224,12 +224,12 @@ abstract class Model{
 		return $modelColumn;
 	}
 	
-	public function autocomplete($label, $ajaxMode, $help=null){
+	public function autoComplete($label, $ajaxMode, $help=null){
 		$modelColumn = new ModelColumn;
 		$modelColumn->type = 'shorttext';
 		$modelColumn->form = 'autocomplete';
 		$modelColumn->label = $label;
-		$modelColumn->ajaxMode = 'userinfo_get_ajax_name';
+		$modelColumn->ajaxMode = $ajaxMode;
 		return $modelColumn;
 	}
 	

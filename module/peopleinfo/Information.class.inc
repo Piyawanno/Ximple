@@ -8,6 +8,7 @@ class Information extends Control{
 	function Information(){
 		$this->moduleTitle = tt('Information');
 		$this->moduleName = 'peopleinfo';
+		$this->moduleExtension = 'info';
 		$this->tableName = 'information';
 		$this->setAccess();
 		$this->init(new InformationModel());
@@ -58,9 +59,10 @@ class Information extends Control{
 	}
 	
 	private function setAccess(){
+		$this->dropAccessMethod('index');
+		
 		$this->setAdmin('peopleinfo_admin');
 		$this->addAction('peopleinfo_info_list', 'listPage');
-		$this->addAction('peopleinfo_info_write', 'write');
 		
 		$this->addAccessMethod('index', 'peopleinfo_observer');
 		$this->addAccessMethod('listPage', 'peopleinfo_observer');

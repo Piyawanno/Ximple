@@ -44,20 +44,20 @@ abstract class Control extends Translatable{
 	}
 	
 	public function write(){
-		$this->formMeta->id = $this->moduleName;
+		$this->formMeta->id = $this->fullModuleName;
 		if($this->writeLabel) $this->formMeta->title = $this->writeLabel;
 		else $this->formMeta->title = sprintf(tt('Add %s'), $this->moduleTitle);
-		$this->formMeta->mode = $this->moduleName.'_insert';
+		$this->formMeta->mode = $this->fullModuleName.'_insert';
 		$render = $this->renderInsertForm();
 		document_set_path($this->formMeta->title);
 		return $render;
 	}
 	
 	public function edit(){
-		$this->formMeta->id = $this->moduleName;
+		$this->formMeta->id = $this->fullModuleName;
 		if($this->editLabel) $this->formMeta->title = $this->editLabel;
 		else $this->formMeta->title = sprintf(tt('Edit %s'), $this->moduleTitle);
-		$this->formMeta->mode = $this->moduleName.'_update';
+		$this->formMeta->mode = $this->fullModuleName.'_update';
 		$render = $this->renderUpdateForm();
 		document_set_path($this->formMeta->title);
 		return $render;
@@ -114,15 +114,15 @@ abstract class Control extends Translatable{
 			$this->tableCreator = new TableCreator($this->modelConnector, $this->tableName);
 			if($this->modelHasCategory){
 				require_once(ROOT_PATH.'include/tool/category.tool.inc');
-				category_init($this->moduleName);
+				category_init($this->fullModuleName);
 			}
 		}
 		$this->tableCreator->create();
-		module_add($this->moduleName, $requirement, $this->moduleTitle);
+		module_add($this->fullModuleName, $requirement, $this->moduleTitle);
 	}
 	
 	public function dropModule(){
-		module_drop($this->moduleName);
+		module_drop($this->fullModuleName);
 	}
 	
 	public function select($column, $clause=null, $isRaw=false){
@@ -176,28 +176,30 @@ abstract class Control extends Translatable{
 	}
 	
 	protected function init($modelObj){
+		Translatable::init();
+		
 		$this->modelHasCategory = $modelObj->hasCategory();
 		
-		if(empty($this->insertRedirection)) $this->insertRedirection = $this->moduleName;
-		if(empty($this->updateRedirection)) $this->updateRedirection = $this->moduleName;
-		if(empty($this->dropRedirection)) $this->dropRedirection = $this->moduleName;
+		if(empty($this->insertRedirection)) $this->insertRedirection = $this->fullModuleName;
+		if(empty($this->updateRedirection)) $this->updateRedirection = $this->fullModuleName;
+		if(empty($this->dropRedirection)) $this->dropRedirection = $this->fullModuleName;
 		
-		$this->addAction($this->moduleName, 'index');
-		$this->addAction($this->moduleName.'_list', 'listPage');
-		$this->addAction($this->moduleName.'_write', 'write');
-		$this->addAction($this->moduleName.'_edit', 'edit');
-		$this->addAction($this->moduleName.'_insert', 'insert');
-		$this->addAction($this->moduleName.'_update', 'update');
-		$this->addAction($this->moduleName.'_drop', 'drop');
-		$this->addAction($this->moduleName.'_print', 'printPage');
-		$this->addAction($this->moduleName.'_translate_form', 'renderTranslateForm');
-		$this->addAction($this->moduleName.'_translate', 'setTranslate');
+		$this->addAction($this->fullModuleName, 'index');
+		$this->addAction($this->fullModuleName.'_list', 'listPage');
+		$this->addAction($this->fullModuleName.'_write', 'write');
+		$this->addAction($this->fullModuleName.'_edit', 'edit');
+		$this->addAction($this->fullModuleName.'_insert', 'insert');
+		$this->addAction($this->fullModuleName.'_update', 'update');
+		$this->addAction($this->fullModuleName.'_drop', 'drop');
+		$this->addAction($this->fullModuleName.'_print', 'printPage');
+		$this->addAction($this->fullModuleName.'_translate_form', 'renderTranslateForm');
+		$this->addAction($this->fullModuleName.'_translate', 'setTranslate');
 		
 		$this->prepareMethodMap['edit'] = 'prepareModifyDB';
 		$this->prepareMethodMap['update'] = 'prepareModifyDB';
 		$this->prepareMethodMap['drop'] = 'prepareModifyDB';
 		
-		$modelFactory = new ModelFactory($this->moduleName, $modelObj);
+		$modelFactory = new ModelFactory($this->fullModuleName, $modelObj);
 		$this->modelConnector = $modelFactory->bind();
 		$this->column = $this->modelConnector->getColumnName();
 		$this->formMeta = new FormMetaData();
@@ -217,7 +219,7 @@ abstract class Control extends Translatable{
 	protected function setListWriteIcon($label=null, $mode=null){
 		if($this->isCallable('write')){
 			if(empty($label)) $label = sprintf(tt('Add %s'), $this->moduleTitle);
-			if(empty($mode)) $mode = $this->moduleName.'_write';
+			if(empty($mode)) $mode = $this->fullModuleName.'_write';
 			$this->listMeta->writeLabel = $label;
 			$this->listMeta->writeMode = $mode;
 		}
@@ -226,7 +228,7 @@ abstract class Control extends Translatable{
 	protected function setListEditIcon($label=null, $mode=null){
 		if($this->isCallable('edit')){
 			if(empty($label)) $label = tt('edit');
-			if(empty($mode)) $mode = $this->moduleName.'_edit';
+			if(empty($mode)) $mode = $this->fullModuleName.'_edit';
 			$this->listMeta->addOperation($mode, $label, 'edit.png');
 		}
 	}
@@ -234,7 +236,7 @@ abstract class Control extends Translatable{
 	protected function setListDropIcon($label=null, $mode=null){
 		if($this->isCallable('drop')){
 			if(empty($label)) $label = tt('drop');
-			if(empty($mode)) $mode = $this->moduleName.'_drop';
+			if(empty($mode)) $mode = $this->fullModuleName.'_drop';
 			$this->listMeta->addOperation($mode, $label, 'drop.png');
 		}
 	}
@@ -249,7 +251,7 @@ abstract class Control extends Translatable{
 	
 	protected function renderDefaultListPage($description=null){
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
-		$this->listMeta->mode = $this->moduleName;
+		$this->listMeta->mode = $this->fullModuleName;
 		$this->listMeta->defaultOrder = 'id';
 		$this->listMeta->description = $description;
 		$this->setListWriteIcon();

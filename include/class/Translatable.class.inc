@@ -5,6 +5,8 @@ abstract class Translatable extends Authority{
 	private $translateFormRender;
 	
 	protected $moduleName;
+	protected $moduleExtension;
+	protected $fullModuleName;
 	protected $moduleTitle;
 	protected $modelConnector;
 	protected $configForm = array();
@@ -13,11 +15,11 @@ abstract class Translatable extends Authority{
 	public function renderTranslateForm(){
 		execute_set_ajax();
 		$supportedLanguage = cc('supported_language');
-		$this->formMeta->id = $this->moduleName;
+		$this->formMeta->id = $this->fullModuleName;
 		$this->formMeta->title = sprintf(tt('Translation : %s'), $supportedLanguage[gg('language')]);
-		$this->formMeta->mode = $this->moduleName.'_translate';
+		$this->formMeta->mode = $this->fullModuleName.'_translate';
 		$this->prepareTranslateForm();
-		$translation = translate_get_all_data($this->moduleName, gg('module_id'), gg('language'));
+		$translation = translate_get_all_data($this->fullModuleName, gg('module_id'), gg('language'));
 		$render = $this->translateFormRender->renderTranslateForm($translation);
 		return $render;
 	}
@@ -27,14 +29,19 @@ abstract class Translatable extends Authority{
 		translate_set_data(pp());
 	}
 	
+	protected function init(){
+		if(strlen($this->moduleExtension) == 0) $this->fullModuleName = $this->moduleName;
+		else $this->fullModuleName = $this->moduleName.'_'.$this->moduleExtension;
+	}
+	
 	protected function translateData(){
 		foreach($this->data as $key => $value){
-			$this->data[$key] = translate_content($value, $this->moduleName, $value['id']);
+			$this->data[$key] = translate_content($value, $this->fullModuleName, $value['id']);
 		}
 	}
 	
 	protected function translateDataByID(){
-		$this->dataByID = translate_content($this->dataByID, $this->moduleName, $this->id);
+		$this->dataByID = translate_content($this->dataByID, $this->fullModuleName, $this->id);
 	}
 	
 	private function prepareTranslateForm(){

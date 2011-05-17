@@ -162,4 +162,8 @@ function render_uri($mode, $data){
 	if(strlen($data['uri'])) return SECTION_URI.Q.$mode.'/'.$data['id'].'/'.$data['uri'].'.html';
 	else return SECTION_URI.Q.$mode.'/'.$data['id'];
 }
+
+function render_option($data){
+	return '<option>'.join('</option><option>', $data).'</option>';
+}
 ?>
