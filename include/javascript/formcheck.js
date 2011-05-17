@@ -386,15 +386,15 @@ function verifyCaptcha(){
 
 function checkNotNull(notNull, label){
 	var ok = true;
+	var dataIn = null;
 	try {
 		for(var i in notNull){
 			if(notNull[i].length){
-				var dataIn = $('#'+notNull[i]);
-				if(dataIn.value.length == 0 && dataIn.className != "text" &&
-				dataIn.className != "shorttext" && dataIn.className != "usershorttext"){
+				dataIn = $('#'+notNull[i]);
+				if(dataIn.val().length == 0){
 					ok=false;
-					alert(pleaseFill+label[notNull[i]]);
-					dataIn.style.border = "2px solid red";
+					dataIn.css({'border':'2px solid red'});
+					alert(pleaseFill+label[dataIn.attr('name')]);
 					break;
 				}
 			}

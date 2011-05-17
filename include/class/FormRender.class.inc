@@ -64,7 +64,7 @@ class FormRender{
 		}
 		$this->notNull = $this->modelConnector->getColumnNameByBoolean('isNotNull');
 		foreach($this->notNull as $key => $value){
-			$this->notNull[$key] = $this->formMeta->id.'_'.$value;
+			$this->notNullID[$key] = $this->formMeta->id.'_'.$value;
 		}
 		$this->label = $this->modelConnector->getColumnAttribute('label');
 		$hidden = $this->modelConnector->getColumnNameByAttribute('form', 'hidden');
@@ -72,7 +72,7 @@ class FormRender{
 			if(isset($this->label[$name])) unset($this->label[$name]);
 		}
 		$this->help = $this->modelConnector->getColumnAttribute('help');
-		head_add_js_array('notNull'.$this->formMeta->id, $this->notNull);
+		head_add_js_array('notNull'.$this->formMeta->id, $this->notNullID);
 		head_add_js_array('label'.$this->formMeta->id, $this->label);
 		$this->renderConfigForm();
 	}

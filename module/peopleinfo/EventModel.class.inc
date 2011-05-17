@@ -8,7 +8,7 @@ class EventModel extends Model{
 		$this->occur_date = $this->calendar('date');
 		
 		$this->description = $this->text(tt('description'));
-		$this->description->isSearchable = true;
+		$this->description->isReachable = true;
 		
 		$this->freetag = new FreeTagColumn();
 		$this->section = $this->section();
