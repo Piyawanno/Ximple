@@ -45,14 +45,16 @@ function module_init_peopleinfo(){
 	module_add_role('peopleinfo_observer', 'People Information Observer', 'Who observes all information in People Information Center.');
 	module_add_role('peopleinfo_related', 'People Information Related', 'Who edit own information in People Information Center.');
 	
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_event', 'event');
+	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_event_list', 'event');
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_info_list', 'information');
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_list', 'people');
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_config', 'configuration PIC');
 	
 	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_list', 'people');
 	
-	notify_add_warning();
+	if(count(cc('peopleinfo_related')) == 0){
+		notify_add_warning(peopleinfo_get_group_warning());
+	}
 }
 
 function module_drop_peopleinfo(){

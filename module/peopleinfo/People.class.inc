@@ -75,8 +75,7 @@ class People extends Control{
 	
 	private function checkRelatedGroup(){
 		if(count(cc('peopleinfo_related')) == 0){
-			$pattern = tt('A group with the role of "People Information Related" should be created (<a href="%s">Group Management</a>)');
-			notify_add_error(sprintf($pattern, SECTION_URI.Q.'group'));
+			notify_add_error(peopleinfo_get_group_warning());
 			execute_set_db();
 			document_set_redirect('peopleinfo_list');
 			return false;

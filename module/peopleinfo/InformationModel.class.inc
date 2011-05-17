@@ -7,10 +7,11 @@ class InformationModel extends Model{
 		$this->topic->isList = true;
 		$this->topic->isReachable = true;
 		
+		$this->source_date = $this->calendar(tt('date'));
+		
 		$this->content = $this->text(tt('content'));
 		$this->content->isReachable = true;
 		
-		$this->source_date = $this->calendar(tt('date'));
 		$this->freetag = new FreeTagColumn();
 		$this->section = $this->section();
 	}

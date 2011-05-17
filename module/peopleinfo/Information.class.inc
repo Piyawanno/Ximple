@@ -24,13 +24,17 @@ class Information extends Control{
 	}
 	
 	public function listPage(){
-		$this->listMeta->title = tt('List of Information recorded in People Information Center');
+		$this->listMeta->title = tt('List of Information');
 		$this->listMeta->mode = 'peopleinfo_info';
 		$this->selectListPage(20, 'WHERE section='.SECTION);
-		$this->setListWriteIcon(tt('Add Information to People Information Center'), 'peopleinfo_info_write');
+		$this->setListWriteIcon(tt('Add Information'), 'peopleinfo_info_write');
 		$this->setListEditIcon();
 		$this->setListDropIcon();
 		return $this->renderListPage();
+	}
+	
+	public function write(){
+		return Control::write();
 	}
 	
 	public function renderPeopleInformation($userID){
@@ -50,13 +54,16 @@ class Information extends Control{
 	}
 	
 	private function renderPage(){
+		
 	}
 	
 	private function setAccess(){
 		$this->setAdmin('peopleinfo_admin');
 		$this->addAction('peopleinfo_info_list', 'listPage');
-		$this->addAccessMethod('listPage', 'peopleinfo_observer');
+		$this->addAction('peopleinfo_info_write', 'write');
+		
 		$this->addAccessMethod('index', 'peopleinfo_observer');
+		$this->addAccessMethod('listPage', 'peopleinfo_observer');
 	}
 }
 

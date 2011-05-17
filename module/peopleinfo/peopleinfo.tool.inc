@@ -52,4 +52,9 @@ function peopleinfo_get_relation(){
 		3 => tt('else'),
 	);
 }
+
+function peopleinfo_get_group_warning(){
+	$pattern = tt('A group with the role of "People Information Related" should be created (<a href="%s">Group Management</a>)');
+	return sprintf($pattern, SECTION_URI.Q.'group');
+}
 ?>

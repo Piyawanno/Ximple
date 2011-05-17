@@ -6,7 +6,10 @@ class EventModel extends Model{
 		$this->event = $this->title(tt('event'));
 		$this->place = $this->title(tt('place'));
 		$this->occur_date = $this->calendar('date');
+		
 		$this->description = $this->text(tt('description'));
+		$this->description->isSearchable = true;
+		
 		$this->freetag = new FreeTagColumn();
 		$this->section = $this->section();
 	}

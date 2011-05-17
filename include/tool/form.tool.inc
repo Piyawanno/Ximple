@@ -125,7 +125,7 @@ function form_render_plain($form_id, $name, $modelCol){
 function form_render_calendar($form_id, $name, $modelCol){
 	if($modelCol->data) $formatted_date = date('d F Y', strtotime($modelCol->data));
 	else $formatted_date = date('d F Y');
-	$p = '<input type="text" name="%s" id="%s" value="%s" class="calendar_form"><span id="info_%s"></span>';
+	$p = '<input type="text" size="25 name="%s" id="%s" value="%s" class="calendar_form"><span id="info_%s"></span>';
 	return sprintf($p, $name, $form_id.'_'.$name, $formatted_date, $form_id.'_'.$name);
 }
 
