@@ -66,13 +66,13 @@ class People extends Control{
 	public function insert(){
 		Control::insert();
 		freetag_update(pp('freetag'), 'people', $this->id);
-		document_set_direction('peopleinfo_list');
+		document_set_redirect('peopleinfo_list');
 	}
 	
 	public function update(){
 		Control::update();
 		freetag_update(pp('freetag'), 'people', $this->id);
-		document_set_direction('peopleinfo_list');
+		document_set_redirect('peopleinfo_list');
 	}
 	
 	private function checkRelatedGroup(){

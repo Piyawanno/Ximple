@@ -35,15 +35,6 @@ class Event extends Control{
 		return $this->renderListPage();
 	}
 	
-	public function update(){
-		print_r(pp());
-		Control::update();
-	}
-	
-	public function drop(){
-		error_denied();
-	}
-	
 	public function getDefinedPlace(){
 		execute_set_ajax();
 		$cluase = 'WHERE section='.SECTION." AND place LIKE '%".gg('wildcard')."%'";
