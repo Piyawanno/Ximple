@@ -30,6 +30,7 @@ class People extends Control{
 	}
 	
 	public function listPage(){
+		document_set_path(tt('List of People'));
 		$this->listMeta->title = tt('List of People recorded in People Information Center');
 		$this->listMeta->mode = 'peopleinfo';
 		$this->selectListPage(20, 'WHERE section='.SECTION);
@@ -62,19 +63,16 @@ class People extends Control{
 		return Control::edit();
 	}
 	
-	public function drop(){
-		notify_add_error('Information about People can not be dropped due to the linked Information.');
-		execute_set_db();
-	}
-	
 	public function insert(){
 		Control::insert();
 		freetag_update(pp('freetag'), 'people', $this->id);
+		document_set_direction('peopleinfo_list');
 	}
 	
 	public function update(){
 		Control::update();
 		freetag_update(pp('freetag'), 'people', $this->id);
+		document_set_direction('peopleinfo_list');
 	}
 	
 	private function checkRelatedGroup(){
@@ -97,7 +95,7 @@ class People extends Control{
 	
 	private function renderPage(){
 		$this->selectByID($this->column);
-		$information = new Information();
+		$information = new Information(false);
 		$this->dataByID['people'] = userinfo_get_info_by_id($this->dataByID['people']);
 		$renderData = array(
 			'data' => $this->dataByID,
@@ -108,6 +106,7 @@ class People extends Control{
 	}
 	
 	private function setAccess(){
+		$this->dropAction('drop');
 		$this->dropAccessMethod('index');
 		
 		$this->setAdmin('peopleinfo_admin');

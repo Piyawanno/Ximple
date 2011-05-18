@@ -28,7 +28,6 @@ function initAjaxForm(){
 $(document).ready(initAjaxForm);
 
 function checkForm(notNull, label){
-	alert($('#peopleinfo_event_occur_date').val());
 	if(formLock){
 		alert(formNotCorrect);
 		return false;

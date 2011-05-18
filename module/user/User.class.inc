@@ -12,7 +12,7 @@ class User extends Control{
 		$this->insertNotify = sprintf(tt('%s has been successfully inserted.'), tt('User'));
 		$this->updateNotify = sprintf(tt('%s has been successfully updated.'), tt('User'));
 		$this->dropNotify = sprintf(tt('%s has been successfully dropped.'), tt('User'));
-		$this->init(new UserModel);
+		$this->init(new UserModel());
 	}
 	
 	public function index(){

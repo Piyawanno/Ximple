@@ -5,11 +5,19 @@ include_once('peopleinfo.tool.inc');
 
 class PeopleUser extends User{
 	function PeopleUser(){
-		User::User();
-		$this->addAction('peopleinfo_user_write', 'write');
 		$this->addAction('peopleinfo_user_save', 'insert');
 		$this->addAction('peopleinfo_user_get', 'getUserOption');
+		
 		$this->moduleName = 'peopleinfo';
+		$this->moduleExtension = 'user';
+		$this->tableName = 'users';
+		$this->setAdmin('user_admin');
+		
+		$this->insertNotify = sprintf(tt('%s has been successfully inserted.'), tt('User'));
+		$this->updateNotify = sprintf(tt('%s has been successfully updated.'), tt('User'));
+		$this->dropNotify = sprintf(tt('%s has been successfully dropped.'), tt('User'));
+		
+		$this->init(new UserModel());
 	}
 	
 	public function write(){

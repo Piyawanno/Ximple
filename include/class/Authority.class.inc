@@ -105,5 +105,11 @@ abstract class Authority{
 	protected function addAction($mode, $methodName){
 		$this->action[$mode] = $methodName;
 	}
+	
+	/// Drop ximple_mode from access permission.
+	/// @param $mode : name of ximple_mode.
+	protected function dropAction($mode){
+		unset($this->action[$mode]);
+	}
 }
 ?>

@@ -26,6 +26,7 @@ class Event extends Control{
 	}
 	
 	public function listPage(){
+		document_set_path(tt('List of Event'));
 		$this->listMeta->title = tt('List of Event');
 		$this->listMeta->mode = 'peopleinfo_info';
 		$this->selectListPage(20, 'WHERE section='.SECTION);
@@ -40,8 +41,7 @@ class Event extends Control{
 	}
 	
 	public function drop(){
-		notify_add_error('Information about Event can not be dropped due to the linked Information.');
-		execute_set_db();
+		error_denied();
 	}
 	
 	public function getDefinedPlace(){
@@ -64,11 +64,11 @@ class Event extends Control{
 	}
 	
 	private function setAccess(){
+		$this->dropAction('drop');
 		$this->dropAccessMethod('index');
 		
 		$this->setAdmin('peopleinfo_admin');
 		
-		$this->addAction('peopleinfo_event', 'index');
 		$this->addAction('peopleinfo_event_list', 'listPage');
 		$this->addAction('peopleinfo_event_get_defined_place', 'getDefinedPlace');
 		

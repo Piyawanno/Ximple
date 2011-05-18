@@ -5,15 +5,17 @@ include_once('InformationModel.class.inc');
 include_once('peopleinfo.tool.inc');
 
 class Information extends Control{
-	function Information(){
+	function Information($setPath=true){
 		$this->moduleTitle = tt('Information');
 		$this->moduleName = 'peopleinfo';
 		$this->moduleExtension = 'info';
 		$this->tableName = 'information';
 		$this->setAccess();
 		$this->init(new InformationModel());
-		document_set_path(tt('People Information Center'), 'peopleinfo_summary');
-		document_set_path(tt('Information'), 'peopleinfo_info');
+		if($setPath){
+			document_set_path(tt('People Information Center'), 'peopleinfo_summary');
+			document_set_path(tt('Information'), 'peopleinfo_info');
+		}
 	}
 	
 	public function index(){
@@ -25,6 +27,7 @@ class Information extends Control{
 	}
 	
 	public function listPage(){
+		document_set_path(tt('List of Information'));
 		$this->listMeta->title = tt('List of Information');
 		$this->listMeta->mode = 'peopleinfo_info';
 		$this->selectListPage(20, 'WHERE section='.SECTION);
