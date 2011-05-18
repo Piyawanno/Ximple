@@ -5,16 +5,17 @@ include_once('EventModel.class.inc');
 include_once('peopleinfo.tool.inc');
 
 class Event extends Control{
-	function Event(){
+	function Event($setPath=true){
 		$this->moduleTitle = tt('Event');
 		$this->moduleName = 'peopleinfo';
 		$this->moduleExtension = 'event';
 		$this->tableName = 'event';
 		$this->setAccess();
 		$this->init(new EventModel());
-		document_set_path(tt('People Information Center'), 'peopleinfo_summary');
-		document_set_path(tt('Event'), 'peopleinfo_event');
-		
+		if($setPath){
+			document_set_path(tt('People Information Center'), 'peopleinfo_summary');
+			document_set_path(tt('Event'), 'peopleinfo_event');
+		}
 	}
 	
 	public function index(){

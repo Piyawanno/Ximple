@@ -14,10 +14,10 @@ class People extends Control{
 		$this->setAccess();
 		$this->init(new PeopleModel());
 		document_set_path(tt('People Information Center'), 'peopleinfo_summary');
-		document_set_path(tt('People'), 'peopleinfo');
 	}
 	
 	public function index(){
+		document_set_path(tt('People'), 'peopleinfo');
 		$this->id = (int) gg('id');
 		$tag = gg('tag');
 		if($this->id) return $this->renderPage();
@@ -26,7 +26,24 @@ class People extends Control{
 	}
 	
 	public function renderMainSummary(){
-	
+		head_add_css('peopleinfo.css');
+		$clause = 'WHERE section='.SECTION.' ORDER BY update_time DESC LIMIT 10';
+		$this->select($this->column);
+		$this->data = userinfo_get_info($this->data, 'people');
+		
+		$event = new Event(false);
+		$event->select($event->column, $clause);
+		
+		$information = new Information(false);
+		$information->select($information->column, $clause);
+		
+		$renderArray = array(
+			'people' => $this->data,
+			'event' => $event->data,
+			'information' => $information->data,
+		);
+		
+		return render($renderArray, 'peopleinfo_summary.tpl', 'peopleinfo_summary');
 	}
 	
 	public function renderTagClound(){
@@ -51,6 +68,7 @@ class People extends Control{
 	
 	public function write(){
 		if($this->checkRelatedGroup()){
+			document_set_path(tt('People'), 'peopleinfo');
 			head_add_css('peopleinfo.css');
 			head_add_js('module/peopleinfo/peopleinfo.js');
 			head_add_js('include/external/sha1.js');
@@ -67,6 +85,7 @@ class People extends Control{
 	}
 	
 	public function edit(){
+		document_set_path(tt('People'), 'peopleinfo');
 		$userInfo = userinfo_get_info_by_id($this->dataByID['people']);
 		$this->editLabel = tt('Edit People Information').' : '.$userInfo['login_name'];
 		return Control::edit();
