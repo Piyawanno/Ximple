@@ -69,7 +69,7 @@ class Information extends Control{
 			'mode' => 'peopleinfo_info',
 			'tag' => $tag
 		);
-		return render($renderArray, 'peopleinfo_tag_list.tpl', 'peopleinfo_tag_list_event');
+		return render($renderArray, 'peopleinfo_tag_list.tpl', 'peopleinfo_tag_list_information');
 	}
 	
 	private function renderPage(){

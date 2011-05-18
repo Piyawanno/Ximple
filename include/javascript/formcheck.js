@@ -36,7 +36,7 @@ function checkForm(notNull, label){
 	ok = ok && verifyCaptcha();
 	if(!ok) return false;
 	ok = ok && checkNotNull(notNull, label);
-//	if(ok) encryptPasswd();
+	if(ok) encryptPasswd();
 	return ok;
 }
 

@@ -13,4 +13,9 @@ function freetag_update($raw_tag, $mode, $id){
 		}
 	}
 }
+
+function freetag_get($mode){
+	$clause = "WHERE mode='$mode' GROUP BY freetag";
+	return db_select('freetag', array('freetag', 'count(freetag) as number'), $clause);
+}
 ?>

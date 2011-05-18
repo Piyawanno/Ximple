@@ -70,7 +70,9 @@ class Event extends Control{
 		$renderData = array(
 			'data' => $this->dataByID,
 			'information' => $information->renderEventInformation($this->id),
+			'editable' => authority_group('peopleinfo_admin'),
 		);
+		head_add_css('peopleinfo.css');
 		search_set_page();
 		document_set_path($this->dataByID['event']);
 		document_add_keywords($this->dataByID['freetag']);

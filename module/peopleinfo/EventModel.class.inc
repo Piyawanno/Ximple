@@ -13,6 +13,7 @@ class EventModel extends Model{
 		
 		$this->occur_date = $this->calendar('date');
 		$this->update_time = $this->now();
+		$this->update_time->isUpdateTime = true;
 		
 		$this->description = $this->text(tt('description'));
 		$this->description->isReachable = true;

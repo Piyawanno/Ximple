@@ -166,4 +166,14 @@ function render_uri($mode, $data){
 function render_option($data){
 	return '<option>'.join('</option><option>', $data).'</option>';
 }
+
+function render_tag_cloud($mode, $freetag){
+	if($freetag['number'] < 520){
+		$size = 12 + $freetag['number']/10;
+	}else{
+		$size = 64;
+	}
+	$href = SECTION.Q.'/'.$mode.'/tag/'.$freetag['freetag'];
+	return '<a href="'.$href.'" style="font-size:'.$size.'px;">'.$freetag['freetag'].'</a>';
+}
 ?>

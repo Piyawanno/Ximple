@@ -11,4 +11,9 @@
 	<?=tt('tags')?>
 	<?=render_tag(null, $data['freetag'], 'peopleinfo')?>
 </p>
+<?php if($editable):?>
+	<p class="peopleinfo_operation">
+		<a href="<?=SECTION_URI.Q.'peopleinfo_edit/'.$data['id']?>"><?=tt('edit')?></a>
+	</p>
+<?php endif?>
 <?=$information?>

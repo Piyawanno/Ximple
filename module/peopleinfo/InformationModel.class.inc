@@ -8,7 +8,9 @@ class InformationModel extends Model{
 		$this->topic->isReachable = true;
 		
 		$this->source_date = $this->calendar(tt('date'));
+		
 		$this->update_time = $this->now();
+		$this->update_time->isUpdateTime = true;
 		
 		$this->content = $this->text(tt('content'));
 		$this->content->isReachable = true;

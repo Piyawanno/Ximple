@@ -30,7 +30,13 @@ class People extends Control{
 	}
 	
 	public function renderTagClound(){
-		
+		head_add_css('peopleinfo.css');
+		document_set_path(tt('Tag Cloud'));
+		require_once(ROOT_PATH.'module/freetag/freetag.tool.inc');
+		$tag['people'] = freetag_get('peopleinfo');
+		$tag['event'] = freetag_get('peopleinfo_event');
+		$tag['information'] = freetag_get('peopleinfo_info');
+		return render($tag, 'peopleinfo_tag_cloud.tpl', 'peopleinfo_tag_cloud');
 	}
 	
 	public function renderListPage(){
@@ -100,7 +106,7 @@ class People extends Control{
 			'mode' => 'peopleinfo',
 			'tag' => $tag
 		);
-		return render($renderArray, 'peopleinfo_tag_list.tpl', 'peopleinfo_tag_list_event');
+		return render($renderArray, 'peopleinfo_tag_list.tpl', 'peopleinfo_tag_list_people');
 	}
 	
 	private function renderPage(){
@@ -110,7 +116,9 @@ class People extends Control{
 		$renderData = array(
 			'data' => $this->dataByID,
 			'information' => $information->renderPeopleInformation($this->id),
+			'editable' => authority_group('peopleinfo_admin'),
 		);
+		head_add_css('peopleinfo.css');
 		search_set_page();
 		document_set_path($this->dataByID['people']['login_name']);
 		document_add_keywords($this->dataByID['freetag']);
