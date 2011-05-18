@@ -23,25 +23,37 @@ class Information extends Control{
 		$tag = gg('tag');
 		if($this->id) return $this->renderPage();
 		elseif(strlen($tag)) return $this->renderTag();
-		else return $this->renderSummary();
+		else return $this->renderListPage();
 	}
 	
-	public function listPage(){
+	public function renderListPage(){
 		document_set_path(tt('List of Information'));
 		$this->listMeta->title = tt('List of Information');
-		$this->listMeta->mode = 'peopleinfo_info';
+		$this->listMeta->mode = 'peopleinfo_info_list';
 		$this->selectListPage(20, 'WHERE section='.SECTION);
 		$this->setListWriteIcon(tt('Add Information'), 'peopleinfo_info_write');
 		$this->setListEditIcon();
 		$this->setListDropIcon();
-		return $this->renderListPage();
+		return Control::renderListPage();
 	}
 	
 	public function write(){
 		return Control::write();
 	}
 	
-	public function renderPeopleInformation($userID){
+	public function insert(){
+		Control::insert();
+		freetag_update(pp('freetag'), 'people_info', $this->id);
+		document_set_redirect('peopleinfo_info_list');
+	}
+	
+	public function update(){
+		Control::update();
+		freetag_update(pp('freetag'), 'people_info', $this->id);
+		document_set_redirect('peopleinfo_info_list');
+	}
+	
+	public function renderPeopleInformation($peopleID){
 		
 	}
 	
@@ -49,12 +61,15 @@ class Information extends Control{
 		
 	}
 	
-	private function renderTag(){
-	
-	}
-	
-	private function renderSummary(){
-	
+	private function renderTag($tag){
+		$data = peopleinfo_get_tagged($tag, 'peopleinfo_info', 'information', 'topic');
+		$renderArray = array(
+			'data' => $data,
+			'module' => $this->moduleTitle,
+			'mode' => 'peopleinfo_info',
+			'tag' => $tag
+		);
+		return render($renderArray, 'peopleinfo_tag_list.tpl', 'peopleinfo_tag_list_event');
 	}
 	
 	private function renderPage(){
@@ -65,7 +80,6 @@ class Information extends Control{
 		$this->dropAccessMethod('index');
 		
 		$this->setAdmin('peopleinfo_admin');
-		$this->addAction('peopleinfo_info_list', 'listPage');
 		
 		$this->addAccessMethod('index', 'peopleinfo_observer');
 		$this->addAccessMethod('listPage', 'peopleinfo_observer');

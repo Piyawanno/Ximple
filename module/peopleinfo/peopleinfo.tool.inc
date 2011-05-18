@@ -57,4 +57,17 @@ function peopleinfo_get_group_warning(){
 	$pattern = tt('Groups with the role of "People Information Related" should be created (<a href="%s">Group Management</a>)');
 	return sprintf($pattern, SECTION_URI.Q.'group');
 }
+
+function peopleinfo_get_tagged($tag, $mode, $table, $column){
+	document_set_path($tag);
+	$clause = "WHERE freetag='$tag' AND mode='$mode'";
+	$tagged = db_select_single_column('freetag', 'content_id', $clause, false);
+	if(count($tagged)){
+		$clause = 'WHERE id='.join(' OR id=', $tagged);
+		$data = db_select_single_column($table, $column, $clause);
+	}else{
+		$data = array();
+	}
+	return $data;
+}
 ?>

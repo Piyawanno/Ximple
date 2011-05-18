@@ -22,7 +22,7 @@ function search_check_keyword(){
 	if(strlen(gg('search'))){
 		$keywords = split(' ', input_trim(gg('search')));
 		foreach($keywords as $key => $keyword){
-			if(mb_strlen($keyword) <= 3){
+			if(mb_strlen($keyword) <= 2){
 				unset($keywords[$key]);
 			}
 		}

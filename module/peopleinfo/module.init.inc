@@ -45,15 +45,17 @@ function module_init_peopleinfo(){
 	module_add_role('peopleinfo_observer', 'People Information Observer', 'Who observes all information in People Information Center.');
 	module_add_role('peopleinfo_related', 'People Information Related', 'Who edit own information in People Information Center.');
 	
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_event_list', 'event');
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_info_list', 'information');
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_list', 'people');
+	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_event', 'event');
+	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_info', 'information');
+	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo', 'people');
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_summary', 'summary');
+	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_tag_clound', 'tag clound');
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_config', 'configuration PIC');
 	
-	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_event_list', 'event');
-	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_info_list', 'information');
-	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_list', 'people');
+	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_event', 'event');
+	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_info', 'information');
+	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo', 'people');
+	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_tag_clound', 'tag clound');
 	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_summary', 'summary');
 	
 	if(count(cc('peopleinfo_related')) == 0){

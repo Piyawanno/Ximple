@@ -21,18 +21,29 @@ class Event extends Control{
 		$this->id = (int) gg('id');
 		$tag = gg('tag');
 		if($this->id) return $this->renderPage();
-		elseif(strlen($tag)) return $this->renderTag();
-		else return $this->renderSummary();
+		elseif(strlen($tag)) return $this->renderTag($tag);
+		else return $this->renderListPage();
 	}
 	
-	public function listPage(){
-		document_set_path(tt('List of Event'));
+	public function renderListPage(){
 		$this->listMeta->title = tt('List of Event');
-		$this->listMeta->mode = 'peopleinfo_info';
+		$this->listMeta->mode = 'peopleinfo_event_list';
 		$this->selectListPage(20, 'WHERE section='.SECTION);
 		$this->setListWriteIcon(tt('Add Event'), 'peopleinfo_event_write');
 		$this->setListEditIcon();
-		return $this->renderListPage();
+		return Control::renderListPage();
+	}
+	
+	public function insert(){
+		Control::insert();
+		freetag_update(pp('freetag'), 'peopleinfo_event', $this->id);
+		document_set_redirect('peopleinfo_event/'.$this->id);
+	}
+	
+	public function update(){
+		Control::update();
+		freetag_update(pp('freetag'), 'peopleinfo_event', $this->id);
+		document_set_redirect('peopleinfo_event/'.$this->id);
 	}
 	
 	public function getDefinedPlace(){
@@ -42,29 +53,37 @@ class Event extends Control{
 		return render_option($place);
 	}
 	
-	private function renderTag(){
-	
-	}
-	
-	private function renderSummary(){
-	
+	private function renderTag($tag){
+		$data = peopleinfo_get_tagged($tag, 'peopleinfo_event', 'event', 'event');
+		$renderArray = array(
+			'data' => $data,
+			'module' => $this->moduleTitle,
+			'mode' => 'peopleinfo_event',
+			'tag' => $tag
+		);
+		return render($renderArray, 'peopleinfo_tag_list.tpl', 'peopleinfo_tag_list_event');
 	}
 	
 	private function renderPage(){
-		
+		$this->selectByID($this->column);
+		$information = new Information(false);
+		$renderData = array(
+			'data' => $this->dataByID,
+			'information' => $information->renderEventInformation($this->id),
+		);
+		search_set_page();
+		document_set_path($this->dataByID['event']);
+		document_add_keywords($this->dataByID['freetag']);
+		return render($renderData, 'event.tpl', 'peopleinfo_event');
 	}
 	
 	private function setAccess(){
 		$this->dropAction('drop');
 		$this->dropAccessMethod('index');
-		
 		$this->setAdmin('peopleinfo_admin');
-		
-		$this->addAction('peopleinfo_event_list', 'listPage');
 		$this->addAction('peopleinfo_event_get_defined_place', 'getDefinedPlace');
 		
 		$this->addAccessMethod('index', 'peopleinfo_observer');
-		$this->addAccessMethod('listPage', 'peopleinfo_observer');
 		$this->addAccessMethod('getDefinedPlace', 'peopleinfo_observer');
 	}
 }

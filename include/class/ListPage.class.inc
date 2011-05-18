@@ -117,6 +117,7 @@ class ListPage{
 		$isUser = $this->modelConnector->getColumnNameByBoolean('isUser');
 		$columnType = $this->modelConnector->getColumnAttribute('type');
 		$numeric = array('int', 'real');
+		print_r($columnType);
 		if(in_array($col, $isUser)){
 			$uid = db_select_single_column('users', 'id', "WHERE login_name LIKE '%$search%'");
 			if(count($uid)){
@@ -126,7 +127,7 @@ class ListPage{
 			}else{
 				$clause = $where.' AND false';
 			}
-		}elseif(in_array($columnType[$col], $numeric)){
+		}elseif(!in_array($columnType[$col], $numeric)){
 			if(!empty($where)){
 				$clause = $where.' AND '.$col." LIKE '%".$search."%'";
 			}else{

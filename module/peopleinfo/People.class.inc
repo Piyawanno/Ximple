@@ -21,23 +21,26 @@ class People extends Control{
 		$this->id = (int) gg('id');
 		$tag = gg('tag');
 		if($this->id) return $this->renderPage();
-		elseif(strlen($tag)) return $this->renderTag();
-		else return $this->renderSummary();
+		elseif(strlen($tag)) return $this->renderTag($tag);
+		else return $this->renderListPage();
 	}
 	
 	public function renderMainSummary(){
 	
 	}
 	
-	public function listPage(){
-		document_set_path(tt('List of People'));
+	public function renderTagClound(){
+		
+	}
+	
+	public function renderListPage(){
 		$this->listMeta->title = tt('List of People recorded in People Information Center');
 		$this->listMeta->mode = 'peopleinfo';
 		$this->selectListPage(20, 'WHERE section='.SECTION);
 		$this->data = userinfo_get_login_name($this->data, 'people');
 		$this->setListWriteIcon(tt('Add User to People Information Center'), 'peopleinfo_write');
 		$this->setListEditIcon();
-		return $this->renderListPage();
+		return Control::renderListPage();
 	}
 	
 	public function write(){
@@ -65,14 +68,14 @@ class People extends Control{
 	
 	public function insert(){
 		Control::insert();
-		freetag_update(pp('freetag'), 'people', $this->id);
-		document_set_redirect('peopleinfo_list');
+		freetag_update(pp('freetag'), 'peopleinfo', $this->id);
+		document_set_redirect('peopleinfo/'.$this->id);
 	}
 	
 	public function update(){
 		Control::update();
-		freetag_update(pp('freetag'), 'people', $this->id);
-		document_set_redirect('peopleinfo_list');
+		freetag_update(pp('freetag'), 'peopleinfo', $this->id);
+		document_set_redirect('peopleinfo/'.$this->id);
 	}
 	
 	private function checkRelatedGroup(){
@@ -85,12 +88,19 @@ class People extends Control{
 		return true;
 	}
 	
-	private function renderTag(){
-	
-	}
-	
-	private function renderSummary(){
-	
+	private function renderTag($tag){
+		$data = peopleinfo_get_tagged($tag, 'peopleinfo', 'people', 'people');
+		foreach($data as $key => $value){
+			$userInfo = userinfo_get_info_by_id($value);
+			$data[$key] = $userInfo['login_name'];
+		}
+		$renderArray = array(
+			'data' => $data,
+			'module' => $this->moduleTitle,
+			'mode' => 'peopleinfo',
+			'tag' => $tag
+		);
+		return render($renderArray, 'peopleinfo_tag_list.tpl', 'peopleinfo_tag_list_event');
 	}
 	
 	private function renderPage(){
@@ -99,9 +109,11 @@ class People extends Control{
 		$this->dataByID['people'] = userinfo_get_info_by_id($this->dataByID['people']);
 		$renderData = array(
 			'data' => $this->dataByID,
-			'information' => $information->renderPeopleInformation($this->dataByID['people']['id']),
+			'information' => $information->renderPeopleInformation($this->id),
 		);
+		search_set_page();
 		document_set_path($this->dataByID['people']['login_name']);
+		document_add_keywords($this->dataByID['freetag']);
 		return render($renderData, 'people.tpl', 'peopleinfo_people');
 	}
 	
@@ -112,12 +124,12 @@ class People extends Control{
 		$this->setAdmin('peopleinfo_admin');
 		$this->setOwner('people');
 		
-		$this->addAction('peopleinfo_list', 'renderListPage');
 		$this->addAction('peopleinfo_summary', 'renderMainSummary');
+		$this->addAction('peopleinfo_tag_clound', 'renderTagClound');
 		
-		$this->addAccessMethod('listPage', 'peopleinfo_observer');
 		$this->addAccessMethod('index', 'peopleinfo_observer');
 		$this->addAccessMethod('renderMainSummary', 'peopleinfo_observer');
+		$this->addAccessMethod('renderTagClound', 'peopleinfo_observer');
 	}
 	
 }

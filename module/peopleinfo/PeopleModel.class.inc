@@ -17,6 +17,7 @@ class PeopleModel extends Model{
 		
 		$this->profile = $this->text('generic information');
 		$this->profile->isReachable = true;
+		$this->update_time = $this->now();
 		
 		$this->freetag = new FreeTagColumn();
 		$this->section = $this->section();
