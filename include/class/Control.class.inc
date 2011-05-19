@@ -24,9 +24,9 @@ abstract class Control extends Translatable{
 	protected $dataModifier;
 	protected $pager;
 	
-	protected $insertRedirection;
-	protected $updateRedirection;
-	protected $dropRedirection;
+	protected $insertRedirect;
+	protected $updateRedirect;
+	protected $dropRedirect;
 	
 	protected $writeLabel;
 	protected $editLabel;
@@ -67,7 +67,7 @@ abstract class Control extends Translatable{
 		$this->initDataModifier();
 		$this->dataModifier->prepareInsert();
 		$insertOk = $this->dataModifier->insert($this->formMeta->isCaptcha);
-		document_set_redirect($this->insertRedirection);
+		document_set_redirect($this->insertRedirect);
 		if($insertOk){
 			$this->id = $this->dataModifier->getID();
 			notify_add_info($this->insertNotify);
@@ -78,7 +78,7 @@ abstract class Control extends Translatable{
 		$this->initDataModifier();
 		$this->dataModifier->prepareUpdate();
 		$updateOk = $this->dataModifier->update($this->formMeta->isCaptcha);
-		document_set_redirect($this->updateRedirection);
+		document_set_redirect($this->updateRedirect);
 		if($updateOk){
 			notify_add_info($this->updateNotify);
 		}
@@ -88,7 +88,7 @@ abstract class Control extends Translatable{
 		$this->initDataModifier();
 		$this->dataModifier->prepareDrop();
 		$this->dataModifier->drop();
-		document_set_redirect($this->dropRedirection);
+		document_set_redirect($this->dropRedirect);
 		notify_add_info($this->dropNotify);
 	}
 	
@@ -177,43 +177,12 @@ abstract class Control extends Translatable{
 	
 	protected function init($modelObj){
 		Translatable::init();
-		
 		$this->modelHasCategory = $modelObj->hasCategory();
-		
-		if(empty($this->insertRedirection)) $this->insertRedirection = $this->fullModuleName;
-		if(empty($this->updateRedirection)) $this->updateRedirection = $this->fullModuleName;
-		if(empty($this->dropRedirection)) $this->dropRedirection = $this->fullModuleName;
-		
-		$this->addAction($this->fullModuleName, 'index');
-		$this->addAction($this->fullModuleName.'_list', 'listPage');
-		$this->addAction($this->fullModuleName.'_write', 'write');
-		$this->addAction($this->fullModuleName.'_edit', 'edit');
-		$this->addAction($this->fullModuleName.'_insert', 'insert');
-		$this->addAction($this->fullModuleName.'_update', 'update');
-		$this->addAction($this->fullModuleName.'_drop', 'drop');
-		$this->addAction($this->fullModuleName.'_print', 'printPage');
-		$this->addAction($this->fullModuleName.'_translate_form', 'renderTranslateForm');
-		$this->addAction($this->fullModuleName.'_translate', 'setTranslate');
-		
-		$this->prepareMethodMap['edit'] = 'prepareModifyDB';
-		$this->prepareMethodMap['update'] = 'prepareModifyDB';
-		$this->prepareMethodMap['drop'] = 'prepareModifyDB';
-		
-		$modelFactory = new ModelFactory($this->fullModuleName, $modelObj);
-		$this->modelConnector = $modelFactory->bind();
-		$this->column = $this->modelConnector->getColumnName();
-		$this->formMeta = new FormMetaData();
-		$this->listMeta = new ListPageMetaData();
-		
-		if(empty($this->insertNotify)){
-			$this->insertNotify = sprintf(tt('%s has been successfully inserted.'), $this->moduleTitle);
-		}
-		if(empty($this->updateNotify)){
-			$this->updateNotify = sprintf(tt('%s has been successfully updated.'), $this->moduleTitle);
-		}
-		if(empty($this->dropNotify)){
-			$this->dropNotify = sprintf(tt('%s has been successfully dropped.'), $this->moduleTitle);
-		}
+		$this->setDefaultRedirect();
+		$this->setDefaultAction();
+		$this->setDefaultPrepareMethod();
+		$this->setDefaultNotify();
+		$this->initObject($modelObj);
 	}
 	
 	protected function setListWriteIcon($label=null, $mode=null){
@@ -377,6 +346,51 @@ abstract class Control extends Translatable{
 		$columns = array_intersect($columns, $dbColumn);
 		$columns[] = 'id';
 		return $columns;
+	}
+	
+	private function setDefaultRedirect(){
+		if(empty($this->insertRedirect)) $this->insertRedirect = $this->fullModuleName;
+		if(empty($this->updateRedirect)) $this->updateRedirect = $this->fullModuleName;
+		if(empty($this->dropRedirect)) $this->dropRedirect = $this->fullModuleName;
+	}
+	
+	private function setDefaultAction(){
+		$this->addAction($this->fullModuleName, 'index');
+		$this->addAction($this->fullModuleName.'_list', 'listPage');
+		$this->addAction($this->fullModuleName.'_write', 'write');
+		$this->addAction($this->fullModuleName.'_edit', 'edit');
+		$this->addAction($this->fullModuleName.'_insert', 'insert');
+		$this->addAction($this->fullModuleName.'_update', 'update');
+		$this->addAction($this->fullModuleName.'_drop', 'drop');
+		$this->addAction($this->fullModuleName.'_print', 'printPage');
+		$this->addAction($this->fullModuleName.'_translate_form', 'renderTranslateForm');
+		$this->addAction($this->fullModuleName.'_translate', 'setTranslate');
+	}
+	
+	private function setDefaultPrepareMethod(){
+		$this->prepareMethodMap['edit'] = 'prepareModifyDB';
+		$this->prepareMethodMap['update'] = 'prepareModifyDB';
+		$this->prepareMethodMap['drop'] = 'prepareModifyDB';
+	}
+	
+	private function setDefaultNotify(){
+		if(empty($this->insertNotify)){
+			$this->insertNotify = sprintf(tt('%s has been successfully inserted.'), $this->moduleTitle);
+		}
+		if(empty($this->updateNotify)){
+			$this->updateNotify = sprintf(tt('%s has been successfully updated.'), $this->moduleTitle);
+		}
+		if(empty($this->dropNotify)){
+			$this->dropNotify = sprintf(tt('%s has been successfully dropped.'), $this->moduleTitle);
+		}
+	}
+	
+	private function initObject($modelObj){
+		$modelFactory = new ModelFactory($this->fullModuleName, $modelObj);
+		$this->modelConnector = $modelFactory->bind();
+		$this->column = $this->modelConnector->getColumnName();
+		$this->formMeta = new FormMetaData();
+		$this->listMeta = new ListPageMetaData();
 	}
 }
 ?>

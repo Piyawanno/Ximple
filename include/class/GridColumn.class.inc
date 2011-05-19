@@ -1,13 +1,19 @@
 <?php
+require_once('ModelFactory.class.inc');
+require_once('ModelConnector.class.inc');
+
 /// This class is a container for other ModelColumns.
 /// It does not represent a column of database table.
-
 class GridColumn extends ModelColumn{
 	private $memberColumn;
 	private $memberDataCount;
+	private $modelConnector;
+	
 	private $allowedGridForm = array(
 		'hidden',
 		'char',
+		'autocomplete',
+		'calendar',
 		'email',
 		'select',
 		'file',
@@ -23,15 +29,18 @@ class GridColumn extends ModelColumn{
 		$this->isDB = false;
 	}
 	
+	public function setModel($moduleName, $modelObj){
+		$this->initModelConnector($moduleName, $modelObj);
+		$this->mergeModel();
+	}
+	
 	public function append($memberName, $memberModel){
 		if(!in_array($memberModel->form, $this->allowedGridForm)){
 			if(state_is_develop()){
 				notify_add_error(sprintf(tt('Grid is not allowed to contain form : %s.'), $memberModel->form));
 			}
 		}else{
-			$memberModel->isMultipleInsert = true;
-			$memberModel->isForm = false;
-			$this->memberColumn[$memberName] = $memberModel;
+			$this->setColumn($memberName, $memberModel);
 		}
 	}
 	
@@ -72,6 +81,24 @@ class GridColumn extends ModelColumn{
 				}
 			}
 		}
+	}
+	
+	private function initModelConnector($moduleName, $modelObj){
+		$modelFactory = new ModelFactory($moduleName, $modelObj);
+		$this->modelConnector = $modelFactory->bind();
+	}
+	
+	private function mergeModel(){
+		$column = $this->modelConnector->getColumnName();
+		foreach($column as $key => $value){
+			$this->setColumn($value, $this->modelConnector->getColumn['value']);
+		}
+	}
+	
+	private function setColumn($memberName, $memberModel){
+		$memberModel->isMultipleInsert = true;
+		$memberModel->isForm = false;
+		$this->memberColumn[$memberName] = $memberModel;
 	}
 }
 ?>

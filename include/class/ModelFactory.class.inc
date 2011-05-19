@@ -28,7 +28,7 @@ class ModelFactory{
 			}
 		}
 		$this->check();
-		return new ModelConnector($this->model, $this->modelObject);	
+		return new ModelConnector($this->model, $this->modelObject);
 	}
 	
 	private function check(){
