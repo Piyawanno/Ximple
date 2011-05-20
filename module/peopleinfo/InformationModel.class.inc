@@ -1,5 +1,8 @@
 <?php
 include_once(ROOT_PATH.'module/freetag/FreeTagColumn.class.inc');
+include('PeopleRelationModel.class.inc');
+include('EventRelationModel.class.inc');
+include('PeopleFileModel.class.inc');
 
 class InformationModel extends Model{
 	function InformationModel(){
