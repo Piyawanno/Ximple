@@ -91,14 +91,21 @@ class GridColumn extends ModelColumn{
 	private function mergeModel(){
 		$column = $this->modelConnector->getColumnName();
 		foreach($column as $key => $value){
-			$this->setColumn($value, $this->modelConnector->getColumn['value']);
+			$columnModel = $this->modelConnector->getColumn($value);
+			if(!empty($columnModel)){
+				$this->setColumn($value, $columnModel);
+			}
 		}
 	}
 	
 	private function setColumn($memberName, $memberModel){
-		$memberModel->isMultipleInsert = true;
-		$memberModel->isForm = false;
-		$this->memberColumn[$memberName] = $memberModel;
+		if(in_array($memberModel->form, $this->allowedGridForm)){
+			$memberModel->isMultipleInsert = true;
+			$memberModel->isForm = false;
+			$this->memberColumn[$memberName] = $memberModel;
+		}elseif(state_is_develop()){
+			notify_add_error(sprintf(tt('Invalid form for grid : %s(%s)'), $memberName, $memberModel->form));
+		}
 	}
 }
 ?>

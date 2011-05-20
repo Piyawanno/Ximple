@@ -5,7 +5,7 @@ include('EventRelationModel.class.inc');
 include('PeopleFileModel.class.inc');
 
 class InformationModel extends Model{
-	function InformationModel(){
+	function InformationModel($id){
 		$this->topic = $this->title(tt('topic'));
 		$this->topic->isList = true;
 		$this->topic->isReachable = true;
@@ -19,6 +19,19 @@ class InformationModel extends Model{
 		$this->content->isReachable = true;
 		
 		$this->freetag = new FreeTagColumn();
+		
+		$this->people = $this->grid(tt('related people'));
+		$this->people->setModel('peopleinfo', new PeopleRelationModel($id));
+		$this->people->isDB = false;
+		
+		$this->event = $this->grid(tt('related event'));
+		$this->event->setModel('peopleinfo', new EventRelationModel($id));
+		$this->event->isDB = false;
+		
+		$this->file = $this->grid(tt('related files'));
+		$this->file->setModel('peopleinfo', new PeopleFileModel($id));
+		$this->file->isDB = false;
+		
 		$this->section = $this->section();
 	}
 }

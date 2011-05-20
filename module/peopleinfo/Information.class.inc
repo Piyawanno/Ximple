@@ -11,7 +11,7 @@ class Information extends Control{
 		$this->moduleExtension = 'info';
 		$this->tableName = 'information';
 		$this->setAccess();
-		$this->init(new InformationModel());
+		$this->init(new InformationModel((int) gg('id')));
 		if($setPath){
 			document_set_path(tt('People Information Center'), 'peopleinfo_summary');
 			document_set_path(tt('Information'), 'peopleinfo_info');
@@ -37,20 +37,19 @@ class Information extends Control{
 		return Control::renderListPage();
 	}
 	
-	public function write(){
-		return Control::write();
-	}
-	
 	public function insert(){
 		Control::insert();
 		freetag_update(pp('freetag'), 'people_info', $this->id);
 		document_set_redirect('peopleinfo_info_list');
+		$this->insertRelation();
 	}
 	
 	public function update(){
 		Control::update();
 		freetag_update(pp('freetag'), 'people_info', $this->id);
 		document_set_redirect('peopleinfo_info_list');
+		$this->dropRelation();
+		$this->insertRelation();
 	}
 	
 	public function renderPeopleInformation($peopleID){
@@ -78,12 +77,40 @@ class Information extends Control{
 	
 	private function setAccess(){
 		$this->dropAccessMethod('index');
-		
 		$this->setAdmin('peopleinfo_admin');
-		
 		$this->addAccessMethod('index', 'peopleinfo_observer');
 		$this->addAccessMethod('listPage', 'peopleinfo_observer');
 	}
+	
+	private function insertRelation(){
+		$this->insertPeople();
+		$this->insertEvent();
+		$this->insertFile();
+	}
+	
+	private function dropRelation(){
+		$where = 'information='.((int) $this->id);
+		$file = db_select_single_column('people_file', 'file', 'WHERE '.$where);
+		foreach($file as $key => $value){
+			if(is_file(ROOT_ROOT.$value)){
+				unlink(ROOT_ROOT.$value);
+			}
+		}
+		drop_many('people_relation', $where);
+		drop_many('event_relation', $where);
+		drop_many('people_file', $where);
+	}
+	
+	private function insertPeople(){
+		
+	}
+	
+	private function insertEvent(){
+	
+	}
+	
+	private function insertFile(){
+	
+	}
 }
-
 ?>

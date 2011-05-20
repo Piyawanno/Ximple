@@ -12,7 +12,9 @@ class ModelConnector{
 	}
 	
 	public function getColumn($col){
-		return $this->model[$col];
+		if(isset($this->model[$col])){
+			return $this->model[$col];
+		}
 	}
 	
 	public function getColumnName(){

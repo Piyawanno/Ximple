@@ -292,10 +292,10 @@ function form_render_grid($form_id, $name, $modelCol){
 	$render .= '<table width="100%" id="'.$grid_id.'"><tr>';
 	$grid_row = '<tr>';
 	foreach($modelCol->getMember() as $key => $value){
-		$render .= '<th>'.$value->label.'</th>';
 		$functionName = 'form_render_grid_'.$value->form;
 		$value->data = null;
 		if($value->form != 'hidden'){
+			$render .= '<th>'.$value->label.'</th>';
 			$grid_row.= '<td>'.$functionName($grid_id, $key, $value).'</td>';
 		}else{
 			$grid_row.= $functionName($grid_id, $key, $value);
@@ -306,7 +306,7 @@ function form_render_grid($form_id, $name, $modelCol){
 			<a onclick="delGridRow(this);return false;" href="#">
 			<img src="'.ROOT_URI.'files/icon/drop.png" border="0" align="left" />
 		</td>';
-	$render .= '<th>&#160;</th>';
+	$render .= '<th width="36">&#160;</th>';
 	foreach($modelCol->data as $key => $data){
 		$render .= '<tr>';
 		foreach($modelCol->getMember() as $memberName => $member){
