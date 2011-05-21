@@ -1,6 +1,7 @@
 <?php
 
 class ModelConnector{
+	private $id;
 	private $modelObject;
 	private $model;
 	private $cacheName = array();
@@ -9,6 +10,10 @@ class ModelConnector{
 	function ModelConnector($model, $modelObject){
 		$this->model = $model;
 		$this->modelObject = $modelObject;
+	}
+	
+	public function setID($id){
+		$this->id = $id;
 	}
 	
 	public function getColumn($col){

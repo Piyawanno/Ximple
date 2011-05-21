@@ -439,7 +439,5 @@ abstract class Content extends Control{
 		if(isset($category[0])) return 'category='.$category[0];
 		else return '';
 	}
-	
 }
-
 ?>

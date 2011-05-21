@@ -1,13 +1,18 @@
 <?php
 require_once('ModelFactory.class.inc');
 require_once('ModelConnector.class.inc');
+require_once('RelatedDataModifier.class.inc');
 
 /// This class is a container for other ModelColumns.
 /// It does not represent a column of database table.
 class GridColumn extends ModelColumn{
+	public $isDropByUpdate = true;
+
 	private $memberColumn;
 	private $memberDataCount;
 	private $modelConnector;
+	private $tableName;
+	private $relatedDataModifier;
 	
 	private $allowedGridForm = array(
 		'hidden',
@@ -29,9 +34,11 @@ class GridColumn extends ModelColumn{
 		$this->isDB = false;
 	}
 	
-	public function setModel($moduleName, $modelObj){
+	public function setModel($moduleName, $tableName, $modelObj){
+		$this->tableName = $tableName;
 		$this->initModelConnector($moduleName, $modelObj);
 		$this->mergeModel();
+		$this->relatedDataModifier = new RelatedDataModifier($tableName, $this->modelConnector);
 	}
 	
 	public function append($memberName, $memberModel){
@@ -48,6 +55,18 @@ class GridColumn extends ModelColumn{
 		$this->checkMemberData();
 		$this->getMemberData();
 		return $this->memberColumn;
+	}
+	
+	public function triggerPostInsert(){
+		$this->relatedDataModifier->getParent();
+		$this->relatedDataModifier->insert();
+	}
+	
+	public function triggerPostUpdate(){
+		$this->relatedDataModifier->getParent();
+		if($this->isDropByUpdate){
+		}
+		$this->relatedDataModifier->insert();
 	}
 	
 	private function checkMemberData(){
@@ -92,7 +111,7 @@ class GridColumn extends ModelColumn{
 		$column = $this->modelConnector->getColumnName();
 		foreach($column as $key => $value){
 			$columnModel = $this->modelConnector->getColumn($value);
-			if(!empty($columnModel)){
+			if(!empty($columnModel) and $columnModel->isForm){
 				$this->setColumn($value, $columnModel);
 			}
 		}

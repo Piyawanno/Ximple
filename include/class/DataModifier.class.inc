@@ -210,6 +210,7 @@ class DataModifier{
 	private function insertSingleRow(){
 		$this->getDataFromConnector();
 		$this->id = db_insert($this->table, $this->data);
+		$this->modelConnector->setID($this->id);
 		return true;
 	}
 	
@@ -231,6 +232,7 @@ class DataModifier{
 		$this->checkID();
 		$this->getDataFromConnector();
 		db_update($this->table, $this->data, $this->id);
+		$this->modelConnector->setID($this->id);
 		return true;
 	}
 	

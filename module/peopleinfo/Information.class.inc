@@ -11,7 +11,7 @@ class Information extends Control{
 		$this->moduleExtension = 'info';
 		$this->tableName = 'information';
 		$this->setAccess();
-		$this->init(new InformationModel((int) gg('id')));
+		$this->init(new InformationModel());
 		if($setPath){
 			document_set_path(tt('People Information Center'), 'peopleinfo_summary');
 			document_set_path(tt('Information'), 'peopleinfo_info');
@@ -35,6 +35,16 @@ class Information extends Control{
 		$this->setListEditIcon();
 		$this->setListDropIcon();
 		return Control::renderListPage();
+	}
+	
+	public function write(){
+		$this->setConfigForm();
+		return Control::write();
+	}
+	
+	public function edit(){
+		$this->setConfigForm();
+		return Control::edit();
 	}
 	
 	public function insert(){
@@ -90,19 +100,29 @@ class Information extends Control{
 	
 	private function dropRelation(){
 		$where = 'information='.((int) $this->id);
-		$file = db_select_single_column('people_file', 'file', 'WHERE '.$where);
-		foreach($file as $key => $value){
-			if(is_file(ROOT_ROOT.$value)){
-				unlink(ROOT_ROOT.$value);
-			}
-		}
 		drop_many('people_relation', $where);
 		drop_many('event_relation', $where);
-		drop_many('people_file', $where);
+	}
+	
+	private function setConfigForm(){
+		$people = $this->getNewConfigForm(tt('related people'));
+		$people->append('people');
+		
+		$event = $this->getNewConfigForm(tt('related events'));
+		$event->append('event');
+		
+		$file = $this->getNewConfigForm(tt('related files'));
+		$file->append('file');
 	}
 	
 	private function insertPeople(){
-		
+		$data = array();
+		$data['information'] = $this->id;
+		$people = pp('people');
+		$relation = pp('relation');
+		foreach($people as $key => $value){
+			$data['people'] = $value;
+		}
 	}
 	
 	private function insertEvent(){
