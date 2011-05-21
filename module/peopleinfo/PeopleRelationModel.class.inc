@@ -6,7 +6,11 @@ class PeopleRelationModel extends Model{
 		$this->people = $this->select(tt('related person'), peopleinfo_get_people_name());
 		$this->relation = $this->select(tt('relation'), peopleinfo_get_relation());
 		$this->information = $this->hidden($informationID, 'int');
-		$this->information->isForm = false;
+		$this->information->isGridForm = false;
+	}
+	
+	public function triggerSetParent($parentID){
+		$this->information->defaultData = $parentID;
 	}
 }
 ?>

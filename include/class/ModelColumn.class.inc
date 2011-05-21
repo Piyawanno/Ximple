@@ -74,6 +74,7 @@ class ModelColumn{
 	public $isDB = true;
 	public $isUser = false;
 	public $isForm = true;
+	public $isGridForm = true;
 	public $isNotNull = false;
 	public $isSerialize = false;
 	public $isList = false;

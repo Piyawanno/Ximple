@@ -48,18 +48,16 @@ class Information extends Control{
 	}
 	
 	public function insert(){
+		print_r(pp());
 		Control::insert();
 		freetag_update(pp('freetag'), 'people_info', $this->id);
 		document_set_redirect('peopleinfo_info_list');
-		$this->insertRelation();
 	}
 	
 	public function update(){
 		Control::update();
 		freetag_update(pp('freetag'), 'people_info', $this->id);
 		document_set_redirect('peopleinfo_info_list');
-		$this->dropRelation();
-		$this->insertRelation();
 	}
 	
 	public function renderPeopleInformation($peopleID){
@@ -92,18 +90,6 @@ class Information extends Control{
 		$this->addAccessMethod('listPage', 'peopleinfo_observer');
 	}
 	
-	private function insertRelation(){
-		$this->insertPeople();
-		$this->insertEvent();
-		$this->insertFile();
-	}
-	
-	private function dropRelation(){
-		$where = 'information='.((int) $this->id);
-		drop_many('people_relation', $where);
-		drop_many('event_relation', $where);
-	}
-	
 	private function setConfigForm(){
 		$people = $this->getNewConfigForm(tt('related people'));
 		$people->append('people');
@@ -113,24 +99,6 @@ class Information extends Control{
 		
 		$file = $this->getNewConfigForm(tt('related files'));
 		$file->append('file');
-	}
-	
-	private function insertPeople(){
-		$data = array();
-		$data['information'] = $this->id;
-		$people = pp('people');
-		$relation = pp('relation');
-		foreach($people as $key => $value){
-			$data['people'] = $value;
-		}
-	}
-	
-	private function insertEvent(){
-	
-	}
-	
-	private function insertFile(){
-	
 	}
 }
 ?>

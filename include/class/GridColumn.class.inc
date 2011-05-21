@@ -1,13 +1,13 @@
 <?php
 require_once('ModelFactory.class.inc');
 require_once('ModelConnector.class.inc');
-require_once('RelatedDataModifier.class.inc');
 
 /// This class is a container for other ModelColumns.
 /// It does not represent a column of database table.
 class GridColumn extends ModelColumn{
 	public $isDropByUpdate = true;
-
+	
+	private $dataModifier = null;
 	private $memberColumn;
 	private $memberDataCount;
 	private $modelConnector;
@@ -38,7 +38,6 @@ class GridColumn extends ModelColumn{
 		$this->tableName = $tableName;
 		$this->initModelConnector($moduleName, $modelObj);
 		$this->mergeModel();
-		$this->relatedDataModifier = new RelatedDataModifier($tableName, $this->modelConnector);
 	}
 	
 	public function append($memberName, $memberModel){
@@ -58,15 +57,24 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function triggerPostInsert(){
-		$this->relatedDataModifier->getParent();
-		$this->relatedDataModifier->insert();
+		$this->initDataModifier();
+		$this->modelConnector->triggerSetParent();
+		$this->dataModifier->prepareInsert();
+		$this->dataModifier->insert(false);
 	}
 	
 	public function triggerPostUpdate(){
-		$this->relatedDataModifier->getParent();
+		$this->initDataModifier();
+		$this->modelConnector->triggerSetParent();
 		if($this->isDropByUpdate){
+			
 		}
-		$this->relatedDataModifier->insert();
+		$this->dataModifier->prepareInsert();
+		$this->dataModifier->insert(false);
+	}
+	
+	public function triggerGetID($id){
+		$this->modelConnector->setParent($id);
 	}
 	
 	private function checkMemberData(){
@@ -111,7 +119,7 @@ class GridColumn extends ModelColumn{
 		$column = $this->modelConnector->getColumnName();
 		foreach($column as $key => $value){
 			$columnModel = $this->modelConnector->getColumn($value);
-			if(!empty($columnModel) and $columnModel->isForm){
+			if(!empty($columnModel)){
 				$this->setColumn($value, $columnModel);
 			}
 		}
@@ -120,10 +128,18 @@ class GridColumn extends ModelColumn{
 	private function setColumn($memberName, $memberModel){
 		if(in_array($memberModel->form, $this->allowedGridForm)){
 			$memberModel->isMultipleInsert = true;
+			$memberModel->type = 'array';
 			$memberModel->isForm = false;
 			$this->memberColumn[$memberName] = $memberModel;
 		}elseif(state_is_develop()){
 			notify_add_error(sprintf(tt('Invalid form for grid : %s(%s)'), $memberName, $memberModel->form));
+		}
+	}
+	
+	private function initDataModifier(){
+		if(!$this->dataModifier){
+			include_once('DataModifier.class.inc');
+			$this->dataModifier = new DataModifier($this->tableName, $this->modelConnector);
 		}
 	}
 }

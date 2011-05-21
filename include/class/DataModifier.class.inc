@@ -205,6 +205,7 @@ class DataModifier{
 	
 	private function getMultipleInsertColumn(){
 		$this->multipleInsertColumn = $this->modelConnector->getColumnNameByBoolean('isMultipleInsert');
+		$this->multipleInsertColumn = array_intersect($this->multipleInsertColumn, $this->columnDB);
 	}
 	
 	private function insertSingleRow(){

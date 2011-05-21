@@ -2,6 +2,7 @@
 
 class ModelConnector{
 	private $id;
+	private $parentID;
 	private $modelObject;
 	private $model;
 	private $cacheName = array();
@@ -14,6 +15,10 @@ class ModelConnector{
 	
 	public function setID($id){
 		$this->id = $id;
+	}
+	
+	public function setParentID($parentID){
+		$this->parentID = $parentID;
 	}
 	
 	public function getColumn($col){
@@ -160,6 +165,13 @@ class ModelConnector{
 		$this->trigger('UpdateForm');
 	}
 	
+	public function triggerSetParent(){
+		$this->triggerSingleParameter('SetParent', $this->parentID);
+	}
+	
+	public function triggerGetID(){
+		$this->triggerSingleParameter('GetID', $this->id);
+	}
 	
 	public function triggerSelect($data){
 		if(method_exists($this->modelObject, 'triggerSelect')){
@@ -215,6 +227,18 @@ class ModelConnector{
 		foreach($this->model as $key => $value){
 			if(method_exists($value, $methodName)){
 				$value->$methodName();
+			}
+		}
+	}
+	
+	private function triggerSingleParameter($event, $parammeter){
+		$methodName = 'trigger'.$event;
+		if(method_exists($this->modelObject, $methodName)){
+			$this->modelObject->$methodName($parammeter);
+		}
+		foreach($this->model as $key => $value){
+			if(method_exists($value, $methodName)){
+				$value->$methodName($parammeter);
 			}
 		}
 	}

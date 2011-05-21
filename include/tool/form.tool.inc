@@ -294,11 +294,13 @@ function form_render_grid($form_id, $name, $modelCol){
 	foreach($modelCol->getMember() as $key => $value){
 		$functionName = 'form_render_grid_'.$value->form;
 		$value->data = null;
-		if($value->form != 'hidden'){
-			$render .= '<th>'.$value->label.'</th>';
-			$grid_row.= '<td>'.$functionName($grid_id, $key, $value).'</td>';
-		}else{
-			$grid_row.= $functionName($grid_id, $key, $value);
+		if($value->isGridForm){
+			if($value->form != 'hidden'){
+				$render .= '<th>'.$value->label.'</th>';
+				$grid_row.= '<td>'.$functionName($grid_id, $key, $value).'</td>';
+			}else{
+				$grid_row.= $functionName($grid_id, $key, $value);
+			}
 		}
 	}
 	$grid_row.= '
@@ -310,8 +312,10 @@ function form_render_grid($form_id, $name, $modelCol){
 	foreach($modelCol->data as $key => $data){
 		$render .= '<tr>';
 		foreach($modelCol->getMember() as $memberName => $member){
-			$member->data = $data[$memberName];
-			$render .= '<td>'.$functionName($grid_id, $memberName, $member).'</td>';
+			if($member->isGridForm){
+				$member->data = $data[$memberName];
+				$render .= '<td>'.$functionName($grid_id, $memberName, $member).'</td>';
+			}
 		}
 		$render .= '
 			<td>

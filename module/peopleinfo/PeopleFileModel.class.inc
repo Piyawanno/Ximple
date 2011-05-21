@@ -4,9 +4,13 @@ class PeopleFileModel extends Model{
 		$this->short_description = $this->title(tt('short description'));
 		$this->file = $this->file('file', 'files/peoipleinfo/');
 		$this->type = $this->hidden('', 'char');
-		$this->type->isForm = false;
+		$this->type->isGridForm = false;
 		$this->information = $this->hidden($informationID, 'int');
-		$this->information->isForm = false;
+		$this->information->isGridForm = false;
+	}
+	
+	public function triggerSetParent($parentID){
+		$this->information->defaultData = $parentID;
 	}
 }
 ?>

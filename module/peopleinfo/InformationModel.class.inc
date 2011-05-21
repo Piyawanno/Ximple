@@ -31,6 +31,7 @@ class InformationModel extends Model{
 		$this->file = $this->grid(tt('related files'));
 		$this->file->setModel('peopleinfo', 'people_file', new PeopleFileModel());
 		$this->file->isDB = false;
+		$this->file->isDropByUpdate = false;
 		
 		$this->section = $this->section();
 	}
