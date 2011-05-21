@@ -15,6 +15,7 @@ class ModelConnector{
 	
 	public function setID($id){
 		$this->id = $id;
+		$this->triggerGetID();
 	}
 	
 	public function setParentID($parentID){
@@ -151,6 +152,14 @@ class ModelConnector{
 	
 	public function triggerPostUpdate(){
 		$this->trigger('PostUpdate');
+	}
+	
+	public function triggerPostDBInsert(){
+		$this->trigger('PostDBInsert');
+	}
+	
+	public function triggerPostDBUpdate(){
+		$this->trigger('PostDBUpdate');
 	}
 	
 	public function triggerDrop(){

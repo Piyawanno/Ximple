@@ -51,13 +51,13 @@ class Information extends Control{
 		print_r(pp());
 		Control::insert();
 		freetag_update(pp('freetag'), 'people_info', $this->id);
-		document_set_redirect('peopleinfo_info_list');
+		document_set_redirect('peopleinfo_info');
 	}
 	
 	public function update(){
 		Control::update();
 		freetag_update(pp('freetag'), 'people_info', $this->id);
-		document_set_redirect('peopleinfo_info_list');
+		document_set_redirect('peopleinfo_info');
 	}
 	
 	public function renderPeopleInformation($peopleID){

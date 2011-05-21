@@ -27,12 +27,17 @@ class DataModifier{
 	}
 	
 	public function insert($isCaptcha){
+		$retult = false;
 		if(!$isCaptcha or $this->checkCaptcha()){
 			$this->getMultipleInsertColumn();
-			if(count($this->multipleInsertColumn))  return $this->insertMultipleRows();
-			else return $this->insertSingleRow();
+			if(count($this->multipleInsertColumn)){
+				$retult = $this->insertMultipleRows();
+			}else{
+				$retult = $this->insertSingleRow();
+			}
+			$this->modelConnector->triggerPostDBInsert();
 		}
-		return false;
+		return $retult;
 	}
 	
 	public function prepareUpdate(){
@@ -45,12 +50,17 @@ class DataModifier{
 	}
 	
 	public function update($isCaptcha){
+		$retult = false;
 		if(!$isCaptcha or $this->checkCaptcha()){
 			$this->getMultipleInsertColumn();
-			if(count($this->multipleInsertColumn)) return $this->updateMultipleRows();
-			else return $this->updateSingleRow();
+			if(count($this->multipleInsertColumn)){
+				$retult = $this->updateMultipleRows();
+			}else{
+				$retult = $this->updateSingleRow();
+			}
+			$this->modelConnector->triggerPostDBUpdate();
 		}
-		return false;
+		return $retult;
 	}
 	
 	public function prepareDrop(){
@@ -245,15 +255,16 @@ class DataModifier{
 		$newCount = -1;
 		$errorMessage = '';
 		foreach($this->multipleInsertColumn as $columnName){
-			if(!is_array($this->data[$columnName])){
-				$errorMessage = 'Data should be array : '.$columnName;
-				break;
-			}
-			$oldCount = $newCount;
-			$newCount = count($this->data[$columnName]);
-			if($newCount != $oldCount and $oldCount != -1){
-				$errorMessage = 'Data are not symmetry : '.$columnName;
-				break;
+			if(is_array($this->data[$columnName])){
+				$oldCount = $newCount;
+				$newCount = count($this->data[$columnName]);
+				if($newCount != $oldCount and $oldCount != -1){
+					$errorMessage = 'Data are not symmetry : '.$columnName;
+					break;
+				}
+			}elseif(empty($this->data[$columnName])){
+				$errorMessage = 'Data should not be empty : '.$columnName;
+				break;	
 			}
 		}
 		if(strlen($errorMessage)){
@@ -269,7 +280,7 @@ class DataModifier{
 		$n = count($this->data[$this->multipleInsertColumn[0]]);
 		for($i=0; $i< $n; $i++){
 			foreach($this->data as $key => $value){
-				if(in_array($key, $this->multipleInsertColumn)){
+				if(is_array($value)){
 					$formattedData[$i][$key] = $value[$i];
 				}else{
 					$formattedData[$i][$key] = $value;

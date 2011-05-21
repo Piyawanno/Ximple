@@ -3,9 +3,9 @@ class PeopleFileModel extends Model{
 	function PeopleFileModel($informationID=null){
 		$this->short_description = $this->title(tt('short description'));
 		$this->file = $this->file('file', 'files/peoipleinfo/');
-		$this->type = $this->hidden('', 'char');
+		$this->type = $this->none('', 'char');
 		$this->type->isGridForm = false;
-		$this->information = $this->hidden($informationID, 'int');
+		$this->information = $this->none($informationID, 'int');
 		$this->information->isGridForm = false;
 	}
 	

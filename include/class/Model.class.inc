@@ -126,6 +126,15 @@ abstract class Model{
 		return $modelColumn;
 	}
 	
+	public function none($default=null, $type='char'){
+		$modelColumn = new ModelColumn;
+		$modelColumn->type = $type;
+		$modelColumn->form = 'none';
+		$modelColumn->defaultData = $default;
+		$modelColumn->data = $default;
+		return $modelColumn;
+	}
+	
 	public function now(){
 		$modelColumn = new ModelColumn;
 		$modelColumn->type = 'timestamp';

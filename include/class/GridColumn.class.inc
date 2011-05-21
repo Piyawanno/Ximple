@@ -15,6 +15,7 @@ class GridColumn extends ModelColumn{
 	private $relatedDataModifier;
 	
 	private $allowedGridForm = array(
+		'none',
 		'hidden',
 		'char',
 		'autocomplete',
@@ -56,14 +57,14 @@ class GridColumn extends ModelColumn{
 		return $this->memberColumn;
 	}
 	
-	public function triggerPostInsert(){
+	public function triggerPostDBInsert(){
 		$this->initDataModifier();
 		$this->modelConnector->triggerSetParent();
 		$this->dataModifier->prepareInsert();
 		$this->dataModifier->insert(false);
 	}
 	
-	public function triggerPostUpdate(){
+	public function triggerPostDBUpdate(){
 		$this->initDataModifier();
 		$this->modelConnector->triggerSetParent();
 		if($this->isDropByUpdate){
@@ -74,7 +75,7 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function triggerGetID($id){
-		$this->modelConnector->setParent($id);
+		$this->modelConnector->setParentID($id);
 	}
 	
 	private function checkMemberData(){
@@ -128,7 +129,9 @@ class GridColumn extends ModelColumn{
 	private function setColumn($memberName, $memberModel){
 		if(in_array($memberModel->form, $this->allowedGridForm)){
 			$memberModel->isMultipleInsert = true;
-			$memberModel->type = 'array';
+			if($memberModel->isGridForm){
+				$memberModel->type = 'array';
+			}
 			$memberModel->isForm = false;
 			$this->memberColumn[$memberName] = $memberModel;
 		}elseif(state_is_develop()){
