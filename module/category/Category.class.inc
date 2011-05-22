@@ -16,6 +16,8 @@ class Category extends Control{
 		$this->tableName = 'category';
 		$this->moduleName = 'category';
 		$this->moduleTitle = tt('Category');
+		$this->inserRedirect  = 'category/module/'.$this->getMode();
+		$this->updateRedirect = 'category/module/'.$this->getMode();
 		$this->init(new CategoryModel(gg('module')));
 	}
 	
@@ -81,6 +83,7 @@ class Category extends Control{
 		$this->mode = gg('module');
 		if(!$this->mode) $this->mode = pp('mode');
 		if(!$this->mode) $this->mode = $this->dataByID['mode'];
+		return $this->mode;
 	}
 }
 ?>

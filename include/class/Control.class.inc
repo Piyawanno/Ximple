@@ -27,6 +27,7 @@ abstract class Control extends Translatable{
 	protected $insertRedirect;
 	protected $updateRedirect;
 	protected $dropRedirect;
+	protected $redirectToIDPage = false;
 	
 	protected $writeLabel;
 	protected $editLabel;
@@ -67,9 +68,10 @@ abstract class Control extends Translatable{
 		$this->initDataModifier();
 		$this->dataModifier->prepareInsert();
 		$insertOk = $this->dataModifier->insert($this->formMeta->isCaptcha);
-		document_set_redirect($this->insertRedirect);
 		if($insertOk){
 			$this->id = $this->dataModifier->getID();
+			$redirect = str_replace('#id', $this->id, $this->insertRedirect);
+			document_set_redirect($redirect);
 			notify_add_info($this->insertNotify);
 		}
 	}
@@ -78,8 +80,9 @@ abstract class Control extends Translatable{
 		$this->initDataModifier();
 		$this->dataModifier->prepareUpdate();
 		$updateOk = $this->dataModifier->update($this->formMeta->isCaptcha);
-		document_set_redirect($this->updateRedirect);
 		if($updateOk){
+			$redirect = str_replace('#id', $this->id, $this->updateRedirect);
+			document_set_redirect($redirect);
 			notify_add_info($this->updateNotify);
 		}
 	}
@@ -349,9 +352,17 @@ abstract class Control extends Translatable{
 	}
 	
 	private function setDefaultRedirect(){
-		if(empty($this->insertRedirect)) $this->insertRedirect = $this->fullModuleName;
-		if(empty($this->updateRedirect)) $this->updateRedirect = $this->fullModuleName;
-		if(empty($this->dropRedirect)) $this->dropRedirect = $this->fullModuleName;
+		if(empty($this->insertRedirect)){
+			if($this->redirectToIDPage) $this->insertRedirect = $this->fullModuleName.'/#id';
+			else $this->insertRedirect = $this->fullModuleName;
+		}
+		if(empty($this->updateRedirect)){
+			if($this->redirectToIDPage) $this->updateRedirect = $this->fullModuleName.'/#id';
+			else $this->updateRedirect = $this->fullModuleName;
+		}
+		if(empty($this->dropRedirect)){
+			$this->dropRedirect = $this->fullModuleName;
+		}
 	}
 	
 	private function setDefaultAction(){

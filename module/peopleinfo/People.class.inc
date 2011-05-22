@@ -12,6 +12,7 @@ class People extends Control{
 		$this->moduleName = 'peopleinfo';
 		$this->tableName = 'people';
 		$this->setAccess();
+		$this->redirectToIDPage = true;
 		$this->init(new PeopleModel());
 		document_set_path(tt('People Information Center'), 'peopleinfo_summary');
 	}
@@ -89,16 +90,6 @@ class People extends Control{
 		$userInfo = userinfo_get_info_by_id($this->dataByID['people']);
 		$this->editLabel = tt('Edit People Information').' : '.$userInfo['login_name'];
 		return Control::edit();
-	}
-	
-	public function insert(){
-		Control::insert();
-		document_set_redirect('peopleinfo/'.$this->id);
-	}
-	
-	public function update(){
-		Control::update();
-		document_set_redirect('peopleinfo/'.$this->id);
 	}
 	
 	private function checkRelatedGroup(){

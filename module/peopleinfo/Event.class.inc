@@ -11,6 +11,7 @@ class Event extends Control{
 		$this->moduleExtension = 'event';
 		$this->tableName = 'event';
 		$this->setAccess();
+		$this->redirectToIDPage = true;
 		$this->init(new EventModel());
 		if($setPath){
 			document_set_path(tt('People Information Center'), 'peopleinfo_summary');
@@ -34,17 +35,7 @@ class Event extends Control{
 		$this->setListEditIcon();
 		return Control::renderListPage();
 	}
-	
-	public function insert(){
-		Control::insert();
-		document_set_redirect('peopleinfo_event/'.$this->id);
-	}
-	
-	public function update(){
-		Control::update();
-		document_set_redirect('peopleinfo_event/'.$this->id);
-	}
-	
+		
 	public function getDefinedPlace(){
 		execute_set_ajax();
 		$cluase = 'WHERE section='.SECTION." AND place LIKE '%".gg('wildcard')."%'";

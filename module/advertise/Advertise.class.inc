@@ -52,15 +52,5 @@ class Advertise extends Control{
 		count_increase('advertise', $this->id);
 		header('Location: '.$this->dataByID['uri']);
 	}
-	
-	public function insert(){
-		Control::insert();
-		document_set_redirect('advertise/'.$this->id);
-	}
-	
-	public function update(){
-		Control::update();
-		document_set_redirect('advertise/'.$this->id);
-	}
 }
 ?>
