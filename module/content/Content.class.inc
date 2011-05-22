@@ -21,7 +21,6 @@ abstract class Content extends Control{
 	public function insert(){
 		Control::insert();
 		$this->selectByID($this->column, true);
-		$this->updateFreeTag();
 		$this->insertTracker('write');
 		if($this->isFeed() and $this->isReadable(false)){
 			$feedData = $this->formatFeedData();
@@ -33,7 +32,6 @@ abstract class Content extends Control{
 	
 	public function update(){
 		Control::update();
-		$this->updateFreeTag();
 		$this->insertTracker('update');
 		if($this->isReadable(false)){
 			$feedData = $this->formatFeedData();
@@ -44,7 +42,6 @@ abstract class Content extends Control{
 	
 	public function drop(){
 		include_once(ROOT_PATH.'module/feed/feed.tool.inc');
-		$this->updateFreeTag();
 		$this->insertTracker('drop');
 		feed_drop($this->moduleName, $this->id);
 		db_drop_many('comment', 'parent='.$this->id);
@@ -393,11 +390,6 @@ abstract class Content extends Control{
 				break;
 			}
 		}
-	}
-	
-	private function updateFreeTag(){
-		include_once(ROOT_PATH.'module/freetag/freetag.tool.inc');
-		freetag_update(pp('freetag'), $this->moduleName, $this->id);
 	}
 	
 	private function addCategoryToFreeTag(){

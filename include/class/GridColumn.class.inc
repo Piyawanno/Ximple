@@ -5,7 +5,7 @@ require_once('ModelConnector.class.inc');
 /// This class is a container for other ModelColumns.
 /// It does not represent a column of database table.
 class GridColumn extends ModelColumn{
-	public $isDropByUpdate = true;
+	public $hasDBRow = false;
 	
 	private $dataModifier = null;
 	private $memberColumn;
@@ -58,20 +58,21 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function triggerPostDBInsert(){
-		$this->initDataModifier();
-		$this->modelConnector->triggerSetParent();
-		$this->dataModifier->prepareInsert();
-		$this->dataModifier->insert(false);
+		if($this->hasDBRow){
+			$this->initDataModifier();
+			$this->modelConnector->triggerSetParent();
+			$this->dataModifier->prepareInsert();
+			$this->dataModifier->insert(false);
+		}
 	}
 	
 	public function triggerPostDBUpdate(){
-		$this->initDataModifier();
-		$this->modelConnector->triggerSetParent();
-		if($this->isDropByUpdate){
-			
+		if($this->hasDBRow){
+			$this->initDataModifier();
+			$this->modelConnector->triggerSetParent();
+			$this->dataModifier->prepareUpdate();
+			$this->dataModifier->update(false);
 		}
-		$this->dataModifier->prepareInsert();
-		$this->dataModifier->insert(false);
 	}
 	
 	public function triggerGetID($id){

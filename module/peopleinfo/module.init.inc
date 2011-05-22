@@ -59,6 +59,10 @@ function module_init_peopleinfo(){
 	if(count(cc('peopleinfo_related')) == 0){
 		notify_add_warning(peopleinfo_get_group_warning());
 	}
+	
+	if(!is_dir(ROOT_PATH.'files/peoipleinfo/')){
+		mkdir(ROOT_PATH.'files/peoipleinfo/');
+	}
 }
 
 function module_drop_peopleinfo(){

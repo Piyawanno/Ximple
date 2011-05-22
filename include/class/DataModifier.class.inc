@@ -73,6 +73,8 @@ class DataModifier{
 	public function drop(){
 		$this->checkID();
 		db_drop($this->table, $this->id);
+		$this->modelConnector->setID($this->id);
+		$this->modelConnector->triggerPostDBDrop();
 	}
 	
 	private function getColumn(){

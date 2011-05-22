@@ -37,13 +37,11 @@ class Event extends Control{
 	
 	public function insert(){
 		Control::insert();
-		freetag_update(pp('freetag'), 'peopleinfo_event', $this->id);
 		document_set_redirect('peopleinfo_event/'.$this->id);
 	}
 	
 	public function update(){
 		Control::update();
-		freetag_update(pp('freetag'), 'peopleinfo_event', $this->id);
 		document_set_redirect('peopleinfo_event/'.$this->id);
 	}
 	

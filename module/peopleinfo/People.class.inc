@@ -93,13 +93,11 @@ class People extends Control{
 	
 	public function insert(){
 		Control::insert();
-		freetag_update(pp('freetag'), 'peopleinfo', $this->id);
 		document_set_redirect('peopleinfo/'.$this->id);
 	}
 	
 	public function update(){
 		Control::update();
-		freetag_update(pp('freetag'), 'peopleinfo', $this->id);
 		document_set_redirect('peopleinfo/'.$this->id);
 	}
 	

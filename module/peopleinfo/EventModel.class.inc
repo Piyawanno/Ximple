@@ -18,7 +18,7 @@ class EventModel extends Model{
 		$this->description = $this->text(tt('description'));
 		$this->description->isReachable = true;
 		
-		$this->freetag = new FreeTagColumn();
+		$this->freetag = new FreeTagColumn('peopleinfo_event');
 		$this->section = $this->section();
 	}
 }

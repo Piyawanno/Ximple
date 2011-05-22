@@ -46,7 +46,7 @@ abstract class ContentModel extends Model{
 		$this->description->isReachable = true;
 		$this->category = $this->category($moduleName);
 		
-		$this->freetag = new FreeTagColumn();
+		$this->freetag = new FreeTagColumn($moduleName);
 		
 		$this->section = $this->section();
 		

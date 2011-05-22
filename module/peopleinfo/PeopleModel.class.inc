@@ -21,7 +21,7 @@ class PeopleModel extends Model{
 		$this->update_time = $this->now();
 		$this->update_time->isUpdateTime = true;
 		
-		$this->freetag = new FreeTagColumn();
+		$this->freetag = new FreeTagColumn('peopleinfo');
 		$this->section = $this->section();
 	}
 	

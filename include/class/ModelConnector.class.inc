@@ -166,6 +166,10 @@ class ModelConnector{
 		$this->trigger('Drop');
 	}
 	
+	public function triggerPostDBDrop(){
+		$this->trigger('PostDBDrop');
+	}
+	
 	public function triggerInsertForm(){
 		$this->trigger('InsertForm');
 	}
