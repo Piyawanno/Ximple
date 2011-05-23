@@ -10,6 +10,7 @@ function form($form_id, $model){
 			$render[$name] = $func($form_id, $name, $modelCol);
 		}
 	}
+	head_add_js_array('gridRowArray', gridform_get_row_array());
 	return $render;
 }
 

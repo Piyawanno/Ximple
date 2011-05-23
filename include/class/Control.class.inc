@@ -144,6 +144,7 @@ abstract class Control extends Translatable{
 	
 	public function selectByID($column, $isRaw=false){
 		$column = $this->checkColumnExist($column);
+		$this->modelConnector->setID($this->id);
 		$this->data = db_select($this->tableName, $column, 'WHERE id='.(int)$this->id);
 		if(!$isRaw) $this->postSelect();
 		if(isset($this->data[$this->id])){

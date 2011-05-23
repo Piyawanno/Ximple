@@ -8,6 +8,7 @@ class GridColumn extends ModelColumn{
 	public $hasDBRow = false;
 	public $dropMode = '';
 	
+	private $id;
 	private $dataModifier = null;
 	private $memberColumn;
 	private $memberDataCount;
@@ -36,10 +37,15 @@ class GridColumn extends ModelColumn{
 		$this->isDB = false;
 	}
 	
-	public function setModel($moduleName, $tableName, $modelObj){
-		$this->tableName = $tableName;
-		$this->initModelConnector($moduleName, $modelObj);
+	public function setModel($modelObj){
+		$this->tableName = $modelObj->tableName;
+		$this->dropMode = $modelObj->dropMode;
+		$this->hasDBRow = true;
+		$this->isDB = false;
+		$this->initModelConnector($modelObj->moduleName, $modelObj);
 		$this->mergeModel();
+		$this->parentColumn = $this->modelConnector->getParentColumnName();
+		return $this;
 	}
 	
 	public function append($memberName, $memberModel){
@@ -53,9 +59,26 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function getMember(){
-		$this->checkMemberData();
-		$this->getMemberData();
+		if($this->hasDBRow){
+			$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
+			$column = $this->modelConnector->getColumnName();
+			$this->data = db_select($this->tableName, $column, $clause);
+			foreach($this->data as $id => $data){
+				foreach($data as $column => $value){
+					if(isset($this->memberColumn[$column]) and $this->memberColumn[$column]->isGridForm){
+						$this->memberColumn[$column]->data = $value;
+					}
+				}
+			}
+		}else{
+			$this->checkMemberData();
+			$this->getMemberData();
+		}
 		return $this->memberColumn;
+	}
+	
+	public function triggerUpdateForm(){
+		
 	}
 	
 	public function triggerPostDBInsert(){
@@ -77,6 +100,7 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function triggerGetID($id){
+		$this->id = $id;
 		$this->modelConnector->setParentID($id);
 	}
 	

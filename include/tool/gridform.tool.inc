@@ -3,52 +3,93 @@ global $grid_row_array;
 $grid_row_array = array();
 
 function gridform_render($form_id, $name, $modelCol){
-	global $grid_row_array;
 	head_add_css('list.css');
 	$grid_id = $form_id.'_'.$name;
-	$render  = '<div class="list">';
-	$render .= '<span id="info_'.$grid_id.'"></span>';
-	$render .= '<table width="100%" id="'.$grid_id.'"><tr>';
-	
-	$grid_row = '<tr>';
-	foreach($modelCol->getMember() as $key => $value){
-		$functionName = 'form_render_grid_'.$value->form;
-		$value->data = null;
-		if($value->isGridForm){
-			if($value->form != 'hidden'){
-				$render .= '<th>'.$value->label.'</th>';
-				$grid_row.= '<td>'.$functionName($grid_id, $key, $value).'</td>';
-			}else{
-				$grid_row.= $functionName($grid_id, $key, $value);
-			}
-		}
-	}
-	$grid_row.= gridform_drop_icon($modelCol->dropMode);
-	$grid_row.= '</tr>';
-	
-	$render .= '<th width="36">&#160;</th>';
-	foreach($modelCol->data as $key => $data){
-		$render .= '<tr>';
-		foreach($modelCol->getMember() as $memberName => $member){
-			if($member->isGridForm){
-				$member->data = $data[$memberName];
-				$render .= '<td>'.$functionName($grid_id, $memberName, $member).'</td>';
-			}
-		}
-		$render .= gridform_drop_icon($drop_mode);
-		$render .= '</tr>';
-	}
-	
-	$grid_row = str_replace("\n", "", $grid_row);
-	$grid_row_array[$grid_id] = str_replace('"', "\\\"", $grid_row);
-	$render .= $grid_row;
-	$render .= '</tr></table>';
-	$render .= '</div>';
-	$render .= gridfrom_add_icon($grid_id);
-	head_add_js_array('gridRowArray', $grid_row_array);
+	$render  = gridform_render_head($grid_id, $modelCol);
+	$render .= gridform_render_data_row($grid_id, $modelCol);
+	$grid_row = gridform_render_row($grid_id, $modelCol);
+	gridform_add_grid_row($grid_id, $grid_row);
+	$render .= gridform_render_foot($grid_id, $grid_row, $modelCol);
 	return $render;
 }
 
+
+function gridform_render_row($grid_id, $modelCol){
+	$grid_row = '<tr>';
+	foreach($modelCol->getMember() as $key => $value){
+		$value->data = null;
+		$grid_row .= gridform_render_row_form($grid_id, $key, $value);
+	}
+	$grid_row.= gridform_drop_icon($modelCol->dropMode);
+	$grid_row.= '</tr>';
+	$grid_row = str_replace("\n", "", $grid_row);
+	return $grid_row;
+}
+
+function gridform_render_data_row($grid_id, $modelCol){
+	$render = '';
+	foreach($modelCol->data as $key => $data){
+		$render .= '<tr>';
+		foreach($modelCol->getMember() as $memberName => $member){
+			$member->data = $data[$memberName];
+			$form = gridform_render_row_form($grid_id, $memberName, $member);
+			if($modelCol->hasDBRow){
+				$form = str_replace('[]', '[id_'.$key.']', $form);
+			}
+			$render .= $form;
+		}
+		$render .= gridform_drop_icon($modelCol->dropMode, $key);
+		$render .= '</tr>';
+	}
+	return $render;
+}
+
+function gridform_render_row_form($grid_id, $column, $modelCol){
+	if($modelCol->isGridForm){
+		$functionName = 'form_render_grid_'.$modelCol->form;
+		if($modelCol->form != 'hidden'){
+			return '<td>'.$functionName($grid_id, $column, $modelCol).'</td>';
+		}else{
+			return $functionName($grid_id, $column, $modelCol);
+		}
+	}else{
+		return null;
+	}
+}
+
+function gridform_render_head($grid_id, $modelCol){
+	$render  = '<div class="list">';
+	$render .= '<span id="info_'.$grid_id.'"></span>';
+	$render .= '<table width="100%" id="'.$grid_id.'"><tr>';
+	foreach($modelCol->getMember() as $key => $value){
+		if($value->isGridForm){
+			$render .= '<th>'.$value->label.'</th>';
+		}
+	}
+	$render .= '<th width="36">&#160;</th>';
+	return $render;
+}
+
+function gridform_render_foot($grid_id, $grid_row, $modelCol){
+	$render  = '';
+	if(count($modelCol->data) == 0){
+		$render .= $grid_row;
+	}
+	$render .= '</tr></table>';
+	$render .= '</div>';
+	$render .= gridfrom_add_icon($grid_id);
+	return $render;
+}
+
+function gridform_add_grid_row($grid_id, $grid_row){
+	global $grid_row_array;
+	$grid_row_array[$grid_id] = str_replace('"', "\\\"", $grid_row);
+}
+
+function gridform_get_row_array(){
+	global $grid_row_array;
+	return $grid_row_array;
+}
 
 function gridfrom_add_icon($grid_id){
 	return '
@@ -66,6 +107,10 @@ function gridform_drop_icon($drop_mode, $id=null){
 			<a onclick="delGridRow(this, \''.$drop_mode.'\');return false;" href="#">
 			<img src="'.ROOT_URI.'files/icon/drop.png" border="0" align="left" />
 		</td>';
+}
+
+function form_render_grid_none($form_id, $name, $modelCol){
+	return null;
 }
 
 function form_render_grid_hidden($form_id, $name, $modelCol){

@@ -28,6 +28,12 @@ class ModelConnector{
 		}
 	}
 	
+	public function getParentColumnName(){
+		$column = $this->getColumnNameByBoolean('isParent');
+		if(count($column)) return $column[0];
+		else return null;
+	}
+	
 	public function getColumnName(){
 		$col = array('id');
 		foreach($this->model as $key => $value){

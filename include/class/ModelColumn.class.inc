@@ -86,6 +86,7 @@ class ModelColumn{
 	public $isUpdateTime = false;
 	public $isMultipleInsert = false;
 	public $isTranslate = false;
+	public $isParent = false;
 	
 	public function getPHPType(){
 		return $this->typeMap[$this->type];
