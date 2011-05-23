@@ -229,14 +229,17 @@ class DataModifier{
 	
 	private function insertMultipleRows(){
 		$this->getDataFromConnector();
+		$this->uploadMultipleFiles();
 		if($this->checkDataSymmetry()){
 			$this->formatMultipleData();
+			$this->checkNullMultipleData();
 			$this->id = array();
 			foreach($this->data as $key => $value){
 				$this->id[] = db_insert($this->table, $value);
 			}
 			return true;
 		}else{
+			$this->dropUnsuccessfulFiles();
 			return false;
 		}
 	}
@@ -250,7 +253,19 @@ class DataModifier{
 	}
 	
 	private function updateMultipleRows(){
-		
+		$this->getDataFromConnector();
+		if($this->checkDataSymmetry()){
+			$this->dropMultipleFiles();
+			$this->uploadMultipleFiles();
+			$this->formatMultipleData();
+			$this->checkNullMultipleData();
+			$this->id = array();
+			foreach($this->data as $key => $value){
+				$this->id[] = db_insert($this->table, $value);
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	private function checkDataSymmetry(){
@@ -290,6 +305,37 @@ class DataModifier{
 			}
 		}
 		$this->data = $formattedData;
+	}
+	
+	private function dropMultipleFiles(){
+	
+	}
+	
+	private function uploadMultipleFiles(){
+		foreach($this->fileColumn as $columnName){
+			$modelColumn = $this->modelConnector->getColumn($columnName);
+			$fileArray = input_reorder_multiple_files($columnName);
+			foreach($fileArray as $key => $value){
+				if($value['size']){
+					$fileName = io_upload($value, $modelColumn->path, $modelColumn->isImage);
+					$this->data[$columnName][] = $fileName;
+				}else{
+					$this->data[$columnName][] = '';
+				}
+			}
+		}
+	}
+	
+	private function dropUnsuccessfulFiles(){
+		foreach($this->fileColumn as $columnName){
+			foreach($this->data[$columnName] as $key => $value){
+				if(is_file(ROOT_PATH.$value)) unlink(ROOT_PATH.$value);
+			}
+		}
+	}
+	
+	private function checkNullMultipleData(){
+	
 	}
 }
 ?>

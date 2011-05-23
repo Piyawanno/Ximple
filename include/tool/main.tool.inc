@@ -125,6 +125,9 @@ function main_include(){
 	include('count.tool.inc');
 	include('translate.tool.inc');
 	include(ROOT_PATH.'include/database/'.DB_TYPE.'.inc');
+	if(!function_exists('mime_content_type')){
+		include_once('external/upgradephp/ext/mime.php');
+	}
 }
 
 /// Check the installation of Ximple on server.
