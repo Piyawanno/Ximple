@@ -111,8 +111,7 @@ class Download extends Control{
 	
 	private function renameFile(){
 		$this->selectByID($this->column);
-		$splitted = split('\.', basename($this->dataByID['file']));
-		$type = $splitted[count($splitted) - 1];
+		$type = io_get_file_extension($this->dataByID['file']);
 		$fileName = 'files/download/'.sha1(rand()).md5(rand()).sha1(rand()).md5(rand()).'.'.$type;
 		$success = true;
 		@rename(ROOT_PATH.$this->dataByID['file'], ROOT_PATH.$fileName) or $success = false;

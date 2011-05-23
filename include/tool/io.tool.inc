@@ -186,4 +186,9 @@ function io_get_loop_file($loop_name, $interval, $prevois_day=0){
 	return $log_dir.$year.'_'.$slot.'_'.$number.'.txt';
 }
 
+
+function io_get_file_extension($file_name){
+	$splitted = split('\.', basename($file_name));
+	return $splitted[count($splitted) - 1];
+}
 ?>

@@ -60,8 +60,8 @@ function module_init_peopleinfo(){
 		notify_add_warning(peopleinfo_get_group_warning());
 	}
 	
-	if(!is_dir(ROOT_PATH.'files/peoipleinfo/')){
-		mkdir(ROOT_PATH.'files/peoipleinfo/');
+	if(!is_dir(ROOT_PATH.'files/peopleinfo/')){
+		mkdir(ROOT_PATH.'files/peopleinfo/');
 	}
 }
 

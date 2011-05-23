@@ -42,9 +42,19 @@ class Information extends Control{
 		return Control::write();
 	}
 	
+	public function insert(){
+		Control::insert();
+		$this->renameFile();
+	}
+	
 	public function edit(){
 		$this->setConfigForm();
 		return Control::edit();
+	}
+	
+	public function update(){
+		Control::update();
+		$this->renameFile();
 	}
 	
 	public function dropPeopleRelation(){
@@ -105,6 +115,23 @@ class Information extends Control{
 		
 		$file = $this->getNewConfigForm(tt('related files'));
 		$file->append('file');
+	}
+	
+	private function renameFile(){
+		$clause = 'WHERE information='.$this->id;
+		$peopleFile = db_select_single_column('people_file', 'file', $clause);
+		$dirName  = 'files/peopleinfo/'.sha1(rand()).'/';
+		if(!is_dir($dirName)) mkdir($dirName);
+		foreach($peopleFile as $key => $value){
+			$type = io_get_file_extension($value);
+			$fileName = $dirName.md5(rand()).sha1(rand()).md5(rand()).'.'.$type;
+			$success = true;
+			@rename(ROOT_PATH.$value, ROOT_PATH.$fileName) or $success = false;
+			if($success){
+				$size = filesize(ROOT_PATH.$fileName);
+				db_update('people_file', array('file' => $fileName), $key);
+			}
+		}
 	}
 }
 ?>

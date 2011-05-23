@@ -7,8 +7,7 @@ include('PeopleFileModel.class.inc');
 class InformationModel extends Model{
 	function InformationModel(){
 		$this->topic = $this->title(tt('topic'));
-		$this->topic->isList = true;
-		$this->topic->isReachable = true;
+		$this->topic->listMode = 'peopleinfo_info';
 		
 		$this->source_date = $this->calendar(tt('date'));
 		
