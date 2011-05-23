@@ -57,6 +57,19 @@ class Information extends Control{
 		$this->renameFile();
 	}
 	
+	public function drop(){
+		db_drop_many('people_relation', 'information='.gg('id'));
+		db_drop_many('event_relation', 'information='.gg('id'));
+		$file = db_select_single_column('people_file', 'file', 'WHERE information='.gg('id'), false);
+		foreach($file as $key => $value){
+			if(is_file(ROOT_PATH.$value)) unlink(ROOT_PATH.$value);
+		}
+		$dirName = ROOT_PATH.dirname($file[0]);
+		if(is_dir($dirName)) rmdir($dirName);
+		db_drop_many('people_file', 'information='.gg('id'));
+		Control::drop();
+	}
+	
 	public function dropPeopleRelation(){
 		db_drop('people_relation', (int) gg('id'));
 	}
@@ -126,11 +139,15 @@ class Information extends Control{
 			$type = io_get_file_extension($value);
 			$fileName = $dirName.md5(rand()).sha1(rand()).md5(rand()).'.'.$type;
 			$success = true;
+			$oldDir = ROOT_PATH.dirname($value);
 			@rename(ROOT_PATH.$value, ROOT_PATH.$fileName) or $success = false;
 			if($success){
 				$size = filesize(ROOT_PATH.$fileName);
 				db_update('people_file', array('file' => $fileName), $key);
 			}
+		}
+		if($oldDir != ROOT_PATH.'files/peopleinfo' and is_dir($oldDir)){
+			rmdir($oldDir);
 		}
 	}
 }
