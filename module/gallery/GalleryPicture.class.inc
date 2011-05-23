@@ -1,5 +1,4 @@
 <?php
-execute_add_extended_class('gallery', 'picture', 'GalleryPicture');
 require_once('GalleryPictureModel.class.inc');
 
 class GalleryPicture extends Control{

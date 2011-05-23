@@ -6,6 +6,7 @@ require_once('ModelConnector.class.inc');
 /// It does not represent a column of database table.
 class GridColumn extends ModelColumn{
 	public $hasDBRow = false;
+	public $dropMode = '';
 	
 	private $dataModifier = null;
 	private $memberColumn;

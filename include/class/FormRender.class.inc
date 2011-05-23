@@ -9,6 +9,7 @@ class FormRender{
 	protected $label;
 	
 	private $notNull;
+	private $notNullID = array();
 	private $help;
 	private $renderedConfigForm = '';
 	

@@ -47,14 +47,18 @@ class Information extends Control{
 		return Control::edit();
 	}
 	
-	public function insert(){
-		Control::insert();
-		document_set_redirect('peopleinfo_info');
+	public function dropPeopleRelation(){
+		db_drop('people_relation', (int) gg('id'));
 	}
 	
-	public function update(){
-		Control::update();
-		document_set_redirect('peopleinfo_info');
+	public function dropEventRelation(){
+		db_drop('event_relation', (int) gg('id'));
+	}
+	
+	public function dropPeopleFile(){
+		$file = db_select_single_column('people_file', 'file', 'WHERE id='.gg('id'), false);
+		if(is_file(ROOT_PATH.$file[0])) unlink(ROOT_PATH.$file[0]);
+		db_drop('people_file', (int) gg('id'));
 	}
 	
 	public function renderPeopleInformation($peopleID){
@@ -83,6 +87,11 @@ class Information extends Control{
 	private function setAccess(){
 		$this->dropAccessMethod('index');
 		$this->setAdmin('peopleinfo_admin');
+		
+		$this->addAction('peopleinfo_info_drop_people_relation', 'dropPeopleRelation');
+		$this->addAction('peopleinfo_info_drop_event_relation', 'dropEventRelation');
+		$this->addAction('peopleinfo_info_drop_people_file', 'dropPeopleFile');
+		
 		$this->addAccessMethod('index', 'peopleinfo_observer');
 		$this->addAccessMethod('listPage', 'peopleinfo_observer');
 	}

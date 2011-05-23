@@ -44,7 +44,7 @@ function imageloader_upload(){
 function imageloader_simple_upload(){
 	execute_set_db();
 	if(!authority_is_guest()){
-		io_upload(ff('file_to_upload'), pp('current_dir'));
+		io_upload(ff('file_to_upload'), ROOT_PATH.pp('current_dir'));
 	}
 }
 

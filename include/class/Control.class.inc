@@ -70,8 +70,7 @@ abstract class Control extends Translatable{
 		$insertOk = $this->dataModifier->insert($this->formMeta->isCaptcha);
 		if($insertOk){
 			$this->id = $this->dataModifier->getID();
-			$redirect = str_replace('#id', $this->id, $this->insertRedirect);
-			document_set_redirect($redirect);
+			$this->setRedirect($this->insertRedirect);
 			notify_add_info($this->insertNotify);
 		}
 	}
@@ -81,8 +80,7 @@ abstract class Control extends Translatable{
 		$this->dataModifier->prepareUpdate();
 		$updateOk = $this->dataModifier->update($this->formMeta->isCaptcha);
 		if($updateOk){
-			$redirect = str_replace('#id', $this->id, $this->updateRedirect);
-			document_set_redirect($redirect);
+			$this->setRedirect($this->updateRedirect);
 			notify_add_info($this->updateNotify);
 		}
 	}
@@ -402,6 +400,13 @@ abstract class Control extends Translatable{
 		$this->column = $this->modelConnector->getColumnName();
 		$this->formMeta = new FormMetaData();
 		$this->listMeta = new ListPageMetaData();
+	}
+	
+	private function setRedirect($redirect){
+		if(!is_array($this->id)){
+			$redirect = str_replace('#id', $this->id, $this->updateRedirect);
+		}
+		document_set_redirect($redirect);
 	}
 }
 ?>

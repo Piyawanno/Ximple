@@ -497,8 +497,11 @@ function addGridRow(tableID){
 	$('#'+tableID).append(gridRowArray[tableID]);
 }
 
-function delGridRow(anchor){
+function delGridRow(anchor, dropMode){
 	$(anchor).parent().parent().remove();
+	if(dropMode.length){
+		$.get(sectionURI+dropMode, function(){});
+	}
 }
 
 var translateForm;

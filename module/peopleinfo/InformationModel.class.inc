@@ -23,15 +23,18 @@ class InformationModel extends Model{
 		$this->people = $this->grid('');
 		$this->people->setModel('peopleinfo', 'people_relation', new PeopleRelationModel());
 		$this->people->isDB = false;
+		$this->people->dropMode = 'peopleinfo_info_drop_people_relation';		
 		
 		$this->event = $this->grid(tt('related event'));
 		$this->event->setModel('peopleinfo', 'event_relation', new EventRelationModel());
 		$this->event->isDB = false;
+		$this->event->dropMode = 'peopleinfo_info_drop_event_relation';	
 		
 		$this->file = $this->grid(tt('related files'));
 		$this->file->setModel('peopleinfo', 'people_file', new PeopleFileModel());
 		$this->file->isDB = false;
 		$this->file->isDropByUpdate = false;
+		$this->file->dropMode = 'peopleinfo_info_drop_people_file';
 		
 		$this->section = $this->section();
 	}
