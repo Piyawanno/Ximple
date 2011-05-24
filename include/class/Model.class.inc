@@ -125,12 +125,8 @@ abstract class Model{
 	
 	
 	public function now(){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'timestamp';
-		$modelColumn->form = 'hidden';
-		$modelColumn->defaultData = NOW;
-		$modelColumn->data = NOW;
-		return $modelColumn;
+		include_once('column/NowColumn.class.inc');
+		return new NowColumn($label, $help);
 	}
 	
 	public function radio($label, $option, $help=null){
