@@ -1,8 +1,8 @@
 <?php
-class FileSizeColumn extends ModelColumn{
+require_once('HiddenColumn.class.inc');
+class FileSizeColumn extends HiddenColumn{
 	function FileSizeColumn($label, $help=null){
-		$this->form = 'hidden';
-		$this->type = 'int';
+		$this->setType('int');
 		$this->defaultData = 0;
 		$this->label = $label;
 		$this->help = $help;

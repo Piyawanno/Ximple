@@ -45,7 +45,10 @@ abstract class ModelColumn{
 	public $isParent = false;
 	
 	public abstract function enableTranslate();
-	public abstract function check();
+	
+	public function check(){
+	
+	}
 	
 	public function getPHPType(){
 		return $this->typeMap[$this->type];

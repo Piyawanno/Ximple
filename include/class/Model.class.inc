@@ -2,7 +2,6 @@
 include_once('ModelColumn.class.inc');
 
 abstract class Model{
-	
 	private $extendedObjBefore = array();
 	private $extendedObjAfter = array();
 	private $caegorized = false;
@@ -55,11 +54,22 @@ abstract class Model{
 	}
 	
 	public function char($label, $help=null){
+		include_once('column/CharColumn.class.inc');
+		return new CharColumn($label, $help);
+	}
+	
+	public function file($label, $path, $help=null){
 		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'char';
-		$modelColumn->form = 'char';
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
+		
+		return $modelColumn;
+	}
+	
+	public function title($label, $help=null){
+		include_once('column/CharColumn.class.inc');
+		$modelColumn = CharColumn($label, $help);
+		$modelColumn->isList = true;
+		$modelColumn->isReachable = true;
+		$modelColumn->isNotNull = true;
 		return $modelColumn;
 	}
 	
@@ -73,18 +83,6 @@ abstract class Model{
 		return $modelColumn;
 	}
 
-	public function title($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'char';
-		$modelColumn->form = 'char';
-		$modelColumn->isList = true;
-		$modelColumn->isReachable = true;
-		$modelColumn->isNotNull = true;
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		return $modelColumn;
-	}
-	
 	public function spin($label, $min, $max, $step=1, $help=null){
 		$modelColumn = new ModelColumn;
 		$modelColumn->type = 'int';
@@ -239,16 +237,6 @@ abstract class Model{
 		$modelColumn->label = $label;
 		$modelColumn->help = $help;
 		$modelColumn->option = array(0 => tt('disable'), 1 => tt('enable'));
-		return $modelColumn;
-	}
-	
-	public function file($label, $path, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'char';
-		$modelColumn->form = 'file';
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		$modelColumn->path = $path;
 		return $modelColumn;
 	}
 	

@@ -1,10 +1,11 @@
 <?php
-class CategoryColumn extends ModelColumn{
+require_once('SelectColumn.class.inc');
+
+class CategoryColumn extends SelectColumn{
 	private $module;
 	
 	function CategoryColumn($module, $label=null, $help=null){
-		$this->type = 'int';
-		$this->form = 'select';
+		$this->setType('int');
 		if($label) $this->label = $label;
 		else $this->label = tt('category');
 		$this->help = $help;

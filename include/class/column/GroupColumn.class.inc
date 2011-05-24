@@ -1,17 +1,15 @@
 <?php
-class GroupColumn extends ModelColumn{
+class GroupColumn extends CheckBoxColumn{
 	public $isExceptedAdmin = true;
 	public $isExceptedGuest = false;
 	public $isExceptedUser  = false;
 	
 	function GroupColumn($label, $help=null){
-		$this->type = 'array';
-		$this->form = 'checkbox';
+		$this->setType('array');
 		$this->label = $label;
 		$this->help = $help;
 		$this->defaultData = array(2);
 		$this->data = array(2);
-		$this->isSerialize = true;
 	}
 	
 	public function triggerInsertForm(){
@@ -20,6 +18,14 @@ class GroupColumn extends ModelColumn{
 	
 	public function triggerUpdateForm(){
 		$this->getOption();
+	}
+	
+	public function triggerPostInsert(){
+		$this->data = serialize($this->data);
+	}
+	
+	public function triggerPostUpdate(){
+		$this->data = serialize($this->data);
 	}
 	
 	private function getOption(){

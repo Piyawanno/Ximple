@@ -6,6 +6,10 @@ class HiddenColumn extends ModelColumn{
 		$this->data = $default;
 	}
 	
+	public function enableTranslate(){
+		$this->enableTranslateError();
+	}
+	
 	public function renderForm($formID){
 		$render = '<input name="'.$this->name.'" id="'.$formID.'" value="'.$this->data.'" type="hidden"/>';
 		$render.= '<span id="info_'.$formID.'_'.$this->name.'"></span>';
