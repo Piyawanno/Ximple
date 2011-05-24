@@ -5,9 +5,7 @@ class GroupColumn extends CheckBoxColumn{
 	public $isExceptedUser  = false;
 	
 	function GroupColumn($label, $help=null){
-		$this->setType('array');
-		$this->label = $label;
-		$this->help = $help;
+		CheckBoxColumn::CheckBoxColumn($label, $help),
 		$this->defaultData = array(2);
 		$this->data = array(2);
 	}

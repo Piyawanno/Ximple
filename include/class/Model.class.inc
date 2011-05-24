@@ -58,12 +58,6 @@ abstract class Model{
 		return new CharColumn($label, $help);
 	}
 	
-	public function file($label, $path, $help=null){
-		$modelColumn = new ModelColumn;
-		
-		return $modelColumn;
-	}
-	
 	public function title($label, $help=null){
 		include_once('column/CharColumn.class.inc');
 		$modelColumn = CharColumn($label, $help);
@@ -73,55 +67,62 @@ abstract class Model{
 		return $modelColumn;
 	}
 	
-	public function listDummy($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->isForm = false;
-		$modelColumn->isDB = false;
-		$modelColumn->isList = true;
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		return $modelColumn;
+	public function file($label, $path, $help=null){
+		include_once('column/FileColumn.class.inc');
+		return new FileColumn($label, $path, $help);
 	}
-
+	
 	public function spin($label, $min, $max, $step=1, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'int';
-		$modelColumn->form = 'spin';
-		$modelColumn->label = $label;
-		$modelColumn->max = $max;
-		$modelColumn->min = $min;
-		$modelColumn->step = $step;
-		$modelColumn->help = $help;
-		return $modelColumn;
+		include_once('column/SpinColumn.class.inc');
+		return new SpinColumn($label, $min, $max, $step, $help);
 	}
 	
 	public function password($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'char';
-		$modelColumn->form = 'password';
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		return $modelColumn;
-	}
-	
-	public function email($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'char';
-		$modelColumn->form = 'email';
-		$modelColumn->isNotNull = true;
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
+		include_once('column/CharColumn.class.inc');
+		$modelColumn = new CharColumn($label, $help);
+		$modelColumn->setFormAtrribute('type', 'password');
 		return $modelColumn;
 	}
 	
 	public function none($default=null, $type='char'){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = $type;
-		$modelColumn->form = 'none';
-		$modelColumn->defaultData = $default;
-		$modelColumn->data = $default;
+		include_once('column/NoneColumn.class.inc');
+		return new NoneColumn($label, $help);
+	}
+	
+	public function category($module, $help=null){
+		$this->caegorized = true;
+		include_once('CategoryColumn.class.inc');
+		return new CategoryColumn($module, $help);
+	}
+	
+	public function fileSize($label, $help=null){
+		include_once('FileSizeColumn.class.inc');
+		return new FileSizeColumn($label, $help);
+	}
+	
+	public function listDummy($label, $help=null){
+		include_once('column/NoneColumn.class.inc');
+		$modelColumn = NoneColumn($label, $help);
+		$modelColumn->isDB = false;
+		$modelColumn->isList = true;
 		return $modelColumn;
 	}
+	
+	public function timeInterval($label, $interval, $help=null){
+		include_once('TimeIntervalColumn.class.inc');
+		return new TimeIntervalColumn($label, $interval, $help);
+	}
+	
+	public function grid($label, $help=null){
+		include_once('GridColumn.class.inc');
+		return new GridColumn($label, $help);
+	}
+	
+	public function email($label, $help=null){
+		include_once('column/EmailColumn.class.inc');
+		return new EmailColumn($label, $help);
+	}
+	
 	
 	public function now(){
 		$modelColumn = new ModelColumn;
@@ -273,27 +274,6 @@ abstract class Model{
 		$modelColumn->path = $path;
 		$modelColumn->help = tt('Click on image to upload or change image.');
 		return $modelColumn;
-	}
-	
-	public function timeInterval($label, $interval, $help=null){
-		include_once('TimeIntervalColumn.class.inc');
-		return new TimeIntervalColumn($label, $interval, $help);
-	}
-	
-	public function grid($label, $help=null){
-		include_once('GridColumn.class.inc');
-		return new GridColumn($label, $help);
-	}
-	
-	public function category($module, $help=null){
-		$this->caegorized = true;
-		include_once('CategoryColumn.class.inc');
-		return new CategoryColumn($module, $help);
-	}
-	
-	public function fileSize($label, $help=null){
-		include_once('FileSizeColumn.class.inc');
-		return new FileSizeColumn($label, $help);
 	}
 	
 	private function selective($label, $option, $help){

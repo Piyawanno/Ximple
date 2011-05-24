@@ -1,16 +1,7 @@
 <?php
 abstract class ModelColumn{
-	private $allowedType = array(
-		'int',
-		'real',
-		'char',
-		'shorttext',
-		'text',
-		'date',
-		'timestamp',
-		'array'
-	);
-	
+	private $type;
+	private $formAttribute = array();
 	private $typeMap = array(
 		'int' => 'integer',
 		'real' => 'float',
@@ -22,8 +13,7 @@ abstract class ModelColumn{
 		'array' => 'array',
 	);
 	
-	private $type;
-	
+	protected $isAllowedTranslate = false;
 	protected $isTranslate = false;
 	
 	public $name;
@@ -44,10 +34,20 @@ abstract class ModelColumn{
 	public $isAllHTMLTags = false;
 	public $isParent = false;
 	
-	public abstract function enableTranslate();
+	public function enableTranslate(){
+		if($this->isAllowedTranslate){
+			$this->isTranslate = true;
+		}elseif(state_is_develop()){
+			$pattern = tt('%s is not allowed to be translated.');
+			notify_add_error(sprintf($pattern, $this->name));
+		}
+	}
 	
 	public function check(){
+	}
 	
+	public function setFormAttribute($name, $value){
+		$this->formAttribute[$name] = $value;
 	}
 	
 	public function getPHPType(){
@@ -55,8 +55,9 @@ abstract class ModelColumn{
 	}
 	
 	public function setType($type){
-		if(!in_array($this->type, $this->allowedType) and state_is_develop()) {
-			notify_add_error('unkown type : '.$this->type.' ('.$this->name.')');
+		$allowedType = array_keys($this->typeMap);
+		if(!in_array($this->type, $allowedType) and state_is_develop()) {
+			notify_add_error('unkown type : '.$type.' ('.$this->name.')');
 		}
 	}
 	
@@ -64,11 +65,12 @@ abstract class ModelColumn{
 		return $type;
 	}
 	
-	protected function enableTranslateError(){
-		if(state_is_develop()){
-			$pattern = tt('%s is not allowed to be translated.');
-			notify_add_error(sprintf($pattern, $this->name));
+	protected function renderFormAttribute(){
+		$render = '';
+		foreach($this->formAttribute as $key => $value){
+			$render .= $key.'="'.$value.'" ';
 		}
+		return $render;
 	}
 }
 ?>

@@ -20,8 +20,6 @@ function form($form_id, $model){
 function form_get_head(){
 	head_add_css('form.css');
 	head_add_css('include/external/cleditor/jquery.cleditor.css');
-	head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
-	
 	head_add_js('include/external/jquery/jquery-form.js');
 	head_add_js('include/external/cleditor/jquery.cleditor.js');
 	head_add_js('include/external/cleditor/jquery.cleditor.advancedtable.min.js');
@@ -30,7 +28,6 @@ function form_get_head(){
 	head_add_js('include/external/cleditor/jquery.cleditor.quote.js');
 	head_add_js('include/external/cleditor/jquery.cleditor.advancedimage.js');
 	head_add_js('include/javascript/formcheck.js');
-	head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
 	head_add_js_var('uploadSuccess', tt('image successfully uploaded'));
 	head_add_js_var('pleaseFill', tt('Please, fill the required field : '));
 	head_add_js_var('formNotCorrect', tt('Any field in the form is not correctly filled. Please correct it and try again.'));

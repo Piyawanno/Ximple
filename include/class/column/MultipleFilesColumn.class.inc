@@ -13,19 +13,16 @@ class MultipleFilesColumn extends ModelColumn{
 		$this->isMultipleInsert = true;
 	}
 	
-	public function enableTranslate(){
-		$this->enableTranslateError();
-	}
-	
 	public function renderForm($formID){
-		$render  = '<div class="multiplefiles_list" id="'.$formID.'_'.$this->name.'">';
+		$id = $formID.'_'.$this->name;
+		$render  = '<div class="multiplefiles_list" id="'.$id.'">';
 		$render .= '<ul>';
 		for($i=0;$i<6;$i++){
 			$render .= '<li><input type="file" name="'.$this->name.'[]" size="25" ></li>';	
 		}
 		$render .= '</ul>';
-		$render .= '<span id="info_'.$formID.'_'.$$this->name.'" style="clear:both;display:block;"></span>';
-		$render .= '<p><a onclick="return addFileInput(\''.$formID.'_'.$this->name.'\', \''.$this->name.'\')" href="#">';
+		$render .= '<span id="info_'.$id.'" style="clear:both;display:block;"></span>';
+		$render .= '<p><a onclick="return addFileInput(\''.$id.'\', \''.$this->name.'\')" href="#">';
 		$render .= '<img src="'.ROOT_URI.'files/icon/add.png" border="0" style="margin-right:20px;"/>';
 		$render .= tt('Upload More File').'</a></p>';
 		$render .= '</div>';

@@ -2,9 +2,7 @@
 require_once('HiddenColumn.class.inc');
 class OwnerColumn extends HiddenColumn{
 	function OwnerColumn(){
-		$this->setType('int');
-		$this->defaultData = USER_ID;
-		$this->data = USER_ID;
+		HiddenColumn::HiddenColumn(USER_ID, 'int');
 	}
 	
 	public function triggerSelect(){

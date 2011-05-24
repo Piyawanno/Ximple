@@ -4,20 +4,24 @@ class CharColumn extends ModelColumn{
 		$this->setType('char');
 		$this->label = $label;
 		$this->help = $help;
-	}
-	
-	public function enableTranslate(){
-		$this->isTranslate = true;
+		$this->isAllowedTranslate = true;
+		$this->setFormAtrribute('size', 25);
 	}
 	
 	public function renderForm($formID){
-		$render = '<input name="'.$this->name.'" id="'.$formID.'" value="'.$this->data.'"/>';
-		$render.= '<span id="info_'.$formID.'_'.$this->name.'"></span>';
+		$id = $formID.'_'.$this->name;
+		$this->setFormAtrribute('name', $this->name);
+		$this->setFormAtrribute('id', $id);
+		$this->setFormAtrribute('value', $this->data);
+		$render = '<input '.$this->renderFormAttribute().'/>';
+		$render.= '<span id="info_'.$id.'"></span>';
 		return $render;
 	}
 	
 	public function renderGridForm($formID){
-		return '<input name="'.$this->name.'[]" value="'.$this->data.'"/>';
+		$this->setFormAtrribute('name', $this->name.'[]');
+		$this->setFormAtrribute('value', $this->data);
+		return '<input '.$this->renderFormAttribute().'/>';
 	}
 }
 ?>

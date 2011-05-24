@@ -1,16 +1,11 @@
 <?php
 abstract class SelectiveColumn extends ModelColumn{
 	public $option;
-	
 	function SelectiveColumn($label, $option, $help=null){
 		$this->setType('char');
 		$this->label = $label;
 		$this->help = $help;
 		$this->option = $option;
-	}
-	
-	public function enableTranslate(){
-		$this->enableTranslateError();
 	}
 	
 	public function check(){

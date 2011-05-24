@@ -2,8 +2,7 @@
 require_once('HiddenColumn.class.inc');
 class FileSizeColumn extends HiddenColumn{
 	function FileSizeColumn($label, $help=null){
-		$this->setType('int');
-		$this->defaultData = 0;
+		HiddenColumn::HiddenColumn(0, 'int');
 		$this->label = $label;
 		$this->help = $help;
 		$this->isList = true;

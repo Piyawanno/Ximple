@@ -1,4 +1,5 @@
 <?php
+require_once('CharColumn.class.inc');
 class FileColumn extends ModelColumn{
 	public $isImage = false;
 	
@@ -7,20 +8,8 @@ class FileColumn extends ModelColumn{
 		$this->label = $label;
 		$this->help = $help;
 		$this->path = $path;
-	}
-	
-	public function enableTranslate(){
-		$this->enableTranslateError();
-	}
-	
-	public function renderForm($formID){
-		$render = '<input name="'.$this->name.'" id="'.$formID.'" value="'.$this->data.'" type="file"/>';
-		$render.= '<span id="info_'.$formID.'_'.$this->name.'"></span>';
-		return $render;
-	}
-	
-	public function renderGridForm($formID){
-		return '<input name="'.$this->name.'[]" value="'.$this->data.'" type="file"/>';
+		$this->setFormAtrribute('size', 25);
+		$this->setFormAtrribute('type', 'hidden');
 	}
 	
 	public function triggerPostInsert(){
