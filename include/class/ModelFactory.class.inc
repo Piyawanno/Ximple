@@ -15,15 +15,18 @@ class ModelFactory{
 			if(is_array($beforeColumnName)){
 				foreach($beforeColumnName as $column){
 					$this->model[$column] = $this->modelObject->$column;
+					$this->model[$column]->name = $column;
 				}
 			}
 			if(is_a($value, 'ModelColumn') and empty($this->model[$key])){
 				$this->model[$key] = $value;
+				$this->model[$key]->name = $key;
 			}
 			$afterColumnName = $this->modelObject->getExtendedAfter($key);
 			if(is_array($afterColumnName)){
 				foreach($afterColumnName as $column){
 					$this->model[$column] = $this->modelObject->$column;
+					$this->model[$column]->name = $column;
 				}
 			}
 		}
@@ -33,10 +36,7 @@ class ModelFactory{
 	
 	private function check(){
 		foreach($this->model as $name => $col){
-			$message = $col->check();
-			if(strlen($message) and state_is_develop()){
-				notify_add_error('Model corrupted : '.$name.' : '.$message);
-			}
+			$col->check();
 		}
 	}
 }

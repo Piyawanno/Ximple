@@ -1,5 +1,4 @@
 <?php
-
 include_once('ModelColumn.class.inc');
 
 abstract class Model{
@@ -41,12 +40,26 @@ abstract class Model{
 	}
 	
 	public function section(){
+		require_once('column/SectionColumn.class.inc');
+		return new SectionColumn();
+	}
+	
+	public function hidden($default=null, $type='char'){
+		require_once('column/HiddenColumn.class.inc');
+		return new HiddenColumn($default, $type);
+	}
+	
+	public function owner(){
+		include_once('column/OwnerColumn.class.inc');
+		return new OwnerColumn();
+	}
+	
+	public function char($label, $help=null){
 		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'int';
-		$modelColumn->form = 'hidden';
-		$modelColumn->isNotNull = true;
-		$modelColumn->defaultData = SECTION;
-		$modelColumn->data = SECTION;
+		$modelColumn->type = 'char';
+		$modelColumn->form = 'char';
+		$modelColumn->label = $label;
+		$modelColumn->help = $help;
 		return $modelColumn;
 	}
 	
@@ -67,20 +80,6 @@ abstract class Model{
 		$modelColumn->isList = true;
 		$modelColumn->isReachable = true;
 		$modelColumn->isNotNull = true;
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		return $modelColumn;
-	}
-	
-	public function owner(){
-		include_once('OwnerColumn.class.inc');
-		return new OwnerColumn();
-	}
-	
-	public function char($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'char';
-		$modelColumn->form = 'char';
 		$modelColumn->label = $label;
 		$modelColumn->help = $help;
 		return $modelColumn;
@@ -114,15 +113,6 @@ abstract class Model{
 		$modelColumn->isNotNull = true;
 		$modelColumn->label = $label;
 		$modelColumn->help = $help;
-		return $modelColumn;
-	}
-	
-	public function hidden($default=null, $type='char'){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = $type;
-		$modelColumn->form = 'hidden';
-		$modelColumn->defaultData = $default;
-		$modelColumn->data = $default;
 		return $modelColumn;
 	}
 	

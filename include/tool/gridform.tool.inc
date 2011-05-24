@@ -4,6 +4,7 @@ $grid_row_array = array();
 
 function gridform_render($form_id, $name, $modelCol){
 	head_add_css('list.css');
+	$modelCol->getMember();
 	$grid_id = $form_id.'_'.$name;
 	$render  = gridform_render_head($grid_id, $modelCol);
 	$render .= gridform_render_data_row($grid_id, $modelCol);
@@ -16,7 +17,7 @@ function gridform_render($form_id, $name, $modelCol){
 
 function gridform_render_row($grid_id, $modelCol){
 	$grid_row = '<tr>';
-	foreach($modelCol->getMember() as $key => $value){
+	foreach($modelCol->memberColumn as $key => $value){
 		$value->data = null;
 		$grid_row .= gridform_render_row_form($grid_id, $key, $value);
 	}
@@ -30,7 +31,7 @@ function gridform_render_data_row($grid_id, $modelCol){
 	$render = '';
 	foreach($modelCol->data as $key => $data){
 		$render .= '<tr>';
-		foreach($modelCol->getMember() as $memberName => $member){
+		foreach($modelCol->memberColumn as $memberName => $member){
 			$member->data = $data[$memberName];
 			$form = gridform_render_row_form($grid_id, $memberName, $member);
 			if($modelCol->hasDBRow){
@@ -61,7 +62,7 @@ function gridform_render_head($grid_id, $modelCol){
 	$render  = '<div class="list">';
 	$render .= '<span id="info_'.$grid_id.'"></span>';
 	$render .= '<table width="100%" id="'.$grid_id.'"><tr>';
-	foreach($modelCol->getMember() as $key => $value){
+	foreach($modelCol->memberColumn as $key => $value){
 		if($value->isGridForm){
 			$render .= '<th>'.$value->label.'</th>';
 		}
@@ -114,7 +115,7 @@ function form_render_grid_none($form_id, $name, $modelCol){
 }
 
 function form_render_grid_hidden($form_id, $name, $modelCol){
-	$p = '<input name="%s"[] value="%s" type="hidden"/>';
+	$p = '<input name="%s[]" value="%s" type="hidden"/>';
 	return sprintf($p, $name, $modelCol->data);
 }
 

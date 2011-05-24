@@ -1,8 +1,8 @@
 <?php
-class OwnerColumn extends ModelColumn{
+require_once('HiddenColumn.class.inc');
+class OwnerColumn extends HiddenColumn{
 	function OwnerColumn(){
-		$this->type = 'int';
-		$this->form = 'hidden';
+		$this->setType('int');
 		$this->defaultData = USER_ID;
 		$this->data = USER_ID;
 	}

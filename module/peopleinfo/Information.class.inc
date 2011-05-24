@@ -133,8 +133,9 @@ class Information extends Control{
 	private function renameFile(){
 		$clause = 'WHERE information='.$this->id;
 		$peopleFile = db_select_single_column('people_file', 'file', $clause);
-		$dirName  = 'files/peopleinfo/'.sha1(rand()).'/';
+		$dirName  = 'files/peopleinfo/'.(rand()%65536).'/';
 		if(!is_dir($dirName)) mkdir($dirName);
+		$oldDir = '';
 		foreach($peopleFile as $key => $value){
 			$type = io_get_file_extension($value);
 			$fileName = $dirName.md5(rand()).sha1(rand()).md5(rand()).'.'.$type;

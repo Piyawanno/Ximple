@@ -1,4 +1,5 @@
 <?php
+
 function form($form_id, $model){
 	global $grid_row_array;
 	document_init_form();
@@ -10,7 +11,9 @@ function form($form_id, $model){
 			$render[$name] = $func($form_id, $name, $modelCol);
 		}
 	}
-	head_add_js_array('gridRowArray', gridform_get_row_array());
+	if(function_exists('gridform_get_row_array')){
+		head_add_js_array('gridRowArray', gridform_get_row_array());
+	}
 	return $render;
 }
 

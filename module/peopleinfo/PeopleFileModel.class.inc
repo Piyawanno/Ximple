@@ -7,9 +7,7 @@ class PeopleFileModel extends Model{
 	function PeopleFileModel($informationID=null){
 		$this->short_description = $this->title(tt('short description'));
 		$this->file = $this->file('file', 'files/peopleinfo/');
-		$this->type = $this->none('', 'char');
-		$this->type->isGridForm = false;
-		$this->type->type = 'array';
+		$this->type = $this->hidden('', 'char');
 		$this->information = $this->none($informationID, 'int');
 		$this->information->isGridForm = false;
 		$this->information->isParent = true;
@@ -19,19 +17,21 @@ class PeopleFileModel extends Model{
 		$this->information->defaultData = $parentID;
 	}
 	
-	public function triggerPreInsert(){
+	public function triggerPostInsert(){
 		$this->getType();
 	}
 	
-	public function triggerPreUpdate(){
+	public function triggerPostUpdate(){
 		$this->getType();
 	}
 	
 	private function getType(){
-		$this->type->defaultData = array();
+		$this->type->data = array();
 		$uploadFile = ff('file');
 		foreach($uploadFile['tmp_name'] as $key => $value){
-			$this->type->defaultData[] = mime_content_type($value);
+			if(strlen($value)){
+				$this->type->data[] = mime_content_type($value);
+			}
 		}
 	}
 }

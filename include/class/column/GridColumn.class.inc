@@ -7,14 +7,16 @@ require_once('ModelConnector.class.inc');
 class GridColumn extends ModelColumn{
 	public $hasDBRow = false;
 	public $dropMode = '';
+	public $memberColumn;
 	
-	private $id;
+	private $id = null;
 	private $dataModifier = null;
-	private $memberColumn;
 	private $memberDataCount;
 	private $modelConnector;
 	private $tableName;
 	private $relatedDataModifier;
+	private $insertData;
+	private $updateData;
 	
 	private $allowedGridForm = array(
 		'none',
@@ -59,7 +61,7 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function getMember(){
-		if($this->hasDBRow){
+		if($this->hasDBRow and !empty($this->id)){
 			$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
 			$column = $this->modelConnector->getColumnName();
 			$this->data = db_select($this->tableName, $column, $clause);
@@ -94,8 +96,13 @@ class GridColumn extends ModelColumn{
 		if($this->hasDBRow){
 			$this->initDataModifier();
 			$this->modelConnector->triggerSetParent();
-			$this->dataModifier->prepareUpdate();
-			$this->dataModifier->update(false);
+			$this->separateData();
+			
+			$this->dataModifier->prepareInsert();
+			$this->dataModifier->insert(false);
+			
+#			$this->dataModifier->prepareUpdate();
+#			$this->dataModifier->update(false);
 		}
 	}
 	
@@ -170,6 +177,10 @@ class GridColumn extends ModelColumn{
 			include_once('DataModifier.class.inc');
 			$this->dataModifier = new DataModifier($this->tableName, $this->modelConnector);
 		}
+	}
+	
+	private function separateData(){
+		
 	}
 }
 ?>

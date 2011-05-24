@@ -183,7 +183,7 @@ class DataModifier{
 	}
 	
 	private function checkTag(){
-		$columnName = $this->modelConnector->getColumnNameByAttribute('isAllTags', false);
+		$columnName = $this->modelConnector->getColumnNameByAttribute('isAllHTMLTags', false);
 		$columnName = array_intersect($columnName, $this->columnDB);
 		$type = $this->modelConnector->getPHPType();
 		$allowed_tag = cc('allowed_tags');
@@ -279,9 +279,6 @@ class DataModifier{
 					$errorMessage = 'Data are not symmetry : '.$columnName;
 					break;
 				}
-			}elseif(empty($this->data[$columnName])){
-				$errorMessage = 'Data should not be empty : '.$columnName;
-				break;	
 			}
 		}
 		if(strlen($errorMessage)){
