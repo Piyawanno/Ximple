@@ -6,6 +6,7 @@ class CharColumn extends ModelColumn{
 		$this->help = $help;
 		$this->isAllowedTranslate = true;
 		$this->setFormAtrribute('size', 25);
+		$this->setFormAtrribute('maxlength', 80);
 	}
 	
 	public function renderForm($formID){

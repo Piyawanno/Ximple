@@ -8,12 +8,9 @@ var formLock = false;
 
 function initAjaxForm(){
 	initDelGrid();
-	initPlainText();
 	initGridRow();
-	initAutoComplete();
-	initCompleteOption();
 	checkEmailGridField()
-	checkUserPassword();	
+	checkUserPassword();
 	checkLoginName();
 	checkSectionName();
 	checkSectionPath();
@@ -41,64 +38,12 @@ function initDelGrid(){
 	});
 }
 
-function initPlainText(){
-	$(".plaintext_container").resizable({
-		minHeight: 120,
-		minWidth: 400,
-		resize : function(){
-			$(this).children('textarea').width($(this).width() - 15).height($(this).height() - 30);
-		},
-	});
-}
-
 function initGridRow(){
 	$(".add_grid_row").click( function(){
 		var rel = $(this).attr("rel");
 		var tab = $("#grid_form_"+rel);
 		tab.append(grid_string[rel]);
 		init_del_grid();
-	});
-}
-
-function initAutoComplete(){
-	$('.auto_complete').keyup(function(){
-		var words = $(this).val().split(',');
-		var lastWord = jQuery.trim(words[words.length-1]);
-		if(lastWord.length){
-			var option = $('#complete_option');
-			var pos = $(this).offset();
-			option.css({
-				top: pos.top + $(this).height() + 4 + autoCompleteTop,
-				left: pos.left + autoCompleteLeft,
-				width: $(this).width() + 2,
-			});
-			$('#complete_option option').remove();
-			option.attr('rel', $(this).attr('id'));
-			$.get(sectionURI+$(this).attr('rel')+'/wildcard/'+lastWord, function(data){
-				if(data.length){
-					option.append(data);
-					option.show();
-				}
-			});
-		}
-	});
-}
-
-function initCompleteOption(){
-	$('#complete_option').click(function(){
-		var input = $('#'+$(this).attr('rel'));
-		var value = '';
-		var words = input.val().split(',');
-		for(var i=0; i< words.length -1 ;i++){
-			value += words[i]+', '
-		}
-		value += $(this).val();
-		input.val(value);
-		$(this).hide();
-	});
-	
-	$('body').click(function(){
-		$('#complete_option').hide();
 	});
 }
 
@@ -319,49 +264,6 @@ function encryptPasswd(){
 		}
 		$('#user_login_name_hash').val($('#user_login_name').val());
 	}
-}
-
-var currentPath = null;
-var currentLoaderID = null;
-
-function showImageLoader(loaderID, path){
-	currentLoaderID = loaderID;
-	currentPath = path;
-	var loader = $('#loader_'+loaderID);
-	loader.dialog({
-		bgiframe: true,
-		autoOpen: false,
-		height: 560,
-		width:480,
-		modal: true,
-		title: 'Image Loader',
-	});
-	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+path+'&loader_id='+loaderID;
-	$.get(uri, function(data){
-		loader.html(data);
-	});
-	loader.dialog('open');
-}
-
-function submitImageLoader(){
-	$('#image_upload_form').ajaxSubmit({success : refreshImageLoader});
-	return false;
-}
-
-function refreshImageLoader(){
-	var loader = $('#loader_'+currentLoaderID);
-	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+currentPath+'&loader_id='+currentLoaderID;
-	$.get(uri, function(data){
-		loader.html(data);
-		$('#loader_info').html(uploadSuccess);
-		loader.dialog('open');
-	});
-}
-
-function loaderChangeImage(loaderID, src, rel){
-	$('#input_'+loaderID).val(rel);
-	$('#image_'+loaderID).attr('src', src);
-	$('#loader_'+loaderID).dialog('close');
 }
 
 function addFileInput(formID, formName){

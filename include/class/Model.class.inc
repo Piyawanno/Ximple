@@ -67,9 +67,19 @@ abstract class Model{
 		return $modelColumn;
 	}
 	
+	public function color($label, $help=null){
+		include_once('column/ColorColumn.class.inc');
+		return new ColorColumn($label, $help);
+	}
+	
 	public function file($label, $path, $help=null){
 		include_once('column/FileColumn.class.inc');
 		return new FileColumn($label, $path, $help);
+	}
+	
+	public function image($label, $path, $maxWidth=600, $help=null){
+		include_once('column/ImageColumn.class.inc');
+		return new ImageColumn($label, $path, $maxWidth, $help);
 	}
 	
 	public function spin($label, $min, $max, $step=1, $help=null){
@@ -141,9 +151,22 @@ abstract class Model{
 		return new RadioColumn($label, $option, $help);
 	}
 	
+	public function enable($label, $help=null){
+		include_once('column/RadioColumn.class.inc');
+		$modelColumn = new RadioColumn($label, $option, $help);
+		$modelColumn->setType('int');
+		$modelColumn->option = array(0 => tt('disable'), 1 => tt('enable'));
+		return $modelColumn;
+	}
+	
 	public function checkbox($label, $option, $help=null){
 		include_once('column/CheckBoxColumn.class.inc');
 		return new CheckBoxColumn($label, $option, $help);
+	}
+	
+	public function group($label, $help=null){
+		include_once('GroupColumn.class.inc');
+		return new GroupColumn($label, $help);
 	}
 	
 	public function checkedit($label, $option, $help=null){
@@ -169,96 +192,34 @@ abstract class Model{
 		return $modelColumn;
 	}
 	
-	public function grid($label, $help=null){
-		include_once('GridColumn.class.inc');
-		return new GridColumn($label, $help);
-	}
-	
 	public function plain($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'shorttext';
-		$modelColumn->form = 'plain';
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		return $modelColumn;
+		include_once('column/PlainTextColumn.class.inc');
+		return new PlainTextColumn($label, $help);
 	}
 	
-	public function group($label, $help=null){
-		include_once('GroupColumn.class.inc');
-		return new GroupColumn($label, $help);
+	public function autoComplete($label, $ajaxMode, $help=null){
+		include_once('column/AutoCompleteColumn.class.inc');
+		return new AutoCompleteColumn($label, $ajaxMode, $help);
 	}
 	
 	public function user($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'char';
-		$modelColumn->form = 'autocomplete';
-		$modelColumn->label = $label;
+		include_once('column/AutoCompleteColumn.class.inc');
+		$modelColumn = new AutoCompleteColumn($label, 'userinfo_get_ajax_name', $help);
 		$modelColumn->isNotNull = true;
 		$modelColumn->help = $help.tt('Type beginning letters of the user name. ');
 		$modelColumn->help.= tt('The full name will be automatically completed. ');
 		$modelColumn->help.= tt('Multiple names are possible using comma.');
-		$modelColumn->ajaxMode = 'userinfo_get_ajax_name';
-		return $modelColumn;
-	}
-	
-	public function autoComplete($label, $ajaxMode, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'shorttext';
-		$modelColumn->form = 'autocomplete';
-		$modelColumn->label = $label;
-		$modelColumn->ajaxMode = $ajaxMode;
-		return $modelColumn;
-	}
-	
-	public function enable($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'int';
-		$modelColumn->form = 'radio';
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		$modelColumn->option = array(0 => tt('disable'), 1 => tt('enable'));
-		return $modelColumn;
-	}
-	
-	public function image($label, $path, $maxWidth=600, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'char';
-		$modelColumn->form = 'file';
-		$modelColumn->label = $label;
-		$modelColumn->help = tt('Image must be only .png or .jpeg or .jpg. ');
-		$modelColumn->help.= sprintf(tt('For image wider than %dpx, it will be automatically resized.'), $maxWidth);
-		$modelColumn->path = $path;
-		$modelColumn->isImage = true;
-		$modelColumn->isOrderable = false;
-		$modelColumn->maxWidth = $maxWidth;
-		return $modelColumn;
-	}
-	
-	public function color($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'char';
-		$modelColumn->form = 'color';
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		$modelColumn->defaultData = "#5555ee";
-		$modelColumn->data = "#5555ee";
 		return $modelColumn;
 	}
 	
 	public function imageLoader($label, $path){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'char';
-		$modelColumn->form = 'imageloader';
-		$modelColumn->label = $label;
-		$modelColumn->path = $path;
-		$modelColumn->help = tt('Click on image to upload or change image.');
-		return $modelColumn;
+		include_once('column/ImageLoaderColumn.class.inc');
+		return new ImageLoaderColumn($label, $path);
 	}
 	
-	private function selective($label, $option, $help){
-		include_once('SelectiveColumn.class.inc');
-		$modelColumn = new SelectiveColumn($label, $option, $help);
-		return $modelColumn;
+	public function grid($label, $help=null){
+		include_once('GridColumn.class.inc');
+		return new GridColumn($label, $help);
 	}
 }
 ?>

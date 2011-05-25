@@ -8,6 +8,7 @@ class FileColumn extends ModelColumn{
 		$this->label = $label;
 		$this->help = $help;
 		$this->path = $path;
+		$this->isOrderable = false;
 		$this->setFormAtrribute('size', 25);
 		$this->setFormAtrribute('type', 'hidden');
 	}
