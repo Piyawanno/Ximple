@@ -64,7 +64,7 @@ function block_get_body($item){
 function block_check_permision($item){
 	$appear_module = unserialize($item['appear_module']);
 	$appear_group = unserialize($item['appear_group']);
-	if(strlen($item['appear_uri'])){
+	if(isset($item['appear_uri']) and strlen($item['appear_uri'])){
 		if($item['appear_uri'] == MODE.'/'.MODE_ID or $item['appear_uri'] == MODE){
 			return true;
 		}else{

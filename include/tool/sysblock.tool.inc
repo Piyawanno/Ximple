@@ -15,6 +15,7 @@ function sysblock_login(){
 			'registable' => cc('registable')
 		);
 		head_add_js('include/external/sha1.js');
+		head_add_js('include/javascript/login.js');
 		return render($render_array, 'loginform.tpl', 'loginform');
 	}else{
 		return render(array(), 'logoutform.tpl', 'logoutform');

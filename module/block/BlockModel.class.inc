@@ -1,4 +1,6 @@
 <?php
+require('BlockPositionColumn.class.inc');
+
 class BlockModel extends Model{
 	function BlockModel(){
 		$this->title = $this->title(tt('title'));
@@ -6,7 +8,7 @@ class BlockModel extends Model{
 		$this->config_form_mode = $this->hidden();
 		$this->config_save_mode = $this->hidden();
 		$this->call_mode = $this->hidden();
-		$this->position = new BlockPosition();
+		$this->position = new BlockPositionColumn();
 		$this->sort_number = $this->hidden();
 		$this->sort_number->type = 'int';
 		
@@ -25,22 +27,6 @@ class BlockModel extends Model{
 		$this->body = $this->shorttext(tt('custom text'));
 		$this->body->enableTranslate();
 		$this->section = $this->section();
-	}
-}
-
-class BlockPosition extends ModelColumn{
-	function BlockPosition(){
-		$this->form = 'hidden';
-		$this->type = 'char';
-	}
-	
-	function triggerInsertForm(){
-		$position = gg('position');
-		if(isset($position) and array_key_exists($position, cc('block_position'))){
-			$this->defaultData = $position;
-		}else{
-			$this->defaultData = 'disabled';
-		}
 	}
 }
 ?>

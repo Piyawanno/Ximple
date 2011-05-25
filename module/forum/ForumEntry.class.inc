@@ -203,7 +203,7 @@ class ForumEntry extends Content{
 		if(!authority_is_guest()){
 			$count = count_get_array('forum_entry'.USER_ID, array_keys($data));
 			foreach($count as $id => $accessTime){
-				$commentTime = strtotime($this->data[$id]['unformatted_comment_time']);
+				$commentTime = strtotime($this->data[$id]['comment_time']);
 				$data[$id]['is_new'] = ($accessTime < $commentTime);
 			}
 		}else{

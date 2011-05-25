@@ -165,7 +165,7 @@ abstract class Model{
 	}
 	
 	public function group($label, $help=null){
-		include_once('GroupColumn.class.inc');
+		include_once('column/GroupColumn.class.inc');
 		return new GroupColumn($label, $help);
 	}
 	
@@ -175,7 +175,7 @@ abstract class Model{
 	}
 	
 	public function timeInterval($label, $interval, $help=null){
-		include_once('TimeIntervalColumn.class.inc');
+		include_once('column/TimeIntervalColumn.class.inc');
 		return new TimeIntervalColumn($label, $interval, $help);
 	}
 	
@@ -218,7 +218,7 @@ abstract class Model{
 	}
 	
 	public function grid($label, $help=null){
-		include_once('GridColumn.class.inc');
+		include_once('column/GridColumn.class.inc');
 		return new GridColumn($label, $help);
 	}
 }

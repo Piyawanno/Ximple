@@ -59,7 +59,9 @@ function module_add($reference, $requirement, $name){
 		$module_require[$reference] = $requirement;
 	}
 	config_set('module_require', $module_require);
-	config_append_assc('module_name', $reference, $name);
+	if(strlen($name)){
+		config_append_assc('module_name', $reference, $name);
+	}
 }
 
 function module_drop($reference){

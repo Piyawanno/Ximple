@@ -6,9 +6,11 @@ class GroupColumn extends CheckBoxColumn{
 	public $isExceptedUser  = false;
 	
 	function GroupColumn($label, $help=null){
-		CheckBoxColumn::CheckBoxColumn($label, $help),
+		CheckBoxColumn::CheckBoxColumn($label, $help);
 		$this->defaultData = array(2);
 		$this->data = array(2);
+		$this->option = array();
+		$this->isSerialize = true;
 	}
 	
 	public function triggerInsertForm(){

@@ -97,11 +97,10 @@ class Blog extends Content{
 	}
 	
 	private function getSibling(){
-		$publishTime = $this->dataByID['unformatted_publish_time'];
-		$clause = 'WHERE (section='.SECTION." AND publish_time > '$publishTime' AND publishing_status < 2) ";
+		$clause = 'WHERE (section='.SECTION." AND publishing_status < 2) ";
 		$clause.= 'ORDER BY publish_time LIMIT 1';
 		$next = db_select('blog', array('id', 'topic', 'uri'), $clause);
-		$clause = 'WHERE (section='.SECTION." AND publish_time < '$publishTime' AND publishing_status < 2) ";
+		$clause = 'WHERE (section='.SECTION." AND publishing_status < 2) ";
 		$clause.= 'ORDER BY publish_time DESC LIMIT 1';
 		$back = db_select('blog', array('id', 'topic', 'uri'), $clause);
 		$this->dataByID['next'] = array_values($next);

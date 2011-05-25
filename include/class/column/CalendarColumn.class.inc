@@ -1,18 +1,19 @@
 <?php
 require_once('CharColumn.class.inc');
 class CalendarColumn extends CharColumn{
-	public $formatDateBySelect = false;
-	public $dataFormat;
+	public $formatDateBySelect = true;
+	public $dateFormat;
 	
 	function CalendarColumn($label, $help=null){
 		CharColumn::CharColumn($label, $help);
 		$this->data = NOW;
 		$this->defaultData = NOW;
+		$this->dateFormat = cc('time_format');
 	}
 	
 	public function triggerSelect(){
 		if($this->formatDateBySelect){
-			$this->data = date($this->dataFormat, strtotime($this->data));
+			$this->data = date($this->dateFormat, strtotime($this->data));
 		}
 	}
 	
@@ -28,6 +29,10 @@ class CalendarColumn extends CharColumn{
 	}
 	
 	public function triggerPostInsert(){
+		$this->data = date('Y-m-d H:i:s', strtotime($this->data));
+	}
+	
+	public function triggerPostUpdate(){
 		$this->data = date('Y-m-d H:i:s', strtotime($this->data));
 	}
 }
