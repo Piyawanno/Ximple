@@ -1,31 +1,9 @@
 <?php
 
 function form($form_id, $model){
-	global $grid_row_array;
-	document_init_form();
-	form_get_head();
-	$render = array();
-	if(is_array($model)){
-		foreach($model as $name => $modelCol){
-			$func = 'form_render_'.$modelCol->form;
-			$render[$name] = $func($form_id, $name, $modelCol);
-		}
-	}
 	if(function_exists('gridform_get_row_array')){
 		head_add_js_array('gridRowArray', gridform_get_row_array());
 	}
-	return $render;
-}
-
-function form_get_head(){
-	head_add_css('form.css');
-	head_add_css('include/external/cleditor/jquery.cleditor.css');
-	head_add_js('include/external/jquery/jquery-form.js');
-	head_add_js('include/javascript/formcheck.js');
-	head_add_js_var('uploadSuccess', tt('image successfully uploaded'));
-	head_add_js_var('pleaseFill', tt('Please, fill the required field : '));
-	head_add_js_var('formNotCorrect', tt('Any field in the form is not correctly filled. Please correct it and try again.'));
-	head_add_js_var('isInstalled', true);
 }
 
 function form_render_grid($form_id, $name, $modelCol){

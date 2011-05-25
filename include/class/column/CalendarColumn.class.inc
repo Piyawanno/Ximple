@@ -19,11 +19,11 @@ class CalendarColumn extends CharColumn{
 	public function renderForm($formID){
 		head_add_js('include/javascript/calendarcolumn.js');
 		if($this->data){
-			$$this->data = date('d F Y', strtotime($this->data));
+			$this->data = date('d F Y', strtotime($this->data));
 		}else{
-			$$this->data = date('d F Y');
+			$this->data = date('d F Y');
 		}
-		$this->setFormAtrribute('class', 'calendar_form');
+		$this->setFormAttribute('class', 'calendar_form');
 		return CharColumn::renderForm($formID);
 	}
 }

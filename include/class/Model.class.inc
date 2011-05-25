@@ -60,7 +60,7 @@ abstract class Model{
 	
 	public function title($label, $help=null){
 		include_once('column/CharColumn.class.inc');
-		$modelColumn = CharColumn($label, $help);
+		$modelColumn = new CharColumn($label, $help);
 		$modelColumn->isList = true;
 		$modelColumn->isReachable = true;
 		$modelColumn->isNotNull = true;
@@ -101,12 +101,12 @@ abstract class Model{
 	
 	public function category($module, $help=null){
 		$this->caegorized = true;
-		include_once('CategoryColumn.class.inc');
+		include_once('column/CategoryColumn.class.inc');
 		return new CategoryColumn($module, $help);
 	}
 	
 	public function fileSize($label, $help=null){
-		include_once('FileSizeColumn.class.inc');
+		include_once('column/FileSizeColumn.class.inc');
 		return new FileSizeColumn($label, $help);
 	}
 	

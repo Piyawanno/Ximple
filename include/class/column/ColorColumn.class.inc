@@ -12,7 +12,7 @@ class ColorColumn extends CharColumn{
 		head_add_js('include/javascript/colorcolumn.js');
 		head_add_js_var('selectColorLabel', tt('Select Color'));
 		
-		$this->setFormAtrribute('class', 'color_picker');
+		$this->setFormAttribute('class', 'color_picker');
 		$id = $form_id.'_'.$name;
 		$render  = '<div id="picker_'.$id.'"></div>';
 		$render .= CharColumn::renderForm($formID);

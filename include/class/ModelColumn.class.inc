@@ -21,20 +21,19 @@ abstract class ModelColumn{
 	public $help;
 	public $data;
 	public $defaultData;
-	
-	public $ajaxMode;
 	public $listMode;
 	
 	public $isDB = true;
+	public $isForm = true;
+	public $isFormLabel = true;
 	public $isNotNull = false;
 	public $isList = false;
 	public $isReachable = false;
 	public $isOrderable = true;
-	public $isSortable = false;
 	public $isAllHTMLTags = false;
 	public $isParent = false;
 	
-	public abstract renderForm($formID);
+	public abstract function renderForm($formID);
 	
 	public function enableTranslate(){
 		if($this->isAllowedTranslate){
@@ -62,7 +61,9 @@ abstract class ModelColumn{
 	
 	public function setType($type){
 		$allowedType = array_keys($this->typeMap);
-		if(!in_array($this->type, $allowedType) and state_is_develop()) {
+		if(in_array($type, $allowedType)){
+			$this->type = $type;
+		}elseif(state_is_develop()){
 			notify_add_error('unkown type : '.$type.' ('.$this->name.')');
 		}
 	}

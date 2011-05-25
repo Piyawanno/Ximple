@@ -16,7 +16,7 @@ class CheckBoxColumn extends SelectiveColumn{
 		$render.= '<ul class="'.$this->listClass.'" id="'.$id.'">';
 		$i = 0;
 		foreach($modelCol->option as $key => $value){
-			$this->setFormAtrribute('value', $value);
+			$this->setFormAttribute('value', $value);
 			$this->getCheck($key);
 			$render .= '<li>'.$this->imageTag;
 			$this->setCheckBoxAttribute($id.$i);
@@ -35,30 +35,30 @@ class CheckBoxColumn extends SelectiveColumn{
 	
 	private function getCheck($data){
 		if(is_array($this->data) and in_array($data, $this->data)){
-			$this->setFormAtrribute('checked', 'checked');
+			$this->setFormAttribute('checked', 'checked');
 			$this->editable = '';
 		}else{
-			$this->setFormAtrribute('checked', '');
+			$this->setFormAttribute('checked', '');
 			$this->editable = 'disabled';
 		}
 	}
 	
 	private function setCheckBoxAttribute($relation){
 		$this->resetFormAttribute();
-		$this->setFormAtrribute('type', 'checkbox');
-		$this->setFormAtrribute('name', 'check_'.$this->name.'[]');
-		$this->setFormAtrribute('class', 'checkedit');
-		$this->setFormAtrribute('rel', $relation);
-		$this->setFormAtrribute('style', 'border:none;');
+		$this->setFormAttribute('type', 'checkbox');
+		$this->setFormAttribute('name', 'check_'.$this->name.'[]');
+		$this->setFormAttribute('class', 'checkedit');
+		$this->setFormAttribute('rel', $relation);
+		$this->setFormAttribute('style', 'border:none;');
 	}
 	
 	private function setInputAttribute($id, $data){
 		$this->resetFormAttribute();
-		$this->setFormAtrribute('id', $id);
-		$this->setFormAtrribute('name', $this->name.'[]');
-		$this->setFormAtrribute('disabled', $this->editable);
-		$this->setFormAtrribute('value', $data);
-		$this->setFormAtrribute('size', 25);
+		$this->setFormAttribute('id', $id);
+		$this->setFormAttribute('name', $this->name.'[]');
+		$this->setFormAttribute('disabled', $this->editable);
+		$this->setFormAttribute('value', $data);
+		$this->setFormAttribute('size', 25);
 	}
 }
 ?>

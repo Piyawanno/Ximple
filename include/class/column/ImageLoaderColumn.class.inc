@@ -9,14 +9,15 @@ class ImageLoaderColumn extends ModelColumn{
 		$this->help = tt('Click on image to upload or change image.');
 	}
 	
-	public function renderFoorm(){
-		$id = $form_id.'_'.$name;
+	public function renderForm($formID){
+		head_add_js_var('uploadSuccess', tt('image successfully uploaded'));
+		$id = $formID.'_'.$this->name;
 		if(strlen($this->data)) $imageSource = ROOT_URI.$this->data;
 		else $imageSource = ROOT_URI.'files/icon/loader.png';
-		$this->setFormAtrribute('type', 'hidden');
-		$this->setFormAtrribute('name', $this->name);
-		$this->setFormAtrribute('value', $this->data);
-		$this->setFormAtrribute('id', 'input_'.$id);
+		$this->setFormAttribute('type', 'hidden');
+		$this->setFormAttribute('name', $this->name);
+		$this->setFormAttribute('value', $this->data);
+		$this->setFormAttribute('id', 'input_'.$id);
 		$render = '
 		<input '.$this->renderFormAttribute().'/>
 		<a href="#" onclick="showImageLoader(\''.$id.'\', \''.$this->path.'\');return false;">

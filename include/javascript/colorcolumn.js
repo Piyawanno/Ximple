@@ -1,4 +1,4 @@
-$(document).ready(
+$(document).ready(function(){
 	$('.color_picker').each(function(){
 		formID = this.attr('id');
 		$("#picker_"+formID).farbtastic("#"+formID);
@@ -12,4 +12,4 @@ $(document).ready(
 		});
 		$("#"+formID).click(function(){$("#picker_"+formID).dialog("open");});
 	});
-);
+});

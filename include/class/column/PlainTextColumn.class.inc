@@ -7,12 +7,12 @@ class PlainTextColumn extends ModelColumn{
 	}
 	
 	public function renderForm($formID){
-		$id = $formID.'_'.$name;
-		$this->setFormAtrribute('name', $this->name);
-		$this->setFormAtrribute('id', $this->id);
-		$this->setFormAtrribute('style', 'width:100%;height:120px;');
-		$this->setFormAtrribute('rows', 20);
-		$this->setFormAtrribute('class', 'plaintext');
+		$id = $formID.'_'.$this->name;
+		$this->setFormAttribute('name', $this->name);
+		$this->setFormAttribute('id', $id);
+		$this->setFormAttribute('style', 'width:100%;height:120px;');
+		$this->setFormAttribute('rows', 20);
+		$this->setFormAttribute('class', 'plaintext');
 		$render = '<textarea '.$this->renderFormAttribute().'>'.$this->data.'</textarea>';
 		$render.= '<span id="info_'.$id.'"></span>';
 		return $render;

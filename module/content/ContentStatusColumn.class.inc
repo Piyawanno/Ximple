@@ -1,23 +1,24 @@
 <?php
-class ContentStatusColumn extends ModelColumn{
+require_once(ROOT_PATH.'include/class/column/RadioColumn.class.inc');
+
+class ContentStatusColumn extends RadioColumn{
 	private $moduleName;
 	private $status;
 	
 	public $isTriggerSelect = false;
 	
 	function ContentStatusColumn($label, $moduleName){
-		$this->label = $label;
-		$this->form = 'radio';
-		$this->type = 'int';
+		RadioColumn::RadioColumn($label, array());
+		$this->setType('int');
 		$this->moduleName = $moduleName;
 	}
 	
-	function setStatus($status){
+	public function setStatus($status){
 		$this->status = $status;
 		$this->defaultData = cc($this->moduleName.'_'.$this->status.'_default');
 	}
 	
-	function setOption($option){
+	public function setOption($option){
 		$this->option = $option;
 	}
 	

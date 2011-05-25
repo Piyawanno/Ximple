@@ -71,9 +71,7 @@ class ModelConnector{
 	}
 	
 	public function setAsConfigForm($col){
-		if($this->model[$col]->form != 'hidden'){
-			$this->model[$col]->isForm = false;
-		}
+		$this->model[$col]->isForm = false;
 	}
 	
 	public function getColumnAttribute($attrName){

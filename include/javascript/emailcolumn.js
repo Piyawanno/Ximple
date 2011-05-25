@@ -1,4 +1,4 @@
-$(document).ready(
+$(document).ready(function(){
 	$('.email_field').keyup(function(){
 		var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		if(!reg.test($(this).val())){
@@ -35,4 +35,4 @@ $(document).ready(
 			}
 		}
 	});
-);
+});

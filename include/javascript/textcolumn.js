@@ -1,4 +1,4 @@
-$(document).ready(	
+$(document).ready(function(){
 	$(".text").cleditor({
 		height		:	'400px',
 		width		:	'100%',
@@ -19,4 +19,4 @@ $(document).ready(
 		width		:	'100%',
 		controls	:	"bold advancedimage italic underline strikethrough bullets numbering quote link unlink icon paste pastetext code source"
 	});
-);
+});

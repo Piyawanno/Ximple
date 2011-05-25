@@ -27,12 +27,12 @@ abstract class SelectiveColumn extends ModelColumn{
 	}
 	
 	protected function renderRawsForm($formID){
-		$id = $formID.'_'.$name;
+		$id = $formID.'_'.$this->name;
 		$render = '<div class="'.$this->divisionClass.'">';
 		$render.= '<ul class="'.$this->listClass.'" id="'.$id.'">';
-		$this->setFormAtrribute('style', 'border:none;');
-		foreach($modelCol->option as $key => $value){
-			$this->setFormAtrribute('value', $value);
+		$this->setFormAttribute('style', 'border:none;');
+		foreach($this->option as $key => $value){
+			$this->setFormAttribute('value', $value);
 			$this->getCheck($key);
 			$render .= '<li>'.$this->imageTag;
 			$render .= '<input '.$this->renderFormAttribute().'/>'.$value;

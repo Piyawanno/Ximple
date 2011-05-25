@@ -7,16 +7,16 @@ class SpinColumn extends ModelColumn{
 		$this->min = $min;
 		$this->step = $step;
 		$this->help = $help;
-		$this->setFormAtrribute('size', 8);
+		$this->setFormAttribute('size', 8);
 	}
 	
 	function renderForm($formID){
 		head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
 		head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
 		$id = $formID.'_'.$this->name;
-		$this->setFormAtrribute('name', $this->name);
-		$this->setFormAtrribute('id', $id);
-		$this->setFormAtrribute('value', $this->data);
+		$this->setFormAttribute('name', $this->name);
+		$this->setFormAttribute('id', $id);
+		$this->setFormAttribute('value', $this->data);
 		$render.= '<span id="info_'.$id.'"></span>';
 		$render.= '
 		<script>
@@ -33,9 +33,9 @@ class SpinColumn extends ModelColumn{
 		head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
 		head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
 		$id = $formID.'_'.$this->name;
-		$this->setFormAtrribute('name', $this->name.'[]');
-		$this->setFormAtrribute('class', $id);
-		$this->setFormAtrribute('value', $this->data);
+		$this->setFormAttribute('name', $this->name.'[]');
+		$this->setFormAttribute('class', $id);
+		$this->setFormAttribute('value', $this->data);
 		$render.= '
 		<script>
 			$(".'.$id.'").spinbox({

@@ -1,12 +1,9 @@
 <?php
-
-include_once(ROOT_PATH.'include/tool/form.tool.inc');
-
 class FormRender{
 	protected $modelConnector;
 	protected $isTranslate;
-	protected $formMeta;
 	protected $label;
+	protected $formMeta;
 	
 	private $notNull;
 	private $notNullID = array();
@@ -40,10 +37,10 @@ class FormRender{
 	}
 	
 	protected function renderForm(){
-		$model = $this->getFormColumn();
-		$form = form($this->formMeta->id, $model);
+		document_init_form();
+		$this->prepareHead();
 		$rednerArray = array(
-			'form' => $form,
+			'form' => $this->renderFormModel($this->formMeta->id),
 			'meta' => $this->formMeta,
 			'help' => $this->help,
 			'label' => $this->label,
@@ -60,22 +57,34 @@ class FormRender{
 	}
 	
 	protected function prepareRender(){
+		$this->prepareCaptcha();
+		$this->prepareNotNull();
+		$this->prepareLabel();
+		$this->help = $this->modelConnector->getColumnAttribute('help');
+		$this->renderConfigForm();
+	}
+	
+	private function prepareCaptcha(){
 		if($this->formMeta->isCaptcha){
 			$this->modelConnector->initCaptchaColumn();
 		}
+	}
+	
+	private function prepareNotNull(){
 		$this->notNull = $this->modelConnector->getColumnNameByBoolean('isNotNull');
 		foreach($this->notNull as $key => $value){
 			$this->notNullID[$key] = $this->formMeta->id.'_'.$value;
 		}
-		$this->label = $this->modelConnector->getColumnAttribute('label');
-		$hidden = $this->modelConnector->getColumnNameByAttribute('form', 'hidden');
-		foreach($hidden as $name){
-			if(isset($this->label[$name])) unset($this->label[$name]);
-		}
-		$this->help = $this->modelConnector->getColumnAttribute('help');
 		head_add_js_array('notNull'.$this->formMeta->id, $this->notNullID);
+	}
+	
+	private function prepareLabel(){
+		$label = $this->modelConnector->getColumnAttribute('label');
+		$isFormLabel = $this->modelConnector->getColumnNameByBoolean('isFormLabel');
+		foreach($isFormLabel as $key => $value){
+			$this->label[$value] = $label[$value];
+		}
 		head_add_js_array('label'.$this->formMeta->id, $this->label);
-		$this->renderConfigForm();
 	}
 	
 	private function renderConfigForm(){
@@ -90,6 +99,24 @@ class FormRender{
 			$help = sprintf($pattern, 'href="#" onclick="showTranslateDialog();return false"');
 			$this->formMeta->description .= '<p>'.$help.'</p>';
 		}
+	}
+	
+	private function prepareHead(){
+		head_add_css('form.css');
+		head_add_js('include/external/jquery/jquery-form.js');
+		head_add_js('include/javascript/formcheck.js');
+		head_add_js_var('pleaseFill', tt('Please, fill the required field : '));
+		head_add_js_var('formNotCorrect', tt('Any field in the form is not correctly filled. Please correct it and try again.'));
+		head_add_js_var('isInstalled', true);
+	}
+	
+	private function renderFormModel($id){
+		$modelArray = $this->modelConnector->getFormColumn();
+		$render = array();
+		foreach($modelArray as $name => $model){
+			$render[$name] = $model->renderForm($id);
+		}
+		return $render;
 	}
 }
 

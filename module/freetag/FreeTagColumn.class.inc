@@ -1,16 +1,16 @@
 <?php
-class FreeTagColumn extends ModelColumn{
+require_once(ROOT_PATH.'include/class/column/AutoCompleteColumn.class.inc');
+
+class FreeTagColumn extends AutoCompleteColumn{
 	private $rawData;
 	private $contentID;
 	private $moduleName;
 	
 	function FreeTagColumn($moduleName){
-		$this->type = 'shorttext';
-		$this->form = 'autocomplete';
-		$this->label = tt('tags');
+		AutoCompleteColumn::AutoCompleteColumn(tt('tags'), 'freetag_get_ajax');
+		$this->setType('shorttext');
 		$this->isReachable = true;
 		$this->help = tt('Use comma for multiple tags.');
-		$this->ajaxMode = 'freetag_get_ajax';
 		$this->moduleName = $moduleName;
 	}
 	

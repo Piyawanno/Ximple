@@ -1,9 +1,7 @@
 <?php
-
 class ConfigFormRender{
 	private $id = '';
 	private $title;
-	private $modelConnector;
 	private $description;
 	private $showByDefault = false;
 	private $model = array();
@@ -18,9 +16,7 @@ class ConfigFormRender{
 		if($this->modelConnector->checkExist($col)){
 			$this->modelConnector->setAsConfigForm($col);
 			$modelColumn = $this->modelConnector->getColumn($col);
-			if($modelColumn->form != 'hidden'){
-				$this->model[$col] = $modelColumn;
-			}
+			$this->model[$col] = $modelColumn;
 		}elseif(state_is_develop()){
 			notify_add_error('Column '.$col.' does not exist and can not be set to ConfigForm. (ConfigFormRender->addColumn())');
 		}
@@ -30,7 +26,7 @@ class ConfigFormRender{
 		if(count($this->model)){
 			$rednerArray = array(
 				'id' => $formMeta->id.'_'.$this->id,
-				'form' => form($formMeta->id, $this->model),
+				'form' => $this->renderFormModel($formMeta->id),
 				'title' => $this->title,
 				'label' => $this->modelConnector->getColumnAttribute('label'),
 				'help' => $this->modelConnector->getColumnAttribute('help'),
@@ -48,6 +44,14 @@ class ConfigFormRender{
 	
 	public function setShowByDefault($showByDefault){
 		$this->showByDefault = $showByDefault;
+	}
+	
+	private function renderFormModel($id){
+		$render = array();
+		foreach($this->model as $name => $model){
+			$render[$name] = $model->renderForm($id);
+		}
+		return $render;
 	}
 }
 

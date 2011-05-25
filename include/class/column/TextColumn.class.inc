@@ -4,18 +4,19 @@ class TextColumn extends ModelColumn{
 		$this->setType('text');
 		$this->label = $label;
 		$this->help = $help;
-		$this->setFormAtrribute('class', 'text');
+		$this->isAllowedTranslate = true;
+		$this->setFormAttribute('class', 'text');
 	}
 	
 	public function renderForm($formID){
-		$id = $formID.'_'.$name;
+		$id = $formID.'_'.$this->name;
 		head_add_css('include/external/cleditor/jquery.cleditor.css');
 		$this->prepareEditor();
 		$this->addJS();
-		$this->setFormAtrribute('name', $this->name);
-		$this->setFormAtrribute('id', $this->id);
-		$this->setFormAtrribute('style', 'width:100%');
-		$this->setFormAtrribute('rows', 20);
+		$this->setFormAttribute('name', $this->name);
+		$this->setFormAttribute('id', $id);
+		$this->setFormAttribute('style', 'width:100%');
+		$this->setFormAttribute('rows', 20);
 		$render = '<textarea '.$this->renderFormAttribute().'>'.$this->data.'</textarea>';
 		$render.= '<span id="info_'.$id.'"></span>';
 		return $render;

@@ -9,8 +9,8 @@ class FileColumn extends ModelColumn{
 		$this->help = $help;
 		$this->path = $path;
 		$this->isOrderable = false;
-		$this->setFormAtrribute('size', 25);
-		$this->setFormAtrribute('type', 'hidden');
+		$this->setFormAttribute('size', 25);
+		$this->setFormAttribute('type', 'hidden');
 	}
 	
 	public function triggerPostInsert(){

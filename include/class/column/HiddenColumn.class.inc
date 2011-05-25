@@ -5,7 +5,8 @@ class HiddenColumn extends CharColumn{
 		$this->setType($type);
 		$this->defaultData = $default;
 		$this->data = $default;
-		$this->setFormAtrribute('type', 'hidden');
+		$this->setFormAttribute('type', 'hidden');
+		$this->isFormLabel = false;
 	}
 }
 ?>

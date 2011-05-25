@@ -5,23 +5,23 @@ class CharColumn extends ModelColumn{
 		$this->label = $label;
 		$this->help = $help;
 		$this->isAllowedTranslate = true;
-		$this->setFormAtrribute('size', 25);
-		$this->setFormAtrribute('maxlength', 80);
+		$this->setFormAttribute('size', 25);
+		$this->setFormAttribute('maxlength', 80);
 	}
 	
 	public function renderForm($formID){
 		$id = $formID.'_'.$this->name;
-		$this->setFormAtrribute('name', $this->name);
-		$this->setFormAtrribute('id', $id);
-		$this->setFormAtrribute('value', $this->data);
+		$this->setFormAttribute('name', $this->name);
+		$this->setFormAttribute('id', $id);
+		$this->setFormAttribute('value', $this->data);
 		$render = '<input '.$this->renderFormAttribute().'/>';
 		$render.= '<span id="info_'.$id.'"></span>';
 		return $render;
 	}
 	
 	public function renderGridForm($formID){
-		$this->setFormAtrribute('name', $this->name.'[]');
-		$this->setFormAtrribute('value', $this->data);
+		$this->setFormAttribute('name', $this->name.'[]');
+		$this->setFormAttribute('value', $this->data);
 		return '<input '.$this->renderFormAttribute().'/>';
 	}
 }
