@@ -52,6 +52,10 @@ abstract class ModelColumn{
 		$this->formAttribute[$name] = $value;
 	}
 	
+	public function resetFormAttribute(){
+		$this->formAttribute = array();
+	}
+	
 	public function getPHPType(){
 		return $this->typeMap[$this->type];
 	}
@@ -70,7 +74,7 @@ abstract class ModelColumn{
 	protected function renderFormAttribute(){
 		$render = '';
 		foreach($this->formAttribute as $key => $value){
-			$render .= $key.'="'.$value.'" ';
+			if(strlen($value)) $render .= $key.'="'.$value.'" ';
 		}
 		return $render;
 	}

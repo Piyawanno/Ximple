@@ -119,14 +119,8 @@ abstract class Model{
 	}
 	
 	public function calendar($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'timestamp';
-		$modelColumn->form = 'calendar';
-		$modelColumn->defaultData = NOW;
-		$modelColumn->data = NOW;
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		return $modelColumn;
+		include_once('column/CalendarColumn.class.inc');
+		return new CalendarColumn($label, $help);
 	}
 	
 	public function select($label, $option, $help=null){
@@ -152,6 +146,11 @@ abstract class Model{
 		return new CheckBoxColumn($label, $option, $help);
 	}
 	
+	public function checkedit($label, $option, $help=null){
+		include_once('column/CheckEditColumn.class.inc');
+		return new CheckEditColumn($label, $option, $help);
+	}
+	
 	public function timeInterval($label, $interval, $help=null){
 		include_once('TimeIntervalColumn.class.inc');
 		return new TimeIntervalColumn($label, $interval, $help);
@@ -160,13 +159,6 @@ abstract class Model{
 	public function grid($label, $help=null){
 		include_once('GridColumn.class.inc');
 		return new GridColumn($label, $help);
-	}
-	
-	public function checkedit($label, $option, $help=null){
-		$modelColumn = Model::selective($label, $option, $help);
-		$modelColumn->form = 'checkedit';
-		$modelColumn->type = 'array';
-		return $modelColumn;
 	}
 	
 	public function text($label, $help=null){

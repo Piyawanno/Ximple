@@ -8,8 +8,10 @@ class CheckBoxColumn extends SelectiveColumn{
 	
 	public function renderForm($formID){
 		head_add_js('include/javascript/checkboxcolumn.js');
-		$this->formClass = 'form_radio';
+		$this->checkSortable();
+		$this->divisionClass = 'checkbox_list';
 		$this->setFormAtrribute('type', 'checkbox');
+		$this->setFormAtrribute('name', $this->name.'[]');
 		$render = SelectiveForm::renderRawsForm($formID);
 		if(count($this->option) > 1){
 			$render .= '<p><a href="javascript:checkAllCheckBox(\''.$this->name.'\')">'.tt('check all').'</a> | ';

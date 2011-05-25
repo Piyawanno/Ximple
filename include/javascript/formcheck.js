@@ -13,8 +13,6 @@ function initAjaxForm(){
 	initGridRow();
 	initAutoComplete();
 	initCompleteOption();
-	initCheckEdit();
-	initSortableForm();
 	checkEmailGridField()
 	checkUserPassword();	
 	checkLoginName();
@@ -37,27 +35,11 @@ function checkForm(notNull, label){
 	return ok;
 }
 
-function initCheckEdit(){
-	$(".sortable_form").sortable({
-		dropOnEmpty: true,
-	});
-	
-	$(".sortable_form").disableSelection();
-}
-
 function initDelGrid(){
 	$(".del_grid_row").click( function(){
 		$(this).parent().parent().remove();
 		return false;
 	});
-}
-
-function initSortableForm(){
-	$(".sortable_form").sortable({
-		dropOnEmpty: true,
-	});
-	
-	$(".sortable_form").disableSelection();
 }
 
 function initCLEditor(){

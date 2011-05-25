@@ -2,8 +2,9 @@
 require_once('SelectiveColumn.class.inc');
 class RadioColumn extends SelectiveColumn{
 	public function renderForm($formID){
-		$this->formClass = 'form_radio';
+		$this->listClass = 'radio_list';
 		$this->setFormAtrribute('type', 'radio');
+		$this->setFormAtrribute('name', $this->name);
 		return SelectiveForm::renderRawsForm($formID);
 	}
 	

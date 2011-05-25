@@ -1,7 +1,11 @@
 <?php
 abstract class SelectiveColumn extends ModelColumn{
 	public $option;
-	protected $formClass;
+	public $isSortable;
+	
+	protected $listClass;
+	protected $divisionClass;
+	protected $imageTag;
 	
 	function SelectiveColumn($label, $option, $help=null){
 		$this->setType('char');
@@ -24,21 +28,35 @@ abstract class SelectiveColumn extends ModelColumn{
 	
 	protected function renderRawsForm($formID){
 		$id = $formID.'_'.$name;
-		$render = '<ul class="'.$this->formClass.'" id="'.$id.'">';
-		$this->setFormAtrribute('name', $this->name);
+		$render = '<div class="'.$this->divisionClass.'">';
+		$render.= '<ul class="'.$this->listClass.'" id="'.$id.'">';
 		$this->setFormAtrribute('style', 'border:none;');
 		foreach($modelCol->option as $key => $value){
 			$this->setFormAtrribute('value', $value);
 			$this->getCheck($key);
-			$render .= '<li><input '.$this->renderFormAttribute().'/>%s</li>'
+			$render .= '<li>'.$this->imageTag;
+			$render .= '<input '.$this->renderFormAttribute().'/>'.$value;
+			$render .= '</li>';
 		}
 		$render .= '</ul>';
+		$render .= '</div>';
 		$render .= '<span id="info_'.$id.'"></span>';
 		$render .= '<p style="clear:both;">';
 		return $render;
 	}
 	
 	protected function getCheck($data){
+	}
+	
+	protected function checkSortable(){
+		if($this->isSortable){
+			$this->listClass = 'sortable_form';
+			$this->imageTag = '<img src="'.ROOT_URI.'files/icon/move.png" />';
+			head_add_js('include/javascript/sortable.js');
+		}else{
+			$this->listClass = 'unsortable_form';
+			$this->imageTag = '';
+		}
 	}
 }
 ?>
