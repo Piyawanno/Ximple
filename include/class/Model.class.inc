@@ -156,27 +156,22 @@ abstract class Model{
 		return new TimeIntervalColumn($label, $interval, $help);
 	}
 	
-	public function grid($label, $help=null){
-		include_once('GridColumn.class.inc');
-		return new GridColumn($label, $help);
-	}
-	
 	public function text($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'text';
-		$modelColumn->form = 'text';
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
-		return $modelColumn;
+		include_once('column/TextColumn.class.inc');
+		return new TextColumn($label, $help);
 	}
 	
 	public function shortText($label, $help=null){
-		$modelColumn = new ModelColumn;
-		$modelColumn->type = 'shorttext';
-		$modelColumn->form = 'shorttext';
-		$modelColumn->label = $label;
-		$modelColumn->help = $help;
+		include_once('column/TextColumn.class.inc');
+		$modelColumn = new TextColumn($label, $help);
+		$modelColumn->setType('shorttext');
+		$modelColumn->setFormAtrribute('class', 'shorttext');
 		return $modelColumn;
+	}
+	
+	public function grid($label, $help=null){
+		include_once('GridColumn.class.inc');
+		return new GridColumn($label, $help);
 	}
 	
 	public function plain($label, $help=null){
