@@ -10,9 +10,7 @@ function initAjaxForm(){
 	initCLEditor();
 	initDelGrid();
 	initPlainText();
-	initCalendar();
 	initGridRow();
-	initMultipleFiles();
 	initAutoComplete();
 	initCompleteOption();
 	initCheckEdit();
@@ -95,26 +93,12 @@ function initPlainText(){
 	});
 }
 
-function initCalendar(){
-	$(".calendar_form").datepicker({ 
-		dateFormat: "d MM yy"
-	});
-}
-
 function initGridRow(){
 	$(".add_grid_row").click( function(){
 		var rel = $(this).attr("rel");
 		var tab = $("#grid_form_"+rel);
 		tab.append(grid_string[rel]);
 		init_del_grid();
-	});
-}
-
-function initMultipleFiles(){
-	$(".add_multi_files").click(function(){
-		var rel = $(this).attr("rel");
-		var tab = $("#multi_files_"+rel);
-		tab.append('<input name="'+rel+'[]" size="40" type="file" style="margin-bottom:10px;"/><br />');
 	});
 }
 
@@ -363,14 +347,6 @@ function checkNotNull(notNull, label){
 	catch (e){
 	}
 	return ok;
-}
-
-function checkAllCheckBox(className){
-	$('.checkbox_'+className).attr('checked', 'checked');
-}
-
-function checkNoneCheckBox(className){
-	$('.checkbox_'+className).attr('checked', '');
 }
 
 function encryptPasswd(){

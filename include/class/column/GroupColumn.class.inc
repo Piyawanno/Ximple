@@ -1,4 +1,5 @@
 <?php
+require_once('CheckBoxColumn.class.inc');
 class GroupColumn extends CheckBoxColumn{
 	public $isExceptedAdmin = true;
 	public $isExceptedGuest = false;

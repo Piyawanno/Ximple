@@ -108,58 +108,14 @@ abstract class Model{
 		return $modelColumn;
 	}
 	
-	public function timeInterval($label, $interval, $help=null){
-		include_once('TimeIntervalColumn.class.inc');
-		return new TimeIntervalColumn($label, $interval, $help);
-	}
-	
-	public function grid($label, $help=null){
-		include_once('GridColumn.class.inc');
-		return new GridColumn($label, $help);
-	}
-	
 	public function email($label, $help=null){
 		include_once('column/EmailColumn.class.inc');
 		return new EmailColumn($label, $help);
 	}
 	
-	
 	public function now(){
 		include_once('column/NowColumn.class.inc');
-		return new NowColumn($label, $help);
-	}
-	
-	public function radio($label, $option, $help=null){
-		$modelColumn = Model::selective($label, $option, $help);
-		$modelColumn->form = 'radio';
-		return $modelColumn;
-	}
-	
-	public function checkbox($label, $option, $help=null){
-		$modelColumn = Model::selective($label, $option, $help);
-		$modelColumn->form = 'checkbox';
-		$modelColumn->type = 'array';
-		return $modelColumn;
-	}
-	
-	public function checkedit($label, $option, $help=null){
-		$modelColumn = Model::selective($label, $option, $help);
-		$modelColumn->form = 'checkedit';
-		$modelColumn->type = 'array';
-		return $modelColumn;
-	}
-	
-	public function select($label, $option, $help=null){
-		$modelColumn = Model::selective($label, $option, $help);
-		$modelColumn->form = 'select';
-		return $modelColumn;
-	}
-	
-	public function multiselect($label, $option, $help=null){
-		$modelColumn = Model::selective($label, $option, $help);
-		$modelColumn->form = 'multiselect';
-		$modelColumn->type = 'array';
-		return $modelColumn;
+		return new NowColumn();
 	}
 	
 	public function calendar($label, $help=null){
@@ -170,6 +126,46 @@ abstract class Model{
 		$modelColumn->data = NOW;
 		$modelColumn->label = $label;
 		$modelColumn->help = $help;
+		return $modelColumn;
+	}
+	
+	public function select($label, $option, $help=null){
+		include_once('column/SelectColumn.class.inc');
+		return new SelectColumn($label, $option, $help);
+	}
+	
+	public function multiselect($label, $option, $help=null){
+		include_once('column/SelectColumn.class.inc');
+		$modelColumn = SelectColumn($label, $option, $help);
+		$modelColumn->setType('array');
+		$modelColumn->setFormAttribute('multiple', 'multiple');
+		return $modelColumn;
+	}
+	
+	public function radio($label, $option, $help=null){
+		include_once('column/RadioColumn.class.inc');
+		return new RadioColumn($label, $option, $help);
+	}
+	
+	public function checkbox($label, $option, $help=null){
+		include_once('column/CheckBoxColumn.class.inc');
+		return new CheckBoxColumn($label, $option, $help);
+	}
+	
+	public function timeInterval($label, $interval, $help=null){
+		include_once('TimeIntervalColumn.class.inc');
+		return new TimeIntervalColumn($label, $interval, $help);
+	}
+	
+	public function grid($label, $help=null){
+		include_once('GridColumn.class.inc');
+		return new GridColumn($label, $help);
+	}
+	
+	public function checkedit($label, $option, $help=null){
+		$modelColumn = Model::selective($label, $option, $help);
+		$modelColumn->form = 'checkedit';
+		$modelColumn->type = 'array';
 		return $modelColumn;
 	}
 	

@@ -34,6 +34,8 @@ abstract class ModelColumn{
 	public $isAllHTMLTags = false;
 	public $isParent = false;
 	
+	public abstract renderForm($formID);
+	
 	public function enableTranslate(){
 		if($this->isAllowedTranslate){
 			$this->isTranslate = true;

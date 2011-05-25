@@ -1,10 +1,9 @@
 <?php
-class TimeIntervalColumn extends ModelColumn{
+class TimeIntervalColumn extends SelectColumn{
 	private $interval;
 	
 	function TimeIntervalColumn($label, $interval, $help=null){
-		$this->type = 'int';
-		$this->form = 'select';
+		$this->type('int');
 		$this->label = $label;
 		$this->help = $help;
 		$this->interval = $interval;
