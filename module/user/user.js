@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).bind("ready", function(){
 	$('#user_login_name').keyup(function(){
 		formLock = true;
 		if($(this).val().length < 4){
@@ -42,6 +42,20 @@ $(document).ready(function(){
 		
 	});
 	$('#user_confirm_password').keyup(checkPasswdConfirm);
+});
+
+$(document).bind("submitform", function(){
+	if($('#user_password').val().length == 0 && !insertUser){
+		alert(passwdNotChange);
+	}
+	if($('#user_password').val() == $('#user_confirm_password').val()){
+		var passwd = $('#user_password').val();
+		if(passwd.length){
+			$('#user_password').val(hex_sha1(passwd));
+			$('#user_confirm_password').val('');
+		}
+		$('#user_login_name_hash').val($('#user_login_name').val());
+	}
 });
 
 function checkPasswdStrength(){

@@ -17,7 +17,7 @@ function checkForm(notNull, label){
 	ok = ok && verifyCaptcha();
 	if(!ok) return false;
 	ok = ok && checkNotNull(notNull, label);
-	if(ok) encryptPasswd();
+	$(document).trigger("submitform");
 	return ok;
 }
 
