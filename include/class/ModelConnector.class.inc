@@ -102,8 +102,7 @@ class ModelConnector{
 		$model = $this->model;
 		foreach($model as $key => $value){
 			if(isset($data[$key])){
-				if($model[$key]->isUpdateTime) $model[$key]->data = NOW;
-				else $model[$key]->data = $data[$key];
+				$model[$key]->data = $data[$key];
 			}
 		}
 		return $model;

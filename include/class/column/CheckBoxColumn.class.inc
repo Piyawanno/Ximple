@@ -12,11 +12,13 @@ class CheckBoxColumn extends SelectiveColumn{
 		$this->divisionClass = 'checkbox_list';
 		$this->setFormAttribute('type', 'checkbox');
 		$this->setFormAttribute('name', $this->name.'[]');
-		$render = SelectiveForm::renderRawsForm($formID);
+		$this->setFormAttribute('class', 'checkbox'.$formID.'_'.$this->name);
+		$render = SelectiveColumn::renderRawsForm($formID);
 		if(count($this->option) > 1){
 			$render .= '<p><a href="javascript:checkAllCheckBox(\''.$this->name.'\')">'.tt('check all').'</a> | ';
 			$render .= '<a href="javascript:checkNoneCheckBox(\''.$this->name.'\')">'.tt('check none').'</a></p>';
 		}
+		return $render;
 	}
 	
 	protected function getCheck($data){

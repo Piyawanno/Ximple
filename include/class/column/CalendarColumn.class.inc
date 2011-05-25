@@ -26,5 +26,9 @@ class CalendarColumn extends CharColumn{
 		$this->setFormAttribute('class', 'calendar_form');
 		return CharColumn::renderForm($formID);
 	}
+	
+	public function triggerPostInsert(){
+		$this->data = date('Y-m-d H:i:s', strtotime($this->data));
+	}
 }
 ?>

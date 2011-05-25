@@ -233,7 +233,6 @@ abstract class Control extends Translatable{
 	
 	protected function renderListPage(){
 		$this->initListPage();
-		$this->renderImage();
 		$render = $this->listPage->render($this->data);
 		$render.= $this->pager->render($this->listPage->getPageMode());
 		$render.= $this->listPage->renderSearchForm();
@@ -273,7 +272,6 @@ abstract class Control extends Translatable{
 	}
 	
 	protected function postSelect(){
-		$this->formatDateTime();
 		$this->unserializeData();
 		$this->data = $this->modelConnector->triggerSelect($this->data);
 	}
@@ -288,41 +286,13 @@ abstract class Control extends Translatable{
 			document_set_title($this->formMeta->title);
 		}
 	}
-	
-	private function formatDateTime(){
-		$timeColumns = $this->modelConnector->getColumnNameByAttribute('type', 'timestamp');
-		$dateColumns = $this->modelConnector->getColumnNameByAttribute('type', 'date');
-		$dateFormat = $this->modelConnector->getColumnAttribute('dateFormat');
-		$columns = array_merge($timeColumns, $dateColumns);
-		foreach($columns as $column){
-			foreach($this->data as $key => $value){
-				if(isset($value[$column])){
-					$this->data[$key]['unformatted_'.$column] = $value[$column];
-					$formatted = date($dateFormat[$column], strtotime($value[$column]));
-					$this->data[$key][$column] = $formatted;
-				}
-			}
-		}
-	}
-	
+		
 	private function unserializeData(){
 		$columns = $this->modelConnector->getColumnNameByBoolean('isSerialize');
 		foreach($columns as $column){
 			foreach($this->data as $key => $value){
 				if(isset($value[$column]) and !is_array($value[$column])){
 					$this->data[$key][$column] = unserialize($value[$column]);
-				}
-			}
-		}
-	}
-	
-	private function renderImage(){
-		$columns = $this->modelConnector->getColumnNameByBoolean('isImage');
-		$p = '<img alt="%s" src="%s" border="0" />';
-		foreach($columns as $column){
-			foreach($this->data as $key => $value){
-				if(isset($value[$column]) and strlen($value[$column])){
-					$this->data[$key][$column] = sprintf($p, $column, ROOT_URI.$value[$column]);
 				}
 			}
 		}

@@ -90,7 +90,7 @@ abstract class Model{
 	public function password($label, $help=null){
 		include_once('column/CharColumn.class.inc');
 		$modelColumn = new CharColumn($label, $help);
-		$modelColumn->setFormAtrribute('type', 'password');
+		$modelColumn->setFormAttribute('type', 'password');
 		return $modelColumn;
 	}
 	
@@ -188,7 +188,7 @@ abstract class Model{
 		include_once('column/TextColumn.class.inc');
 		$modelColumn = new TextColumn($label, $help);
 		$modelColumn->setType('shorttext');
-		$modelColumn->setFormAtrribute('class', 'shorttext');
+		$modelColumn->setFormAttribute('class', 'shorttext');
 		return $modelColumn;
 	}
 	

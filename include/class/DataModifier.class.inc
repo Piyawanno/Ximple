@@ -21,7 +21,7 @@ class DataModifier{
 	
 	public function prepareInsert(){
 		$this->modelConnector->triggerPreInsert();
-		$this->getColumn();
+		$this->columnDB = $this->modelConnector->getColumnNameByBoolean('isDB');
 		$this->prepare();
 		$this->modelConnector->triggerPostInsert();
 	}
@@ -42,9 +42,8 @@ class DataModifier{
 	
 	public function prepareUpdate(){
 		$this->modelConnector->triggerPreUpdate();
-		$this->getColumn();
+		$this->columnDB = $this->modelConnector->getColumnNameByBoolean('isDB');
 		$this->dataDB = $this->modelConnector->getColumnAttribute('data');
-		$this->dropOldFile(false);
 		$this->prepare();
 		$this->modelConnector->triggerPostUpdate();
 	}
@@ -65,9 +64,8 @@ class DataModifier{
 	
 	public function prepareDrop(){
 		$this->modelConnector->triggerDrop();
-		$this->getColumn();
+		$this->columnDB = $this->modelConnector->getColumnNameByBoolean('isDB');
 		$this->dataDB = $this->modelConnector->getColumnAttribute('data');
-		$this->dropOldFile(true);
 	}
 	
 	public function drop(){
@@ -77,21 +75,9 @@ class DataModifier{
 		$this->modelConnector->triggerPostDBDrop();
 	}
 	
-	private function getColumn(){
-		$this->columnDB = $this->modelConnector->getColumnNameByBoolean('isDB');
-		$fileColumn = $this->modelConnector->getColumnNameByAttribute('form', 'file');
-		$fileColumn = array_intersect($fileColumn, $this->columnDB);
-		$muliFilesColumn = $this->modelConnector->getColumnNameByAttribute('form', 'multiplefiles');
-		$muliFilesColumn = array_intersect($muliFilesColumn, $this->columnDB);
-		$this->fileColumn = array_merge($fileColumn, $muliFilesColumn);
-		$this->noneColumn = $this->modelConnector->getColumnNameByAttribute('form', 'none');
-	}
-	
 	private function prepare(){
 		$this->getData();
 		$this->checkNull();
-		$this->formatCalendar();
-		$this->uploadFile();
 		$this->serializeData();
 		$this->checkTag();
 		$this->modelConnector->setData($this->data);
@@ -100,16 +86,7 @@ class DataModifier{
 	private function getData(){
 		$type = $this->modelConnector->getPHPType();
 		foreach($this->columnDB as $name){
-			if(in_array($name, $this->noneColumn)){
-				$data = $this->modelConnector->getAttribute($name, 'defaultData');
-			}else{
-				$data = pp($name);
-			}
-			if($data === null and $type[$name] != 'array' and !in_array($name, $this->fileColumn) and state_is_develop()){
-				$message  = 'Data in column : '.$name.' is not set. ';
-				$message .= 'Please check model and form-rendering.';
-				notify_add_error($message);
-			}
+			$data = pp($name);
 			settype($data, $type[$name]);
 			$this->data[$name] = $data;
 		}
@@ -120,45 +97,9 @@ class DataModifier{
 		$columnName = array_intersect($columnName, $this->columnDB);
 		$label = $this->modelConnector->getColumnAttribute('label');
 		foreach($columnName as $name){
-			if(empty($this->data[$name]) and !in_array($name, $this->fileColumn)){
+			if(empty($this->data[$name])){
 				$p = tt('Data in column %s is not allowed be empty.');
 				error_syslog(sprintf($p, $label[$name]));
-			}
-		}
-	}
-	
-	private function formatCalendar(){
-		$columnName = $this->modelConnector->getColumnNameByAttribute('type', 'timestamp');
-		$columnName = array_intersect($columnName, $this->columnDB);
-		foreach($columnName as $name){
-			$this->data[$name] = date('Y-m-d H:i:s', strtotime($this->data[$name]));
-		}
-	}
-	
-	private function uploadFile(){
-		include_once(ROOT_PATH.'include/tool/image.tool.inc');
-		$path = $this->modelConnector->getColumnAttribute('path');
-		$isImage = $this->modelConnector->getColumnNameByBoolean('isImage');
-		$maxWidth = $this->modelConnector->getColumnAttribute('maxWidth');
-		foreach($this->fileColumn as $name){
-			$image = in_array($name, $isImage);
-			$fileName = io_upload(ff($name), ROOT_PATH.$path[$name], $image);
-			if($image and $fileName){
-				$imagePath = ROOT_PATH.$fileName;
-				image_check_max_width(ff($name), $imagePath, $maxWidth[$name]);
-			}
-			if($fileName) $this->data[$name] = $fileName;
-			else $this->data[$name] = $this->dataDB[$name];
-		}
-	}
-	
-	private function dropOldFile($checkInput=false){
-		foreach($this->fileColumn as $name){
-			$file = ff($name);
-			if(((isset($file['size']) and $file['size']) or $checkInput) and !empty($this->dataDB[$name])){
-				if(is_file(ROOT_PATH.$this->dataDB[$name]) and $this->dataDB[$name] != 'files/icon/uncategorized.png'){
-					io_drop_file(ROOT_PATH.$this->dataDB[$name]);
-				}
 			}
 		}
 	}
@@ -229,7 +170,6 @@ class DataModifier{
 	
 	private function insertMultipleRows(){
 		$this->getDataFromConnector();
-		$this->uploadMultipleFiles();
 		if($this->checkDataSymmetry()){
 			$this->formatMultipleData();
 			$this->checkNullMultipleData();
@@ -238,10 +178,8 @@ class DataModifier{
 				$this->id[] = db_insert($this->table, $value);
 			}
 			return true;
-		}else{
-			$this->dropUnsuccessfulFiles();
-			return false;
 		}
+		return false;
 	}
 	
 	private function updateSingleRow(){
@@ -255,8 +193,6 @@ class DataModifier{
 	private function updateMultipleRows(){
 		$this->getDataFromConnector();
 		if($this->checkDataSymmetry()){
-			$this->dropMultipleFiles();
-			$this->uploadMultipleFiles();
 			$this->formatMultipleData();
 			$this->checkNullMultipleData();
 			$this->id = array();
@@ -302,37 +238,6 @@ class DataModifier{
 			}
 		}
 		$this->data = $formattedData;
-	}
-	
-	private function dropMultipleFiles(){
-	
-	}
-	
-	private function uploadMultipleFiles(){
-		foreach($this->fileColumn as $columnName){
-			$modelColumn = $this->modelConnector->getColumn($columnName);
-			$fileArray = input_reorder_multiple_files($columnName);
-			foreach($fileArray as $key => $value){
-				if($value['size']){
-					$fileName = io_upload($value, $modelColumn->path, $modelColumn->isImage);
-					$this->data[$columnName][] = $fileName;
-				}else{
-					$this->data[$columnName][] = '';
-				}
-			}
-		}
-	}
-	
-	private function dropUnsuccessfulFiles(){
-		foreach($this->fileColumn as $columnName){
-			foreach($this->data[$columnName] as $key => $value){
-				if(is_file(ROOT_PATH.$value)) unlink(ROOT_PATH.$value);
-			}
-		}
-	}
-	
-	private function checkNullMultipleData(){
-	
 	}
 }
 ?>

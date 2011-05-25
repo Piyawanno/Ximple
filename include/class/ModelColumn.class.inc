@@ -1,6 +1,5 @@
 <?php
 abstract class ModelColumn{
-	private $type;
 	private $formAttribute = array();
 	private $typeMap = array(
 		'int' => 'integer',
@@ -14,8 +13,8 @@ abstract class ModelColumn{
 	);
 	
 	protected $isAllowedTranslate = false;
-	protected $isTranslate = false;
 	
+	public $type;
 	public $name;
 	public $label;
 	public $help;
@@ -31,6 +30,10 @@ abstract class ModelColumn{
 	public $isReachable = false;
 	public $isOrderable = true;
 	public $isAllHTMLTags = false;
+	public $isSerialize = false;
+	public $isTranslate = false;
+	
+	public $isMultipleInsert = false;
 	public $isParent = false;
 	
 	public abstract function renderForm($formID);
