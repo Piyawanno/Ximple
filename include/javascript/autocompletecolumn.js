@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).bind("ready", function(){
 	$('.auto_complete').keyup(function(){
 		var words = $(this).val().split(',');
 		var lastWord = jQuery.trim(words[words.length-1]);

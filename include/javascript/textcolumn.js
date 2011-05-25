@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).bind("ready", function(){
 	$(".text").cleditor({
 		height		:	'400px',
 		width		:	'100%',

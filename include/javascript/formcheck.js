@@ -6,6 +6,8 @@ var imgCorrect = '<img class="warning_icon" src="'+rootURI+'files/icon/correct.p
 var imgWrong = '<img class="warning_icon" src="'+rootURI+'files/icon/stop.png" />';
 var formLock = false;
 
+$(document).ready(function(){$(document).trigger("ready");});
+
 function checkForm(notNull, label){
 	if(formLock){
 		alert(formNotCorrect);
@@ -40,30 +42,18 @@ function checkNotNull(notNull, label){
 	return ok;
 }
 
-function addFileInput(formID, formName){
-	$('#'+formID+' ul').append('<li><input type="file" name="'+formName+'[]" size="25" ></li>');
-	return false;
-}
-
-function preElementFormat(){
-	var editors = tinyMCE.EditorManager.editors
-	var children;
-	var code;
-	for(i in editors){
-		children = editors[i].getBody().children;
-		for(j in children){
-			if(children[j].tagName == "PRE"){
-				code = children[j].innerHTML;
-				code = code.replace(/<br>/gi, '\n');
-				code = code.replace(/</gi, "&lt;");
-				code = code.replace(/>/gi, "&gt;");
-				children[j].innerHTML = code;
-			}
+function verifyCaptcha(){
+	var ok = true;
+	try{
+		if(captchaLock == true && ok == true){
+			ok = false;
+			alert(captchaMessage);
 		}
 	}
+	catch (e){
+	}
+	return ok;
 }
-
-var translateForm;
 
 function showTranslateDialog(){
 	var translate = $('#translate_dialog');
@@ -77,45 +67,4 @@ function showTranslateDialog(){
 		close : function(event, ui){$('#translate_dialog').html(translateForm);},
 	});
 	translate.dialog('open');
-}
-
-function selectTranslateLanguage(languageSelect){
-	var translate = $('#translate_dialog');
-	var language = $(languageSelect).val();
-	if(translateModuleName == null){
-		var uri = sectionURI+moduleName+'_translate_form';
-	}else{
-		var uri = sectionURI+translateModuleName+'_translate_form';
-	}
-	uri += '/module_id/'+modeID;
-	uri += '/language/'+language;
-	$.get(uri, function(data){
-		translate.html(data);
-		initCLEditor();
-	});
-	translate.html(translateForm);
-}
-
-function submitTranslateForm(form, notNull, label){
-	var translate = $('#translate_dialog');
-	if(checkForm(notNull, label)){
-		$(form).ajaxSubmit({success : function(){
-			translate.html(translateForm);
-			translate.dialog('close');
-		}});
-	}
-	return false;
-}
-
-function verifyCaptcha(){
-	var ok = true;
-	try{
-		if(captchaLock == true && ok == true){
-			ok = false;
-			alert(captchaMessage);
-		}
-	}
-	catch (e){
-	}
-	return ok;
 }

@@ -32,7 +32,7 @@ abstract class SelectiveColumn extends ModelColumn{
 		$render.= '<ul class="'.$this->listClass.'" id="'.$id.'">';
 		$this->setFormAttribute('style', 'border:none;');
 		foreach($this->option as $key => $value){
-			$this->setFormAttribute('value', $value);
+			$this->setFormAttribute('value', $key);
 			$this->getCheck($key);
 			$render .= '<li>'.$this->imageTag;
 			$render .= '<input '.$this->renderFormAttribute().'/>'.$value;

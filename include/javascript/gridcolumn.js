@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function(){$(document).trigger("ready");});
 	$(".del_grid_row").click( function(){
 		$(this).parent().parent().remove();
 		return false;

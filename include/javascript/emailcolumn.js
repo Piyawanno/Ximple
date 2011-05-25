@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function(){$(document).trigger("ready");});
 	$('.email_field').keyup(function(){
 		var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		if(!reg.test($(this).val())){

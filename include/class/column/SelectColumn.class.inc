@@ -17,7 +17,7 @@ class SelectColumn extends SelectiveColumn{
 	private function renderSelectForm($formID){
 		$id = $formID.'_'.$this->name;
 		$this->setFormAttribute('id', $id);
-		$render = '<select '.$this->renderFormAttribute().'/>';
+		$render = '<select '.$this->renderFormAttribute().'>';
 		foreach($this->option as $key => $value){
 			$selected = $this->data == $key ? 'selected="selected"' : '';
 			$render .= '<option value="'.$key.'" '.$selected.'>'.$value.'</option>';

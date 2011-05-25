@@ -1,11 +1,11 @@
 <?php
-class FormRender{
+require_once('FormModelRender.class.inc');
+class FormRender extends FormModelRender{
 	protected $modelConnector;
 	protected $isTranslate;
 	protected $label;
 	protected $formMeta;
 	
-	private $render = array();
 	private $notNull;
 	private $notNullID = array();
 	private $help;
@@ -99,6 +99,7 @@ class FormRender{
 	
 	private function getTranslateLabel(){
 		if($this->isTranslate){
+			head_add_js('include/javascript/translate.js');
 			$pattern = tt('You can use <a %s><strong>Translate-Form</strong></a> to translate this form.');
 			$help = sprintf($pattern, 'href="#" onclick="showTranslateDialog();return false"');
 			$this->formMeta->description .= '<p>'.$help.'</p>';
@@ -112,14 +113,6 @@ class FormRender{
 		head_add_js_var('pleaseFill', tt('Please, fill the required field : '));
 		head_add_js_var('formNotCorrect', tt('Any field in the form is not correctly filled. Please correct it and try again.'));
 		head_add_js_var('isInstalled', true);
-	}
-	
-	private function renderFormModel($id){
-		$modelArray = $this->modelConnector->getFormColumn();
-		foreach($modelArray as $name => $model){
-			$this->render[$name] = $model->renderForm($id);
-		}
-		return $this->render;
 	}
 }
 

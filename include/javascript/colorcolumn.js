@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function(){$(document).trigger("ready");});
 	$('.color_picker').each(function(){
 		formID = this.attr('id');
 		$("#picker_"+formID).farbtastic("#"+formID);

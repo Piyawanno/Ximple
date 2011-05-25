@@ -1,5 +1,6 @@
 <?php
-class ConfigFormRender{
+require_once('FormModelRender.class.inc');
+class ConfigFormRender extends FormModelRender{
 	private $id = '';
 	private $title;
 	private $description;
@@ -46,12 +47,8 @@ class ConfigFormRender{
 		$this->showByDefault = $showByDefault;
 	}
 	
-	private function renderFormModel($id){
-		$render = array();
-		foreach($this->model as $name => $model){
-			$render[$name] = $model->renderForm($id);
-		}
-		return $render;
+	protected function getFormColumn(){
+		return $this->model;
 	}
 }
 

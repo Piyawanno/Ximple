@@ -76,30 +76,3 @@ function hidePlainCode(codeId){
 function ximplePrint(link){
 	window.open(link.href, 'print','toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=800,height=600');
 }
-
-/// Not verified ///
-function hide_sub_plain(sub_conf){
-	$('#'+sub_conf).toggle();
-}
-
-function submit_sort(colname){
-	$("input[name='sort_col']").attr('value', colname);
-	$("input[name='search']").attr('value', $("select[name='"+colname+"']").attr('value'));
-	$(".select_sort").attr('name', '');
-	$(".select_sort").attr('value', '');
-	$('#search_form').submit();
-}
-
-function submit_page(){
-	var colname = $("input[name='sort_col']").attr('value');
-	$("input[name='search']").attr('value', $("select[name='"+colname+"']").attr('value'));
-	$('#search_form').submit();
-}
-
-
-function clear_sort(){
-	$("input[name='sort_col']").attr('value', '');
-	$(".select_sort").attr('name', '');
-	$(".select_sort").attr('value', '');
-	$('#search_form').submit();
-}

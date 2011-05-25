@@ -57,6 +57,6 @@
 	<?=head_define_js_var();?>
 	<?=head_define_js_array();?>
 	<script>
-		initAjaxForm();
+		$(document).trigger("ready");
 	</script>
 <?php endif?>

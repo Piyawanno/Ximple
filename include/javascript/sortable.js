@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function(){$(document).trigger("ready");});
 	$(".sortable_form").sortable({
 		dropOnEmpty: true,
 	});

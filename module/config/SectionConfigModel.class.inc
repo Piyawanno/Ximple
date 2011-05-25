@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT_PATH.'include/class/MultipleFilesColumn.class.inc');
+require_once(ROOT_PATH.'include/class/column/MultipleFilesColumn.class.inc');
 
 class SectionConfigModel extends Model{
 	function SectionConfigModel(){
