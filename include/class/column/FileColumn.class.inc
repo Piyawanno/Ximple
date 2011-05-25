@@ -1,12 +1,10 @@
 <?php
 require_once('CharColumn.class.inc');
-class FileColumn extends ModelColumn{
+class FileColumn extends CharColumn{
 	public $isImage = false;
 	
 	function FileColumn($label, $path, $help=null){
-		$this->setType('char');
-		$this->label = $label;
-		$this->help = $help;
+		CharColumn::CharColumn($label, $help);
 		$this->path = $path;
 		$this->isOrderable = false;
 		$this->setFormAttribute('size', 25);

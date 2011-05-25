@@ -38,12 +38,19 @@ class QuickFormRender{
 		$modelConnector = new ModelConnector($this->model, null);
 		$rednerArray = array(
 			'id' => $this->id,
-			'form' => form($this->id, $this->model),
+			'form' => $this->renderFormModel($this->id),
 			'label' => $modelConnector->getColumnAttribute('label'),
 			'help' => $modelConnector->getColumnAttribute('help'),
 			'not_null' => $modelConnector->getColumnNameByBoolean('isNotNull'),
 		);
 		return render($rednerArray, 'quickform.tpl', 'render_quick_form');
+	}
+	
+	private function renderFormModel($id){
+		foreach($this->model as $name => $model){
+			$this->render[$name] = $model->renderForm($id);
+		}
+		return $this->render;
 	}
 }
 

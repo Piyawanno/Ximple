@@ -1,5 +1,4 @@
 <?php
-
 function block_render(){
 	$data = block_get_data();
 	block_init_default();

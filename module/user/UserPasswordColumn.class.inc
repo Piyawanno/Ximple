@@ -1,0 +1,26 @@
+<?php
+require_once(ROOT_PATH.'include/class/column/CharColumn.class.inc');
+
+class UserPasswordColumn extends CharColumn{
+	function UserPasswordColumn(){
+		CharColumn::CharColumn(tt('password'));
+		$this->setFormAttribute('type', 'password');
+	}
+	
+	function triggerInsertForm(){
+		$this->help = tt('Password must be longer than 8 characters');
+		$this->isNotNull = true;
+	}
+	
+	function triggerUpdateForm(){
+		$this->help = tt('If empty, password will not be changed.');
+		$this->help.= tt('Else, password must be longer than 8 characters');
+		$this->data = '';
+		$this->isNotNull = false;
+	}
+	
+	function triggerPreUpdate(){
+		$this->isDB = strlen(pp('password')) > 0;
+	}
+}
+?>

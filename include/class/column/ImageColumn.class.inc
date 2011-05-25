@@ -1,4 +1,6 @@
 <?php
+require_once('FileColumn.class.inc');
+
 class ImageColumn extends FileColumn{
 	private $maxWidth;
 	
