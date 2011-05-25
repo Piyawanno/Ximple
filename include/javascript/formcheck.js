@@ -6,18 +6,6 @@ var imgCorrect = '<img class="warning_icon" src="'+rootURI+'files/icon/correct.p
 var imgWrong = '<img class="warning_icon" src="'+rootURI+'files/icon/stop.png" />';
 var formLock = false;
 
-function initAjaxForm(){
-	initDelGrid();
-	initGridRow();
-	checkEmailGridField()
-	checkUserPassword();
-	checkLoginName();
-	checkSectionName();
-	checkSectionPath();
-}
-
-$(document).ready(initAjaxForm);
-
 function checkForm(notNull, label){
 	if(formLock){
 		alert(formNotCorrect);
@@ -28,206 +16,6 @@ function checkForm(notNull, label){
 	if(!ok) return false;
 	ok = ok && checkNotNull(notNull, label);
 	if(ok) encryptPasswd();
-	return ok;
-}
-
-function initDelGrid(){
-	$(".del_grid_row").click( function(){
-		$(this).parent().parent().remove();
-		return false;
-	});
-}
-
-function initGridRow(){
-	$(".add_grid_row").click( function(){
-		var rel = $(this).attr("rel");
-		var tab = $("#grid_form_"+rel);
-		tab.append(grid_string[rel]);
-		init_del_grid();
-	});
-}
-
-function checkSectionPath(){
-	$('#section_path').keyup(function(){
-		formLock = true;
-		var reg = /^[a-zA-Z0-9_\-]+$/;
-		
-		if($(this).val().length < 4){
-			$('#info_section_path').css({color:'red'});
-			$('#info_section_path').html(imgWrong + pathTooShort);
-		}else if(!$(this).val().match(reg)){
-			$('#info_section_path').css({color:'red'});
-			$('#info_section_path').html(imgWrong + pathNotConformed);
-		}else{
-			var uri = sectionURI+'sectioninfo_check_path_exists/';
-			if(sectionInsert) uri += 'path/';
-			else uri += 'sid/'+sectionUpdateID+'/path/';
-			$.get(uri+$(this).val(), function(data){
-				if(data != 'not exist'){
-					$('#info_section_path').html(imgWrong + pathExists);
-				}else{
-					$('#info_section_path').html(imgCorrect);
-					formLock = false;
-				}
-			});
-		}
-	});
-}
-
-function checkSectionName(){
-	$('#section_name').keyup(function(){
-		formLock = true;
-		if($(this).val().length < 4){
-			$('#info_section_name').css({color:'red'});
-			$('#info_section_name').html(imgWrong + nameTooShort);
-		}else{
-			var uri = sectionURI+'sectioninfo_check_name_exists/';
-			if(sectionInsert) uri += 'name/';
-			else uri += 'sid/'+sectionUpdateID+'/name/';
-			$.get(uri+$(this).val(), function(data){
-				if(data != 'not exist'){
-					$('#info_section_name').html(imgWrong + nameExists);
-				}else{
-					$('#info_section_name').html(imgCorrect);
-					formLock = false;
-				}
-			});
-		}
-	});
-}
-
-function checkLoginName(){
-	$('#user_login_name').keyup(function(){
-		formLock = true;
-		if($(this).val().length < 4){
-			$('#info_user_login_name').css({color:'red'});
-			$('#info_user_login_name').html(imgWrong + nameTooShort);
-		}else if($(this).attr('rel') == 'install'){
-			$('#info_user_login_name').html(imgCorrect);
-			formLock = false;
-		}else{
-			var uri = '';
-			if(insertUser) uri = 'userinfo_check_user_exists/login_name/';
-			else uri = 'userinfo_check_user_exists/uid/'+uid+'/login_name/';
-			$.get(sectionURI+uri+$(this).val(), function(data){
-				if(data != 'not exist'){
-					$('#info_user_login_name').html(imgWrong + nameExists);
-				}else{
-					$('#info_user_login_name').html(imgCorrect);
-					formLock = false;
-				}
-			});
-		}
-	});
-}
-
-function checkUserPassword(){
-	$('#user_password').keyup(function(){
-		var len = $(this).val().length;
-		
-		var tooShort = (len > 0 && len < 8) || (len <= 0 && insertUser);
-		if(tooShort){
-			$('#info_user_password').css({color:'red'});
-			$('#info_user_password').html(imgWrong + passwdTooShort);
-			formLock = true;
-		}else{
-			$('#info_user_password').html(imgCorrect);
-			formLock = false;
-		}
-		
-		if(!tooShort && len){
-			checkPasswdStrength();
-			checkPasswdConfirm();
-		}
-		
-	});
-	$('#user_confirm_password').keyup(checkPasswdConfirm);
-}
-
-function checkEmailGridField(){
-	$('.email_grid_field').keyup(function(){
-		var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-		if(!reg.test($(this).val())){
-			$('#info_'+$(this).attr('rel')).css({color:'red'});
-			$('#info_'+$(this).attr('rel')).html(imgWrong + emailNotOk);
-			formLock = true;
-		}else{
-			$('#info_'+$(this).attr('rel')).html('');
-		}
-	});
-}
-
-function checkPasswdStrength(){
-	var len = $('#user_password').val().length;
-	var passwd = $('#user_password').val();
-	var strength = 0;
-	var matchNumber = passwd.match(/\d+/);
-	var matchBigChar = passwd.match(/[A-Z]+/);
-	var matchSmallChar = passwd.match(/[a-z]+/);
-	var matchSpecial = passwd.match(/\W/);
-	if(matchNumber && matchBigChar && matchSmallChar && matchSpecial){
-		if(len >= 12){
-			$('#info_user_password').css({color:'#490'});
-			$('#info_user_password').append(passwdVeryStrong);
-		}else{
-			$('#info_user_password').css({color:'#25a'});
-			$('#info_user_password').append(passwdStrong);
-		}
-	}else if(matchNumber && matchBigChar && matchSmallChar){	
-		$('#info_user_password').css({color:'#a80'});
-		$('#info_user_password').append(passwdMedium);
-	}else{
-		$('#info_user_password').css({color:'#d40'});
-		$('#info_user_password').append(passwdWeak);
-	}
-}
-
-function checkPasswdConfirm(){
-	if($('#user_password').val() != $('#user_confirm_password').val()){
-		$('#info_user_confirm_password').css({color:'red'});
-		$('#info_user_confirm_password').html(imgWrong + passwdMismatch);
-		formLock = true;
-	}else{
-		$('#info_user_confirm_password').html(imgCorrect);
-		formLock = false;
-	}
-}
-
-function changeCaptcha(captchaKey){
-	captchaLock = true;
-	generateTime = generateTime+10;
-	var img = document.getElementById("captcha_img_"+captchaKey);
-	img.src = sectionURI+'captcha/gentime/'+(generateTime);
-	$("#captcha_input_"+captchaKey).attr('value', '');
-	$("#captcha_info_"+captchaKey).html('');
-}
-
-function checkCaptcha(captchaKey){
-	$.get(sectionURI+'captcha_check/value/'+($('#captcha_input_'+captchaKey).val())+'/gentime/'+generateTime, function(data){
-		if(data.substring(0,6) == "<code>"){
-			$('#captcha_info_'+captchaKey).html(imgCorrect + captchaCorrect);
-			$('#captcha_info_'+captchaKey).attr('color', 'green');
-			$('#captcha_code_'+captchaKey).attr('value', data);
-			$('#captcha_gentime_'+captchaKey).attr('value', generateTime);
-			captchaLock = false;
-		}else{
-			$('#captcha_info_'+captchaKey).html(imgWrong + captchaWrong);
-			$('#captcha_info_'+captchaKey).attr('color', 'red');
-			captchaLock = true;
-		}
-	})
-}
-
-function verifyCaptcha(){
-	var ok = true;
-	try{
-		if(captchaLock == true && ok == true){
-			ok = false;
-			alert(captchaMessage);
-		}
-	}
-	catch (e){
-	}
 	return ok;
 }
 
@@ -289,17 +77,6 @@ function preElementFormat(){
 	}
 }
 
-function addGridRow(tableID){
-	$('#'+tableID).append(gridRowArray[tableID]);
-}
-
-function delGridRow(anchor, dropMode){
-	$(anchor).parent().parent().remove();
-	if(dropMode.length){
-		$.get(sectionURI+dropMode, function(){});
-	}
-}
-
 var translateForm;
 
 function showTranslateDialog(){
@@ -344,34 +121,15 @@ function submitTranslateForm(form, notNull, label){
 	return false;
 }
 
-// Not verified
-
-function getAntikey(crypt1, crypt2, genTime){
-	http.open("GET", rootURI+"ajax.php?mode=_ajax_get_antikey&section="+sectionID+"&crypt1="+crypt1+"&crypt2="+crypt2+"&gen_time="+genTime,true);
-	http.onreadystatechange = getAntikeyResponse;
-	http.send(null);
-}
-
-function getAntikeyResponse(){
-	if (http.readyState == 4) {
-		if(http.responseText == "Mask as Spam"){
-			window.location.href = "#antikey_begin_form";
-			alert(wrongAntiKeyMessage);
-			location.reload(true);
-		}else{
-			var realAntikey = document.getElementById("antikey_form");
-			var preAntikey = document.getElementById("antikey_pre_form");
-			
-			preAntikey.style.display = "none";
-			realAntikey.style.display = "block";
-			
-			var cryptMatrix = http.responseText.split(",");
-			document.getElementsByName("crypt1")[0].value = cryptMatrix[0];
-			document.getElementsByName("crypt2")[0].value = cryptMatrix[1];
-			document.getElementsByName("crypt3")[0].value = cryptMatrix[2];
-			document.getElementsByName("crypt_time")[0].value = cryptMatrix[3];
+function verifyCaptcha(){
+	var ok = true;
+	try{
+		if(captchaLock == true && ok == true){
+			ok = false;
+			alert(captchaMessage);
 		}
 	}
+	catch (e){
+	}
+	return ok;
 }
-
-

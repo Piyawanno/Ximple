@@ -213,20 +213,6 @@ class ModelConnector{
 		return $data;
 	}
 	
-	public function initCaptchaColumn(){
-		if(authority_is_guest()){
-			$captchaCode = new ModelColumn();
-			$captchaCode->form = 'captcha';
-			$captchaCode->type = 'char';
-			$captchaCode->isDB = false;
-			$captchaCode->isNotNull = true;
-			$captchaCode->label = tt('insert code from followed picture before submit');
-			$additionalModel = array();
-			$additionalModel['captcha'] = $captchaCode;
-			$this->model = array_merge($additionalModel, $this->model);
-		}
-	}
-	
 	public function checkExist($col){
 		return isset($this->model[$col]);
 	}

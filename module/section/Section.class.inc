@@ -79,6 +79,7 @@ class Section extends Control{
 	}
 	
 	private function initJS(){
+		head_add_js('module/section/section.js');
 		head_add_js_var('nameTooShort', tt('Section name is too short.'));
 		head_add_js_var('pathTooShort', tt('Section path is too short.'));
 		head_add_js_var('nameExists', tt('Section name exists.'));

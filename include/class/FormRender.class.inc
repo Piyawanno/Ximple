@@ -5,6 +5,7 @@ class FormRender{
 	protected $label;
 	protected $formMeta;
 	
+	private $render = array();
 	private $notNull;
 	private $notNullID = array();
 	private $help;
@@ -65,8 +66,11 @@ class FormRender{
 	}
 	
 	private function prepareCaptcha(){
-		if($this->formMeta->isCaptcha){
-			$this->modelConnector->initCaptchaColumn();
+		if($this->formMeta->isCaptcha and authority_is_guest()){
+			require_once('column/CaptchaColumn.class.inc');
+			$captcha = new CaptchaColumn();
+			$captcha->name = 'captcha';
+			$this->render[] = $captcha->renderForm($this->formMeta->id);
 		}
 	}
 	
@@ -112,11 +116,10 @@ class FormRender{
 	
 	private function renderFormModel($id){
 		$modelArray = $this->modelConnector->getFormColumn();
-		$render = array();
 		foreach($modelArray as $name => $model){
-			$render[$name] = $model->renderForm($id);
+			$this->render[$name] = $model->renderForm($id);
 		}
-		return $render;
+		return $this->render;
 	}
 }
 

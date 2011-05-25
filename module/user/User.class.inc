@@ -107,6 +107,7 @@ class User extends Control{
 		head_add_js_var('passwdMedium', tt('Password strength is medium.'));
 		head_add_js_var('passwdWeak', tt('Password strength is weak.'));
 		head_add_js_var('passwdMismatch', tt('Password is mismathed.'));
+		head_add_js('module/user/user.js');
 		head_add_js('include/external/sha1.js');
 	}
 	
