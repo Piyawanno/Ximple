@@ -3,7 +3,7 @@ class TimeIntervalColumn extends SelectColumn{
 	private $interval;
 	
 	function TimeIntervalColumn($label, $interval, $help=null){
-		$this->type('int');
+		$this->setType('int');
 		$this->label = $label;
 		$this->help = $help;
 		$this->interval = $interval;

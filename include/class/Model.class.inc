@@ -96,7 +96,7 @@ abstract class Model{
 	
 	public function none($default=null, $type='char'){
 		include_once('column/NoneColumn.class.inc');
-		return new NoneColumn($label, $help);
+		return new NoneColumn($default, $type);
 	}
 	
 	public function category($module, $help=null){

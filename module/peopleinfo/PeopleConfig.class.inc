@@ -7,6 +7,7 @@ include_once('PeopleConfigModel.class.inc');
 class PeopleConfig extends ConfigControl{
 	function PeopleConfig(){
 		$this->moduleName = 'peopleinfo';
+		$this->moduleExtension = 'config';
 		$this->moduleTitle = tt('People Information Center Configuration');
 		$this->setAdmin('peopleinfo_admin');
 		$this->addAction('peopleinfo_config', 'index');

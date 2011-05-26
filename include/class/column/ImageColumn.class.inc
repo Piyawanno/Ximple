@@ -12,13 +12,22 @@ class ImageColumn extends FileColumn{
 	}
 	
 	public function triggerPostInsert(){
+		require_once(ROOT_PATH.'include/tool/image.tool.inc');
 		FileColumn::triggerPostInsert();
-		image_check_max_width(ff($this->name), ROOT_PATH.$this->path, $this->maxWidth);
+		$this->checkImage();
 	}
 	
 	public function triggerPostUpdate(){
+		require_once(ROOT_PATH.'include/tool/image.tool.inc');
 		FileColumn::triggerPostUpdate();
-		image_check_max_width(ff($this->name), ROOT_PATH.$this->path, $this->maxWidth);
+		$this->checkImage();
+	}
+	
+	private function checkImage(){
+		$file = ff($this->name);
+		if($file['size']){
+			image_check_max_width($file, ROOT_PATH.$this->path, $this->maxWidth);
+		}	
 	}
 }
 ?>

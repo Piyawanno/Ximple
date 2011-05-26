@@ -1,16 +1,4 @@
 $(document).bind("ready", function(){
-	$(".del_grid_row").click( function(){
-		$(this).parent().parent().remove();
-		return false;
-	});
-	
-	$(".add_grid_row").click( function(){
-		var rel = $(this).attr("rel");
-		var tab = $("#grid_form_"+rel);
-		tab.append(grid_string[rel]);
-		init_del_grid();
-	});
-	
 	$('.email_grid_field').keyup(function(){
 		var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		if(!reg.test($(this).val())){

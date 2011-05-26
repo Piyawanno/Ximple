@@ -24,6 +24,7 @@ abstract class ModelColumn{
 	
 	public $isDB = true;
 	public $isForm = true;
+	public $isGridForm = true;
 	public $isFormLabel = true;
 	public $isNotNull = false;
 	public $isList = false;

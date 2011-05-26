@@ -71,7 +71,11 @@ abstract class ConfigControl extends Translatable{
 	}
 	
 	public function initModule($requirement){
-		module_add($this->moduleName, $requirement, $this->moduleTitle);
+		if(strlen($this->moduleExtension)){
+			module_add($this->moduleName, $requirement, null);
+		}else{
+			module_add($this->moduleName, $requirement, $this->moduleTitle);
+		}
 	}
 	
 	public function dropModule(){

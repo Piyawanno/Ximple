@@ -10,7 +10,7 @@ class SpinColumn extends ModelColumn{
 		$this->setFormAttribute('size', 8);
 	}
 	
-	function renderForm($formID){
+	public function renderForm($formID){
 		head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
 		head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
 		$id = $formID.'_'.$this->name;
@@ -29,7 +29,7 @@ class SpinColumn extends ModelColumn{
 		return $render;
 	}
 	
-	function renderGridForm($formID){
+	public function renderGridForm($formID){
 		head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
 		head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
 		$id = $formID.'_'.$this->name;

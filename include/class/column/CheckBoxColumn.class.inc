@@ -8,15 +8,16 @@ class CheckBoxColumn extends SelectiveColumn{
 	
 	public function renderForm($formID){
 		head_add_js('include/javascript/checkboxcolumn.js');
+		$id = $formID.'_'.$this->name;
 		$this->checkSortable();
 		$this->divisionClass = 'checkbox_list';
 		$this->setFormAttribute('type', 'checkbox');
 		$this->setFormAttribute('name', $this->name.'[]');
-		$this->setFormAttribute('class', 'checkbox'.$formID.'_'.$this->name);
+		$this->setFormAttribute('class', 'checkbox_'.$id);
 		$render = SelectiveColumn::renderRawsForm($formID);
 		if(count($this->option) > 1){
-			$render .= '<p><a href="javascript:checkAllCheckBox(\''.$this->name.'\')">'.tt('check all').'</a> | ';
-			$render .= '<a href="javascript:checkNoneCheckBox(\''.$this->name.'\')">'.tt('check none').'</a></p>';
+			$render .= '<p><a href="javascript:checkAllCheckBox(\''.$id.'\')">'.tt('check all').'</a> | ';
+			$render .= '<a href="javascript:checkNoneCheckBox(\''.$id.'\')">'.tt('check none').'</a></p>';
 		}
 		return $render;
 	}

@@ -1,6 +1,8 @@
 <?php
 require_once('FormModelRender.class.inc');
 class FormRender extends FormModelRender{
+	static public $gridRowArray = array();
+
 	protected $modelConnector;
 	protected $isTranslate;
 	protected $label;
@@ -49,6 +51,7 @@ class FormRender extends FormModelRender{
 			'is_translate' => $this->isTranslate,
 			'config' => $this->renderedConfigForm,
 		);
+		head_add_js_array('gridRowArray', FormRender::$gridRowArray);
 		$render = render($rednerArray, 'form.tpl', 'render_form');
 		return $render;
 	}
@@ -115,5 +118,4 @@ class FormRender extends FormModelRender{
 		head_add_js_var('isInstalled', true);
 	}
 }
-
 ?>
