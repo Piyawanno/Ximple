@@ -1,4 +1,7 @@
 <?php
+require('ConfigureColumn.class.inc');
+require('PageColumn.class.inc');
+
 class PageDirectoryModel extends Model{
 	function PageDirectoryModel($parent){
 		$this->name = $this->title(tt('directory name'));
@@ -20,36 +23,6 @@ class PageDirectoryModel extends Model{
 		$this->configuration = new ConfigureColumn();
 		$this->create_time = $this->now();
 		$this->section = $this->section();
-	}
-}
-
-class ConfigureColumn extends ModelColumn{
-	function ConfigureColumn(){
-		$this->type = 'array';
-		$this->form = 'none';
-		$this->isSerialize = true;
-		$this->defaultData = directory_default_configuration();
-	}
-	
-	function triggerPreUpdate(){
-		$this->isDB = false;
-	}
-}
-
-class PageColumn extends ModelColumn{
-	function PageColumn(){
-		$this->form = 'hidden';
-		$this->type = 'int';
-	}
-	
-	public function triggerInsertForm(){
-		$this->defaultData = 0;
-	}
-	
-	public function triggerUpdateForm(){
-		$this->label = tt('index page');
-		$this->form = 'select';
-		$this->option = db_select_single_column('page', 'topic', 'WHERE parent='.mid());
 	}
 }
 ?>

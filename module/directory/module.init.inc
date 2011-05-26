@@ -50,6 +50,7 @@ function module_drop_directory(){
 	$directoryConfig->dropModule();
 	
 	menu_drop('directory');
+	module_drop('page');
 	module_drop_role('directory_admin');
 	module_drop_cache('directory');
 	module_drop_panel('Directory');

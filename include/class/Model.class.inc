@@ -153,9 +153,9 @@ abstract class Model{
 	
 	public function enable($label, $help=null){
 		include_once('column/RadioColumn.class.inc');
+		$option = array(0 => tt('disable'), 1 => tt('enable'));
 		$modelColumn = new RadioColumn($label, $option, $help);
 		$modelColumn->setType('int');
-		$modelColumn->option = array(0 => tt('disable'), 1 => tt('enable'));
 		return $modelColumn;
 	}
 	

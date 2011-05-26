@@ -1,5 +1,9 @@
 <?php
-include_once(ROOT_PATH.'module/content/content.tool.inc');
+require_once(ROOT_PATH.'module/content/content.tool.inc');
+require_once(ROOT_PATH.'include/class/column/CheckBoxColumn.class.inc');
+require('ShowItemColumn.class.inc');
+require('ShowPageColumn.class.inc');
+require('ShowDirectoryColumn.class.inc');
 
 class DirectoryConfigModel extends Model{
 	function DirectoryConfigModel(){
@@ -41,109 +45,6 @@ class DirectoryConfigModel extends Model{
 		$this->comment_permission = $this->checkbox(tt('available publishing status for contributor'), $option);
 		$this->comment_permission_default = $this->radio(tt('default publishing status for contributor'), $option);
 		
-	}
-}
-
-class ShowItemColumn extends ModelColumn{
-	function ShowItemColumn(){
-		$this->label =tt('shown item by rendered directory');
-		$this->type = 'array';
-		$this->form = 'checkbox';
-		$this->isSortable = true;
-		$this->option = array();
-	}
-	
-	function triggerUpdateForm(){
-		$this->getSelection();
-	}
-	
-	function getSelection(){
-		$option = directory_show_item_option();
-		if(is_array($this->data)){
-			foreach($this->data as $key){
-				$this->option[$key] = $option[$key];
-			}
-		}
-		
-		foreach($option as $key => $value){
-			if(!isset($this->option[$key])) $this->option[$key] = $value;
-		}
-	}
-}
-
-class ShowPageColumn extends ModelColumn{
-	function ShowPageColumn(){
-		$this->label = tt('select and sort pages shown in list');
-		$this->type = 'array';
-		$this->form = 'checkbox';
-		$this->isSortable = true;
-		$this->option = array();
-	}
-	
-	function triggerUpdateForm(){
-		$this->getSelection();
-	}
-	
-	function getSelection(){
-		$selection = array();
-		$clause = 'WHERE (parent='.mid().") ";
-		$item = db_select_single_column('page', 'topic', $clause);
-		foreach($item as $id => $topic){
-			$mode = 'page_edit/'.$id.'/parent/'.mid();
-			$render  = render_icon($mode, 'files/icon/edit.png', '');
-			$mode = 'page_drop/'.$id;
-			$render .= render_icon($mode, 'files/icon/drop.png', '');
-			$render .= '<a href="'.SECTION_URI.Q.'page/'.$id.'">'.$topic.'</a>';
-			$selection[$id] = $render;
-		}
-		
-		if(is_array($this->data)){
-			foreach($this->data as $id){
-				if(isset($selection[$id])) $this->option[$id] = $selection[$id];
-			}
-		}
-		
-		foreach($selection as $key => $value){
-			if(!isset($this->option[$key])) $this->option[$key] = $value;
-		}
-	}
-}
-
-class ShowDirectoryColumn extends ModelColumn{
-	function ShowDirectoryColumn(){
-		$this->label = tt('select and sort sub-directories shown in list');
-		$this->type = 'array';
-		$this->form = 'checkbox';
-		$this->isSortable = true;
-		$this->option = array();
-	}
-	
-	function triggerUpdateForm(){
-		$this->getSelection();
-	}
-	
-	function getSelection(){
-		$selection = array();
-		$clause = 'WHERE (parent='.mid().") ";
-		$item = db_select_single_column('directory', 'name', $clause);
-		foreach($item as $id => $topic){
-			$mode = 'directory_edit/'.$id.'/parent/'.mid();
-			$render  = render_icon($mode, 'files/icon/edit.png', '');
-			$mode = 'directory_drop/'.$id;
-			$render .= render_icon($mode, 'files/icon/drop.png', '');
-			$render .= '<a href="'.SECTION_URI.Q.'directory/'.$id.'">'.$topic.'</a>';
-			$selection[$id] = $render;
-		}
-		
-		if(is_array($this->data)){
-			foreach($this->data as $id){
-				$this->option[$id] = $selection[$id];
-			}
-		}
-		
-		foreach($selection as $key => $value){
-			if(!isset($this->option[$key])) $this->option[$key] = $value;
-		}
 	}
 }
 ?>

@@ -31,7 +31,7 @@ function module_drop_advertise(){
 	include_once('Advertise.class.inc');
 	include_once('AdvertiseConfig.class.inc');
 	include_once(ROOT_PATH.'include/tool/block.tool.inc');
-
+	
 	$advertise = new Advertise();
 	$advertise->dropModule();
 	

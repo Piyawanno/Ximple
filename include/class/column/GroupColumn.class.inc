@@ -21,14 +21,6 @@ class GroupColumn extends CheckBoxColumn{
 		$this->getOption();
 	}
 	
-	public function triggerPostInsert(){
-		$this->data = serialize($this->data);
-	}
-	
-	public function triggerPostUpdate(){
-		$this->data = serialize($this->data);
-	}
-	
 	private function getOption(){
 		$excepted = '';
 		if($this->isExceptedAdmin) $excepted .= ' AND id!=1 ';

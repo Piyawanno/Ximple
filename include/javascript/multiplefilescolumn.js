@@ -1,4 +1,4 @@
-$(document).ready(function(){$(document).trigger("ready");});
+$(document).bind("ready", function(){
 	$(".add_multi_files").click(function(){
 		var rel = $(this).attr("rel");
 		var tab = $("#multi_files_"+rel);

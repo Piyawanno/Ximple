@@ -1,10 +1,11 @@
 <?php
+require_once(ROOT_PATH.'include/class/column/MultipleFilesColumn.class.inc');
+
 class GalleryPictureColumn extends MultipleFilesColumn{
 	function GalleryPictureColumn($galleryID){
 		$this->galleryID = $galleryID;
-		$label = tt('');
 		$this->path = ROOT_PATH.'files/gallery/'.$galleryID.'/';
-		MultipleFilesColumn::MultipleFilesColumn($label, $this->path, 'picture');
+		MultipleFilesColumn::MultipleFilesColumn('', $this->path, 'picture');
 	}
 	
 	function triggerPostInsert(){

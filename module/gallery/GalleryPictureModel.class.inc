@@ -1,5 +1,4 @@
 <?php
-require_once(ROOT_PATH.'include/class/MultipleFilesColumn.class.inc');
 require_once(ROOT_PATH.'include/tool/image.tool.inc');
 require_once('GalleryPictureColumn.class.inc');
 
