@@ -10,8 +10,6 @@ class PeopleConfig extends ConfigControl{
 		$this->moduleExtension = 'config';
 		$this->moduleTitle = tt('People Information Center Configuration');
 		$this->setAdmin('peopleinfo_admin');
-		$this->addAction('peopleinfo_config', 'index');
-		$this->addAction('peopleinfo_config_save', 'save');
 		$this->init(new PeopleConfigModel());
 	}
 	
