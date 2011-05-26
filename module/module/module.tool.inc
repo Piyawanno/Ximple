@@ -44,17 +44,10 @@ function module_drop_panel($module_name){
 }
 
 
-function module_add($reference, $requirement, $name){
+function module_add($reference, $requirement, $name=null, $extension=null){
 	$module_require = cc('module_require');
-	if(isset($module_require[$reference])){
-		if(is_array($module_require[$reference])){
-			$module_require[$reference][] = $requirement;
-		}else{
-			$module_require[$reference] = array(
-				$module_require[$reference],
-				$requirement
-			);		
-		}
+	if(!empty($extension)){
+		$module_require[$reference][$extension] = $requirement;
 	}else{
 		$module_require[$reference] = $requirement;
 	}

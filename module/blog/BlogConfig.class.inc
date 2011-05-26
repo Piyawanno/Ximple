@@ -6,6 +6,7 @@ include_once('BlogConfigModel.class.inc');
 class BlogConfig extends ContentConfig{
 	function BlogConfig(){
 		$this->moduleName = 'blog';
+		$this->moduleExtension = 'config';
 		$this->moduleTitle = tt('Blog Configuration');
 		$this->setAdmin('blog_admin');
 		$this->addAction('blog_config', 'index');

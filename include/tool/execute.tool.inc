@@ -9,8 +9,8 @@ $execute_mode = 0;
 
 function execute($mode, $params=null, $result=null){
 	global $execute_callable;
-	$module = execute_get_module($mode);
-	execute_include_files($module);
+	list($module, $extension) = execute_get_module($mode);
+	execute_include_files($module, $extension);
 	if(!execute_is_callable($mode)) error_denied();
 	if(function_exists($mode) and in_array($mode, $execute_callable)){
 		return $mode($params, $result);
@@ -161,20 +161,22 @@ function execute_is_callable($mode){
 
 function execute_get_module($mode){
 	$split = split('_', $mode);
-	return $split[0];
+	if(count($split) > 1) return array($split[0], $split[1]);
+	else return array($split[0], null);
 }
 
-function execute_include_files($module){
+function execute_include_files($module, $extension){
 	$module_require = cc('module_require');
 	if(isset($module_require[$module])){
 		$module_require = $module_require[$module];
+		print_r($module_require);
 		translate_add_directory(ROOT_PATH.'module/'.$module.'/');
 		if(!is_array($module_require)){
 			execute_include(ROOT_PATH.'module/'.$module.'/'.$module_require);
+		}elseif(isset($module_require[$extension])){
+			execute_include(ROOT_PATH.'module/'.$module.'/'.$module_require[$extension]);
 		}else{
-			foreach($module_require as $key => $value){
-				execute_include(ROOT_PATH.'module/'.$module.'/'.$value);
-			}
+			execute_include(ROOT_PATH.'module/'.$module.'/'.$module_require['#primary']);
 		}
 	}
 }

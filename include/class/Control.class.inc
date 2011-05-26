@@ -120,9 +120,9 @@ abstract class Control extends Translatable{
 		}
 		$this->tableCreator->create();
 		if(strlen($this->moduleExtension)){
-			module_add($this->moduleName, $requirement, null);
+			module_add($this->moduleName, $requirement, null, $this->moduleExtension);
 		}else{
-			module_add($this->moduleName, $requirement, $this->moduleTitle);
+			module_add($this->moduleName, $requirement, $this->moduleTitle, '#primary');
 		}
 	}
 	
