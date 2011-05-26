@@ -5,6 +5,7 @@ class UserPasswordColumn extends CharColumn{
 	function UserPasswordColumn(){
 		CharColumn::CharColumn(tt('password'));
 		$this->setFormAttribute('type', 'password');
+		$this->isDB = true;
 	}
 	
 	function triggerInsertForm(){
