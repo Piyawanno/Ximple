@@ -1,7 +1,4 @@
 <?php
-
-require_once(ROOT_PATH.'include/tool/form.tool.inc');
-
 class QuickFormRender{
 	private $id;
 	private $model = array();
@@ -14,6 +11,7 @@ class QuickFormRender{
 	
 	public function append($name, $modelColumn){
 		$this->model[$name] = $modelColumn;
+		$this->model[$name]->name = $name;
 		$message = $modelColumn->check();
 		if(strlen($message) and state_is_develop()){
 			notify_add_error('Model corrupted : '.$name.' : '.$message);

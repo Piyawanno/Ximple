@@ -82,22 +82,19 @@ function sysblock_navigation_translate_config(){
 }
 
 function sysblock_navigation_save(){
-	$check_navigation = pp('check_navigation');
 	$navigation = pp('navigation');
 	$old_navigation = cc('navigation');
-	$new_navigation = array();
-	if(is_array($check_navigation)){
-		foreach($check_navigation as $key => $value){
-			$new_navigation[$value] = $navigation[$key];
-			unset($old_navigation[$value]);
-			if($value == 'home'){
-				config_set('home_label', $navigation[$key]);
+	if(is_array($navigation)){
+		foreach($navigation as $key => $value){
+			unset($old_navigation[$key]);
+			if($key == 'home'){
+				config_set('home_label', $value);
 			}
 		}
 	}
-	$new_navigation = array_merge($new_navigation, $old_navigation);
+	$new_navigation = array_merge($navigation, $old_navigation);
 	config_set('navigation', $new_navigation);
-	config_set('navigation_enabled', $check_navigation);
+	config_set('navigation_enabled', array_keys($navigation));
 	config_save();
 }
 
