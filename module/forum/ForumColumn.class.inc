@@ -1,11 +1,24 @@
 <?php
-class ForumColumn extends ModelColumn{
+require_once(ROOT_PATH.'include/class/column/SelectColumn.class.inc');
+require_once(ROOT_PATH.'include/class/column/HiddenColumn.class.inc');
+
+class ForumColumn extends SelectColumn{
 	private $isSelect;
 	
 	function ForumColumn(){
 		$forumID = gg('forum');
 		if(!$forumID) $this->setAsSelect();
 		else $this->setAsHidden($forumID);
+		$this->setType('int');
+	}
+	
+	public function renderForm($formID){
+		if($this->isSelect){
+			SelectColumn::renderForm($formID);
+		}else{
+			$hidden = new HiddenColumn($this->defaultData, 'int');
+			return $hidden->renderForm($formID);
+		}
 	}
 	
 	public function triggerInsertForm(){
@@ -17,18 +30,12 @@ class ForumColumn extends ModelColumn{
 	}
 	
 	private function setAsHidden($forumID){
-		$this->type = 'int';
-		$this->form = 'hidden';
 		$this->defaultData = $forumID;
-		$this->data = $forumID;
 		$this->isSelect = false;
 	}
 	
 	private function setAsSelect(){
-		$this->type = 'int';
-		$this->label = tt('forum');
-		$this->form = 'select';
-		$this->option = array();
+		SelectColumn::SelectColumn(tt('forum'), array());
 		$this->isSelect = true;
 	}
 	

@@ -21,7 +21,8 @@ class UserPasswordColumn extends CharColumn{
 	}
 	
 	function triggerPreUpdate(){
-		$this->isDB = strlen(pp('password')) > 0;
+		$this->isDB = (strlen(pp('password')) > 0);
+		echo(':'.$this->isDB.':');
 	}
 }
 ?>

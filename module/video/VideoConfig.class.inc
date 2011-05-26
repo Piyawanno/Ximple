@@ -6,10 +6,9 @@ include('VideoConfigModel.class.inc');
 class VideoConfig extends ContentConfig{
 	function VideoConfig(){
 		$this->moduleName = 'video';
+		$this->moduleExtension = 'config';
 		$this->moduleTitle = tt('Video Configuration');
 		$this->setAdmin('video_admin');
-		$this->addAction('video_config', 'index');
-		$this->addAction('video_config_save', 'save');
 		$this->init(new VideoConfigModel());
 		$this->setMode('video');
 	}

@@ -30,8 +30,7 @@ function forum_entry_last_commented(){
 }
 
 function forum_entry_last_commented_config(){
-	$option = array(5 => 5, 10 => 10, 15 => 15, 20 => 20, 30 => 30, 40 => 40, 50 => 50);
-	$number = Model::select(tt('number of last commented enties'), $option);
+	$number = Model::spin(tt('number of last commented enties'), 5, 50);
 	$number->data = cc('forum_last_commented_number');
 	return array('forum_last_commented_number' => $number);
 }

@@ -8,6 +8,7 @@ class DirectoryConfig extends ConfigControl{
 	private $config;
 	function DirectoryConfig(){
 		$this->moduleName = 'directory';
+		$this->moduleExtension = 'config';
 		$this->moduleTitle = tt('Directory Configuration');
 		$this->setAdmin('directory_admin');
 		$this->addAction('directory_config', 'index');

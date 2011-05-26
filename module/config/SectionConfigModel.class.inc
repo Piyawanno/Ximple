@@ -80,7 +80,7 @@ class SectionConfigModel extends Model{
 		if(!is_array($availableFeed)) $availableFeed = array();
 		$this->feed_mode = $this->checkbox(tt('modules enabled feed'), $availableFeed);
 		$this->feed_type = $this->checkbox(tt('feed type'), array('atom' => 'Atom', 'rss' => 'RSS'));
-		$this->feed_number = $this->select(tt('number of feed entries'), array(5=>5, 10=>10, 15=>15, 20=>20));
+		$this->feed_number = $this->spin(tt('number of feed entries'), 5, 50);
 		$this->feed_comment = $this->enable(tt('enable comment feed'));
 		$this->feed_comment_explicit = $this->enable(tt('explicit comment feed'));
 		

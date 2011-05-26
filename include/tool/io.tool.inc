@@ -29,7 +29,7 @@ function io_write_file($file_name, $content, $mode='w'){
 		flock($file, LOCK_UN);
 		fclose($file);
 	}elseif(state_is_develop()){
-		notify_add_error('Error by writting file : '.$file_name);
+		notify_add_error('Error by writing file : '.$file_name);
 	}
 }
 
@@ -125,18 +125,25 @@ function io_upload($file, $path, $is_image=false, $increase_space=true){
 		notify_add_error(tt('Only .png, .jpeg and .jpg are allowed to be uploaded.'));
 		return null;
 	}
+	
 	$name = null;
 	if($file['size'] == 0) return null;
-	if($file['size'] > MAX_UPLOADED_FILE_SIZE) return null;
-	if($file['size'] > MAX_USER_SPACE_SIZE) return null;
-	
+	if($file['size'] > MAX_UPLOADED_FILE_SIZE){
+		notify_add_warning(tt('Size of uploaded file exceeds the limit.'));
+		return null;
+	}
+	if($file['size'] > MAX_USER_SPACE_SIZE){
+		notify_add_warning(tt('Size of uploaded file exceeds the limit.'));
+		return null;
+	}
+
 	$name = $path.$file['name'];
 	$size = $file['size'];
 	$error = false;
 	$i = 0;
 	while(true){
 		if(!is_file($name)){
-			@move_uploaded_file($file['tmp_name'], $name) or $error = true;
+			move_uploaded_file($file['tmp_name'], $name);# or $error = true;
 			if($error) return null;
 			break;
 		}else{
@@ -144,10 +151,13 @@ function io_upload($file, $path, $is_image=false, $increase_space=true){
 			$i++;
 		}
 	}
+	
 	if(substr($name, 0, strlen(ROOT_PATH)) == ROOT_PATH){
 		$name = substr($name, strlen(ROOT_PATH));
 	}
-	if(USER_ID != -1 and $increase_space) userinfo_increase_used_space(USER_ID, $size);
+	if(USER_ID != -1 and $increase_space){
+		userinfo_increase_used_space(USER_ID, $size);
+	}
 	return $name;
 }
 

@@ -21,25 +21,12 @@ class Gallery extends Content{
 		else return $this->renderMultipleGalleries();
 	}
 	
-	public function insertPicture(){
-		if($this->isCallable('update')){
-			$this->id = pp('gallery');
-			$this->createDirectory();
-			$this->initPicture();
-			$this->galleryPicture->allowAccess();
-			$this->galleryPicture->insert();
-			execute_as_db();
-			document_set_redirect('gallery/'.$this->id);
-		}
-	}
 	
-	public function dropPicture(){
-		if($this->isCallable('update')){
-			$this->id = gg('gallery');
-			$this->initPicture();
-			$this->galleryPicture->drop();
-			document_set_redirect('gallery/'.gg('gallery'));
-		}
+	public function createDirectory(){
+		$directory = ROOT_PATH.'files/gallery/';
+		if(!is_dir($directory)) mkdir($directory);
+		$directory.= $this->id;
+		if(!is_dir($directory)) mkdir($directory);
 	}
 	
 	private function renderSingleGallery(){
@@ -111,18 +98,6 @@ class Gallery extends Content{
 		$this->dataByID['show_avatar'] = in_array('avatar', $appearance);
 		$this->dataByID['show_category'] = in_array('category_icon', $appearance);
 		$this->dataByID['show_sibling'] = in_array('sibling', $appearance);
-	}
-	
-	private function initPicture(){
-		require_once('GalleryPicture.class.inc');
-		$this->galleryPicture = new GalleryPicture($this->id);
-	}
-	
-	private function createDirectory(){
-		$directory = ROOT_PATH.'files/gallery/';
-		if(!is_dir($directory)) mkdir($directory);
-		$directory.= $this->id;
-		if(!is_dir($directory)) mkdir($directory);
 	}
 	
 	private function getListTitle(){

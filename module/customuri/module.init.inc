@@ -29,5 +29,7 @@ function module_drop_customuri(){
 	$customuri->dropModule();
 	module_drop_role('customuri_admin');
 	module_drop_panel('Custom URI');
+	extension_drop('main_init', 'customuri_map');
+	extension_drop('post_main_render', 'customuri_post_render');
 }
 ?>

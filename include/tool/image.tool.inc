@@ -7,7 +7,7 @@ function image_check_max_width($file, $path, $maxwidth){
 		$src_h = imagesy($image_src);
 		if($src_w >= $maxwidth){
 			$dst_w = $maxwidth;
-			$dst_h = ($src_h/$src_w)*100;
+			$dst_h = ($src_h/$src_w)*$dst_w;
 		
 			$image_dst = imageCreateTrueColor($dst_w, $dst_h);
 			imageCopyResized($image_dst, $image_src, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);

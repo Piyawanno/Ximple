@@ -7,7 +7,7 @@ class SpinColumn extends ModelColumn{
 		$this->min = $min;
 		$this->step = $step;
 		$this->help = $help;
-		$this->setFormAttribute('size', 8);
+		$this->setFormAttribute('size', 5);
 	}
 	
 	public function renderForm($formID){
@@ -17,6 +17,7 @@ class SpinColumn extends ModelColumn{
 		$this->setFormAttribute('name', $this->name);
 		$this->setFormAttribute('id', $id);
 		$this->setFormAttribute('value', $this->data);
+		$render = '<input '.$this->renderFormAttribute().'/>';
 		$render.= '<span id="info_'.$id.'"></span>';
 		$render.= '
 		<script>

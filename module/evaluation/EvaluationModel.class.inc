@@ -18,7 +18,7 @@ class EvaluationModel extends Model{
 		$this->evaluatee->type = 'int';
 		
 		$option = userinfo_get_login_name_by_role('evaluation_evaluator');
-		$this->evaluator = $this->checkBox(tt('evaluator'), $option);
+		$this->evaluator = $this->checkbox(tt('evaluator'), $option);
 		$this->evaluator->type = 'int';
 		$this->evaluator->isReachable = true;
 		$this->evaluator->isUser = true;

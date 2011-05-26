@@ -1,5 +1,4 @@
 <?php
-
 include_once('Translatable.class.inc');
 include_once('Model.class.inc');
 include_once('ModelFactory.class.inc');
@@ -11,15 +10,16 @@ abstract class ConfigControl extends Translatable{
 	protected $saveRedirection;
 	
 	protected function init($modelObj){
-		$modelFactory = new ModelFactory($this->moduleName, $modelObj);
+		$modelFactory = new ModelFactory($this->fullModuleName, $modelObj);
+		Translatable::init();
 		$this->modelConnector = $modelFactory->bind();
 		$this->formMeta = new FormMetaData();
-		$this->addAction($this->moduleName, 'index');
-		$this->addAction($this->moduleName.'_save', 'save');
-		$this->addAction($this->moduleName.'_translate_form', 'renderTranslateForm');
-		$this->addAction($this->moduleName.'_translate', 'setTranslate');
+		$this->addAction($this->fullModuleName, 'index');
+		$this->addAction($this->fullModuleName.'_save', 'save');
+		$this->addAction($this->fullModuleName.'_translate_form', 'renderTranslateForm');
+		$this->addAction($this->fullModuleName.'_translate', 'setTranslate');
 		if(!$this->saveRedirection){
-			$this->saveRedirection = $this->moduleName;
+			$this->saveRedirection = $this->fullModuleName;
 		}
 	}
 	
@@ -39,7 +39,7 @@ abstract class ConfigControl extends Translatable{
 		$this->formMeta->configForm = $this->configForm;
 		document_set_title($this->moduleTitle);
 		if($setPath){
-			document_set_path($this->moduleTitle, $this->moduleName);
+			document_set_path($this->moduleTitle, $this->fullModuleName);
 		}
 		return $this->formRender->renderUpdateForm($this->getConfig());
 	}

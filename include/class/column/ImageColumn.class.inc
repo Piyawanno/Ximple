@@ -7,8 +7,8 @@ class ImageColumn extends FileColumn{
 	function ImageColumn($label, $path, $maxWidth=600, $help=null){
 		FileColumn::FileColumn($label, $path, $help);
 		$this->maxWidth = $maxWidth;
-		$modelColumn->help = $help.tt('Image must be only .png or .jpeg or .jpg. ');
-		$modelColumn->help.= sprintf(tt('For image wider than %dpx, it will be automatically resized.'), $maxWidth);
+		$this->help = $help.tt('Image must be only .png or .jpeg or .jpg. ');
+		$this->help.= sprintf(tt('For image wider than %dpx, it will be automatically resized.'), $maxWidth);
 	}
 	
 	public function triggerPostInsert(){
@@ -25,9 +25,14 @@ class ImageColumn extends FileColumn{
 	
 	private function checkImage(){
 		$file = ff($this->name);
-		if($file['size']){
-			image_check_max_width($file, ROOT_PATH.$this->path, $this->maxWidth);
+		if($file['size'] and is_file(ROOT_PATH.$this->data)){
+			image_check_max_width($file, ROOT_PATH.$this->data, $this->maxWidth);
 		}	
+	}
+	
+	public function triggerSelect(){
+		$fileName = basename($this->data);
+		$this->data = '<img src="'.ROOT_URI.$this->data.'" alt="'.$fileName.'" border="0"/>';
 	}
 }
 ?>

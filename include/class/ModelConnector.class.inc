@@ -209,6 +209,7 @@ class ModelConnector{
 				}
 			}
 		}
+		$this->clearCache();
 		return $data;
 	}
 	
@@ -231,6 +232,7 @@ class ModelConnector{
 				$value->$methodName();
 			}
 		}
+		$this->clearCache();
 	}
 	
 	private function triggerSingleParameter($event, $parammeter){
@@ -243,6 +245,12 @@ class ModelConnector{
 				$value->$methodName($parammeter);
 			}
 		}
+		$this->clearCache();
+	}
+	
+	private function clearCache(){
+		$this->cacheAttribute = array();
+		$this->cacheName = array();
 	}
 }
 ?>

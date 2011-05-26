@@ -8,13 +8,14 @@ class FileColumn extends CharColumn{
 		$this->path = $path;
 		$this->isOrderable = false;
 		$this->setFormAttribute('size', 25);
-		$this->setFormAttribute('type', 'hidden');
+		$this->setFormAttribute('type', 'file');
 	}
 	
 	public function triggerPostInsert(){
 		$file = ff($this->name);
 		if($file['size']){
 			$this->data = io_upload($file, $this->path, $this->isImage);
+			echo($this->data);
 		}
 	}
 	
@@ -23,6 +24,7 @@ class FileColumn extends CharColumn{
 		if($file['size']){
 			if(is_file(ROOT_PATH.$this->data)) unlink(ROOT_PATH.$this->data);
 			$this->data = io_upload($file, $this->path, $this->isImage);
+			echo($this->data);
 		}
 	}
 }

@@ -6,10 +6,9 @@ include('ContactConfigModel.class.inc');
 class ContactConfig extends ConfigControl{
 	function ContactConfig(){
 		$this->moduleName = 'contact';
+		$this->moduleExtension = 'config';
 		$this->moduleTitle = tt('Contact Configuration');
 		$this->setAdmin('contact_admin');
-		$this->addAction('contact_config', 'index');
-		$this->addAction('contact_config_save', 'save');
 		$this->init(new ContactConfigModel());
 	}
 	

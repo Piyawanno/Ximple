@@ -15,7 +15,7 @@ function module_init_forum(){
 	include_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
 	
 	$forumEntry = new ForumEntry();
-	$forumEntry->initModule();
+	$forumEntry->initModule('ForumEntry.class.inc');
 	
 	$forum = new Forum();
 	$forum->initModule('Forum.class.inc');

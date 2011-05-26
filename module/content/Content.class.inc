@@ -24,9 +24,9 @@ abstract class Content extends Control{
 		$this->insertTracker('write');
 		if($this->isFeed() and $this->isReadable(false)){
 			$feedData = $this->formatFeedData();
-			feed_insert($this->moduleName, $feedData);
+			feed_insert($this->fullModuleName, $feedData);
 		}
-		document_set_redirect($this->moduleName.'/'.$this->id);
+		document_set_redirect($this->fullModuleName.'/'.$this->id);
 		count_increase('contribution', USER_ID);
 	}
 	
@@ -35,15 +35,15 @@ abstract class Content extends Control{
 		$this->insertTracker('update');
 		if($this->isReadable(false)){
 			$feedData = $this->formatFeedData();
-			feed_update($this->moduleName, $feedData);
+			feed_update($this->fullModuleName, $feedData);
 		}
-		document_set_redirect($this->moduleName.'/'.$this->id);
+		document_set_redirect($this->fullModuleName.'/'.$this->id);
 	}
 	
 	public function drop(){
 		include_once(ROOT_PATH.'module/feed/feed.tool.inc');
 		$this->insertTracker('drop');
-		feed_drop($this->moduleName, $this->id);
+		feed_drop($this->fullModuleName, $this->id);
 		db_drop_many('comment', 'parent='.$this->id);
 		Control::drop();
 	}
@@ -52,7 +52,7 @@ abstract class Content extends Control{
 		$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2 AND publish_time <= '.date('Y-m-d').')';
 		$title = sprintf(tt('List of %s entries'), $this->moduleTitle);
 		document_set_path($title);
-		$this->listMeta->mode = $this->moduleName.'_list';
+		$this->listMeta->mode = $this->fullModuleName.'_list';
 		return $this->renderListPage($clause);
 	}
 	
@@ -61,7 +61,7 @@ abstract class Content extends Control{
 		$this->selectByID($this->column);
 		execute_set_print();
 		document_set_title($this->dataByID['topic']);
-		return render($this->dataByID, 'content_print.tpl', $this->moduleName.'_print');
+		return render($this->dataByID, 'content_print.tpl', $this->fullModuleName.'_print');
 	}
 	
 	public function contributorListPage(){
@@ -70,7 +70,7 @@ abstract class Content extends Control{
 		document_set_path($title);
 		$p = tt('In the following list, your own entries of %s are shown. You can use this page to access them.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
-		$this->listMeta->mode = $this->moduleName.'_contributor_list';
+		$this->listMeta->mode = $this->fullModuleName.'_contributor_list';
 		return $this->renderListPage('WHERE (writer='.USER_ID.')');
 	}
 	
@@ -81,19 +81,19 @@ abstract class Content extends Control{
 		document_set_path($title);
 		$p = tt('You as Editor can use this page to access the entries of %s in Section.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
-		$this->listMeta->mode = $this->moduleName.'_editor_list';
+		$this->listMeta->mode = $this->fullModuleName.'_editor_list';
 		return $this->renderListPage('WHERE (section='.SECTION.')');
 	}
 	
 	public function initModule($requirement){
 		Control::initModule($requirement);
-		content_init_module($this->moduleName, $this->moduleTitle);
+		content_init_module($this->fullModuleName, $this->moduleTitle);
 	}
 	
 	public function dropModule(){
 		Control::dropModule();
 		include_once('content.tool.inc');
-		content_drop_module($this->moduleName, $this->moduleTitle);
+		content_drop_module($this->fullModuleName, $this->moduleTitle);
 	}
 	
 	protected function init($modelObj, $isEmbed=false, $setPath=true){
@@ -128,7 +128,7 @@ abstract class Content extends Control{
 		$this->addCategoryToFreeTag();
 		$this->clearDailyCache();
 		foreach($this->data as $key => $value){
-			$this->data[$key]['module'] = $this->moduleName;
+			$this->data[$key]['module'] = $this->fullModuleName;
 		}
 		$this->data = extension_execute('content_post_select', $this->data, $this->data);
 	}
@@ -136,7 +136,7 @@ abstract class Content extends Control{
 	protected function getCommentNumber(){
 		$idArray = array_keys($this->data);
 		if(count($idArray)){
-			$clause = 'WHERE (parent='.join(' OR parent=', $idArray).") AND mode='".$this->moduleName."'GROUP BY parent";
+			$clause = 'WHERE (parent='.join(' OR parent=', $idArray).") AND mode='".$this->fullModuleName."'GROUP BY parent";
 			$commentNumber = db_select('comment', array('parent', 'COUNT(id) as number'), $clause);
 			foreach($commentNumber as $key=>$value){
 				$this->data[$value['parent']]['comment_no'] = $value['number'];
@@ -182,14 +182,14 @@ abstract class Content extends Control{
 	protected function setPathMutiplePage(){
 		if(strlen(gg('tag'))){
 			if(gg('tag_label')){
-				document_set_path(gg('tag_label'), $this->moduleName.'/tag/'.gg('tag'));
+				document_set_path(gg('tag_label'), $this->fullModuleName.'/tag/'.gg('tag'));
 			}else{
-				document_set_path(gg('tag'), $this->moduleName.'/tag/'.gg('tag'));
+				document_set_path(gg('tag'), $this->fullModuleName.'/tag/'.gg('tag'));
 			}
 		}elseif(strlen(gg('year'))){
 			$archievTime = date('F Y', strtotime('01-'.gg('month').'-20'.gg('year')));
-			document_set_path(tt('Archieve'), $this->moduleName.'_archiev');
-			document_set_path($archievTime, $this->moduleName.'/year/'.gg('year').'/month/'.gg('month'));
+			document_set_path(tt('Archieve'), $this->fullModuleName.'_archiev');
+			document_set_path($archievTime,$this->fullModuleName.'/year/'.gg('year').'/month/'.gg('month'));
 		}
 	}
 	
@@ -198,7 +198,7 @@ abstract class Content extends Control{
 			include_once(ROOT_PATH.'module/comment/Comment.class.inc');
 			if(!isset($this->dataByID['comment_permission'])) $permission = null;
 			else $permission = $this->dataByID['comment_permission'];
-			$this->comment = new Comment($this->moduleName, $this->id, $permission, $this->dataByID['writer']['id']);
+			$this->comment = new Comment($this->fullModuleName, $this->id, $permission, $this->dataByID['writer']['id']);
 		}
 	}
 	
@@ -224,7 +224,7 @@ abstract class Content extends Control{
 				$data['writer_name'] = $this->dataByID['writer']['login_name'];
 			}
 			$data['action'] = $action;
-			$data['mode'] = $this->moduleName;
+			$data['mode'] = $this->fullModuleName;
 			tracker_insert($data);
 		}
 	}
@@ -250,7 +250,7 @@ abstract class Content extends Control{
 	}
 	
 	protected function isFeed(){
-		return in_array($this->moduleName, cc('feed_mode')) or true;
+		return in_array($this->fullModuleName, cc('feed_mode')) or true;
 	}
 	
 	protected function formatFeedData(){
@@ -269,7 +269,7 @@ abstract class Content extends Control{
 	}
 	
 	protected function accessDeniedEntry(){
-		document_set_redirect($this->moduleName);
+		document_set_redirect($this->fullModuleName);
 		execute_set_db();
 		notify_add_error(sprintf(tt('You are not allowed to view the selected %s.'), $this->moduleTitle));
 	}
@@ -277,7 +277,7 @@ abstract class Content extends Control{
 	protected function handlePublishingStatus(){
 		if($this->dataByID['publishing_status'] < 2){
 			search_set_page();
-			count_increase($this->moduleName, $this->id);
+			count_increase($this->fullModuleName, $this->id);
 		}
 	}
 	
@@ -358,9 +358,9 @@ abstract class Content extends Control{
 		$adminGroup = $this->moduleName.'_admin';
 		$editorGroup = $this->moduleName.'_editor';
 		$contributorGroup = $this->moduleName.'_contributor';
-		$this->addAction($this->moduleName.'_list', 'listPage');
-		$this->addAction($this->moduleName.'_editor_list', 'editorListPage');
-		$this->addAction($this->moduleName.'_contributor_list', 'contributorListPage');
+		$this->addAction($this->fullModuleName.'_list', 'listPage');
+		$this->addAction($this->fullModuleName.'_editor_list', 'editorListPage');
+		$this->addAction($this->fullModuleName.'_contributor_list', 'contributorListPage');
 		
 		$this->ownerColumn = 'writer';
 		$this->setAdmin($adminGroup);
@@ -405,17 +405,17 @@ abstract class Content extends Control{
 	}
 	
 	private function clearDailyCache(){
-		$dateFile = ROOT_PATH.'files/dbcache/'.$this->moduleName.'/lastclear.txt';
+		$dateFile = ROOT_PATH.'files/dbcache/'.$this->fullModuleName.'/lastclear.txt';
 		$setClearDate = true;
 		if(is_file($dateFile)){
 			if(io_read_file($dateFile) == date('Y-m-d')) $setClearDate = false;
-			else io_clear_directory(ROOT_PATH.'files/dbcache/'.$this->moduleName);
+			else io_clear_directory(ROOT_PATH.'files/dbcache/'.$this->fullModuleName);
 		}
 		if($setClearDate) io_write_file($dateFile, date('Y-m-d'));
 	}
 	
 	private function getTagClause($tag){
-		$clause = "WHERE (freetag='".$tag."' AND mode='".$this->moduleName."')";
+		$clause = "WHERE (freetag='".$tag."' AND mode='".$this->fullModuleName."')";
 		$tagData = db_select('freetag', array('content_id'), $clause);
 		$contentID = array();
 		foreach($tagData as $key => $value){
@@ -426,7 +426,7 @@ abstract class Content extends Control{
 	}
 	
 	private function getCategoryClause($tag){
-		$clause = "WHERE (category='".$tag."' AND mode='".$this->moduleName."')";
+		$clause = "WHERE (category='".$tag."' AND mode='".$this->fullModuleName."')";
 		$category = array_keys(db_select_single_column('category', 'id', $clause));
 		if(isset($category[0])) return 'category='.$category[0];
 		else return '';

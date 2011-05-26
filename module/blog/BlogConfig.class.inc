@@ -9,8 +9,6 @@ class BlogConfig extends ContentConfig{
 		$this->moduleExtension = 'config';
 		$this->moduleTitle = tt('Blog Configuration');
 		$this->setAdmin('blog_admin');
-		$this->addAction('blog_config', 'index');
-		$this->addAction('blog_config_save', 'save');
 		$this->init(new BlogConfigModel());
 		$this->setMode('blog');
 	}

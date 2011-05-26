@@ -6,10 +6,9 @@ include_once('GalleryConfigModel.class.inc');
 class GalleryConfig extends ContentConfig{
 	function GalleryConfig(){
 		$this->moduleName = 'gallery';
+		$this->moduleExtension = 'config';
 		$this->moduleTitle = tt('Gallery Configuration');
 		$this->setAdmin('gallery_admin');
-		$this->addAction('gallery_config', 'index');
-		$this->addAction('gallery_config_save', 'save');
 		$this->init(new GalleryConfigModel());
 		$this->setMode('gallery');
 	}

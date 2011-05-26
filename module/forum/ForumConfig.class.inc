@@ -6,10 +6,9 @@ include_once('ForumConfigModel.class.inc');
 class ForumConfig extends ContentConfig{
 	function ForumConfig(){
 		$this->moduleName = 'forum';
+		$this->moduleExtension = 'config';
 		$this->moduleTitle = tt('Forum Configuration');
 		$this->setAdmin('forum_admin');
-		$this->addAction('forum_config', 'index');
-		$this->addAction('forum_config_save', 'save');
 		$this->init(new ForumConfigModel());
 		$this->setMode('forum');
 	}

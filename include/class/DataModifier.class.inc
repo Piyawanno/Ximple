@@ -172,7 +172,6 @@ class DataModifier{
 		$this->getDataFromConnector();
 		if($this->checkDataSymmetry()){
 			$this->formatMultipleData();
-			$this->checkNullMultipleData();
 			$this->id = array();
 			foreach($this->data as $key => $value){
 				$this->id[] = db_insert($this->table, $value);

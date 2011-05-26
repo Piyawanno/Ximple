@@ -169,7 +169,6 @@ function execute_include_files($module, $extension){
 	$module_require = cc('module_require');
 	if(isset($module_require[$module])){
 		$module_require = $module_require[$module];
-		print_r($module_require);
 		translate_add_directory(ROOT_PATH.'module/'.$module.'/');
 		if(!is_array($module_require)){
 			execute_include(ROOT_PATH.'module/'.$module.'/'.$module_require);
