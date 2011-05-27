@@ -96,6 +96,7 @@ class ModelConnector{
 	
 	public function addModel($name, $model){
 		$this->model[$name] = $model;
+		$this->model[$name]->name = $name;
 	}
 	
 	public function setData($data){

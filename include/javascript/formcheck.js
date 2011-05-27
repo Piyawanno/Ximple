@@ -26,14 +26,12 @@ function checkNotNull(notNull, label){
 	var dataIn = null;
 	try {
 		for(var i in notNull){
-			if(notNull[i].length){
-				dataIn = $('#'+notNull[i]);
-				if(dataIn.val().length == 0){
-					ok=false;
-					dataIn.css({'border':'2px solid red'});
-					alert(pleaseFill+label[dataIn.attr('name')]);
-					break;
-				}
+			dataIn = $('#'+notNull[i]);
+			if(dataIn.val().length == 0){
+				ok=false;
+				dataIn.css({'border':'2px solid red'});
+				alert(pleaseFill+label[dataIn.attr('name')]);
+				break;
 			}
 		}
 	}

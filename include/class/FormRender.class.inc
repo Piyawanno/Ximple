@@ -71,9 +71,7 @@ class FormRender extends FormModelRender{
 	private function prepareCaptcha(){
 		if($this->formMeta->isCaptcha and authority_is_guest()){
 			require_once('column/CaptchaColumn.class.inc');
-			$captcha = new CaptchaColumn();
-			$captcha->name = 'captcha';
-			$this->render[] = $captcha->renderForm($this->formMeta->id);
+			$this->modelConnector->addModel('captcha', new CaptchaColumn());
 		}
 	}
 	

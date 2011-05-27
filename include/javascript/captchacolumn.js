@@ -1,14 +1,17 @@
-function changeCaptcha(captchaKey){
+function changeCaptcha(captchaKey, captchaID){
 	captchaLock = true;
 	generateTime = generateTime+10;
 	var img = document.getElementById("captcha_img_"+captchaKey);
 	img.src = sectionURI+'captcha/gentime/'+(generateTime);
-	$("#captcha_input_"+captchaKey).attr('value', '');
+	$("#"+captchaID).attr('value', '');
 	$("#captcha_info_"+captchaKey).html('');
 }
 
-function checkCaptcha(captchaKey){
-	$.get(sectionURI+'captcha_check/value/'+($('#captcha_input_'+captchaKey).val())+'/gentime/'+generateTime, function(data){
+function checkCaptcha(captchaKey, captchaID){
+	var uri = sectionURI+'captcha_check/value/';
+	uri += ($('#'+captchaID).val());
+	uri += '/gentime/'+generateTime;
+	$.get(uri, function(data){
 		if(data.substring(0,6) == "<code>"){
 			$('#captcha_info_'+captchaKey).html(imgCorrect + captchaCorrect);
 			$('#captcha_info_'+captchaKey).attr('color', 'green');
