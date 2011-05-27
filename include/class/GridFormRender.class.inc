@@ -5,6 +5,7 @@ class GridFormRender{
 	private $dropMode;
 	private $name;
 	private $hasDBRow;
+	private $isEmptyForm;
 	
 	function GridFormRender(){
 	}
@@ -15,6 +16,7 @@ class GridFormRender{
 		$this->dropMode = $gridColumn->dropMode;
 		$this->name = $gridColumn->name;
 		$this->hasDBRow = $gridColumn->hasDBRow;
+		$this->isEmptyForm = $gridColumn->isEmptyForm;
 	}
 	
 	public function renderForm($formID){
@@ -44,7 +46,7 @@ class GridFormRender{
 	
 	private function renderFoot($id, $gridRow){
 		$render  = '';
-		if(count($this->data) == 0){
+		if(count($this->data) == 0 and !$this->isEmptyForm){
 			$render .= $gridRow;
 		}
 		$render .= '</tr></table>';

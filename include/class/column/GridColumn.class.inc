@@ -6,6 +6,7 @@ require_once(ROOT_PATH.'include/class/ModelConnector.class.inc');
 /// It does not represent a column of database table.
 class GridColumn extends ModelColumn{
 	public $hasDBRow = false;
+	public $isEmptyForm = false;
 	public $memberColumn;
 	public $dropMode;
 	
@@ -14,20 +15,6 @@ class GridColumn extends ModelColumn{
 	private $memberDataCount;
 	private $modelConnector;
 	private $tableName;
-	private $relatedDataModifier;
-	private $insertData;
-	private $updateData;
-	
-	private $allowedGridForm = array(
-		'none',
-		'hidden',
-		'char',
-		'autocomplete',
-		'calendar',
-		'email',
-		'select',
-		'file',
-	);
 	
 	function GridColumn($label, $help=null){
 		$this->setType('array');
@@ -67,22 +54,19 @@ class GridColumn extends ModelColumn{
 	
 	public function triggerPostDBInsert(){
 		if($this->hasDBRow){
-			print_r(pp());
-			print_r(ff());
-#			$this->initDataModifier();
-#			$this->modelConnector->triggerSetParent();
-#			$this->dataModifier->prepareInsert();
-#			$this->dataModifier->insert(false);
+			$this->initDataModifier();
+			$this->dataModifier->prepareInsert();
+			$this->modelConnector->triggerSetParent();
+			$this->dataModifier->insert(false);
 		}
 	}
 	
 	public function triggerPostDBUpdate(){
 		if($this->hasDBRow){
 			$this->initDataModifier();
-			$this->modelConnector->triggerSetParent();
 			$this->separateData();
-			
 			$this->dataModifier->prepareInsert();
+			$this->modelConnector->triggerSetParent();
 			$this->dataModifier->insert(false);
 			
 #			$this->dataModifier->prepareUpdate();
@@ -180,7 +164,7 @@ class GridColumn extends ModelColumn{
 	
 	private function initDataModifier(){
 		if(!$this->dataModifier){
-			include_once('DataModifier.class.inc');
+			include_once(ROOT_PATH.'include/class/DataModifier.class.inc');
 			$this->dataModifier = new DataModifier($this->tableName, $this->modelConnector);
 		}
 	}

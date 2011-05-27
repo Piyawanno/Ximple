@@ -22,6 +22,7 @@ class InformationModel extends Model{
 		$this->people = $this->grid('')->setModel(new PeopleRelationModel());
 		$this->event = $this->grid('')->setModel(new EventRelationModel());
 		$this->file = $this->grid('')->setModel(new PeopleFileModel());
+		$this->file->isEmptyForm = true;
 		
 		$this->section = $this->section();
 	}

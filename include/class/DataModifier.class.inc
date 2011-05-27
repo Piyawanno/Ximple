@@ -28,6 +28,7 @@ class DataModifier{
 	
 	public function insert($isCaptcha){
 		$retult = false;
+		$this->data = $this->modelConnector->getData();
 		if(!$isCaptcha or $this->checkCaptcha()){
 			$this->getMultipleInsertColumn();
 			if(count($this->multipleInsertColumn)){
@@ -77,6 +78,7 @@ class DataModifier{
 	
 	private function prepare(){
 		$this->getData();
+		$this->modelConnector->setData($this->data);
 		$this->modelConnector->triggerCheckNull();
 		$this->modelConnector->triggerSerialize();
 		$this->modelConnector->triggerStripTag();

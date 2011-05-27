@@ -74,7 +74,9 @@ abstract class ModelColumn{
 	}
 	
 	public function triggerStripTag(){
-		$this->data = input_strip_tags($this->data, cc('allowed_tags'));
+		if(is_string($this->data)){
+			$this->data = input_strip_tags($this->data, cc('allowed_tags'));
+		}
 	}
 	
 	public function triggerCheckNull(){

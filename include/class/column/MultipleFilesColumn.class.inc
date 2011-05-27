@@ -42,10 +42,10 @@ class MultipleFilesColumn extends ModelColumn{
 		$this->fileArray = input_reorder_multiple_files($this->name);
 		foreach($this->fileArray as $key => $value){
 			if($value['size']){
-				$fileName = io_upload($value, $this->path, $this->isImage);
-				$this->data[] = $fileName;
+				$this->data[] = io_upload($value, $this->path, $this->isImage);
 			}else{
 				unset($this->fileArray[$key]);
+				$this->data[] = null;
 			}
 		}
 	}
