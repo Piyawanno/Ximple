@@ -5,30 +5,9 @@
 	<?php else:?>
 		<form enctype="multipart/form-data" method="post" action="<?=SECTION_URI.Q.$meta->mode?>" name="ximpleform" onsubmit="return checkForm(notNull<?=$meta->id?>, label<?=$meta->id?>)" id="<?=$meta->id?>">
 	<?php endif?>
-	<h2 class="list_label"><?=$meta->title?></h2>
-	<?=$meta->description?>
-	<?php $is_require_label = false;?>
-	<?php foreach($form as $key => $value):?>
-		<?php if(isset($label[$key])):?>
-			<p>
-				<label style="font-weight:bold;"><?=$label[$key]?></label>
-				<?php if(in_array($key, $not_null)):?>
-					<span style="color:red;font-weight:bold;">*</span>
-					<?php $is_require_label = true;?>
-				<?php endif?>
-			</p>
-		<?php endif?>
-		<?=$value?>
-		<?php if(isset($help[$key])): ?>
-			<p class="form_help"><?=$help[$key]?></p>
-		<?php endif?>
-	<?php endforeach?>
-	<?php foreach($meta->additionalForm as $key => $value):?>
-		<?=$value?>
-	<?php endforeach?>
-	<?=$config?>
+	<?=$rendered_form?>
 	<!--{additional_form}-->
-	<?php if($is_require_label):?>
+	<?php if(count($not_null)):?>
 		<p>
 			<span style="color:red;font-weight:bold;">*</span>
 			<?=tt('required fields')?>

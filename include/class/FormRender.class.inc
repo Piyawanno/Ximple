@@ -42,7 +42,7 @@ class FormRender extends FormModelRender{
 	protected function renderForm(){
 		document_init_form();
 		$this->prepareHead();
-		$rednerArray = array(
+		$renderArray = array(
 			'form' => $this->renderFormModel($this->formMeta->id),
 			'meta' => $this->formMeta,
 			'help' => $this->help,
@@ -51,8 +51,9 @@ class FormRender extends FormModelRender{
 			'is_translate' => $this->isTranslate,
 			'config' => $this->renderedConfigForm,
 		);
+		$renderArray['rendered_form'] = render($renderArray, 'form.tpl', 'form');
+		$render = render($renderArray, 'formframe.tpl', 'formframe');
 		head_add_js_array('gridRowArray', FormRender::$gridRowArray);
-		$render = render($rednerArray, 'form.tpl', 'render_form');
 		return $render;
 	}
 	

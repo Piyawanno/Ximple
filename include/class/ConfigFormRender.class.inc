@@ -25,7 +25,7 @@ class ConfigFormRender extends FormModelRender{
 	
 	public function render($formMeta){
 		if(count($this->model)){
-			$rednerArray = array(
+			$renderArray = array(
 				'id' => $formMeta->id.'_'.$this->id,
 				'form' => $this->renderFormModel($formMeta->id),
 				'title' => $this->title,
@@ -35,7 +35,8 @@ class ConfigFormRender extends FormModelRender{
 				'show' => $this->showByDefault,
 				'description' => $this->description,
 			);
-			return render($rednerArray, 'configform.tpl', 'render_config_form');
+			$renderArray['rendered_form'] = render($renderArray, 'configform.tpl', 'config_form');
+			return render($renderArray, 'configformframe.tpl', 'config_form_frame');
 		}
 	}
 	
