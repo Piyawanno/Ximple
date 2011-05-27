@@ -108,6 +108,14 @@ class ModelConnector{
 		return $model;
 	}
 	
+	public function getData(){
+		$data = array();
+		foreach($this->model as $key => $value){
+			$data[$key] = $value->data;
+		}
+		return $data;
+	}
+	
 	public function setAttribute($columnName, $attributeName, $attributeValue){
 		$this->model[$columnName]->$attributeName = $attributeValue;
 	}
@@ -181,6 +189,15 @@ class ModelConnector{
 		$this->trigger('UpdateForm');
 	}
 	
+	public function triggerSerialize(){
+		$this->trigger('Serialize');
+		return $this->getData();
+	}
+	
+	public function triggerUnserialize(){
+		$this->trigger('Unserialize');
+	}
+	
 	public function triggerSetParent(){
 		$this->triggerSingleParameter('SetParent', $this->parentID);
 	}
@@ -204,6 +221,7 @@ class ModelConnector{
 					if(isset($this->model[$col]) and isset($value[$col])){
 						$this->model[$col]->data = $value[$col];
 						$this->model[$col]->triggerSelect();
+						$this->model[$col]->triggerUnserialize();
 						$data[$id][$col] = $this->model[$col]->data;
 					}
 				}

@@ -76,6 +76,18 @@ abstract class ModelColumn{
 		return $type;
 	}
 	
+	public function triggerSerialize(){
+		if($this->isSerialize){
+			$this->data = serialize($this->data);
+		}
+	}
+	
+	public function triggerUnserialize(){
+		if($this->isSerialize and is_string($this->data)){
+			$this->data = unserialize($this->data);
+		}
+	}
+	
 	protected function renderFormAttribute(){
 		$render = '';
 		foreach($this->formAttribute as $key => $value){

@@ -78,9 +78,9 @@ class DataModifier{
 	private function prepare(){
 		$this->getData();
 		$this->checkNull();
-		$this->serializeData();
-		$this->checkTag();
 		$this->modelConnector->setData($this->data);
+		$this->data = $this->modelConnector->triggerSerialize();
+		$this->checkTag();
 	}
 	
 	private function getData(){
@@ -100,18 +100,6 @@ class DataModifier{
 			if(empty($this->data[$name])){
 				$p = tt('Data in column %s is not allowed be empty.');
 				error_syslog(sprintf($p, $label[$name]));
-			}
-		}
-	}
-	
-	private function serializeData(){
-		$columnName = $this->modelConnector->getColumnNameByBoolean('isSerialize');
-		$columnName = array_intersect($columnName, $this->columnDB);
-		foreach($columnName as $name){
-			if(!empty($this->data[$name])){
-				$this->data[$name] = serialize($this->data[$name]);
-			}else{
-				$this->data[$name] = serialize(array());
 			}
 		}
 	}

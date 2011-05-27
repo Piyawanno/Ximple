@@ -265,7 +265,6 @@ abstract class Control extends Translatable{
 	}
 	
 	protected function renderUpdateForm($setPath=true){
-		$this->unserializeData();
 		$this->prepareForm($setPath);
 		if(isset($this->data[$this->id])){
 			$this->formMeta->mode .= '/'.$this->id.'/page/'.MODE_PAGE;
@@ -276,7 +275,6 @@ abstract class Control extends Translatable{
 	}
 	
 	protected function postSelect(){
-		$this->unserializeData();
 		$this->data = $this->modelConnector->triggerSelect($this->data);
 	}
 	
@@ -291,17 +289,6 @@ abstract class Control extends Translatable{
 		}
 	}
 		
-	private function unserializeData(){
-		$columns = $this->modelConnector->getColumnNameByBoolean('isSerialize');
-		foreach($columns as $column){
-			foreach($this->data as $key => $value){
-				if(isset($value[$column]) and !is_array($value[$column])){
-					$this->data[$key][$column] = unserialize($value[$column]);
-				}
-			}
-		}
-	}
-	
 	private function initDataModifier(){
 		if(!$this->dataModifier){
 			include_once('DataModifier.class.inc');

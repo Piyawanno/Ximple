@@ -10,6 +10,7 @@ class ImageLoaderColumn extends ModelColumn{
 	}
 	
 	public function renderForm($formID){
+		head_add_js('include/javascript/imageloader.js');
 		head_add_js_var('uploadSuccess', tt('image successfully uploaded'));
 		$id = $formID.'_'.$this->name;
 		if(strlen($this->data)) $imageSource = ROOT_URI.$this->data;
