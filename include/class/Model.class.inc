@@ -123,9 +123,9 @@ abstract class Model{
 		return new EmailColumn($label, $help);
 	}
 	
-	public function now(){
+	public function now($dateFormat=null){
 		include_once('column/NowColumn.class.inc');
-		return new NowColumn();
+		return new NowColumn($dateFormat);
 	}
 	
 	public function calendar($label, $help=null){

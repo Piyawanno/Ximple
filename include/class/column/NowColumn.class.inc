@@ -5,9 +5,15 @@ class NowColumn extends HiddenColumn{
 	public $formatDateBySelect = false;
 	public $dateFormat;
 	
-	function NowColumn(){
+	function NowColumn($dateFormat=null){
 		HiddenColumn::HiddenColumn(NOW, 'timestamp');
-		$this->dateFormat = 'Y-m-d H:i:s';
+		if(!empty($dateFormat)){	
+			$this->dateFormat = $dateFormat;
+			$this->formatDateBySelect = true;
+		}else{
+			$this->dateFormat = 'Y-m-d H:i:s';
+			$this->formatDateBySelect = false;
+		}
 	}
 	
 	public function triggerUpdateForm(){
