@@ -2,6 +2,7 @@
 abstract class SelectiveColumn extends ModelColumn{
 	public $option;
 	public $isSortable;
+	public $isSerialize = false;
 	
 	protected $listClass;
 	protected $divisionClass;
@@ -23,6 +24,18 @@ abstract class SelectiveColumn extends ModelColumn{
 	public function triggerSelect(){
 		if(!is_array($this->data) and isset($this->option[$this->data])){
 			$this->data = $this->option[$this->data];
+		}
+	}
+	
+	public function triggerSerialize(){
+		if($this->isSerialize){
+			$this->data = serialize($this->data);
+		}
+	}
+	
+	public function triggerUnserialize(){
+		if($this->isSerialize and is_string($this->data)){
+			$this->data = unserialize($this->data);
 		}
 	}
 	

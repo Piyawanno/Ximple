@@ -29,5 +29,6 @@ class CheckBoxColumn extends SelectiveColumn{
 			$this->setFormAttribute('checked', '');
 		}
 	}
+	
 }
 ?>

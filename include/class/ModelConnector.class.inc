@@ -192,11 +192,18 @@ class ModelConnector{
 	
 	public function triggerSerialize(){
 		$this->trigger('Serialize');
-		return $this->getData();
 	}
 	
 	public function triggerUnserialize(){
 		$this->trigger('Unserialize');
+	}
+	
+	public function triggerStripTag(){
+		$this->trigger('StripTag');
+	}
+	
+	public function triggerCheckNull(){
+		$this->trigger('CheckNull');
 	}
 	
 	public function triggerSetParent(){

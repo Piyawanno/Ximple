@@ -67,10 +67,12 @@ class GridColumn extends ModelColumn{
 	
 	public function triggerPostDBInsert(){
 		if($this->hasDBRow){
-			$this->initDataModifier();
-			$this->modelConnector->triggerSetParent();
-			$this->dataModifier->prepareInsert();
-			$this->dataModifier->insert(false);
+			print_r(pp());
+			print_r(ff());
+#			$this->initDataModifier();
+#			$this->modelConnector->triggerSetParent();
+#			$this->dataModifier->prepareInsert();
+#			$this->dataModifier->insert(false);
 		}
 	}
 	

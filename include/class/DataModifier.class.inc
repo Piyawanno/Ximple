@@ -77,10 +77,10 @@ class DataModifier{
 	
 	private function prepare(){
 		$this->getData();
-		$this->checkNull();
-		$this->modelConnector->setData($this->data);
-		$this->data = $this->modelConnector->triggerSerialize();
-		$this->checkTag();
+		$this->modelConnector->triggerCheckNull();
+		$this->modelConnector->triggerSerialize();
+		$this->modelConnector->triggerStripTag();
+		$this->data = $this->modelConnector->getData();
 	}
 	
 	private function getData(){
@@ -92,34 +92,10 @@ class DataModifier{
 		}
 	}
 	
-	private function checkNull(){
-		$columnName = $this->modelConnector->getColumnNameByBoolean('isNotNull');
-		$columnName = array_intersect($columnName, $this->columnDB);
-		$label = $this->modelConnector->getColumnAttribute('label');
-		foreach($columnName as $name){
-			if(empty($this->data[$name])){
-				$p = tt('Data in column %s is not allowed be empty.');
-				error_syslog(sprintf($p, $label[$name]));
-			}
-		}
-	}
-	
 	private function checkID(){
 		$this->id = (int) gg('id');
 		if(empty($this->id)){
 			error_syslog(tt('Data can not be modified without any given ID.'));
-		}
-	}
-	
-	private function checkTag(){
-		$columnName = $this->modelConnector->getColumnNameByAttribute('isAllHTMLTags', false);
-		$columnName = array_intersect($columnName, $this->columnDB);
-		$type = $this->modelConnector->getPHPType();
-		$allowed_tag = cc('allowed_tags');
-		foreach($columnName as $name){
-			if($type[$name] == 'string'){
-				$this->data[$name] = input_strip_tags($this->data[$name], $allowed_tag);
-			}
 		}
 	}
 	
@@ -138,7 +114,7 @@ class DataModifier{
 	}
 	
 	private function getDataFromConnector(){
-		$this->data = $this->modelConnector->getColumnAttribute('data');
+		$this->data = $this->modelConnector->getData();
 		foreach($this->data as $key => $value){
 			if(!in_array($key, $this->columnDB)) unset($this->data[$key]);
 		}
@@ -158,15 +134,12 @@ class DataModifier{
 	
 	private function insertMultipleRows(){
 		$this->getDataFromConnector();
-		if($this->checkDataSymmetry()){
-			$this->formatMultipleData();
-			$this->id = array();
-			foreach($this->data as $key => $value){
-				$this->id[] = db_insert($this->table, $value);
-			}
-			return true;
+		$this->formatMultipleData();
+		$this->id = array();
+		foreach($this->data as $key => $value){
+			$this->id[] = db_insert($this->table, $value);
 		}
-		return false;
+		return true;
 	}
 	
 	private function updateSingleRow(){
@@ -189,27 +162,6 @@ class DataModifier{
 			return true;
 		}
 		return false;
-	}
-	
-	private function checkDataSymmetry(){
-		$newCount = -1;
-		$errorMessage = '';
-		foreach($this->multipleInsertColumn as $columnName){
-			if(is_array($this->data[$columnName])){
-				$oldCount = $newCount;
-				$newCount = count($this->data[$columnName]);
-				if($newCount != $oldCount and $oldCount != -1){
-					$errorMessage = 'Data are not symmetry : '.$columnName;
-					break;
-				}
-			}
-		}
-		if(strlen($errorMessage)){
-			if(state_is_develop()) notify_add_error($errorMessage);
-			return false;
-		}else{
-			return true;
-		}
 	}
 	
 	private function formatMultipleData(){

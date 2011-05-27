@@ -1,5 +1,4 @@
 <?php
-
 global $render_cache_tpl;
 
 $render_cache_tpl = array();
@@ -173,7 +172,7 @@ function render_tag_cloud($mode, $freetag){
 	}else{
 		$size = 64;
 	}
-	$href = SECTION.Q.'/'.$mode.'/tag/'.$freetag['freetag'];
+	$href = SECTION_URI.Q.$mode.'/tag/'.$freetag['freetag'];
 	return '<a href="'.$href.'" style="font-size:'.$size.'px;">'.$freetag['freetag'].'</a>';
 }
 ?>

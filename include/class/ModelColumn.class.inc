@@ -30,10 +30,7 @@ abstract class ModelColumn{
 	public $isList = false;
 	public $isReachable = false;
 	public $isOrderable = true;
-	public $isAllHTMLTags = false;
-	public $isSerialize = false;
 	public $isTranslate = false;
-	
 	public $isMultipleInsert = false;
 	public $isParent = false;
 	
@@ -76,15 +73,13 @@ abstract class ModelColumn{
 		return $type;
 	}
 	
-	public function triggerSerialize(){
-		if($this->isSerialize){
-			$this->data = serialize($this->data);
-		}
+	public function triggerStripTag(){
+		$this->data = input_strip_tags($this->data, cc('allowed_tags'));
 	}
 	
-	public function triggerUnserialize(){
-		if($this->isSerialize and is_string($this->data)){
-			$this->data = unserialize($this->data);
+	public function triggerCheckNull(){
+		if($this->isNotNull and empty($this->data)){
+			error_syslog(sprintf(tt('Data in column %s is not allowed be empty.'), $this->name));
 		}
 	}
 	
