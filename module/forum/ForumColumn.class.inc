@@ -14,7 +14,7 @@ class ForumColumn extends SelectColumn{
 	
 	public function renderForm($formID){
 		if($this->isSelect){
-			SelectColumn::renderForm($formID);
+			return SelectColumn::renderForm($formID);
 		}else{
 			$hidden = new HiddenColumn($this->defaultData, 'int');
 			return $hidden->renderForm($formID);

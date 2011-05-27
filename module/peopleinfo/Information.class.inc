@@ -141,7 +141,7 @@ class Information extends Control{
 			$fileName = $dirName.md5(rand()).sha1(rand()).md5(rand()).'.'.$type;
 			$success = true;
 			$oldDir = ROOT_PATH.dirname($value);
-			rename(ROOT_PATH.$value, ROOT_PATH.$fileName);# or $success = false;
+			@rename(ROOT_PATH.$value, ROOT_PATH.$fileName) or $success = false;
 			if($success){
 				$size = filesize(ROOT_PATH.$fileName);
 				db_update('people_file', array('file' => $fileName), $key);

@@ -72,6 +72,8 @@ class People extends Control{
 			document_set_path(tt('People'), 'peopleinfo');
 			head_add_css('peopleinfo.css');
 			head_add_js('module/peopleinfo/peopleinfo.js');
+			head_add_js('module/user/user.js');
+			head_add_js('include/javascript/emailcolumn.js');
 			head_add_js('include/external/sha1.js');
 		
 			$description  = tt("Only User with the Role of 'People Information Related' can be inserted into database. ");

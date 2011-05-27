@@ -14,7 +14,8 @@ $(document).bind("ready", function(){
 					});
 					$('#complete_option option').remove();
 					option.attr('rel', $(this).attr('id'));
-					$.get(sectionURI+$(this).attr('rel')+'/wildcard/'+lastWord, function(data){
+					var uri = sectionURI+$(this).attr('rel')+'/wildcard/'+lastWord;
+					$.get(uri, function(data){
 						if(data.length){
 							option.append(data);
 							option.show();

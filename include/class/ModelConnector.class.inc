@@ -229,7 +229,9 @@ class ModelConnector{
 					if(isset($this->model[$col]) and isset($value[$col])){
 						$this->model[$col]->data = $value[$col];
 						$this->model[$col]->triggerSelect();
-						$this->model[$col]->triggerUnserialize();
+						if(method_exists($this->model[$col], 'triggerUnserialize')){
+							$this->model[$col]->triggerUnserialize();
+						}
 						$data[$id][$col] = $this->model[$col]->data;
 					}
 				}

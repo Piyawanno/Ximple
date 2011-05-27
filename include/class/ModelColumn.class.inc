@@ -33,6 +33,7 @@ abstract class ModelColumn{
 	public $isTranslate = false;
 	public $isMultipleInsert = false;
 	public $isParent = false;
+	public $isUser=false;
 	
 	public abstract function renderForm($formID);
 	

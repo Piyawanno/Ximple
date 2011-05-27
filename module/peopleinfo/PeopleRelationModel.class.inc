@@ -18,12 +18,7 @@ class PeopleRelationModel extends Model{
 	}
 	
 	public function triggerSetParent($parentID){
-		echo("parent id :: $parentID ");
 		$this->information->data = $parentID;
 	}
-	
-#	public function triggerPostInsert(){
-#		$this->information->data = $this->informationID;
-#	}
 }
 ?>

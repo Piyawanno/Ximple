@@ -16,7 +16,6 @@ class InformationModel extends Model{
 		
 		$this->content = $this->text(tt('content'));
 		$this->content->isReachable = true;
-		
 		$this->freetag = new FreeTagColumn('peopleinfo_info');
 		
 		$this->people = $this->grid('')->setModel(new PeopleRelationModel());

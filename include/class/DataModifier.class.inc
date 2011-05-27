@@ -159,6 +159,8 @@ class DataModifier{
 			$this->checkNullMultipleData();
 			$this->id = array();
 			foreach($this->data as $key => $value){
+				$this->modelConnector->setData($value);
+				$this->modelConnector->triggerCheckNull();
 				$this->id[] = db_insert($this->table, $value);
 			}
 			return true;

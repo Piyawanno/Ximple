@@ -12,7 +12,7 @@ class EventRelationModel extends Model{
 	}
 	
 	public function triggerSetParent($parentID){
-		$this->information->defaultData = $parentID;
+		$this->information->data = $parentID;
 	}
 }
 ?>

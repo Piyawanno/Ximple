@@ -1,6 +1,7 @@
 <?php
 execute_add_extended_class('peopleinfo', 'event', 'Event');
 
+include_once('Information.class.inc');
 include_once('EventModel.class.inc');
 include_once('peopleinfo.tool.inc');
 
@@ -35,10 +36,10 @@ class Event extends Control{
 		$this->setListEditIcon();
 		return Control::renderListPage();
 	}
-		
+	
 	public function getDefinedPlace(){
 		execute_set_ajax();
-		$cluase = 'WHERE section='.SECTION." AND place LIKE '%".gg('wildcard')."%'";
+		$clause = 'WHERE section='.SECTION." AND place LIKE '%".gg('wildcard')."%'";
 		$place = db_select_single_column('event', 'place', $clause);
 		return render_option($place);
 	}

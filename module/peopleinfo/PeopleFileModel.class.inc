@@ -7,6 +7,7 @@ class PeopleFileModel extends Model{
 	function PeopleFileModel($informationID=null){
 		$this->short_description = $this->title(tt('short description'));
 		$this->file = $this->file('file', 'files/peopleinfo/');
+		$this->file->isNotNull = true;
 		$this->type = $this->hidden('', 'char');
 		$this->information = $this->none($informationID, 'int');
 		$this->information->isGridForm = false;
@@ -14,7 +15,7 @@ class PeopleFileModel extends Model{
 	}
 	
 	public function triggerSetParent($parentID){
-		$this->information->defaultData = $parentID;
+		$this->information->data = $parentID;
 	}
 	
 	public function triggerPostInsert(){
