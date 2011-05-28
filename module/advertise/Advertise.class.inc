@@ -5,6 +5,10 @@ include_once('AdvertiseModel.class.inc');
 
 class Advertise extends Control{
 	function Advertise(){
+		$this->moduleTitle = tt('Advertise');
+		$this->moduleName = 'advertise';
+		$this->tableName = 'advertise';
+		
 		$this->setAdmin('advertise_admin');
 		$this->addAction('advertise_banner', 'renderBanner');
 		$this->addAccessMethod('guest', 'renderBanner');
@@ -22,6 +26,7 @@ class Advertise extends Control{
 		$this->id = (int) gg('id');
 		$this->selectByID($this->column);
 		document_set_path($this->dataByID['name']);
+		$this->dataByID['position'] = array_pop($this->dataByID['position']);
 		return render($this->dataByID, 'advertise.tpl', 'advertise');
 	}
 	

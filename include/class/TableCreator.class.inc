@@ -21,7 +21,6 @@ class TableCreator{
 		$columnName = $this->modelConnector->getColumnNameByBoolean('isDB');
 		$type = $this->modelConnector->getColumnAttribute('type');
 		$isNotNull = $this->modelConnector->getColumnAttribute('isNotNull');
-		$isSerialize = $this->modelConnector->getColumnAttribute('isSerialize');
 		$default = $this->modelConnector->getColumnAttribute('defaultData');
 		foreach($columnName as $name){
 			$q = $name.' '.db_get_type($type[$name]);

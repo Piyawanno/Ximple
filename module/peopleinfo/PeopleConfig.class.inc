@@ -1,5 +1,5 @@
 <?php
-execute_add_extended_class('peopleinfo', 'config', 'PeopleConfig');
+// execute_add_extended_class('peopleinfo', 'config', 'PeopleConfig');
 
 include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
 include_once('PeopleConfigModel.class.inc');

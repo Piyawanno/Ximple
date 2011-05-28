@@ -49,7 +49,6 @@ function module_init_peopleinfo(){
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_info', 'information');
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo', 'people');
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_tag_clound', 'tag clound');
-	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_config', 'configuration PIC');
 	
 	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_event', 'event');
 	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_info', 'information');

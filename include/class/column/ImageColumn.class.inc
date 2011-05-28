@@ -32,7 +32,11 @@ class ImageColumn extends FileColumn{
 	
 	public function triggerSelect(){
 		$fileName = basename($this->data);
-		$this->data = '<img src="'.ROOT_URI.$this->data.'" alt="'.$fileName.'" border="0"/>';
+		if(is_file(ROOT_PATH.$this->data)){
+			$this->data = '<img src="'.ROOT_URI.$this->data.'" alt="'.$fileName.'" border="0"/>';
+		}else{
+			$this->data = null;
+		}
 	}
 }
 ?>

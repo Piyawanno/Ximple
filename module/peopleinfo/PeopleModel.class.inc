@@ -19,8 +19,9 @@ class PeopleModel extends Model{
 		$this->section = $this->section();
 	}
 	
-	public function triggerSelect(){
+	public function triggerSelect($data){
 		$this->people->option = peopleinfo_get_people_name();
+		return $data;
 	}
 }
 ?>

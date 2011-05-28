@@ -15,7 +15,7 @@ class ModelConnector{
 	
 	public function setID($id){
 		$this->id = $id;
-		$this->triggerGetID();
+		$this->triggerGetID($id);
 	}
 	
 	public function setParentID($parentID){
@@ -37,7 +37,7 @@ class ModelConnector{
 	public function getColumnName(){
 		$col = array('id');
 		foreach($this->model as $key => $value){
-			if($value->isDB) $col[] = $key;
+			if($value->isDB or $value->isGrid) $col[] = $key;
 		}
 		return $col;
 	}
@@ -210,25 +210,29 @@ class ModelConnector{
 		$this->triggerSingleParameter('SetParent', $this->parentID);
 	}
 	
-	public function triggerGetID(){
-		$this->triggerSingleParameter('GetID', $this->id);
+	public function triggerGetID($id){
+		$this->triggerSingleParameter('GetID', $id);
 	}
 	
 	public function triggerSetTableName($tableName){
 		$this->triggerSingleParameter('SetTableName', $tableName);
 	}
 	
-	public function triggerSelect($data){
+	public function triggerSelect($data, $column=null){
 		$triggerColumn = array();
 		foreach($this->model as $key => $value){
 			$methodName = 'triggerSelect';
 			if(method_exists($value, $methodName)) $triggerColumn[] = $key;
 		}
+		if(is_array($column)) $triggerColumn = array_intersect($triggerColumn, $column);
 		if(count($triggerColumn)){
 			foreach($data as $id => $value){
+				$this->triggerGetID($id);
 				foreach($triggerColumn as $key => $col){
-					if(isset($this->model[$col]) and isset($value[$col])){
-						$this->model[$col]->data = $value[$col];
+					if(isset($this->model[$col])){
+						if(isset($value[$col])){
+							$this->model[$col]->data = $value[$col];
+						}
 						$this->model[$col]->triggerSelect();
 						if(method_exists($this->model[$col], 'triggerUnserialize')){
 							$this->model[$col]->triggerUnserialize();
@@ -239,7 +243,7 @@ class ModelConnector{
 			}
 		}
 		if(method_exists($this->modelObject, 'triggerSelect')){
-			$this->modelObject->triggerSelect($data);
+			$data = $this->modelObject->triggerSelect($data);
 		}
 		$this->clearCache();
 		return $data;

@@ -25,6 +25,7 @@ class GridColumn extends ModelColumn{
 		$this->isMultipleInsert = true;
 		$this->memberColumn = array();
 		$this->isDB = false;
+		$this->isGrid = true;
 	}
 	
 	public function setModel($modelObj){
@@ -50,15 +51,17 @@ class GridColumn extends ModelColumn{
 		return $formRender->renderForm($formID);
 	}
 	
-	public function triggerUpdateForm(){
-		
+	
+	public function triggerSelect(){
+		$this->getDBData();
+		$this->data = $this->modelConnector->triggerSelect($this->data);
 	}
 	
 	public function triggerPostDBInsert(){
 		if($this->hasDBRow){
 			$this->initDataModifier();
 			$this->dataModifier->prepareInsert();
-			$this->modelConnector->triggerSetParent();
+			$this->modelConnector->triggerSetParent($this->id);
 			$this->dataModifier->insert(false);
 		}
 	}
@@ -72,7 +75,7 @@ class GridColumn extends ModelColumn{
 			
 			$this->dataModifier->prepareUpdate();
 			$this->modelConnector->setData($this->updateData);
-			$this->modelConnector->triggerSetParent();
+			$this->modelConnector->triggerSetParent($this->id);
 			$this->dataModifier->update(false);
 		}
 	}
@@ -133,10 +136,7 @@ class GridColumn extends ModelColumn{
 	}
 	
 	private function getMemberDBData(){
-		$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
-		$column = $this->modelConnector->getColumnName();
-		$member = $this->memberColumn;
-		$this->data = db_select($this->childTableName, $column, $clause);
+		$this->getDBData();
 		foreach($this->data as $id => $data){
 			foreach($data as $column => $value){
 				if(isset($member[$column])  and $member[$column]->isGridForm){
@@ -144,6 +144,13 @@ class GridColumn extends ModelColumn{
 				}
 			}
 		}
+	}
+	
+	private function getDBData(){
+		$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
+		$column = $this->modelConnector->getColumnName();
+		$member = $this->memberColumn;
+		$this->data = db_select($this->childTableName, $column, $clause);
 	}
 	
 	private function initModelConnector($moduleName, $modelObj){
@@ -175,7 +182,7 @@ class GridColumn extends ModelColumn{
 	private function insertBeforeUpdate(){
 		if(!empty($this->data)){
 			$this->modelConnector->setData($this->data);
-			$this->modelConnector->triggerSetParent();
+			$this->modelConnector->triggerSetParent($this->id);
 			$this->dataModifier->insert(false);
 		}
 	}

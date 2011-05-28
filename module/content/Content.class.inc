@@ -123,8 +123,8 @@ abstract class Content extends Control{
 		}
 	}
 	
-	protected function postSelect(){
-		Control::postSelect();
+	protected function postSelect($column){
+		Control::postSelect($column);
 		$this->addCategoryToFreeTag();
 		$this->clearDailyCache();
 		foreach($this->data as $key => $value){

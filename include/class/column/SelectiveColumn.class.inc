@@ -23,7 +23,9 @@ abstract class SelectiveColumn extends ModelColumn{
 	
 	public function triggerSelect(){
 		if(!is_array($this->data) and isset($this->option[$this->data])){
-			$this->data = $this->option[$this->data];
+			$this->data = array(
+				$this->data => $this->option[$this->data]
+			);
 		}
 	}
 	

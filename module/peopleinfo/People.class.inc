@@ -4,6 +4,7 @@ execute_add_class('peopleinfo', 'People');
 include_once(ROOT_PATH.'module/freetag/freetag.tool.inc');
 include_once('PeopleModel.class.inc');
 include_once('Information.class.inc');
+include_once('Event.class.inc');
 include_once('peopleinfo.tool.inc');
 
 class People extends Control{

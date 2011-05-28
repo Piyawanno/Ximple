@@ -70,6 +70,18 @@ class Information extends Control{
 		Control::drop();
 	}
 	
+	public function readFile(){
+		$clause = 'WHERE id='.((int) gg('id'));
+		$data = db_select('people_file', array('file', 'short_description'), $clause);
+		$fileName = ROOT_PATH.$data[0]['file'];
+		$mime = mime_content_type($fileName);
+		$extension = array_pop(split('\.', $data[0]['file']));
+		header('Content-type: '.$mime);
+		header('Content-Disposition: attachment; filename="'.$data[0]['short_description'].'.'.$extension.'"');
+		readfile($fileName);
+		execute_set_file();
+	}
+	
 	public function dropPeopleRelation(){
 		db_drop('people_relation', (int) gg('id'));
 	}
@@ -104,19 +116,35 @@ class Information extends Control{
 	}
 	
 	private function renderPage(){
-		
+		$this->id = (int) gg('id');
+		$this->selectByID($this->column);
+		document_set_path($this->dataByID['topic']);
+		$image = array();
+		foreach($this->dataByID['file'] as $key => $value){
+			if(substr($value['type'], 0, 5) == 'image'){
+				$image[] = $value;
+				unset($this->dataByID['file'][$key]);
+			}
+		}
+		$renderArray = array(
+			'image' => $image,
+			'data' => $this->dataByID,
+		);
+		return render($renderArray, 'peopleinfo.tpl', 'peopleinfo');
 	}
 	
 	private function setAccess(){
 		$this->dropAccessMethod('index');
 		$this->setAdmin('peopleinfo_admin');
 		
+		$this->addAction('peopleinfo_info_read_file', 'readFile');
 		$this->addAction('peopleinfo_info_drop_people_relation', 'dropPeopleRelation');
 		$this->addAction('peopleinfo_info_drop_event_relation', 'dropEventRelation');
 		$this->addAction('peopleinfo_info_drop_people_file', 'dropPeopleFile');
 		
 		$this->addAccessMethod('index', 'peopleinfo_observer');
 		$this->addAccessMethod('listPage', 'peopleinfo_observer');
+		$this->addAccessMethod('readFile', 'peopleinfo_observer');
 	}
 	
 	private function setConfigForm(){
