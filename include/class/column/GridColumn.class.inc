@@ -14,7 +14,9 @@ class GridColumn extends ModelColumn{
 	private $dataModifier = null;
 	private $memberDataCount;
 	private $modelConnector;
-	private $tableName;
+	private $updateData = array();
+	private $postData;
+	private $childTableName;
 	
 	function GridColumn($label, $help=null){
 		$this->setType('array');
@@ -26,7 +28,7 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function setModel($modelObj){
-		$this->tableName = $modelObj->tableName;
+		$this->childTableName = $modelObj->tableName;
 		$this->dropMode = $modelObj->dropMode;
 		$this->hasDBRow = true;
 		$this->isDB = false;
@@ -64,13 +66,14 @@ class GridColumn extends ModelColumn{
 	public function triggerPostDBUpdate(){
 		if($this->hasDBRow){
 			$this->initDataModifier();
-			$this->separateData();
 			$this->dataModifier->prepareInsert();
-			$this->modelConnector->triggerSetParent();
-			$this->dataModifier->insert(false);
+			$this->separateData();
+			$this->insertBeforeUpdate();
 			
-#			$this->dataModifier->prepareUpdate();
-#			$this->dataModifier->update(false);
+			$this->dataModifier->prepareUpdate();
+			$this->modelConnector->setData($this->updateData);
+			$this->modelConnector->triggerSetParent();
+			$this->dataModifier->update(false);
 		}
 	}
 	
@@ -90,8 +93,14 @@ class GridColumn extends ModelColumn{
 	}
 	
 	private function checkMemberData(){
-		$dataCount = array();
+		$dataCount = $this->getDataCount();
 		$dataOK = true;
+		if(count($dataCount)) $this->checkDataCorrupt($dataCount);
+		if($dataOK) $this->memberDataCount = $dataCount[0];
+	}
+	
+	private function getDataCount(){
+		$dataCount = array();
 		foreach($this->memberColumn as $key => $value){
 			if(is_array($value->data)){
 				$dataCount[] = count($value->data);
@@ -99,16 +108,17 @@ class GridColumn extends ModelColumn{
 				$dataCount[] = null;
 			}
 		}
-		if(count($dataCount)){
-			foreach($dataCount as $key => $value){
-				if($value != $dataCount[0]){
-					notify_add_warning(sprintf(tt('Data for %s is corrupted!'), $this->label));
-					$dataOK = false;
-					break;
-				}
+		return $dataCount;
+	}
+	
+	private function checkDataCorrupt($dataCount){
+		foreach($dataCount as $key => $value){
+			if($value != $dataCount[0]){
+				notify_add_warning(sprintf(tt('Data for %s is corrupted!'), $this->label));
+				$dataOK = false;
+				break;
 			}
 		}
-		if($dataOK) $this->memberDataCount = $dataCount[0];
 	}
 	
 	private function getMemberData(){
@@ -126,7 +136,7 @@ class GridColumn extends ModelColumn{
 		$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
 		$column = $this->modelConnector->getColumnName();
 		$member = $this->memberColumn;
-		$this->data = db_select($this->tableName, $column, $clause);
+		$this->data = db_select($this->childTableName, $column, $clause);
 		foreach($this->data as $id => $data){
 			foreach($data as $column => $value){
 				if(isset($member[$column])  and $member[$column]->isGridForm){
@@ -137,7 +147,7 @@ class GridColumn extends ModelColumn{
 	}
 	
 	private function initModelConnector($moduleName, $modelObj){
-		$modelFactory = new ModelFactory($moduleName, $modelObj);
+		$modelFactory = new ModelFactory($modelObj);
 		$this->modelConnector = $modelFactory->bind();
 	}
 	
@@ -162,15 +172,51 @@ class GridColumn extends ModelColumn{
 		$this->memberColumn[$name] = $memberModel;
 	}
 	
+	private function insertBeforeUpdate(){
+		if(!empty($this->data)){
+			$this->modelConnector->setData($this->data);
+			$this->modelConnector->triggerSetParent();
+			$this->dataModifier->insert(false);
+		}
+	}
+	
 	private function initDataModifier(){
 		if(!$this->dataModifier){
 			include_once(ROOT_PATH.'include/class/DataModifier.class.inc');
-			$this->dataModifier = new DataModifier($this->tableName, $this->modelConnector);
+			$this->dataModifier = new DataModifier($this->childTableName, $this->modelConnector);
 		}
 	}
 	
 	private function separateData(){
-		
+		$this->postData = $this->modelConnector->getData();
+		$this->data = array();
+		foreach($this->postData as $name => $data){
+			if(is_array($data)){
+				$this->setPostData($name, $data);
+			}else{
+				$this->data[$name] = $data;
+				$this->updateData[$name] = $data;
+			}
+		}
+		$this->checkEmpyData();
+	}
+	
+	private function setPostData($name, $data){
+		foreach($data as $key => $value){
+			if(substr($key,0,2) == 'id'){
+				$this->updateData[$name][substr($key, 3)] = $value;
+			}else{
+				$this->data[$name][] = $value;
+			}
+		}
+	}
+	
+	private function checkEmpyData(){
+		foreach($this->postData as $name => $data){
+			if(is_array($data) and !isset($this->data[$name])){
+				$this->data = null;
+			}
+		}
 	}
 }
 ?>

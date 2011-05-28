@@ -1,6 +1,10 @@
 <?php
 class AdvertiseModel extends Model{
 	function AdvertiseModel(){
+		$this->moduleTitle = tt('Advertise');
+		$this->moduleName = 'advertise';
+		$this->tableName = 'advertise';
+		
 		$this->name = $this->title('name');
 		$this->name->listMode = 'advertise';
 		$this->uri = $this->title('URI');

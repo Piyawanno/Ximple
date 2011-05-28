@@ -5,9 +5,9 @@ class PeopleFileModel extends Model{
 	public $dropMode = 'peopleinfo_info_drop_people_file';
 	
 	function PeopleFileModel($informationID=null){
+		$this->tableName = 'people_file';
 		$this->short_description = $this->title(tt('short description'));
 		$this->file = $this->file('file', 'files/peopleinfo/');
-		$this->file->isNotNull = true;
 		$this->type = $this->hidden('', 'char');
 		$this->information = $this->none($informationID, 'int');
 		$this->information->isGridForm = false;
@@ -28,10 +28,9 @@ class PeopleFileModel extends Model{
 	
 	private function getType(){
 		$this->type->data = array();
-		$uploadFile = ff('file');
-		foreach($uploadFile['tmp_name'] as $key => $value){
-			if(strlen($value)){
-				$this->type->data[] = mime_content_type($value);
+		foreach($this->file->data as $key => $value){
+			if(is_file($value)){
+				$this->type->data[$key] = mime_content_type($value);
 			}
 		}
 	}

@@ -9,6 +9,7 @@ class PeopleRelationModel extends Model{
 	private $informationID;
 	
 	function PeopleRelationModel($informationID=null){
+		$this->tableName = 'people_relation';
 		$this->informationID = $informationID;
 		$this->people = $this->select(tt('related person'), peopleinfo_get_people_name());
 		$this->relation = $this->select(tt('relation'), peopleinfo_get_relation());

@@ -25,14 +25,14 @@ function input_reorder_multiple_files($name){
 	$reordered = array();
 	$received = ff($name);
 	$n = count($received['name']);
-	for($i=0;$i<$n;$i++){
+	foreach($received['name'] as $i => $value){
 		$reordered[$i]['name']     = $received['name'][$i];
 		$reordered[$i]['tmp_name'] = $received['tmp_name'][$i];
 		$reordered[$i]['type']     = $received['type'][$i];
 		$reordered[$i]['size']     = $received['size'][$i];
 		$reordered[$i]['error']    = $received['error'][$i];
 	}
-	return $reordered;	
+	return $reordered;
 }
 
 function input_special_char($uri_get, $uri_server){

@@ -7,10 +7,10 @@ class QuickTableCreator{
 	private $modelConnector;
 	private $tableCreator;
 	
-	function QuickTableCreator($moduleName, $model){
-		$this->modelFactory = new ModelFactory($moduleName, $model);
+	function QuickTableCreator($model){
+		$this->modelFactory = new ModelFactory($model);
 		$this->modelConnector = $this->modelFactory->bind();
-		$this->tableCreator = new TableCreator($this->modelConnector, $moduleName);
+		$this->tableCreator = new TableCreator($this->modelConnector, $model->tableName);
 	}
 	
 	public function create(){

@@ -10,9 +10,9 @@ abstract class ConfigControl extends Translatable{
 	protected $saveRedirection;
 	
 	protected function init($modelObj){
-		$modelFactory = new ModelFactory($this->fullModuleName, $modelObj);
 		Translatable::init();
-		$this->modelConnector = $modelFactory->bind();
+		$modelFactory = new ModelFactory($modelObj);
+		$this->modelConnector = $modelFactory->bind($this);
 		$this->formMeta = new FormMetaData();
 		$this->addAction($this->fullModuleName, 'index');
 		$this->addAction($this->fullModuleName.'_save', 'save');

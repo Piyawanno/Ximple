@@ -4,7 +4,6 @@ class DataModifier{
 	private $table;
 	private $modelConnector;
 	private $data;
-	private $dataDB;
 	private $columnDB;
 	private $fileColumn;
 	private $noneColumn;
@@ -24,6 +23,7 @@ class DataModifier{
 		$this->columnDB = $this->modelConnector->getColumnNameByBoolean('isDB');
 		$this->prepare();
 		$this->modelConnector->triggerPostInsert();
+		$this->modelConnector->triggerCheckNull();
 	}
 	
 	public function insert($isCaptcha){
@@ -42,11 +42,13 @@ class DataModifier{
 	}
 	
 	public function prepareUpdate(){
+		$this->checkID();
+		$this->modelConnector->setID($this->id);
 		$this->modelConnector->triggerPreUpdate();
 		$this->columnDB = $this->modelConnector->getColumnNameByBoolean('isDB');
-		$this->dataDB = $this->modelConnector->getColumnAttribute('data');
 		$this->prepare();
 		$this->modelConnector->triggerPostUpdate();
+		$this->modelConnector->triggerCheckNull();
 	}
 	
 	public function update($isCaptcha){
@@ -64,13 +66,13 @@ class DataModifier{
 	}
 	
 	public function prepareDrop(){
-		$this->modelConnector->triggerDrop();
 		$this->columnDB = $this->modelConnector->getColumnNameByBoolean('isDB');
-		$this->dataDB = $this->modelConnector->getColumnAttribute('data');
+		$this->checkID();
+		$this->modelConnector->setID($this->id);
+		$this->modelConnector->triggerDrop();
 	}
 	
 	public function drop(){
-		$this->checkID();
 		db_drop($this->table, $this->id);
 		$this->modelConnector->setID($this->id);
 		$this->modelConnector->triggerPostDBDrop();
@@ -79,7 +81,6 @@ class DataModifier{
 	private function prepare(){
 		$this->getData();
 		$this->modelConnector->setData($this->data);
-		$this->modelConnector->triggerCheckNull();
 		$this->modelConnector->triggerSerialize();
 		$this->modelConnector->triggerStripTag();
 		$this->data = $this->modelConnector->getData();
@@ -139,39 +140,36 @@ class DataModifier{
 		$this->formatMultipleData();
 		$this->id = array();
 		foreach($this->data as $key => $value){
+			$this->modelConnector->setData($value);
+			$this->modelConnector->triggerCheckNull();
 			$this->id[] = db_insert($this->table, $value);
 		}
 		return true;
 	}
 	
 	private function updateSingleRow(){
-		$this->checkID();
 		$this->getDataFromConnector();
 		db_update($this->table, $this->data, $this->id);
-		$this->modelConnector->setID($this->id);
 		return true;
 	}
 	
 	private function updateMultipleRows(){
 		$this->getDataFromConnector();
-		if($this->checkDataSymmetry()){
-			$this->formatMultipleData();
-			$this->checkNullMultipleData();
-			$this->id = array();
-			foreach($this->data as $key => $value){
-				$this->modelConnector->setData($value);
-				$this->modelConnector->triggerCheckNull();
-				$this->id[] = db_insert($this->table, $value);
-			}
-			return true;
+		$this->formatMultipleData();
+		if(!is_array($this->id)) $this->id = array();
+		foreach($this->data as $key => $value){
+			$this->modelConnector->setData($value);
+			$this->modelConnector->triggerCheckNull();
+			$this->id[] = $key;
+			db_update($this->table, $value, $key);
 		}
-		return false;
+		return true;
 	}
 	
 	private function formatMultipleData(){
 		$formattedData = array();
-		$n = count($this->data[$this->multipleInsertColumn[0]]);
-		for($i=0; $i< $n; $i++){
+		$dataKey = array_keys($this->data[$this->multipleInsertColumn[0]]);
+		foreach($dataKey as $i){
 			foreach($this->data as $key => $value){
 				if(is_array($value)){
 					$formattedData[$i][$key] = $value[$i];

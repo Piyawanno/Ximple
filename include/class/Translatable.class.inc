@@ -2,15 +2,16 @@
 include_once('Authority.class.inc');
 
 abstract class Translatable extends Authority{
-	private $translateFormRender;
+	public $moduleName;
+	public $moduleExtension;
+	public $moduleTitle;
 	
-	protected $moduleName;
-	protected $moduleExtension;
 	protected $fullModuleName;
-	protected $moduleTitle;
 	protected $modelConnector;
 	protected $configForm = array();
 	protected $formMeta;
+	
+	private $translateFormRender;
 	
 	public function renderTranslateForm(){
 		execute_set_ajax();

@@ -21,6 +21,7 @@ abstract class ModelColumn{
 	public $data;
 	public $defaultData;
 	public $listMode;
+	public $tableName;
 	
 	public $isDB = true;
 	public $isForm = true;
@@ -84,6 +85,10 @@ abstract class ModelColumn{
 		if($this->isNotNull and empty($this->data)){
 			error_syslog(sprintf(tt('Data in column %s is not allowed be empty.'), $this->name));
 		}
+	}
+	
+	public function triggerSetTableName($tableName){
+		$this->tableName = $tableName;
 	}
 	
 	protected function renderFormAttribute(){

@@ -5,9 +5,6 @@ include_once('AdvertiseConfigModel.class.inc');
 
 class AdvertiseConfig extends ConfigControl{
 	function AdvertiseConfig(){
-		$this->moduleName = 'advertise';
-		$this->moduleExtension = 'config';
-		$this->moduleTitle = tt('Advertise Configuration');
 		$this->setAdmin('advertise_admin');
 		$this->init(new AdvertiseConfigModel());
 	}

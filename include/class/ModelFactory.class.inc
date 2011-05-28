@@ -2,10 +2,8 @@
 class ModelFactory{
 	private $model = array();
 	private $modelObject;
-	private $moduleName = '';
 	
-	function ModelFactory($moduleName, $modelObject){
-		$this->moduleName = $moduleName;
+	function ModelFactory($modelObject){
 		$this->modelObject = $modelObject;
 	}
 	
@@ -31,7 +29,9 @@ class ModelFactory{
 			}
 		}
 		$this->check();
-		return new ModelConnector($this->model, $this->modelObject);
+		$connector = new ModelConnector($this->model, $this->modelObject);
+		$connector->triggerSetTableName($this->modelObject->tableName);
+		return $connector;
 	}
 	
 	private function check(){

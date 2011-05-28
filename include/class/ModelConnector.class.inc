@@ -214,10 +214,11 @@ class ModelConnector{
 		$this->triggerSingleParameter('GetID', $this->id);
 	}
 	
+	public function triggerSetTableName($tableName){
+		$this->triggerSingleParameter('SetTableName', $tableName);
+	}
+	
 	public function triggerSelect($data){
-		if(method_exists($this->modelObject, 'triggerSelect')){
-			$this->modelObject->triggerSelect($data);
-		}
 		$triggerColumn = array();
 		foreach($this->model as $key => $value){
 			$methodName = 'triggerSelect';
@@ -237,6 +238,9 @@ class ModelConnector{
 				}
 			}
 		}
+		if(method_exists($this->modelObject, 'triggerSelect')){
+			$this->modelObject->triggerSelect($data);
+		}
 		$this->clearCache();
 		return $data;
 	}
@@ -252,26 +256,26 @@ class ModelConnector{
 	
 	private function trigger($event){
 		$methodName = 'trigger'.$event;
-		if(method_exists($this->modelObject, $methodName)){
-			$this->modelObject->$methodName();
-		}
 		foreach($this->model as $key => $value){
 			if(method_exists($value, $methodName)){
 				$value->$methodName();
 			}
+		}
+		if(method_exists($this->modelObject, $methodName)){
+			$this->modelObject->$methodName();
 		}
 		$this->clearCache();
 	}
 	
 	private function triggerSingleParameter($event, $parammeter){
 		$methodName = 'trigger'.$event;
-		if(method_exists($this->modelObject, $methodName)){
-			$this->modelObject->$methodName($parammeter);
-		}
 		foreach($this->model as $key => $value){
 			if(method_exists($value, $methodName)){
 				$value->$methodName($parammeter);
 			}
+		}
+		if(method_exists($this->modelObject, $methodName)){
+			$this->modelObject->$methodName($parammeter);
 		}
 		$this->clearCache();
 	}

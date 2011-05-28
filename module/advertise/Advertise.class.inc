@@ -5,9 +5,6 @@ include_once('AdvertiseModel.class.inc');
 
 class Advertise extends Control{
 	function Advertise(){
-		$this->moduleTitle = tt('Advertise');
-		$this->moduleName = 'advertise';
-		$this->tableName = 'advertise';
 		$this->setAdmin('advertise_admin');
 		$this->addAction('advertise_banner', 'renderBanner');
 		$this->addAccessMethod('guest', 'renderBanner');

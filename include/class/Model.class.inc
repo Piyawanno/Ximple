@@ -2,6 +2,8 @@
 include_once('ModelColumn.class.inc');
 
 abstract class Model{
+	public $tableName;
+	
 	private $extendedObjBefore = array();
 	private $extendedObjAfter = array();
 	private $caegorized = false;

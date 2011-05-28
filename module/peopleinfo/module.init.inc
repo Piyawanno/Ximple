@@ -32,13 +32,13 @@ function module_init_peopleinfo(){
 	$peopleUser = new PeopleUser();
 	$peopleUser->initModule('PeopleUser.class.inc');
 	
-	$peopleRelationCreator = new QuickTableCreator('people_relation', new PeopleRelationModel());
+	$peopleRelationCreator = new QuickTableCreator(new PeopleRelationModel());
 	$peopleRelationCreator->create();
 	
-	$peopleFileCreator = new QuickTableCreator('people_file', new PeopleFileModel());
+	$peopleFileCreator = new QuickTableCreator(new PeopleFileModel());
 	$peopleFileCreator->create();
 	
-	$eventRelationCreator = new QuickTableCreator('event_relation', new EventRelationModel());
+	$eventRelationCreator = new QuickTableCreator(new EventRelationModel());
 	$eventRelationCreator->create();
 	
 	module_add_role('peopleinfo_admin', 'People Information Administrator', 'Who manages all about People Information Center.');

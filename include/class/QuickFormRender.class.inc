@@ -19,7 +19,7 @@ class QuickFormRender{
 	}
 	
 	public function setModel($model){
-		$this->modelFactory = new ModelFactory($this->id, $model);
+		$this->modelFactory = new ModelFactory($model);
 		$this->modelConnector = $modelFactory->bind();
 		$column = $this->modelConnector->getColumnName();
 		$this->model = array();

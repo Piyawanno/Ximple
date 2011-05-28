@@ -147,9 +147,7 @@ class Information extends Control{
 				db_update('people_file', array('file' => $fileName), $key);
 			}
 		}
-		if($oldDir != ROOT_PATH.'files/peopleinfo' and is_dir($oldDir)){
-			rmdir($oldDir);
-		}
+		@rmdir($oldDir);
 	}
 }
 ?>

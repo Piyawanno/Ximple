@@ -33,12 +33,10 @@ class FreeTagColumn extends AutoCompleteColumn{
 	}
 	
 	public function triggerPostDBInsert(){
-		echo('hoo');
 		freetag_update($this->data, $this->moduleName, $this->contentID);
 	}
 	
 	public function triggerPostDBUpdate(){
-		echo('hey');
 		freetag_update($this->data, $this->moduleName, $this->contentID);
 	}
 	

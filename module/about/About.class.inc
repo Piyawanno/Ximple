@@ -1,6 +1,7 @@
 <?php
 execute_add_class('about', 'About');
-include(ROOT_PATH.'include/class/ConfigControl.class.inc');
+require(ROOT_PATH.'include/class/ConfigControl.class.inc');
+require('AboutModel.class.inc');
 
 class About extends ConfigControl{
 	private $path;
@@ -54,15 +55,6 @@ class About extends ConfigControl{
 		io_serialize(input_strip_slash_array($this->data), $this->path);
 		config_append_assc('navigation', 'about', pp('title'));
 		config_save();
-	}
-}
-
-class AboutModel extends Model{
-	function AboutModel(){
-		$this->title = $this->title(tt('heading'));
-		$this->title->enableTranslate();
-		$this->body = $this->text(tt('text'));
-		$this->body->enableTranslate();
 	}
 }
 ?>

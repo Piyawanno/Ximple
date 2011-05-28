@@ -18,7 +18,6 @@ abstract class Control extends Translatable{
 	protected $data;
 	protected $dataByID;
 	protected $listMeta;
-	protected $tableName;
 	
 	protected $ownerColumn;
 	protected $dataModifier;
@@ -38,6 +37,7 @@ abstract class Control extends Translatable{
 	
 	public $id;
 	public $column;
+	public $tableName;
 	
 	public function index(){
 		$this->selectListPage(20, 'WHERE (section='.SECTION.')');
@@ -189,6 +189,7 @@ abstract class Control extends Translatable{
 		$this->setDefaultPrepareMethod();
 		$this->setDefaultNotify();
 		$this->initObject($modelObj);
+		$this->modelConnector->triggerSetTableName($this->tableName);
 	}
 	
 	protected function setListWriteIcon($label=null, $mode=null){
@@ -357,8 +358,8 @@ abstract class Control extends Translatable{
 	}
 	
 	private function initObject($modelObj){
-		$modelFactory = new ModelFactory($this->fullModuleName, $modelObj);
-		$this->modelConnector = $modelFactory->bind();
+		$modelFactory = new ModelFactory($modelObj);
+		$this->modelConnector = $modelFactory->bind($this);
 		$this->column = $this->modelConnector->getColumnName();
 		$this->formMeta = new FormMetaData();
 		$this->listMeta = new ListPageMetaData();
