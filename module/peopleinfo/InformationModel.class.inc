@@ -13,7 +13,11 @@ class InformationModel extends Model{
 		
 		$this->update_time = $this->now();
 		$this->update_time->isUpdateTime = true;
+		$this->update_time->formatDateBySelect = true;
+		$this->update_time->dateFormat = cc('time_format').' H:i';
 		
+		$this->creator = $this->owner();
+				
 		$this->content = $this->text(tt('content'));
 		$this->content->isReachable = true;
 		$this->freetag = new FreeTagColumn('peopleinfo_info');

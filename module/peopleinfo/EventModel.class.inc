@@ -14,6 +14,10 @@ class EventModel extends Model{
 		$this->occur_date = $this->calendar('date');
 		$this->update_time = $this->now();
 		$this->update_time->isUpdateTime = true;
+		$this->update_time->formatDateBySelect = true;
+		$this->update_time->dateFormat = cc('time_format').' H:i';
+		
+		$this->creator = $this->owner();
 		
 		$this->description = $this->text(tt('description'));
 		$this->description->isReachable = true;

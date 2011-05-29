@@ -11,6 +11,7 @@ class Information extends Control{
 		$this->moduleExtension = 'info';
 		$this->tableName = 'information';
 		$this->setAccess();
+		$this->redirectToIDPage = true;
 		$this->init(new InformationModel());
 		if($setPath){
 			document_set_path(tt('People Information Center'), 'peopleinfo_summary');
@@ -116,28 +117,30 @@ class Information extends Control{
 	}
 	
 	private function renderPage(){
+		head_add_css('peopleinfo.css');
 		$this->id = (int) gg('id');
 		$this->selectByID($this->column);
 		document_set_path($this->dataByID['topic']);
 		$image = array();
 		foreach($this->dataByID['file'] as $key => $value){
 			if(substr($value['type'], 0, 5) == 'image'){
-				$image[] = $value;
+				$image[$key] = $value;
 				unset($this->dataByID['file'][$key]);
 			}
 		}
 		$renderArray = array(
 			'image' => $image,
 			'data' => $this->dataByID,
+			'editable' => authority_group('peopleinfo_admin'),
 		);
-		return render($renderArray, 'peopleinfo.tpl', 'peopleinfo');
+		return render($renderArray, 'peopleinfo_info.tpl', 'peopleinfo_info');
 	}
 	
 	private function setAccess(){
 		$this->dropAccessMethod('index');
 		$this->setAdmin('peopleinfo_admin');
 		
-		$this->addAction('peopleinfo_info_read_file', 'readFile');
+		$this->addAction('peopleinfo_info_file', 'readFile');
 		$this->addAction('peopleinfo_info_drop_people_relation', 'dropPeopleRelation');
 		$this->addAction('peopleinfo_info_drop_event_relation', 'dropEventRelation');
 		$this->addAction('peopleinfo_info_drop_people_file', 'dropPeopleFile');

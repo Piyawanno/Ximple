@@ -1,15 +1,16 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <h3 class="list_label"><?=tt('Information about').' : '.$data['event']?></h3>
 <p>
-	<strong><?=tt('place')?> : </strong><?=$data['place']?>
-</p>
-<p>
-	<strong><?=tt('date')?> : </strong><?=$data['occur_date']?>
-</p>
-<p>
 	<?=$data['description']?>
 </p>
 <p>
+	<strong><?=tt('by')?> : </strong>
+	<?=render_profile_link($data['creator'])?> @
+	</strong><?=$data['occur_date']?> (<?=tt('update').' '.$data['update_time']?>)
+</p>
+<p>
+	<strong><?=tt('place')?> : </strong>
+	<a href="<?=SECTION_URI.Q.'peopleinfo_event_place/place/'.$data['place']?>"><?=$data['place']?></a>
 	<strong><?=tt('tags')?> : </strong>
 	<?=render_tag(null, $data['freetag'], 'peopleinfo_event')?>
 </p>
