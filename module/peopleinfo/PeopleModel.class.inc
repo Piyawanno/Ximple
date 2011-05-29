@@ -9,7 +9,7 @@ class PeopleModel extends Model{
 		$this->status = $this->select(tt('status'), peopleinfo_get_people_status());
 		$this->status->isList = true;
 		
-		$this->profile = $this->text('generic information');
+		$this->profile = $this->text(tt('generic information'));
 		$this->profile->isReachable = true;
 		
 		$this->update_time = $this->now();

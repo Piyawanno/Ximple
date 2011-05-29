@@ -6,7 +6,7 @@
 	<?php endforeach?>
 </ul>
 <p style="margin-bottom:40px;">
-	<?=sprintf(tt('<a href="%s">List all People</a>'), SECTION_URI.Q.'peopleinfo')?>
+	<a href="<?=SECTION_URI.Q.'peopleinfo'?>"><?=tt('List all People')?></a>
 </p>
 
 <h3 class="title_label"><?=tt('Last updated Events')?></h3>
@@ -16,7 +16,7 @@
 	<?php endforeach?>
 </ul>
 <p style="margin-bottom:40px;">
-	<?=sprintf(tt('<a href="%s">List all Events</a>'), SECTION_URI.Q.'peopleinfo_event')?>
+	<a href="<?=SECTION_URI.Q.'peopleinfo_event'?>"><?=tt('List all Events')?></a>
 </p>
 
 <h3 class="title_label"><?=tt('Last updated Information')?></h3>
@@ -26,6 +26,6 @@
 	<?php endforeach?>
 </ul>
 <p style="margin-bottom:40px;">
-	<?=sprintf(tt('<a href="%s">List all Information</a>'), SECTION_URI.Q.'peopleinfo_info')?>
+	<a href="<?=SECTION_URI.Q.'peopleinfo_info'?>"><?=tt('List all Information')?></a>
 </p>
 

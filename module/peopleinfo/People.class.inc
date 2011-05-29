@@ -94,7 +94,7 @@ class People extends Control{
 			head_add_js('include/javascript/emailcolumn.js');
 			head_add_js('include/external/sha1.js');
 		
-			$description  = tt("Only User with the Role of 'People Information Related' can be inserted into database. ");
+			$description  = tt('Only User with the Role of <b>People Information Related</b> can be inserted into database. ');
 			$description .= sprintf(tt('You can use <a href="%s">User Management</a> to add the Role to Users.'), SECTION_URI.Q.'user');
 		
 			$this->formMeta->description  = render_ajax_icon('addPeopleUser', 'files/icon/add.png', tt('Add new User'));
