@@ -6,8 +6,6 @@ var imgCorrect = '<img class="warning_icon" src="'+rootURI+'files/icon/correct.p
 var imgWrong = '<img class="warning_icon" src="'+rootURI+'files/icon/stop.png" />';
 var formLock = false;
 
-$(document).ready(function(){$(document).trigger("ready");});
-
 function checkForm(notNull, label){
 	if(formLock){
 		alert(formNotCorrect);

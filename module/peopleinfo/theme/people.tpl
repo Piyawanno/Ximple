@@ -14,4 +14,5 @@
 		<a href="<?=SECTION_URI.Q.'peopleinfo_edit/'.$data['id']?>"><?=tt('edit')?></a>
 	</p>
 <?php endif?>
+<h3 class="title_label"><?=tt('Related Information')?></h3>
 <?=$information?>

@@ -6,7 +6,7 @@ class PeopleFileModel extends Model{
 	
 	function PeopleFileModel($informationID=null){
 		$this->tableName = 'people_file';
-		$this->short_description = $this->title(tt('short description'));
+		$this->short_description = $this->char(tt('short description'));
 		$this->file = $this->file('file', 'files/peopleinfo/');
 		$this->type = $this->hidden('', 'char');
 		$this->information = $this->none($informationID, 'int');
@@ -28,9 +28,11 @@ class PeopleFileModel extends Model{
 	
 	private function getType(){
 		$this->type->data = array();
-		foreach($this->file->data as $key => $value){
-			if(is_file($value)){
-				$this->type->data[$key] = mime_content_type($value);
+		if(is_array($this->file->data)){
+			foreach($this->file->data as $key => $value){
+				if(is_file($value)){
+					$this->type->data[$key] = mime_content_type($value);
+				}
 			}
 		}
 	}

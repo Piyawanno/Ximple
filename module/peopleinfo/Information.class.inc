@@ -98,11 +98,21 @@ class Information extends Control{
 	}
 	
 	public function renderPeopleInformation($peopleID){
-		
+		head_add_css('form.css');
+		$clause = 'WHERE people='.$peopleID;
+		$informationID = db_select_single_column('people_relation', 'information', $clause);
+		if(count($informationID)){
+			return $this->renderMultiple($informationID);
+		}
 	}
 	
 	public function renderEventInformation($eventID){
-		
+		head_add_css('form.css');
+		$clause = 'WHERE event='.$eventID;
+		$informationID = db_select_single_column('event_relation', 'information', $clause);
+		if(count($informationID)){
+			return $this->renderMultiple($informationID);
+		}
 	}
 	
 	private function renderTag($tag){
@@ -116,24 +126,50 @@ class Information extends Control{
 		return render($renderArray, 'peopleinfo_tag_list.tpl', 'peopleinfo_tag_list_information');
 	}
 	
+	private function renderMultiple($idArray){
+		$clause = 'WHERE id='.join(' OR id=', $idArray);
+		$this->select($this->column, $clause);
+		$renderPages = array();
+		$renderArray = array(
+			'show_header' => false,
+			'editable' => authority_group('peopleinfo_admin'),
+		);
+		foreach($this->data as $id => $data){
+			list($data, $image) = $this->separateImageFile($data);
+			$renderArray['image'] = $image;
+			$renderArray['data'] = $data;
+			$render = render($renderArray, 'peopleinfo_info.tpl', 'peopleinfo_info_part');
+			$renderPages['pages'][$id]['topic'] = $data['topic'];
+			$renderPages['pages'][$id]['page']  = $render;
+		}
+		return render($renderPages, 'peopleinfo_muliple.tpl', 'peopleinfo_multiple_info');
+	}
+	
 	private function renderPage(){
 		head_add_css('peopleinfo.css');
+		search_set_page();
 		$this->id = (int) gg('id');
 		$this->selectByID($this->column);
+		list($this->dataByID, $image) = $this->separateImageFile($this->dataByID);
 		document_set_path($this->dataByID['topic']);
-		$image = array();
-		foreach($this->dataByID['file'] as $key => $value){
-			if(substr($value['type'], 0, 5) == 'image'){
-				$image[$key] = $value;
-				unset($this->dataByID['file'][$key]);
-			}
-		}
 		$renderArray = array(
+			'show_header' => true,
 			'image' => $image,
 			'data' => $this->dataByID,
 			'editable' => authority_group('peopleinfo_admin'),
 		);
 		return render($renderArray, 'peopleinfo_info.tpl', 'peopleinfo_info');
+	}
+	
+	private function separateImageFile($data){
+		$image = array();
+		foreach($data['file'] as $key => $value){
+			if(substr($value['type'], 0, 5) == 'image'){
+				$image[$key] = $value;
+				unset($data['file'][$key]);
+			}
+		}
+		return array($data, $image);
 	}
 	
 	private function setAccess(){

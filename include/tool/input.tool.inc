@@ -25,12 +25,14 @@ function input_reorder_multiple_files($name){
 	$reordered = array();
 	$received = ff($name);
 	$n = count($received['name']);
-	foreach($received['name'] as $i => $value){
-		$reordered[$i]['name']     = $received['name'][$i];
-		$reordered[$i]['tmp_name'] = $received['tmp_name'][$i];
-		$reordered[$i]['type']     = $received['type'][$i];
-		$reordered[$i]['size']     = $received['size'][$i];
-		$reordered[$i]['error']    = $received['error'][$i];
+	if(is_array($received['name'])){
+		foreach($received['name'] as $i => $value){
+			$reordered[$i]['name']     = $received['name'][$i];
+			$reordered[$i]['tmp_name'] = $received['tmp_name'][$i];
+			$reordered[$i]['type']     = $received['type'][$i];
+			$reordered[$i]['size']     = $received['size'][$i];
+			$reordered[$i]['error']    = $received['error'][$i];
+		}
 	}
 	return $reordered;
 }

@@ -31,6 +31,7 @@ class PeopleColumn extends SelectColumn{
 	
 	public function triggerUpdateForm(){
 		$this->isSelect = false;
+		$this->isFormLabel = false;
 		head_add_js_var('peopleUserNumber', 1);
 	}
 }

@@ -27,10 +27,10 @@ class FormRender extends FormModelRender{
 	}
 	
 	public function renderUpdateForm($data){
+		$this->modelConnector->triggerUpdateForm();
 		$this->checkTranslate();
 		$this->getTranslateLabel();
 		$this->modelConnector->setData($data);
-		$this->modelConnector->triggerUpdateForm();
 		$this->prepareRender();
 		return $this->renderForm();
 	}

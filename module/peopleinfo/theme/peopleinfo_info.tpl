@@ -1,5 +1,7 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
-<h3 class="list_label"><?=$data['topic']?></h3>
+<?php if($show_header):?>
+	<h3 class="list_label"><?=$data['topic']?></h3>
+<?php endif?>
 <p>
 	<?=$data['content']?>
 </p>
@@ -8,7 +10,11 @@
 	<h4><?=tt('Related Events')?></h4>
 	<ul>
 	<?php foreach($data['event'] as $id => $event):?>
-		<li><a href="<?=SECTION_URI.Q.'peopleinfo_event/'.$id?>"><?=$event['event'][$id]?></a></li>
+		<li>
+			<a href="<?=SECTION_URI.Q.'peopleinfo_event/'.array_pop(array_keys($event['event']))?>">
+				<?=array_pop($event['event'])?>
+			</a>
+		</li>
 	<?php endforeach?>
 	</ul>
 <?php endif?>
@@ -17,7 +23,11 @@
 	<h4><?=tt('Related People')?></h4>
 	<ul>
 	<?php foreach($data['people'] as $id => $people):?>
-		<li><a href="<?=SECTION_URI.Q.'peopleinfo/'.$id?>"><?=$people['people'][$id]?></a></li>
+		<li>
+			<a href="<?=SECTION_URI.Q.'peopleinfo/'.array_pop(array_keys($people['people']))?>">
+				<?=array_pop($people['people'])?> (<?=array_pop($people['relation'])?>)
+			</a>
+		</li>
 	<?php endforeach?>
 	</ul>
 <?php endif?>
@@ -26,7 +36,11 @@
 	<h4><?=tt('Related Files')?></h4>
 	<ul>
 	<?php foreach($data['file'] as $id => $file):?>
-		<li><a href="<?=SECTION_URI.Q.'peopleinfo_info_file/'.$id?>" target="_blank"><?=$file['short_description']?></a></li>
+		<li>
+			<a href="<?=SECTION_URI.Q.'peopleinfo_info_file/'.$id?>" target="_blank">
+				<?=$file['short_description']?>
+			</a>
+		</li>
 	<?php endforeach?>
 	</ul>
 <?php endif?>
