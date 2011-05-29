@@ -4,7 +4,7 @@ class GridFormRender{
 	private $memberColumn;
 	private $dropMode;
 	private $name;
-	private $hasDBRow;
+	private $isLink;
 	private $isEmptyForm;
 	
 	function GridFormRender(){
@@ -15,7 +15,7 @@ class GridFormRender{
 		$this->memberColumn = $gridColumn->memberColumn;
 		$this->dropMode = $gridColumn->dropMode;
 		$this->name = $gridColumn->name;
-		$this->hasDBRow = $gridColumn->hasDBRow;
+		$this->isLink = $gridColumn->isLink;
 		$this->isEmptyForm = $gridColumn->isEmptyForm;
 	}
 	
@@ -62,7 +62,7 @@ class GridFormRender{
 			foreach($this->memberColumn as $name => $member){
 				$member->data = $data[$name];
 				$form = $this->renderRowForm($id, $member);
-				if($this->hasDBRow){
+				if($this->isLink){
 					$form = str_replace('[]', '[id_'.$key.']', $form);
 				}
 				$render .= $form;
