@@ -315,8 +315,8 @@ abstract class Control extends Translatable{
 	
 	private function checkPostSelectColumn($columns){
 		$dbColumn = $this->modelConnector->getColumnNameByBoolean('isDB');
-		$gridColumn = $this->modelConnector->getColumnNameByBoolean('isGrid');
-		$allowedColumn = array_merge($dbColumn, $gridColumn);
+		$linkColumn = $this->modelConnector->getColumnNameByBoolean('isLink');
+		$allowedColumn = array_merge($dbColumn, $linkColumn);
 		$columns = array_intersect($columns, $allowedColumn);
 		$columns[] = 'id';
 		return $columns;

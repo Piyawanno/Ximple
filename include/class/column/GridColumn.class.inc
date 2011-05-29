@@ -5,7 +5,6 @@ require_once(ROOT_PATH.'include/class/ModelConnector.class.inc');
 /// This class is a container for other ModelColumns.
 /// It does not represent a column of database table.
 class GridColumn extends ModelColumn{
-	public $hasDBRow = false;
 	public $isEmptyForm = false;
 	public $memberColumn;
 	public $dropMode;
@@ -25,13 +24,12 @@ class GridColumn extends ModelColumn{
 		$this->isMultipleInsert = true;
 		$this->memberColumn = array();
 		$this->isDB = false;
-		$this->isGrid = true;
 	}
 	
 	public function setModel($modelObj){
 		$this->childTableName = $modelObj->tableName;
 		$this->dropMode = $modelObj->dropMode;
-		$this->hasDBRow = true;
+		$this->isLink = true;
 		$this->isDB = false;
 		$this->initModelConnector($modelObj->moduleName, $modelObj);
 		$this->mergeModel();
@@ -58,7 +56,7 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function triggerPostDBInsert(){
-		if($this->hasDBRow){
+		if($this->isLink){
 			$this->initDataModifier();
 			$this->dataModifier->prepareInsert();
 			$this->modelConnector->triggerSetParent($this->id);
@@ -67,7 +65,7 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function triggerPostDBUpdate(){
-		if($this->hasDBRow){
+		if($this->isLink){
 			$this->initDataModifier();
 			$this->dataModifier->prepareInsert();
 			$this->separateData();
@@ -86,7 +84,7 @@ class GridColumn extends ModelColumn{
 	}
 	
 	private function getMember(){
-		if($this->hasDBRow and !empty($this->id)){
+		if($this->isLink and !empty($this->id)){
 			$this->getMemberDBData();
 		}else{
 			$this->checkMemberData();

@@ -37,7 +37,7 @@ class ModelConnector{
 	public function getColumnName(){
 		$col = array('id');
 		foreach($this->model as $key => $value){
-			if($value->isDB or $value->isGrid) $col[] = $key;
+			if($value->isDB or $value->isLink) $col[] = $key;
 		}
 		return $col;
 	}

@@ -48,6 +48,23 @@ class People extends Control{
 		return render($renderArray, 'peopleinfo_summary.tpl', 'peopleinfo_summary');
 	}
 	
+	public function renderStatus(){
+		$status = (int) gg('place');
+		$this->selectSingleColumn('people', "WHERE status='$status'");
+		foreach($this->data as $key => $value){
+			$userInfo = userinfo_get_info_by_id($value['people']);
+			$this->data[$key] = $userInfo['login_name'];
+		}
+		$allStatus = peopleinfo_get_people_status();
+		$renderArray = array(
+			'data' => $this->data,
+			'status' => $allStatus[$status]
+		);
+		document_set_path(tt('People'), 'peopleinfo');
+		document_set_path($allStatus[$status]);
+		return render($renderArray, 'people_status.tpl', 'people_status');
+	}
+	
 	public function renderTagClound(){
 		head_add_css('peopleinfo.css');
 		document_set_path(tt('Tag Cloud'));
@@ -144,12 +161,15 @@ class People extends Control{
 		$this->setOwner('people');
 		
 		$this->addAction('peopleinfo_summary', 'renderMainSummary');
+		$this->addAction('peopleinfo_status', 'renderStatus');
 		$this->addAction('peopleinfo_tag_clound', 'renderTagClound');
 		
 		$this->addAccessMethod('index', 'peopleinfo_observer');
 		$this->addAccessMethod('renderMainSummary', 'peopleinfo_observer');
 		$this->addAccessMethod('renderTagClound', 'peopleinfo_observer');
+		$this->addAccessMethod('renderStatus', 'peopleinfo_observer');
 	}
+	
 	
 }
 

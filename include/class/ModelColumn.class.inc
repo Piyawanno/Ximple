@@ -24,7 +24,7 @@ abstract class ModelColumn{
 	public $tableName;
 	
 	public $isDB = true;
-	public $isGrid = false;
+	public $isLink = false;
 	public $isForm = true;
 	public $isGridForm = true;
 	public $isFormLabel = true;
@@ -53,6 +53,10 @@ abstract class ModelColumn{
 	
 	public function setFormAttribute($name, $value){
 		$this->formAttribute[$name] = $value;
+	}
+	
+	public function unsetFormAttribute($name){
+		unset($this->formAttribute[$name]);
 	}
 	
 	public function resetFormAttribute(){

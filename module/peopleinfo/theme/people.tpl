@@ -5,8 +5,9 @@
 	<?=$data['profile']?>
 </p>
 <p>
-	<strong><?=tt('status')?> : </strong><?=array_pop($data['status'])?>
-	<?=tt('tags')?>
+	<strong><?=tt('status')?> : </strong>
+	<a href="<?=SECTION_URI.Q.'peopleinfo_status/'.array_pop(array_keys($data['status']))?>"><?=array_pop($data['status'])?></a>
+	<strong><?=tt('tags')?></strong>
 	<?=render_tag(null, $data['freetag'], 'peopleinfo')?>
 </p>
 <?php if($editable):?>

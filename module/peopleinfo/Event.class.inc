@@ -37,6 +37,17 @@ class Event extends Control{
 		return Control::renderListPage();
 	}
 	
+	public function renderPlace(){
+		$place = gg('place');
+		$this->selectSingleColumn('event', "WHERE place='$place'");
+		$renderArray = array(
+			'data' => $this->data,
+			'place' => $place
+		);
+		document_set_path($place);
+		return render($renderArray, 'event_place.tpl', 'event_place');
+	}
+	
 	public function getDefinedPlace(){
 		execute_set_ajax();
 		$clause = 'WHERE section='.SECTION." AND place LIKE '%".gg('wildcard')."%'";
@@ -75,9 +86,11 @@ class Event extends Control{
 		$this->dropAccessMethod('index');
 		$this->setAdmin('peopleinfo_admin');
 		$this->addAction('peopleinfo_event_get_defined_place', 'getDefinedPlace');
+		$this->addAction('peopleinfo_event_place', 'renderPlace');
 		
 		$this->addAccessMethod('index', 'peopleinfo_observer');
 		$this->addAccessMethod('getDefinedPlace', 'peopleinfo_observer');
+		$this->addAccessMethod('rednerPlace', 'peopleinfo_observer');
 	}
 }
 

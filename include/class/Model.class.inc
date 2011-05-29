@@ -90,10 +90,8 @@ abstract class Model{
 	}
 	
 	public function password($label, $help=null){
-		include_once('column/CharColumn.class.inc');
-		$modelColumn = new CharColumn($label, $help);
-		$modelColumn->setFormAttribute('type', 'password');
-		return $modelColumn;
+		include_once('column/PasswordColumn.class.inc');
+		return new PasswordColumn($label, $help);
 	}
 	
 	public function none($default=null, $type='char'){

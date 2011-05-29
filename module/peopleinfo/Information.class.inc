@@ -23,7 +23,7 @@ class Information extends Control{
 		$this->id = (int) gg('id');
 		$tag = gg('tag');
 		if($this->id) return $this->renderPage();
-		elseif(strlen($tag)) return $this->renderTag();
+		elseif(strlen($tag)) return $this->renderTag($tag);
 		else return $this->renderListPage();
 	}
 	

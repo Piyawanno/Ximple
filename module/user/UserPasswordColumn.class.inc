@@ -1,7 +1,7 @@
 <?php
-require_once(ROOT_PATH.'include/class/column/CharColumn.class.inc');
+require_once(ROOT_PATH.'include/class/column/PasswordColumn.class.inc');
 
-class UserPasswordColumn extends CharColumn{
+class UserPasswordColumn extends PasswordColumn{
 	function UserPasswordColumn(){
 		CharColumn::CharColumn(tt('password'));
 		$this->setFormAttribute('type', 'password');
@@ -22,7 +22,6 @@ class UserPasswordColumn extends CharColumn{
 	
 	function triggerPreUpdate(){
 		$this->isDB = (strlen(pp('password')) > 0);
-		echo(':'.$this->isDB.':');
 	}
 }
 ?>
