@@ -28,7 +28,7 @@
 		<?php foreach($data as $id => $value):?>
 		<tr>
 			<?php foreach($column as $key => $col):?>
-				<?php if(is_array($value[$col])) $value[$col] = array_pop($value[$col]);?>
+				<?php if(is_array($value[$col])) $value[$col] = $value[$col]['label'];?>
 				<?php if(substr($value[$col], 0, 4) == '<img'):?>
 					<td align="center">
 				<?php else:?>

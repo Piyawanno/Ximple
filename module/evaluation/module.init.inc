@@ -13,7 +13,7 @@ function module_init_evaluation(){
 	include_once(ROOT_PATH.'include/class/QuickTableCreator.class.inc');
 	$evaluation = new Evaluation();
 	$evaluation->initModule('Evaluation.class.inc');
-	$tableCreator = new QuickTableCreator('evaluationresult', new EvaluationResultModel());
+	$tableCreator = new QuickTableCreator(new EvaluationResultModel());
 	$tableCreator->create();
 	
 	module_add_role('evaluation_admin', 'Evaluation Administrator', 'Who can map evaluator to evaluatee and get report.');

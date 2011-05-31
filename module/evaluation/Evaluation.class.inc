@@ -114,7 +114,7 @@ class Evaluation extends Control{
 		$this->selectListPage(20, "WHERE model='$model'", array('status'), true);
 		$this->checkEvaluatorNumber($model);
 		$this->averageResult($model);
-		$this->postSelect();
+		$this->postSelect($this->listPageColumn);
 		return $this->renderListPage();
 	}
 	
@@ -178,8 +178,13 @@ class Evaluation extends Control{
 		$this->id = gg('id');
 		$this->selectByID($this->column, true);
 		if($this->getEditAccess() and count($this->data) and $this->dataByID['status'] != 2){
-			include_once(ROOT_PATH.'include/tool/form.tool.inc');
-			form_get_head();
+			require_once(ROOT_PATH.'include/class/FormModelRender.class.inc');
+			require_once(ROOT_PATH.'include/class/column/TextColumn.class.inc');
+			head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
+			head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
+			FormModelRender::prepareHead();
+			TextColumn::prepareEditor();
+			TextColumn::prepareHead();
 			$this->dataByID['evaluatee'] = userinfo_get_info_by_id($this->dataByID['evaluatee']);
 			$modelDescription = evaluation_get_model();
 			$renderArray = array(
@@ -314,14 +319,18 @@ class Evaluation extends Control{
 	}
 	
 	private function getResult($relatedID){
-		$clause = 'WHERE evaluation='.join(' OR evaluation=', $relatedID);
-		$column = array('evaluation', 'reference', 'result');
-		$dbResult = db_select('evaluationresult', $column, $clause);
-		$result = array();
-		foreach($dbResult as $key => $value){
-			$result[$value['evaluation']][$value['reference']] = $value['result'];
+		if(count($relatedID)){
+			$clause = 'WHERE evaluation='.join(' OR evaluation=', $relatedID);
+			$column = array('evaluation', 'reference', 'result');
+			$dbResult = db_select('evaluationresult', $column, $clause);
+			$result = array();
+			foreach($dbResult as $key => $value){
+				$result[$value['evaluation']][$value['reference']] = $value['result'];
+			}
+			return $result;
+		}else{
+			return array();
 		}
-		return $result;
 	}
 	
 	private function getStatus($related){

@@ -10,9 +10,8 @@ class TextColumn extends ModelColumn{
 	
 	public function renderForm($formID){
 		$id = $formID.'_'.$this->name;
-		head_add_css('include/external/cleditor/jquery.cleditor.css');
 		$this->prepareEditor();
-		$this->addJS();
+		$this->prepareHead();
 		$this->setFormAttribute('name', $this->name);
 		$this->setFormAttribute('id', $id);
 		$this->setFormAttribute('style', 'width:100%');
@@ -22,7 +21,7 @@ class TextColumn extends ModelColumn{
 		return $render;
 	}
 	
-	private function prepareEditor(){
+	public function prepareEditor(){
 		$smileyFolder  = ROOT_PATH.'files/smiley/';
 		if(!is_dir($smileyFolder)) mkdir($smileyFolder);
 		$smileyFolder .= SECTION.'/';
@@ -38,7 +37,8 @@ class TextColumn extends ModelColumn{
 		head_add_js_array('iconArray', $iconArray);
 	}
 	
-	private function addJS(){
+	public function prepareHead(){
+		head_add_css('include/external/cleditor/jquery.cleditor.css');
 		head_add_js('include/external/cleditor/jquery.cleditor.js');
 		head_add_js('include/external/cleditor/jquery.cleditor.advancedtable.min.js');
 		head_add_js('include/external/cleditor/jquery.cleditor.icon.js');

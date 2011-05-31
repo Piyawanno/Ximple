@@ -12,15 +12,14 @@ $.cleditor.buttons.icon = {
 		data.value = currentData;
 	}
 };
-
-
-var content = '<div style="max-width:150px;">';
-if(iconArray = undefined) iconArray = new Array();
-for(i in iconArray){
-	content += '<a href="#" onclick="return iconClick(\''+iconArray[i]+'\')"><img src="'+iconArray[i]+'" border="0"/>';
-}
-content += '</div>';
-$.cleditor.buttons.icon.popupContent = content;
+var content = '<div style="max-width:150px;padding:0;margin:0;">';
+$(document).bind("ready", function(){
+	for(i in iconArray){
+		content += '<a style="padding:5px;" href="#" onclick="return iconClick(\''+iconArray[i]+'\')"><img src="'+iconArray[i]+'" border="0"/>';
+	}
+	content += '</div>';
+	$.cleditor.buttons.icon.popupContent = content;
+});
 
 
 function iconClick(src){

@@ -37,6 +37,7 @@ abstract class Control extends Translatable{
 	
 	public $id;
 	public $column;
+	public $listPageColumn;
 	public $tableName;
 	
 	public function index(){
@@ -177,7 +178,7 @@ abstract class Control extends Translatable{
 		$this->initListPage();
 		$column = $this->modelConnector->getColumnNameByBoolean('isList');
 		$column = array_merge(array('id'), $column);
-		$column = array_unique(array_merge($column, $additionColumn));
+		$this->listPageColumn = array_unique(array_merge($column, $additionColumn));
 		$this->selectPage($column, $pageLength, $this->listPage->getClause($where), $isRaw);
 	}
 	

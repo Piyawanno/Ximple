@@ -9,7 +9,7 @@
 		<?php foreach($data as $key => $value):?>
 		<li>
 			<?php if($profile_access):?>
-				<a name="#evaluator_<?=$value['evaluator']['id']?>" />
+				<a name="evaluator_<?=$value['evaluator']['id']?>" />
 				<h4><?=render_profile_link($value['evaluator'])?></h4>
 			<?php endif?>
 			<p><?=$value['opinion']?></p>
@@ -52,7 +52,7 @@
 					<?php else:?>
 						<td align="center">0</td>
 					<?php endif?>
-					<?php $average_sum += $sum/$result_number;?>
+					<?php if($result_number) $average_sum += $sum/$result_number;?>
 				</tr>
 			<?php endforeach?>
 		<?php endforeach?>

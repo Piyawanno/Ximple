@@ -2,6 +2,16 @@
 abstract class FormModelRender{
 	protected $render = array();
 	protected abstract function getFormColumn();
+	
+	public function prepareHead(){
+		head_add_css('form.css');
+		head_add_js('include/external/jquery/jquery-form.js');
+		head_add_js('include/javascript/formcheck.js');
+		head_add_js_var('pleaseFill', tt('Please, fill the required field : '));
+		head_add_js_var('formNotCorrect', tt('Any field in the form is not correctly filled. Please correct it and try again.'));
+		head_add_js_var('isInstalled', true);
+	}
+	
 	protected function renderFormModel($id){
 		$modelArray = $this->getFormColumn();
 		foreach($modelArray as $name => $model){
