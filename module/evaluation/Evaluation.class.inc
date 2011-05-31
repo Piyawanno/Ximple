@@ -1,8 +1,11 @@
 <?php
 execute_add_class('evaluation', 'Evaluation');
 include('EvaluationModel.class.inc');
+define('MAX_EVALUATEE', 65535);
 
 class Evaluation extends Control{
+	private $resultStatus;
+	
 	function Evaluation(){
 		$this->moduleTitle = tt('Evaluation');
 		$this->moduleName = 'evaluation';
@@ -21,7 +24,7 @@ class Evaluation extends Control{
 		}elseif(evaluation_check_model_exists($model)){
 			return $this->renderReportList($model);
 		}else{
-			return $this->renderReportSummary();
+			return $this->renderSummary();
 		}
 	}
 	
@@ -93,7 +96,8 @@ class Evaluation extends Control{
 			db_update('evaluationresult', $dataArray, $key);
 		}
 		execute_set_db();
-		document_set_redirect('evaluation/model/'.$this->dataByID['model']);
+		$this->notifyBySave(pp('model'));
+		document_set_redirect('evaluation');
 	}
 	
 	public function drop(){
@@ -111,10 +115,11 @@ class Evaluation extends Control{
 		$this->listMeta->mode = 'evaluation';
 		$this->listMeta->addParameter('model', $model);
 		$this->listMeta->groupBy = 'evaluatee';
-		$this->selectListPage(20, "WHERE model='$model'", array('status'), true);
+		$this->selectListPage(MAX_EVALUATEE, "WHERE model='$model'", array('status'), true);
 		$this->checkEvaluatorNumber($model);
 		$this->averageResult($model);
 		$this->postSelect($this->listPageColumn);
+		$this->sortDataByResult();
 		return $this->renderListPage();
 	}
 	
@@ -135,7 +140,7 @@ class Evaluation extends Control{
 		return render($renderArray, 'evaluation_manage.tpl', 'evaluation_manage');
 	}
 	
-	private function renderReportSummary(){
+	private function renderSummary(){
 		$renderArray = array('data' => evaluation_get_model());
 		return render($renderArray, 'evaluation_report.tpl', 'evaluation_report');
 	}
@@ -148,6 +153,16 @@ class Evaluation extends Control{
 	private function renderReport(){
 		$this->id = (int) gg('id');
 		$this->selectByID($this->column, true);
+		if($this->checkResultComplete()){
+			return $this->renderReportPage();
+		}else{
+			execute_set_db();
+			notify_add_error(tt('Evaluation is not complete and not allowed to be seen.'));
+			document_set_redirect('evaluation');
+		}
+	}
+	
+	private function renderReportPage(){
 		$model = $this->dataByID['model'];
 		$evaluatee = userinfo_get_info_by_id($this->dataByID['evaluatee']);
 		$modelDescription = evaluation_get_model();
@@ -190,7 +205,9 @@ class Evaluation extends Control{
 			$renderArray = array(
 				'data' => $this->dataByID,
 				'model' => $modelDescription[$model],
+				'model_name' => $model,
 				'result' => $this->getResultData($this->id),
+				'status' => $this->dataByID['status']
 			);
 			return render($renderArray, 'evaluation_form.tpl', 'evaluation_form');
 		}
@@ -295,10 +312,15 @@ class Evaluation extends Control{
 		$result = $this->getResult(array_keys($related));
 		$result = $this->averageRowWise($result, $related);
 		foreach($this->data as $key => $value){
-			if(isset($result[$value['evaluatee']])){
-				$this->data[$key]['average'] = $result[$value['evaluatee']];
+			$status = $this->resultStatus[$value['evaluatee']];
+			if($status['finish'] == $status['all']){
+				if(isset($result[$value['evaluatee']])){
+					$this->data[$key]['average'] = $result[$value['evaluatee']];
+				}else{
+					$this->data[$key]['average'] = 0;
+				}
 			}else{
-				$this->data[$key]['average'] = 0;
+				$this->data[$key]['average'] = tt('not completed');
 			}
 		}
 	}
@@ -354,6 +376,7 @@ class Evaluation extends Control{
 				if($value['status'] == 1) $status[$evaluatee]['draft'] += 1;
 				if($value['status'] == 2) $status[$evaluatee]['finish'] += 1;
 			}
+			$this->resultStatus = $status;
 			return $status;
 		}else{
 			return array();
@@ -462,6 +485,42 @@ class Evaluation extends Control{
 			);
 		}
 		return $result;
+	}
+	
+	private function notifyBySave($model){
+		if(pp('status') == 1){
+			$message  = tt('Your Evaluation has been saved as draft and can be later <a %s>edited</a>.');
+			$uri = SECTION_URI.Q.'evaluation_fill/'.gg('id').'/model/'.$model;
+			notify_add_info(sprintf($message, 'href="'.$uri.'"'));
+		}elseif(pp('status') == 2){
+			notify_add_info(tt('Your Evaluation has been permanently saved and cannot edited.'));
+		}
+	}
+	
+	private function checkResultComplete(){
+		$evaluatee = $this->dataByID['evaluatee'];
+		$model = $this->dataByID['model'];
+		$clause = "WHERE model='$model' AND status !=2 AND evaluatee=$evaluatee";
+		$status = db_select($this->tableName, array('id'), $clause);
+		return (count($status) == 0);
+	}
+	
+	private function sortDataByResult(){
+		$notComplete = array();
+		$sortArray = array();
+		$resultArray = array();
+		foreach($this->data as $key => $value){
+			if($value['average'] == tt('not completed')){
+				$notComplete[$key] = $value;
+			}else{
+				$sortArray[$key] = $value['average'];
+			}
+		}
+		arsort($sortArray);
+		foreach($sortArray as $key => $value){
+			$resultArray[$key] = $this->data[$key];
+		}
+		$this->data = array_merge($resultArray, $notComplete);
 	}
 }
 ?>

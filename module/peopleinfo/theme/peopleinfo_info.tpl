@@ -11,8 +11,8 @@
 	<ul>
 	<?php foreach($data['event'] as $id => $event):?>
 		<li>
-			<a href="<?=SECTION_URI.Q.'peopleinfo_event/'.array_pop(array_keys($event['event']))?>">
-				<?=array_pop($event['event'])?>
+			<a href="<?=SECTION_URI.Q.'peopleinfo_event/'.$event['event']['value']?>">
+				<?=$event['event']['label']?>
 			</a>
 		</li>
 	<?php endforeach?>
@@ -24,8 +24,8 @@
 	<ul>
 	<?php foreach($data['people'] as $id => $people):?>
 		<li>
-			<a href="<?=SECTION_URI.Q.'peopleinfo/'.array_pop(array_keys($people['people']))?>">
-				<?=array_pop($people['people'])?> (<?=array_pop($people['relation'])?>)
+			<a href="<?=SECTION_URI.Q.'peopleinfo/'.$people['people']['value']?>">
+				<?=$people['people']['label']?> (<?=$people['relation']['label']?>)
 			</a>
 		</li>
 	<?php endforeach?>

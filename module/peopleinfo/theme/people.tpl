@@ -6,7 +6,7 @@
 </p>
 <p>
 	<strong><?=tt('status')?> : </strong>
-	<a href="<?=SECTION_URI.Q.'peopleinfo_status/'.array_pop(array_keys($data['status']))?>"><?=array_pop($data['status'])?></a>
+	<a href="<?=SECTION_URI.Q.'peopleinfo_status/'.$data['status']['value']?>"><?=$data['status']['label']?></a>
 	<strong><?=tt('tags')?></strong>
 	<?=render_tag(null, $data['freetag'], 'peopleinfo')?>
 </p>

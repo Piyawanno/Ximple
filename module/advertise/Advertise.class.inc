@@ -26,7 +26,7 @@ class Advertise extends Control{
 		$this->id = (int) gg('id');
 		$this->selectByID($this->column);
 		document_set_path($this->dataByID['name']);
-		$this->dataByID['position'] = array_pop($this->dataByID['position']);
+		$this->dataByID['position'] = $this->dataByID['position']['label'];
 		return render($this->dataByID, 'advertise.tpl', 'advertise');
 	}
 	
