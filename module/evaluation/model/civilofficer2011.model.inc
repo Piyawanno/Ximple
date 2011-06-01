@@ -76,4 +76,10 @@ function civilofficer2011(){
 		),
 	);
 }
+
+function civilofficer2011_note($average){
+	if($average >= 85) return 'ควรได้ 2 ขั้น';
+	elseif($average < 85 and $average >= 80) return 'ควรได้ 1.5 ขั้น';
+	else return '';
+}
 ?>

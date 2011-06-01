@@ -20,7 +20,7 @@ class ListPage{
 			'data' => $data,
 			'meta' => $this->listMeta,
 			'sort_mode' => $this->getSortMode(),
-			'column' => $this->modelConnector->getColumnNameByBoolean('isList'), 
+			'column' => $this->listMeta->column,
 			'label' => $this->label,
 			'is_sort' => $this->modelConnector->getColumnNameByBoolean('isOrderable'),
 			'mode' => $this->modelConnector->getColumnAttribute('listMode'),

@@ -10,6 +10,7 @@ class ListPageMetaData{
 	public $defaultOrder;
 	public $defaultOrderDesc;
 	public $groupBy;
+	public $column;
 	
 	private $addtionalParameter = array();
 	

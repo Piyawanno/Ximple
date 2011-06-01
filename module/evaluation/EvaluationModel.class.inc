@@ -25,6 +25,12 @@ class EvaluationModel extends Model{
 		
 		$this->opinion = $this->hidden('', 'text');
 		$this->status = $this->hidden(0, 'int');
+		
+		$this->note = $this->none();
+		$this->note->isDB = false;
+		$this->note->isOrderable = false;
+		$this->note->label = tt('note');
+		
 		$this->section = $this->section();
 	}
 }

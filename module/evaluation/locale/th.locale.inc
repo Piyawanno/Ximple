@@ -30,9 +30,10 @@ globalvar_add_locale(array(
 	'Manage Evaluation' => 'บริหารจัดการการประเมิน',
 	'Evaluation Report' => 'รายงานการประเมิน',
 	'maximum' => 'คะแนนเต็ม',
-	'not completed' => '',
+	'not completed' => 'ยังประเมินไม่เสร็จ',
 	'Your Evaluation has been saved as draft and can be later <a %s>edited</a>.' => '',
 	'Your Evaluation has been permanently saved and cannot edited.' => '',
 	'Evaluation is not complete and not allowed to be seen.' => '',
+	'note' => 'หมายเหตุ',
 ));
 ?>

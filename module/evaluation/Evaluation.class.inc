@@ -115,9 +115,14 @@ class Evaluation extends Control{
 		$this->listMeta->mode = 'evaluation';
 		$this->listMeta->addParameter('model', $model);
 		$this->listMeta->groupBy = 'evaluatee';
-		$this->selectListPage(MAX_EVALUATEE, "WHERE model='$model'", array('status'), true);
+		
+		$additionColumn = array('note');
+		$clause = "WHERE model='$model'";
+		$this->selectListPage(MAX_EVALUATEE, $clause, $additionColumn, true);
+		
 		$this->checkEvaluatorNumber($model);
 		$this->averageResult($model);
+		$this->getReportNote($model);
 		$this->postSelect($this->listPageColumn);
 		$this->sortDataByResult();
 		return $this->renderListPage();
@@ -321,6 +326,7 @@ class Evaluation extends Control{
 				}
 			}else{
 				$this->data[$key]['average'] = tt('not completed');
+				$this->data[$key]['avoidLink'] = true;
 			}
 		}
 	}
@@ -521,6 +527,20 @@ class Evaluation extends Control{
 			$resultArray[$key] = $this->data[$key];
 		}
 		$this->data = array_merge($resultArray, $notComplete);
+	}
+	
+	private function getReportNote($model){
+		require_once('model/'.$model.'.model.inc');
+		$functionName = $model.'_note';
+		if(function_exists($functionName)){
+			foreach($this->data as $key => $value){
+				$this->data[$key]['note'] = $functionName($value['average']);
+			}
+		}else{
+			foreach($this->data as $key => $value){
+				$this->data[$key]['note'] = '';
+			}
+		}
 	}
 }
 ?>

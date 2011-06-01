@@ -35,7 +35,7 @@
 					<td>
 				<?php endif?>
 				
-				<?php if(isset($mode[$col])):?>
+				<?php if(isset($mode[$col]) and !(isset($value['avoidLink']) and $value['avoidLink'])):?>
 					<a href="<?=SECTION_URI.Q.$mode[$col].'/'.$value['id']?>"><?=$value[$col]?></a></td>
 				<?php else:?>
 					<?=$value[$col]?></td>

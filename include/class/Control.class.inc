@@ -179,7 +179,7 @@ abstract class Control extends Translatable{
 		$column = $this->modelConnector->getColumnNameByBoolean('isList');
 		$column = array_merge(array('id'), $column);
 		$this->listPageColumn = array_unique(array_merge($column, $additionColumn));
-		$this->selectPage($column, $pageLength, $this->listPage->getClause($where), $isRaw);
+		$this->selectPage($this->listPageColumn, $pageLength, $this->listPage->getClause($where), $isRaw);
 	}
 	
 	protected function init($modelObj){
@@ -239,6 +239,10 @@ abstract class Control extends Translatable{
 	
 	protected function renderListPage(){
 		$this->initListPage();
+		foreach($this->listPageColumn as $key => $value){
+			if($value == 'id') unset($this->listPageColumn[$key]);
+		}
+		$this->listMeta->column = $this->listPageColumn;
 		$render = $this->listPage->render($this->data);
 		$render.= $this->pager->render($this->listPage->getPageMode());
 		$render.= $this->listPage->renderSearchForm();
