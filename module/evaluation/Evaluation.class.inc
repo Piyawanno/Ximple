@@ -16,15 +16,12 @@ class Evaluation extends Control{
 	}
 	
 	public function index(){
-		$this->setReportPath();
-		$this->id = (int) gg('id');
-		$model = gg('model');
-		if($this->id){
-			return $this->renderReport();
-		}elseif(evaluation_check_model_exists($model)){
-			return $this->renderReportList($model);
+		if($this->isCallable('report')){
+			return $this->report();
 		}else{
-			return $this->renderSummary();
+			$render  = '<h3 class="list_label">'.tt('Evaluation').'</h3>';
+			$render .= cc('evaluation_index_page');
+			return $render;
 		}
 	}
 	
@@ -34,7 +31,7 @@ class Evaluation extends Control{
 		if(evaluation_check_model_exists($model)){
 			return $this->renderManageList($model);
 		}else{
-			return $this->renderManageSummary();
+			return $this->renderModelSummary('evaluation_manage');
 		}
 	}
 	
@@ -109,6 +106,19 @@ class Evaluation extends Control{
 		document_set_redirect('evaluation_manage/model/'.$this->dataByID['model']);
 	}
 	
+	private function report(){
+		$this->setReportPath();
+		$this->id = (int) gg('id');
+		$model = gg('model');
+		if($this->id){
+			return $this->renderReport();
+		}elseif(evaluation_check_model_exists($model)){
+			return $this->renderReportList($model);
+		}else{
+			return $this->renderSummary();
+		}
+	}
+	
 	private function renderReportList($model){
 		$this->listMeta->title = tt('List of Evaluation Report');
 		$this->setReportListColumn();
@@ -140,14 +150,41 @@ class Evaluation extends Control{
 		return $this->renderListPage();
 	}
 	
-	private function renderManageSummary(){
-		$renderArray = array('data' => evaluation_get_model());
-		return render($renderArray, 'evaluation_manage.tpl', 'evaluation_manage');
+	private function renderModelSummary($template){
+		$renderArray = array(
+			'data' => evaluation_get_model(),
+		);
+		return render($renderArray, $template.'.tpl', $template);
 	}
 	
 	private function renderSummary(){
-		$renderArray = array('data' => evaluation_get_model());
-		return render($renderArray, 'evaluation_report.tpl', 'evaluation_report');
+		$render = '<h3 class="list_label">'.tt('Evaluation').'</h3>';
+		if($this->isCallable('manage')){
+			$render .= $this->renderModelSummary('evaluation_manage_index');
+		}
+		if($this->isCallable('report')){
+			$render .= $this->renderModelSummary('evaluation_report');
+		}
+		if($this->isCallable('fill')){
+			$render .= $this->renderFillIndex();
+		}
+		return $render;
+	}
+	
+	private function renderFillIndex(){
+		$clause = 'WHERE evaluator='.USER_ID.' AND section='.SECTION.' AND status!=2';
+		$this->select($this->column, $clause);
+		if(count($this->data)){
+			$result = array();
+			foreach($this->data as $key => $value){
+				$result[$value['model']['value']][$key] = $value;
+			}
+			$renderArray = array(
+				'evaluation' => $result,
+				'model' => evaluation_get_model_name(),
+			);
+			return render($renderArray, 'evaluation_fill_index.tpl', 'evaluation_fill_index');
+		}
 	}
 	
 	private function renderFillSummary(){
@@ -251,11 +288,12 @@ class Evaluation extends Control{
 		$this->addAction('evaluation_fill', 'fill');
 		$this->addAction('evaluation_save', 'save');
 		
-		$this->addAccessMethod('evaluation_evaluator', 'index');
+		$this->addAccessMethod('guest', 'index');
+		$this->addAccessMethod('evaluation_evaluator', 'report');
 		$this->addAccessMethod('evaluation_evaluator', 'fill');
 		$this->addAccessMethod('evaluation_evaluator', 'save');
-		
-		$this->addAccessMethod('evaluation_evaluatee', 'index');
+		$this->addAccessMethod('evaluation_evaluatee', 'report');
+		$this->addAccessMethod('evaluation_observer', 'report');
 	}
 	
 	private function dropByUpdate($model){

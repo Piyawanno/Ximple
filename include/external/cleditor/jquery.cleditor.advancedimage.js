@@ -14,12 +14,12 @@ imageDialog =
 '	<input class="image_margin" style="width:30px;"/>'+
 '	<label style="padding-left:10px;">align</label>'+
 '	<select class="image_align">'+
+'		<option value="baseline">Baseline</option>'+
 '		<option value="left">Left</option>'+
 '		<option value="right">Right</option>'+
 '		<option value="top">Top</option>'+
 '		<option value="bottom">Bottom</option>'+
 '		<option value="middle">Middle</option>'+
-'		<option value="baseline">Baseline</option>'+
 '	</select>'+
 '</fieldset>'+
 '<input class="code_submit" type="button" value=Submit>';

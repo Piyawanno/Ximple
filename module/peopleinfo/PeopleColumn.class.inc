@@ -18,7 +18,8 @@ class PeopleColumn extends SelectColumn{
 		if($this->isSelect){
 			return SelectColumn::renderForm($formID);
 		}else{
-			$hidden = new HiddenColumn($this->defaultData, 'int');
+			$hidden = new HiddenColumn($this->data, 'int');
+			$hidden->name = $this->name;
 			return $hidden->renderForm($formID);
 		}
 	}
