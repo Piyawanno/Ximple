@@ -18,6 +18,26 @@ class People extends Control{
 		document_set_path(tt('People Information Center'), 'peopleinfo_summary');
 	}
 	
+	public function isCallable($methodName){
+		$specialMethod = array('edit', 'update');
+		$this->id = (int)gg('id');
+		if(in_array($methodName, $specialMethod)){
+			if($this->dataByID['people'] == USER_ID){
+				return true;
+			}
+		}elseif($methodName == 'index'){
+			if($this->id){
+				$this->selectByID($this->column);
+				if($this->dataByID['people'] == USER_ID){
+					return true;
+				}
+			}elseif(authority_group('peopleinfo_related')){
+				return true;
+			}
+		}
+		return Authority::isCallable($methodName);
+	}
+	
 	public function index(){
 		document_set_path(tt('People'), 'peopleinfo');
 		$this->id = (int) gg('id');
@@ -49,7 +69,14 @@ class People extends Control{
 	}
 	
 	public function renderStatus(){
-		$status = (int) gg('place');
+		if(strlen(gg('status'))){
+			$status = gg('status');
+		}else{
+			$this->id = (int) gg('id');
+			$this->selectByID(array('status'));
+			$status = $this->dataByID['status'];
+			$status = $status['value'];
+		}
 		$this->selectSingleColumn('people', "WHERE status='$status'");
 		foreach($this->data as $key => $value){
 			$userInfo = userinfo_get_info_by_id($value['people']);
@@ -79,7 +106,6 @@ class People extends Control{
 		$this->listMeta->title = tt('List of People recorded in People Information Center');
 		$this->listMeta->mode = 'peopleinfo';
 		$this->selectListPage(20, 'WHERE section='.SECTION);
-		$this->data = userinfo_get_login_name($this->data, 'people');
 		$this->setListWriteIcon(tt('Add User to People Information Center'), 'peopleinfo_write');
 		$this->setListEditIcon();
 		return Control::renderListPage();
@@ -88,25 +114,17 @@ class People extends Control{
 	public function write(){
 		if($this->checkRelatedGroup()){
 			document_set_path(tt('People'), 'peopleinfo');
-			head_add_css('peopleinfo.css');
-			head_add_js('module/peopleinfo/peopleinfo.js');
-			head_add_js('module/user/user.js');
-			head_add_js('include/javascript/emailcolumn.js');
-			head_add_js('include/external/sha1.js');
-		
-			$description  = tt('Only User with the Role of <b>People Information Related</b> can be inserted into database. ');
-			$description .= sprintf(tt('You can use <a href="%s">User Management</a> to add the Role to Users.'), SECTION_URI.Q.'user');
-		
-			$this->formMeta->description  = render_ajax_icon('addPeopleUser', 'files/icon/add.png', tt('Add new User'));
-			$this->formMeta->description .= '<p>'.$description.'</p>';
-			$form  = Control::write();
-			$form .= '<div id="peopleinfo_user_dialog" title="'.tt('Add new User').'"></div>';
-			return $form;
+			$this->prepareHeadForm();
+			head_add_js_var('insertPeople', true);
+			return Control::write();
 		}
 	}
 	
 	public function edit(){
 		document_set_path(tt('People'), 'peopleinfo');
+		$this->prepareHeadForm();
+		head_add_js_var('insertPeople', false);
+		head_add_js_var('uid', $this->dataByID['people']);
 		$userInfo = userinfo_get_info_by_id($this->dataByID['people']);
 		$this->editLabel = tt('Edit People Information').' : '.$userInfo['login_name'];
 		return Control::edit();
@@ -138,7 +156,6 @@ class People extends Control{
 	}
 	
 	private function renderPage(){
-		$this->selectByID($this->column);
 		$this->setOwner($this->dataByID['creator']['id']);
 		$information = new Information(false);
 		$this->dataByID['people'] = userinfo_get_info_by_id($this->dataByID['people']);
@@ -179,7 +196,13 @@ class People extends Control{
 		$this->addAccessMethod('peopleinfo_informant', 'renderStatus');
 	}
 	
-	
+	private function prepareHeadForm(){
+		head_add_css('peopleinfo.css');
+		head_add_js('module/peopleinfo/peopleinfo.js');
+		head_add_js_var('nameTooShort', tt('Login name is too short.'));
+		head_add_js_var('nameNotConformed', tt('Login name is not conformed.'));
+		head_add_js_var('nameExists', tt('Login name exists.'));
+	}
 }
 
 ?>

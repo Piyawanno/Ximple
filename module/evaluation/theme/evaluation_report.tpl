@@ -1,6 +1,6 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <p>
-	<?=tt('You can see report of the followed evaluations')?>
+	<?=tt('You can see report of the followed evaluations.')?>
 </p>
 <ul>
 <?php foreach($data as $key => $value):?>

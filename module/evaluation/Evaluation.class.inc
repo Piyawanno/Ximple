@@ -251,6 +251,7 @@ class Evaluation extends Control{
 				'result' => $this->getResultData($this->id),
 				'status' => $this->dataByID['status']
 			);
+			document_set_path($this->dataByID['evaluatee']['login_name']);
 			return render($renderArray, 'evaluation_form.tpl', 'evaluation_form');
 		}
 		$this->fillAccessDenied();

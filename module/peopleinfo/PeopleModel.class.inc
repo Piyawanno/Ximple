@@ -5,9 +5,12 @@ require('PeopleColumn.class.inc');
 
 class PeopleModel extends Model{
 	function PeopleModel(){
+		$this->people_name = $this->title(tt('name'));
+		$this->people_name->listMode = 'peopleinfo';
 		$this->people = new PeopleColumn();
 		$this->status = $this->select(tt('status'), peopleinfo_get_people_status());
 		$this->status->isList = true;
+		$this->status->listMode = 'peopleinfo_status';
 		
 		$this->profile = $this->text(tt('generic information'));
 		$this->profile->isReachable = true;

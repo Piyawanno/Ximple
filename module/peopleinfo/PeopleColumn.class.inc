@@ -1,39 +1,41 @@
 <?php
-require_once(ROOT_PATH.'include/class/column/SelectColumn.class.inc');
 require_once(ROOT_PATH.'include/class/column/HiddenColumn.class.inc');
 
-class PeopleColumn extends SelectColumn{
-	private $isSelect;
-	
+class PeopleColumn extends HiddenColumn{
 	function PeopleColumn(){
-		SelectColumn::SelectColumn(tt('user'), array());
-		$this->isList = true;
-		$this->isUser = true;
-		$this->isOrderable = false;
-		$this->isReachable = true;
-		$this->listMode = 'peopleinfo';
+		HiddenColumn::HiddenColumn(0, 'int');
 	}
 	
-	public function renderForm($formID){	
-		if($this->isSelect){
-			return SelectColumn::renderForm($formID);
-		}else{
-			$hidden = new HiddenColumn($this->data, 'int');
-			$hidden->name = $this->name;
-			return $hidden->renderForm($formID);
+	function triggerPostInsert(){
+		$userData = array(
+			'login_name' => pp('people_name')
+		);
+		$this->data = db_insert('users', $userData);
+		$this->insertGroup();
+	}
+	
+	function triggerPostUpdate(){
+		$userData = array(
+			'login_name' => pp('people_name'),
+		);
+		db_update('users', $userData, $this->data);
+		$this->insertGroup();
+	}
+	
+	private function insertGroup(){
+		$groups = cc('peopleinfo_related');
+		if(count($groups)){
+			foreach($groups as $key => $value){
+				$clause = 'users='.((int) $this->data).' AND groups='.$value;
+				db_drop_many('map', $clause);
+				$data = array(
+					'users' => $this->data,
+					'groups' => $value,
+					'section' => SECTION,
+				);
+				db_insert('map', $data);
+			}
 		}
-	}
-	
-	public function triggerInsertForm(){
-		$this->isSelect = true;
-		$this->option = peopleinfo_get_unprocessed_user();
-		head_add_js_var('peopleUserNumber', count($this->option));
-	}
-	
-	public function triggerUpdateForm(){
-		$this->isSelect = false;
-		$this->isFormLabel = false;
-		head_add_js_var('peopleUserNumber', 1);
 	}
 }
 ?>

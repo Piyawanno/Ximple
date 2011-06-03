@@ -1,3 +1,29 @@
+$(document).bind("ready", function(){
+	$('#peopleinfo_people_name').keyup(function(){
+		formLock = true;
+		if($(this).val().length < 4){
+			$('#info_peopleinfo_people_name').css({color:'red'});
+			$('#info_peopleinfo_people_name').html(imgWrong + nameTooShort);
+		}else if($(this).attr('rel') == 'install'){
+			$('#info_peopleinfo_people_name').html(imgCorrect);
+			formLock = false;
+		}else{
+			var uri = '';
+			if(insertPeople) uri = 'userinfo_check_user_exists/login_name/';
+			else uri = 'userinfo_check_user_exists/uid/'+uid+'/login_name/';
+			$.get(sectionURI+uri+$(this).val(), function(data){
+				if(data != 'not exist'){
+					$('#info_peopleinfo_people_name').html(imgWrong + nameExists);
+				}else{
+					$('#info_peopleinfo_people_name').html(imgCorrect);
+					formLock = false;
+				}
+			});
+		}
+	});
+});
+
+
 function checkPeopleUser(event, ui){
 	if(peopleUserNumber == 0 ||  peopleUserNumber == null){
 		addPeopleUser();
@@ -32,5 +58,3 @@ function submitPeopleUserForm(form, notNull, label){
 	}
 	return false;
 }
-
-$(document).ready(checkPeopleUser);
