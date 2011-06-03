@@ -68,6 +68,7 @@
 </p>
 <?php if($editable):?>
 	<p class="peopleinfo_operation">
-		<a href="<?=SECTION_URI.Q.'peopleinfo_info_edit/'.$data['id']?>"><?=tt('edit')?></a>
+		<a href="<?=SECTION_URI.Q.'peopleinfo_info_edit/'.$data['id']?>"><?=tt('edit')?></a> | 
+		<a href="<?=SECTION_URI.Q.'peopleinfo_info_drop/'.$data['id']?>"><?=tt('drop')?></a>
 	</p>
 <?php endif?>

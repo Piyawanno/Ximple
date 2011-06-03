@@ -8,10 +8,13 @@ class EventModel extends Model{
 		
 		$this->place = $this->autoComplete(tt('place'), 'peopleinfo_event_get_defined_place');
 		$this->place->isList = true;
+		$this->place->listMode = 'peopleinfo_event_place';
 		$this->place->isReachable = true;
 		$this->place->isNotNull = true;
 		
 		$this->occur_date = $this->calendar('date');
+		$this->occur_date->isList = true;
+		
 		$this->update_time = $this->now();
 		$this->update_time->isUpdateTime = true;
 		$this->update_time->formatDateBySelect = true;

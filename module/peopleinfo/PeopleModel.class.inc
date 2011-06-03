@@ -17,6 +17,8 @@ class PeopleModel extends Model{
 		$this->update_time->formatDateBySelect = true;
 		$this->update_time->dateFormat = cc('time_format').' H:i';
 		
+		$this->creator = $this->owner();
+		
 		$this->freetag = new FreeTagColumn('peopleinfo');
 		$this->section = $this->section();
 	}

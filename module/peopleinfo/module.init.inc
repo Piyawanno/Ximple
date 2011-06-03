@@ -42,6 +42,7 @@ function module_init_peopleinfo(){
 	$eventRelationCreator->create();
 	
 	module_add_role('peopleinfo_admin', 'People Information Administrator', 'Who manages all about People Information Center.');
+	module_add_role('peopleinfo_informant', 'People Information Informant', 'Who observes, contributes information and edit own information People Information Center.');
 	module_add_role('peopleinfo_observer', 'People Information Observer', 'Who observes all information in People Information Center.');
 	module_add_role('peopleinfo_related', 'People Information Related', 'Who edit own information in People Information Center.');
 	
@@ -49,6 +50,11 @@ function module_init_peopleinfo(){
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_info', 'information');
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo', 'people');
 	module_add_panel('People Information Center', 'peopleinfo_admin', 'peopleinfo_tag_clound', 'tag clound');
+	
+	module_add_panel('People Information Center', 'peopleinfo_informant', 'peopleinfo_event', 'event');
+	module_add_panel('People Information Center', 'peopleinfo_informant', 'peopleinfo_info', 'information');
+	module_add_panel('People Information Center', 'peopleinfo_informant', 'peopleinfo', 'people');
+	module_add_panel('People Information Center', 'peopleinfo_informant', 'peopleinfo_tag_clound', 'tag clound');
 	
 	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_event', 'event');
 	module_add_panel('People Information Center', 'peopleinfo_observer', 'peopleinfo_info', 'information');

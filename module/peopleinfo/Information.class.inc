@@ -30,7 +30,7 @@ class Information extends Control{
 	public function renderListPage(){
 		document_set_path(tt('List of Information'));
 		$this->listMeta->title = tt('List of Information');
-		$this->listMeta->mode = 'peopleinfo_info_list';
+		$this->listMeta->mode = 'peopleinfo_info';
 		$this->selectListPage(20, 'WHERE section='.SECTION);
 		$this->setListWriteIcon(tt('Add Information'), 'peopleinfo_info_write');
 		$this->setListEditIcon();
@@ -65,8 +65,10 @@ class Information extends Control{
 		foreach($file as $key => $value){
 			if(is_file(ROOT_PATH.$value)) unlink(ROOT_PATH.$value);
 		}
-		$dirName = ROOT_PATH.dirname($file[0]);
-		if(is_dir($dirName)) rmdir($dirName);
+		if(count($file)){
+			$dirName = ROOT_PATH.dirname($file[0]);
+			if(is_dir($dirName)) rmdir($dirName);
+		}
 		db_drop_many('people_file', 'information='.gg('id'));
 		Control::drop();
 	}
@@ -150,13 +152,14 @@ class Information extends Control{
 		search_set_page();
 		$this->id = (int) gg('id');
 		$this->selectByID($this->column);
+		$this->setOwner($this->dataByID['creator']['id']);
 		list($this->dataByID, $image) = $this->separateImageFile($this->dataByID);
 		document_set_path($this->dataByID['topic']);
 		$renderArray = array(
 			'show_header' => true,
 			'image' => $image,
 			'data' => $this->dataByID,
-			'editable' => authority_group('peopleinfo_admin'),
+			'editable' => $this->isCallable('edit'),
 		);
 		return render($renderArray, 'peopleinfo_info.tpl', 'peopleinfo_info');
 	}
@@ -173,6 +176,7 @@ class Information extends Control{
 	}
 	
 	private function setAccess(){
+		$this->ownerColumn = 'creator';
 		$this->dropAccessMethod('index');
 		$this->setAdmin('peopleinfo_admin');
 		
@@ -181,9 +185,15 @@ class Information extends Control{
 		$this->addAction('peopleinfo_info_drop_event_relation', 'dropEventRelation');
 		$this->addAction('peopleinfo_info_drop_people_file', 'dropPeopleFile');
 		
-		$this->addAccessMethod('index', 'peopleinfo_observer');
-		$this->addAccessMethod('listPage', 'peopleinfo_observer');
-		$this->addAccessMethod('readFile', 'peopleinfo_observer');
+		$this->addAccessMethod('peopleinfo_observer', 'index');
+		$this->addAccessMethod('peopleinfo_observer', 'listPage');
+		$this->addAccessMethod('peopleinfo_observer', 'readFile');
+		
+		$this->addAccessMethod('peopleinfo_informant', 'index');
+		$this->addAccessMethod('peopleinfo_informant', 'write');
+		$this->addAccessMethod('peopleinfo_informant', 'insert');
+		$this->addAccessMethod('peopleinfo_informant', 'listPage');
+		$this->addAccessMethod('peopleinfo_informant', 'readFile');
 	}
 	
 	private function setConfigForm(){

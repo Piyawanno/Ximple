@@ -30,7 +30,7 @@ class Event extends Control{
 	
 	public function renderListPage(){
 		$this->listMeta->title = tt('List of Event');
-		$this->listMeta->mode = 'peopleinfo_event_list';
+		$this->listMeta->mode = 'peopleinfo_event';
 		$this->selectListPage(20, 'WHERE section='.SECTION);
 		$this->setListWriteIcon(tt('Add Event'), 'peopleinfo_event_write');
 		$this->setListEditIcon();
@@ -38,7 +38,13 @@ class Event extends Control{
 	}
 	
 	public function renderPlace(){
-		$place = gg('place');
+		if(gg('place')){
+			$place = gg('place');
+		}else{
+			$this->id = (int) gg('id');
+			$this->selectByID(array('place'));
+			$place = $this->dataByID['place'];
+		}
 		$this->selectSingleColumn('event', "WHERE place='$place'");
 		$renderArray = array(
 			'data' => $this->data,
@@ -68,11 +74,12 @@ class Event extends Control{
 	
 	private function renderPage(){
 		$this->selectByID($this->column);
+		$this->setOwner($this->dataByID['creator']['id']);
 		$information = new Information(false);
 		$renderData = array(
 			'data' => $this->dataByID,
 			'information' => $information->renderEventInformation($this->id),
-			'editable' => authority_group('peopleinfo_admin'),
+			'editable' => $this->isCallable('edit'),
 		);
 		head_add_css('peopleinfo.css');
 		search_set_page();
@@ -82,15 +89,22 @@ class Event extends Control{
 	}
 	
 	private function setAccess(){
+		$this->ownerColumn = 'creator';
 		$this->dropAction('drop');
 		$this->dropAccessMethod('index');
 		$this->setAdmin('peopleinfo_admin');
 		$this->addAction('peopleinfo_event_get_defined_place', 'getDefinedPlace');
 		$this->addAction('peopleinfo_event_place', 'renderPlace');
 		
-		$this->addAccessMethod('index', 'peopleinfo_observer');
-		$this->addAccessMethod('getDefinedPlace', 'peopleinfo_observer');
-		$this->addAccessMethod('rednerPlace', 'peopleinfo_observer');
+		$this->addAccessMethod('peopleinfo_observer', 'index');
+		$this->addAccessMethod('peopleinfo_observer', 'getDefinedPlace');
+		$this->addAccessMethod('peopleinfo_observer', 'rednerPlace');
+		
+		$this->addAccessMethod('peopleinfo_informant', 'index');
+		$this->addAccessMethod('peopleinfo_informant', 'write');
+		$this->addAccessMethod('peopleinfo_informant', 'insert');
+		$this->addAccessMethod('peopleinfo_informant', 'getDefinedPlace');
+		$this->addAccessMethod('peopleinfo_informant', 'rednerPlace');
 	}
 }
 

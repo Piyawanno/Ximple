@@ -10,6 +10,7 @@ class InformationModel extends Model{
 		$this->topic->listMode = 'peopleinfo_info';
 		
 		$this->source_date = $this->calendar(tt('date'));
+		$this->source_date->isList = true;
 		
 		$this->update_time = $this->now();
 		$this->update_time->isUpdateTime = true;

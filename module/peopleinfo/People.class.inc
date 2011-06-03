@@ -139,12 +139,13 @@ class People extends Control{
 	
 	private function renderPage(){
 		$this->selectByID($this->column);
+		$this->setOwner($this->dataByID['creator']['id']);
 		$information = new Information(false);
 		$this->dataByID['people'] = userinfo_get_info_by_id($this->dataByID['people']);
 		$renderData = array(
 			'data' => $this->dataByID,
 			'information' => $information->renderPeopleInformation($this->id),
-			'editable' => authority_group('peopleinfo_admin'),
+			'editable' => $this->isCallable('edit'),
 		);
 		head_add_css('peopleinfo.css');
 		search_set_page();
@@ -154,6 +155,7 @@ class People extends Control{
 	}
 	
 	private function setAccess(){
+		$this->ownerColumn = 'creator';
 		$this->dropAction('drop');
 		$this->dropAccessMethod('index');
 		
@@ -164,10 +166,17 @@ class People extends Control{
 		$this->addAction('peopleinfo_status', 'renderStatus');
 		$this->addAction('peopleinfo_tag_clound', 'renderTagClound');
 		
-		$this->addAccessMethod('index', 'peopleinfo_observer');
-		$this->addAccessMethod('renderMainSummary', 'peopleinfo_observer');
-		$this->addAccessMethod('renderTagClound', 'peopleinfo_observer');
-		$this->addAccessMethod('renderStatus', 'peopleinfo_observer');
+		$this->addAccessMethod('peopleinfo_observer', 'index');
+		$this->addAccessMethod('peopleinfo_observer', 'renderMainSummary');
+		$this->addAccessMethod('peopleinfo_observer', 'renderTagClound');
+		$this->addAccessMethod('peopleinfo_observer', 'renderStatus');
+		
+		$this->addAccessMethod('peopleinfo_informant', 'index');
+		$this->addAccessMethod('peopleinfo_informant', 'write');
+		$this->addAccessMethod('peopleinfo_informant', 'insert');
+		$this->addAccessMethod('peopleinfo_informant', 'renderMainSummary');
+		$this->addAccessMethod('peopleinfo_informant', 'renderTagClound');
+		$this->addAccessMethod('peopleinfo_informant', 'renderStatus');
 	}
 	
 	
