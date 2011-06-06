@@ -1,12 +1,14 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
-<h3 class="list_label"><?=tt('Information about').' : '.$data['people']['login_name']?></h3>
-<?=render_avatar($data['people'], true)?>
+<h3 class="list_label"><?=tt('Information about').' : '.$data['name']?></h3>
+<p align="center">
+	<?=$data['avatar']?>
+</p>
 <p>
 	<?=$data['profile']?>
 </p>
 <p>
 	<strong><?=tt('status')?> : </strong>
-	<a href="<?=SECTION_URI.Q.'peopleinfo_status/'.$data['status']['value']?>"><?=$data['status']['label']?></a>
+	<a href="<?=SECTION_URI.Q.'peopleinfo_status/status/'.$data['status']['value']?>"><?=$data['status']['label']?></a>
 	<strong><?=tt('tags')?></strong>
 	<?=render_tag(null, $data['freetag'], 'peopleinfo')?>
 </p>

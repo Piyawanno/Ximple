@@ -28,7 +28,6 @@ class Block extends Control{
 			'data' => $data,
 			'position' => cc('block_position'),
 		);
-		head_add_css('block.css');
 		head_add_css('list.css');
 		head_add_css('form.css');
 		return render($renderArray, 'block_edit.tpl', 'block_edit');

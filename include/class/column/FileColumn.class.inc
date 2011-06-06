@@ -58,10 +58,12 @@ class FileColumn extends CharColumn{
 	
 	private function singleUpdate(){
 		$file = ff($this->name);
+		$this->getData();
 		if($file['size']){
-			$this->getData();
 			if(is_file(ROOT_PATH.$this->dataDB)) unlink(ROOT_PATH.$this->dataDB);
 			$this->data = io_upload($file, $this->path, $this->isImage);
+		}else{
+			$this->data = $this->dataDB;
 		}
 	}
 	

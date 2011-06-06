@@ -22,13 +22,13 @@ class People extends Control{
 		$specialMethod = array('edit', 'update');
 		$this->id = (int)gg('id');
 		if(in_array($methodName, $specialMethod)){
-			if($this->dataByID['people'] == USER_ID){
+			if($this->dataByID['uid'] == USER_ID){
 				return true;
 			}
 		}elseif($methodName == 'index'){
 			if($this->id){
 				$this->selectByID($this->column);
-				if($this->dataByID['people'] == USER_ID){
+				if($this->dataByID['uid'] == USER_ID){
 					return true;
 				}
 			}elseif(authority_group('peopleinfo_related')){
@@ -51,7 +51,7 @@ class People extends Control{
 		head_add_css('peopleinfo.css');
 		$clause = 'WHERE section='.SECTION.' ORDER BY update_time DESC LIMIT 10';
 		$this->select($this->column);
-		$this->data = userinfo_get_info($this->data, 'people');
+		$this->data = userinfo_get_info($this->data, 'uid');
 		
 		$event = new Event(false);
 		$event->select($event->column, $clause);
@@ -77,10 +77,9 @@ class People extends Control{
 			$status = $this->dataByID['status'];
 			$status = $status['value'];
 		}
-		$this->selectSingleColumn('people', "WHERE status='$status'");
+		$this->selectSingleColumn('name', "WHERE status='$status'");
 		foreach($this->data as $key => $value){
-			$userInfo = userinfo_get_info_by_id($value['people']);
-			$this->data[$key] = $userInfo['login_name'];
+			$this->data[$key] = $value['name'];
 		}
 		$allStatus = peopleinfo_get_people_status();
 		$renderArray = array(
@@ -124,8 +123,8 @@ class People extends Control{
 		document_set_path(tt('People'), 'peopleinfo');
 		$this->prepareHeadForm();
 		head_add_js_var('insertPeople', false);
-		head_add_js_var('uid', $this->dataByID['people']);
-		$userInfo = userinfo_get_info_by_id($this->dataByID['people']);
+		head_add_js_var('uid', $this->dataByID['uid']);
+		$userInfo = userinfo_get_info_by_id($this->dataByID['uid']);
 		$this->editLabel = tt('Edit People Information').' : '.$userInfo['login_name'];
 		return Control::edit();
 	}
@@ -141,11 +140,7 @@ class People extends Control{
 	}
 	
 	private function renderTag($tag){
-		$data = peopleinfo_get_tagged($tag, 'peopleinfo', 'people', 'people');
-		foreach($data as $key => $value){
-			$userInfo = userinfo_get_info_by_id($value);
-			$data[$key] = $userInfo['login_name'];
-		}
+		$data = peopleinfo_get_tagged($tag, 'peopleinfo', 'people', 'name');
 		$renderArray = array(
 			'data' => $data,
 			'module' => $this->moduleTitle,
@@ -158,7 +153,6 @@ class People extends Control{
 	private function renderPage(){
 		$this->setOwner($this->dataByID['creator']['id']);
 		$information = new Information(false);
-		$this->dataByID['people'] = userinfo_get_info_by_id($this->dataByID['people']);
 		$renderData = array(
 			'data' => $this->dataByID,
 			'information' => $information->renderPeopleInformation($this->id),
@@ -166,7 +160,7 @@ class People extends Control{
 		);
 		head_add_css('peopleinfo.css');
 		search_set_page();
-		document_set_path($this->dataByID['people']['login_name']);
+		document_set_path($this->dataByID['name']);
 		document_add_keywords($this->dataByID['freetag']);
 		return render($renderData, 'people.tpl', 'peopleinfo_people');
 	}
@@ -177,7 +171,6 @@ class People extends Control{
 		$this->dropAccessMethod('index');
 		
 		$this->setAdmin('peopleinfo_admin');
-		$this->setOwner('people');
 		
 		$this->addAction('peopleinfo_summary', 'renderMainSummary');
 		$this->addAction('peopleinfo_status', 'renderStatus');

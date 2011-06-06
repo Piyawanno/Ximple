@@ -11,37 +11,27 @@ function peopleinfo_get_people_status(){
 }
 
 function peopleinfo_get_event(){
-	$clause = 'WHERE section='.SECTION;
-	$event = db_select_single_column('event', 'event', $clause);
-	return $event;
+	if(db_exist_table('people')){
+		$clause = 'WHERE section='.SECTION;
+		$event = db_select_single_column('event', 'event', $clause);
+		return $event;
+	}else{
+		return array();
+	}
 }
 
 function peopleinfo_get_people(){
 	$clause = 'WHERE section='.SECTION;
-	$people = db_select('people', array('id', 'people'), $clause);
-	return userinfo_get_info($people, 'people');
-}
-
-function peopleinfo_get_unprocessed_user(){
-	$people = userinfo_get_login_name_by_role('peopleinfo_related');
-	$people_info = peopleinfo_get_people();
-	$processed_people = array();
-	foreach($people_info as $key => $value){
-		$processed_people[] = $value['people']['id'];
-	}
-	foreach($people as $key => $value){
-		if(in_array($key, $processed_people)) unset($people[$key]);
-	}
-	return $people;
+	$people = db_select('people', array('id', 'uid'), $clause);
+	return userinfo_get_info($people, 'uid');
 }
 
 function peopleinfo_get_people_name(){
-	$people_name = array();
-	$people = peopleinfo_get_people();
-	foreach($people as $key => $value){
-		$people_name[$value['id']] = $value['people']['login_name'];
+	if(db_exist_table('people')){
+		$clause = 'WHERE section='.SECTION;
+		return db_select_single_column('people', 'name', $clause);
 	}
-	return $people_name;
+	return array();
 }
 
 function peopleinfo_get_relation(){

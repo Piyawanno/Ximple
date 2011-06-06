@@ -8,7 +8,7 @@ class PeopleColumn extends HiddenColumn{
 	
 	function triggerPostInsert(){
 		$userData = array(
-			'login_name' => pp('people_name')
+			'login_name' => pp('name')
 		);
 		$this->data = db_insert('users', $userData);
 		$this->insertGroup();
@@ -16,7 +16,7 @@ class PeopleColumn extends HiddenColumn{
 	
 	function triggerPostUpdate(){
 		$userData = array(
-			'login_name' => pp('people_name'),
+			'login_name' => pp('name'),
 		);
 		db_update('users', $userData, $this->data);
 		$this->insertGroup();

@@ -16,7 +16,6 @@ class Menu extends Control{
 	public function index(){
 		document_set_title(tt('Menu'));
 		$data = $this->selectSingleColumn('title', 'WHERE section='.SECTION.' ORDER by sort_number');
-		head_add_css('menu.css');
 		head_add_css('list.css');
 		head_add_css('form.css');
 		return render(array('data' => $data), 'menu_edit.tpl', 'menu_edit');

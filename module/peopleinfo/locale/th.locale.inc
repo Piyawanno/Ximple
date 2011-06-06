@@ -62,5 +62,7 @@ globalvar_add_locale(array(
 	'Tag cloud of Event' => 'Tag cloud สำหรับเหตุการณ์',
 	'Tag cloud of Information' => 'Tag cloud สำหรับข้อมูล',
 	'tagged by' => '',
+	'name' => 'ชื่อ',
+	'avatar' => 'รูป',
 ));
 ?>
