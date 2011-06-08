@@ -31,7 +31,7 @@ function feed_render(){
 		'mode', 'mode_id', 'topic', 'summary', 'update_time',
 		'publish_time', 'writer', 'comment_no', 'uri', 'freetag'
 	);
-	$clause = "ORDER BY update_time DESC LIMIT ".cc('feed_number');
+	$clause = "WHERE section=".SECTION." ORDER BY update_time DESC LIMIT ".cc('feed_number');
 	$data = db_select('feed', $feed_column, $clause, false);
 	$data = feed_format_render_data($data);
 	if(in_array('rss', cc('feed_type'))) feed_render_rss($data);
@@ -74,6 +74,7 @@ function feed_format_data($mode, $data){
 	foreach($feed_column as $column){
 		if(isset($data[$column])) $data_out[$column] = $data[$column];
 	}
+	$data_out['section'] = SECTION;
 	if(!isset($data_out['comment_no'])) $data_out['comment_no'] = 0;
 	return $data_out;
 }
