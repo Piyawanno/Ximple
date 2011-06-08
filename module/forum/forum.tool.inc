@@ -101,7 +101,11 @@ function forum_render_last_entry($data){
 	if(count($data)){
 		$render = '<p><label>'.tt('last entry').' : </label>';
 		$render.= '<a href="'.SECTION_URI.Q.'forum_entry/'.$data['id'].'">'.$data['topic'].'</a> ';
-		$render.= tt('by').' '.render_profile_link($data['writer']).' ';
+		if($data['writer'] != -1){
+			$render.= tt('by').' '.render_profile_link($data['writer']).' ';
+		}else{
+			$render.= tt('by').' '.$data['writer_name'].' ';
+		}
 		$render.= '@ '.date(cc('time_format'), strtotime($data['write_time']))	.'</p>';
 		return $render;
 	}

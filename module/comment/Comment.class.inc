@@ -18,7 +18,7 @@ class Comment extends Control{
 		$this->setParent($parent);
 		$this->setPermission($permission);
 		$this->setAccess();
-		$this->template = 'module/comment/theme/comment.tpl';
+		$this->template = 'comment.tpl';
 		$this->insertMode = 'comment_insert';
 		$this->init(new CommentModel($this->mode, $this->parent, $parentWriter));
 	}

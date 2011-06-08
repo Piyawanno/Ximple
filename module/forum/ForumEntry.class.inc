@@ -34,7 +34,7 @@ class ForumEntry extends Content{
 			error_denied();
 		}
 		
-		count_increase($this->moduleName, $this->id);
+		count_increase($this->fullModuleName, $this->id);
 		head_add_css('forum.css');
 		forum_set_path($this->dataByID['forum']);
 		document_set_path($this->dataByID['topic']);
@@ -141,8 +141,8 @@ class ForumEntry extends Content{
 		$publish->append('comment_permission');
 	}
 	
-	protected function postSelect(){
-		Control::postSelect();
+	protected function postSelect($column){
+		Control::postSelect($column);
 		foreach($this->data as $key => $value){
 			$this->data[$key]['uri'] = 	$value['topic'];
 			if(isset($value['writer']) and $value['writer']['id'] == -1){
@@ -213,7 +213,7 @@ class ForumEntry extends Content{
 	
 	private function getFeaturedData(){
 		$forumID = (int) gg('forum');
-		$pattern = "WHERE forum=%d AND publishing_status=0 ORDER by comment_time DESC";
+		$pattern = "WHERE forum=%d AND publishing_status=1 ORDER by comment_time DESC";
 		return $this->getDataFromDB(sprintf($pattern, $forumID));
 	}
 	
@@ -236,7 +236,7 @@ class ForumEntry extends Content{
 		return $this->data;
 	}
 	
-	private function getListColumn(){
+	protected function getListColumn(){
 		return array(
 			'id',
 			'topic',
@@ -291,7 +291,7 @@ class ForumEntry extends Content{
 	
 	private function checkPublishable(){
 		$publishableForum = forum_get_publishable_id();
-		if(!in_array($this->id, $publishableForum)){
+		if(!in_array(pp('forum'), $publishableForum)){
 			$data = array('publishing_status' => 2);
 			db_update('forum_entry', $data, $this->id);
 			$message  = tt("You don't have permission to publish forum entry. ");

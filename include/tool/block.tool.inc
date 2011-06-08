@@ -63,21 +63,41 @@ function block_get_body($item){
 function block_check_permision($item){
 	$appear_module = unserialize($item['appear_module']);
 	$appear_group = unserialize($item['appear_group']);
-	if(isset($item['appear_uri']) and strlen($item['appear_uri'])){
-		if($item['appear_uri'] == MODE.'/'.MODE_ID or $item['appear_uri'] == MODE){
-			return true;
+	$appear_uri = isset($item['appear_uri']) ? $item['appear_uri'] : null;
+	if(strlen($appear_uri)){
+		if(block_check_uri_permission($appear_uri)){
+			return block_check_group_permission($appear_group);
 		}else{
 			return false;
 		}
-	}elseif(count($appear_module) == 0 or in_array(MODULE, $appear_module)){
-		if(in_array(2, $appear_group)){
-			return true;
-		}
-		if(count(array_intersect(ss('login_group'), $appear_group))){
+	}elseif(block_check_module_permission($appear_module)){
+		return block_check_group_permission($appear_group);
+	}else{
+		return false;
+	}
+}
+
+function block_check_uri_permission($appear_uri){
+	$appear_mode = MODE.'/'.MODE_ID;
+	foreach(input_split_comma($appear_uri) as $key => $value){
+		if($value ==  $appear_mode or $value == MODE){
 			return true;
 		}
 	}
 	return false;
+}
+
+function block_check_module_permission($appear_module){
+	return (count($appear_module) == 0 or in_array(MODULE, $appear_module));
+}
+
+function block_check_group_permission($appear_group){
+	if(in_array(2, $appear_group)){
+		return true;
+	}
+	if(count(array_intersect(ss('login_group'), $appear_group))){
+		return true;
+	}
 }
 
 function block_add_navigation($mode, $title){

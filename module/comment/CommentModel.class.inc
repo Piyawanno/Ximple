@@ -18,7 +18,7 @@ class CommentModel extends Model{
 		}
 		$this->writer_id = $this->owner();
 		$this->comment = $this->shortText(tt('Your opinion'));
-		$this->write_time = $this->now();
+		$this->write_time = $this->now(cc('time_format'));
 		$this->write_time->label = tt('comment time');
 		$this->write_time->isList = true;
 		$this->mode = $this->hidden($mode, 'char');

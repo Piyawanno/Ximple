@@ -20,6 +20,7 @@ class CustomURI extends Control{
 	
 	public function index(){
 		$this->selectPage($this->column, 20, 'WHERE (section='.SECTION.')');
+		$this->getListColumn();
 		$this->translateData();
 		$this->getMappedLink();
 		return $this->renderDefaultListPage();

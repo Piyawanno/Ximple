@@ -32,7 +32,7 @@ class PageDirectory extends Control{
 		$this->selectByID($this->column);
 		$this->translateDataByID();
 		$this->parent = $this->dataByID['parent'];
-		$this->configuration = $this->dataByID['configuration'];
+		$this->configuration = unserialize($this->dataByID['configuration']);
 		$this->configuration = translate_content($this->configuration, 'directory_config', $this->id);
 		$render = $this->renderIconBar();
 		$render.= $this->render();

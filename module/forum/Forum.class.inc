@@ -14,8 +14,8 @@ class Forum extends Control{
 		$this->addAccessMethod('guest', 'index');
 		$this->addAction('forum_manage', 'manage');
 		$this->addAction('forum_save_sort', 'saveSort');
-		$this->insertRedirection = 'forum_manage';
-		$this->updateRedirection = 'forum_manage';
+		$this->insertRedirect = 'forum_manage';
+		$this->updateRedirect = 'forum_manage';
 		$this->init(new ForumModel());
 		$this->setConfigForm();
 		document_set_path($this->moduleTitle, $this->moduleName);
@@ -24,8 +24,11 @@ class Forum extends Control{
 	public function index(){
 		$clause = "WHERE mode='forum' AND section=".SECTION;
 		$category = db_select('category', array('id', 'pic', 'category', 'description'), $clause);
+		if(gg('category')){
+			document_set_path($category[gg('category')]['category']);
+		}
 		$renderArray = array(
-			'data' => $this->getAllowedData(),
+			'data' => $this->getAllowedData(gg('category')),
 			'category' => $category,
 		);
 		head_add_css('forum.css');
@@ -81,7 +84,11 @@ class Forum extends Control{
 	}
 	
 	private function getAllowedData(){
-		$clause = "WHERE section=".SECTION.' ORDER BY position';
+		if(gg('category')){
+			$clause = "WHERE section=".SECTION.' AND category='.gg('category').' ORDER BY position';
+		}else{
+			$clause = "WHERE section=".SECTION.' ORDER BY position';
+		}
 		$this->select($this->column, $clause);
 		$this->getCount();
 		$allowedData = array();

@@ -15,9 +15,11 @@ class ConfigFormRender extends FormModelRender{
 	public function append($col){
 		$this->id = $col;
 		if($this->modelConnector->checkExist($col)){
-			$this->modelConnector->setAsConfigForm($col);
 			$modelColumn = $this->modelConnector->getColumn($col);
-			$this->model[$col] = $modelColumn;
+			if($modelColumn->isConfigFormAllowed){
+				$this->modelConnector->setAsConfigForm($col);
+				$this->model[$col] = $modelColumn;
+			}
 		}elseif(state_is_develop()){
 			notify_add_error('Column '.$col.' does not exist and can not be set to ConfigForm. (ConfigFormRender->addColumn())');
 		}

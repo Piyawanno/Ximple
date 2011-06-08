@@ -58,6 +58,7 @@ function socialnetwork_like_box_config(){
 		'socialnetwork_like_box_uri' => socialnetwork_uri_config(tt('Facebook Page URI'), cc('socialnetwork_like_box_uri')),
 		'socialnetwork_like_box_color' => socialnetwork_color_config(cc('socialnetwork_like_box_color')),
 		'socialnetwork_like_box_width' => socialnetwork_width_config(cc('socialnetwork_like_box_width')),
+		'socialnetwork_like_box_height' => socialnetwork_height_config(cc('socialnetwork_like_box_height')),
 		'socialnetwork_like_box_appearance' => socialnetwork_like_box_appearance_config(),
 	);
 }

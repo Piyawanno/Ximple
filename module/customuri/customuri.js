@@ -1,4 +1,4 @@
-$(document).ready(function (){
+$(document).bind("ready", function(){
 	$('#customuri_mapped_URI').keyup(function(){
 		var uri = sectionURI + 'customuri_check_mapped_exist/mapped_URI/'+$(this).val();
 		var exist = false;

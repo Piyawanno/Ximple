@@ -224,7 +224,9 @@ class ModelConnector{
 			$methodName = 'triggerSelect';
 			if(method_exists($value, $methodName)) $triggerColumn[] = $key;
 		}
-		if(is_array($column)) $triggerColumn = array_intersect($triggerColumn, $column);
+		if(is_array($column)){
+			$triggerColumn = array_intersect($triggerColumn, $column);
+		}
 		if(count($triggerColumn)){
 			foreach($data as $id => $value){
 				$this->triggerGetID($id);

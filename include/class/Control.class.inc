@@ -134,6 +134,7 @@ abstract class Control extends Translatable{
 	public function select($column, $clause=null, $isRaw=false){
 		$dbColumn = $this->checkDBColumn($column);
 		$this->data = db_select($this->tableName, $dbColumn, $clause);
+		$this->unserializeData();
 		if(!$isRaw) $this->postSelect($column);
 	}
 	
@@ -151,6 +152,7 @@ abstract class Control extends Translatable{
 		$dbColumn = $this->checkDBColumn($column);
 		$this->modelConnector->setID($this->id);
 		$this->data = db_select($this->tableName, $dbColumn, 'WHERE id='.(int)$this->id);
+		$this->unserializeData();
 		if(!$isRaw) $this->postSelect($column);
 		if(isset($this->data[$this->id])){
 			$this->dataByID = $this->data[$this->id];
@@ -161,6 +163,7 @@ abstract class Control extends Translatable{
 	
 	public function selectPage($column, $pageLength, $clause=null, $isRaw=false){
 		$dbColumn = $this->checkDBColumn($column);
+		$this->listPageColumn = $dbColumn;
 		$rowsNumber = db_get_rows_number($this->tableName, $clause);
 		if(!$this->pager){
 			include_once('PagerRender.class.inc');
@@ -171,15 +174,21 @@ abstract class Control extends Translatable{
 		
 		$clause .= ' LIMIT '.(int)$pageLength.' OFFSET '.(int)(MODE_PAGE*$pageLength);
 		$this->data = db_select($this->tableName, $dbColumn, $clause);
+		$this->unserializeData();
 		if(!$isRaw) $this->postSelect($column);
 	}
 	
 	public function selectListPage($pageLength=20, $where=null, $additionColumn=array(), $isRaw=false){
+		$this->getListColumn($additionColumn);
 		$this->initListPage();
+		$this->selectPage($this->listPageColumn, $pageLength, $this->listPage->getClause($where), $isRaw);
+	}
+	
+	protected function getListColumn($additionColumn=array()){
 		$column = $this->modelConnector->getColumnNameByBoolean('isList');
 		$column = array_merge(array('id'), $column);
-		$this->listPageColumn = array_unique(array_merge($column, $additionColumn));
-		$this->selectPage($this->listPageColumn, $pageLength, $this->listPage->getClause($where), $isRaw);
+		$this->listPageColumn = array_merge($column, $additionColumn);
+		$this->listPageColumn = array_unique($this->listPageColumn);
 	}
 	
 	protected function init($modelObj){
@@ -385,6 +394,15 @@ abstract class Control extends Translatable{
 			$redirect = str_replace('#id', $this->id, $this->updateRedirect);
 		}
 		document_set_redirect($redirect);
+	}
+	
+	private function unserializeData(){
+		$columnArray = $this->modelConnector->getColumnNameByBoolean('isSerialize');
+		foreach($this->data as $key => $value){
+			foreach($columnArray as $column){
+				$this->data[$key][$column] = unserialize($value[$column]);
+			}
+		}
 	}
 }
 ?>

@@ -27,6 +27,7 @@ abstract class ModelColumn{
 	public $isLink = false;
 	public $isRepresentative = false;
 	public $isForm = true;
+	public $isConfigFormAllowed = true;
 	public $isGridForm = true;
 	public $isFormLabel = true;
 	public $isNotNull = false;
@@ -36,7 +37,8 @@ abstract class ModelColumn{
 	public $isTranslate = false;
 	public $isMultipleInsert = false;
 	public $isParent = false;
-	public $isUser=false;
+	public $isUser = false;
+	public $isSerialize = false;
 	
 	public abstract function renderForm($formID);
 	

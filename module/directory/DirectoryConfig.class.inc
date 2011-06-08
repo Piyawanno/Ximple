@@ -73,7 +73,10 @@ class DirectoryConfig extends ConfigControl{
 	}
 	
 	protected function saveConfig(){
-		db_update('directory', array('configuration' => serialize($this->config)), mid());
+		$data = array(
+			'configuration' => serialize($this->config)
+		);
+		db_update('directory', $data, mid());
 	}
 }
 ?>

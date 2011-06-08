@@ -10,6 +10,7 @@ class ForumColumn extends SelectColumn{
 		if(!$forumID) $this->setAsSelect();
 		else $this->setAsHidden($forumID);
 		$this->setType('int');
+		$this->option = array();
 	}
 	
 	public function renderForm($formID){
@@ -17,6 +18,7 @@ class ForumColumn extends SelectColumn{
 			return SelectColumn::renderForm($formID);
 		}else{
 			$hidden = new HiddenColumn($this->defaultData, 'int');
+			$hidden->name = $this->name;
 			return $hidden->renderForm($formID);
 		}
 	}
