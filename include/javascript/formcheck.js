@@ -1,5 +1,3 @@
-var grid_string = new Array();
-var files_string = new Array();
 var captchaLock = false;
 var initedJQuery = false;
 var imgCorrect = '<img class="warning_icon" src="'+rootURI+'files/icon/correct.png" />';
@@ -7,6 +5,7 @@ var imgWrong = '<img class="warning_icon" src="'+rootURI+'files/icon/stop.png" /
 var formLock = false;
 
 function checkForm(notNull, label){
+	formatTextIE7();
 	if(formLock){
 		alert(formNotCorrect);
 		return false;
@@ -17,6 +16,14 @@ function checkForm(notNull, label){
 	ok = ok && checkNotNull(notNull, label);
 	$(document).trigger("submitform");
 	return ok;
+}
+
+function formatTextIE7(){
+	if(isIE7()){
+		$('textarea').each(function(index){
+			$(this).val($(this).val().replace('\n', '<br />'));
+		});
+	}
 }
 
 function checkNotNull(notNull, label){

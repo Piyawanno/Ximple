@@ -187,8 +187,9 @@ abstract class Model{
 	public function shortText($label, $help=null){
 		include_once('column/TextColumn.class.inc');
 		$modelColumn = new TextColumn($label, $help);
+		if(authority_is_guest()) $modelColumn->setFormAttribute('class', 'shorttext');
+		else $modelColumn->setFormAttribute('class', 'usershorttext');
 		$modelColumn->setType('shorttext');
-		$modelColumn->setFormAttribute('class', 'shorttext');
 		return $modelColumn;
 	}
 	

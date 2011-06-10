@@ -94,6 +94,7 @@ function directory_create_index_page($parent, $category, $directory_name, $intro
 		'publish_time' => NOW,
 		'publishing_status' => $configuration['publishing_status_default'],
 		'comment_permission' => $configuration['comment_permission_default'],
+		'section' => SECTION,
 	);
 	return db_insert('page', $data);
 }

@@ -15,7 +15,7 @@ class Page extends Content{
 		$this->moduleName = 'page';
 		$this->moduleTitle = tt('Page');
 		$this->setParent(null);
-		$this->dropRedirection = 'page_contributor_list';
+		$this->dropRedirect = 'page_contributor_list';
 		$this->init(new PageModel($this->parent));
 	}
 	

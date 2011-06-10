@@ -122,6 +122,7 @@ class ForumEntry extends Content{
 		$p = tt('In the following list, your own %s are shown. You can use this page to access them.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
 		$this->listMeta->mode = $this->moduleName.'_contributor_list';
+		$this->getListColumn();
 		return $this->renderListPage('WHERE (writer='.USER_ID.')');
 	}
 	
@@ -132,6 +133,7 @@ class ForumEntry extends Content{
 		$p = tt('You as Editor can use this page to access %s in Section.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);
 		$this->listMeta->mode = $this->moduleName.'_editor_list';
+		$this->getListColumn();
 		return $this->renderListPage('WHERE (section='.SECTION.')');
 	}
 	
@@ -230,13 +232,13 @@ class ForumEntry extends Content{
 	}
 	
 	private function getDataFromDB($clause){
-		$column = $this->getListColumn();
+		$column = $this->getShowPageListColumn();
 		$this->selectPage($column, 20, $clause);
 		$this->getCommentNumber();
 		return $this->data;
 	}
 	
-	protected function getListColumn(){
+	private function getShowPageListColumn(){
 		return array(
 			'id',
 			'topic',

@@ -22,7 +22,7 @@ class PageDirectory extends Control{
 		$this->setID();
 		$this->setParent();
 		$this->setAccess();
-		$this->dropRedirection = 'directory_list';
+		$this->dropRedirect = 'directory_list';
 		$this->init(new PageDirectoryModel($this->parent));
 	}
 	
@@ -159,11 +159,11 @@ class PageDirectory extends Control{
 		else $category = directory_get_page_category_id();
 		$pid = directory_create_index_page($this->id, $category, $directoryName, $introduction, $icon);
 		$this->configuration['show_page'][] = $pid;
-		$data_array = array(
+		$dataArray = array(
 			'index_page' => $pid,
 			'configuration' => serialize($this->configuration),
 		);
-		db_update($this->tableName, $data_array, $this->id);
+		db_update($this->tableName, $dataArray, $this->id);
 	}
 	
 	private function isWritable(){

@@ -76,3 +76,7 @@ function hidePlainCode(codeId){
 function ximplePrint(link){
 	window.open(link.href, 'print','toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=800,height=600');
 }
+
+function isIE7(){
+	return ($.browser.msie && (parseInt($.browser.version, 10) <= 7));
+}

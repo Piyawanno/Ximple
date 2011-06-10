@@ -184,13 +184,6 @@ abstract class Control extends Translatable{
 		$this->selectPage($this->listPageColumn, $pageLength, $this->listPage->getClause($where), $isRaw);
 	}
 	
-	protected function getListColumn($additionColumn=array()){
-		$column = $this->modelConnector->getColumnNameByBoolean('isList');
-		$column = array_merge(array('id'), $column);
-		$this->listPageColumn = array_merge($column, $additionColumn);
-		$this->listPageColumn = array_unique($this->listPageColumn);
-	}
-	
 	protected function init($modelObj){
 		Translatable::init();
 		$this->modelHasCategory = $modelObj->hasCategory();
@@ -303,6 +296,13 @@ abstract class Control extends Translatable{
 		if($this->formMeta->isSetTitle){
 			document_set_title($this->formMeta->title);
 		}
+	}
+	
+	protected function getListColumn($additionColumn=array()){
+		$column = $this->modelConnector->getColumnNameByBoolean('isList');
+		$column = array_merge(array('id'), $column);
+		$this->listPageColumn = array_merge($column, $additionColumn);
+		$this->listPageColumn = array_unique($this->listPageColumn);
 	}
 		
 	private function initDataModifier(){
