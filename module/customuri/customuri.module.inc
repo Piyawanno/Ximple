@@ -5,11 +5,20 @@ execute_add_function('customuri_post_render');
 
 function customuri_map(){
 	$called_uri = substr(vv('QUERY_STRING'), 1);
+	$splitted = split('\/', $called_uri);
+	
+	if(in_array($splitted[0], array_keys(cc('supported_language')))){
+		$called_uri = substr($called_uri, strlen($splitted[0]) + 1);
+		$language = '/'.$splitted[0];
+	}else{
+		$language = '';
+	}
+	
 	$clause = "WHERE mapped_URI='$called_uri' AND section=".SECTION;
 	$data = db_select_single_column('customuri', 'original_URI', $clause, false);
 	if(count($data)){
-		$_GET = array('/'.$data[0] => '');
-		$_SERVER['QUERY_STRING'] = '/'.$data[0]; 
+		$_GET = array($language.'/'.$data[0] => '');
+		$_SERVER['QUERY_STRING'] = $language.'/'.$data[0];
 	}
 }
 
@@ -17,10 +26,16 @@ function customuri_post_render($render){
 	if(!document_has_form()){
 		$clause = "WHERE section=".SECTION;
 		$data = db_select('customuri', array('original_URI', 'mapped_URI'), $clause);
+		$language = cc('supported_language');
 		foreach($data as $key => $value){
 			$original = '"'.SECTION_URI.$value['original_URI'].'"';
 			$mapped = '"'.SECTION_URI.$value['mapped_URI'].'"';
 			$render = str_replace($original, $mapped, $render);
+			foreach($language as $abb => $description){
+				$original = '"'.SECTION_URI.$abb.'/'.$value['original_URI'].'"';
+				$mapped = '"'.SECTION_URI.$abb.'/'.$value['mapped_URI'].'"';
+				$render = str_replace($original, $mapped, $render);
+			}
 		}
 	}
 	return $render;
