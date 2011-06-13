@@ -67,7 +67,9 @@ function showTranslateDialog(){
 		modal : true,
 		title : 'Translate-Form',
 		width : 520,
-		close : function(event, ui){$('#translate_dialog').html(translateForm);},
+		close : function(event, ui){
+			$('#translate_dialog').html(translateForm);
+		}
 	});
 	translate.dialog('open');
 }

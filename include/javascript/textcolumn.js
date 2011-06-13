@@ -1,4 +1,3 @@
-if (!isIE7()) {
 	$(document).bind("ready", function(){
 		$(".text").cleditor({
 			height		:	'400px',
@@ -21,4 +20,3 @@ if (!isIE7()) {
 			controls	:	"bold image advancedimage italic underline strikethrough bullets numbering quote link unlink icon paste pastetext code source"
 		});
 	});
-}

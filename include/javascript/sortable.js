@@ -1,6 +1,6 @@
 $(document).bind("ready", function(){
 	$(".sortable_form").sortable({
-		dropOnEmpty: true,
+		dropOnEmpty: true
 	});
 	$(".sortable_form").disableSelection();
 });

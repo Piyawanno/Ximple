@@ -9,7 +9,7 @@ $(document).bind("ready", function(){
 				modal : true,
 				width : 220,
 				height : 250,
-				title : selectColorLabel,
+				title : selectColorLabel
 			});
 			$("#"+formID).click(function(){$("#picker_"+formID).dialog("open");});
 		}

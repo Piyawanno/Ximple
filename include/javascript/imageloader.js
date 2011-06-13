@@ -11,7 +11,7 @@ function showImageLoader(loaderID, path){
 		height: 560,
 		width:480,
 		modal: true,
-		title: 'Image Loader',
+		title: 'Image Loader'
 	});
 	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+path+'&loader_id='+loaderID;
 	$.get(uri, function(data){

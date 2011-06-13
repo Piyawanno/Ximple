@@ -2,7 +2,7 @@ var currentData = null;
 $.cleditor.buttons.icon = {
 	name: "icon",
 	css: {
-		background:'url('+rootURI+'include/external/cleditor/images/icon.gif) no-repeat 4px 4px',
+		background:'url('+rootURI+'include/external/cleditor/images/icon.gif) no-repeat 4px 4px'
 	},
 	title: "Insert Icon",
 	command: "insertimage",

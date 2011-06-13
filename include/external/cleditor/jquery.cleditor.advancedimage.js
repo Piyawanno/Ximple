@@ -80,7 +80,7 @@ function showCLEImageLoader(imageParent){
 		width :480,
 		modal : true,
 		title : 'Image Loader',
-		zIndex : maxZ*2,
+		zIndex : maxZ*2
 	});
 	var uri = sectionURICommon+'?mode=imageloader_cle';
 	$.get(uri, function(data){
