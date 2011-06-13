@@ -8,6 +8,7 @@ function selectTranslateLanguage(languageSelect){
 	}else{
 		var uri = sectionURI+translateModuleName+'_translate_form';
 	}
+	
 	uri += '/module_id/'+modeID;
 	uri += '/language/'+language;
 	$.get(uri, function(data){

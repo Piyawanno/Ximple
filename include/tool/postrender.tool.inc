@@ -39,5 +39,4 @@ function postrender_get_read_number($render){
 	}
 	return $render;
 }
-
 ?>

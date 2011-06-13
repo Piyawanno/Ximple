@@ -101,6 +101,7 @@ class FormRender extends FormModelRender{
 	
 	private function getTranslateLabel(){
 		if($this->isTranslate){
+			head_add_js_var('modeID', MODE_ID);
 			head_add_js('include/javascript/translate.js');
 			$pattern = tt('You can use <a %s><strong>Translate-Form</strong></a> to translate this form.');
 			$help = sprintf($pattern, 'href="#" onclick="showTranslateDialog();return false"');

@@ -13,7 +13,6 @@ global $head_css, $head_js, $head_js_array, $head_js_var, $head_print_css;
 $head_css = array(
 	'main.css',
 	'common.css',
-	'include/external/jquery/themes/base/ui.all.css',
 );
 
 $head_print_css = array(
@@ -31,7 +30,6 @@ $head_js_var = array(
 	'moduleName' => MODULE,
 	'translateModuleName' => null,
 	'modeName' => MODE,
-	'modeID' => MODE_ID,
 	'sectionID' => SECTION,
 	'sectionURI' => SECTION_URI.Q,
 	'sectionURICommon' => SECTION_URI,
@@ -171,6 +169,12 @@ function head_add_js($js){
 
 function head_include_main_css(){
 	global $head_css;
+	$jquery_css = 'theme/'.cc('theme').'/jquery/ui.all.css';
+	if(is_file(ROOT_PATH.$jquery_css)){
+		$head_css[] = $jquery_css;
+	}else{
+		$head_css[] = 'include/external/jquery/themes/base/ui.all.css';
+	}
 	return head_include_css($head_css);
 }
 

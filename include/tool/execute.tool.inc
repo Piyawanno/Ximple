@@ -195,6 +195,12 @@ function execute_parse_smart_uri($uri){
 	$splitted = split('\/',$uri);
 	$size = count($splitted);
 	$result['mode'] = $splitted[1];
+	if(in_array($result['mode'], array_keys(cc('supported_language')))){
+		$_SESSION['language'] = $result['mode'];
+		$result['mode'] = $splitted[2];
+		$splitted = array_slice($splitted, 1);
+		$size = count($splitted);
+	}
 	
 	if($size >= 3){
 		if(ctype_digit($splitted[2])){

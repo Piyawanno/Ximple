@@ -56,7 +56,7 @@ function input_special_char($uri_get, $uri_server){
 
 function input_strip_slash_array($array){
 	foreach($array as $key => $value){
-		if(is_array($value)) $array[$key] = translate_strip_slash_array($value);
+		if(is_array($value)) $array[$key] = input_strip_slash_array($value);
 		else $array[$key] = stripslashes($value);
 	}
 	return $array;

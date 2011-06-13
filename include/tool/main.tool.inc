@@ -202,8 +202,11 @@ function main_init_var(){
 	define('NOW', date('Y-m-d H:i:s'));
 	define('TODAY', date('d F Y'));
 	
-	if(cc('friendly_url_enable')) define('Q', '');
-	else define('Q', '?/');
+	$language = ss('language');
+	if(strlen($language)) $language = $language.'/';
+	
+	if(cc('friendly_url_enable')) define('Q', ''.$language);
+	else define('Q', '?/'.$language);
 	main_init_section_uri();
 	main_init_uri_param();
 }

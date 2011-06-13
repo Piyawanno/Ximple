@@ -47,7 +47,7 @@ function translate_set_language(){
 	$message .= tt('Other cases, the original content will be shown.');
 	notify_add_info($message);
 	execute_set_db();
-	document_set_redirect_back();
+	document_set_redirect('');
 }
 
 function translate_content($content, $module, $module_id){
@@ -102,7 +102,7 @@ function translate_set_data($translation){
 		'module' => $translation['module'],
 		'module_id' => $translation['module_id'],
 		'language' => $translation['language'],
-		'translation' => input_strip_slash_array(serialize($translation)),
+		'translation' => serialize(input_strip_slash_array($translation)),
 	);
 	if(isset($translation['id'])){
 		db_update('translation', $data, $translation['id']);
