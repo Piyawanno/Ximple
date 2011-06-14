@@ -143,7 +143,15 @@
 	<h3 onclick="hideSub('upload_file')" class="config_head">Upload File</h3>
 	<div id="upload_file" class="subform" style="display:none;">
 		<form action="<?=SECTION_URI?>?mode=file_upload&amp;next_mode=<?=$mode?>&amp;dir=<?=$dir?>" method="post" enctype="multipart/form-data">
-			<input name="file" size="40" type="file" />
+			<div id="file_grid">
+				<p><input name="file[]" size="40" type="file" /></p>
+			</div>
+			<p>
+				<a href="#" onclick="return addFileRow();">
+					<img src="<?=ROOT_URI?>files/icon/add.png" border="0"/>
+					<?=tt('upload more file')?>
+				</a>
+			</p>
 			<input name="submit" type="submit" value="upload file" />
 		</form>	
 	</div>
@@ -365,5 +373,10 @@
 		$.get("<?=SECTION_URI?>?mode=file_cut&clear=true", function(data){
 			$("#cut_list").html(data);
 		});
+	}
+	
+	function addFileRow(){
+		$('#file_grid').append(' <p><input name="file[]" size="40" type="file"/></p>');
+		return false;
 	}
 	</script>

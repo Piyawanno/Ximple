@@ -24,10 +24,20 @@ function file_upload(){
 	file_avoid_up_dir($dir);
 	$path = file_get_mode_path(gg('next_mode')).$dir.'/';
 	
-	if(is_dir($path)) $fname = io_upload(ff('file'), $path);
-	
-	if($fname) notify_add_info(sprintf(tt('File <b>%s</b> has been uploaded.'), $fname));
-	else notify_add_error(sprintf(tt('Problem by uploading.')));
+	if(is_dir($path)){
+		$file_array = input_reorder_multiple_files('file');
+		foreach($file_array as $key => $value){
+			$fname = io_upload($value, $path);
+			if($value['size']){
+				if($fname){
+					$message = sprintf(tt('File <b>%s</b> has been uploaded.'), $fname);
+					notify_add_info($message);
+				}else{
+					notify_add_error(sprintf(tt('Problem by uploading.')));
+				}
+			}
+		}
+	}
 	
 	execute_set_db();
 	document_set_redirect('?mode='.gg('next_mode').'&dir='.$dir);
