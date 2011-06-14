@@ -9,9 +9,6 @@ class User extends Control{
 		$this->tableName = 'users';
 		$this->moduleName = 'user';
 		$this->setAdmin('user_admin');
-		$this->insertNotify = sprintf(tt('%s has been successfully inserted.'), tt('User'));
-		$this->updateNotify = sprintf(tt('%s has been successfully updated.'), tt('User'));
-		$this->dropNotify = sprintf(tt('%s has been successfully dropped.'), tt('User'));
 		$this->init(new UserModel());
 	}
 	
@@ -53,19 +50,6 @@ class User extends Control{
 		$this->updateMap();
 	}
 	
-	public function account($additionalForm ){
-		$this->initJS();
-		head_add_js_var('insertUser', false);
-		head_add_js_var('uid', gg('id'));
-		$this->moduleTitle = sprintf(tt('Account Configuration : %s'), $this->dataByID['login_name']);
-		$this->formMeta->id = 'user';
-		$this->formMeta->title = $this->moduleTitle;
-		$this->formMeta->mode = 'account_save';
-		$this->formMeta->additionalForm = $additionalForm;
-		$this->renderAvatar();
-		return $this->renderUpdateForm();
-	}
-	
 	public function edit(){
 		$this->moduleTitle = tt('User');
 		document_set_path(tt('User'), 'user');
@@ -93,6 +77,12 @@ class User extends Control{
 		}
 		execute_set_db();
 		document_set_redirect('user');
+	}
+	
+	protected function initNotification(){
+		$this->insertNotify = sprintf(tt('%s has been successfully inserted.'), tt('User'));
+		$this->updateNotify = sprintf(tt('%s has been successfully updated.'), tt('User'));
+		$this->dropNotify = sprintf(tt('%s has been successfully dropped.'), tt('User'));
 	}
 	
 	protected function initJS(){

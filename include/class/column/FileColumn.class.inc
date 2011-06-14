@@ -16,6 +16,10 @@ class FileColumn extends CharColumn{
 		$this->setFormAttribute('type', 'file');
 	}
 	
+	public function triggerUpdateForm(){
+		$this->data = null;
+	}
+	
 	public function triggerGetID($id){
 		$this->id = $id;
 	}

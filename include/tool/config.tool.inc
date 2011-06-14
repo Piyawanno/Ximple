@@ -65,7 +65,7 @@ function config_default_require(){
 		'profiletype' => 'ProfileType.class.inc',
 		'profile' => 'Profile.class.inc',
 		'registration' => 'registration.module.inc',
-		'account' => 'account.module.inc',
+		'account' => 'Account.class.inc',
 		'section' => 'Section.class.inc',
 		'syslog' => 'syslog.module.inc',
 		'category' => 'Category.class.inc',
