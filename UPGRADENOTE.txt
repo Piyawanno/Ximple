@@ -55,3 +55,5 @@ This file contains TO-DO list for additional procedure by software upgrading.
 	ALTER TABLE forum ADD readable_group text;
 	ALTER TABLE forum ADD publishable_group text;
 	ALTER TABLE forum DROP guest_postable;
+
+- ALTER TABLE feed ADD section int;
