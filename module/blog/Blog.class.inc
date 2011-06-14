@@ -71,7 +71,8 @@ class Blog extends Content{
 			'data' => $this->data,
 			'show_category' => in_array('category_icon', cc('blog_appearance')),
 		);
-		$render = render($renderArray, 'multipleblogs.tpl', 'multiple_blogs');
+		$render = $this->renderWriteIcon();
+		$render.= render($renderArray, 'multipleblogs.tpl', 'multiple_blogs');
 		$render.= $this->pager->render('blog'.$this->getPageMode());
 		return $render;
 	}
@@ -79,7 +80,8 @@ class Blog extends Content{
 	private function executeRender(){
 		head_add_css('blog.css');
 		$this->prepareRender();
-		$render = render($this->dataByID, 'singleblog.tpl', 'single_blog');
+		$render = $this->renderWriteIcon();
+		$render.= render($this->dataByID, 'singleblog.tpl', 'single_blog');
 		$render.= $this->comment->render();
 		$this->setDocumentData();
 		return $render;
@@ -113,6 +115,12 @@ class Blog extends Content{
 		$this->dataByID['show_avatar'] = in_array('avatar', $appearance);
 		$this->dataByID['show_category'] = in_array('category_icon', $appearance);
 		$this->dataByID['show_sibling'] = in_array('sibling', $appearance);
+	}
+	
+	private function renderWriteIcon(){
+		if($this->isCallable('write')){
+			return render_write_icon('blog_write', tt('Write new Blog entry'));
+		}
 	}
 }
 ?>
