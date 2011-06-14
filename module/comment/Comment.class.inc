@@ -225,19 +225,23 @@ class Comment extends Control{
 	}
 	
 	private function insertNotify(){
-		$p = tt('%s commented on <a href="%s">%s</a>.');
+		$p = tt('%s commented on your contribution : <a href="%s">%s</a>.');
 		$uri = SECTION_URI.Q.$this->mode.'/'.$this->parent.'/page/'.pid().'#last_comment';
 		$message = sprintf($p, pp('writer'), $uri, $this->parentData['topic']);
 		if($this->parentData['writer'] != USER_ID){
 			notify_add_info($message, $this->parentData['writer']);
+			notify_subscribe($message, $this->parentData['writer'], 'comment');
 		}
 		$clause = "WHERE mode='".$this->mode."' AND parent=".$this->parent." AND writer_id != -1 GROUP BY writer_id";
 		$relatedUser = db_select_single_column('comment', 'writer_id', $clause, false);
-		foreach($relatedUser as $uid){
+		foreach($relatedUser as $key => $uid){
 			if($uid != $this->parentData['writer'] and $uid != USER_ID){
 				notify_add_info($message, $uid);
+			}else{
+				unset($relatedUser[$key]);
 			}
 		}
+		notify_multiple_subscribe($message, $relatedUser, 'comment');
 	}
 	
 	private function renderParentTopic(){

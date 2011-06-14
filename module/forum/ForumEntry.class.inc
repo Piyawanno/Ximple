@@ -75,6 +75,7 @@ class ForumEntry extends Content{
 		}
 		document_set_redirect('forum_entry/'.$this->id);
 		count_increase('forum_entry_no', $this->dataByID['forum']);
+		$this->subscribe();
 		$this->checkPublishable();
 	}
 	
@@ -89,6 +90,7 @@ class ForumEntry extends Content{
 		$this->id = pp('parent');
 		$this->selectByID($this->column);
 		count_increase('forum_comment_no', $this->dataByID['forum']);
+		$this->subscribeComment();
 	}
 	
 	public function edit(){
@@ -300,6 +302,20 @@ class ForumEntry extends Content{
 			$message .= tt('Your forum entry is in review.');
 			notify_add_warning($message);
 		}
+	}
+	
+	private function subscribe(){
+		$message = tt('%s posts <a href="%s">%s</a> in your subscribed forum.');
+		$uri = SECTION_URI.Q.'forum_entry/'.$this->id;
+		$message = sprintf($message, pp('writer_name'), $uri, pp('topic'));
+		notify_subscribe_by_mode($message, 'forum_'.pp('forum'));
+	}
+	
+	private function subscribeComment(){
+		$message = tt('%s comments in <a href="%s">%s</a>, which is in your subscribed forum.');
+		$uri = SECTION_URI.Q.'forum_entry/'.$this->id;
+		$message = sprintf($message, pp('writer'), $uri, $this->dataByID['topic']);
+		notify_subscribe_by_mode($message, 'forum_comment_'.$this->dataByID['forum']);
 	}
 }
 ?>

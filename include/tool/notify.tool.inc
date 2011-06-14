@@ -120,4 +120,59 @@ function notify_mark_as_read(){
 	$notify_savable = true;
 }
 
+
+function notify_subscribe($message, $uid, $reference){
+	$subscribe_array = user_info_get_config($uid, 'subscribe');
+	if(!is_array($subscribe_array)){
+		$subscribe_array = array();
+	}
+	
+	if(in_array($reference, $subscribe_array)){
+		require_once('mail.tool.inc');
+		$user_info = userinfo_get_info_by_id($uid);
+		$subject = notify_get_subscribe_subject();
+		mail_send($user_info['email'], $subject, $message, true);
+	}
+}
+
+function notify_multiple_subscribe($message, $uid, $reference){
+	$subcribable_uid = array();
+	foreach($uid as $key => $value){
+		$subscribe_array = user_info_get_config($value, 'subscribe');
+		if(!is_array($subscribe_array)){
+			$subscribe_array = array();
+		}
+		if(in_array($reference, $subscribe_array)){
+			$subcribable_uid[] = $value;
+		}
+	}
+	
+	if(count($subcribable_uid)){
+		require_once('mail.tool.inc');
+		$email = userinfo_get_email($subcribable_uid);
+		$subject = notify_get_subscribe_subject();
+		mail_send($email, $subject, $message, true);
+	}
+}
+
+function notify_subscribe_by_mode($message, $mode){
+	$uid = io_unserialize(ROOT_PATH.'files/subscribe/'.$mode);
+	if(is_array($uid)){
+		require_once('mail.tool.inc');
+		$email = userinfo_get_email(array_keys($uid));
+		$subject = notify_get_subscribe_subject();
+		mail_send($email, $subject, $message, true);
+		echo($email.' '.$subject.' '.$message);
+	}
+}
+
+function notify_get_subscribe_subject(){
+	return '['.cc('section_name').'] '.tt('Notification (not reply)');
+}
+
+function notify_direct_subscribe($message, $email){
+	require_once('mail.tool.inc');
+	$subject = notify_get_subscribe_subject();
+	mail_send($email, $subject, $message, true);
+}
 ?>

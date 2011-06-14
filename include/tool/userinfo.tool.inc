@@ -3,6 +3,8 @@ execute_add_function('userinfo_get_ajax_name');
 execute_add_function('userinfo_check_user_exists');
 execute_add_function('userinfo_check_email_exists');
 
+global $user_config;
+
 function userinfo_get_info($data, $column){
 	if(count($data) == 0) return $data;
 	$uid = array();
@@ -152,6 +154,25 @@ function userinfo_get_login_name_by_role($role){
 		return db_select_single_column('users', 'login_name', $clause);
 	}else{
 		return array();
+	}
+}
+
+function user_info_get_config($uid, $reference){
+	global $user_config;
+	if(!isset($user_config[$uid])){
+		$account_dir = ROOT_PATH.'files/account/';
+		$user_config[$uid] = io_unserialize($account_dir.$uid);
+	}
+	
+	if(isset($user_config[$uid][$reference])) return $user_config[$uid][$reference];
+	else return null;
+}
+
+function userinfo_get_email($uid){
+	if(count($uid)){
+		$clause = 'WHERE id='.join(' OR id=', $uid);
+		$email = db_select_single_column('users', 'email', $clause);
+		return join(',', $email);
 	}
 }
 ?>

@@ -30,7 +30,7 @@
 	<table width="100%">
 		<tr>
 			<td valign="top"><?=$value['comment']?></td>
-			<td align="center" width="10%">
+			<td valign="top" align="center" style="min-width:120px;">
 			<?php if($show_avatar):?>
 				<?=render_avatar($value['writer_id'], false)?>
 				<?=forum_render_level($value['writer_id']['id'])?>

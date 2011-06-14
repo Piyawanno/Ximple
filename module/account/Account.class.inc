@@ -20,14 +20,22 @@ class Account extends User{
 	
 	public function update(){
 		$this->prepareModifyDB();
+		$this->getUID();
 		User::update();
 		$accountDirectory = ROOT_PATH.'files/account/';
 		if(!is_dir($accountDirectory)) mkdir($accountDirectory);
 		$config = pp();
+		$config['uid'] = $this->id;
 		$config['signature'] = strip_tags($config['signature']);
-		io_serialize($config, $accountDirectory.USER_ID);
+		
+		if(isset($config['subscribe'])) $this->updateSubscriber($config['subscribe']);
+		else $this->updateSubscriber(array());
+		
+		$config = extension_execute('account_update', $config, $config);
+		io_serialize($config, $accountDirectory.$this->id);
 		document_set_redirect('account');
 		notify_add_info(tt('Your account configuration has been successfully updated.'));
+		document_set_redirect('account/'.$this->id);
 	}
 	
 	private function renderForm(){
@@ -60,20 +68,25 @@ class Account extends User{
 		$formRender = new QuickFormRender('user');
 		
 		$signature = Model::char(tt('signature'));
-		$signature->data = uu('signature');
+		$signature->data = user_info_get_config($this->id, 'signature');
 		
 		$language = Model::select(tt('default language for my user interface'), translate_get_interface_language());
-		$language->data = uu('language');
+		$language->data = user_info_get_config($this->id, 'language');
 		
-		$permissionSelect = $this->getProfilePermissionOption();
-		$profile = Model::radio(tt('who can see my profile'), $permissionSelect);
-		$profile->data = uu('profile_permission');
+		$subscribeOption = $this->getSubcribeOption();
+		$subscribe = Model::checkbox(tt('send me an email by'), $subscribeOption);
+		$subscribe->data = user_info_get_config($this->id, 'subscribe');
 		
-		$email = Model::radio(tt('who can send me an email'), $permissionSelect);
-		$email->data = uu('email_permission');
+		$permissionOption = $this->getProfilePermissionOption();
+		$profile = Model::radio(tt('who can see my profile'), $permissionOption);
+		$profile->data = user_info_get_config($this->id, 'profile_permission');
+		
+		$email = Model::radio(tt('who can send me an email'), $permissionOption);
+		$email->data = user_info_get_config($this->id, 'email_permission');
 	
 		$formRender->append('signature', $signature);
 		$formRender->append('language', $language);
+		$formRender->append('subscribe', $subscribe);
 		$formRender->append('profile_permission', $profile);
 		$formRender->append('email_permission', $email);
 		return $formRender->render();
@@ -91,6 +104,49 @@ class Account extends User{
 			1 => tt('All authenticated users'),
 			2 => tt('Only you and administration'),
 		);
+	}
+	
+	private function getSubcribeOption(){
+		$configSubscribe = cc('subscribable_module');
+		if(!is_array($configSubscribe)) $configSubscribe = array();
+		$option = array(
+			'comment' => tt('someone comments on my contributions'),
+		);
+		return array_merge($option, $configSubscribe);
+	}
+	
+	private function updateSubscriber($subscribe){
+		$subscribeDir = $this->createSubcribeDirectory();
+		$this->addSubscriber($subscribe, $subscribeDir);
+		$this->dropSubscriber($subscribe, $subscribeDir);
+	}
+	
+	private function addSubscriber($subscribe, $subscribeDir){
+		foreach($subscribe as $key => $value){
+			$subscriber = io_unserialize($subscribeDir.$value);
+			if(!is_array($subscriber)) $subscriber = array();
+			if(!isset($subscriber[$this->id])){
+				$subscriber[$this->id] = true;
+				io_serialize($subscriber, $subscribeDir.$value);
+			}
+		}
+	}
+	
+	private function dropSubscriber($subscribe, $subscribeDir){
+		$configSubscribe = cc('subscribable_module');
+		foreach($configSubscribe  as $key => $value){
+			if(!in_array($key, $subscribe)){
+				$subscriber = io_unserialize($subscribeDir.$key);
+				unset($subscriber[$this->id]);
+				io_serialize($subscriber, $subscribeDir.$key);
+			}
+		}
+	}
+	
+	private function createSubcribeDirectory(){
+		$subscribeDir = ROOT_PATH.'files/subscribe/';
+		if(!is_dir($subscribeDir)) mkdir($subscribeDir);
+		return $subscribeDir;
 	}
 }
 ?>
