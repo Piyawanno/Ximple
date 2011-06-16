@@ -54,9 +54,8 @@ class Blog extends Content{
 	
 	private function renderSingleBlog(){
 		$this->id = mid();
-		$this->selectByID($this->column, true);
-		$this->publishDate = $this->dataByID['publish_time'];
-		$this->postSelect($this->column);
+		$this->selectByID($this->column);
+		$this->publishDate = date('Y-m-d H:i:s', strtotime($this->dataByID['publish_time']));
 		if($this->isReadable()) return $this->executeRender();
 		else $this->accessDeniedEntry();
 	}

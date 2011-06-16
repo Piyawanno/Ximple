@@ -34,6 +34,7 @@ function group_render($gid){
 	head_add_css('form.css');
 	head_add_css('role.css');
 	head_add_js('include/javascript/form.js');
+	head_add_js('include/javascript/autocomplete.column.js');
 	$renderArray = array(
 		'gid'  => $gid,
 		'name' => $name,

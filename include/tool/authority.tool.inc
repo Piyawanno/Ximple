@@ -23,7 +23,6 @@
 /// @param $groups : array of Group-ID for checking permission.
 /// @return TRUE, if the give User-ID and Group-ID have permission to access.
 function authority($users=array(), $groups=array(), $first_check=false){
-	if(USER_ID == 1) return true;
 	authority_handle_login();
 	authority_init_salt();
 	$crypt = authority_get_crypt();
@@ -43,6 +42,7 @@ function authority($users=array(), $groups=array(), $first_check=false){
 		}
 	}
 	authority_define_const();
+	if(USER_ID == 1) return true;
 	return authority_check_users_groups($users, $groups);
 }
 

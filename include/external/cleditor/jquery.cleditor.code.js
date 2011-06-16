@@ -208,6 +208,8 @@ function codeClick(e, data) {
 		var editor = data.editor;
 		var lang = popup.find(".code_lang").val();
 		var code = popup.find(".code_code").val();
+		code = code.replace('<', '&lt;');
+		code = code.replace('>', '&gt;');
 		popup.find(".code_lang").val('');
 		popup.find(".code_code").val('');
 		var html = '<pre lang="'+lang+'">'+code+'</pre><br />';
@@ -216,4 +218,3 @@ function codeClick(e, data) {
 		editor.focus();
 	});
 }
-

@@ -16,7 +16,9 @@ class TextColumn extends ModelColumn{
 		$this->setFormAttribute('id', $id);
 		$this->setFormAttribute('style', 'width:100%');
 		$this->setFormAttribute('rows', 20);
-		$render = '<textarea '.$this->renderFormAttribute().'>'.$this->data.'</textarea>';
+		$data = str_replace('&lt;', '&amp;lt;', $this->data);
+		$data = str_replace('&gt;', '&amp;gt;', $data);
+		$render = '<textarea '.$this->renderFormAttribute().'>'.$data.'</textarea>';
 		$render.= '<span id="info_'.$id.'"></span>';
 		return $render;
 	}
@@ -35,6 +37,11 @@ class TextColumn extends ModelColumn{
 			$iconArray[$key] = ROOT_URI.'files/smiley/'.SECTION.'/'.$value;
 		}
 		head_add_js_array('iconArray', $iconArray);
+	}
+	
+	public function triggerSelect(){
+		include_once(ROOT_PATH.'include/tool/highlight.tool.inc');
+		$this->data = highlight($this->data);
 	}
 	
 	public function prepareHead(){

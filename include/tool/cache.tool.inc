@@ -83,4 +83,19 @@ function cache_get_db_data($file_name){
 	return io_unserialize($file_name);
 }
 
+function cache_clear_by_day($date_file, $directory, $day_count=1){
+	$set_clear_date = true;
+	if(is_file($date_file)){
+		if(is_file($date_file) and io_read_file($date_file) == date('Y-m-d')){
+			$set_clear_date = false;
+		}else{
+			io_clear_directory($directory);
+		}
+	}
+	if($set_clear_date){
+		$timestamp = time()+ abs($day_count-1)*60*60*24;
+		io_write_file($date_file, date('Y-m-d'), $timestamp);
+	}
+}
+
 ?>

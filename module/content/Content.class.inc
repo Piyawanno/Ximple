@@ -408,12 +408,8 @@ abstract class Content extends Control{
 	
 	private function clearDailyCache(){
 		$dateFile = ROOT_PATH.'files/dbcache/'.$this->fullModuleName.'/lastclear.txt';
-		$setClearDate = true;
-		if(is_file($dateFile)){
-			if(io_read_file($dateFile) == date('Y-m-d')) $setClearDate = false;
-			else io_clear_directory(ROOT_PATH.'files/dbcache/'.$this->fullModuleName);
-		}
-		if($setClearDate) io_write_file($dateFile, date('Y-m-d'));
+		$cacheDirectory = ROOT_PATH.'files/dbcache/'.$this->fullModuleName;
+		cache_clear_by_day($dateFile, $cacheDirectory);
 	}
 	
 	private function getTagClause($tag){
