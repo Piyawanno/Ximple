@@ -162,7 +162,6 @@ function notify_subscribe_by_mode($message, $mode){
 		$email = userinfo_get_email(array_keys($uid));
 		$subject = notify_get_subscribe_subject();
 		mail_send($email, $subject, $message, true);
-		echo($email.' '.$subject.' '.$message);
 	}
 }
 
@@ -174,5 +173,17 @@ function notify_direct_subscribe($message, $email){
 	require_once('mail.tool.inc');
 	$subject = notify_get_subscribe_subject();
 	mail_send($email, $subject, $message, true);
+}
+
+function notify_add_subscribe($module, $label){
+	$subscribe = cc('subscribable_module');
+	$subscribe[$module] = $label;
+	config_set('subscribable_module', $subscribe);
+}
+
+function notify_drop_subscribe($module){
+	$subscribe = cc('subscribable_module');
+	unset($subscribe[$module]);
+	config_set('subscribable_module', $subscribe);
 }
 ?>

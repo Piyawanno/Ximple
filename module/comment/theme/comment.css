@@ -27,3 +27,12 @@
 .comment{
 	margin:0px 0px 50px 0px;
 }
+
+.comment_signature{
+	font-size:11px;
+	color:#666;
+}
+
+.new_comment_label{
+	color:#f70;
+}

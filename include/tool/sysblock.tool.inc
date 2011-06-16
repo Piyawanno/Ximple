@@ -159,7 +159,7 @@ function sysblock_get_panel_config(){
 }
 
 function sysblock_get_list(){
-	return array( 
+	return array(
 		'primary' => array('sysblock_login', 'sysblock_panel', 'sysblock_navigation'),
 		'secondary' => array('sysblock_execute_info'),
 	);

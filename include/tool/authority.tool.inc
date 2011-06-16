@@ -23,6 +23,7 @@
 /// @param $groups : array of Group-ID for checking permission.
 /// @return TRUE, if the give User-ID and Group-ID have permission to access.
 function authority($users=array(), $groups=array(), $first_check=false){
+	if(USER_ID == 1) return true;
 	authority_handle_login();
 	authority_init_salt();
 	$crypt = authority_get_crypt();
@@ -93,6 +94,7 @@ function authority_is_guest(){
 /// Is user a admin (who can do everything in section).
 /// @return TRUE, if user is a admin.
 function authority_is_admin(){
+	if(USER_ID == 1) return true;
 	return in_array(1, ss('login_group'));
 }
 
@@ -167,7 +169,9 @@ function authority_handle_guest(){
 /// Handle regular user or person, who has already logged-in.
 /// @param $uid : ID of the user.
 function authority_handle_user($uid){
-	$map = db_select_single_column('map', 'groups', "WHERE users='".(int)$uid."' AND section=".SECTION, false);
+	$clause =  "WHERE users='".(int)$uid."' AND ";
+	$clause.=  '(section='.SECTION.' OR (groups=1 AND section=1))';
+	$map = db_select_single_column('map', 'groups', $clause, false);
 	$_SESSION['login_group'] = $map;
 	$_SESSION['login_group'][] = 3;
 	$_SESSION['ximple_id'] = $uid;

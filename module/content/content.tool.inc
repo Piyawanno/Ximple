@@ -9,6 +9,7 @@ function content_init_module($moduleName, $moduleTitle){
 	content_add_panel($moduleName, $moduleTitle);
 	content_set_config($moduleName);
 	menu_add($moduleName, $moduleTitle);
+	notify_add_subscribe($moduleName, tt('someone posts in : ').$moduleTitle);
 }
 
 function content_get_group($moduleName){
@@ -83,6 +84,7 @@ function content_drop_module($moduleName, $moduleTitle){
 	config_drop($moduleName.'_comment_show_avatar');
 	
 	menu_drop($moduleName);
+	notify_drop_subscribe($moduleName);
 }
 
 function content_get_comment_permission(){

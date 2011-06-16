@@ -52,8 +52,7 @@ function flashblock_config(){
 	if(gg('is_translate') == 'false'){
 		include_once(ROOT_PATH.'include/class/Model.class.inc');
 		$item_number_data = db_select_single_column('flashblock', 'item_number', 'WHERE id='.gg('id'), false);
-		$option = array(3 => 3, 5 => 5, 8 => 8, 10 => 10, 15 => 15);
-		$item_number = Model::select(tt('number of shown items'), $option);
+		$item_number = Model::spin(tt('number of shown items'), 3, 50);
 		$item_number->data = $item_number_data[0];
 		return array('flashblock_item_number' => $item_number);
 	}

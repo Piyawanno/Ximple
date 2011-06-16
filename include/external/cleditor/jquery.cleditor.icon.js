@@ -15,7 +15,7 @@ $.cleditor.buttons.icon = {
 var content = '<div style="max-width:150px;padding:0;margin:0;">';
 $(document).bind("ready", function(){
 	for(i in iconArray){
-		content += '<a style="padding:5px;" href="#" onclick="return iconClick(\''+iconArray[i]+'\')"><img src="'+iconArray[i]+'" border="0"/>';
+		content += '<a style="padding:5px;" href="#" onclick="return iconClick(\''+iconArray[i]+'\')"><img src="'+iconArray[i]+'" style="width:16px;" border="0"/>';
 	}
 	content += '</div>';
 	$.cleditor.buttons.icon.popupContent = content;

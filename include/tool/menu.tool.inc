@@ -81,7 +81,7 @@ function menu_add($mode, $title){
 }
 
 function menu_drop($mode){
-	db_drop_many('menu', "uri='".addslashes((string)$mode)."'");
+	db_drop_many('menu', "uri='".addslashes((string)$mode)."' AND section=".SECTION);
 }
 
 function menu_translate($data){

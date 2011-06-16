@@ -7,6 +7,7 @@ $.cleditor.buttons.quote = {
 };
  
 function quoteClick(e, data){
-	var html = '<blockquote>'+data.editor.selectedText()+'</blockquote><br />';
+	alert(data.editor.selectedHTML());
+	var html = '<blockquote>'+data.editor.selectedHTML()+'</blockquote>';
 	data.editor.execCommand(data.command, html, null, data.button);
 }

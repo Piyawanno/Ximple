@@ -64,7 +64,7 @@ class Contact extends Control{
 	private function renderContactForm(){
 		include('ContactForm.class.inc');
 		$this->id = mid();
-		$this->selectByID($this->column);
+		$this->selectByID($this->column, true);
 		$this->translateDataByID();
 		if(authority(array(), $this->dataByID['permission'])){
 			$form = new ContactForm($this->id, $this->dataByID['name'], $this->dataByID['enable_attachment']);

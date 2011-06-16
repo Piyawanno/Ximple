@@ -23,6 +23,8 @@ class ForumEntryModel extends Model{
 		}
 		
 		$this->write_time = $this->now();
+		$this->write_time->dateFormat = cc('time_format');
+		$this->write_time->formatDateBySelect = true;
 		$this->update_time = $this->now();
 		$this->update_time->isUpdateTime = true;
 		$this->comment_time = $this->now();

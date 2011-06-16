@@ -2,7 +2,6 @@
 execute_add_function('forum_entry_last_commented');
 execute_add_function('forum_entry_last_commented_config');
 execute_add_function('forum_entry_last_commented_config_save');
-execute_add_function('forum_subscribe');
 
 function forum_entry_last_commented(){
 	include_once('forum.tool.inc');

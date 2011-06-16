@@ -28,6 +28,7 @@ abstract class Translatable extends Authority{
 	public function setTranslate(){
 		execute_set_ajax();
 		translate_set_data(pp());
+		notify_add_info(tt('Your translated content has been successfully updated.'));
 	}
 	
 	protected function init(){

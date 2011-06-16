@@ -21,7 +21,7 @@ class Account extends User{
 	public function update(){
 		$this->prepareModifyDB();
 		$this->getUID();
-		User::update();
+		User::update(false);
 		$accountDirectory = ROOT_PATH.'files/account/';
 		if(!is_dir($accountDirectory)) mkdir($accountDirectory);
 		$config = pp();

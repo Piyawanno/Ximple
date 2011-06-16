@@ -54,7 +54,9 @@ class Blog extends Content{
 	
 	private function renderSingleBlog(){
 		$this->id = mid();
-		$this->selectByID($this->column);
+		$this->selectByID($this->column, true);
+		$this->publishDate = $this->dataByID['publish_time'];
+		$this->postSelect($this->column);
 		if($this->isReadable()) return $this->executeRender();
 		else $this->accessDeniedEntry();
 	}
@@ -99,10 +101,13 @@ class Blog extends Content{
 	}
 	
 	private function getSibling(){
-		$clause = 'WHERE (section='.SECTION." AND publishing_status < 2) ";
+		$time = "'".$this->publishDate."'";
+		$clause = "WHERE publish_time > $time AND id!=".$this->id;
+		$clause.= " AND (section=".SECTION." AND publishing_status < 2) ";
 		$clause.= 'ORDER BY publish_time LIMIT 1';
 		$next = db_select('blog', array('id', 'topic', 'uri'), $clause);
-		$clause = 'WHERE (section='.SECTION." AND publishing_status < 2) ";
+		$clause = "WHERE publish_time < $time AND id!=".$this->id;
+		$clause.= " AND (section=".SECTION." AND publishing_status < 2) ";
 		$clause.= 'ORDER BY publish_time DESC LIMIT 1';
 		$back = db_select('blog', array('id', 'topic', 'uri'), $clause);
 		$this->dataByID['next'] = array_values($next);

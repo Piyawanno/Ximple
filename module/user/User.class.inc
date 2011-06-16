@@ -65,9 +65,9 @@ class User extends Control{
 		return $this->renderUpdateForm();
 	}
 	
-	public function update(){
+	public function update($updateMap=true){
 		Control::update();
-		$this->updateMap();
+		if($updateMap) $this->updateMap();
 	}
 	
 	public function drop(){
@@ -118,7 +118,8 @@ class User extends Control{
 	}
 	
 	private function getGroupData(){
-		$clause = 'WHERE users='.$this->id;
+		$clause =  "WHERE users='".(int)$this->id."' AND ";
+		$clause.=  '(section='.SECTION.' OR (groups=1 AND section=1))';
 		$this->groupForm->data = db_select_single_column('map', 'groups', $clause, false);
 	}
 	

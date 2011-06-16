@@ -28,6 +28,7 @@ abstract class Content extends Control{
 		}
 		document_set_redirect($this->fullModuleName.'/'.$this->id);
 		count_increase('contribution', USER_ID);
+		$this->subscribe();
 	}
 	
 	public function update(){
@@ -38,6 +39,7 @@ abstract class Content extends Control{
 			feed_update($this->fullModuleName, $feedData);
 		}
 		document_set_redirect($this->fullModuleName.'/'.$this->id);
+		$this->subscribe();
 	}
 	
 	public function drop(){
@@ -430,6 +432,13 @@ abstract class Content extends Control{
 		$category = array_keys(db_select_single_column('category', 'id', $clause));
 		if(isset($category[0])) return 'category='.$category[0];
 		else return '';
+	}
+	
+	private function subscribe(){
+		$message = tt('%s posts <a href="%s">%s</a> in %s.');
+		$uri = SECTION_URI.Q.$this->fullModuleName.'/'.$this->id;
+		$message = sprintf($message, USER_NAME, $uri, pp('topic'), $this->moduleTitle);
+		notify_subscribe_by_mode($message, $this->fullModuleName);
 	}
 }
 ?>

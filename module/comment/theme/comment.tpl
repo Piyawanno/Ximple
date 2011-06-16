@@ -16,19 +16,19 @@
 		<?php endif?>
 	</h3>
 	<?php if(strlen(uu('signature')) and $show_signature):?>
-		<p class="comment_signature">[<?=uu('signature')?>]</p>
+		<?=render_signature($value['writer_id'])?>
 	<?php endif?>
 	<?php if($value['is_new']):?>
 		<p>
 			<img src="<?=ROOT_URI?>files/icon/new.png" border="0" style="margin-right:15px;" align="left"/>
-			<span style="color:#f70;"><?=tt('new comment')?></span>
+			<span class="new_comment_label"><?=tt('new comment')?></span>
 		</p>
 	<?php endif?>
 	<table width="100%">
 		<tr>
 			<td valign="top"><?=$value['comment']?></td>
 			<?php if($show_avatar):?>
-				<td align="center" width="10%"><?=render_avatar($value['writer_id'], false)?></td>
+				<td align="center" width="10%" valign="top"><?=render_avatar($value['writer_id'], false)?></td>
 			<?php endif?>
 		</tr>
 	</table>
