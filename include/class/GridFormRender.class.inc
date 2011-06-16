@@ -21,7 +21,7 @@ class GridFormRender{
 	
 	public function renderForm($formID){
 		head_add_css('list.css');
-		head_add_js('include/javascript/gridcolumn.js');
+		head_add_js('include/javascript/grid.column.js');
 		$id = $formID.'_'.$this->name;
 		$render  = $this->renderHead($id);
 		$render .= $this->renderDataRow($id);

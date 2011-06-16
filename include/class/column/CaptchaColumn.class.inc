@@ -52,7 +52,7 @@ class CaptchaColumn extends ModelColumn{
 	}
 	
 	private function prepareJS($genTime){
-		head_add_js('include/javascript/captchacolumn.js');
+		head_add_js('include/javascript/captcha.column.js');
 		head_add_js_var('generateTime', $genTime);
 		head_add_js_var('captchaMessage', tt('Please insert code from image before submit.'));
 		head_add_js_var('captchaCorrect', tt('Code from image is correct.'));

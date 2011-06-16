@@ -8,7 +8,7 @@ class EmailColumn extends CharColumn{
 	
 	public function renderForm($formID){
 		head_add_js_var('emailNotOk', tt('Your Email address is not conformed.'));
-		head_add_js('include/javascript/emailcolumn.js');
+		head_add_js('include/javascript/email.column.js');
 		$this->setFormAttribute('class', 'email_field');
 		return CharColumn::renderForm($formID);
 	}

@@ -18,7 +18,7 @@ class CalendarColumn extends CharColumn{
 	}
 	
 	public function renderForm($formID){
-		head_add_js('include/javascript/calendarcolumn.js');
+		head_add_js('include/javascript/calendar.column.js');
 		if($this->data){
 			$this->data = date('d F Y', strtotime($this->data));
 		}else{

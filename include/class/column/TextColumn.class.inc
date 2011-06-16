@@ -45,7 +45,7 @@ class TextColumn extends ModelColumn{
 		head_add_js('include/external/cleditor/jquery.cleditor.code.js');
 		head_add_js('include/external/cleditor/jquery.cleditor.quote.js');
 		head_add_js('include/external/cleditor/jquery.cleditor.advancedimage.js');
-		head_add_js('include/javascript/textcolumn.js');
+		head_add_js('include/javascript/text.column.js');
 	}
 }
 ?>

@@ -14,7 +14,7 @@ class MultipleFilesColumn extends ModelColumn{
 	}
 	
 	public function renderForm($formID){
-		head_add_js('include/javascript/multiplefilescolumn.js');
+		head_add_js('include/javascript/multiplefiles.column.js');
 		$id = $formID.'_'.$this->name;
 		$render  = '<div class="multiplefiles_list" id="'.$id.'">';
 		$render .= '<ul>';

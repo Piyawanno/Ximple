@@ -9,7 +9,7 @@ class CheckEditColumn extends SelectiveColumn{
 	}
 	
 	public function renderForm($formID){
-		head_add_js('include/javascript/checkeditcolumn.js');
+		head_add_js('include/javascript/checkedit.column.js');
 		$id = $formID.'_'.$this->name;
 		$this->checkSortable();
 		$render = '<div class="checkedit_list">';
