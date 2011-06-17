@@ -1,4 +1,4 @@
-CREATE TABLE `block` (
+CREATE TABLE `widget` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(250) NOT NULL,
   `config_form_mode` varchar(250) DEFAULT NULL,
@@ -51,10 +51,11 @@ CREATE TABLE `feed` (
   `comment_no` int(11) DEFAULT NULL,
   `uri` varchar(250) DEFAULT NULL,
   `freetag` varchar(250) DEFAULT NULL,
+  `section` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) CHARACTER SET utf8;
 
-CREATE TABLE `flashblock` (
+CREATE TABLE `flashwidget` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `reference` varchar(250) DEFAULT NULL,
   `mode` varchar(250) DEFAULT NULL,
@@ -91,7 +92,7 @@ CREATE TABLE `menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(250) NOT NULL,
   `uri` varchar(250) DEFAULT NULL,
-  `block` int(11) DEFAULT NULL,
+  `widget` int(11) DEFAULT NULL,
   `sort_number` int(11) DEFAULT NULL,
   `section` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
