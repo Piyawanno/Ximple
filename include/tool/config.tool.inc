@@ -147,7 +147,7 @@ function config_default_panel_access(){
 		),
 		'Themes' => array(  
 			'theme_admin' => array(
-				'select themes' => 'theme_select',
+				'select theme' => 'theme_select',
 				'configure theme' => 'theme_config',
 				'custom css' => 'theme_css',
 				'custom image' => 'theme_image'
