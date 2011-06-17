@@ -24,12 +24,12 @@ class TextColumn extends ModelColumn{
 	}
 	
 	public function prepareEditor(){
-		$smileyFolder  = ROOT_PATH.'files/smiley/';
+		$smileyFolder  = FILES_PATH.'smiley/';
 		if(!is_dir($smileyFolder)) mkdir($smileyFolder);
 		$smileyFolder .= SECTION.'/';
 		if(!is_dir($smileyFolder)){
 			mkdir($smileyFolder);
-			$cleFolder = ROOT_PATH.'include/external/cleditor/images/icons/';
+			$cleFolder = INCLUDE_PATH.'external/cleditor/images/icons/';
 			io_copy_directory($cleFolder, $smileyFolder);
 		}
 		$iconArray = io_get_directory_entry($smileyFolder);
@@ -40,7 +40,7 @@ class TextColumn extends ModelColumn{
 	}
 	
 	public function triggerSelect(){
-		include_once(ROOT_PATH.'include/tool/highlight.tool.inc');
+		include_once(INCLUDE_PATH.'tool/highlight.tool.inc');
 		$this->data = highlight($this->data);
 	}
 	

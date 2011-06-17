@@ -8,7 +8,7 @@ function module_get_info_faq(){
 
 function module_init_faq(){
 	include_once('FAQ.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	if(!is_dir('files/faq/')) mkdir('files/faq/');
 	
 	$faq = new FAQ();
@@ -31,7 +31,7 @@ function module_init_faq(){
 
 function module_drop_faq(){
 	include_once('FAQ.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	$faq = new FAQ();
 	$faq->dropModule();
 	module_drop_role('faq_admin');

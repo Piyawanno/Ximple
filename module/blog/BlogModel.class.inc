@@ -11,7 +11,7 @@ class BlogModel extends ContentModel{
 	}
 	
 	private function checkPath(){
-		$path  = ROOT_PATH.'files/blog/';
+		$path  = FILES_PATH.'blog/';
 		if(!is_dir($path))  mkdir($path);
 	}
 	

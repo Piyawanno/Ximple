@@ -27,7 +27,7 @@ class PageDirectory extends Control{
 	}
 	
 	public function index(){
-		include_once(ROOT_PATH.'include/tool/menu.tool.inc');
+		include_once(INCLUDE_PATH.'tool/menu.tool.inc');
 		head_add_css('directory.css');
 		$this->selectByID($this->column);
 		$this->translateDataByID();
@@ -189,7 +189,7 @@ class PageDirectory extends Control{
 	
 	private function initPage(){
 		if($this->page == null){
-			include_once(ROOT_PATH.'module/page/Page.class.inc');
+			include_once(MODULE_PATH.'page/Page.class.inc');
 			$this->page = new Page();
 			$this->page->setParent($this->id);
 			$this->page->setConfiguration($this->configuration);

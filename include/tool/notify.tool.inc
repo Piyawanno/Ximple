@@ -92,7 +92,7 @@ function notify_get_file_name($uid){
 	}else{
 		$file_name = (string) $uid;
 	}
-	$dir_name = ROOT_PATH.'files/notify/';
+	$dir_name = FILES_PATH.'notify/';
 	if(!is_dir($dir_name)) mkdir($dir_name);
 	return $dir_name.$file_name;
 }
@@ -156,7 +156,7 @@ function notify_multiple_subscribe($message, $uid, $reference){
 }
 
 function notify_subscribe_by_mode($message, $mode){
-	$uid = io_unserialize(ROOT_PATH.'files/subscribe/'.$mode);
+	$uid = io_unserialize(FILES_PATH.'subscribe/'.$mode);
 	if(is_array($uid)){
 		require_once('mail.tool.inc');
 		$email = userinfo_get_email(array_keys($uid));

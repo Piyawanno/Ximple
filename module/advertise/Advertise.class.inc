@@ -1,6 +1,6 @@
 <?php
 execute_add_class('advertise', 'Advertise');
-include_once(ROOT_PATH.'include/class/Control.class.inc');
+include_once(INCLUDE_PATH.'class/Control.class.inc');
 include_once('AdvertiseModel.class.inc');
 
 class Advertise extends Control{

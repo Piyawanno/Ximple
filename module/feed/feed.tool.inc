@@ -80,7 +80,7 @@ function feed_format_data($mode, $data){
 }
 
 function feed_get_dir(){
-	$feed_dir = ROOT_PATH.'files/xml/';
+	$feed_dir = FILES_PATH.'xml/';
 	if(!is_dir($feed_dir)) mkdir($feed_dir);
 	$feed_dir.= SECTION.'/';
 	if(!is_dir($feed_dir)) mkdir($feed_dir);

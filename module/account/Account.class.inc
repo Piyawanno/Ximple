@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT_PATH.'module/user/User.class.inc');
+require_once(MODULE_PATH.'user/User.class.inc');
 execute_add_class('account', 'Account');
 
 class Account extends User{
@@ -22,7 +22,7 @@ class Account extends User{
 		$this->prepareModifyDB();
 		$this->getUID();
 		User::update(false);
-		$accountDirectory = ROOT_PATH.'files/account/';
+		$accountDirectory = FILES_PATH.'account/';
 		if(!is_dir($accountDirectory)) mkdir($accountDirectory);
 		$config = pp();
 		$config['uid'] = $this->id;
@@ -64,7 +64,7 @@ class Account extends User{
 	}
 	
 	private function renderConfigForm(){
-		include_once(ROOT_PATH.'include/class/QuickFormRender.class.inc');
+		include_once(INCLUDE_PATH.'class/QuickFormRender.class.inc');
 		$formRender = new QuickFormRender('user');
 		
 		$signature = Model::char(tt('signature'));
@@ -144,7 +144,7 @@ class Account extends User{
 	}
 	
 	private function createSubcribeDirectory(){
-		$subscribeDir = ROOT_PATH.'files/subscribe/';
+		$subscribeDir = FILES_PATH.'subscribe/';
 		if(!is_dir($subscribeDir)) mkdir($subscribeDir);
 		return $subscribeDir;
 	}

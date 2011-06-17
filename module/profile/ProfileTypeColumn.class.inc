@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT_PATH.'include/class/column/RadioColumn.class.inc');
+require_once(INCLUDE_PATH.'class/column/RadioColumn.class.inc');
 
 class ProfileTypeColumn extends RadioColumn{
 	function ProfileTypeColumn(){

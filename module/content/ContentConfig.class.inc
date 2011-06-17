@@ -1,5 +1,5 @@
 <?php
-include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
+include_once(INCLUDE_PATH.'class/ConfigControl.class.inc');
 include_once('content.tool.inc');
 include_once('ContentModel.class.inc');
 include_once('ContentConfigModel.class.inc');

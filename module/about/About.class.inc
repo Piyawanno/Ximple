@@ -1,6 +1,6 @@
 <?php
 execute_add_class('about', 'About');
-require(ROOT_PATH.'include/class/ConfigControl.class.inc');
+require(INCLUDE_PATH.'class/ConfigControl.class.inc');
 require('AboutModel.class.inc');
 
 class About extends ConfigControl{
@@ -12,7 +12,7 @@ class About extends ConfigControl{
 		$this->addAccessMethod('guest', 'index');
 		$this->setAdmin('config_admin');
 		$this->addAction('about_edit', 'edit');
-		$this->path = ROOT_PATH.'files/about/'.SECTION;
+		$this->path = FILES_PATH.'about/'.SECTION;
 		$this->init(new AboutModel());
 	}
 	

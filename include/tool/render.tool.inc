@@ -22,11 +22,11 @@ function render_get_tpl($tpl){
 		return $render_cache_tpl[$tpl];
 	}
 	
-	$tpl_sys = ROOT_PATH.'theme/default/systemtemplate/'.$tpl;
-	$tpl_module_sys = ROOT_PATH.'module/'.MODULE.'/systemtheme/'.$tpl;
-	$tpl_theme = ROOT_PATH.'theme/'.cc('theme').'/template/'.$tpl;
-	$tpl_default = ROOT_PATH.'theme/default/template/'.$tpl;
-	$tpl_module = ROOT_PATH.'module/'.MODULE.'/theme/'.$tpl;
+	$tpl_sys = THEME_PATH.'default/systemtemplate/'.$tpl;
+	$tpl_module_sys = MODULE_PATH.''.MODULE.'/systemtheme/'.$tpl;
+	$tpl_theme = THEME_PATH.''.cc('theme').'/template/'.$tpl;
+	$tpl_default = THEME_PATH.'default/template/'.$tpl;
+	$tpl_module = MODULE_PATH.''.MODULE.'/theme/'.$tpl;
 	$tpl_abs = ROOT_PATH.$tpl;
 	
 	if(is_file($tpl_sys)) $tpl_out = $tpl_sys;

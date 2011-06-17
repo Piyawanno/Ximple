@@ -95,7 +95,7 @@ function ucc($key=null){
 
 function uu($key=null){
 	if(!isset($GLOBALS['account'])){
-		$account_dir = ROOT_PATH.'files/account/';
+		$account_dir = FILES_PATH.'account/';
 		if(!is_dir($account_dir)) mkdir($account_dir);
 		$GLOBALS['account'] = io_unserialize($account_dir.USER_ID);
 	}

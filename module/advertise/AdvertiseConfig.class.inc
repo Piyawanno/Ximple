@@ -1,6 +1,6 @@
 <?php
 execute_add_extended_class('advertise', 'config', 'AdvertiseConfig');
-include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
+include_once(INCLUDE_PATH.'class/ConfigControl.class.inc');
 include_once('AdvertiseConfigModel.class.inc');
 
 class AdvertiseConfig extends ConfigControl{
@@ -34,7 +34,7 @@ class AdvertiseConfig extends ConfigControl{
 	
 	public function updateWidget(){
 		$position = pp('advertise_widget_position');
-		include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+		include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 		foreach($position as $key => $value){
 			widget_drop('advertise_banner/'.$key);
 			if(strlen($value)){

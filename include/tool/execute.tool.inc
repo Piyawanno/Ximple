@@ -61,7 +61,7 @@ function execute_add_function($mode){
 
 function execute_add_class($module, $class){
 	global $execute_class;
-	include_once(ROOT_PATH.'include/class/Control.class.inc');
+	include_once(INCLUDE_PATH.'class/Control.class.inc');
 	if(!isset($execute_class[$module])){
 		$execute_class[$module] = $class;
 	}elseif(state_is_develop()){
@@ -72,7 +72,7 @@ function execute_add_class($module, $class){
 
 function execute_add_extended_class($module, $extension, $class){
 	global $execute_class_extension;
-	include_once(ROOT_PATH.'include/class/Control.class.inc');
+	include_once(INCLUDE_PATH.'class/Control.class.inc');
 	if(isset($execute_class_extension[$module])){
 		if(!isset($execute_class_extension[$module][$extension])){
 			$execute_class_extension[$module][$extension] = $class;
@@ -169,13 +169,13 @@ function execute_include_files($module, $extension){
 	$module_require = cc('module_require');
 	if(isset($module_require[$module])){
 		$module_require = $module_require[$module];
-		translate_add_directory(ROOT_PATH.'module/'.$module.'/');
+		translate_add_directory(MODULE_PATH.''.$module.'/');
 		if(!is_array($module_require)){
-			execute_include(ROOT_PATH.'module/'.$module.'/'.$module_require);
+			execute_include(MODULE_PATH.''.$module.'/'.$module_require);
 		}elseif(isset($module_require[$extension])){
-			execute_include(ROOT_PATH.'module/'.$module.'/'.$module_require[$extension]);
+			execute_include(MODULE_PATH.''.$module.'/'.$module_require[$extension]);
 		}else{
-			execute_include(ROOT_PATH.'module/'.$module.'/'.$module_require['#primary']);
+			execute_include(MODULE_PATH.''.$module.'/'.$module_require['#primary']);
 		}
 	}
 }

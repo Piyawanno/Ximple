@@ -1,9 +1,9 @@
 <?php
 function tracker_insert($data){
 	if(cc('tracker_enable') and !authority_is_guest()){
-		$tracker_dir = ROOT_PATH.'files/tracker';
+		$tracker_dir = FILES_PATH.'tracker';
 		if(!is_dir($tracker_dir)) mkdir($tracker_dir);
-		$tracker_dir = ROOT_PATH.'files/tracker/'.USER_ID.'/';
+		$tracker_dir = FILES_PATH.'tracker/'.USER_ID.'/';
 		if(!is_dir($tracker_dir)) mkdir($tracker_dir);
 		$file_name = io_get_loop_file('tracker/'.USER_ID.'/', ceil(cc('tracker_time')/86400));
 		$track = $data['mode'].','.$data['id'].','.$data['topic'].',';

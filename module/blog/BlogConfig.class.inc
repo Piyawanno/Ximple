@@ -1,6 +1,6 @@
 <?php
 execute_add_extended_class('blog', 'config', 'BlogConfig');
-include_once(ROOT_PATH.'module/content/ContentConfig.class.inc');
+include_once(MODULE_PATH.'content/ContentConfig.class.inc');
 include_once('BlogConfigModel.class.inc');
 
 class BlogConfig extends ContentConfig{

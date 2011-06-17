@@ -28,7 +28,7 @@ class Contact extends Control{
 	}
 	
 	public function send(){
-		include_once(ROOT_PATH.'include/tool/mail.tool.inc');
+		include_once(INCLUDE_PATH.'tool/mail.tool.inc');
 		$this->id = (int)pp('id');
 		$this->selectByID($this->column);
 		$this->translateDataByID();
@@ -75,14 +75,14 @@ class Contact extends Control{
 	}
 	
 	private function addNavigation(){
-		include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+		include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 		widget_add_navigation('contact/'.$this->id, pp('name'));
 		config_save();
 		notify_add_tip(tt('Contact has been automatically inserted into Navigation-Widget.'));
 	}
 	
 	private function dropNavigation(){
-		include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+		include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 		widget_drop_navigation('contact/'.$this->id);
 		config_save();
 		notify_add_tip(tt('Contact has been automatically deleted from Navigation-Widget.'));
@@ -110,7 +110,7 @@ class Contact extends Control{
 		$body.= '<h4>'.cc('contact_head').pp('subject').'</h4>';
 		$body.= '<p>'.pp('message').'</p><p>from '.pp('email').'</p>';
 		
-		include_once(ROOT_PATH.'module/message/Message.class.inc');
+		include_once(MODULE_PATH.'message/Message.class.inc');
 		$message = new Message();
 		$message->send(userinfo_group_to_id($groups), $body, 1, pp('email'));
 	}

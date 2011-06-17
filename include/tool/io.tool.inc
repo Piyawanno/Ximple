@@ -120,7 +120,7 @@ function io_unserialize($file_name){
 /// @param $increase_space : IF TRUE, increase used space of user.
 /// @return File path for success, null else.
 function io_upload($file, $path, $is_image=false, $increase_space=true){
-	include_once(ROOT_PATH.'include/tool/userinfo.tool.inc');
+	include_once(INCLUDE_PATH.'tool/userinfo.tool.inc');
 	if($file and !io_check_image($file['name'], $is_image)){
 		notify_add_error(tt('Only .png, .jpeg and .jpg are allowed to be uploaded.'));
 		return null;
@@ -183,7 +183,7 @@ function io_get_log_file($prevois_day=0){
 }
 
 function io_get_loop_file($loop_name, $interval, $prevois_day=0){
-	$log_dir = ROOT_PATH.'files/'.$loop_name.'/';
+	$log_dir = FILES_PATH.''.$loop_name.'/';
 	if(!is_dir($log_dir)) mkdir($log_dir);
 	$log_dir.= SECTION.'/';
 	if(!is_dir($log_dir)) mkdir($log_dir);

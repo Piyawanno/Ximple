@@ -1,6 +1,6 @@
 <?php
 execute_add_class('registration', 'RegistrationConfig');
-include(ROOT_PATH.'include/class/ConfigControl.class.inc');
+include(INCLUDE_PATH.'class/ConfigControl.class.inc');
 include('RegistrationConfigModel.class.inc');
 
 class RegistrationConfig extends ConfigControl{

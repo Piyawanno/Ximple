@@ -14,7 +14,7 @@ execute_add_function('theme_config_save');
 
 define('THEME_PAGE_LENGTH', 6);
 define('THEME_ROW_LENGTH', 2);
-include_once(ROOT_PATH.'include/class/PagerRender.class.inc');
+include_once(INCLUDE_PATH.'class/PagerRender.class.inc');
 
 function theme_select(){
 	$title = tt('Manage Theme');
@@ -47,7 +47,7 @@ function theme_reset(){
 }
 
 function theme_clear_custom(){
-	io_clear_directory(ROOT_PATH.'files/customtheme/'.SECTION.'/');
+	io_clear_directory(FILES_PATH.'customtheme/'.SECTION.'/');
 	execute_set_db();
 	document_set_redirect('theme_select/page/'.pid().'#selected_theme');
 	notify_add_info(tt('Your custom theme directories have been successfully cleared.'));
@@ -55,8 +55,8 @@ function theme_clear_custom(){
 
 function theme_image(){
 	if(theme_check_custom_directory('image')){
-		include_once(ROOT_PATH.'module/file/file_manage.module.inc');
-		include_once(ROOT_PATH.'module/file/file.tool.inc');
+		include_once(MODULE_PATH.'file/file_manage.module.inc');
+		include_once(MODULE_PATH.'file/file.tool.inc');
 		$dir = gg('dir');
 		if(!$dir) $dir = '';
 		$root_path = file_get_mode_path('theme_image');
@@ -121,7 +121,7 @@ function theme_config_save(){
 }
 
 function theme_execute_external($function){
-	include_once(ROOT_PATH.'theme/'.cc('theme').'/theme.config.inc');
+	include_once(THEME_PATH.''.cc('theme').'/theme.config.inc');
 	if(function_exists($function)){
 		return $function();
 	}else{
@@ -144,7 +144,7 @@ function theme_drop_additional_config($config){
 }
 
 function theme_check_custom_directory($type){
-	$custom_path = ROOT_PATH.'files/customtheme/'.SECTION.'/'.cc('theme').'/';
+	$custom_path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/';
 	if(!is_dir($custom_path)){
 		theme_set_config(cc('theme'));
 		notify_add_info(tt('Your custom theme directory does not exist. The directory has been created.'));
@@ -166,7 +166,7 @@ function theme_get_information(){
 function theme_get_init_file(){
 	$init_array = array();
 	$theme_array = array();
-	$dir_name = ROOT_PATH.'theme/';
+	$dir_name = THEME_PATH.'';
 	$dir = dir($dir_name);
 	while (false !== ($entry = $dir->read())) {
 		if($entry != '.' and $entry != '..'){
@@ -245,7 +245,7 @@ function theme_check_info(&$theme_info){
 }
 
 function theme_copy_custom($theme){
-	$custom_dir = ROOT_PATH.'files/customtheme/';
+	$custom_dir = FILES_PATH.'customtheme/';
 	if(!is_dir($custom_dir)) mkdir($custom_dir);
 	$custom_dir .= SECTION.'/';
 	if(!is_dir($custom_dir)) mkdir($custom_dir);
@@ -253,9 +253,9 @@ function theme_copy_custom($theme){
 	if(!is_dir($custom_dir)) mkdir($custom_dir);
 	if(!is_dir($custom_dir.'css')) mkdir($custom_dir.'css');
 	if(!is_dir($custom_dir.'image')) mkdir($custom_dir.'image');
-	$source = ROOT_PATH.'theme/default/';
+	$source = THEME_PATH.'default/';
 	io_copy_directory($source.'css', $custom_dir.'css');
-	$source = ROOT_PATH.'theme/'.$theme.'/';
+	$source = THEME_PATH.''.$theme.'/';
 	io_copy_directory($source.'css', $custom_dir.'css');
 	io_copy_directory($source.'image', $custom_dir.'image');
 }
@@ -268,7 +268,7 @@ function theme_set_config($theme_name){
 	config_set('widget_position', $position);
 	config_set('widget_primary_position', $theme_config['widget_primary_position']);
 	config_set('menu_include_widget', $theme_config['menu_include_widget']);
-	$custom_img = ROOT_PATH.'files/customtheme/'.SECTION.'/'.$theme_name.'/image/';
+	$custom_img = FILES_PATH.'customtheme/'.SECTION.'/'.$theme_name.'/image/';
 	config_append_assc('file_mode_path', 'theme_image', $custom_img);
 	theme_set_additional_config($theme_config['additional_config']);
 	theme_copy_custom($theme_name);
@@ -277,7 +277,7 @@ function theme_set_config($theme_name){
 }
 
 function theme_reset_widget_position($primary_position){
-	require_once(ROOT_PATH.'include/tool/syswidget.tool.inc');
+	require_once(INCLUDE_PATH.'tool/syswidget.tool.inc');
 	db_update_many('widget', array('position' => 'disabled'), 'section='.SECTION);
 	$list = syswidget_get_list();
 	$list = $list['primary'];

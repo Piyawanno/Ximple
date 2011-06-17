@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT_PATH.'include/class/column/MultipleFilesColumn.class.inc');
+require_once(INCLUDE_PATH.'class/column/MultipleFilesColumn.class.inc');
 
 class SectionConfigModel extends Model{
 	function SectionConfigModel(){
@@ -27,6 +27,7 @@ class SectionConfigModel extends Model{
 			'develop' => tt('development'),
 			'product' => tt('production'),
 			'maintain' => tt('maintenance'),
+			'test' => tt('test'),
 		);
 		$this->state = $this->radio(tt('section state'), $option);
 		
@@ -94,7 +95,7 @@ class SectionConfigModel extends Model{
 		$this->tracker_enable = $this->enable(tt('user tracker enable'));
 		$this->tracker_time = $this->timeInterval(tt('user tracker expiration'), $timeInterval);
 		
-		$path = ROOT_PATH.'files/smiley/'.SECTION.'/';
+		$path = FILES_PATH.'smiley/'.SECTION.'/';
 		$this->smiley = new MultipleFilesColumn(tt('smiley'), $path, 'smiley');
 		$pattern = tt('You can also use <a href="%s">File Manage</a> to manage smiley in Section');
 		$link = SECTION_URI.'?mode=file_manage_admin&dir=smiley/'.SECTION.'/';

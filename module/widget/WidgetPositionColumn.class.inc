@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT_PATH.'include/class/column/HiddenColumn.class.inc');
+require_once(INCLUDE_PATH.'class/column/HiddenColumn.class.inc');
 
 class WidgetPositionColumn extends HiddenColumn{
 	function WidgetPositionColumn(){

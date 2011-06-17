@@ -1,6 +1,6 @@
 <?php
 function evaluation_get_model($model_reference=null){
-	$model_directory = ROOT_PATH.'module/evaluation/model/';
+	$model_directory = MODULE_PATH.'evaluation/model/';
 	$model_array = io_get_directory_entry($model_directory);
 	$model = array();
 	foreach($model_array as $key => $value){

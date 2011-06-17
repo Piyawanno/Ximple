@@ -17,9 +17,9 @@ class ListPageMetaData{
 	public function addOperation($mode, $label, $icon, $additionParameter=null){
 		$this->operation[$mode]['label'] = $label;
 		$this->operation[$mode]['addition'] = $additionParameter;
-		if(is_file(ROOT_PATH.'files/icon/'.$icon)){
+		if(is_file(FILES_PATH.'icon/'.$icon)){
 			$this->operation[$mode]['icon'] = 'files/icon/'.$icon;
-		}elseif(is_file(ROOT_PATH.'module/'.MODULE.'/theme/'.$icon)){
+		}elseif(is_file(MODULE_PATH.''.MODULE.'/theme/'.$icon)){
 			$this->operation[$mode]['icon'] = 'module/'.MODULE.'/theme/'.$icon;
 		}
 	}

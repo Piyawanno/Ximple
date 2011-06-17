@@ -12,13 +12,13 @@ class ImageColumn extends FileColumn{
 	}
 	
 	public function triggerPostInsert(){
-		require_once(ROOT_PATH.'include/tool/image.tool.inc');
+		require_once(INCLUDE_PATH.'tool/image.tool.inc');
 		FileColumn::triggerPostInsert();
 		$this->checkImage();
 	}
 	
 	public function triggerPostUpdate(){
-		require_once(ROOT_PATH.'include/tool/image.tool.inc');
+		require_once(INCLUDE_PATH.'tool/image.tool.inc');
 		FileColumn::triggerPostUpdate();
 		$this->checkImage();
 	}

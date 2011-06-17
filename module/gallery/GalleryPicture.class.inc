@@ -36,7 +36,7 @@ class GalleryPicture extends Control{
 	public function drop(){
 		$this->id = (int) gg('id');
 		$this->selectByID($this->column, true);
-		$path = ROOT_PATH.'files/gallery/'.$this->galleryID.'/';
+		$path = FILES_PATH.'gallery/'.$this->galleryID.'/';
 		unlink($path.$this->dataByID['picture']);
 		unlink($path.'thumb_'.$this->dataByID['picture']);
 		document_set_redirect('gallery/'.$gallery->id);

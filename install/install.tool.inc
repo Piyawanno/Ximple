@@ -127,7 +127,7 @@ function install_check_pgsql(){
 function install_check_sqlite(){
 	$result = array('<b>DB_TYPE :</b> <b class="valid">OK</b><br />', true);
 	
-	@ $dbh = sqlite_open(ROOT_PATH.'files/sqlite.data', 0766, $sqliteerror) or
+	@ $dbh = sqlite_open(FILES_PATH.'sqlite.data', 0766, $sqliteerror) or
 	$result = array(
 		'<b>DB_TYPE :</b> <b class="invalid">Trouble with SQLite connection ('.$sqliteerror.'). You should change permission of '.ROOT_PATH.'files to 0757</b><br />',
 		false
@@ -140,7 +140,7 @@ function install_check_sqlite(){
 /// Check ROOT_PATH.
 /// @return Result of ROOT_PATH checking.
 function install_check_path(){
-	$valid_path = file_exists(ROOT_PATH.'include/tool/main.tool.inc');
+	$valid_path = file_exists(INCLUDE_PATH.'tool/main.tool.inc');
 	if($valid_path){
 		$page ='<b>ROOT_PATH :</b> <b class="valid">OK</b><br />';
 		$next_enable = true;
@@ -242,22 +242,22 @@ function install_create_db_table(){
 }
 
 function install_include(){
-	include(ROOT_PATH.'include/tool/cache.tool.inc');
-	include(ROOT_PATH.'include/tool/error.tool.inc');
-	include(ROOT_PATH.'include/tool/io.tool.inc');
-	include(ROOT_PATH.'include/tool/render.tool.inc');
-	include(ROOT_PATH.'include/tool/config.tool.inc');
-	include(ROOT_PATH.'include/tool/input.tool.inc');
-	include(ROOT_PATH.'include/database/'.DB_TYPE.'.inc');
+	include(INCLUDE_PATH.'tool/cache.tool.inc');
+	include(INCLUDE_PATH.'tool/error.tool.inc');
+	include(INCLUDE_PATH.'tool/io.tool.inc');
+	include(INCLUDE_PATH.'tool/render.tool.inc');
+	include(INCLUDE_PATH.'tool/config.tool.inc');
+	include(INCLUDE_PATH.'tool/input.tool.inc');
+	include(INCLUDE_PATH.'database/'.DB_TYPE.'.inc');
 }
 
 function install_init_authority(){
-	include(ROOT_PATH.'include/tool/authority.tool.inc');
+	include(INCLUDE_PATH.'tool/authority.tool.inc');
 	authority();
 }
 
 function install_init_js_var_user_insert(){
-	include(ROOT_PATH.'include/tool/head.tool.inc');
+	include(INCLUDE_PATH.'tool/head.tool.inc');
 	head_add_js_var('pleaseFill', tt('Please, fill the required field : '));
 	head_add_js_var('formNotCorrect', tt('Any field in the form is not correctly filled. Please correct it and try again.'));
 	head_add_js_var('nameTooShort', tt('Login name is too short.'));

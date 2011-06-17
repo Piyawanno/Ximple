@@ -1,6 +1,6 @@
 <?php
 execute_add_class('config', 'SectionConfig');
-include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
+include_once(INCLUDE_PATH.'class/ConfigControl.class.inc');
 include('SectionConfigModel.class.inc');
 
 class SectionConfig extends ConfigControl{
@@ -101,7 +101,7 @@ class SectionConfig extends ConfigControl{
 	}
 	
 	public function reset(){
-		$configFile = ROOT_PATH.'files/config/config'.SECTION.'.php';
+		$configFile = FILES_PATH.'config/config'.SECTION.'.php';
 		if(is_file($configFile)) unlink($configFile);
 		execute_set_db();
 		document_set_redirect('config');
@@ -121,9 +121,9 @@ class SectionConfig extends ConfigControl{
 	}
 	
 	private function uploadIcon($oldIcon){
-		$dir = ROOT_PATH.'files/misc/';
+		$dir = FILES_PATH.'misc/';
 		if(!is_dir($dir)) mkdir($dir);
-		$icon = io_upload(ff('icon'), ROOT_PATH.'files/misc/');
+		$icon = io_upload(ff('icon'), FILES_PATH.'misc/');
 		if(strlen($icon)){
 			config_set('icon', $icon);
 			if(is_file(ROOT_PATH.$oldIcon) and $oldIcon != 'files/misc/ximple.png'){
@@ -136,7 +136,7 @@ class SectionConfig extends ConfigControl{
 	}
 	
 	private function setState(){
-		$dir = ROOT_PATH.'files/state/';
+		$dir = FILES_PATH.'state/';
 		if(!is_dir($dir)) mkdir($dir);
 		io_write_file($dir.'install', "");
 		$dir.= SECTION.'/';

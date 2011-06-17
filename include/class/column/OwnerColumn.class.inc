@@ -11,7 +11,7 @@ class OwnerColumn extends HiddenColumn{
 			$data = db_select('users', $column, 'WHERE id='.$this->data);
 			$uid = $this->data;
 			$this->data = $data[$uid];
-			$this->data['config'] = io_unserialize(ROOT_PATH.'files/account/'.$uid);
+			$this->data['config'] = io_unserialize(FILES_PATH.'account/'.$uid);
 		}else{
 			$this->data = array(
 				'id' => -1,

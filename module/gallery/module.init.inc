@@ -12,8 +12,8 @@ function module_init_gallery(){
 	include_once('Gallery.class.inc');
 	include_once('GalleryPicture.class.inc');
 	include_once('GalleryConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
-	include_once(ROOT_PATH.'module/flashwidget/flashwidget.module.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
+	include_once(MODULE_PATH.'flashwidget/flashwidget.module.inc');
 	
 	$gallery = new Gallery();
 	$gallery->initModule('Gallery.class.inc');
@@ -35,8 +35,8 @@ function module_drop_gallery(){
 	include_once('Gallery.class.inc');
 	include_once('GalleryPicture.class.inc');
 	include_once('GalleryConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
-	include_once(ROOT_PATH.'module/flashwidget/flashwidget.module.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
+	include_once(MODULE_PATH.'flashwidget/flashwidget.module.inc');
 	
 	$gallery = new Gallery();
 	$gallery->dropModule();

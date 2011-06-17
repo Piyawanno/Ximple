@@ -7,7 +7,7 @@ function registration_off(){
 
 function registration_save_user($reply_mode, $text){
 	if(registration_verify_data()){	
-		$register_dir = ROOT_PATH.'files/registration/';
+		$register_dir = FILES_PATH.'registration/';
 		if(!is_dir($register_dir)) mkdir($register_dir);
 		list($user, $key1, $key2) = registration_get_user_data();
 		io_serialize($user, $register_dir.$key1);
@@ -42,7 +42,7 @@ function registration_get_user_data(){
 	unset($user['captcha_code_captcha']);
 	unset($user['captcha_gentime_captcha']);
 	
-	$user['avatar'] = io_upload(ff('avatar'), ROOT_PATH.'files/avatar/');
+	$user['avatar'] = io_upload(ff('avatar'), FILES_PATH.'avatar/');
 	if(!$user['avatar']) $user['avatar'] = '';
 	return array($user, $key1, $key2);
 }
@@ -57,7 +57,7 @@ function registration_reply($confirm_uri, $reply_text){
 		".tt('Alternative Link')." : $confirm_uri
 	</p>
 	";
-	include(ROOT_PATH.'include/tool/mail.tool.inc');
+	include(INCLUDE_PATH.'tool/mail.tool.inc');
 	if(!mail_send(pp('email'), $subject, $message, true)) registration_error();
 	else notify_add_info(tt('Your registration has been successfully submitted. Please check your email to confirm the registration.'));
 }

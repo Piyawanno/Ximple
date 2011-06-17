@@ -111,7 +111,7 @@ function module_get_information(){
 function module_get_init_file(){
 	$init_array = array();
 	$module_array = array();
-	$dir_name = ROOT_PATH.'module/';
+	$dir_name = MODULE_PATH.'';
 	$dir = dir($dir_name);
 	while (false !== ($entry = $dir->read())) {
 		if($entry != '.' and $entry != '..'){

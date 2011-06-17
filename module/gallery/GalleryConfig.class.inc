@@ -1,6 +1,6 @@
 <?php
 execute_add_extended_class('gallery', 'config', 'GalleryConfig');
-include_once(ROOT_PATH.'module/content/ContentConfig.class.inc');
+include_once(MODULE_PATH.'content/ContentConfig.class.inc');
 include_once('GalleryConfigModel.class.inc');
 
 class GalleryConfig extends ContentConfig{

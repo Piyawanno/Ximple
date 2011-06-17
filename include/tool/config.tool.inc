@@ -42,7 +42,7 @@ function config_drop_assc($name, $key){
 }
 
 function config_save(){
-	$config_dir = ROOT_PATH.'files/config/';
+	$config_dir = FILES_PATH.'config/';
 	if(!is_dir($config_dir)) mkdir($config_dir);
 	io_serialize($GLOBALS['config'], $config_dir.'config'.SECTION);
 	cache_clear_section();
@@ -269,7 +269,7 @@ function config_check_default($config){
 	}
 	$config['module_require'] = array_merge($config['module_require'], config_default_require());
 	$config['module_name'] = array_merge($config['module_name'], config_default_module_name());
-	if(!is_dir(ROOT_PATH.'theme/'.$config['theme'])){
+	if(!is_dir(THEME_PATH.''.$config['theme'])){
 		$config['theme'] = 'default';
 	}
 	return $config;

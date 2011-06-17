@@ -1,6 +1,6 @@
 <?php
 execute_add_extended_class('forum', 'entry', 'ForumEntry');
-include_once(ROOT_PATH.'module/content/Content.class.inc');
+include_once(MODULE_PATH.'content/Content.class.inc');
 include_once('forum.tool.inc');
 include_once('forum.module.inc');
 include_once('ForumEntryModel.class.inc');
@@ -162,7 +162,7 @@ class ForumEntry extends Content{
 	}
 	
 	protected function formatFeedData(){
-		include_once(ROOT_PATH.'module/feed/feed.tool.inc');
+		include_once(MODULE_PATH.'feed/feed.tool.inc');
 		$this->getCommentNumber();
 		$data = $this->data[$this->id];
 		$data['writer']  = $this->dataByID['writer_name'];

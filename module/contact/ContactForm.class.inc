@@ -1,5 +1,5 @@
 <?php
-include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
+include_once(INCLUDE_PATH.'class/ConfigControl.class.inc');
 include('ContactFormModel.class.inc');
 
 class ContactForm extends ConfigControl{

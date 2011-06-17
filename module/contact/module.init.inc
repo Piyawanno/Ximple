@@ -11,7 +11,7 @@ function module_get_info_contact(){
 function module_init_contact(){
 	include_once('Contact.class.inc');
 	include_once('ContactConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	
 	$contact = new Contact();
 	$contact->initModule('Contact.class.inc');
@@ -29,14 +29,14 @@ function module_init_contact(){
 	foreach($contact_data as $key => $value){
 		widget_add_navigation('contact/'.$key, $value);
 	}
-	$contact_dir = ROOT_PATH.'files/contact';
+	$contact_dir = FILES_PATH.'contact';
 	if(!is_dir($contact_dir)) mkdir($contact_dir);
 }
 
 function module_drop_contact(){
 	include_once('Contact.class.inc');
 	include_once('ContactConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	
 	$contact = new Contact();
 	$contact->dropModule();

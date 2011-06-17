@@ -4,22 +4,22 @@ global $role_config, $panel_config;
 
 function module_init_role(){
 	global $role_config;
-	$role_config = io_unserialize(ROOT_PATH.'files/config/role'.SECTION);
+	$role_config = io_unserialize(FILES_PATH.'config/role'.SECTION);
 }
 
 function module_init_panel(){
 	global $panel_config;
-	$panel_config = io_unserialize(ROOT_PATH.'files/config/panel'.SECTION);
+	$panel_config = io_unserialize(FILES_PATH.'config/panel'.SECTION);
 }
 
 function module_save_role(){
 	global $role_config;
-	io_serialize($role_config, ROOT_PATH.'files/config/role'.SECTION);
+	io_serialize($role_config, FILES_PATH.'config/role'.SECTION);
 }
 
 function module_save_panel(){
 	global $panel_config;
-	io_serialize($panel_config, ROOT_PATH.'files/config/panel'.SECTION);
+	io_serialize($panel_config, FILES_PATH.'config/panel'.SECTION);
 }
 
 function module_add_role($reference, $name, $description){

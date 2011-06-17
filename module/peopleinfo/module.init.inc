@@ -15,7 +15,7 @@ function module_init_peopleinfo(){
 	include_once('EventRelationModel.class.inc');
 	include_once('PeopleConfig.class.inc');
 	include_once('PeopleUser.class.inc');
-	include_once(ROOT_PATH.'include/class/QuickTableCreator.class.inc');
+	include_once(INCLUDE_PATH.'class/QuickTableCreator.class.inc');
 	
 	$people = new People();
 	$people->initModule('People.class.inc');
@@ -65,8 +65,8 @@ function module_init_peopleinfo(){
 		notify_add_warning(peopleinfo_get_group_warning());
 	}
 	
-	if(!is_dir(ROOT_PATH.'files/peopleinfo/')){
-		mkdir(ROOT_PATH.'files/peopleinfo/');
+	if(!is_dir(FILES_PATH.'peopleinfo/')){
+		mkdir(FILES_PATH.'peopleinfo/');
 	}
 }
 

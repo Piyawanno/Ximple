@@ -1,6 +1,6 @@
 <?php
 execute_add_class('gallery', 'Gallery');
-include_once(ROOT_PATH.'module/content/Content.class.inc');
+include_once(MODULE_PATH.'content/Content.class.inc');
 include_once('GalleryModel.class.inc');
 
 class Gallery extends Content{
@@ -23,7 +23,7 @@ class Gallery extends Content{
 	
 	
 	public function createDirectory(){
-		$directory = ROOT_PATH.'files/gallery/';
+		$directory = FILES_PATH.'gallery/';
 		if(!is_dir($directory)) mkdir($directory);
 		$directory.= $this->id;
 		if(!is_dir($directory)) mkdir($directory);

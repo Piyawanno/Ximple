@@ -1,6 +1,6 @@
 <?php
 execute_add_extended_class('peopleinfo', 'user', 'PeopleUser');
-include_once(ROOT_PATH.'module/user/User.class.inc');
+include_once(MODULE_PATH.'user/User.class.inc');
 include_once('peopleinfo.tool.inc');
 
 class PeopleUser extends User{

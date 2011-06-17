@@ -1,6 +1,6 @@
 <?php
-require_once(ROOT_PATH.'module/content/content.tool.inc');
-require_once(ROOT_PATH.'include/class/column/CheckBoxColumn.class.inc');
+require_once(MODULE_PATH.'content/content.tool.inc');
+require_once(INCLUDE_PATH.'class/column/CheckBoxColumn.class.inc');
 require('ShowItemColumn.class.inc');
 require('ShowPageColumn.class.inc');
 require('ShowDirectoryColumn.class.inc');

@@ -113,7 +113,7 @@ class Widget extends Control{
 	}
 	
 	private function renderAdditionalConfig($configMode){
-		include_once(ROOT_PATH.'include/class/QuickFormRender.class.inc');
+		include_once(INCLUDE_PATH.'class/QuickFormRender.class.inc');
 		$configModel = execute_string($configMode);
 		$quickForm = new QuickFormRender('widget');
 		if(is_array($configModel)){

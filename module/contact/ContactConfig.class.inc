@@ -1,6 +1,6 @@
 <?php
 execute_add_extended_class('contact', 'config', 'ContactConfig');
-include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
+include_once(INCLUDE_PATH.'class/ConfigControl.class.inc');
 include('ContactConfigModel.class.inc');
 
 class ContactConfig extends ConfigControl{

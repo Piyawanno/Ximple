@@ -38,7 +38,7 @@ function highlight_getcode($content){
 function highlight_execute($code){
 	global $hightlight_geshi_included;
 	if(!$hightlight_geshi_included){
-		include_once(ROOT_PATH.'include/external/geshi/geshi.php');
+		include_once(INCLUDE_PATH.'external/geshi/geshi.php');
 		$hightlight_geshi_included = true;
 	}
 	$geshi = new GeSHi($code['code'], $code['language']);
@@ -47,7 +47,7 @@ function highlight_execute($code){
 }
 
 function highlight_get_cache_directory(){
-	$directory = ROOT_PATH.'files/highlight/';
+	$directory = FILES_PATH.'highlight/';
 	if(!is_dir($directory)) mkdir($directory);
 	return $directory;
 }

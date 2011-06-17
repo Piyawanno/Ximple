@@ -1,5 +1,5 @@
 <?php
-include_once(ROOT_PATH.'module/freetag/FreeTagColumn.class.inc');
+include_once(MODULE_PATH.'freetag/FreeTagColumn.class.inc');
 
 class EventModel extends Model{
 	function EventModel(){

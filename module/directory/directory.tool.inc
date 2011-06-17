@@ -32,7 +32,7 @@ function directory_default_configuration(){
 }
 
 function directory_set_path($pid){
-	include_once(ROOT_PATH.'include/tool/menu.tool.inc');
+	include_once(INCLUDE_PATH.'tool/menu.tool.inc');
 	$path = array();
 	while($pid != 0){
 		$parentData = db_select('directory', array('parent', 'name', 'uri'), 'WHERE id='.$pid, false);

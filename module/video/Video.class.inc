@@ -1,6 +1,6 @@
 <?php
 execute_add_class('video', 'Video');
-include_once(ROOT_PATH.'module/content/Content.class.inc');
+include_once(MODULE_PATH.'content/Content.class.inc');
 include('VideoModel.class.inc');
 
 class Video extends Content{

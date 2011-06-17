@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT_PATH.'include/class/column/SelectColumn.class.inc');
+require_once(INCLUDE_PATH.'class/column/SelectColumn.class.inc');
 
 class MenuWidgetColumn extends SelectColumn{
 	function MenuWidgetColumn(){
@@ -34,7 +34,7 @@ class MenuWidgetColumn extends SelectColumn{
 	}
 	
 	private function renderAsHidden($formID){
-		require_once(ROOT_PATH.'include/class/column/HiddenColumn.class.inc');
+		require_once(INCLUDE_PATH.'class/column/HiddenColumn.class.inc');
 		$hidden = new Hidden($this->data, 'int');
 		return $hidden->renderForm($formID);
 	}

@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT_PATH.'include/class/column/NoneColumn.class.inc');
+require_once(INCLUDE_PATH.'class/column/NoneColumn.class.inc');
 class ConfigureColumn extends NoneColumn{
 	function ConfigureColumn(){
 		$this->setType('array');

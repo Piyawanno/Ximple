@@ -16,7 +16,7 @@ function registration_switch_load(){
 
 function registration(){
 	if(cc('registration_enable')){
-		include(ROOT_PATH.'include/class/Control.class.inc');
+		include(INCLUDE_PATH.'class/Control.class.inc');
 		include('Registration.class.inc');
 		$registration = new Registration();
 		return $registration->write();
@@ -35,7 +35,7 @@ function registration_save(){
 }
 
 function registration_confirm(){
-	$register_dir = ROOT_PATH.'files/registration/';
+	$register_dir = FILES_PATH.'registration/';
 	$user = io_unserialize($register_dir.gg('key1'));
 	if(is_array($user) and $user['key'] == gg('key2')){
 		$user['login_name_hash'] = sha1($user['login_name']);

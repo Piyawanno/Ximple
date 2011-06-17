@@ -1,10 +1,10 @@
 <?php
 
-include_once(ROOT_PATH.'include/class/Model.class.inc');
+include_once(INCLUDE_PATH.'class/Model.class.inc');
 
 class FlexiFunConfigModel extends Model{
 	function FlexiFunConfigModel(){
-		$path = ROOT_PATH.'files/customtheme/'.SECTION.'/'.cc('theme').'/image';
+		$path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/image';
 		$layoutOption = array(
 			'fluid' => 'Fluid width',
 			'fixed' => 'Fexed width',

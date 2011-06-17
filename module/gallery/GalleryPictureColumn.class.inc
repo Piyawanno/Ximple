@@ -1,10 +1,10 @@
 <?php
-require_once(ROOT_PATH.'include/class/column/MultipleFilesColumn.class.inc');
+require_once(INCLUDE_PATH.'class/column/MultipleFilesColumn.class.inc');
 
 class GalleryPictureColumn extends MultipleFilesColumn{
 	function GalleryPictureColumn($galleryID){
 		$this->galleryID = $galleryID;
-		$this->path = ROOT_PATH.'files/gallery/'.$galleryID.'/';
+		$this->path = FILES_PATH.'gallery/'.$galleryID.'/';
 		MultipleFilesColumn::MultipleFilesColumn('', $this->path, 'picture');
 	}
 	

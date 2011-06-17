@@ -208,7 +208,7 @@ class Comment extends Control{
 	
 	private function insertTracker(){
 		if(!authority_is_guest()){
-			include_once(ROOT_PATH.'module/tracker/tracker.tool.inc');
+			include_once(MODULE_PATH.'tracker/tracker.tool.inc');
 			$writerName = db_select_single_column('users', 'login_name', 'WHERE id='.$this->parentData['writer'], false);
 			if(isset($writerName[0])) $writerName = $writerName[0];
 			else $writerName = tt('guest');

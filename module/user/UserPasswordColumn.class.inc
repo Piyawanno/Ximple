@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT_PATH.'include/class/column/PasswordColumn.class.inc');
+require_once(INCLUDE_PATH.'class/column/PasswordColumn.class.inc');
 
 class UserPasswordColumn extends PasswordColumn{
 	function UserPasswordColumn(){

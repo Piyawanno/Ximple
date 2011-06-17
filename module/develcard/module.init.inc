@@ -8,7 +8,7 @@ function module_get_info_develcard(){
 
 function module_init_develcard(){
 	include_once('DevelCard.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	$develcard = new DevelCard();
 	$develcard->initModule('DevelCard.class.inc');
 	module_add_role('develcard_admin', 'DevelCard Administrator', 'Who can configure, edit and drop DevelCard.');
@@ -34,7 +34,7 @@ function module_init_develcard(){
 
 function module_drop_develcard(){
 	include_once('DevelCard.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	$develcard = new DevelCard();
 	$develcard->dropModule();
 	module_drop_role('develcard_admin');

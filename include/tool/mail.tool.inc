@@ -5,7 +5,7 @@
 ///
 /// @author bow_der_kleine <bow_der_kleine@yahoo.de>
 
-include(ROOT_PATH.'include/external/phpmailer/class.phpmailer.php');
+include(INCLUDE_PATH.'external/phpmailer/class.phpmailer.php');
 
 /// Send mail with SMTP server.
 /// @param $receiver   : email-address of receiver.

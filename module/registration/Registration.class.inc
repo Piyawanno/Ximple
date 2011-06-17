@@ -1,5 +1,5 @@
 <?php
-include(ROOT_PATH.'module/user/User.class.inc');
+include(MODULE_PATH.'user/User.class.inc');
 
 class Registration extends User{
 	public function write(){

@@ -36,7 +36,7 @@ function imageloader_cle(){
 function imageloader_upload(){
 	execute_set_db();
 	if(!authority_is_guest()){
-		io_upload(ff('file_to_upload'), ROOT_PATH.'files/member/'.USER_ID.'/'.pp('upload_dir'));
+		io_upload(ff('file_to_upload'), FILES_PATH.'member/'.USER_ID.'/'.pp('upload_dir'));
 	}
 	document_set_redirect('?mode=imageloader&dir='.pp('upload_dir'));
 }
@@ -51,7 +51,7 @@ function imageloader_simple_upload(){
 function imageloader_create_directory(){
 	execute_set_db();
 	if(!authority_is_guest()){	
-		$path = ROOT_PATH.'files/member/'.USER_ID.'/'.gg('dir').gg('dir_create');
+		$path = FILES_PATH.'member/'.USER_ID.'/'.gg('dir').gg('dir_create');
 		if(!is_dir($path)) mkdir($path);
 	}
 	document_set_redirect('?mode=imageloader&dir='.gg('dir'));
@@ -84,7 +84,7 @@ function imageloader_get_image($path){
 }
 
 function imageloader_get_user_image_path(){
-	$path = ROOT_PATH.'files/member/';
+	$path = FILES_PATH.'member/';
 	if(!is_dir($path)) mkdir($path);
 	$path.= USER_ID.'/';
 	if(!is_dir($path)) mkdir($path);

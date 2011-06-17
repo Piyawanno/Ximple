@@ -1,6 +1,6 @@
 <?php
 
-include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
+include_once(INCLUDE_PATH.'class/ConfigControl.class.inc');
 include('FlexiFunConfigModel.class.inc');
 include('flexifun.tool.inc');
 
@@ -35,7 +35,7 @@ class FlexiFunConfig extends ConfigControl{
 	
 	protected function getConfig(){
 		global $flexifun_config;
-		$config_path = ROOT_PATH.'files/customtheme/'.SECTION.'/'.cc('theme').'/config';
+		$config_path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/config';
 		$flexifun_config = io_unserialize($config_path);
 		return $flexifun_config;
 	}
@@ -47,7 +47,7 @@ class FlexiFunConfig extends ConfigControl{
 	
 	protected function saveConfig(){
 		global $flexifun_config;
-		$config_path = ROOT_PATH.'files/customtheme/'.SECTION.'/'.cc('theme').'/config';
+		$config_path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/config';
 		io_serialize($flexifun_config, $config_path);
 	}
 }

@@ -22,7 +22,8 @@ class WidgetModel extends Model{
 		$this->appear_uri = $this->char(tt('appear by URI'), $help);
 		
 		$this->appear_group = $this->group(tt('appear by group'));
-		$this->appear_group->help = tt('Check guest to allow Widget appeared for everybody.');
+		$this->appear_group->isExceptedAll = false; 
+		$this->appear_group->isExceptedAdmin = false;
 		
 		$this->body = $this->shorttext(tt('custom text'));
 		$this->body->enableTranslate();

@@ -152,7 +152,7 @@ function syswidget_get_user_panel_array(){
 }
 
 function syswidget_get_panel_config(){
-	$panel = io_unserialize(ROOT_PATH.'files/config/panel'.SECTION);
+	$panel = io_unserialize(FILES_PATH.'config/panel'.SECTION);
 	if(!is_array($panel)) $panel = array();
 	$panel = array_merge($panel, config_default_panel_access());
 	return $panel;

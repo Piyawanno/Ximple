@@ -1,6 +1,6 @@
 <?php
 function count_increase($mode, $id, $offset=0){
-	$count_dir = ROOT_PATH.'files/count/';
+	$count_dir = FILES_PATH.'count/';
 	if(!is_dir($count_dir)) mkdir($count_dir);
 	$count_dir.= SECTION.'/';
 	if(!is_dir($count_dir)) mkdir($count_dir);
@@ -12,7 +12,7 @@ function count_increase($mode, $id, $offset=0){
 }
 
 function count_set($mode, $id, $value){
-	$count_dir = ROOT_PATH.'files/count/';
+	$count_dir = FILES_PATH.'count/';
 	if(!is_dir($count_dir)) mkdir($count_dir);
 	$count_dir.= SECTION.'/';
 	if(!is_dir($count_dir)) mkdir($count_dir);
@@ -60,7 +60,7 @@ function count_increase_array($file_name, $file, $id_array, $offset){
 }
 
 function count_get($mode, $id){
-	$file_name = ROOT_PATH.'files/count/'.SECTION.'/'.$mode.'.bin';
+	$file_name = FILES_PATH.'count/'.SECTION.'/'.$mode.'.bin';
 	if(!is_file($file_name)) return 0;
 	$size = filesize($file_name);
 	if($size < $id*4 + 4) return 0;
@@ -71,7 +71,7 @@ function count_get($mode, $id){
 }
 
 function count_get_all($mode){
-	$file_name = ROOT_PATH.'files/count/'.SECTION.'/'.$mode.'.bin';
+	$file_name = FILES_PATH.'count/'.SECTION.'/'.$mode.'.bin';
 	if(!is_file($file_name)) return array();
 	$file = fopen($file_name, 'r');
 	$size = filesize($file_name)/4;
@@ -86,7 +86,7 @@ function count_get_all($mode){
 
 
 function count_get_array($mode, $id_array){
-	$file_name = ROOT_PATH.'files/count/'.SECTION.'/'.$mode.'.bin';
+	$file_name = FILES_PATH.'count/'.SECTION.'/'.$mode.'.bin';
 	if(!is_file($file_name)){
 		$count = array();
 		foreach($id_array as $id){

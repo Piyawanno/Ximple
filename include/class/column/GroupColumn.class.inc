@@ -1,6 +1,7 @@
 <?php
 require_once('CheckBoxColumn.class.inc');
 class GroupColumn extends CheckBoxColumn{
+	public $isExceptedAll   = true;
 	public $isExceptedAdmin = true;
 	public $isExceptedGuest = false;
 	public $isExceptedUser  = false;
@@ -28,6 +29,10 @@ class GroupColumn extends CheckBoxColumn{
 		if($this->isExceptedUser)  $excepted .= ' AND id!=3 ';
 		$clause = 'WHERE ((section='.SECTION.' OR id <=3) '.$excepted.')';
 		$this->option = db_select_single_column('groups', 'name', $clause);
+		if(!$this->isExceptedAll){
+			$all = array(0 => tt('every one'));
+			$this->option = array_merge($all, $this->option);
+		}
 	}
 }
 ?>

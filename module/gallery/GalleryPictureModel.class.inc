@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT_PATH.'include/tool/image.tool.inc');
+require_once(INCLUDE_PATH.'tool/image.tool.inc');
 require_once('GalleryPictureColumn.class.inc');
 
 class GalleryPictureModel extends Model{

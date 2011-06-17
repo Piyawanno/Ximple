@@ -1,6 +1,6 @@
 <?php
 require_once('freetag.tool.inc');
-require_once(ROOT_PATH.'include/class/column/AutoCompleteColumn.class.inc');
+require_once(INCLUDE_PATH.'class/column/AutoCompleteColumn.class.inc');
 
 class FreeTagColumn extends AutoCompleteColumn{
 	private $rawData;

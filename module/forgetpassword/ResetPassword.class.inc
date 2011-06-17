@@ -1,5 +1,5 @@
 <?php
-include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
+include_once(INCLUDE_PATH.'class/ConfigControl.class.inc');
 include('ResetPasswordModel.class.inc');
 
 class ResetPassword extends ConfigControl{
@@ -22,7 +22,7 @@ class ResetPassword extends ConfigControl{
 	}
 	
 	public function save(){
-		include_once(ROOT_PATH.'include/tool/captcha.tool.inc');
+		include_once(INCLUDE_PATH.'tool/captcha.tool.inc');
 		$gentime = pp('captcha_gentime_captcha');
 		$parity = pp('captcha_code_captcha');
 		$code = pp('captcha');
@@ -57,7 +57,7 @@ class ResetPassword extends ConfigControl{
 	
 	private function checkKey(){
 		if(count(split('\/\.\.', gg('filename'))) >= 2) error_denied();
-		$this->fileName = ROOT_PATH.'files/forgetpassword/'.gg('file');
+		$this->fileName = FILES_PATH.'forgetpassword/'.gg('file');
 		$controlData = io_unserialize($this->fileName);
 		if(is_array($controlData)){
 			if($controlData['key'] == gg('key')){

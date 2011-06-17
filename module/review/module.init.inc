@@ -9,7 +9,7 @@ function module_get_info_review(){
 function module_init_review(){
 	include_once('Review.class.inc');
 	include_once('review.tool.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	
 	$review = new Review();
 	$review->initModule('Review.class.inc');
@@ -30,7 +30,7 @@ function module_init_review(){
 
 function module_drop_review(){
 	include_once('Review.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	$review = new Review();
 	$review->dropModule();
 	module_drop_role('review_admin');

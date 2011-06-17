@@ -11,7 +11,7 @@ function module_init_evaluation(){
 	include_once('Evaluation.class.inc');
 	include_once('EvaluationConfig.class.inc');
 	include_once('EvaluationResultModel.class.inc');
-	include_once(ROOT_PATH.'include/class/QuickTableCreator.class.inc');
+	include_once(INCLUDE_PATH.'class/QuickTableCreator.class.inc');
 	$evaluation = new Evaluation();
 	$evaluation->initModule('Evaluation.class.inc');
 	$evaluationConfig = new EvaluationConfig();

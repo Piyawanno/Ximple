@@ -43,7 +43,7 @@ abstract class Content extends Control{
 	}
 	
 	public function drop(){
-		include_once(ROOT_PATH.'module/feed/feed.tool.inc');
+		include_once(MODULE_PATH.'feed/feed.tool.inc');
 		$this->insertTracker('drop');
 		feed_drop($this->fullModuleName, $this->id);
 		db_drop_many('comment', 'parent='.$this->id);
@@ -197,7 +197,7 @@ abstract class Content extends Control{
 	
 	protected function initComment(){
 		if(!$this->comment){
-			include_once(ROOT_PATH.'module/comment/Comment.class.inc');
+			include_once(MODULE_PATH.'comment/Comment.class.inc');
 			if(!isset($this->dataByID['comment_permission'])) $permission = null;
 			else $permission = $this->dataByID['comment_permission'];
 			$this->comment = new Comment($this->fullModuleName, $this->id, $permission, $this->dataByID['writer']['id']);
@@ -211,7 +211,7 @@ abstract class Content extends Control{
 	
 	protected function insertTracker($action){
 		if(!authority_is_guest()){
-			include_once(ROOT_PATH.'module/tracker/tracker.tool.inc');
+			include_once(MODULE_PATH.'tracker/tracker.tool.inc');
 			$data = $this->dataByID;
 			if(!is_array($this->dataByID['writer'])){
 				$clause = 'WHERE id='.$this->dataByID['writer'];
@@ -256,7 +256,7 @@ abstract class Content extends Control{
 	}
 	
 	protected function formatFeedData(){
-		include_once(ROOT_PATH.'module/feed/feed.tool.inc');
+		include_once(MODULE_PATH.'feed/feed.tool.inc');
 		$category = db_select_single_column('category', 'category', 'WHERE id='.$this->dataByID['category'], false);
 		$this->getCommentNumber();
 		$data = $this->data[$this->id];
@@ -407,8 +407,8 @@ abstract class Content extends Control{
 	}
 	
 	private function clearDailyCache(){
-		$dateFile = ROOT_PATH.'files/dbcache/'.$this->fullModuleName.'/lastclear.txt';
-		$cacheDirectory = ROOT_PATH.'files/dbcache/'.$this->fullModuleName;
+		$dateFile = FILES_PATH.'dbcache/'.$this->fullModuleName.'/lastclear.txt';
+		$cacheDirectory = FILES_PATH.'dbcache/'.$this->fullModuleName;
 		cache_clear_by_day($dateFile, $cacheDirectory);
 	}
 	

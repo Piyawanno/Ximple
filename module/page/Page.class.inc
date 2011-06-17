@@ -1,7 +1,7 @@
 <?php
 execute_add_class('page', 'Page');
-include_once(ROOT_PATH.'module/content/Content.class.inc');
-include_once(ROOT_PATH.'module/directory/directory.tool.inc');
+include_once(MODULE_PATH.'content/Content.class.inc');
+include_once(MODULE_PATH.'directory/directory.tool.inc');
 include_once('PageModel.class.inc');
 
 class Page extends Content{
@@ -43,7 +43,7 @@ class Page extends Content{
 	
 	public function write(){
 		$this->setConfiguration();
-		include_once(ROOT_PATH.'module/directory/directory.tool.inc');
+		include_once(MODULE_PATH.'directory/directory.tool.inc');
 		directory_set_path((int) gg('parent'));
 		$this->modelConnector->setAttribute('comment_permission', 'configuration', $this->configuration);
 		$this->modelConnector->setAttribute('publishing_status', 'configuration', $this->configuration);
@@ -52,7 +52,7 @@ class Page extends Content{
 	
 	public function edit(){
 		$this->setConfiguration();
-		include_once(ROOT_PATH.'module/directory/directory.tool.inc');
+		include_once(MODULE_PATH.'directory/directory.tool.inc');
 		directory_set_path((int) gg('parent'));
 		$this->modelConnector->setAttribute('comment_permission', 'configuration', $this->configuration);
 		$this->modelConnector->setAttribute('publishing_status', 'configuration', $this->configuration);

@@ -1,6 +1,6 @@
 <?php
 execute_add_extended_class('directory', 'config', 'DirectoryConfig');
-include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
+include_once(INCLUDE_PATH.'class/ConfigControl.class.inc');
 include_once('directory.tool.inc');
 include('DirectoryConfigModel.class.inc');
 

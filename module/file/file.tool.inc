@@ -129,11 +129,11 @@ function file_get_paste_icon($dir, $mode){
 
 function file_get_mode_path($mode){
 	if($mode=='file_manage_user'){
-		$dir = ROOT_PATH.'files/member/';
+		$dir = FILES_PATH.'member/';
 		if(!is_dir($dir)) mkdir($dir);
 		return $dir.USER_ID.'/';
 	}elseif($mode=='file_manage_admin'){
-		return ROOT_PATH.'files/';
+		return FILES_PATH.'';
 	}else{
 		$file_mode_path = cc('file_mode_path');
 		return $file_mode_path[$mode];

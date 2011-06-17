@@ -19,7 +19,7 @@ function widget_render(){
 function widget_init_default($checked=false){
 	$data = db_select_single_column('widget', 'id', 'WHERE section='.SECTION);
 	if(count($data) == 0 or $checked){
-		include_once(ROOT_PATH.'module/module/module.tool.inc');
+		include_once(MODULE_PATH.'module/module.tool.inc');
 		$position = cc('widget_primary_position');
 		widget_add(tt('Navigation'), 'syswidget_navigation', $position, 'syswidget_navigation_config', 'syswidget_navigation_save', 0);
 		widget_add(tt('Control Panel'), 'syswidget_panel', $position, '', '', 999);

@@ -86,7 +86,7 @@ class Download extends Control{
 	}
 	
 	private function renderFileDescription(){
-		include_once(ROOT_PATH.'include/tool/icon.tool.inc');
+		include_once(INCLUDE_PATH.'tool/icon.tool.inc');
 		
 		foreach($this->data as $key => $value){
 			$uploader = tt('by').' '.render_profile_link($value['uploader']);

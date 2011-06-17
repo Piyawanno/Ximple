@@ -60,4 +60,6 @@ This file contains TO-DO list for additional procedure by software upgrading.
 
 - ALTER TABLE block RENAME widget;
 
+- ALTER TABLE flashblock RENAME flashwidget;
+
 - ALTER TABLE menu CHANGE block widget int;

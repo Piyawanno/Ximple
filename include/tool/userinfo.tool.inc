@@ -19,7 +19,7 @@ function userinfo_get_info($data, $column){
 			if(empty($user_info[$id]['avatar'])){
 				$user_info[$id]['avatar'] = 'files/avatar/default.png';
 			}
-			$user_config = io_unserialize(ROOT_PATH.'files/account/'.$id);
+			$user_config = io_unserialize(FILES_PATH.'account/'.$id);
 			$user_info[$id]['config'] = $user_config;
 			$data[$key][$column] = $user_info[$id];
 		}
@@ -160,7 +160,7 @@ function userinfo_get_login_name_by_role($role){
 function user_info_get_config($uid, $reference){
 	global $user_config;
 	if(!isset($user_config[$uid])){
-		$account_dir = ROOT_PATH.'files/account/';
+		$account_dir = FILES_PATH.'account/';
 		$user_config[$uid] = io_unserialize($account_dir.$uid);
 	}
 	

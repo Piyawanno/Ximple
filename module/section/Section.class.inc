@@ -99,7 +99,7 @@ class Section extends Control{
 	}
 	
 	private function updateConfig(){
-		$path = ROOT_PATH.'files/config/config'.$this->id;
+		$path = FILES_PATH.'config/config'.$this->id;
 		$config = io_unserialize($path);
 		$config['section_name'] = pp('name');
 		$config['section_path'] = pp('path');
@@ -120,7 +120,7 @@ class Section extends Control{
 	}
 	
 	private function initConfig(){
-		$path = ROOT_PATH.'files/config/config'.$this->id;
+		$path = FILES_PATH.'config/config'.$this->id;
 		$config = config_check_default(array());
 		$config['section_name'] = pp('name');
 		$config['section_path'] = pp('path');

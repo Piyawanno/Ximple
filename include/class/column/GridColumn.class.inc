@@ -1,6 +1,6 @@
 <?php
-require_once(ROOT_PATH.'include/class/ModelFactory.class.inc');
-require_once(ROOT_PATH.'include/class/ModelConnector.class.inc');
+require_once(INCLUDE_PATH.'class/ModelFactory.class.inc');
+require_once(INCLUDE_PATH.'class/ModelConnector.class.inc');
 
 /// This class is a container for other ModelColumns.
 /// It does not represent a column of database table.
@@ -42,7 +42,7 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function renderForm($formID){
-		require_once(ROOT_PATH.'include/class/GridFormRender.class.inc');
+		require_once(INCLUDE_PATH.'class/GridFormRender.class.inc');
 		$this->getMember();
 		$formRender = new GridFormRender();
 		$formRender->setGridColumn($this);
@@ -187,7 +187,7 @@ class GridColumn extends ModelColumn{
 	
 	private function initDataModifier(){
 		if(!$this->dataModifier){
-			include_once(ROOT_PATH.'include/class/DataModifier.class.inc');
+			include_once(INCLUDE_PATH.'class/DataModifier.class.inc');
 			$this->dataModifier = new DataModifier($this->childTableName, $this->modelConnector);
 		}
 	}

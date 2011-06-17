@@ -12,8 +12,8 @@ function module_init_video(){
 	include_once('Video.class.inc');
 	include_once('VideoConfig.class.inc');
 	
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
-	include_once(ROOT_PATH.'module/flashwidget/flashwidget.module.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
+	include_once(MODULE_PATH.'flashwidget/flashwidget.module.inc');
 	
 	$video = new Video();
 	$video->initModule('Video.class.inc');
@@ -23,7 +23,7 @@ function module_init_video(){
 	config_set('video_entries_number', 5);
 	config_set('video_width', 480);
 	config_set('video_height', 390);
-	$video_directoy = ROOT_PATH.'files/video';
+	$video_directoy = FILES_PATH.'video';
 	if(!is_dir($video_directoy)) mkdir($video_directoy);
 	
 	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2) ORDER BY publish_time DESC';
@@ -36,8 +36,8 @@ function module_init_video(){
 function module_drop_video(){
 	include_once('Video.class.inc');
 	include_once('VideoConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
-	include_once(ROOT_PATH.'module/flashwidget/flashwidget.module.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
+	include_once(MODULE_PATH.'flashwidget/flashwidget.module.inc');
 	
 	$video = new Video();
 	$video->dropModule();

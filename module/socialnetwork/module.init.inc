@@ -8,7 +8,7 @@ function module_get_info_socialnetwork(){
 }
 
 function module_init_socialnetwork(){
-	require_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	require_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	require_once('socialnetwork.tool.inc');
 	module_add('socialnetwork', 'socialnetwork.module.inc', 'SocialNetwork');
 	$widgets = socialnetwork_get_widget_array();
@@ -20,7 +20,7 @@ function module_init_socialnetwork(){
 }
 
 function module_drop_socialnetwork(){
-	require_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	require_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	require_once('socialnetwork.tool.inc');
 	module_drop('socialnetwork');
 	$widgets = socialnetwork_get_widget_array();

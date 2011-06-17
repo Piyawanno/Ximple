@@ -10,8 +10,8 @@ function module_get_info_blog(){
 function module_init_blog(){
 	include_once('Blog.class.inc');
 	include_once('BlogConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
-	include_once(ROOT_PATH.'module/flashwidget/flashwidget.module.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
+	include_once(MODULE_PATH.'flashwidget/flashwidget.module.inc');
 	
 	$blog = new Blog();
 	$blog->initModule('Blog.class.inc');
@@ -33,8 +33,8 @@ function module_init_blog(){
 function module_drop_blog(){
 	include_once('Blog.class.inc');
 	include_once('BlogConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
-	include_once(ROOT_PATH.'module/flashwidget/flashwidget.module.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
+	include_once(MODULE_PATH.'flashwidget/flashwidget.module.inc');
 	
 	$blog = new Blog();
 	$blog->dropModule();
@@ -45,5 +45,6 @@ function module_drop_blog(){
 	config_drop('blog_entries_number');
 	flashwidget_drop('blog_last_post');
 	flashwidget_drop('blog_last_commented');
+	widget_drop('blog_promote_widget');
 }
 ?>

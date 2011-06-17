@@ -1,6 +1,6 @@
 <?php
-require_once(ROOT_PATH.'include/class/column/SelectColumn.class.inc');
-require_once(ROOT_PATH.'include/class/column/HiddenColumn.class.inc');
+require_once(INCLUDE_PATH.'class/column/SelectColumn.class.inc');
+require_once(INCLUDE_PATH.'class/column/HiddenColumn.class.inc');
 
 class ForumColumn extends SelectColumn{
 	private $isSelect;

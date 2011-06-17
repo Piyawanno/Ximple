@@ -104,7 +104,7 @@ class DataModifier{
 	
 	private function checkCaptcha(){
 		if(authority_is_guest()){
-			include_once(ROOT_PATH.'include/tool/captcha.tool.inc');
+			include_once(INCLUDE_PATH.'tool/captcha.tool.inc');
 			$gentime = pp('captcha_gentime_captcha');
 			$parity = pp('captcha_code_captcha');
 			$code = pp('captcha');

@@ -1,5 +1,5 @@
 <?php
-include_once(ROOT_PATH.'include/class/ConfigControl.class.inc');
+include_once(INCLUDE_PATH.'class/ConfigControl.class.inc');
 include('ForgetPasswordModel.class.inc');
 
 class ForgetPassword extends ConfigControl{
@@ -36,7 +36,7 @@ class ForgetPassword extends ConfigControl{
 	}
 	
 	private function checkEmailAddress(){
-		include_once(ROOT_PATH.'include/tool/captcha.tool.inc');
+		include_once(INCLUDE_PATH.'tool/captcha.tool.inc');
 		$gentime = pp('captcha_gentime_captcha');
 		$parity = pp('captcha_code_captcha');
 		$code = pp('captcha');
@@ -61,7 +61,7 @@ class ForgetPassword extends ConfigControl{
 				'uid' => $this->userID,
 				'key' => $this->key,
 			);
-			$passwordDir = ROOT_PATH.'files/forgetpassword/';
+			$passwordDir = FILES_PATH.'forgetpassword/';
 			if(!is_dir($passwordDir)) mkdir($passwordDir);
 			io_serialize($data, $passwordDir.$this->fileName);
 		}
@@ -69,7 +69,7 @@ class ForgetPassword extends ConfigControl{
 	
 	private function sendLink(){
 		if($this->userID){
-			require_once(ROOT_PATH.'include/tool/mail.tool.inc');
+			require_once(INCLUDE_PATH.'tool/mail.tool.inc');
 			$receiver = pp('email');
 			$subject = cc('section_name').' : '.tt('Reset your password.');
 			$body  = tt('You can use the following link to reset your password : ')."\n";

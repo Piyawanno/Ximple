@@ -4,7 +4,7 @@ global $cache_lock_page_cache;
 $cache_lock_page_cache = false;
 
 function cache_get_dir($mode){
-	$cache_dir  = ROOT_PATH.'files/cache/';
+	$cache_dir  = FILES_PATH.'cache/';
 	if(!is_dir($cache_dir)) mkdir($cache_dir);
 	$cache_dir .= SECTION.'/';
 	if(!is_dir($cache_dir)) mkdir($cache_dir);
@@ -36,7 +36,7 @@ function cache_save_page($page, $file_name){
 	}
 	
 	if($is_cache and $cache_mode >= 3){
-		$cache_dir = ROOT_PATH.'files/precache/'.SECTION.'/';
+		$cache_dir = FILES_PATH.'precache/'.SECTION.'/';
 		if(!is_dir($cache_dir)) mkdir($cache_dir);
 		$file_name = $cache_dir.basename($file_name);
 		if(!is_file($file_name)) io_write_file($file_name, $page);
@@ -44,9 +44,9 @@ function cache_save_page($page, $file_name){
 }
 
 function cache_clear_section(){
-	$cache_dir = ROOT_PATH.'files/precache/'.SECTION.'/';
+	$cache_dir = FILES_PATH.'precache/'.SECTION.'/';
 	io_clear_directory($cache_dir);
-	$cache_dir = ROOT_PATH.'files/cache/'.SECTION.'/';
+	$cache_dir = FILES_PATH.'cache/'.SECTION.'/';
 	io_clear_directory($cache_dir);
 }
 
@@ -64,11 +64,11 @@ function cache_save_db($table, $query, $data){
 }
 
 function cache_clear_db($table=''){
-	io_clear_directory(ROOT_PATH.'files/dbcache/'.$table);
+	io_clear_directory(FILES_PATH.'dbcache/'.$table);
 }
 
 function cache_get_db_file($table, $query){
-	$cache_dir  = ROOT_PATH.'files/dbcache/';
+	$cache_dir  = FILES_PATH.'dbcache/';
 	if(!is_dir($cache_dir)) mkdir($cache_dir);
 	$cache_dir .= $table.'/';
 	if(!is_dir($cache_dir)) mkdir($cache_dir);

@@ -35,6 +35,12 @@ function state_is_install(){
 	return STATE == 3;
 }
 
+/// Is section is test state?
+/// @return TRUE, if section is test state.
+function state_is_test(){
+	return STATE == 4;
+}
+
 /// Read section state from state file.
 /// @param $section : SECTION-ID
 /// @return ID of section state.
@@ -46,6 +52,7 @@ function state_read(){
 	if(is_file($state_dir.'develop')) return 0;
 	if(is_file($state_dir.'product')) return 1;
 	if(is_file($state_dir.'maintain')) return 2;
+	if(is_file($state_dir.'test')) return 4;
 	
 	return 1;
 }

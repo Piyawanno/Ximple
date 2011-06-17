@@ -9,7 +9,7 @@ function module_get_info_seminar(){
 function module_init_seminar(){
 	include_once('Seminar.class.inc');
 	include_once('seminar.tool.inc');
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	include_once(INCLUDE_PATH.'tool/block.tool.inc');
 	
 	$seminar = new seminar();
 	$seminar->initModule('Seminar.class.inc');
@@ -39,7 +39,7 @@ function module_init_seminar(){
 
 function module_drop_seminar(){
 	include_once('Seminar.class.inc');
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	include_once(INCLUDE_PATH.'tool/block.tool.inc');
 	$seminar = new seminar();
 	$seminar->dropModule();
 	module_drop_role('seminar_admin');

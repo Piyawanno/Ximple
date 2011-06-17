@@ -33,7 +33,7 @@ function search_check_keyword(){
 }
 
 function search_render_result($keywords){
-	include_once(ROOT_PATH.'include/class/PagerRender.class.inc');
+	include_once(INCLUDE_PATH.'class/PagerRender.class.inc');
 	$clause = "WHERE keyword='".join("' OR keyword='", $keywords)."' ";
 	$result_number = db_select('search', array('COUNT(id) as result_number'), $clause);
 	$result_number = $result_number[0]['result_number'];

@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT_PATH.'module/freetag/FreeTagColumn.class.inc');
+require_once(MODULE_PATH.'freetag/FreeTagColumn.class.inc');
 require_once('peopleinfo.tool.inc');
 require('PeopleColumn.class.inc');
 

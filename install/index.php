@@ -73,7 +73,7 @@ function install_step1(){
 		$next_enable = 'disabled="disabled"';
 		$try = '<input type="button" value="'.tt('Try again').'" onclick="location.reload(true)">';
 		$messsage = tt('You have to edit <b>%s</b> to correct invalid constants.');
-		$page.= '<p>'.sprintf($messsage, ROOT_PATH.'include/setup.php').'</p>';
+		$page.= '<p>'.sprintf($messsage, INCLUDE_PATH.'setup.php').'</p>';
 	}else{
 		$next_enable = '';
 		$try = '';
@@ -105,10 +105,10 @@ function install_step2(){
 		foreach($to_mkdir as $item){
 			if(!is_dir(ROOT_PATH.$item)) mkdir(ROOT_PATH.$item);
 		}
-		$des = ROOT_PATH.'files/misc/ximple.png';
-		if(!is_file($des)) copy(ROOT_PATH.'files/ximple.png', $des);
-		$des = ROOT_PATH.'files/avatar/default.png';
-		if(!is_file($des)) copy(ROOT_PATH.'files/default.png', $des);
+		$des = FILES_PATH.'misc/ximple.png';
+		if(!is_file($des)) copy(FILES_PATH.'ximple.png', $des);
+		$des = FILES_PATH.'avatar/default.png';
+		if(!is_file($des)) copy(FILES_PATH.'default.png', $des);
 	}
 	
 	if($next_enable != 'disabled="disabled"') $try = '';
@@ -150,7 +150,7 @@ function install_step5(){
 	$title = tt('Happy Ending').' : '.tt('Ximple has been successfully installed');
 	$page  = '<h2>'.$title.'</h2>';
 	$page .= install_finish_message();
-	io_write_file(ROOT_PATH.'files/state/install', "");
+	io_write_file(FILES_PATH.'state/install', "");
 	$state_dir = ROOT_PATH.'/files/state/1/';
 	if(!is_dir($state_dir)) mkdir($state_dir);
 	io_write_file($state_dir.'product', "");

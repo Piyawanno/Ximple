@@ -8,7 +8,7 @@
 /// @author bow_der_kleine <bow_der_kleine@yahoo.de>
 /// @state complete.
 
-include(ROOT_PATH.'module/captcha/securimage/securimage.php');
+include(MODULE_PATH.'captcha/securimage/securimage.php');
 execute_add_function('captcha');
 execute_add_function('captcha_check');
 
@@ -36,10 +36,10 @@ function captcha(){
 	$img->num_lines = 4;
 	$img->code_length = 6;
 	$img->use_wordlist = false;
-	$img->wordlist_file = ROOT_PATH.'module/captcha/securimage/words.txt';
+	$img->wordlist_file = MODULE_PATH.'captcha/securimage/words.txt';
 	$img->line_color = new Securimage_Color(0xff, 0xaff, 0xff);
-	$img->gd_font_file  = ROOT_PATH.'module/captcha/securimage/automatic.gdf';
-	$img->show(ROOT_PATH.'module/captcha/securimage/bg.png');
+	$img->gd_font_file  = MODULE_PATH.'captcha/securimage/automatic.gdf';
+	$img->show(MODULE_PATH.'captcha/securimage/bg.png');
 	execute_set_document();
 }
 

@@ -25,6 +25,9 @@
 			<a href="<?=SECTION_URI.Q.'widget_edit/'.$widget['id']?>" style="text-decoration:none;">
 				<img src="<?=ROOT_URI?>files/icon/edit.png" align="left" border="0"/>
 			</a>
+			<a href="<?=SECTION_URI.Q.'widget_drop/'.$widget['id']?>" style="text-decoration:none;">
+				<img src="<?=ROOT_URI?>files/icon/drop.png" align="left" border="0"/>
+			</a>
 			<?=$widget['title']?>
 			<input type="hidden" name="position[]" class="position_input" value=""/>
 			<input type="hidden" name="widget[]" value="<?=$widget['id']?>"/>

@@ -8,7 +8,7 @@ function module_get_info_guestbook(){
 
 function module_init_guestbook(){
 	include_once('Guestbook.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	$guestbook = new Guestbook();
 	$guestbook->initModule('Guestbook.class.inc');
 	module_add_role('guestbook_admin', 'Guestbook Administrator', 'Who can edit and drop guestbook.');
@@ -21,7 +21,7 @@ function module_init_guestbook(){
 
 function module_drop_guestbook(){
 	include_once('Guestbook.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	$guestbook = new Guestbook();
 	$guestbook->dropModule();
 	module_drop_role('guestbook_admin');

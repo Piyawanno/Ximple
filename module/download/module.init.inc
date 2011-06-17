@@ -9,7 +9,7 @@ function module_get_info_download(){
 }
 
 function module_init_download(){
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	include_once('Download.class.inc');
 	$download = new Download();
 	$download->initModule('Download.class.inc');
@@ -20,13 +20,13 @@ function module_init_download(){
 	module_add_panel('Download', 'download_admin', 'category/module/download', 'download category');
 	notify_add_info(tt('Download has been successfully activated'));
 	category_init('download');
-	$dowload_dir = ROOT_PATH.'files/download/';
+	$dowload_dir = FILES_PATH.'download/';
 	if(!is_dir($dowload_dir)) mkdir($dowload_dir);
 	widget_add_navigation('download', tt('Download'));
 }
 
 function module_drop_download(){
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	include_once('Download.class.inc');
 	$download = new Download();
 	$download->dropModule();

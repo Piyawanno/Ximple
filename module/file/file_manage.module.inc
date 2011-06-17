@@ -1,7 +1,7 @@
 <?php
 
 if(authority_is_guest()) error_denied();
-include_once(ROOT_PATH.'include/tool/icon.tool.inc');
+include_once(INCLUDE_PATH.'tool/icon.tool.inc');
 
 function file_manage_user(){
 	$dir = gg('dir');
@@ -39,7 +39,7 @@ function file_manage_admin(){
 /// @param $title : title of file manager.
 /// @return Rendered user-interface to file manager.
 function file_manage($root_path, $dir, $mode, $title){
-	include_once(ROOT_PATH.'include/tool/userinfo.tool.inc');
+	include_once(INCLUDE_PATH.'tool/userinfo.tool.inc');
 	file_avoid_up_dir($root_path);
 	$file_list = file_get_list($root_path, $dir, $mode);
 	$file_list = file_sort($file_list, $root_path);

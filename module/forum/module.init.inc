@@ -11,8 +11,8 @@ function module_init_forum(){
 	include_once('Forum.class.inc');
 	include_once('ForumEntry.class.inc');
 	include_once('ForumConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
-	include_once(ROOT_PATH.'module/flashwidget/flashwidget.module.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
+	include_once(MODULE_PATH.'flashwidget/flashwidget.module.inc');
 	
 	$forumEntry = new ForumEntry();
 	$forumEntry->initModule('ForumEntry.class.inc');
@@ -45,8 +45,8 @@ function module_drop_forum(){
 	include_once('Forum.class.inc');
 	include_once('ForumEntry.class.inc');
 	include_once('ForumConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
-	include_once(ROOT_PATH.'module/flashwidget/flashwidget.module.inc');
+	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
+	include_once(MODULE_PATH.'flashwidget/flashwidget.module.inc');
 	
 	$forumEntry = new ForumEntry();
 	$forumEntry->dropModule();

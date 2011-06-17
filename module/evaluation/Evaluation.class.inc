@@ -235,8 +235,8 @@ class Evaluation extends Control{
 		$this->id = gg('id');
 		$this->selectByID($this->column, true);
 		if($this->getEditAccess() and count($this->data) and $this->dataByID['status'] != 2){
-			require_once(ROOT_PATH.'include/class/FormModelRender.class.inc');
-			require_once(ROOT_PATH.'include/class/column/TextColumn.class.inc');
+			require_once(INCLUDE_PATH.'class/FormModelRender.class.inc');
+			require_once(INCLUDE_PATH.'class/column/TextColumn.class.inc');
 			head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
 			head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
 			FormModelRender::prepareHead();

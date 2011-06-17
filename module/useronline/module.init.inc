@@ -7,7 +7,7 @@ function module_get_info_useronline(){
 }
 
 function module_init_useronline(){
-	require_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	require_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	module_add('useronline', 'useronline.module.inc', 'UserOnline');
 	widget_add(tt('Who is online (count)'), 'useronline_widget_cont');
 	widget_add(tt('Who is online (list)'), 'useronline_widget_user_list');
@@ -15,7 +15,7 @@ function module_init_useronline(){
 }
 
 function module_drop_useronline(){
-	require_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	require_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	module_drop('useronline');
 	widget_drop('useronline_widget_count');
 	widget_drop('useronline_widget_user_list');

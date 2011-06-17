@@ -1,7 +1,7 @@
 <?php
 execute_add_class('peopleinfo', 'People');
 
-include_once(ROOT_PATH.'module/freetag/freetag.tool.inc');
+include_once(MODULE_PATH.'freetag/freetag.tool.inc');
 include_once('PeopleModel.class.inc');
 include_once('Information.class.inc');
 include_once('Event.class.inc');
@@ -94,7 +94,7 @@ class People extends Control{
 	public function renderTagClound(){
 		head_add_css('peopleinfo.css');
 		document_set_path(tt('Tag Cloud'));
-		require_once(ROOT_PATH.'module/freetag/freetag.tool.inc');
+		require_once(MODULE_PATH.'freetag/freetag.tool.inc');
 		$tag['people'] = freetag_get('peopleinfo');
 		$tag['event'] = freetag_get('peopleinfo_event');
 		$tag['information'] = freetag_get('peopleinfo_info');
