@@ -33,6 +33,8 @@ class SectionConfigModel extends Model{
 		
 		$this->registable = $this->enable(('Enable registration for new users'));
 		$this->forget_password = $this->enable(('Enable password recovery'));
+		$this->avatar_resizable = $this->enable(('Enable resizing avatar'));
+		$this->avatar_size = $this->spin(('Avatar size'), 16, 1024);
 		
 		$help = tt('Add supported language for contents in Section.');
 		$this->supported_language = $this->grid(tt('Supported language'), $help);

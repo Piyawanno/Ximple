@@ -44,9 +44,11 @@ class SectionConfig extends ConfigControl{
 		$language = $this->getNewConfigForm(tt('Language'));
 		$language->append('supported_language');
 		
-		$register = $this->getNewConfigForm(tt('Registration'));
-		$register->append('registable');
-		$register->append('forget_password');
+		$user = $this->getNewConfigForm(tt('User & Registration'));
+		$user->append('registable');
+		$user->append('forget_password');
+		$user->append('avatar_resizable');
+		$user->append('avatar_size');
 		
 		$time = $this->getNewConfigForm(tt('Time'));
 		$time->append('time_zone');

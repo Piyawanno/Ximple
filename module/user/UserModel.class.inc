@@ -14,7 +14,7 @@ class UserModel extends Model{
 		$this->confirm_password = $this->password(tt('confirm password'));
 		$this->confirm_password->isDB = false;
 		$this->status = $this->hidden('active');
-		$this->avatar = $this->image(tt('avarta'), 'files/avatar/', 120);
+		$this->avatar = $this->image(tt('avarta'), 'files/avatar/');
 		$this->section = $this->section();
 		$this->space_used = $this->fileSize(tt('used space'));
 		$this->login_name_hash = new UserLoginHashColumn();

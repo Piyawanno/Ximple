@@ -17,6 +17,17 @@ function image_check_max_width($file, $path, $maxwidth){
 	}
 }
 
+function image_square_crop($file, $path, $size){
+	$image_src = image_get_src($file, $path);
+	if($image_src){
+		$src_size = min(imagesx($image_src), imagesy($image_src));
+		$image_dst = imageCreateTrueColor($size, $size);
+		imageCopyResized($image_dst, $image_src, 0, 0, 0, 0, $size, $size, $src_size, $src_size);
+		echo($size.', '.$src_size);
+		imageJPEG($image_dst, $path, 85);
+	}
+}
+
 function image_generate_thumb($file, $path, $thumbpath){
 	$image_src = image_get_src($file, $path);
 	if($image_src){
@@ -25,8 +36,7 @@ function image_generate_thumb($file, $path, $thumbpath){
 		if($src_w >= $src_h){
 			$dst_h = 100;
 			$dst_w = ($src_w/$src_h)*100;
-		}
-		else{
+		}else{
 			$dst_w = 100;
 			$dst_h = ($src_h/$src_w)*100;
 		}
@@ -37,14 +47,16 @@ function image_generate_thumb($file, $path, $thumbpath){
 }
 
 function image_get_src($file, $path){
-	if($file['type'] == "image/jpeg" or $file['type'] == "image/pjpeg"){
-		return imageCreateFromJPEG($path);
-	}
-	elseif($file['type'] == "image/png" or $file['type'] == "image/x-png"){
-		return  imageCreateFromPNG($path);
-	}else{
-		notify_add_error(tt('Only .png, .jpeg and .jpg are allowed to be uploaded.'));
-		return null;
+	if(is_file($path)){
+		if($file['type'] == "image/jpeg" or $file['type'] == "image/pjpeg"){
+			return imageCreateFromJPEG($path);
+		}
+		elseif($file['type'] == "image/png" or $file['type'] == "image/x-png"){
+			return  imageCreateFromPNG($path);
+		}else{
+			notify_add_error(tt('Only .png, .jpeg and .jpg are allowed to be uploaded.'));
+			return null;
+		}
 	}
 }
 

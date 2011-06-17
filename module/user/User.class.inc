@@ -48,6 +48,7 @@ class User extends Control{
 	public function insert(){
 		Control::insert();
 		$this->updateMap();
+		$this->resizeAvatar();
 	}
 	
 	public function edit(){
@@ -68,6 +69,7 @@ class User extends Control{
 	public function update($updateMap=true){
 		Control::update();
 		if($updateMap) $this->updateMap();
+		$this->resizeAvatar();
 	}
 	
 	public function drop(){
@@ -135,6 +137,16 @@ class User extends Control{
 				$data['groups'] = $value;
 				db_insert('map', $data);
 			}
+		}
+	}
+	
+	private function resizeAvatar(){
+		$avatarFile = ff('avatar');
+		$this->selectByID(array('avatar'), true);
+		if($avatarFile['size'] and cc('avatar_resizable')){
+			$path = ROOT_PATH.$this->data[$this->id]['avatar'];
+			echo($path.'<br />');
+			image_square_crop($avatarFile, $path, cc('avatar_size'));
 		}
 	}
 }
