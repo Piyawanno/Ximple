@@ -8,7 +8,7 @@ function module_get_info_faq(){
 
 function module_init_faq(){
 	include_once('FAQ.class.inc');
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
 	if(!is_dir('files/faq/')) mkdir('files/faq/');
 	
 	$faq = new FAQ();
@@ -24,20 +24,20 @@ function module_init_faq(){
 	module_add_panel('FAQ', 'faq_moderator', 'faq_list', 'list all questions');
 	module_add_panel('FAQ', 'faq_moderator', 'faq_write', 'write new question');
 	
-	block_add_navigation('faq', tt('FAQ'));
+	widget_add_navigation('faq', tt('FAQ'));
 	
 	notify_add_info(tt('FAQ has been successfully activated'));
 }
 
 function module_drop_faq(){
 	include_once('FAQ.class.inc');
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
 	$faq = new FAQ();
 	$faq->dropModule();
 	module_drop_role('faq_admin');
 	module_drop_role('faq_moderator');
 	module_drop_panel('FAQ');
-	block_drop_navigation('faq');
+	widget_drop_navigation('faq');
 	notify_add_info(tt('FAQ has been successfully deactivated'));
 }
 ?>

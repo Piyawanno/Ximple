@@ -7,18 +7,18 @@ function module_get_info_useronline(){
 }
 
 function module_init_useronline(){
-	require_once(ROOT_PATH.'include/tool/block.tool.inc');
+	require_once(ROOT_PATH.'include/tool/widget.tool.inc');
 	module_add('useronline', 'useronline.module.inc', 'UserOnline');
-	block_add(tt('Who is online (count)'), 'useronline_block_cont');
-	block_add(tt('Who is online (list)'), 'useronline_block_user_list');
+	widget_add(tt('Who is online (count)'), 'useronline_widget_cont');
+	widget_add(tt('Who is online (list)'), 'useronline_widget_user_list');
 	extension_add('main_init', 'useronline_set_access');
 }
 
 function module_drop_useronline(){
-	require_once(ROOT_PATH.'include/tool/block.tool.inc');
+	require_once(ROOT_PATH.'include/tool/widget.tool.inc');
 	module_drop('useronline');
-	block_drop('useronline_block_count');
-	block_drop('useronline_block_user_list');
+	widget_drop('useronline_widget_count');
+	widget_drop('useronline_widget_user_list');
 	extension_drop('main_init', 'useronline_set_access');
 }
 ?>

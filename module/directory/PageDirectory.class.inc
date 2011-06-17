@@ -7,7 +7,7 @@ include_once('directory.tool.inc');
 /// - Cut and paste
 /// - Explore
 /// - Multiple linguages
-/// - Navigation block
+/// - Navigation widget
 
 class PageDirectory extends Control{
 	private $parent;

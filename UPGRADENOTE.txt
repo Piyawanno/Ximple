@@ -57,3 +57,7 @@ This file contains TO-DO list for additional procedure by software upgrading.
 	ALTER TABLE forum DROP guest_postable;
 
 - ALTER TABLE feed ADD section int;
+
+- ALTER TABLE block RENAME widget;
+
+- ALTER TABLE menu CHANGE block widget int;

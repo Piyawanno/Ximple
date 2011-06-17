@@ -9,7 +9,7 @@ function module_get_info_advertise(){
 function module_init_advertise(){
 	include_once('Advertise.class.inc');
 	include_once('AdvertiseConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
 	
 	$advertise = new Advertise();
 	$advertise->initModule('Advertise.class.inc');
@@ -22,15 +22,15 @@ function module_init_advertise(){
 	module_add_panel('Advertise', 'advertise_admin', 'advertise_config', 'config Advertise');
 	
 	$path = ROOT_PATH.'files/advertise/';
-	config_set('advertise_block_position', array(tt('Advertise Primaty Position')));
-	block_add(tt('Advertise Primaty Position'), 'advertise_banner/0');
+	config_set('advertise_widget_position', array(tt('Advertise Primaty Position')));
+	widget_add(tt('Advertise Primaty Position'), 'advertise_banner/0');
 	if(!is_dir($path)) mkdir($path);
 }
 
 function module_drop_advertise(){
 	include_once('Advertise.class.inc');
 	include_once('AdvertiseConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
 	
 	$advertise = new Advertise();
 	$advertise->dropModule();
@@ -38,9 +38,9 @@ function module_drop_advertise(){
 	$advertiseConfig = new AdvertiseConfig();
 	$advertiseConfig->dropModule();
 	
-	$advertise_position = cc('advertise_block_position');
+	$advertise_position = cc('advertise_widget_position');
 	foreach($advertise_position as $key => $value){
-		block_drop('advertise_banner/'.$key);
+		widget_drop('advertise_banner/'.$key);
 	}
 	
 	module_drop_role('advertise_admin');

@@ -8,7 +8,7 @@ function theme_get_info_default(){
 		'name' => 'FlexiFun',
 		'description' =>  $description,
 		'preview' => 'preview.png',
-		'block_position' => array(
+		'widget_position' => array(
 			'left' => 'Left Sidebar',
 			'right' => 'Right Sidebar',
 			'header' => 'Header',
@@ -16,8 +16,8 @@ function theme_get_info_default(){
 			'bottom' => 'Content Bottom',
 			'foot' => 'Foot',
 		),
-		'block_primary_position' => 'left',
-		'menu_include_block' => true,
+		'widget_primary_position' => 'left',
+		'menu_include_widget' => true,
 		'additional_config' => array(
 			
 		),

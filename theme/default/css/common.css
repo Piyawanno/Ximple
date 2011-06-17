@@ -113,7 +113,7 @@ ins{
 	left:100px;
 }
 
-#notify_block{
+#notify_widget{
 	width:35px;
 	height:33px;
 	padding-top:4px;
@@ -185,8 +185,8 @@ ins{
 	margin-left:5px;
 }
 
-/* ========= Translate Block ========= */
-.translate_block a{
+/* ========= Translate Widget ========= */
+.translate_widget a{
 	margin-left:25px;
 	font-weight:bold;
 	text-decoration:underline;

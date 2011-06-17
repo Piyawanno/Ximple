@@ -1398,8 +1398,8 @@ blintz
 blites
 blithe
 bloats
-blocks
-blocky
+widgets
+widgety
 blokes
 blonde
 blonds

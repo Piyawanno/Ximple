@@ -1256,7 +1256,7 @@ class Securimage {
 			$body   = substr($data, 44);
 
 
-			$data = unpack('NChunkID/VChunkSize/NFormat/NSubChunk1ID/VSubChunk1Size/vAudioFormat/vNumChannels/VSampleRate/VByteRate/vBlockAlign/vBitsPerSample', $header);
+			$data = unpack('NChunkID/VChunkSize/NFormat/NSubChunk1ID/VSubChunk1Size/vAudioFormat/vNumChannels/VSampleRate/VByteRate/vWidgetAlign/vBitsPerSample', $header);
 
 			$file['sub_chunk1_id']   = $data['SubChunk1ID'];
 			$file['bits_per_sample'] = $data['BitsPerSample'];

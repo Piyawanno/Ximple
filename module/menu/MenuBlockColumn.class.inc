@@ -1,16 +1,16 @@
 <?php
 require_once(ROOT_PATH.'include/class/column/SelectColumn.class.inc');
 
-class MenuBlockColumn extends SelectColumn{
-	function MenuBlockColumn(){
-		SelectColumn::SelectColumn(tt('includes Block'), array());
+class MenuWidgetColumn extends SelectColumn{
+	function MenuWidgetColumn(){
+		SelectColumn::SelectColumn(tt('includes Widget'), array());
 		$this->setType('int');
-		$p = tt('Use <a href="%s">block interface</a> for Block configuration.');
-		$this->help = sprintf($p, SECTION_URI.Q.'block');
+		$p = tt('Use <a href="%s">widget interface</a> for Widget configuration.');
+		$this->help = sprintf($p, SECTION_URI.Q.'widget');
 	}
 	
 	public function renderForm($formID){
-		if(cc('menu_include_block')){
+		if(cc('menu_include_widget')){
 			return SelectColumn::renderForm($formID);
 		}else{
 			return $this->renderAdHidden($formID);
@@ -18,16 +18,16 @@ class MenuBlockColumn extends SelectColumn{
 	}
 	
 	public function triggerInsertForm(){
-		$this->getBlock();
+		$this->getWidget();
 	}
 	
 	public function triggerUpdateForm(){
-		$this->getBlock();
+		$this->getWidget();
 	}
 	
-	private function getBlock(){
-		if(cc('menu_include_block')){
-			$this->option = db_select_single_column('block', 'title', 'WHERE section='.SECTION, true);
+	private function getWidget(){
+		if(cc('menu_include_widget')){
+			$this->option = db_select_single_column('widget', 'title', 'WHERE section='.SECTION, true);
 			$this->option[0] = cc('None');
 			ksort($this->option);
 		}

@@ -75,23 +75,23 @@ class Contact extends Control{
 	}
 	
 	private function addNavigation(){
-		include_once(ROOT_PATH.'include/tool/block.tool.inc');
-		block_add_navigation('contact/'.$this->id, pp('name'));
+		include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+		widget_add_navigation('contact/'.$this->id, pp('name'));
 		config_save();
-		notify_add_tip(tt('Contact has been automatically inserted into Navigation-Block.'));
+		notify_add_tip(tt('Contact has been automatically inserted into Navigation-Widget.'));
 	}
 	
 	private function dropNavigation(){
-		include_once(ROOT_PATH.'include/tool/block.tool.inc');
-		block_drop_navigation('contact/'.$this->id);
+		include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+		widget_drop_navigation('contact/'.$this->id);
 		config_save();
-		notify_add_tip(tt('Contact has been automatically deleted from Navigation-Block.'));
+		notify_add_tip(tt('Contact has been automatically deleted from Navigation-Widget.'));
 	}
 	
 	private function sendReply(){
 		$subject = cc('contact_subject');
 		$message = $this->dataByID['reply_message'];
-		$message.= "<blockquote>".$_POST['message']."</blockquote>";
+		$message.= "<widgetquote>".$_POST['message']."</widgetquote>";
 		$result = mail_send(pp('email'), $subject, $message, true, null);
 		if($result !== true) notify_add_error($result);
 	}

@@ -232,14 +232,14 @@ function theme_check_info(&$theme_info){
 	if(!isset($theme_info['additional_config']) or !is_array($theme_info['additional_config'])){
 		$theme_info['additional_config'] = array();
 	}
-	$info = array('name', 'description', 'block_position', 'block_primary_position', 'menu_include_block', 'preview');
+	$info = array('name', 'description', 'widget_position', 'widget_primary_position', 'menu_include_widget', 'preview');
 	$complete = count(array_intersect($info, array_keys($theme_info))) == count($info);
-	$complete = ($complete and isset($theme_info['block_position']));
-	$complete = ($complete and count($theme_info['block_position']));
-	$check_primary_block = array_key_exists($theme_info['block_primary_position'], $theme_info['block_position']);
-	$complete = ($complete and $check_primary_block);
-	if(!$check_primary_block and state_is_develop()){
-		notify_add_error(tt('The given primary block position does not exist.'));
+	$complete = ($complete and isset($theme_info['widget_position']));
+	$complete = ($complete and count($theme_info['widget_position']));
+	$check_primary_widget = array_key_exists($theme_info['widget_primary_position'], $theme_info['widget_position']);
+	$complete = ($complete and $check_primary_widget);
+	if(!$check_primary_widget and state_is_develop()){
+		notify_add_error(tt('The given primary widget position does not exist.'));
 	}
 	return $complete;
 }
@@ -264,26 +264,26 @@ function theme_set_config($theme_name){
 	$all_themes = theme_get_information();
 	$theme_config = $all_themes[$theme_name];
 	config_set('theme', $theme_name);
-	$position = array_merge($theme_config['block_position'], array('disabled' => 'Disabled'));
-	config_set('block_position', $position);
-	config_set('block_primary_position', $theme_config['block_primary_position']);
-	config_set('menu_include_block', $theme_config['menu_include_block']);
+	$position = array_merge($theme_config['widget_position'], array('disabled' => 'Disabled'));
+	config_set('widget_position', $position);
+	config_set('widget_primary_position', $theme_config['widget_primary_position']);
+	config_set('menu_include_widget', $theme_config['menu_include_widget']);
 	$custom_img = ROOT_PATH.'files/customtheme/'.SECTION.'/'.$theme_name.'/image/';
 	config_append_assc('file_mode_path', 'theme_image', $custom_img);
 	theme_set_additional_config($theme_config['additional_config']);
 	theme_copy_custom($theme_name);
 	config_save();
-	theme_reset_block_position($theme_config['block_primary_position']);
+	theme_reset_widget_position($theme_config['widget_primary_position']);
 }
 
-function theme_reset_block_position($primary_position){
-	require_once(ROOT_PATH.'include/tool/sysblock.tool.inc');
-	db_update_many('block', array('position' => 'disabled'), 'section='.SECTION);
-	$list = sysblock_get_list();
+function theme_reset_widget_position($primary_position){
+	require_once(ROOT_PATH.'include/tool/syswidget.tool.inc');
+	db_update_many('widget', array('position' => 'disabled'), 'section='.SECTION);
+	$list = syswidget_get_list();
 	$list = $list['primary'];
 	$clause = "(call_mode='".join("' OR call_mode='", $list)."')";
 	$clause.= 'AND section='.SECTION;
-	db_update_many('block', array('position' => $primary_position), $clause);
+	db_update_many('widget', array('position' => $primary_position), $clause);
 }
 
 ?>

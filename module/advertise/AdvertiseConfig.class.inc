@@ -21,24 +21,24 @@ class AdvertiseConfig extends ConfigControl{
 	}
 	
 	public function save(){
-		$position = pp('advertise_block_position');
+		$position = pp('advertise_widget_position');
 		foreach($position as $key => $value){
 			if(strlen($value) == 0) unset($position[$key]);
 		}
-		config_set('advertise_block_position', $position);
+		config_set('advertise_widget_position', $position);
 		config_save();
 		document_set_redirect('advertise_config');
-		$this->updateBlock();
+		$this->updateWidget();
 		execute_set_db();
 	}
 	
-	public function updateBlock(){
-		$position = pp('advertise_block_position');
-		include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	public function updateWidget(){
+		$position = pp('advertise_widget_position');
+		include_once(ROOT_PATH.'include/tool/widget.tool.inc');
 		foreach($position as $key => $value){
-			block_drop('advertise_banner/'.$key);
+			widget_drop('advertise_banner/'.$key);
 			if(strlen($value)){
-				block_add($value, 'advertise_banner/'.$key);
+				widget_add($value, 'advertise_banner/'.$key);
 			}
 		}
 		$message = tt('All Advertise banners have been disabled. ');

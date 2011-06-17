@@ -9,7 +9,7 @@ function module_get_info_download(){
 }
 
 function module_init_download(){
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
 	include_once('Download.class.inc');
 	$download = new Download();
 	$download->initModule('Download.class.inc');
@@ -22,11 +22,11 @@ function module_init_download(){
 	category_init('download');
 	$dowload_dir = ROOT_PATH.'files/download/';
 	if(!is_dir($dowload_dir)) mkdir($dowload_dir);
-	block_add_navigation('download', tt('Download'));
+	widget_add_navigation('download', tt('Download'));
 }
 
 function module_drop_download(){
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
 	include_once('Download.class.inc');
 	$download = new Download();
 	$download->dropModule();
@@ -34,6 +34,6 @@ function module_drop_download(){
 	module_drop_cache('download');
 	module_drop_panel('Download');
 	notify_add_info(tt('Download has been successfully deactivated'));
-	block_drop_navigation('download');
+	widget_drop_navigation('download');
 }
 ?>

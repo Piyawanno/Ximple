@@ -100,7 +100,7 @@ function socialnetwork_twitter_appearance_config(){
 	return Model::checkbox(tt('appearance'), $option);
 }
 
-function socialnetwork_get_block_array(){
+function socialnetwork_get_widget_array(){
 	return array(
 		'socialnetwork_like_box' => 'Facebook Like Box',
 		'socialnetwork_activity_feed' => 'Facebook Activity Feed',

@@ -1,30 +1,30 @@
 <?php
-execute_add_function('flashblock');
-execute_add_function('flashblock_config');
-execute_add_function('flashblock_save');
+execute_add_function('flashwidget');
+execute_add_function('flashwidget_config');
+execute_add_function('flashwidget_save');
 
-function flashblock(){
+function flashwidget(){
 	$column = array('id', 'mode', 'table_name', 'column_name', 'clause', 'item_number');
-	$data = db_select('flashblock', $column, 'WHERE id='.((int)gg('id')));
+	$data = db_select('flashwidget', $column, 'WHERE id='.((int)gg('id')));
 	if(count($data)){
 		$data = $data[gg('id')];
 		$clause = $data['clause'].' LIMIT '.$data['item_number'];
 		$item = db_select_single_column($data['table_name'], $data['column_name'], $clause);
-		$item = flashblock_translate($data['mode'], $data['column_name'], $item);
+		$item = flashwidget_translate($data['mode'], $data['column_name'], $item);
 		$render_array = array(
 			'mode' => $data['mode'],
 			'item' => $item,
 		);
-		return render($render_array, 'module/flashblock/theme/flashblock.tpl', 'flashblock');
+		return render($render_array, 'module/flashwidget/theme/flashwidget.tpl', 'flashwidget');
 	}
 }
 
-function flashblock_clear_cache($table){
+function flashwidget_clear_cache($table){
 	
 }
 
-function flashblock_add($reference, $mode, $name, $table, $column, $clause){
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+function flashwidget_add($reference, $mode, $name, $table, $column, $clause){
+	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
 	$data = array(
 		'reference' => $reference,
 		'mode' => $mode,
@@ -34,35 +34,35 @@ function flashblock_add($reference, $mode, $name, $table, $column, $clause){
 		'section' => SECTION,
 		'item_number' => 5,
 	);
-	$id = db_insert('flashblock', $data);
-	block_add($name, 'flashblock/'.$id, 'disabled', 'flashblock_config/'.$id, 'flashblock_save/'.$id);
+	$id = db_insert('flashwidget', $data);
+	widget_add($name, 'flashwidget/'.$id, 'disabled', 'flashwidget_config/'.$id, 'flashwidget_save/'.$id);
 }
 
-function flashblock_drop($reference){
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+function flashwidget_drop($reference){
+	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
 	$clause = "reference='".$reference."' AND section=".SECTION;
-	$id = db_select_single_column('flashblock', 'id', 'WHERE '.$clause, false);
+	$id = db_select_single_column('flashwidget', 'id', 'WHERE '.$clause, false);
 	if(count($id)){
-		db_drop_many('flashblock', $clause);
-		block_drop('flashblock/'.$id[0]);
+		db_drop_many('flashwidget', $clause);
+		widget_drop('flashwidget/'.$id[0]);
 	}
 }
 
-function flashblock_config(){
+function flashwidget_config(){
 	if(gg('is_translate') == 'false'){
 		include_once(ROOT_PATH.'include/class/Model.class.inc');
-		$item_number_data = db_select_single_column('flashblock', 'item_number', 'WHERE id='.gg('id'), false);
+		$item_number_data = db_select_single_column('flashwidget', 'item_number', 'WHERE id='.gg('id'), false);
 		$item_number = Model::spin(tt('number of shown items'), 3, 50);
 		$item_number->data = $item_number_data[0];
-		return array('flashblock_item_number' => $item_number);
+		return array('flashwidget_item_number' => $item_number);
 	}
 }
 
-function flashblock_save(){
-	db_update('flashblock', array('item_number' => pp('flashblock_item_number')),gg('id'));
+function flashwidget_save(){
+	db_update('flashwidget', array('item_number' => pp('flashwidget_item_number')),gg('id'));
 }
 
-function flashblock_translate($mode, $column_name, $data){
+function flashwidget_translate($mode, $column_name, $data){
 	$splitted = explode('_', $mode);
 	foreach($data as $key => $value){
 		$content_array = array(

@@ -9,9 +9,9 @@
 <?php endforeach?>
 </ul>
 <?php foreach($data as $key => $item):?>
-	<?php if(!empty($item['block'])):?>
+	<?php if(!empty($item['widget'])):?>
 		<div class="submenu" id="submenu_<?=$key?>">
-			<?=$item['block']?>
+			<?=$item['widget']?>
 		</div>
 	<?php endif?>
 <?php endforeach?>

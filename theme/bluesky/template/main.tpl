@@ -25,14 +25,14 @@
 					<?=$notify?>
 					<?=$body?>
 				</div>
-				<div id="block_left">
-					<?php foreach($block['left'] as $key => $item):?>
+				<div id="widget_left">
+					<?php foreach($widget['left'] as $key => $item):?>
 						<?=$item?>
 					<?php endforeach?>
 				</div>
 			</div>
 			<div id="foot">
-				<?php foreach($block['foot'] as $key => $item):?>
+				<?php foreach($widget['foot'] as $key => $item):?>
 					<?=$item?>
 				<?php endforeach?>
 			</div>

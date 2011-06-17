@@ -9,8 +9,8 @@ class Blog extends Content{
 		$this->tableName = 'blog';
 		$this->moduleName = 'blog';
 		$this->moduleTitle = tt('Blog');
-		$this->addAction('blog_promote_block', 'renderPromoteBlock');
-		$this->addAccessMethod('guest', 'renderPromoteBlock');
+		$this->addAction('blog_promote_widget', 'renderPromoteWidget');
+		$this->addAccessMethod('guest', 'renderPromoteWidget');
 		$this->init(new BlogModel());
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
@@ -29,7 +29,7 @@ class Blog extends Content{
 		return render($this->dataByID, 'content_print.tpl', 'blog_print');
 	}
 	
-	public function renderPromoteBlock(){
+	public function renderPromoteWidget(){
 		$column = array('id', 'topic', 'icon', 'intro', 'uri');
 		$clause = 'WHERE section='.SECTION.' AND publishing_status=4';
 		$data = db_select('blog', $column, $clause);

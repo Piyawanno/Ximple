@@ -11,7 +11,7 @@ function module_get_info_contact(){
 function module_init_contact(){
 	include_once('Contact.class.inc');
 	include_once('ContactConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
 	
 	$contact = new Contact();
 	$contact->initModule('Contact.class.inc');
@@ -27,7 +27,7 @@ function module_init_contact(){
 	notify_add_info(tt('Contact has been successfully activated'));
 	$contact_data = db_select_single_column('contact', 'name', 'WHERE section='.SECTION);
 	foreach($contact_data as $key => $value){
-		block_add_navigation('contact/'.$key, $value);
+		widget_add_navigation('contact/'.$key, $value);
 	}
 	$contact_dir = ROOT_PATH.'files/contact';
 	if(!is_dir($contact_dir)) mkdir($contact_dir);
@@ -36,7 +36,7 @@ function module_init_contact(){
 function module_drop_contact(){
 	include_once('Contact.class.inc');
 	include_once('ContactConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
+	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
 	
 	$contact = new Contact();
 	$contact->dropModule();
@@ -50,7 +50,7 @@ function module_drop_contact(){
 	notify_add_info(tt('Contact has been successfully deactivated'));
 	$navigation = cc('navigation');
 	foreach($navigation as $key => $value){
-		if(substr($key,0, 7) == 'contact') block_drop_navigation($key);
+		if(substr($key,0, 7) == 'contact') widget_drop_navigation($key);
 	}
 }
 ?>

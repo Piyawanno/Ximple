@@ -43,7 +43,7 @@ function main_exec(){
 
 function main_render(){
 	include('head.tool.inc');
-	include('sysblock.tool.inc');
+	include('syswidget.tool.inc');
 	include('userinfo.tool.inc');
 	include('sectioninfo.tool.inc');
 	include('search.tool.inc');
@@ -69,7 +69,7 @@ function main_render(){
 
 function main_render_site($body){
 	include_once('menu.tool.inc');
-	include_once('block.tool.inc');
+	include_once('widget.tool.inc');
 	search_increase_point();
 	$body = extension_execute('pre_main_render_site', $body, $body);
 	$render_array = array(
@@ -78,7 +78,7 @@ function main_render_site($body){
 		'section_name' => cc('section_name'),
 		'section_slogan' => cc('section_slogan'),
 		'menu' => menu_render(),
-		'block' => block_render(),
+		'widget' => widget_render(),
 		'notify' => notify_render(),
 		'head' => head_render(),
 	);

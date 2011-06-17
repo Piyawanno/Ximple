@@ -50,7 +50,7 @@ function config_save(){
 
 function config_default_require(){
 	return array(
-		'block' => 'Block.class.inc',
+		'widget' => 'Widget.class.inc',
 		'menu' => 'Menu.class.inc',
 		'module' => 'module.module.inc',
 		'file' => 'file.module.inc',
@@ -72,7 +72,7 @@ function config_default_require(){
 		'comment' => 'Comment.class.inc',
 		'freetag' => 'freetag.module.inc',
 		'tracker' => 'tracker.module.inc',
-		'flashblock' => 'flashblock.module.inc',
+		'flashwidget' => 'flashwidget.module.inc',
 		'imageloader' => 'imageloader.module.inc',
 		'search' => 'search.module.inc',
 		'forgetpassword' => 'forgetpassword.module.inc',
@@ -111,9 +111,9 @@ function config_default_panel(){
 /// @return Array of default panel access role.
 function config_default_panel_access(){
 	$panel = array(
-		'Block & Menu' => array(  
-			'block_admin' => array(  
-				'block' => 'block',
+		'Widget & Menu' => array(  
+			'widget_admin' => array(  
+				'widget' => 'widget',
 			),
 			'menu_admin' => array(  
 				'menu' => 'menu'
@@ -191,9 +191,9 @@ function config_default_role(){
 		'section_admin' => array(  
 			'name' => 'Section Manager',
 			'description' => 'Who can add and delete Sections.'),
-		'block_admin' => array(  
-			'name' => 'Block Manager',
-			'description' => 'Who can manage Blocks in Section.'),
+		'widget_admin' => array(  
+			'name' => 'Widget Manager',
+			'description' => 'Who can manage Widgets in Section.'),
 		'menu_admin' => array(  
 			'name' => 'Menu Manager',
 			'description' => 'Who can manage Menus in Section.'),
@@ -219,7 +219,7 @@ function config_default(){
 		'index_mode' => 'about',
 		'start' => '2006-09-19',
 		'meta_data' => '',
-		'allowed_tags' => '<a><p><img><strong><h3><h4><h5><obj><param><embed><span><em><blockquote><table><tbody><tr><td><ul><ol><li><br><pre><b><u><i><div><s><sub><sup><hr><font><span>',
+		'allowed_tags' => '<a><p><img><strong><h3><h4><h5><obj><param><embed><span><em><widgetquote><table><tbody><tr><td><ul><ol><li><br><pre><b><u><i><div><s><sub><sup><hr><font><span>',
 		'cachable_mode' => array( ),
 		'cache_mode' => 'txt',
 		'cache_time' => '18000',
@@ -237,13 +237,13 @@ function config_default(){
 		'feed_comment_explicit' => 0,
 		'antispam_salt' => (string) md5(rand()),
 		'antispam_time' => 21600,
-		'block_position' => array(
+		'widget_position' => array(
 			'left' => 'Left Sidebar',
 			'foot' => 'Foot',
 			'disabled' => 'Disabled',
 		),
-		'block_primary_position' => 'left',
-		'menu_include_block' => true,
+		'widget_primary_position' => 'left',
+		'menu_include_widget' => true,
 		'navigation' => array(
 			'home' => 'Home',
 			'about' => 'About',

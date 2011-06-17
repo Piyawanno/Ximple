@@ -12,8 +12,8 @@ function module_init_video(){
 	include_once('Video.class.inc');
 	include_once('VideoConfig.class.inc');
 	
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
-	include_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
+	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(ROOT_PATH.'module/flashwidget/flashwidget.module.inc');
 	
 	$video = new Video();
 	$video->initModule('Video.class.inc');
@@ -27,17 +27,17 @@ function module_init_video(){
 	if(!is_dir($video_directoy)) mkdir($video_directoy);
 	
 	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2) ORDER BY publish_time DESC';
-	flashblock_add('video_last_post', 'video', tt('Last posted Videos'), 'video', 'topic', $clause);
+	flashwidget_add('video_last_post', 'video', tt('Last posted Videos'), 'video', 'topic', $clause);
 	
 	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2 AND comment_time > 0) ORDER BY comment_time DESC';
-	flashblock_add('video_last_commented', 'video', tt('Last commented Videos'), 'video', 'topic', $clause);
+	flashwidget_add('video_last_commented', 'video', tt('Last commented Videos'), 'video', 'topic', $clause);
 }
 
 function module_drop_video(){
 	include_once('Video.class.inc');
 	include_once('VideoConfig.class.inc');
-	include_once(ROOT_PATH.'include/tool/block.tool.inc');
-	include_once(ROOT_PATH.'module/flashblock/flashblock.module.inc');
+	include_once(ROOT_PATH.'include/tool/widget.tool.inc');
+	include_once(ROOT_PATH.'module/flashwidget/flashwidget.module.inc');
 	
 	$video = new Video();
 	$video->dropModule();
@@ -48,7 +48,7 @@ function module_drop_video(){
 	config_drop('video_entries_number');
 	config_drop('video_width');
 	config_drop('video_width');
-	flashblock_drop('video_last_post');
-	flashblock_drop('video_last_commented');
+	flashwidget_drop('video_last_post');
+	flashwidget_drop('video_last_commented');
 }
 ?>

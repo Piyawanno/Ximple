@@ -1,57 +1,56 @@
 <?php
-function block_render(){
-	$data = block_get_data();
-	block_init_default();
+function widget_render(){
+	$data = widget_get_data();
+	widget_init_default();
 	$render = array();
-	$block_tpl = cc('block_tpl');
 	foreach($data as $key => $value){
-		$value = translate_content($value, 'block', $value['id']);
+		$value = translate_content($value, 'widget', $value['id']);
 		$pos = $value['position'];
-		$item = block_render_item($value, 'block_'.$pos.'.tpl');
+		$item = widget_render_item($value, 'widget_'.$pos.'.tpl');
 		if($item) $render[$pos][] = $item;
 	}
-	$position = cc('block_position');
+	$position = cc('widget_position');
 	foreach($position as $key => $value){
 		if(!isset($render[$key])) $render[$key] = array();
 	}
 	return $render;
 }
 
-function block_init_default($checked=false){
-	$data = db_select_single_column('block', 'id', 'WHERE section='.SECTION);
+function widget_init_default($checked=false){
+	$data = db_select_single_column('widget', 'id', 'WHERE section='.SECTION);
 	if(count($data) == 0 or $checked){
 		include_once(ROOT_PATH.'module/module/module.tool.inc');
-		$position = cc('block_primary_position');
-		block_add(tt('Navigation'), 'sysblock_navigation', $position, 'sysblock_navigation_config', 'sysblock_navigation_save', 0);
-		block_add(tt('Control Panel'), 'sysblock_panel', $position, '', '', 999);
-		block_add(tt('Login'), 'sysblock_login', $position, '', '', 1000);
-		block_add(tt('Language Selection'), 'sysblock_translate', 'foot');
-		block_add(tt('Execution Information'), 'sysblock_execute_info', 'foot');
-		return block_get_data();
+		$position = cc('widget_primary_position');
+		widget_add(tt('Navigation'), 'syswidget_navigation', $position, 'syswidget_navigation_config', 'syswidget_navigation_save', 0);
+		widget_add(tt('Control Panel'), 'syswidget_panel', $position, '', '', 999);
+		widget_add(tt('Login'), 'syswidget_login', $position, '', '', 1000);
+		widget_add(tt('Language Selection'), 'syswidget_translate', 'foot');
+		widget_add(tt('Execution Information'), 'syswidget_execute_info', 'foot');
+		return widget_get_data();
 	}
 }
 
-function block_get_data(){
+function widget_get_data(){
 	$column = array('id', 'title', 'body', 'position', 'call_mode', 'appear_group', 'appear_module', 'appear_uri');
 	$clause = 'WHERE section='.SECTION.' AND position != \'disabled\' ORDER BY sort_number';
-	return db_select('block', $column, $clause);
+	return db_select('widget', $column, $clause);
 }
 
-function block_render_item($item, $tpl){
-	if(block_check_permision($item)){
-		$body = block_get_body($item);
+function widget_render_item($item, $tpl){
+	if(widget_check_permision($item)){
+		$body = widget_get_body($item);
 		if(!empty($body)){
 			$render_data = array(
 				'title' => $item['title'],
 				'body' => $body,
 			);
-			return render($render_data, $tpl, 'block_item');
+			return render($render_data, $tpl, 'widget_item');
 		}
 	}
 	return null;
 }
 
-function block_get_body($item){
+function widget_get_body($item){
 	$body = $item['body'];
 	if(strlen($item['call_mode'])){
 		$call_mode = $item['call_mode'].'/'.$item['id'];
@@ -60,24 +59,24 @@ function block_get_body($item){
 	return $body;
 }
 
-function block_check_permision($item){
+function widget_check_permision($item){
 	$appear_module = unserialize($item['appear_module']);
 	$appear_group = unserialize($item['appear_group']);
 	$appear_uri = isset($item['appear_uri']) ? $item['appear_uri'] : null;
 	if(strlen($appear_uri)){
-		if(block_check_uri_permission($appear_uri)){
-			return block_check_group_permission($appear_group);
+		if(widget_check_uri_permission($appear_uri)){
+			return widget_check_group_permission($appear_group);
 		}else{
 			return false;
 		}
-	}elseif(block_check_module_permission($appear_module)){
-		return block_check_group_permission($appear_group);
+	}elseif(widget_check_module_permission($appear_module)){
+		return widget_check_group_permission($appear_group);
 	}else{
 		return false;
 	}
 }
 
-function block_check_uri_permission($appear_uri){
+function widget_check_uri_permission($appear_uri){
 	$appear_mode = MODE.'/'.MODE_ID;
 	foreach(input_split_comma($appear_uri) as $key => $value){
 		if($value ==  $appear_mode or $value == MODE){
@@ -87,12 +86,12 @@ function block_check_uri_permission($appear_uri){
 	return false;
 }
 
-function block_check_module_permission($appear_module){
+function widget_check_module_permission($appear_module){
 	return (count($appear_module) == 0 or in_array(MODULE, $appear_module));
 }
 
-function block_check_group_permission($appear_group){
-	if(in_array(2, $appear_group)){
+function widget_check_group_permission($appear_group){
+	if(in_array(0, $appear_group)){
 		return true;
 	}
 	if(count(array_intersect(ss('login_group'), $appear_group))){
@@ -100,17 +99,17 @@ function block_check_group_permission($appear_group){
 	}
 }
 
-function block_add_navigation($mode, $title){
+function widget_add_navigation($mode, $title){
 	config_append_assc('navigation', $mode, $title);
 	config_append('navigation_enabled', $mode);
 }
 
-function block_drop_navigation($mode){
+function widget_drop_navigation($mode){
 	config_drop_assc('navigation', $mode);
 	config_drop_by_value('navigation_enabled', $mode);
 }
 
-function block_add($title, $call_mode, $position='disabled', $form_mode='', $save_mode='', $sort_number=1){
+function widget_add($title, $call_mode, $position='disabled', $form_mode='', $save_mode='', $sort_number=1){
 	$insert_data = array(
 		'title' => (string) $title,
 		'config_form_mode' => (string) $form_mode,
@@ -123,10 +122,10 @@ function block_add($title, $call_mode, $position='disabled', $form_mode='', $sav
 		'sort_number' => $sort_number,
 		'section' => SECTION,
 	);
-	db_insert('block', $insert_data);
+	db_insert('widget', $insert_data);
 }
 
-function block_drop($call_mode){
-	db_drop_many('block', "call_mode='".addslashes((string)$call_mode)."'");
+function widget_drop($call_mode){
+	db_drop_many('widget', "call_mode='".addslashes((string)$call_mode)."'");
 }
 ?>

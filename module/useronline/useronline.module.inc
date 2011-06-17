@@ -1,7 +1,7 @@
 <?php
 execute_add_function('useronline');
-execute_add_function('useronline_block_cont');
-execute_add_function('useronline_block_user_list');
+execute_add_function('useronline_widget_cont');
+execute_add_function('useronline_widget_user_list');
 execute_add_function('useronline_set_access');
 execute_add_function('useronline_profile_test');
 
@@ -13,17 +13,17 @@ function useronline(){
 }
 
 
-function useronline_block_cont(){
+function useronline_widget_cont(){
 	$count = count(useronline_check_user());
 	$content = sprintf(tt('%d people are online.'), $count);
 	$content = '<a href="'.SECTION_URI.'useronline">'.$content.'</a>';
 	return $content;
 }
 
-function useronline_block_user_list(){
+function useronline_widget_user_list(){
 	$user_info = useronline_get_array_info();
 	$render_array = array('user' => $user_info);
-	return render($render_array, 'useronlineblock.tpl', 'useronlineblock');
+	return render($render_array, 'useronlinewidget.tpl', 'useronlinewidget');
 }
 
 function useronline_set_access(){

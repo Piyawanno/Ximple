@@ -7,7 +7,7 @@ class AdvertiseModel extends Model{
 		$this->uri->isList = false;
 		$this->address = $this->title(tt('address'));
 		$this->banner = $this->image(tt('banner'), 'files/advertise/');
-		$option = cc('advertise_block_position');
+		$option = cc('advertise_widget_position');
 		if(!is_array($option)) $option = array();
 		$this->position = $this->select(tt('position'), $option);
 		$this->description = $this->shortText(tt('advertising desciption'));

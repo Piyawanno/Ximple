@@ -184,15 +184,15 @@ input{
 	background:#c0c0ff;
 }
 
-/* ========= Blocks ========= */
-#block_left{
+/* ========= Widgets ========= */
+#widget_left{
 	width: 230px;
 	margin:5px 0px 0px 0px;
 	border:1px solid white;
 	padding:0;
 }
 
-.block_head h3{
+.widget_head h3{
 	background:url(../image/bar.png) no-repeat top left;
 	padding:8px 20px 8px 20px;
 	margin:0;
@@ -200,12 +200,12 @@ input{
 	color:white;
 }
 
-.block_head{
+.widget_head{
 	background:url(../image/bar.png) no-repeat bottom left;
 	padding-bottom:5px ;
 }
 
-.block_body ul li{
+.widget_body ul li{
 	list-style:none;
 	line-height:2.4em;
 	padding:0;
@@ -213,16 +213,16 @@ input{
 	border:1px solid white;
 }
 
-.block_body ul li.list_item{
+.widget_body ul li.list_item{
 	list-style:circle;
 }
 
-.block_body{
+.widget_body{
 	width:200px;
 	margin:15px 0px;
 }
 
-.block_body ul{
+.widget_body ul{
 	padding:0px;
 	margin-left:20px;
 }
@@ -231,7 +231,7 @@ input{
 	display:none;
 }
 
-.block_body a{
+.widget_body a{
 	display:block;
 }
 

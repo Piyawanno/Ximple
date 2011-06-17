@@ -4,14 +4,14 @@ global $menu_activated;
 $menu_activated = array();
 
 function menu_render(){
-	$column = array('id', 'title', 'uri', 'block');
+	$column = array('id', 'title', 'uri', 'widget');
 	$clause = 'WHERE section='.SECTION.' ORDER BY sort_number';
 	$data = db_select('menu', $column, $clause);
-	if(cc('menu_include_block')){
-		$block = menu_render_block($data);
+	if(cc('menu_include_widget')){
+		$widget = menu_render_widget($data);
 		foreach($data as $key => $value){
-			if($value['block'] != 0 and isset($block[$value['block']])){
-				$data[$key]['block'] = $block[$value['block']];
+			if($value['widget'] != 0 and isset($widget[$value['widget']])){
+				$data[$key]['widget'] = $widget[$value['widget']];
 			}
 		}
 	}
@@ -25,23 +25,23 @@ function menu_activate($mode){
 	$menu_activated[] = $mode;
 }
 
-function menu_render_block($data){
-	$block_id = '';
+function menu_render_widget($data){
+	$widget_id = '';
 	foreach($data as $key => $value){
-		if($value['block'] != 0){
-			$block_id .= 'id = '.$value['block'].' OR ';
+		if($value['widget'] != 0){
+			$widget_id .= 'id = '.$value['widget'].' OR ';
 		}
 	}
-	$block = array();
-	if(strlen($block_id)){
+	$widget = array();
+	if(strlen($widget_id)){
 		$column = array('id', 'title', 'body', 'position', 'call_mode', 'appear_group', 'appear_module');
-		$clause = 'WHERE '.substr($block_id, 0, -4);
-		$block_data = db_select('block', $column, $clause);
-		foreach($block_data as $key => $value){
-			$block[$key] = block_render_item($value, 'submenu.tpl');
+		$clause = 'WHERE '.substr($widget_id, 0, -4);
+		$widget_data = db_select('widget', $column, $clause);
+		foreach($widget_data as $key => $value){
+			$widget[$key] = widget_render_item($value, 'submenu.tpl');
 		}
 	}
-	return $block;
+	return $widget;
 }
 
 function menu_check_module($data){
@@ -73,7 +73,7 @@ function menu_add($mode, $title){
 	$inser_data = array(
 		'title' => (string) $title,
 		'URI' => (string) $mode,
-		'block' => 0,
+		'widget' => 0,
 		'sort_number' => 0,
 		'section' => SECTION,
 	);
