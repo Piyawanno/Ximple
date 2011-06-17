@@ -27,13 +27,15 @@ function customuri_post_render($render){
 		$clause = "WHERE section=".SECTION;
 		$data = db_select('customuri', array('original_URI', 'mapped_URI'), $clause);
 		$language = ss('language');
+		if(strlen($language)) $language = $language.'/';
+		else $language = '';
 		foreach($data as $key => $value){
 			$original = '"'.SECTION_URI.$value['original_URI'].'"';
-			$mapped = '"'.SECTION_URI.$language.'/'.$value['mapped_URI'].'"';
+			$mapped = '"'.SECTION_URI.$language.$value['mapped_URI'].'"';
 			$render = str_replace($original, $mapped, $render);
 			
-			$original = '"'.SECTION_URI.$language.'/'.$value['original_URI'].'"';
-			$mapped = '"'.SECTION_URI.$language.'/'.$value['mapped_URI'].'"';
+			$original = '"'.SECTION_URI.$language.$value['original_URI'].'"';
+			$mapped = '"'.SECTION_URI.$language.$value['mapped_URI'].'"';
 			$render = str_replace($original, $mapped, $render);
 		}
 	}
