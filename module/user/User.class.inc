@@ -145,7 +145,6 @@ class User extends Control{
 		$this->selectByID(array('avatar'), true);
 		if($avatarFile['size'] and cc('avatar_resizable')){
 			$path = ROOT_PATH.$this->data[$this->id]['avatar'];
-			echo($path.'<br />');
 			image_square_crop($avatarFile, $path, cc('avatar_size'));
 		}
 	}

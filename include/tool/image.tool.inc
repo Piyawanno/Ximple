@@ -23,7 +23,6 @@ function image_square_crop($file, $path, $size){
 		$src_size = min(imagesx($image_src), imagesy($image_src));
 		$image_dst = imageCreateTrueColor($size, $size);
 		imageCopyResized($image_dst, $image_src, 0, 0, 0, 0, $size, $size, $src_size, $src_size);
-		echo($size.', '.$src_size);
 		imageJPEG($image_dst, $path, 85);
 	}
 }

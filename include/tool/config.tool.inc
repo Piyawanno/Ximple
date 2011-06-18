@@ -257,6 +257,7 @@ function config_default(){
 		'tracker_time' => 604800,
 		'time_zone' => 'UTC',
 		'time_format' => 'd F Y',
+		'supported_language' => array(),
 	);
 }
 

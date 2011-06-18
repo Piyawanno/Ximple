@@ -117,7 +117,7 @@ function widget_add($title, $call_mode, $position='disabled', $form_mode='', $sa
 		'call_mode' => (string) $call_mode,
 		'position' => $position,
 		'appear_module' => (string) serialize(array()),
-		'appear_group' => (string) serialize(array(2)),
+		'appear_group' => (string) serialize(array(0)),
 		'body' => '',
 		'sort_number' => $sort_number,
 		'section' => SECTION,

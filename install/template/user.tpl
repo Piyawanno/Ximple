@@ -3,7 +3,9 @@
 <script type="text/javascript" src="<?=ROOT_URI?>include/external/jquery/jquery.js"></script>
 <script type="text/javascript" src="<?=ROOT_URI?>include/external/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="<?=ROOT_URI?>include/javascript/main.js"></script>
-<script type="text/javascript" src="<?=ROOT_URI?>include/javascript/formcheck.js"></script>
+<script type="text/javascript" src="<?=ROOT_URI?>include/javascript/form.js"></script>
+<script type="text/javascript" src="<?=ROOT_URI?>include/javascript/email.column.js"></script>
+<script type="text/javascript" src="<?=ROOT_URI?>module/user/user.js"></script>
 <script type="text/javascript" src="<?=ROOT_URI?>include/external/sha1.js"></script>
 <script type="text/javascript" src="<?=ROOT_URI?>include/external/cleditor/jquery.cleditor.js" ></script> 
 <div class="form">

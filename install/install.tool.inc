@@ -140,7 +140,7 @@ function install_check_sqlite(){
 /// Check ROOT_PATH.
 /// @return Result of ROOT_PATH checking.
 function install_check_path(){
-	$valid_path = file_exists(INCLUDE_PATH.'tool/main.tool.inc');
+	$valid_path = file_exists(ROOT_PATH.'include/tool/main.tool.inc');
 	if($valid_path){
 		$page ='<b>ROOT_PATH :</b> <b class="valid">OK</b><br />';
 		$next_enable = true;
@@ -313,7 +313,8 @@ function install_login(){
 
 function install_insert_user(){
 	install_db_init();
-	if(count(db_select('users', array('id'))) == 0){
+	$user = db_select('users', array('id'));
+	if(count($user) == 0){
 		$insert_data = array(
 			'login_name' => pp('login_name'),
 			'login_name_hash' => sha1(pp('login_name')),
@@ -428,14 +429,12 @@ function install_init_section(){
 function install_finish_message(){
 	$m = tt('%sHome Page%s of your website can be found here.');
 	$item  = '<li>'.sprintf($m, '<a href="'.ROOT_URI.'"><b>', '</b></a>').'</li>';
-	$m = tt('With %sAdmin Page%s, you can manage everthing on your website.');
-	$item .= '<li>'.sprintf($m, '<a href="'.ROOT_URI.'admin"><b>', '</b></a>').'</li>';
 	$m = tt('Now you can configurate your system on %sSection-Configuration%s.');
-	$item .= '<li>'.sprintf($m, '<a href="'.ROOT_URI.'admin/?/config_page"><b>', '</b></a>').'</li>';
+	$item .= '<li>'.sprintf($m, '<a href="'.ROOT_URI.'?/config"><b>', '</b></a>').'</li>';
 	$m = tt('If you want to extend your system with modules, you can go to %sLoad-Module%s to activate modules.');
-	$item .= '<li>'.sprintf($m, '<a href="'.ROOT_URI.'admin/?/load_module"><b>', '</b></a>').'</li>';
+	$item .= '<li>'.sprintf($m, '<a href="'.ROOT_URI.'?/module_manage"><b>', '</b></a>').'</li>';
 	$m = tt('You can use %sTheme Manage%s to customize looks and feels of your site.').'</li>';
-	$item .= '<li>'.sprintf($m, '<a href="'.ROOT_URI.'admin/?/select_themes"><b>', '</b></a>');
+	$item .= '<li>'.sprintf($m, '<a href="'.ROOT_URI.'?/theme_select"><b>', '</b></a>');
 	$remove   = tt('After this step, please remove directory "install" for security of your website.');
 	$thank    = tt('Have fun, %sXimple Team%s');
 	$thank    = sprintf($thank, '<a href="http://www.ximplesoft.com/">', '</a>');
@@ -445,4 +444,11 @@ function install_finish_message(){
 	return $message;
 }
 
+
+function install_set_path(){
+	define('FILES_PATH', ROOT_PATH.'files/');
+	define('INCLUDE_PATH', ROOT_PATH.'include/');
+	define('MODULE_PATH', ROOT_PATH.'module/');
+	define('THEME_PATH', ROOT_PATH.'theme/');
+}
 ?>

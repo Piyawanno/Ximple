@@ -7,7 +7,7 @@ function preconfig_init(){
 	include(INCLUDE_PATH.'tool/notify.tool.inc');
 	include(INCLUDE_PATH.'tool/document.tool.inc');
 	include(INCLUDE_PATH.'tool/count.tool.inc');
-	include(INCLUDE_PATH.'tool/block.tool.inc');
+	include(INCLUDE_PATH.'tool/widget.tool.inc');
 	include(MODULE_PATH.'module/module.module.inc');
 	define('MODE_PAGE', 0);
 }

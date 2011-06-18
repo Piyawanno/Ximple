@@ -1,7 +1,4 @@
 <?php
-
-if(!authority_group('module_admin')) error_denied();
-
 execute_add_function('module_manage');
 execute_add_function('module_init');
 execute_add_function('module_activate');

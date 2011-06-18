@@ -3,7 +3,7 @@
 /// This file save the access information of Ximple.
 
 
-// Ximple 0.4 supports mysql, pgsql, sqlite.
+// Ximple supports mysql.
 define('DB_TYPE','mysql');
 
 // Database-Configurations (SQLite does not need these configurations)

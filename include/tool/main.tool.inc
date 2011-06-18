@@ -50,7 +50,7 @@ function main_render(){
 	include(INCLUDE_PATH.'tool/search.tool.inc');
 	document_set_path(cc('home_label'), '');
 	extension_execute('pre_main_render');
-	$body = execute(MODE);
+	$body = main_render_body();
 	if(execute_as_site()){
 		header('Content-Type: text/html; charset=UTF-8');
 		$render = main_render_site($body);
@@ -58,6 +58,7 @@ function main_render(){
 		header('Content-Type: text/html; charset=UTF-8');
 		$render = main_render_db();
 	}elseif(execute_as_ajax()){
+		$body = extension_execute('pre_main_render_ajax', $body, $body);
 		header('Content-Type: text; charset=UTF-8');
 		$render = $body;
 	}elseif(execute_as_print()){
@@ -76,19 +77,20 @@ function main_render_site($body){
 	$render_array = array(
 		'body' => $body,
 		'path' => document_render_path(),
-		'section_name' => cc('section_name'),
-		'section_slogan' => cc('section_slogan'),
 		'menu' => menu_render(),
 		'widget' => widget_render(),
 		'notify' => notify_render(),
 		'head' => head_render(),
 	);
+	$render_array['section_name'] = cc('section_name');
+	$render_array['section_slogan'] = cc('section_slogan');
 	search_add_source_page($body);
 	$render = render($render_array, 'main.tpl', 'main');
 	return $render;
 }
 
 function main_render_print($body){
+	$body = extension_execute('pre_main_render_print', $body, $body);
 	$render_array = array(
 		'body' => $body,
 		'section_name' => cc('section_name'),
@@ -97,6 +99,11 @@ function main_render_print($body){
 	);
 	$render = render($render_array, 'print.tpl', 'print');
 	return $render;
+}
+
+function main_render_body(){
+	$body = execute(MODE);
+	return $body;
 }
 
 function main_count_visitor(){
@@ -135,9 +142,10 @@ function main_include(){
 function main_handle_install(){
 	$root_path = dirname(dirname(dirname(__FILE__))).'/';
 	if(state_is_install() or !is_file($root_path.'include/setup.php')){
-		include(INCLUDE_PATH.'tool/error.tool.inc');
-		include(INCLUDE_PATH.'tool/render.tool.inc');
+		include($root_path.'include/tool/error.tool.inc');
+		include($root_path.'include/tool/render.tool.inc');
 		define('ROOT_PATH', $root_path);
+		main_set_production_path();
 		$root_uri = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/';
 		define('ROOT_URI', $root_uri);
 		$error = 'Ximple is not installed on your system, please try to <a href="'.$root_uri.'install">install</a>';
@@ -300,9 +308,23 @@ function main_set_path(){
 
 function main_set_test_path(){
 	define('FILES_PATH', ROOT_PATH.'files/');
-	define('INCLUDE_PATH', ROOT_PATH.'test/include/');
-	define('MODULE_PATH', ROOT_PATH.'test/module/');
-	define('THEME_PATH', ROOT_PATH.'test/theme/');
+	if(is_dir(ROOT_PATH.'test/include/')){
+		define('INCLUDE_PATH', ROOT_PATH.'test/include/');
+	}else{
+		define('INCLUDE_PATH', ROOT_PATH.'include/');
+	}
+	
+	if(is_dir(ROOT_PATH.'test/module/')){
+		define('MODULE_PATH', ROOT_PATH.'test/module/');
+	}else{
+		define('MODULE_PATH', ROOT_PATH.'module/');
+	}
+	
+	if(is_dir(ROOT_PATH.'test/theme/')){
+		define('THEME_PATH', ROOT_PATH.'test/theme/');
+	}else{
+		define('THEME_PATH', ROOT_PATH.'theme/');
+	}
 }
 
 function main_set_production_path(){
