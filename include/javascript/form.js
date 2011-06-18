@@ -5,7 +5,6 @@ var imgWrong = '<img class="warning_icon" src="'+rootURI+'files/icon/stop.png" /
 var formLock = false;
 
 function checkForm(notNull, label){
-	formatTextIE7();
 	if(formLock){
 		alert(formNotCorrect);
 		return false;
@@ -18,13 +17,6 @@ function checkForm(notNull, label){
 	return ok;
 }
 
-function formatTextIE7(){
-	if(isIE7()){
-		$('textarea').each(function(index){
-			$(this).val($(this).val().replace('\n', '<br />'));
-		});
-	}
-}
 
 function checkNotNull(notNull, label){
 	var ok = true;

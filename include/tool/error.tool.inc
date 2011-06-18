@@ -1,7 +1,6 @@
 <?php
 
 function error_fatal($title, $message){
-	echo('hee');
 	header('HTTP/1.1 500 Internal Server Error');
 	$data = array(
 		'title' => $title,

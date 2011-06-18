@@ -134,7 +134,7 @@ function main_include(){
 	include(INCLUDE_PATH.'tool/translate.tool.inc');
 	include(INCLUDE_PATH.'database/'.DB_TYPE.'.inc');
 	if(!function_exists('mime_content_type')){
-		include_once('external/upgradephp/ext/mime.php');
+		include_once(INCLUDE_PATH.'external/upgradephp/ext/mime.php');
 	}
 }
 

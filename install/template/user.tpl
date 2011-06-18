@@ -10,7 +10,7 @@
 <script type="text/javascript" src="<?=ROOT_URI?>include/external/cleditor/jquery.cleditor.js" ></script> 
 <div class="form">
 <a name="edit"></a>
-<form enctype="multipart/form-data" method="post" action="index.php?mode=step4" name="xblcform" onsubmit="return formCheck()">
+<form enctype="multipart/form-data" method="post" action="index.php?mode=step4" name="xblcform" onsubmit="return checkForm()">
 <h2><?=$title?></h2>
 	<p>
 	<?=tt('<b>Important</b> : Please, remember this information for root\'s loging-in. Root is the person, who can access and manage everything in system.')?>
