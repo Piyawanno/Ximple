@@ -3,7 +3,7 @@ Requirement
 1. PHP5
 2. MySQL (4.1 or greater)
 3. Apache with mod_php
-4. PHP 
+4. PHP gd
 
 Installation
 ============

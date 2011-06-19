@@ -14,10 +14,10 @@ function error_fatal($title, $message){
 
 function error_syslog($message, $redirect=null){
 	header('HTTP/1.1 500 Internal Server Error');
-	
+
 	if($redirect) $uri = SECTION_URI.Q.$redirect;
 	else $uri = SECTION_URI;
-	
+
 	$message .= sprintf(tt('<p>You should go to <a href="%s">this page</a> for further action.</p>'), $uri);
 	$data = array(
 		'title' => tt('System error occurred'),
@@ -30,16 +30,24 @@ function error_syslog($message, $redirect=null){
 }
 
 function error_denied(){
+	io_write_log(tt('Invalid access for called page.'), 'denied');
 	header('HTTP/1.1 402 Access Denied');
-	$uri = SECTION_URI;
-	$message  = tt('Invalid access for called page.');
-	$message .= sprintf(tt('<p>You should go to <a href="%s">this page</a> for further action.</p>'), $uri);
+	if(authority_is_guest()){
+		if(!function_exists('syswidget_login')){
+			require(INCLDUE_PATH.'tool/syswidget.tool.inc');
+		}
+		$data = array('form' => syswidget_login());
+		$message = render($data, 'error_login.tpl', 'error_login');
+	}else{
+		$uri = SECTION_URI;
+		$message  = tt('Invalid access for called page.');
+		$message .= sprintf(tt('<p>You should go to <a href="%s">this page</a> for further action.</p>'), $uri);
+	}
 	$data = array(
 		'title' => tt('System error occurred'),
 		'message' => $message
 	);
 	db_rollback();
-	io_write_log(tt('Invalid access for called page.'), 'denied');
 	echo(render($data, 'error.tpl', 'error_syslog'));
 	die();
 }

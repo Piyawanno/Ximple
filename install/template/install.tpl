@@ -17,7 +17,7 @@
 		<div id="head">
 			<div id="install_label">
 				<h1><?=$title;?></h1>
-				<h1><?=tt('X-BLC Installation');?></h1>
+				<h1><?=tt('XimpleCMS Installation');?></h1>
 			</div>
 			<div id="install_icons">
 				<p><?=tt('Installation Step');?></p>
