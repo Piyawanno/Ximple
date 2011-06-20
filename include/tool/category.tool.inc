@@ -1,4 +1,11 @@
 <?php
+/// @file
+/// This file provides functions for category management.
+
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
+
+/// Initial a new category.
+/// @param $mode : MODE of content to initial.
 function category_init($mode){
 	$exist = db_select_single_column('category', 'id', "WHERE mode='".$mode."' AND section=".SECTION);
 	if(count($exist) == 0){

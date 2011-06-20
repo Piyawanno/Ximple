@@ -5,7 +5,7 @@
 /// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
 
 /// Security Note
-/// To avoid system attack by password eavesdropping, Ximple use
+/// To avoid system attack by password eavesdropping, XimpleCMS use
 /// JavaScript to encrypt User's password with SHA1 algorithm and
 /// a random key (saved in $_SESSION['login_salt']).
 /// Encryption of User's password can be given by :
@@ -189,11 +189,15 @@ function authority_define_const(){
 		define('USER_PASSWD', ss('login_password'));
 	}
 }
- 
+
+/// Check login request of User.
+/// @return TRUE, if User send request for login.
 function authority_is_login(){
 	return pp('login') == 'login';
 }
 
+/// Check logout request of User.
+/// @return TRUE, if User send request for logout.
 function authority_is_logout(){
 	return pp('logout') != null;
 }

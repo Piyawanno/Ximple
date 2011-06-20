@@ -1,7 +1,9 @@
 <?php
 
 global $cache_lock_page_cache;
+global $cache_lock;
 $cache_lock_page_cache = false;
+$cache_lock = false;
 
 function cache_get_dir($mode){
 	$cache_dir  = FILES_PATH.'cache/';
@@ -18,12 +20,30 @@ function cache_lock_page(){
 	$cache_lock_page_cache = true;
 }
 
+function cache_lock(){
+	global $cache_lock;
+	$cache_lock = true;
+}
+
+function cache_is_lock(){
+	global $cache_lock;
+	return $cache_lock;
+}
+
+function cache_release(){
+	global $cache_lock;
+	$cache_lock = false;
+}
+
 function cache_check_page($file_name){
 	return is_file($file_name);
 }
 
 function cache_show_page($file_name){
-	echo(postrender_get_site_info(io_read_file($file_name)));
+	$render = io_read_file($file_name);
+	$render = postrender_get_read_number($render);
+	$render = postrender_get_site_info($render);
+	echo($render);
 }
 
 function cache_save_page($page, $file_name){

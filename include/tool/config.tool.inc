@@ -1,31 +1,65 @@
 <?php
+/// @file
+/// This file provides functions for configuration management in XimpleCMS.
 
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
+
+/// Configuration concept in XimpleCMS
+/// XimpleCMS uses serialization to store configuration values in files.
+/// The saved files are in files/config.
+/// Due to the serialization and KISS concept in XimpleCMS,
+/// you should not store many configuration values in the system configuration.
+/// For modules with heavy weight configuration (NOT RECOMMENDED),
+/// it should have own configuration system.
+
+/// Temporary change of configuration value.
+/// @param $key : reference key of configuration.
+/// @param $value : value of configuration.
 function config_change($key, $value){
 	$GLOBALS['tmp_config'][$key] = $value;
 }
 
+/// Permanent change of configuration value (use with configsave).
+/// @param $key : reference key of configuration.
+/// @param $value : value of configuration.
 function config_set($key, $value){
 	$GLOBALS['config'][$key] = $value;
 }
 
+/// Append a configuration value in to the configuration, which is an array.
+/// @param $key : reference key of configuration.
+/// @param $value : value of configuration.
 function config_append($key, $value){
 	$GLOBALS['config'][$key][] = $value;
 }
 
+/// Append a configuration value in to the configuration, which is an associative array.
+/// @param $name : reference key of configuration.
+/// @param $key : associative key of configuration.
+/// @param $value : value of configuration.
 function config_append_assc($name, $key, $value){
 	$GLOBALS['config'][$name][$key] = $value;
 }
 
+/// Drop a configuration value.
+/// @param $key : reference key of configuration.
 function config_drop($key){
 	unset($GLOBALS['config'][$key]);
 }
 
+/// Check existence of a configuration value.
+/// @param $name : reference key of configuration.
+/// @param $value : value of configuration.
 function config_has_value($name, $value){
 	$config = cc($name);
 	if(!is_array($config)) $config = array();
 	return in_array($value, $config);
 }
 
+
+/// Drop a configuration value, which have the same value as the given value.
+/// @param $key : reference key of configuration.
+/// @param $value : value of configuration.
 function config_drop_by_value($key, $value){
 	if(isset($GLOBALS['config'][$key]) and is_array($GLOBALS['config'][$key])){
 		$conf = $GLOBALS['config'][$key];
@@ -37,10 +71,14 @@ function config_drop_by_value($key, $value){
 	}
 }
 
+/// Drop a configuration value contained in an associative array.
+/// @param $name : reference key of configuration.
+/// @param $key : associative key of configuration.
 function config_drop_assc($name, $key){
 	unset($GLOBALS['config'][$name][$key]);
 }
 
+/// Save entire configuration to file.
 function config_save(){
 	$config_dir = FILES_PATH.'config/';
 	if(!is_dir($config_dir)) mkdir($config_dir);
@@ -48,6 +86,9 @@ function config_save(){
 	cache_clear_section();
 }
 
+/// Default module requirement of XimpleCMS 
+/// Modules in this array are required module for XimpleCMS.
+/// @return Array of default module requirement.
 function config_default_require(){
 	return array(
 		'widget' => 'Widget.class.inc',
@@ -80,6 +121,8 @@ function config_default_require(){
 	);
 }
 
+/// Default module name of XimpleCMS.
+/// @return Array of default module.
 function config_default_module_name(){
 	return array(
 		'about' => 'About Us',
@@ -204,6 +247,8 @@ function config_default_role(){
 	return $default;
 }
 
+/// Default configuration of XimpleCMS.
+/// @return Array of default configuration.
 function config_default(){
 	return array(  
 		'theme' => 'bluesky',
@@ -261,6 +306,11 @@ function config_default(){
 	);
 }
 
+/// Check required values of given configuration.
+/// If the given configuration does not have the required values,
+/// the default values will be set.
+/// @param $config : Given configuration.
+/// @return Configuration with required values.
 function config_check_default($config){
 	$default = config_default();
 	foreach($default as $key=>$value){
@@ -276,6 +326,8 @@ function config_check_default($config){
 	return $config;
 }
 
+/// Translate configuration.
+/// @return Translated configuration.
 function config_translate(){
 	$GLOBALS['untranslated_config'] = $GLOBALS['config'];
 	$GLOBALS['config'] = translate_content($GLOBALS['config'], 'config', SECTION);

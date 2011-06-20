@@ -66,6 +66,7 @@ class ForumEntry extends Content{
 	
 	public function insert(){
 		Control::insert();
+		count_increase('contribution', USER_ID);
 		$this->selectByID($this->column);
 		$this->dataByID['category'] = forum_get_category_id($this->dataByID['forum']);
 		$this->insertTracker('write');

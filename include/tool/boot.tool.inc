@@ -1,5 +1,10 @@
 <?php
+/// @file
+/// This file provides function for bootstrap of XimpleCMS.
 
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
+
+/// Bootstrap of XimpleCMS.
 function boot(){
 	session_start();
 	require('precache.tool.inc');
@@ -15,5 +20,4 @@ function boot(){
 		main_exec();
 	}
 }
-
 ?>
