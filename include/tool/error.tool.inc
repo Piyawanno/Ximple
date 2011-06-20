@@ -1,5 +1,12 @@
 <?php
+/// @file
+/// This file provides functions for error handling in XimpleCMS.
+///
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
 
+/// Fatal error : stop process and give User some information.
+/// @param $title : title of error.
+/// @param $message : information about error.
 function error_fatal($title, $message){
 	header('HTTP/1.1 500 Internal Server Error');
 	$data = array(
@@ -12,6 +19,10 @@ function error_fatal($title, $message){
 	die();
 }
 
+/// Acceptable error : do not stop process,
+/// give user some information, write information in log file.
+/// @param $message : information about error.
+/// @param $redirect : target URI for redirection.
 function error_syslog($message, $redirect=null){
 	header('HTTP/1.1 500 Internal Server Error');
 
@@ -29,6 +40,7 @@ function error_syslog($message, $redirect=null){
 	die();
 }
 
+/// Error by access denied : not logged in User => Login form, else stop process.
 function error_denied(){
 	io_write_log(tt('Invalid access for called page.'), 'denied');
 	header('HTTP/1.1 402 Access Denied');
@@ -52,6 +64,9 @@ function error_denied(){
 	die();
 }
 
+/// Database error : write log and stop process.
+/// @param $qurey : database query.
+/// @param $error : database error message.
 function error_db_log($query, $error){
 	$message = 'Database error : '.$error.' by query : '.$query.' ';
 	if(!state_is_product()){
@@ -63,6 +78,7 @@ function error_db_log($query, $error){
 	}
 }
 
+/// Error by database connection : stop process.
 function error_db_connect(){
 	$message = 'Ximple can not connect to database, please check your database setup.';
 	if(!state_is_product()){
@@ -73,6 +89,7 @@ function error_db_connect(){
 	}
 }
 
+/// Error by page not found : stop process.
 function error_not_found(){
 	header("HTTP/1.0 404 Not Found");
 	$message = 'The requested page can not be found on the server.';

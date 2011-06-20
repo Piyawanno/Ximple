@@ -1,4 +1,20 @@
 <?php
+/// @file
+/// This file provides functions for execution of called functions using XimpleMODE and XimpleURI.
+///
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
+
+/// XimpleMODE is a string to reference any callable functions or object methods in XimpleCMS.
+/// XimpleMODE is composition of three string parts separated by under scroll sign(_).
+/// The first part give us module name of the called functions.
+/// The second part is name of the module extension (optional).
+/// For modules with multiple classes, module extension is very useful.
+/// There is one main class without extension
+/// Other classes can be referenced by its extension.
+/// The last part of XimpleMODE is function reference.
+
+/// Internal global variables for execute-tool.
+/// These variables should not be used outside this file.
 
 global $execute_callable, $execute_mode, $execute_class, $execute_class_extension;
 

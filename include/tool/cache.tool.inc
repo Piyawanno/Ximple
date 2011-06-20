@@ -25,14 +25,14 @@ function cache_lock(){
 	$cache_lock = true;
 }
 
-function cache_is_lock(){
-	global $cache_lock;
-	return $cache_lock;
-}
-
 function cache_release(){
 	global $cache_lock;
 	$cache_lock = false;
+}
+
+function cache_is_lock(){
+	global $cache_lock;
+	return $cache_lock;
 }
 
 function cache_check_page($file_name){
