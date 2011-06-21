@@ -3,7 +3,7 @@
 	<?php if($meta->isAjax):?>
 		<form enctype="multipart/form-data" method="post" action="<?=SECTION_URI.Q.$meta->mode?>" name="ximpleform" onsubmit="return <?=$meta->ajaxFunction?>(this, notNull<?=$meta->id?>, label<?=$meta->id?>)" id="<?=$meta->id?>">
 	<?php else:?>
-		<form enctype="multipart/form-data" method="post" action="<?=SECTION_URI.Q.$meta->mode?>" name="ximpleform" onsubmit="return checkForm(notNull<?=$meta->id?>, label<?=$meta->id?>)" id="<?=$meta->id?>">
+		<form enctype="multipart/form-data" method="post" action="<?=SECTION_URI.Q.$meta->mode?>" name="ximpleform" onsubmit="return checkForm(notNull<?=$meta->id?>, label<?=$meta->id?>)" id="form_<?=$meta->id?>">
 	<?php endif?>
 	<?=$rendered_form?>
 	<!--{additional_form}-->
