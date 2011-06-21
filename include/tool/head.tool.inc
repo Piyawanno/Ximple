@@ -7,7 +7,6 @@
 
 /// Internal global variables for head-tool.
 /// These variables should not be used outside this file.
-
 global $head_css, $head_js, $head_js_array, $head_js_var, $head_print_css;
 
 $head_css = array(

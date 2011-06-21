@@ -6,17 +6,28 @@
 
 /// XimpleMODE is a string to reference any callable functions or object methods in XimpleCMS.
 /// XimpleMODE is composition of three string parts separated by under scroll sign(_).
+/// For example : blog_write, gallery_config_save.
 /// The first part give us module name of the called functions.
 /// The second part is name of the module extension (optional).
 /// For modules with multiple classes, module extension is very useful.
-/// There is one main class without extension
+/// There is one main class without extension.
 /// Other classes can be referenced by its extension.
 /// The last part of XimpleMODE is function reference.
 
+/// XimpleURI is the string for function execution.
+/// It gives XimpleMODE to reference function and other parts to give function parameters.
+/// Pattern : XimpleMODE/ID/parameter_key/parameter_value/ parameter_key/parameter_value/...
+/// Note that ID is optional.
+
+/// Security Concept :
+/// Only registered function (per execute_add_function())
+/// and class method (per execute_add_class() and execute_add_extended_class()) can be executed.
+/// See more : class/Authority.class.inc
+
 /// Internal global variables for execute-tool.
 /// These variables should not be used outside this file.
-
-global $execute_callable, $execute_mode, $execute_class, $execute_class_extension;
+global $execute_callable, $execute_mode;
+global $execute_class, $execute_class_extension;
 
 $execute_callable = array();
 $execute_class_extension = array();

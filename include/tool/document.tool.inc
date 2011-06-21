@@ -6,7 +6,6 @@
 
 /// Internal global variables for document-tool.
 /// These variables should not be used outside this file.
-
 global $document_title, $document_description;
 global $document_keywords, $document_redirect;
 global $document_is_back, $document_form, $document_path;
