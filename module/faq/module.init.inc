@@ -13,16 +13,16 @@ function module_init_faq(){
 	
 	$faq = new FAQ();
 	$faq->initModule('FAQ.class.inc');
-	module_add_role('faq_admin', 'FAQ Administrator', 'Who can configure, edit and drop Faq');
-	module_add_role('faq_moderator', 'FAQ Moderator', 'Who can edit and drop faq.');
+	module_add_role('faq_admin', 'FAQ Administrator', 'Who can write, edit, drop and configure Faq');
+	module_add_role('faq_contributor', 'FAQ Contributor', 'Who can write and edit own question.');
 	
 	module_add_panel('FAQ', 'faq_admin', 'category/module/faq', 'FAQ category');
-	module_add_panel('FAQ', 'faq_admin', 'faq_arrange', 'organize FAQ page ');
+	module_add_panel('FAQ', 'faq_admin', 'faq_arrange', 'manage and sort FAQ');
 	module_add_panel('FAQ', 'faq_admin', 'faq_list', 'list all questions');
 	module_add_panel('FAQ', 'faq_admin', 'faq_write', 'write new question');
 
-	module_add_panel('FAQ', 'faq_moderator', 'faq_list', 'list all questions');
-	module_add_panel('FAQ', 'faq_moderator', 'faq_write', 'write new question');
+	module_add_panel('FAQ', 'faq_contributor', 'faq_list', 'list all questions');
+	module_add_panel('FAQ', 'faq_contributor', 'faq_write', 'write new question');
 	
 	widget_add_navigation('faq', tt('FAQ'));
 	

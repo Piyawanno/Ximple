@@ -12,26 +12,25 @@ class FAQ extends Control{
 		$this->setAdmin('faq_admin');
 		$this->init(new FAQModel());
 		document_set_path($this->moduleTitle, $this->moduleName);
-		$this->writeLabel = tt('welcom to FAQ');
 	}
 	
 	function index(){
 		head_add_css('faq.css');
-		$clause = 'WHERE section='.SECTION." AND mode='faq'";
-		$category = db_select_single_column('category', 'category', $clause);
-#		$category = db_select('category', array('id', 'category'), $clause);
-#		$this->select($this->column, $clause); # select all coulmn
-#		print_r($category);
-		$selectedCategory = gg('selected_category');
-		$selectClause = 'WHERE section='.SECTION." AND status='1'";
-		if (!empty($selectedCategory)) $selectClause = $selectClause." AND category='$selectedCategory'";
-		$this->select(array('id', 'question', 'answer'), $selectClause);
+		$clause = 'WHERE section='.SECTION.' AND status=1';
+		$this->select($this->column, $clause);
+		$category = array();
+		$data = array();
+		foreach($this->data as $key => $value){
+			$cid = $value['category']['id'];
+			$category[$cid] = $value['category'];
+			$data[$cid][$key] = $value;
+			
+		}
 		$renderArray = array(
-			'category' => $category,
-			'selected_category' => $selectedCategory,
-			'faq_data' => $this->data
+			'data' => $data,
+			'category' => $category
 		);
-		$page = render($renderArray, 'faqdisplay.tpl', 'show_faq');
+		$page = render($renderArray, 'faq.tpl', 'show_faq');
 		return $page;
 	}
 	
@@ -43,28 +42,21 @@ class FAQ extends Control{
 		document_set_path(tt('List of FAQ'));
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->defaultOrder = 'category';
-		if(mid()) $mode = mm().'/'.mid();
-		else $mode = mm();
-		$this->listMeta->mode = $mode;
 		$this->setListWriteIcon(tt('Add new FAQ'));
 		$this->setListEditIcon();
 		$this->setListDropIcon();
 		$this->selectListPage(20, 'WHERE (section='.SECTION.')');
-#		print_r($this->data);
-		foreach($this->data as $key => $value){
-			$this->data[$key]['category'] = $value['category']['category'];
-		}
 		return $this->renderListPage();
 	}
 	
 	private function setAccess(){
 		$this->addAccessMethod('guest', 'index');
-		$this->addAccessMethod('faq_moderator', 'write');
-		$this->addAccessMethod('faq_moderator', 'insert');
-		$this->addAccessMethod('faq_moderator', 'edit');
-		$this->addAccessMethod('faq_moderator', 'update');
-		$this->addAccessMethod('faq_moderator', 'drop');
-		$this->addAccessMethod('faq_moderator', 'listPage');
+		$this->addAccessMethod('faq_contributor', 'write');
+		$this->addAccessMethod('faq_contributor', 'insert');
+		$this->addAccessMethod('faq_contributor', 'edit');
+		$this->addAccessMethod('faq_contributor', 'update');
+		$this->addAccessMethod('faq_contributor', 'drop');
+		$this->addAccessMethod('faq_contributor', 'listPage');
 	}
 	
 	private function setAction(){
