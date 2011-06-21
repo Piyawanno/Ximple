@@ -34,6 +34,11 @@ $execute_class_extension = array();
 $execute_class = array();
 $execute_mode = 0;
 
+/// Execute given XimpleMODE.
+/// @param $mode : given XimpleMODE
+/// @param $params : array of parameters for called function or method
+/// @param $result : result from called function or method
+/// @return Result from called function or method.
 function execute($mode, $params=null, $result=null){
 	global $execute_callable;
 	list($module, $extension) = execute_get_module($mode);
@@ -46,6 +51,11 @@ function execute($mode, $params=null, $result=null){
 	}
 }
 
+/// Execute given XimpleURI.
+/// @param $uri : given XimpleURI
+/// @param $params : array of parameters for called function or method
+/// @param $result : result from called function or method
+/// @return Result from called function or method
 function execute_string($uri, $params=null, $result=null){
 	$uri = execute_parse_smart_uri('/'.$uri);
 	globalvar_set_get($uri);
@@ -56,6 +66,12 @@ function execute_string($uri, $params=null, $result=null){
 	return $result;
 }
 
+/// Execute object method by given XimpleMODE.
+/// @param $mode : given XimpleMODE
+/// @param $module : name of module containing called object.
+/// @param $params : array of parameters for called method
+/// @param $result : result from called method
+/// @return Result from called  method
 function execute_oop($mode, $module, $params, $result){
 	$class = execute_get_class($mode, $module);
 	$success = false;
@@ -79,6 +95,8 @@ function execute_oop($mode, $module, $params, $result){
 	return $result;
 }
 
+/// Add function as executable function.
+/// @param $mode : name of function
 function execute_add_function($mode){
 	global $execute_callable;
 	if(!in_array($mode, $execute_callable)){
@@ -86,6 +104,9 @@ function execute_add_function($mode){
 	}
 }
 
+/// Add class as executable class.
+/// @param $module : name of module containing called object
+/// @param $class : name of class
 function execute_add_class($module, $class){
 	global $execute_class;
 	include_once(INCLUDE_PATH.'class/Control.class.inc');
@@ -97,6 +118,11 @@ function execute_add_class($module, $class){
 	}
 }
 
+
+/// Add class as executable class with module extension.
+/// @param $module : name of module containing called object
+/// @param $extension : name of module extension
+/// @param $class : name of class
 function execute_add_extended_class($module, $extension, $class){
 	global $execute_class_extension;
 	include_once(INCLUDE_PATH.'class/Control.class.inc');
@@ -113,6 +139,9 @@ function execute_add_extended_class($module, $extension, $class){
 	
 }
 
+/// Get class, which is mapped to given XimpleMODE.
+/// @param $mode : given XimpleMODE
+/// @param $module : name of module containing called object
 function execute_get_class($mode, $module){
 	global $execute_class;
 	global $execute_class_extension;
@@ -130,68 +159,91 @@ function execute_get_class($mode, $module){
 	}
 }
 
+/// Set execution as Site (regular web site).
 function execute_set_site(){
 	global $execute_mode;
 	$execute_mode = 0;
 }
 
-
+/// Set execution as Database Handler (show nothing only redirect).
 function execute_set_db(){
 	global $execute_mode;
 	$execute_mode = 1;
 }
 
+/// Set execution as Ajax Site (no additional part like menu or widget).
 function execute_set_ajax(){
 	global $execute_mode;
 	$execute_mode = 2;
 }
 
+/// Set execution as File (special HTTP header).
 function execute_set_file(){
 	global $execute_mode;
 	$execute_mode = 3;
 }
 
+/// Set execution as Print Page (with print style sheet and print script).
 function execute_set_print(){
 	global $execute_mode;
 	$execute_mode = 4;
 }
 
+/// Check execution as Site.
+/// @return TRUE, if execution is set as Site.
 function execute_as_site(){
 	global $execute_mode;
 	return $execute_mode == 0;
 }
 
+/// Check execution as Database Hanler.
+/// @return TRUE, if execution is set as Database Hanler.
 function execute_as_db(){
 	global $execute_mode;
 	return $execute_mode == 1;
 }
 
+/// Check execution as Ajax.
+/// @return TRUE, if execution is set as Ajax.
 function execute_as_ajax(){
 	global $execute_mode;
 	return $execute_mode == 2;
 }
 
+/// Check execution as File.
+/// @return TRUE, if execution is set as File.
 function execute_as_file(){
 	global $execute_mode;
 	return $execute_mode == 3;
 }
 
+/// Check execution as Print.
+/// @return TRUE, if execution is set as Print.
 function execute_as_print(){
 	global $execute_mode;
 	return $execute_mode == 4;
 }
 
+/// Check given function name callable.
+/// @param $mode : name of function.
+/// @return TRUE, if function name is callable.
 function execute_is_callable($mode){
 	global $execute_callable;
 	return in_array($mode, $execute_callable) or 1;
 }
 
+/// Get module name from given XimpleMODE.
+/// @param $mode : XimpleMODE.
+/// @return Name of module.
 function execute_get_module($mode){
 	$split = split('_', $mode);
 	if(count($split) > 1) return array($split[0], $split[1]);
 	else return array($split[0], null);
 }
 
+/// Include required files for execution.
+/// @param $module : name of module containing called object
+/// @param $extension : name of module extension
 function execute_include_files($module, $extension){
 	$module_require = cc('module_require');
 	if(isset($module_require[$module])){
@@ -207,6 +259,8 @@ function execute_include_files($module, $extension){
 	}
 }
 
+/// Low level of including required file for execution.
+/// @param $require : absolute path of required file.
 function execute_include($require){
 	if(is_file($require)){
 		include_once($require);
@@ -217,6 +271,8 @@ function execute_include($require){
 	}
 }
 
+/// Parse requested URI to parameter array.
+/// @param $uri : requested URI.
 function execute_parse_smart_uri($uri){
 	$result = array();
 	$splitted = split('\/',$uri);

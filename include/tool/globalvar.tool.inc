@@ -4,9 +4,10 @@
 /// The global variables should be read only to minimize error pron.
 /// The followed functions are exceptions
 ///
-/// @author bow_der_kleine <bow_der_kleine@yahoo.de>
-/// @state complete
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
 
+/// Internal global variables for globalvar-tool.
+/// These variables should not be used outside this file.
 global $global_get, $global_post;
 
 $global_get  = $_GET;

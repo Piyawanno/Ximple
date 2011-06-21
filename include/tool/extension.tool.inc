@@ -1,5 +1,22 @@
 <?php
+/// @file
+/// This file provides functions for execution of extensions.
+///
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
 
+/// Extension is the further concept to make Ximple more extensible.
+/// Unlike regular module, which is called from outside of XimpleCMS,
+/// extensions are called from part of process in XimpleCMS.
+/// In other words, we can inject some functions inside the code.
+/// Hence, core of XimpleCMS can also be extended.
+/// Moreover, extensions can also be extended.
+/// Security concept of extension is the same as regular module.
+
+/// Execute given extension.
+/// @param $reference : reference name of extension.
+/// @param $params : array of parameters for called function or method
+/// @param $result : result from called function or method
+/// @return Result from extemsion.
 function extension_execute($reference, $params=null, $result=null){
 	$extension = cc('extension');
 	if(isset($extension[$reference])){
@@ -10,6 +27,9 @@ function extension_execute($reference, $params=null, $result=null){
 	return $result;
 }
 
+/// Add extension to given reference.
+/// @param $reference : reference name of extension.
+/// @param $extension_name : name of extension (XimpleMODE).
 function extension_add($reference, $extension_name){
 	$extension = cc('extension');
 	if(!is_array($extension)){
@@ -24,6 +44,9 @@ function extension_add($reference, $extension_name){
 	config_set('extension', $extension);
 }
 
+/// Drop extension from system.
+/// @param $reference : reference name of extension.
+/// @param $extension_name : name of extension (XimpleMODE).
 function extension_drop($reference, $extension_name){
 	$extension = cc('extension');
 	if(!is_array($extension)){
