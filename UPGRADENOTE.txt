@@ -63,3 +63,5 @@ This file contains TO-DO list for additional procedure by software upgrading.
 - ALTER TABLE flashblock RENAME flashwidget;
 
 - ALTER TABLE menu CHANGE block widget int;
+
+- ALTER TABLE section ADD `uri` VARCHAR(250);

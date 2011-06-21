@@ -7,7 +7,8 @@ define('SECTION_SCRIPT',
 "<?php
 	define('BOOT_TIME', (float)microtime(true));
 	define('SECTION', %s);
-	require('../../include/tool/boot.tool.inc');
+	define('SECTION_URI', '%s');
+	require('%sinclude/tool/boot.tool.inc');
 	boot();
 ?>");
 
@@ -74,7 +75,7 @@ class Section extends Control{
 	public function redirect(){
 		$this->id = (int)gg('id');
 		$this->selectByID($this->column);
-		header('Location: '.ROOT_URI.'section/'.$this->dataByID['path']);
+		header('Location: '.$this->dataByID['uri']);
 		die();
 	}
 	
@@ -85,17 +86,20 @@ class Section extends Control{
 		head_add_js_var('nameExists', tt('Section name exists.'));
 		head_add_js_var('pathExists', tt('Section path exists.'));
 		head_add_js_var('pathNotConformed', tt('Section path is not conformed.'));
+		head_add_js_var('uriNotMatch', tt('Given URI is not conformed.'));
 	}
 	
 	private function renamePath(){
-		$old_path =  ROOT_PATH.'section/'.$this->dataByID['path'];
-		$new_path =  ROOT_PATH.'section/'.pp('path');
-		if(is_dir($old_path)){
-			@rename($old_path, $new_path) or $success = false;
+		$oldPath =  ROOT_PATH.'section/'.$this->dataByID['path'];
+		$newPath =  ROOT_PATH.'section/'.pp('path');
+		if(is_dir($oldPath)){
+			if(is_file($oldPath.'/index.php')) unlink($oldPath.'/index.php');
+			if(is_file($oldPath.'/.htaccess')) unlink($oldPath.'/.htaccess');
+			@rename($oldPath, $newPath) or $success = false;
 		}else{
-			@mkdir($old_path) or $success = false;
-			io_write_file($old_path.'/index.php', sprintf(SECTION_SCRIPT, $this->id));
+			@mkdir($oldPath) or $success = false;
 		}
+		$this->writeScript($newPath.'/');
 	}
 	
 	private function updateConfig(){
@@ -112,11 +116,17 @@ class Section extends Control{
 		if(!is_dir($path)) @mkdir($path) or $success = false;
 		if($success) Control::insert();
 		if($success and !empty($this->id)){
-			io_write_file($path.'index.php', sprintf(SECTION_SCRIPT, $this->id));
+			$this->writeScript($path);
 		}else{
 			$p = tt('Section can not be created. Please check permission of %s.');
 			notify_add_error(sprintf($p, ROOT_PATH.'section'));
 		}
+	}
+	
+	private function writeScript($path){
+		$script = sprintf(SECTION_SCRIPT, $this->id, pp('uri'), ROOT_PATH);
+		io_write_file($path.'index.php', $script);
+		io_write_file($path.'.htaccess', io_read_file(ROOT_PATH.'.htaccess'));
 	}
 	
 	private function initConfig(){

@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).bind("ready", function(){
 	$('#section_path').keyup(function(){
 		formLock = true;
 		var reg = /^[a-zA-Z0-9_\-]+$/;
@@ -41,6 +41,18 @@ $(document).ready(function(){
 					formLock = false;
 				}
 			});
+		}
+	});
+	
+	$('#section_uri').keyup(function(){
+		var uriMatch = /http:\/\/[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}\//;
+		if(uriMatch.test($(this).val())){
+			$('#info_section_uri').html(imgCorrect);
+			formLock = false;
+		}else{
+			$('#info_section_uri').css({'color':'red'});
+			$('#info_section_uri').html(imgWrong + uriNotMatch);
+			formLock = true;
 		}
 	});
 });

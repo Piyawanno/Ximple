@@ -36,6 +36,7 @@ class User extends Control{
 	public function write(){
 		$this->moduleTitle = tt('User');
 		document_set_path(tt('User'), 'user');
+		document_set_path(tt('Add a new User'));
 		$this->initJS();
 		head_add_js_var('insertUser', true);
 		$this->injectGroupForm();

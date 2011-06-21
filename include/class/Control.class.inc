@@ -400,7 +400,9 @@ abstract class Control extends Translatable{
 		$columnArray = $this->modelConnector->getColumnNameByBoolean('isSerialize');
 		foreach($this->data as $key => $value){
 			foreach($columnArray as $column){
-				$this->data[$key][$column] = unserialize($value[$column]);
+				if(isset($this->data[$key][$column])){
+					$this->data[$key][$column] = unserialize($value[$column]);
+				}
 			}
 		}
 	}
