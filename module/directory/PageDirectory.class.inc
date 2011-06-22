@@ -114,6 +114,7 @@ class PageDirectory extends Control{
 		$this->id = directory_create_root($category);
 		$this->configuration = directory_default_configuration();
 		if($this->id) $this->createIndexPage('ROOT Directory');
+		return $this->page;
 	}
 	
 	protected function renderListPage($clause){

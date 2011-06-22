@@ -28,7 +28,7 @@ class ForumEntryModel extends Model{
 		$this->update_time = $this->now();
 		$this->update_time->isUpdateTime = true;
 		$this->comment_time = $this->now();
-		$this->comment_time->defaultData = '1970-01-01 00:00:00';
+		$this->comment_time->defaultData = '1970-01-01 12:00:00';
 		$this->content = $this->text(tt('content'));
 		$this->content->isReachable = true;
 		$this->section = $this->section();

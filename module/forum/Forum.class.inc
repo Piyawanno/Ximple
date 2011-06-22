@@ -78,11 +78,6 @@ class Forum extends Control{
 		}
 	}
 	
-	public function initModule($requirement){
-		Control::initModule($requirement);
-		forum_set_panel();
-	}
-	
 	private function getAllowedData(){
 		if(gg('category')){
 			$clause = "WHERE section=".SECTION.' AND category='.gg('category').' ORDER BY position';

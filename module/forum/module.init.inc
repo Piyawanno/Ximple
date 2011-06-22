@@ -23,6 +23,31 @@ function module_init_forum(){
 	$forumConfig = new ForumConfig();
 	$forumConfig->initModule('ForumConfig.class.inc');
 	
+	menu_drop('forum_entry');
+	menu_add('forum', tt('Forum'));
+	list($admin, $editor, $contributor) = content_add_role('forum_entry', tt('Forum Entry'));
+	
+	$panel = new PanelManager('Forum Entry');
+	$panel->drop();
+	
+	$panel = new PanelManager('Forum');
+	$panel->drop();
+	$panel->appendRole($admin);
+	$panel->appendRole($editor);
+	$panel->appendRole($contributor);
+	
+	$panel->setControl($forum);
+	$panel->append('forum_config', 'configure Forum');
+	$panel->append('forum_manage', 'sort and manage Forum');
+	$panel->submit();
+	
+	$panel->setControl($forumEntry);
+	$panel->append('category/module/forum', 'Forum category');
+	$panel->append('forum_entry_write', 'write new Forum entry');
+	$panel->append('forum_entry_contributor_list', 'list my Forum entry');
+	$panel->append('forum_entry_editor_list', 'list Forum entry in Section');
+	$panel->submit();
+	
 	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2) ORDER BY id DESC';
 	flashwidget_add('forum_entry_last_post', 'forum_entry', tt('Last posted Forum Entries'), 'forum_entry', 'topic', $clause);
 	
@@ -57,13 +82,16 @@ function module_drop_forum(){
 	$forumConfig = new ForumConfig();
 	$forumConfig->dropModule();
 	
+	$panel = new PanelManager('Forum');
+	$panel->drop();
 	
-	notify_add_info(tt('Forum has been successfully deactivated'));
-	module_drop_panel('Forum');
+	content_drop_module('forum_entry', tt('Forum Entry'));
 	menu_drop('forum');
 	flashwidget_drop('forum_entry_last_post');
 	flashwidget_drop('forum_entry_last_commented');
 	flashwidget_drop('forum_list');
+	
 	widget_drop('forum_entry_last_commented');
+	notify_add_info(tt('Forum has been successfully deactivated'));
 }
 ?>

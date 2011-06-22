@@ -76,27 +76,6 @@ function forum_set_path($forum_id){
 	document_set_path($forum['name'], 'forum_entry_list/forum/'.$forum_id);
 }
 
-function forum_set_panel(){
-	menu_drop('forum_entry');
-	module_drop_panel('Forum');
-	module_drop_panel('Forum Entry');
-	menu_add('forum', tt('Forum'));
-	list($adminGroup, $editorGroup, $contributorGroup) = content_get_group('forum_entry');
-	module_add_panel('Forum', $adminGroup, 'category/module/forum', 'Forum category');
-	module_add_panel('Forum', $adminGroup, 'forum_entry_write', 'write new Forum entry');
-	module_add_panel('Forum', $adminGroup, 'forum_entry_contributor_list', 'list my Forum entry');
-	module_add_panel('Forum', $adminGroup, 'forum_entry_editor_list', 'list Forum entry in Section');
-	module_add_panel('Forum', $adminGroup, 'forum_config', 'configure Forum');
-	module_add_panel('Forum', $adminGroup, 'forum_manage', 'sort and manage Forum');
-	
-	module_add_panel('Forum', $editorGroup, 'forum_entry_write', 'write new Forum entry');
-	module_add_panel('Forum', $editorGroup, 'forum_entry_contributor_list', 'list my Forum entry');
-	module_add_panel('Forum', $editorGroup, 'forum_entry_editor_list', 'list Forum entry in Section');
-	
-	module_add_panel('Forum', $contributorGroup, 'forum_entry_write', 'write new Forum entry');
-	module_add_panel('Forum', $contributorGroup, 'forum_entry_contributor_list', 'list my Forum entry');
-}
-
 function forum_render_last_entry($data){
 	if(count($data)){
 		$render = '<p><label>'.tt('last entry').' : </label>';
