@@ -69,6 +69,7 @@ abstract class Content extends Control{
 	public function contributorListPage(){
 		$title = sprintf(tt('List of %s entries for Contributor'), $this->moduleTitle);
 		$this->listMeta->title =  $title;
+		$this->isOwnerMode = true;
 		document_set_path($title);
 		$p = tt('In the following list, your own entries of %s are shown. You can use this page to access them.');
 		$this->listMeta->description = sprintf($p, $this->moduleTitle);

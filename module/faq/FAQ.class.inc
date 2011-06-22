@@ -9,7 +9,6 @@ class FAQ extends Control{
 		$this->tableName = 'faq';
 		$this->setAccess();
 		$this->setAction();
-		$this->setAdmin('faq_admin');
 		$this->init(new FAQModel());
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
@@ -60,21 +59,34 @@ class FAQ extends Control{
 	}
 	
 	public function listPage(){
-		document_set_path(tt('List of FAQ'));
-		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
+		$title = tt('List of FAQ in Section');
+		document_set_path($title);
+		$this->listMeta->title = $title;
+		return $this->renderListPage('WHERE (section='.SECTION.')');
+	}
+	
+	public function contributorListPage(){
+		$title = tt('List of My FAQ');
+		document_set_path($title);
+		$this->listMeta->title = $title;
+		$this->isOwnerMode = true;
+		return $this->renderListPage('WHERE (owner='.USER_ID.')');
+	}
+	
+	protected function renderListPage($clause){
 		$this->listMeta->defaultOrder = 'category';
 		$this->setListWriteIcon(tt('Write new Question & Answer'));
 		$this->setListEditIcon();
 		$this->setListDropIcon();
-		$this->selectListPage(20, 'WHERE (section='.SECTION.')');
-		return $this->renderListPage();
+		$this->selectListPage(20, $clause);
+		return Control::renderListPage();
 	}
 	
 	private function processRenderData(){
 		$data = array();
 		foreach($this->data as $key => $value){
 			$cid = $value['category']['id'];
-			$this->setOwner($value['owner']);
+			$this->setOwner($value['owner']['id']);
 			$data[$cid][$key] = $value;
 			$data[$cid][$key]['editable'] = $this->isCallable('edit');
 			$data[$cid][$key]['dropable'] = $this->isCallable('drop');
@@ -101,15 +113,18 @@ class FAQ extends Control{
 	}
 	
 	private function setAccess(){
+		$this->setAdmin('faq_admin');
+		$this->ownerColumn = 'owner';
 		$this->addAccessMethod('guest', 'index');
 		$this->addAccessMethod('faq_contributor', 'write');
 		$this->addAccessMethod('faq_contributor', 'insert');
-		$this->ownerColumn = 'owner';
+		$this->addAccessMethod('faq_contributor', 'contributorListPage');
 	}
 	
 	private function setAction(){
 		$this->addAction('faq_arrange', 'arrange');
 		$this->addAction('faq_save_arrange', 'saveArrange');
+		$this->addAction('faq_contributor_list', 'contributorListPage');
 	}
 	
 	private function renderWriteIcon(){

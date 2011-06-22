@@ -51,7 +51,7 @@ abstract class Authority{
 			return true;
 		}
 		
-		if(array_key_exists($methodName, $this->accesMethod)){
+		if(isset($this->accesMethod[$methodName])){
 			$gidArray = $this->accesMethod[$methodName];
 			if(in_array('guest', $gidArray)) return true;
 			if(in_array('user', $gidArray) and !authority_is_guest()) return true;
@@ -71,6 +71,21 @@ abstract class Authority{
 	/// Prepare object before checking authorization.
 	/// @param $methodName : name of the called method.
 	public function prepareMethod($methodName){
+	}
+	
+	/// Get Admin-Role of class.
+	/// @return Admin-Role of class.
+	public function getAdmin(){
+		return $this->adminGroup;
+	}
+	
+	public function hasAccessMethod($gid, $methodName){
+		if(isset($this->accesMethod[$methodName])){
+			if(in_array($gid, $this->accesMethod[$methodName])){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/// Set owner of object.

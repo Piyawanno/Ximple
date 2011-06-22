@@ -35,6 +35,8 @@ abstract class Control extends Translatable{
 	protected $updateNotify;
 	protected $dropNotify;
 	
+	protected $isOwnerMode = false;
+	
 	public $id;
 	public $column;
 	public $listPageColumn;
@@ -205,7 +207,7 @@ abstract class Control extends Translatable{
 	}
 	
 	protected function setListEditIcon($label=null, $mode=null){
-		if($this->isCallable('edit')){
+		if($this->isCallable('edit') or $this->isOwnerMode){
 			if(empty($label)) $label = tt('edit');
 			if(empty($mode)) $mode = $this->fullModuleName.'_edit';
 			$this->listMeta->addOperation($mode, $label, 'edit.png');
@@ -213,7 +215,7 @@ abstract class Control extends Translatable{
 	}
 	
 	protected function setListDropIcon($label=null, $mode=null){
-		if($this->isCallable('drop')){
+		if($this->isCallable('drop') or $this->isOwnerMode){
 			if(empty($label)) $label = tt('drop');
 			if(empty($mode)) $mode = $this->fullModuleName.'_drop';
 			$this->listMeta->addOperation($mode, $label, 'drop.png');
