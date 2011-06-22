@@ -11,7 +11,12 @@ function module_init_guestbook(){
 	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	$guestbook = new Guestbook();
 	$guestbook->initModule('Guestbook.class.inc');
-	module_add_role('guestbook_admin', 'Guestbook Administrator', 'Who can edit and drop guestbook.');
+	
+	$admin = new RoleManager('guestbook_admin');
+	$admin->setName('Guestbook Administrator');
+	$admin->setDescription('Who can edit and drop guestbook.');
+	$admin->submit();
+	
 	module_add_cache('guestbook');
 	widget_add_navigation('guestbook', tt('Guestbook'));
 	notify_add_info(tt('Guestbook has been successfully activated'));
@@ -24,7 +29,10 @@ function module_drop_guestbook(){
 	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	$guestbook = new Guestbook();
 	$guestbook->dropModule();
-	module_drop_role('guestbook_admin');
+	
+	$admin = new RoleManager('guestbook_admin');
+	$admin->drop();
+	
 	module_drop_cache('guestbook');
 	widget_drop_navigation('guestbook');
 	notify_add_info(tt('Guestbook has been successfully deactivated'));

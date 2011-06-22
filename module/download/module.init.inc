@@ -13,16 +13,27 @@ function module_init_download(){
 	include_once('Download.class.inc');
 	$download = new Download();
 	$download->initModule('Download.class.inc');
-	module_add_role('download_admin', 'Download Administrator', 'Who can provide new files for downloading, edit and delete them.');
+	
+	$admin = new RoleManager('download_admin');
+	$admin->setName('Download Administrator');
+	$admin->setDescription('Who can provide new files for downloading, edit and delete them.');
+	$admin->submit();
+
+	$panel = new PanelManager('Download');
+	$panel->setControl($download);
+	$panel->append('download_write', 'upload new file');
+	$panel->append('download', 'list & manage  download');
+	$panel->append('category/module/download', 'download category');
+	$panel->appendRole($admin);
+	$panel->submit();
+	
 	module_add_cache('download');
-	module_add_panel('Download', 'download_admin', 'download_write', 'upload new file');
-	module_add_panel('Download', 'download_admin', 'download', 'list & manage  download');
-	module_add_panel('Download', 'download_admin', 'category/module/download', 'download category');
 	notify_add_info(tt('Download has been successfully activated'));
+	widget_add_navigation('download', tt('Download'));
 	category_init('download');
+	
 	$dowload_dir = FILES_PATH.'download/';
 	if(!is_dir($dowload_dir)) mkdir($dowload_dir);
-	widget_add_navigation('download', tt('Download'));
 }
 
 function module_drop_download(){
@@ -30,9 +41,14 @@ function module_drop_download(){
 	include_once('Download.class.inc');
 	$download = new Download();
 	$download->dropModule();
-	module_drop_role('download_admin');
+	
+	$admin = new RoleManager('download_admin');
+	$admin->drop();
+	
+	$panel = new PanelManager('Download');
+	$panel->drop();
+	
 	module_drop_cache('download');
-	module_drop_panel('Download');
 	notify_add_info(tt('Download has been successfully deactivated'));
 	widget_drop_navigation('download');
 }

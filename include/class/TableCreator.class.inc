@@ -1,5 +1,4 @@
 <?php
-
 class TableCreator{
 	private $tableName;
 	private $modelConnector;
@@ -33,5 +32,4 @@ class TableCreator{
 		return $query;
 	}
 }
-
 ?>

@@ -5,8 +5,8 @@ abstract class Translatable extends Authority{
 	public $moduleName;
 	public $moduleExtension;
 	public $moduleTitle;
+	public $fullModuleName;
 	
-	protected $fullModuleName;
 	protected $modelConnector;
 	protected $configForm = array();
 	protected $formMeta;
@@ -30,6 +30,7 @@ abstract class Translatable extends Authority{
 		translate_set_data(pp());
 		notify_add_info(tt('Your translated content has been successfully updated.'));
 	}
+	
 	
 	protected function init(){
 		if(strlen($this->moduleExtension) == 0) $this->fullModuleName = $this->moduleName;

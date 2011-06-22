@@ -28,9 +28,7 @@ class PanelManager{
 		foreach($this->item as $mode => $label){
 			module_add_panel($this->name, $this->admin, $mode, $label);
 			$method = $this->control->getAction($mode);
-			echo($label.' (label)<br />');
 			foreach($this->role as $role){
-				echo($role.' (role)<br />');
 				if($this->control->hasAccessMethod($role, $method)){
 					module_add_panel($this->name, $role, $mode, $label);
 				}

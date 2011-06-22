@@ -13,9 +13,19 @@ function module_init_customuri(){
 		include_once('CustomURI.class.inc');
 		$customuri = new CustomURI();
 		$customuri->initModule('customuri.module.inc');
-		module_add_role('customuri_admin', 'CustomURI Administrator', 'Who can add edit and drop Custom URI.');
-		module_add_panel('Custom URI', 'customuri_admin', 'customuri', 'manage Custom URI');
-		module_add_panel('Custom URI', 'customuri_admin', 'customuri_write', 'add new Custom URI');
+		
+		$admin = new RoleManager('customuri_admin');
+		$admin->setName('CustomURI Administrator');
+		$admin->setDescription('Who can add edit and drop Custom URI.');
+		$admin->submit();
+	
+		$panel = new PanelManager('Custom URI');
+		$panel->setControl($customuri);
+		$panel->append('customuri', 'manage Custom URI');
+		$panel->append('customuri_write', 'add new Custom URI');
+		$panel->appendRole($admin);
+		$panel->submit();
+		
 		extension_add('main_init', 'customuri_map');
 		extension_add('post_main_render', 'customuri_post_render');
 	}else{
@@ -27,8 +37,13 @@ function module_drop_customuri(){
 	include_once('CustomURI.class.inc');
 	$customuri = new CustomURI();
 	$customuri->dropModule();
-	module_drop_role('customuri_admin');
-	module_drop_panel('Custom URI');
+	
+	$admin = new RoleManager('customuri_admin');
+	$admin->drop();
+	
+	$panel = new PanelManager('Custom URI');
+	$panel->drop();
+	
 	extension_drop('main_init', 'customuri_map');
 	extension_drop('post_main_render', 'customuri_post_render');
 }

@@ -1,54 +1,50 @@
 <?php
 include_once(INCLUDE_PATH.'tool/menu.tool.inc');
 
-function content_init_module($moduleName, $moduleTitle){
+function content_init_module($content){
+	$moduleName = $content->fullModuleName;
+	$moduleTitle = $content->moduleTitle;
 	module_add_feed($moduleName, $moduleTitle);
 	module_add_cache($moduleName);
-	
-	content_add_role($moduleName, $moduleTitle);
-	content_add_panel($moduleName, $moduleTitle);
+	content_add_panel($content);
 	content_set_config($moduleName);
 	menu_add($moduleName, $moduleTitle);
 	notify_add_subscribe($moduleName, tt('someone posts in : ').$moduleTitle);
 }
 
-function content_get_group($moduleName){
-	$adminGroup = $moduleName.'_admin';
-	$editorGroup = $moduleName.'_editor';
-	$contributorGroup = $moduleName.'_contributor';
-	return array($adminGroup, $editorGroup, $contributorGroup);
-}
-
 function content_add_role($moduleName, $moduleTitle){
-	list($adminGroup, $editorGroup, $contributorGroup) = content_get_group($moduleName);
-	$adminDescription = sprintf('Who can configure, insert, edit and drop %s from everyone.', $moduleTitle);
-	$editorDescription = sprintf('Who can insert, edit and drop %s from everyone.', $moduleTitle);
-	$contributorDescription = sprintf('Who can insert, edit and drop own %s.', $moduleTitle);
-	module_add_role($adminGroup, $moduleTitle.' Administrator', $adminDescription);
-	module_add_role($editorGroup, $moduleTitle.' Editor', $editorDescription);
-	module_add_role($contributorGroup, $moduleTitle.' Contributor', $contributorDescription);
+	$admin = new RoleManager($moduleName.'_admin');
+	$admin->setName($moduleTitle.' Administrator');
+	$admin->setDescription(sprintf('Who can configure, insert, edit and drop %s from everyone.', $moduleTitle));
+	$admin->submit();
+	
+	$editor = new RoleManager($moduleName.'_editor');
+	$editor->setName($moduleTitle.' Editor');
+	$editor->setDescription(sprintf('Who can insert, edit and drop %s from everyone.', $moduleTitle));
+	$editor->submit();
+	
+	$contributor = new RoleManager($moduleName.'_contributor');
+	$contributor->setName($moduleTitle.' Contributor');
+	$contributor->setDescription(sprintf('Who can insert, edit and drop own %s.', $moduleTitle));
+	$contributor->submit();
+	return array($admin, $editor, $contributor);
 }
 
-function content_add_panel($moduleName, $moduleTitle){
-	list($adminGroup, $editorGroup, $contributorGroup) = content_get_group($moduleName);
-	$categoryMode = 'category/module/'.$moduleName;
-	$writeMode = $moduleName.'_write';
-	$editorListMode = $moduleName.'_editor_list';
-	$contributorListMode = $moduleName.'_contributor_list';
-	$configMode = $moduleName.'_config';
-	
-	module_add_panel($moduleTitle, $adminGroup, $categoryMode, $moduleTitle.' category');
-	module_add_panel($moduleTitle, $adminGroup, $writeMode, 'write new '.$moduleTitle.' entry');
-	module_add_panel($moduleTitle, $adminGroup, $contributorListMode, 'list my '.$moduleTitle);
-	module_add_panel($moduleTitle, $adminGroup, $editorListMode, 'list '.$moduleTitle.' in Section');
-	module_add_panel($moduleTitle, $adminGroup, $configMode, 'configure '.$moduleTitle);
-	
-	module_add_panel($moduleTitle, $editorGroup, $writeMode, 'write new '.$moduleTitle.' entry');
-	module_add_panel($moduleTitle, $editorGroup, $contributorListMode, 'list my '.$moduleTitle);
-	module_add_panel($moduleTitle, $editorGroup, $editorListMode, 'list '.$moduleTitle.' in Section');
-	
-	module_add_panel($moduleTitle, $contributorGroup, $writeMode, 'write new '.$moduleTitle.' entry');
-	module_add_panel($moduleTitle, $contributorGroup, $contributorListMode, 'list my '.$moduleTitle);
+function content_add_panel($content){
+	$moduleName = $content->fullModuleName;
+	$moduleTitle = $content->moduleTitle;
+	list($admin, $editor, $contributor) = content_add_role($moduleName, $moduleTitle);
+	$panel = new PanelManager($moduleTitle);
+	$panel->setControl($content);
+	$panel->append('category/module/'.$moduleName, $moduleTitle.' category');
+	$panel->append($moduleName.'_write', 'write new '.$moduleTitle.' entry');
+	$panel->append($moduleName.'_editor_list', 'list my '.$moduleTitle);
+	$panel->append($moduleName.'_contributor_list', 'list '.$moduleTitle.' in Section');
+	$panel->append($moduleName.'_config', 'configure '.$moduleTitle);
+	$panel->appendRole($admin);
+	$panel->appendRole($editor);
+	$panel->appendRole($contributor);
+	$panel->submit();	
 }
 
 function content_set_config($moduleName){
@@ -65,13 +61,20 @@ function content_set_config($moduleName){
 }
 
 function content_drop_module($moduleName, $moduleTitle){
-	list($adminGroup, $editorGroup, $contributorGroup) = content_get_group($moduleName);
 	module_drop_feed($moduleName);
 	module_drop_cache($moduleName);
-	module_drop_role($adminGroup);
-	module_drop_role($editorGroup);
-	module_drop_role($contributorGroup);
-	module_drop_panel($moduleTitle);
+	
+	$admin = new RoleManager($moduleName.'_admin');
+	$admin->drop();
+	
+	$editor = new RoleManager($moduleName.'_editor');
+	$editor->drop();
+	
+	$contributor = new RoleManager($moduleName.'_contributor');
+	$contributor->drop();
+	
+	$panel = new PanelManager($moduleTitle);
+	$panel->drop();
 	
 	config_drop($moduleName.'_appearance');
 	config_drop($moduleName.'_comment_permission');

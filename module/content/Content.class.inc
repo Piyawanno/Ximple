@@ -90,7 +90,7 @@ abstract class Content extends Control{
 	
 	public function initModule($requirement){
 		Control::initModule($requirement);
-		content_init_module($this->fullModuleName, $this->moduleTitle);
+		content_init_module($this);
 	}
 	
 	public function dropModule(){
