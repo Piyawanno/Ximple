@@ -1,6 +1,7 @@
 <?php
 execute_add_class('develcard', 'DevelCard');
 include('DevelCardModel.class.inc');
+include('develcard.tool.inc');
 
 class DevelCard extends Control{
 	function DevelCard(){
