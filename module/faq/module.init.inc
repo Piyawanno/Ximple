@@ -17,7 +17,7 @@ function module_init_faq(){
 	module_add_role('faq_contributor', 'FAQ Contributor', 'Who can write and edit own question.');
 	
 	module_add_panel('FAQ', 'faq_admin', 'category/module/faq', 'FAQ category');
-	module_add_panel('FAQ', 'faq_admin', 'faq_arrange', 'manage and sort FAQ');
+	module_add_panel('FAQ', 'faq_admin', 'faq_arrange', 'rearrage FAQ');
 	module_add_panel('FAQ', 'faq_admin', 'faq_list', 'list all questions');
 	module_add_panel('FAQ', 'faq_admin', 'faq_write', 'write new question');
 
@@ -25,7 +25,6 @@ function module_init_faq(){
 	module_add_panel('FAQ', 'faq_contributor', 'faq_write', 'write new question');
 	
 	widget_add_navigation('faq', tt('FAQ'));
-	
 	notify_add_info(tt('FAQ has been successfully activated'));
 }
 

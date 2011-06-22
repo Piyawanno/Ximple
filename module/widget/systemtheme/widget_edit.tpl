@@ -4,6 +4,7 @@
 <ul>
 	<li><img src="<?=ROOT_URI?>files/icon/move.png"/> : <?=tt('Sort and select position by drag-and-drop')?></li>
 	<li><img src="<?=ROOT_URI?>files/icon/edit.png"/> : <?=tt('Edit and Configure Widget')?></li>
+	<li><img src="<?=ROOT_URI?>files/icon/drop.png"/> : <?=tt('Drop Widget (Widget can be rebuilt by refreshing module)')?></li>
 </ul>
 <p>
 	<?=tt('You can use this form to sort and set widgets position by drag-and-drop. Please, do not forget to click submit.')?>
@@ -47,7 +48,7 @@
 </form>
 
 <script type="text/javascript">
-$(function() {
+$(document).bind("ready", function(){
 	$("<?=substr($sortable_id, 0, -2)?>").sortable({
 		connectWith: '.sortable',
 		dropOnEmpty: true,

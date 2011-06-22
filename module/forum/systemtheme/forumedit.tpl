@@ -44,7 +44,7 @@
 </form>
 
 <script type="text/javascript">
-$(function() {
+$(document).bind("ready", function(){
 	$("<?=substr($sortable_id, 0, -2)?>").sortable({
 		connectWith: '.sortable',
 		dropOnEmpty: true,
