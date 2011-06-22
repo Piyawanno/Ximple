@@ -16,14 +16,23 @@ function module_init_advertise(){
 	$advertiseConfig = new AdvertiseConfig();
 	$advertiseConfig->initModule('AdvertiseConfig.class.inc');
 	
-	module_add_role('advertise_admin', 'Advertise Administrator', 'Who can edit and drop advertise.');
-	module_add_panel('Advertise', 'advertise_admin', 'advertise_write', 'create new Advertise');
-	module_add_panel('Advertise', 'advertise_admin', 'advertise_list', 'list Advertise');
-	module_add_panel('Advertise', 'advertise_admin', 'advertise_config', 'config Advertise');
+	$admin = new RoleManager('advertise_admin');
+	$admin->setName('Advertise Administrator');
+	$admin->setDescription('Who can edit and drop advertise.');
+	$admin->submit();
 	
-	$path = FILES_PATH.'advertise/';
+	$panel = new PanelManager('Advertise');
+	$panel->setControl($advertise);
+	$panel->append('advertise_write', 'create new Advertise');
+	$panel->append('advertise_list', 'list Advertise');
+	$panel->append('advertise_config', 'config Advertise');
+	$panel->appendRole($admin);
+	$panel->submit();
+	
 	config_set('advertise_widget_position', array(tt('Advertise Primaty Position')));
 	widget_add(tt('Advertise Primaty Position'), 'advertise_banner/0');
+	
+	$path = FILES_PATH.'advertise/';
 	if(!is_dir($path)) mkdir($path);
 }
 
@@ -43,7 +52,10 @@ function module_drop_advertise(){
 		widget_drop('advertise_banner/'.$key);
 	}
 	
-	module_drop_role('advertise_admin');
-	module_drop_panel('Advertise');
+	$admin = new RoleManager('advertise_admin');
+	$admin->drop();
+	
+	$panel = new PanelManager('Advertise');
+	$panel->drop();
 }
 ?>

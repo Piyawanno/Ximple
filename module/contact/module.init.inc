@@ -19,11 +19,19 @@ function module_init_contact(){
 	$contactConfig = new ContactConfig();
 	$contactConfig->initModule('ContactConfig.class.inc');
 	
-	module_add_role('contact_admin', 'Contact Administrator', 'Who can insert, edit and drop Contact.');
-	module_add_cache('contact');
-	module_add_panel('Contact', 'contact_admin', 'contact_write', 'create new contact');
-	module_add_panel('Contact', 'contact_admin', 'contact', 'list & manage  contact');
-	module_add_panel('Contact', 'contact_admin', 'contact_config', 'config contact');
+	$admin = new RoleManager('contact_admin');
+	$admin->setName('Contact Administrator');
+	$admin->setDescription('Who can insert, edit and drop Contact.');
+	$admin->submit();
+	
+	$panel = new PanelManager('Contact');
+	$panel->setControl($contact);
+	$panel->append('contact_write', 'create new contact');
+	$panel->append('contact', 'list & manage  contact');
+	$panel->append('contact_config', 'config contact');
+	$panel->appendRole($admin);
+	$panel->submit();
+	
 	notify_add_info(tt('Contact has been successfully activated'));
 	$contact_data = db_select_single_column('contact', 'name', 'WHERE section='.SECTION);
 	foreach($contact_data as $key => $value){
@@ -44,9 +52,13 @@ function module_drop_contact(){
 	$contactConfig = new ContactConfig();
 	$contactConfig->dropModule();
 	
-	module_drop_role('contact_admin');
+	$admin = new RoleManager('contact_admin');
+	$admin->drop();
+	
+	$panel = new PanelManager('Contact');
+	$panel->drop();
+	
 	module_drop_cache('contact');
-	module_drop_panel('Contact');
 	notify_add_info(tt('Contact has been successfully deactivated'));
 	$navigation = cc('navigation');
 	foreach($navigation as $key => $value){

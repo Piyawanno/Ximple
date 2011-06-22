@@ -25,7 +25,7 @@ class TableCreator{
 		foreach($columnName as $name){
 			$q = $name.' '.db_get_type($type[$name]);
 			if($isNotNull[$name]) $q .= ' NOT NULL ';
-			if(!empty($default[$name]) and !in_array($type[$name], array('text', 'shorttext'))){
+			if(!empty($default[$name]) and !in_array($type[$name], array('text', 'shorttext', 'array'))){
 				$q .= " DEFAULT '".$default[$name]."' ";
 			}
 			$query[] = $q;

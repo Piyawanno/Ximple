@@ -44,9 +44,16 @@ function module_drop_faq(){
 	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	$faq = new FAQ();
 	$faq->dropModule();
-	module_drop_role('faq_admin');
-	module_drop_role('faq_contributor');
-	module_drop_panel('FAQ');
+	
+	$admin = new RoleManager('faq_admin');
+	$admin->drop();
+	
+	$contributor = new RoleManager('faq_contributor');
+	$contributor->drop();
+	
+	$panel = new PanelManager('FAQ');
+	$panel->drop();
+	
 	widget_drop_navigation('faq');
 	notify_add_info(tt('FAQ has been successfully deactivated'));
 }

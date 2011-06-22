@@ -23,5 +23,9 @@ class RoleManager{
 	public function submit(){
 		module_add_role($this->reference, $this->name, $this->description);
 	}
+	
+	public function drop(){
+		module_drop_role($this->reference);
+	}
 }
 ?>

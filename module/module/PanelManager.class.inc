@@ -37,5 +37,9 @@ class PanelManager{
 			}
 		}
 	}
+	
+	public function drop(){
+		module_drop_panel($this->name);
+	}
 }
 ?>
