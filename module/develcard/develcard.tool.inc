@@ -7,7 +7,7 @@ function develcard_get_status_option(){
 	);
 }
 
-function develcard_get_type_option(){
+function develcard_get_default_type_option(){
 	return array(
 		0 => tt('bug'),
 		1 => tt('enhancement'),
@@ -23,5 +23,19 @@ function develcard_get_priority_option(){
 		2 => tt('2 - Low'),
 		3 => tt('3 - No-Effect'),
 	);
+}
+
+function develcard_get_permission_option(){
+	return array(
+		0 => tt('everyone can submit report'),
+		1 => tt('all users can submit report'),
+		2 => tt('only users with DevelCard Reporter role can submit report'),
+	);
+}
+
+function develcard_is_admin(){
+	$is_admin = authority_group('develcard_moderator');
+	$is_admin = ($is_admin or authority_group('develcard_admin'));
+	return $is_admin;
 }
 ?>

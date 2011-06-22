@@ -204,13 +204,8 @@ abstract class Model{
 	}
 	
 	public function user($label, $help=null){
-		include_once('column/AutoCompleteColumn.class.inc');
-		$modelColumn = new AutoCompleteColumn($label, 'userinfo_get_ajax_name', $help);
-		$modelColumn->isNotNull = true;
-		$modelColumn->help = $help.tt('Type beginning letters of the user name. ');
-		$modelColumn->help.= tt('The full name will be automatically completed. ');
-		$modelColumn->help.= tt('Multiple names are possible using comma.');
-		return $modelColumn;
+		include_once('column/UserColumn.class.inc');
+		return new UserColumn($label, $help);
 	}
 	
 	public function imageLoader($label, $path){

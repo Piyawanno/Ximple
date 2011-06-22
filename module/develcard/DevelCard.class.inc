@@ -11,9 +11,11 @@ class DevelCard extends Control{
 		$this->setAccess();
 		$this->setAction();
 		$this->setAdmin('develcard_admin');
+		$this->redirectToIDPage = true;
 		$this->init(new DevelCardModel());
-		document_set_path($this->moduleTitle, $this->moduleName);
+		$this->setConfig();
 		$this->writeLabel = tt('Submit new DevelCard');
+		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	public function index(){
@@ -37,8 +39,6 @@ class DevelCard extends Control{
 		document_set_path(tt('List of DevelCard'));
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->defaultOrder = 'priority';
-		if(mid()) $mode = mm().'/'.mid();
-		else $mode = mm();
 		$this->listMeta->mode = $mode;
 		$this->setListWriteIcon(tt('Add new Develcard'));
 		$this->setListEditIcon();
@@ -47,7 +47,7 @@ class DevelCard extends Control{
 		return $this->renderListPage();
 	}
 	
-	public function listMyPage(){
+	public function reporterListPage(){
 		document_set_path(tt('List of My DevelCard'));
 		$this->listMeta->title = sprintf(tt('List of My %s'), $this->moduleTitle);
 		$this->listMeta->defaultOrder = 'createdate';
@@ -76,11 +76,6 @@ class DevelCard extends Control{
 		return $render;
 	}
 	
-	public function insert(){
-		Control::insert();
-		document_set_redirect('develcard_display/'.$this->id);
-	}
-	
 	private function setAccess(){
 		$access = cc('develcard_access');
 		if($access == 0){
@@ -91,21 +86,32 @@ class DevelCard extends Control{
 			$this->addAccessMethod('user', 'index');
 			$this->addAccessMethod('user', 'write');
 			$this->addAccessMethod('user', 'insert');
-		}else{
-			$this->addAccessMethod('develcard_reporter', 'index');
-			$this->addAccessMethod('develcard_reporter', 'write');
-			$this->addAccessMethod('develcard_reporter', 'insert');
-			$this->addAccessMethod('develcard_reporter', 'listMyPage');
 		}
+		
+		$this->addAccessMethod('develcard_reporter', 'index');
+		$this->addAccessMethod('develcard_reporter', 'write');
+		$this->addAccessMethod('develcard_reporter', 'insert');
+		$this->addAccessMethod('develcard_reporter', 'reporterListPage');
+		
+		$this->addAccessMethod('develcard_moderator', 'index');
+		$this->addAccessMethod('develcard_moderator', 'write');
+		$this->addAccessMethod('develcard_moderator', 'insert');
 		$this->addAccessMethod('develcard_moderator', 'listPage');
-		$this->addAccessMethod('develcard_moderator', 'listMyPage');
+		$this->addAccessMethod('develcard_moderator', 'reporterListPage');
 	}
 	
 	private function setAction(){
-//		$this->addAction('develcard_list', 'listPage');
-		$this->addAction('develcard_mylist', 'listMyPage');
+		$this->addAction('develcard_list', 'listPage');
+		$this->addAction('develcard_reporter_list', 'reporterListPage');
 		$this->addAction('develcard_display', 'display');
 	}
 	
+	private function setConfig(){
+		$config = $this->getNewConfigForm(tt('Work Flow & Configuration'));
+		$config->append('priority');
+		$config->append('status');
+		$config->append('resolver');
+		$config->append('deadline');
+	}
 }
 ?>
