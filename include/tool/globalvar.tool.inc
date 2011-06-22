@@ -9,10 +9,12 @@
 /// Internal global variables for globalvar-tool.
 /// These variables should not be used outside this file.
 global $global_get, $global_post;
+global $locale;
 
 $global_get  = $_GET;
 $global_post = $_POST;
 $global_config_translated = false;
+$locale = array();
 
 /// Access $_POST variable.
 /// @param $key : key to access by default (null) the whole array is returned.
@@ -70,6 +72,9 @@ function vv($key=null){
 	else return null;
 }
 
+/// Access system configuration.
+/// @param $key : key to access by default (null) the whole array is returned.
+/// @return $GLOBALS['config'][$key].
 function cc($key=null){
 	$config = $GLOBALS['config'];
 	$config['increase_read'] = array();
@@ -82,6 +87,10 @@ function cc($key=null){
 	else return null;
 }
 
+
+/// Access untranslated system configuration.
+/// @param $key : key to access by default (null) the whole array is returned.
+/// @return $GLOBALS['untranslated_config'][$key].
 function ucc($key=null){
 	$config = $GLOBALS['untranslated_config'];
 	$config['increase_read'] = array();
@@ -94,6 +103,9 @@ function ucc($key=null){
 	else return null;
 }
 
+/// Access current user configuration.
+/// @param $key : key to access by default (null) the whole array is returned.
+/// @return $GLOBALS['account'][$key].
 function uu($key=null){
 	if(!isset($GLOBALS['account'])){
 		$account_dir = FILES_PATH.'account/';
@@ -112,46 +124,61 @@ function uu($key=null){
 	else return null;
 }
 
-global $locale;
-$locale = array();
+/// Get translated text.
+/// @param $key : original text.
+/// @return Translated text.
 function tt($key){
 	global $locale;
 	if(isset($locale[$key]) and strlen($locale[$key])) return $locale[$key];
 	else return $key;
 }
 
+/// Get called XimpleMODE.
+/// @return XimpleMODE.
 function mm(){
 	return gg('mode');
 }
 
+/// Get called EntryID.
+/// @return EntryID.
 function mid(){
 	return gg('id');
 }
 
+/// Get called page number.
+/// @return Page number.
 function pid(){
 	return gg('page');
 }
 
+/// Set $_GET to given array.
+/// @param $get : array to set $_GET
 function globalvar_set_get($get){
 	global $global_get;
 	$global_get = $get;
 }
 
+/// Reset $_GET to original values.
 function globalvar_reset_get(){
 	global $global_get;
 	$global_get = $_GET;
 }
 
+// Set $_POST to given array.
+/// @param $post : array to set $_POST
 function globalvar_set_post($post){
 	global $global_post;
 	$global_post = $post;
 }
 
+/// Reset $_POST to original values.
 function globalvar_reset_post(){
 	global $global_post;
 	$global_post = $_POST;
 }
 
+/// Add new translated text to system.
+/// @param $additional : additional translated text.
 function globalvar_add_locale($additional){
 	global $locale;
 	$locale = array_merge($locale, $additional);

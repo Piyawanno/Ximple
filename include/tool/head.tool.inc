@@ -3,7 +3,7 @@
 /// This file provides functions for rendering HTML-header meta-information and
 /// including javascript and css.
 ///
-/// @author bow_der_kleine <bow_der_kleine@yahoo.de>
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
 
 /// Internal global variables for head-tool.
 /// These variables should not be used outside this file.
@@ -166,6 +166,8 @@ function head_add_js($js){
 	}
 }
 
+/// Render HTML-Tag to include CSS into main document.
+/// @return Rendered HTML-Tag for CSS including.
 function head_include_main_css(){
 	global $head_css;
 	$jquery_css = 'theme/'.cc('theme').'/jquery/ui.all.css';
@@ -177,6 +179,8 @@ function head_include_main_css(){
 	return head_include_css($head_css);
 }
 
+/// Render HTML-Tag to include CSS into print document.
+/// @return Rendered HTML-Tag for CSS including.
 function head_include_print_css(){
 	global $head_print_css;
 	return head_include_css($head_print_css);
@@ -212,6 +216,9 @@ function head_add_print_css($css){
 	}
 }
 
+/// Get URI of CSS dependent of configuration.
+/// @param $file_name : file name of CSS.
+/// @return URI of CSS.
 function head_get_css_uri($file_name){
 	$path_custom = 'files/customtheme/'.SECTION.'/'.cc('theme').'/css/'.$file_name;
 	$path_theme = 'theme/'.cc('theme').'/css/'.$file_name;
@@ -226,6 +233,9 @@ function head_get_css_uri($file_name){
 	else return ROOT_URI.header_find_css($file_name);
 }
 
+/// Find CSS location dependent of configuration.
+/// @param $file_name : file name of CSS.
+/// @return Location of found CSS.
 function header_find_css($file_name){
 	$included_files = get_included_files();
 	$included_dir = array();

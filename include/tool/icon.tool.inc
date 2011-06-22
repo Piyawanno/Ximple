@@ -1,5 +1,10 @@
 <?php
-/// Icons of files sort by type.
+/// @file
+/// This file provides functions for get icon for files in file management system
+///
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
+
+/// Icons of files sorted by type.
 /// @return Array of file icons.
 function icon(){
 	$icons['.dir'] = 'folder.png';
@@ -45,6 +50,8 @@ function icon(){
 	return $icons;
 }
 
+/// Render icon for given file name.
+/// @param $file_name : file name to render icon
 function icon_render($file_name){
 	$splitted = split('\.', basename($file_name));
 	$type = $splitted[count($splitted) - 1];
