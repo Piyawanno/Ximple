@@ -45,9 +45,8 @@ function module_init_develcard(){
 	$panel = new PanelManager('DevelCard');
 	$panel->setControl($develcard);
 	$panel->append('develcard_config', 'configure DevelCard');
-	$panel->append('develcard_list', 'list all DevelCard');
 	$panel->append('develcard_reporter_list', 'DevelCard reported by me');
-	$panel->append('develcard_resovler_list', 'DevelCard in my duty');
+	$panel->append('develcard_resolver_list', 'DevelCard in my duty');
 	$panel->append('develcard_write', 'submit new DevelCard');
 	$panel->appendRole($admin);
 	$panel->appendRole($moderator);
@@ -56,7 +55,7 @@ function module_init_develcard(){
 	$panel->submit();
 	
 	config_set('develcard_access', 2);
-	config_set('develcard_access', 2);
+	config_set('develcard_list_per_page', 20);
 	config_set('develcard_hight_color', '#ff0000');
 	config_set('develcard_medium_color', '#ffff00');
 	config_set('develcard_low_color', '#00ff00');

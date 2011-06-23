@@ -3,6 +3,7 @@ class DevelCardConfigModel extends Model{
 	function DevelCardConfigModel(){
 		$option = develcard_get_permission_option();
 		$this->develcard_access = $this->radio(tt('DevelCard report permission'), $option);
+		$this->develcard_list_per_page = $this->spin(tt('Number of DevelCard per page'), 5, 250);
 		$this->develcard_hight_color = $this->color('high priority color');
 		$this->develcard_medium_color = $this->color('medium priority color');
 		$this->develcard_low_color = $this->color('low priority color');

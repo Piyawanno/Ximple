@@ -15,61 +15,83 @@ class DevelCard extends Control{
 		$this->init(new DevelCardModel());
 		$this->setConfig();
 		$this->writeLabel = tt('Submit new DevelCard');
+		$this->formMeta->isCaptcha = true;
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
 	public function index(){
-//		head_add_js('module/develcard/systemtheme/bluff-min.js');
-//		head_add_js('module/develcard/systemtheme/excanvas.js');
-		if(authority_group('develcard_moderator') or authority_group('develcard_admin')){
-			document_set_path(tt('DevelCard Summerize'));
-			head_add_css('list.css');
-//			$result = db_select($this->tableName, this->column, 'WHERE id='.(int)$this->id);
-//			$renderArray = array(
-//			'data' => $this->data
-//		);
-			$page = render($renderArray, 'develcardreport.tpl', 'develcardreport');
-		}else{
-			$page = render($renderArray, 'develcardreport_reporter.tpl', 'develcardreport');
-		}
-		return $page;
-	}
-	
-	public function listPage(){
-		document_set_path(tt('List of DevelCard'));
-		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
-		$this->listMeta->defaultOrder = 'priority';
-		$this->listMeta->mode = $mode;
-		$this->setListWriteIcon(tt('Add new Develcard'));
-		$this->setListEditIcon();
-		$this->setListDropIcon();
-		$this->selectListPage(20, 'WHERE (section='.SECTION.')');
-		return $this->renderListPage();
+		$this->id = (int) gg('id');
+		if($this->id) return $this->display();
+		else return $this->summaryPage();
 	}
 	
 	public function reporterListPage(){
-		document_set_path(tt('List of My DevelCard'));
-		$this->listMeta->title = sprintf(tt('List of My %s'), $this->moduleTitle);
-		$this->listMeta->defaultOrder = 'createdate';
-		if(mid()) $mode = mm().'/'.mid();
-		else $mode = mm();
-		$this->listMeta->mode = $mode;
-		$this->setListWriteIcon(tt('Add new Develcard'));
-		$this->modelConnector->setAttribute('priority', 'isList', false);
-		$this->modelConnector->setAttribute('deadline', 'isList', false);
-		$this->selectListPage(20, 'WHERE (owner='.USER_ID.')');
-		return $this->renderListPage();
+		$uid = $this->getUserID();
+		$mode = 'develcard_reporter_list/'.$uid;
+		document_set_path(tt('reported by me'), $mode);
+		$clause  = $this->handleStatus($mode);
+		$clause .= $this->handleType($mode);
+		$title = tt('DevelCard reported by me');
+		$clause = 'WHERE reporter='.$uid.$clause.' ORDER BY id DESC';
+		return $this->renderListPage($title, $clause, $mode);
 	}
 	
-	public function display(){
-		$this->id = (int) gg('id');
-		$this->selectByID($this->column);
+	public function resolverListPage(){
+		$uid = $this->getUserID();
+		$mode = 'develcard_resolver_list/'.$uid;
+		document_set_path(tt('in my duty'), $mode);
 		
+		$clause = 'WHERE resolver='.$uid;
+		$id = db_select_single_column('develcard_resolver', 'develcard', $clause);
+		if(count($id)) $idClause = 'id IN ('.join(',', $id).')';
+		else $idClause = 'id=0';
+		
+		$clause  = $this->handleStatus($mode);
+		$clause .= $this->handleType($mode);
+		$title = tt('DevelCard in My Duty');
+		$clause = 'WHERE '.$idClause.$clause.' ORDER BY id DESC';
+		return $this->renderListPage($title, $clause, $mode);
+	}
+	
+	public function dropResolver(){
+		db_drop('develcard_resolver', (int)gg('id'));
+	}
+	
+	protected function renderListPage($title, $clause, $mode){
+		head_add_css('develcard.css');
+		document_set_title($title);
+		$this->selectPage($this->column, cc('develcard_list_per_page'), $clause);
+		foreach($this->data as $key => $value){
+			$this->data[$key] = $this->prepareData($value, $mode);
+		}
 		$renderArray = array(
-			'data' => $this->dataByID,
+			'data' => $this->data,
+			'title' => $title,
+			'write_icon' => $this->renderWriteIcon(),
 		);
-		$render = render($renderArray, 'develcarddisplay.tpl', 'develcarddisplay');
+		$render = render($renderArray, 'develcard_list.tpl', 'develcard_list');
+		$render.= $this->pager->render($mode);
 		return $render;
+	}
+	
+	private function summaryPage(){
+		$mode = 'develcard';
+		$clause  = $this->handleStatus($mode);
+		$clause .= $this->handleType($mode);
+		$title = tt('DevelCard');
+		$clause = 'WHERE id!=0 '.$clause.' ORDER BY id DESC';
+		return $this->renderListPage($title, $clause, $mode);
+	}
+	
+	private function display(){
+		$this->selectByID($this->column);
+		$this->dataByID = $this->prepareData($this->dataByID, 'develcard');
+		
+		head_add_css('develcard.css');
+		document_set_path($this->dataByID['status']['label'], $this->dataByID['status_uri']);
+		document_set_path($this->dataByID['type']['label'], $this->dataByID['type_uri']);
+		document_set_path($this->dataByID['topic']);
+		return render($this->dataByID, 'develcard_display.tpl', 'develcard_display');
 	}
 	
 	private function setAccess(){
@@ -89,17 +111,69 @@ class DevelCard extends Control{
 		$this->addAccessMethod('develcard_reporter', 'insert');
 		$this->addAccessMethod('develcard_reporter', 'reporterListPage');
 		
+		$this->addAccessMethod('develcard_reporter', 'index');
+		$this->addAccessMethod('develcard_resolver', 'resolverListPage');
+		
 		$this->addAccessMethod('develcard_moderator', 'index');
 		$this->addAccessMethod('develcard_moderator', 'write');
 		$this->addAccessMethod('develcard_moderator', 'insert');
+		$this->addAccessMethod('develcard_moderator', 'edit');
+		$this->addAccessMethod('develcard_moderator', 'update');
+		$this->addAccessMethod('develcard_moderator', 'drop');
 		$this->addAccessMethod('develcard_moderator', 'listPage');
 		$this->addAccessMethod('develcard_moderator', 'reporterListPage');
+		$this->addAccessMethod('develcard_moderator', 'resolverListPage');
+		$this->addAccessMethod('develcard_moderator', 'dropResolver');
+		
+	}
+	
+	private function prepareData($data, $mode){
+		$data['type_uri'] = $this->getTypeURI($data, $mode);
+		$data['status_uri'] = $this->getStatusURI($data, $mode);
+		$data['color'] = develcard_get_color($data['priority']['value']);
+		$data['residual_time'] = $this->getResidualTime($data);
+		return $data;
+	}
+	
+	private function getTypeURI($data, $mode){
+		return $mode.'/status/'.$data['status']['value'].'/type/'.$data['type']['value'];
+	}
+	
+	private function getStatusURI($data, $mode){
+		return $mode.'/status/'.$data['status']['value'];
+	}
+	
+	private function getResidualTime($data){
+		$residual = ceil((strtotime($data['deadline']) - time())/(60*60*24));
+		if($residual == 1) $residual = tt('tomorrow');
+		elseif($residual == 0) $residual = tt('today');
+		elseif($residual == -1) $residual = tt('yesterday');
+		elseif($residual > 1) $residual = sprintf(tt('%d days left'), $residual);
+		else $residual = sprintf(tt('%d days ago'), $residual);
+		return $residual;
+	}
+	
+	private function handleType($mode){
+		$type = gg('type');
+		if(strlen($type)){
+			document_set_path(develcard_get_type_name($type), $mode);
+			return ' AND type='.$type;
+		}
+	}
+	
+	private function handleStatus($mode){
+		$status = gg('status');
+		if(strlen($status)){
+			document_set_path(develcard_get_status_name($status), $mode);
+			return ' AND status='.$status;
+		}
 	}
 	
 	private function setAction(){
-		$this->addAction('develcard_list', 'listPage');
 		$this->addAction('develcard_reporter_list', 'reporterListPage');
+		$this->addAction('develcard_resolver_list', 'resolverListPage');
 		$this->addAction('develcard_display', 'display');
+		$this->addAction('develcard_drop_resolver', 'dropResolver');
 	}
 	
 	private function setConfig(){
@@ -108,6 +182,18 @@ class DevelCard extends Control{
 		$config->append('status');
 		$config->append('resolver');
 		$config->append('deadline');
+	}
+	
+	private function renderWriteIcon(){
+		if($this->isCallable('write')){
+			return render_write_icon('develcard_write', tt('Submit new DevelCard'));
+		}
+	}
+	
+	private function getUserID(){
+		$uid = (int) gg('id');
+		if(empty($uid)) $uid = USER_ID;
+		return $uid;
 	}
 }
 ?>

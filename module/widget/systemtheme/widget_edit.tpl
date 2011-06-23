@@ -58,7 +58,7 @@ $(document).bind("ready", function(){
 
 function getPosition(){
 	<?php foreach($position as $reference => $title):?>
-		$('#widget_sort_<?=$reference?> li .position_input').attr('value', "<?=$reference?>");
+		$('#widget_sort_<?=$reference?> div .position_input').attr('value', "<?=$reference?>");
 	<?php endforeach?>
 }
 </script>

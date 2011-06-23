@@ -7,6 +7,11 @@ function develcard_get_status_option(){
 	);
 }
 
+function develcard_get_status_name($status){
+	$status_option = develcard_get_status_option();
+	if(isset($status_option[$status])) return $status_option[$status];
+}
+
 function develcard_get_default_type_option(){
 	return array(
 		0 => tt('bug'),
@@ -14,6 +19,11 @@ function develcard_get_default_type_option(){
 		2 => tt('suggestions'),
 		3 => tt('document'),
 	);
+}
+
+function develcard_get_type_name($type){
+	$type_option = cc('develcard_type');
+	if(isset($type_option[$type])) return $type_option[$type];
 }
 
 function develcard_get_priority_option(){
@@ -31,6 +41,16 @@ function develcard_get_permission_option(){
 		1 => tt('all users can submit report'),
 		2 => tt('only users with DevelCard Reporter role can submit report'),
 	);
+}
+
+function develcard_get_color($priority){
+	$color = array(
+		0 => cc('develcard_hight_color'),
+		1 => cc('develcard_medium_color'),
+		2 => cc('develcard_low_color'),
+		3 => cc('develcard_no_effect_color'),
+	);
+	return $color[$priority];
 }
 
 function develcard_is_admin(){

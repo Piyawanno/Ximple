@@ -3,13 +3,17 @@ include_once(MODULE_PATH.'freetag/FreeTagColumn.class.inc');
 
 class DevelCardModel extends Model{
 	function DevelCardModel(){
+		if(develcard_is_admin()) $this->initAdminColumns();
+		else $this->initContributorColumns();
+		$this->reporter = $this->owner();
+		
 		$this->topic = $this->title(tt('topic'));
 		$this->topic->listMode = 'develcard_display';
 		
-		$this->owner = $this->owner();
-		
 		$this->create_date = $this->now();
 		$this->create_date->label = tt('created');
+		$this->create_date->dateFormat = cc('time_format');
+		$this->create_date->formatDateBySelect = true;
 		$this->create_date->isList = true;
 		$this->create_date->isReachable = true;
 		
@@ -18,9 +22,6 @@ class DevelCardModel extends Model{
 		$this->type = $this->select(tt('type'), $type);
 		$this->type->isList = true;
 		$this->type->isReachable = true;
-		
-		if(develcard_is_admin()) $this->initAdminColumns();
-		else $this->initContributorColumns();
 		
 		$this->description = $this->shortText(tt('description'));
 		$this->description->isReachable = true;
@@ -31,6 +32,7 @@ class DevelCardModel extends Model{
 	
 	private function initAdminColumns(){
 		require_once('ResolverModel.class.inc');
+		$this->reporter_name = $this->hidden(USER_NAME, 'char');
 		$this->priority = $this->select(tt('priority'), develcard_get_priority_option());
 		$this->priority->isList = true;
 		$this->priority->isReachable = true;
@@ -43,6 +45,7 @@ class DevelCardModel extends Model{
 	}
 	
 	private function initContributorColumns(){
+		$this->reporter_name = $this->title(tt('your name'));
 		$this->priority = $this->hidden(2, 'int');
 		$this->status->defaultData = 0;
 		
