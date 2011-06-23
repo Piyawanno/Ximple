@@ -4,6 +4,7 @@ abstract class SelectiveColumn extends ModelColumn{
 	public $isSortable;
 	
 	protected $listClass;
+	protected $itemClass;
 	protected $divisionClass;
 	protected $imageTag;
 	
@@ -43,7 +44,7 @@ abstract class SelectiveColumn extends ModelColumn{
 		foreach($this->option as $key => $value){
 			$this->setFormAttribute('value', $key);
 			$this->getCheck($key);
-			$render .= '<div class="sortable_item">'.$this->imageTag;
+			$render .= '<div class="'.$this->itemClass.'">'.$this->imageTag;
 			$render .= '<input '.$this->renderFormAttribute().'/>'.$value;
 			$render .= '</div>';
 		}
@@ -59,11 +60,13 @@ abstract class SelectiveColumn extends ModelColumn{
 	
 	protected function checkSortable(){
 		if($this->isSortable){
-			$this->listClass = 'sortable_form';
+			$this->listClass = 'sortable';
+			$this->itemClass = 'sortable_item';
 			$this->imageTag = '<img src="'.ROOT_URI.'files/icon/move.png" />';
 			head_add_js('include/javascript/sortable.js');
 		}else{
-			$this->listClass = 'unsortable_form';
+			$this->listClass = 'unsortable';
+			$this->itemClass = 'unsortable_item';
 			$this->imageTag = '';
 		}
 	}

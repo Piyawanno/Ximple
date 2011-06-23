@@ -39,7 +39,7 @@
 <script type="text/javascript">
 $(function() {
 	$("#menu_sort").sortable({
-		dropOnEmpty: true,
+		dropOnEmpty: true
 	});
 	$("#menu_sort").disableSelection();
 });

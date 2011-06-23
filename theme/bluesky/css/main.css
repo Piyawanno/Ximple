@@ -249,6 +249,10 @@ input{
 	padding-left:25px;
 }
 
+.widget_left_body h4{
+	font-size:13px;
+}
+
 .widget_left_body ul{
 	list-style:none;
 	padding:0px;

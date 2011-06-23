@@ -51,7 +51,7 @@
 $(document).bind("ready", function(){
 	$("<?=substr($sortable_id, 0, -2)?>").sortable({
 		connectWith: '.sortable',
-		dropOnEmpty: true,
+		dropOnEmpty: true
 	});
 	$("<?=substr($sortable_id, 0, -2)?>").disableSelection();
 });
