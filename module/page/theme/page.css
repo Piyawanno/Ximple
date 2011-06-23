@@ -13,15 +13,9 @@ p.page_info{
 	margin-bottom:-5px;
 }
 
-p.page_foot{
-	border-top:1px solid #eee;
-	text-align:right;
-}
-
-p.page_foot a{
-	text-decoration:none;
-	padding:0px 10px 0px 10px;
-	border-left:1px solid #eee;
+.page_sibling{
+	margin:20px;
+	text-align:center;
 }
 
 .page_tag_content{

@@ -16,8 +16,8 @@
 				</p>
 			<?php endif?>
 			<?=$value['message']?>
-			<p class="message_foot" valign="bottom">
-				<?=$value['write_time']?>
+			<p class="operation_bar">
+				<span><?=$value['write_time']?></span>
 				<a href="<?=SECTION_URI.Q?>message_drop/<?=$value['id']?>"><img src="<?=ROOT_URI?>files/icon/stop.png" border="0" style="margin-left:10px;"/></a>
 				<a href="<?=SECTION_URI.Q?>message_write/send_to/<?=$value['sender']['login_name']?>" ><img src="<?=ROOT_URI?>files/icon/message.png" border="0" style="margin-left:10px;"/></a>
 			</p>

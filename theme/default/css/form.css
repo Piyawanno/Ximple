@@ -102,14 +102,13 @@ fieldset{
 }
 
 .sortable{
-	list-style-type: none;
 	padding:2px 10px 2px 10px;
 	margin:0 0 20px 0;
 	min-height:32px;
 	background:#eee;
 }
 
-.sortable li{
+.sortable_item{
 	line-height:16px;
 	height:32;
 	margin:8px auto 8px auto;
@@ -119,12 +118,12 @@ fieldset{
 	color:#222;
 }
 
-.sortable li:hover{
+.sortable_item:hover{
 	background:#d7e3f4;
 	cursor:move;
 }
 
-.sortable li img{
+.sortable_item img{
 	margin-right:15px;
 }
 

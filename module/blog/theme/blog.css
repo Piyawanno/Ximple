@@ -4,15 +4,9 @@ p.blog_info{
 	margin-bottom:-5px;
 }
 
-p.blog_foot{
-	border-top:1px solid #eee;
-	text-align:right;
-}
-
-p.blog_foot a{
-	text-decoration:none;
-	padding:0px 10px 0px 10px;
-	border-left:1px solid #eee;
+.blog_sibling{
+	margin:20px;
+	text-align:center;
 }
 
 .blog{

@@ -56,15 +56,15 @@
 			<a href="<?=SECTION_URI.Q?>page/tag/<?=$tag?>" class="tag"><?=$tag?></a>
 		<?php endforeach?>
 	</p>
-	<p class="page_foot">
-		<a>read <!--{ximple_read/page/<?=$id?>}--></a>
-		<a href="<?=SECTION_URI.Q?>page_print/<?=$id?>/parent/<?=$parent?>" onclick="ximplePrint(this); return false;"><?=tt('print')?></a>
+	<p class="operation_bar">
+		<span>read <!--{ximple_read/page/<?=$id?>}--></span>
+		<?=render_print_link('page_print/'.$id)?>
 		<?php if($editable):?>
-			<a href="<?=SECTION_URI.Q?>page_edit/<?=$id?>/parent/<?=$parent?>"><?=tt('edit')?></a>
-			<a href="<?=SECTION_URI.Q?>page_drop/<?=$id?>"><?=tt('drop')?></a>
+			<?=render_operation_link('page_edit', $id, ('edit'))?>
+			<?=render_operation_link('page_drop', $id, ('drop'))?>
 		<?php endif?>
 	</p>
-	<p style="magin:20px;text-align:center;">
+	<p class="page_sibling">
 		<?php if(isset($back)):?>
 			<a href="<?=render_uri('page', $back)?>">&#171; <?=$back['topic']?></a> |
 		<?php endif?>

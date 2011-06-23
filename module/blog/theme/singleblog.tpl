@@ -30,15 +30,15 @@
 		<?=$publish_time?> | <?=tt('by')?> <?=render_profile_link($writer)?> | <?=tt('tags')?>
 		<?=render_tag($category, $freetag, 'blog')?>
 	</p>
-	<p class="blog_foot">
-		<a>read <!--{ximple_read/blog/<?=$id?>}--></a>
-		<a href="<?=SECTION_URI.Q?>blog_print/<?=$id?>" onclick="ximplePrint(this); return false;"><?=tt('print')?></a>
+	<p class="operation_bar">
+		<span>read <!--{ximple_read/blog/<?=$id?>}--></span>
+		<?=render_print_link('blog_edit/'.$id)?>
 		<?php if($editable):?>
-			<a href="<?=SECTION_URI.Q?>blog_edit/<?=$id?>"><?=tt('edit')?></a>
-			<a href="<?=SECTION_URI.Q?>blog_drop/<?=$id?>"><?=tt('drop')?></a>
+			<?=render_operation_link('blog_edit', $id, tt('edit'))?>
+			<?=render_operation_link('blog_drop', $id, tt('drop'))?>
 		<?php endif?>
 	</p>
-	<p style="magin:20px;text-align:center;">
+	<p class="blog_sibling">
 		<?php if(count($back) and $show_sibling):?>
 			<a href="<?=render_uri('blog', $back[0])?>">&#171; <?=$back[0]['topic']?></a> | 
 		<?php endif?>

@@ -4,17 +4,6 @@ p.video_info{
 	margin-bottom:-5px;
 }
 
-p.video_foot{
-	border-top:1px solid #eee;
-	text-align:right;
-}
-
-p.video_foot a{
-	text-decoration:none;
-	padding:0px 10px 0px 10px;
-	border-left:1px solid #eee;
-}
-
 .video{
 	margin:0px 0px 50px 0px;
 }

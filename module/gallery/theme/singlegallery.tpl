@@ -40,12 +40,12 @@
 			<a href="<?=SECTION_URI.Q?>gallery/tag/<?=$tag?>" class="tag"><?=$tag?></a>
 		<?php endforeach?>
 	</p>
-	<p class="gallery_foot">
-		<a>read <!--{ximple_read/gallery/<?=$id?>}--></a>
-		<a href="<?=SECTION_URI.Q?>gallery_print/<?=$id?>" onclick="ximplePrint(this); return false;"><?=tt('print')?></a>
+	<p class="operation_bar">
+		<span>read <!--{ximple_read/gallery/<?=$id?>}--></span>
+		<?=render_print_link('gallery_print/'.$id)?>
 		<?php if($editable):?>
-			<a href="<?=SECTION_URI.Q?>gallery_edit/<?=$id?>"><?=tt('edit')?></a>
-			<a href="<?=SECTION_URI.Q?>gallery_drop/<?=$id?>"><?=tt('drop')?></a>
+			<?=render_operation_link('gallery_edit', $id, ('edit'))?>
+			<?=render_operation_link('gallery_drop', $id, ('drop'))?>
 		<?php endif?>
 	</p>
 </div>

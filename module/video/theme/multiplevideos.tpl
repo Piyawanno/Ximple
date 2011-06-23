@@ -22,17 +22,17 @@
 				<a href="<?=SECTION_URI.Q?>video/tag/<?=$tag?>" class="tag"><?=$tag?></a>
 			<?php endforeach?>
 		</p>
-		<p class="video_foot">
-			<a>read <!--{ximple_read/video/<?=$value['id']?>}--></a>
+		<p class="operation_bar">
+			<span>read <!--{ximple_read/video/<?=$value['id']?>}--></span>
 			<?php if(isset($value['comment_no'])):?>
-				<a><?=tt('comments')?> <?=$value['comment_no']?></a>
+				<span><?=tt('comments')?> <?=$value['comment_no']?></span>
 			<?php else:?>
-				<a><?=tt('no comment')?></a>
+				<span><?=tt('no comment')?></span>
 			<?php endif?>
 			<a href="<?=ROOT_URI.$value['file']?>"><?=tt('download')?></a>
 			<?php if($value['editable']):?>
-				<a href="<?=SECTION_URI.Q?>video_edit/<?=$value['id']?>"><?=tt('edit')?></a>
-				<a href="<?=SECTION_URI.Q?>video_drop/<?=$value['id']?>"><?=tt('drop')?></a>
+				<?=render_operation_link('video_edit', $value['id'], ('edit'))?>
+				<?=render_operation_link('video_drop', $value['id'], ('drop'))?>
 			<?php endif?>
 			<a href="<?=SECTION_URI.Q?>video/<?=$value['id']?>"><?=tt('read more')?></a>
 		</p>

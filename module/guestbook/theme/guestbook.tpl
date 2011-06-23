@@ -7,11 +7,11 @@
 	<p>
 		<?=$value['guestbook']?>
 	</p>
-	<p class="guestbook_foot">	
-		<?=$value['write_time']?>
+	<p class="operation_bar">	
+		<span><?=$value['write_time']?></span>
 		<?php if($is_admin):?>
-			<a href="<?=SECTION_URI.Q?>guestbook_edit/<?=$value['id']?>">edit</a>
-			<a href="<?=SECTION_URI.Q?>guestbook_drop/<?=$value['id']?>">drop</a>
+			<?=render_operation_link('guestbook_edit', $value['id'], ('edit'))?>
+			<?=render_operation_link('guestbook_drop', $value['id'], ('drop'))?>
 		<?php endif?>
 	</p>
 </div>

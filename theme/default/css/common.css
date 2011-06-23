@@ -6,6 +6,18 @@
 	display:block;
 }
 
+/* ========= operation bar ========= */
+.operation_bar{
+	border-top:1px solid #ddd;
+	text-align:right;
+}
+
+.operation_bar a, .operation_bar span{
+	text-decoration:none;
+	padding:0px 10px 0px 10px;
+	border-left:1px solid #ddd;
+}
+
 /* ========= calenda ========= */
 
 table.calendar{

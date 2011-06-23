@@ -38,16 +38,16 @@ abstract class SelectiveColumn extends ModelColumn{
 	protected function renderRawsForm($formID){
 		$id = $formID.'_'.$this->name;
 		$render = '<div class="'.$this->divisionClass.'">';
-		$render.= '<ul class="'.$this->listClass.'" id="'.$id.'">';
+		$render.= '<div class="'.$this->listClass.'" id="'.$id.'">';
 		$this->setFormAttribute('style', 'border:none;');
 		foreach($this->option as $key => $value){
 			$this->setFormAttribute('value', $key);
 			$this->getCheck($key);
-			$render .= '<li>'.$this->imageTag;
+			$render .= '<div class="sortable_item">'.$this->imageTag;
 			$render .= '<input '.$this->renderFormAttribute().'/>'.$value;
-			$render .= '</li>';
+			$render .= '</div>';
 		}
-		$render .= '</ul>';
+		$render .= '</div>';
 		$render .= '</div>';
 		$render .= '<span id="info_'.$id.'"></span>';
 		$render .= '<p style="clear:both;">';

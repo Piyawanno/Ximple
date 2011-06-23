@@ -19,18 +19,18 @@
 			<?=$value['publish_time']?> | <?=tt('by')?> <?=render_profile_link($value['writer'])?> | <?=tt('tags')?>
 			<?=render_tag($value['category'], $value['freetag'], 'blog')?>
 		</p>
-		<p class="blog_foot">
-			<a>read <!--{ximple_read/blog/<?=$value['id']?>}--></a>
+		<p class="operation_bar">
+			<span>read <!--{ximple_read/blog/<?=$value['id']?>}--></span>
 			<?php if(isset($value['comment_no'])):?>
-				<a><?=tt('comments')?> <?=$value['comment_no']?></a>
+				<span><?=tt('comments')?> <?=$value['comment_no']?></span>
 			<?php else:?>
-				<a><?=tt('no comment')?></a>
+				<span><?=tt('no comment')?></span>
 			<?php endif?>
 			<?php if($value['editable']):?>
-				<a href="<?=SECTION_URI.Q?>blog_edit/<?=$value['id']?>"><?=tt('edit')?></a>
-				<a href="<?=SECTION_URI.Q?>blog_drop/<?=$value['id']?>"><?=tt('drop')?></a>
+				<?=render_operation_link('blog_edit', $value['id'], tt('edit'))?>
+				<?=render_operation_link('blog_drop', $value['id'], tt('drop'))?>
 			<?php endif?>
-			<a href="<?=SECTION_URI.Q?>blog/<?=$value['id']?>"><?=tt('read more')?></a>
+			<?=render_operation_link('blog', $value['id'], tt('read more'))?>
 		</p>
 	</div>
 <?php endforeach?>

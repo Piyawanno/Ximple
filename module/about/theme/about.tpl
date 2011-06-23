@@ -2,7 +2,7 @@
 <h3 class="list_label"><?=$title?></h3>
 <p><?=$body?></p>
 <?php if($is_admin):?>
-<p style="border-top:1px solid #eee;" align="right">
-	<a href="<?=SECTION_URI.Q?>about_edit/<?=SECTION?>">edit</a>
+<p class="operation_bar">
+	<?=render_operation_link('about_edit', SECTION, tt('edit'))?>
 </p>
 <?php endif?>

@@ -29,11 +29,11 @@ class CalendarColumn extends CharColumn{
 	}
 	
 	public function triggerPostInsert(){
-		$this->data = date('Y-m-d H:i:s', strtotime($this->data));
+		$this->data = date('Y-m-d', strtotime($this->data)).' '.date('H:i:s');
 	}
 	
 	public function triggerPostUpdate(){
-		$this->data = date('Y-m-d H:i:s', strtotime($this->data));
+		$this->data = date('Y-m-d', strtotime($this->data)).' '.date('H:i:s');
 	}
 }
 ?>

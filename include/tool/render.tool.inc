@@ -166,6 +166,14 @@ function render_option($data){
 	return '<option>'.join('</option><option>', $data).'</option>';
 }
 
+function render_operation_link($mode, $id, $label){
+	return '<a href="'.SECTION_URI.Q.$mode.'/'.$id.'">'.$label.'</a>';
+}
+
+function render_print_link($print_mode){
+	return '<a href="'.SECTION_URI.Q.$print_mode.'" onclick="ximplePrint(this); return false;">'.tt('print').'</a>';
+}
+
 function render_tag_cloud($mode, $freetag){
 	if($freetag['number'] < 520){
 		$size = 12 + $freetag['number']/10;

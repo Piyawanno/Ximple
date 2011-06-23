@@ -17,10 +17,10 @@
 <fieldset>
 	<legend><label><?=$title?></label></legend>
 	<?php $sortable_id .= '#widget_sort_'.$reference.', ';?>
-	<ul id="widget_sort_<?=$reference?>" class="sortable">
+	<div id="widget_sort_<?=$reference?>" class="sortable">
 	<?php if(isset($data[$reference])):?>
 		<?php foreach($data[$reference] as $widget):?>
-		<li>
+		<div class="sortable_item">
 			<a name="widget_<?=$widget['id']?>" />
 			<img src="<?=ROOT_URI?>files/icon/move.png" align="left"/> 
 			<a href="<?=SECTION_URI.Q.'widget_edit/'.$widget['id']?>" style="text-decoration:none;">
@@ -33,10 +33,10 @@
 			<input type="hidden" name="position[]" class="position_input" value=""/>
 			<input type="hidden" name="widget[]" value="<?=$widget['id']?>"/>
 			<input type="hidden" name="call_mode[]" value="<?=$widget['call_mode']?>"/>
-		</li>
+		</div>
 		<?php endforeach?>
 	<?php endif?>
-	</ul>
+	</div>
 	<a href="<?=SECTION_URI.Q?>widget_write/position/<?=$reference?>" style="text-decoration:none;">
 		<img src="<?=ROOT_URI?>files/icon/add.png" align="left" border="0" style="margin-right:15px;"/>
 		<?=sprintf(tt('Add new widget into %s'), $title)?>

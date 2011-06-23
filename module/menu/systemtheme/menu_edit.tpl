@@ -11,9 +11,9 @@
 </p>
 
 <form action="<?=SECTION_URI.Q?>menu_save_sort" method="post">
-	<ul id="menu_sort" class="sortable">
+	<div id="menu_sort" class="sortable">
 	<?php foreach($data as $id => $title):?>
-	<li>
+	<div class="sortable_item">
 		<a name="menu_<?=$id?>" />
 		<img src="<?=ROOT_URI?>files/icon/move.png" align="left"/> 
 		<a href="<?=SECTION_URI.Q.'menu_edit/'.$id?>" style="text-decoration:none;">
@@ -24,9 +24,9 @@
 		</a>
 		<?=$title?>
 		<input type="hidden" name="menu[]" value="<?=$id?>"/>
-	</li>
+	</div>
 	<?php endforeach?>
-	</ul>
+	</div>
 	<p>
 		<a href="<?=SECTION_URI.Q?>menu_write" style="text-decoration:none;">
 			<img src="<?=ROOT_URI?>files/icon/add.png" align="left" border="0" style="margin-right:15px;"/>

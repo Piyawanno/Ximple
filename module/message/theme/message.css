@@ -26,13 +26,6 @@ td.message_container{
 	padding:15px;
 }
 
-.message_foot{
-	margin-top:20px;
-	border-top:1px solid white;
-	text-align:right;
-	padding-top:5px;
-}
-
 .message{
 	margin:0px 0px 50px 0px;
 }

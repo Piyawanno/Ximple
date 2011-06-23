@@ -14,16 +14,16 @@
 				<a href="<?=SECTION_URI.Q?>page/tag/<?=$tag?>" class="tag"><?=$tag?></a>
 			<?php endforeach?>
 		</p>
-		<p class="page_foot">
-			<a>read <!--{ximple_read/page/<?=$id?>}--></a>
+		<p class="operation_bar">
+			<span>read <!--{ximple_read/page/<?=$id?>}--></span>
 			<?php if(isset($value['comment_no'])):?>
-				<a><?=tt('comments')?> <?=$value['comment_no']?></a>
+				<span><?=tt('comments')?> <?=$value['comment_no']?></span>
 			<?php else:?>
-				<a><?=tt('no comment')?></a>
+				<span><?=tt('no comment')?></span>
 			<?php endif?>
 			<?php if($value['editable']):?>
-				<a href="<?=SECTION_URI.Q?>page_edit/<?=$id?>/parent/<?=$value['parent']?>"><?=tt('edit')?></a>
-				<a href="<?=SECTION_URI.Q?>page_drop/<?=$id?>"><?=tt('drop')?></a>
+				<?=render_operation_link('page_edit', $id.'/parent/'.$value['parent'], ('edit'))?>
+				<?=render_operation_link('page_drop', $id, ('drop'))?>
 			<?php endif?>
 		</p>
 		<p style="clear:both;"></p>

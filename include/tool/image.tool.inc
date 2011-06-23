@@ -12,6 +12,7 @@ function image_check_max_width($file, $path, $maxwidth){
 			$image_dst = imageCreateTrueColor($dst_w, $dst_h);
 			imageCopyResized($image_dst, $image_src, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
 			imageJPEG($image_dst, $path, 85);
+			imageFilter($image_dst, IMG_FILTER_SMOOTH, 12);
 			notify_add_info(tt('Image has been automaticaaly resized.'));
 		}
 	}
@@ -23,6 +24,7 @@ function image_square_crop($file, $path, $size){
 		$src_size = min(imagesx($image_src), imagesy($image_src));
 		$image_dst = imageCreateTrueColor($size, $size);
 		imageCopyResized($image_dst, $image_src, 0, 0, 0, 0, $size, $size, $src_size, $src_size);
+		imageFilter($image_dst, IMG_FILTER_SMOOTH, 12);
 		imageJPEG($image_dst, $path, 85);
 	}
 }
@@ -41,6 +43,7 @@ function image_generate_thumb($file, $path, $thumbpath){
 		}
 		$image_dst = imageCreateTrueColor($dst_w, $dst_h);
 		imageCopyResized($image_dst, $image_src, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
+		imageFilter($image_dst, IMG_FILTER_SMOOTH, 12);
 		imageJPEG($image_dst, $thumbpath, 85);
 	}
 }

@@ -13,10 +13,10 @@ class CheckEditColumn extends SelectiveColumn{
 		$id = $formID.'_'.$this->name;
 		$this->checkSortable();
 		$render = '<div class="checkedit_list">';
-		$render.= '<ul class="'.$this->listClass.'" id="'.$id.'">';
+		$render.= '<div class="'.$this->listClass.'" id="'.$id.'">';
 		$i = 0;
 		foreach($this->option as $key => $value){
-			$render .= '<li>'.$this->imageTag;
+			$render .= '<div class="sortable_item">'.$this->imageTag;
 			
 			$this->resetFormAttribute();
 			$this->getCheck($key);
@@ -27,10 +27,10 @@ class CheckEditColumn extends SelectiveColumn{
 			$this->setInputAttribute($id.$i, $key, $value);
 			$render .= '<input '.$this->renderFormAttribute().'/>';
 			
-			$render .= '</li>';
+			$render .= '</div>';
 			$i++;
 		}
-		$render .= '</ul>';
+		$render .= '</div>';
 		$render .= '</div>';
 		$render .= '<span id="info_'.$id.'"></span>';
 		$render .= '<p style="clear:both;">';

@@ -62,17 +62,13 @@ class DevelCard extends Control{
 	}
 	
 	public function display(){
-		document_set_path(tt('Display'));
-		$this->id = MODE_ID;
+		$this->id = (int) gg('id');
 		$this->selectByID($this->column);
-		head_add_css('list.css');
+		
 		$renderArray = array(
-			'data' => $this->data[$this->id],
+			'data' => $this->dataByID,
 		);
-		if(authority_group('develcard_moderator') or authority_group('develcard_admin'))
-			$render = render($renderArray, 'develcarddisplay.tpl', 'develcarddisplay');
-		else
-			$render = render($renderArray, 'develcarddisplay_reporter.tpl', 'develcarddisplay');
+		$render = render($renderArray, 'develcarddisplay.tpl', 'develcarddisplay');
 		return $render;
 	}
 	

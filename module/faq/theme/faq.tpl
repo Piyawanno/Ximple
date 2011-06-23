@@ -17,12 +17,10 @@
 		<?php foreach($questions as $key => $value) :?>
 			<h3 class="title_label"> Q : <?=$value['question']?> </h3>
 			<p><?=$value['answer']?> </p>
-			<p class="faq_foot">
+			<p class="operation_bar">
 			<?php if($value['editable']):?>
-				<a href="<?=SECTION_URI.'faq_edit/'.$key?>"><?=tt('edit')?></a>
-			<?php endif?>
-			<?php if($value['dropable']):?>
-				<a href="<?=SECTION_URI.'faq_drop/'.$key?>"><?=tt('drop')?></a>
+				<?=render_operation_link('faq_edit', $key, ('edit'))?>
+				<?=render_operation_link('faq_drop', $key, ('drop'))?>
 			<?php endif?>
 			</p>
 		<?php endforeach?>

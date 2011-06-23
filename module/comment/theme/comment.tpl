@@ -32,11 +32,11 @@
 			<?php endif?>
 		</tr>
 	</table>
-	<p class="comment_foot">
-		<a><?=$value['write_time']?></a>
+	<p class="operation_bar">
+		<span><?=$value['write_time']?></span>
 		<?php if($value['editable']):?>
-			<a href="<?=SECTION_URI.Q?>comment_edit/<?=$value['id']?>/module/<?=$value['mode']?>/parent/<?=$value['parent']?>"><?=tt('edit')?></a>
-			<a href="<?=SECTION_URI.Q?>comment_drop/<?=$value['id']?>/module/<?=$value['mode']?>/parent/<?=$value['parent']?>"><?=tt('drop')?></a>
+			<?=render_operation_link('comment_edit', $value['id'].'/module/'.$value['mode'].'/parent/'.$value['parent'], tt('edit'))?>
+			<?=render_operation_link('comment_drop', $value['id'].'/module/'.$value['mode'].'/parent/'.$value['parent'], tt('drop'))?>
 		<?php endif?>
 	</p>
 </div>

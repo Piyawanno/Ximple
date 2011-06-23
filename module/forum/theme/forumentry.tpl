@@ -21,12 +21,12 @@
 	<p class="forum_info">
 		<?=$write_time?> | <?=tt('by')?> <?=render_profile_link($writer)?>
 	</p>
-	<p class="forum_foot">
-		<a>read <!--{ximple_read/forum_entry/<?=$id?>}--></a>
-		<a href="<?=SECTION_URI.Q?>forum_print/<?=$id?>" onclick="ximplePrint(this); return false;"><?=tt('print')?></a>
+	<p class="operation_bar">
+		<span>read <!--{ximple_read/forum_entry/<?=$id?>}--></span>
+		<?=render_print_link('forum_print/'.$id)?>
 		<?php if($editable):?>
-			<a href="<?=SECTION_URI.Q?>forum_entry_edit/<?=$id?>"><?=tt('edit')?></a>
-			<a href="<?=SECTION_URI.Q?>forum_entry_drop/<?=$id?>"><?=tt('drop')?></a>
+			<?=render_operation_link('forum_entry_edit', $id, ('edit'))?>
+			<?=render_operation_link('forum_entry_drop', $id, ('drop'))?>
 		<?php endif?>
 	</p>
 </div>

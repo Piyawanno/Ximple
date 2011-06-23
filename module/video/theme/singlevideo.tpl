@@ -48,13 +48,13 @@
 			<a href="<?=SECTION_URI.Q?>video/tag/<?=$tag?>" class="tag"><?=$tag?></a>
 		<?php endforeach?>
 	</p>
-	<p class="video_foot">
-		<a>read <!--{ximple_read/video/<?=$id?>}--></a>
+	<p class="operation_bar">
+		<span>read <!--{ximple_read/video/<?=$id?>}--></span>
 		<a href="<?=ROOT_URI.$file?>"><?=tt('download')?></a>
 		<a href="#" onclick="videoShowEmbed();return false;"><?=tt('embed')?></a>
 		<?php if($editable):?>
-			<a href="<?=SECTION_URI.Q?>video_edit/<?=$id?>"><?=tt('edit')?></a>
-			<a href="<?=SECTION_URI.Q?>video_drop/<?=$id?>"><?=tt('drop')?></a>
+			<?=render_operation_link('video_edit', $id, ('edit'))?>
+			<?=render_operation_link('video_drop', $id, ('drop'))?>
 		<?php endif?>
 	</p>
 	<div id="embed_dialog" style="display:none;">
