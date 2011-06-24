@@ -13,6 +13,7 @@ $(document).bind("ready", function(){
 
 function addGridRow(tableID){
 	$('#'+tableID).append(gridRowArray[tableID]);
+	$(document).trigger('ready');
 }
 
 function delGridRow(anchor, dropMode){

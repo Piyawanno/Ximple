@@ -90,6 +90,7 @@ class DataModifier{
 		$type = $this->modelConnector->getPHPType();
 		foreach($this->columnDB as $name){
 			$data = pp($name);
+			echo($name.'<br />');
 			settype($data, $type[$name]);
 			$this->data[$name] = $data;
 		}

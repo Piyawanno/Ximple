@@ -4,6 +4,8 @@ function develcard_get_status_option(){
 		0 => tt('created'),
 		1 => tt('in progress'),
 		2 => tt('closed'),
+		3 => tt('failed'),
+		4 => tt('rejected'),
 	);
 }
 

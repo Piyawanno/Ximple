@@ -5,6 +5,8 @@ class NoneColumn extends ModelColumn{
 		$this->setType($type);
 		$this->defaultData = $default;
 		$this->data = $default;
+		$this->isGridForm = false;
+		$this->isForm = false;
 	}
 	
 	function renderForm($formID){

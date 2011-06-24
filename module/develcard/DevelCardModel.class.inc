@@ -6,22 +6,19 @@ class DevelCardModel extends Model{
 		if(develcard_is_admin()) $this->initAdminColumns();
 		else $this->initContributorColumns();
 		$this->reporter = $this->owner();
-		
 		$this->topic = $this->title(tt('topic'));
-		$this->topic->listMode = 'develcard_display';
-		
+
 		$this->create_date = $this->now();
 		$this->create_date->label = tt('created');
 		$this->create_date->dateFormat = cc('time_format');
 		$this->create_date->formatDateBySelect = true;
-		$this->create_date->isList = true;
-		$this->create_date->isReachable = true;
+		
+		$this->end_date = $this->now();
+		$this->end_date->defaultData = time() + 60*60*24*7;
 		
 		$type = cc('develcard_type');
 		if(!is_array($type)) $type = develcard_get_default_type_option();
 		$this->type = $this->select(tt('type'), $type);
-		$this->type->isList = true;
-		$this->type->isReachable = true;
 		
 		$this->description = $this->shortText(tt('description'));
 		$this->description->isReachable = true;
@@ -34,14 +31,12 @@ class DevelCardModel extends Model{
 		require_once('ResolverModel.class.inc');
 		$this->reporter_name = $this->hidden(USER_NAME, 'char');
 		$this->priority = $this->select(tt('priority'), develcard_get_priority_option());
-		$this->priority->isList = true;
 		$this->priority->isReachable = true;
 		
 		$this->status = $this->select(tt('status'), develcard_get_status_option());
 		$this->resolver = $this->grid(tt('resolvers'))->setModel(new ResolverModel());
 		
 		$this->deadline = $this->calendar(tt('deadline'));
-		$this->deadline->isList = true;
 	}
 	
 	private function initContributorColumns(){

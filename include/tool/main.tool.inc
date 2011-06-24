@@ -113,7 +113,11 @@ function main_count_visitor(){
 
 /// Get setup values from setup file.
 function main_get_setup(){
-	include(dirname(dirname(__FILE__)).'/setup.php');
+	$setup_directory = dirname(dirname(__FILE__));
+	$test_setup = $setup_directory.'/setup.test.php';
+	$setup = $setup_directory.'/setup.php';
+	if(state_is_test() and is_file($test_setup)) include($test_setup);
+	else include($setup);
 }
 
 /// Include necessary tools.

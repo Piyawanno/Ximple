@@ -9,7 +9,7 @@ function render($data, $tpl, $id){
 	}
 	$tpl = render_get_tpl($tpl);
 	ob_start();
-	if(strlen($tpl)) require($tpl);
+	if(is_file($tpl)) require($tpl);
 	$render = ob_get_contents();
 	ob_end_clean();
 	return $render;
@@ -37,10 +37,9 @@ function render_get_tpl($tpl){
 	elseif(is_file($tpl_abs)) $tpl_out = $tpl_abs;
 	else{
 		$tpl_out = render_find_tpl($tpl);
-		return null;
-#		if($tpl_out == null){
-#			die('Template file can not be found : '.$tpl);
-#		}
+		if($tpl_out == null){
+			echo('Template file can not be found : '.$tpl_out);
+		}
 	}
 	
 	$render_cache_tpl[$tpl] = $tpl_out;

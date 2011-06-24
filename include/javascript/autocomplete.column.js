@@ -1,6 +1,6 @@
 $(document).bind("ready", function(){
 	$('.auto_complete').each(function(){
-		if(!$(this).attr('initialized')){
+		if($(this).attr("rel") != "initialized"){
 			$(this).keypress(function(){
 				var words = $(this).val().split(',');
 				var lastWord = jQuery.trim(words[words.length-1]);
@@ -24,7 +24,7 @@ $(document).bind("ready", function(){
 				}
 			});
 		}
-		$(this).attr('initialized', true);
+		$(this).attr("rel", "initialized");
 	});
 	
 	if(!$('#complete_option').attr('initialized')){

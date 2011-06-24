@@ -1,4 +1,8 @@
 <?php
+
+global $spin_init_js;
+$spin_init_js = false;
+
 class SpinColumn extends ModelColumn{
 	function SpinColumn($label, $min, $max, $step=1, $help=null){
 		$this->setType('int');
@@ -24,7 +28,7 @@ class SpinColumn extends ModelColumn{
 			$("#'.$id.'").spinbox({
 				min  : '.$this->min.',
 				max  : '.$this->max.',
-				step : '.$this->step.',
+				step : '.$this->step.'
 			});
 		</script>';
 		return $render;
@@ -37,15 +41,30 @@ class SpinColumn extends ModelColumn{
 		$this->setFormAttribute('name', $this->name.'[]');
 		$this->setFormAttribute('class', $id);
 		$this->setFormAttribute('value', $this->data);
-		$render.= '
-		<script>
-			$(".'.$id.'").spinbox({
-				min  : '.$this->min.',
-				max  : '.$this->max.',
-				step : '.$this->step.',
-			});
-		</script>';
+		$this->initJS($id);
+		$render  = '<input '.$this->renderFormAttribute().'/>';
 		return $render;
+	}
+	
+	private function initJS($id){
+		global $spin_init_js;
+		if(!$spin_init_js){
+			$js = '
+			$(document).bind("ready", function(){
+				$(".'.$id.'").each(function(){
+					if($(this).attr("rel") != "initialized"){
+						$(this).spinbox({
+							min  : '.$this->min.',
+							max  : '.$this->max.',
+							step : '.$this->step.'
+						});
+					}
+					$(this).attr("rel", "initialized");
+				});
+			});';
+			head_inject_js($js);
+			$spin_init_js = true;
+		}
 	}
 }
 ?>

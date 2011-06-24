@@ -7,7 +7,9 @@
 
 /// Internal global variables for head-tool.
 /// These variables should not be used outside this file.
-global $head_css, $head_js, $head_js_array, $head_js_var, $head_print_css;
+global $head_css, $head_js, $head_js_array;
+global $head_js_var, $head_print_css;
+global $head_injected_js;
 
 $head_css = array(
 	'main.css',
@@ -39,6 +41,7 @@ $head_js_var = array(
 );
 
 $head_js_array = array();
+$head_injected_js = '';
 
 /// Render HTML-header with meta information and including javascript and css.
 function head_render(){
@@ -53,6 +56,7 @@ function head_render(){
 		'.head_define_js_var().'
 		'.head_define_js_array().'
 		'.head_include_js().'
+		'.head_render_injected_js().'
 		'.cc('meta_data');
 	return $head;
 }
@@ -164,6 +168,23 @@ function head_add_js($js){
 	if(!in_array($js, $head_js)){
 		$head_js[] = $js;
 	}
+}
+
+/// Inject JavaScript into Head Tag.
+/// @param $js : JavaScript code to inject;
+function head_inject_js($js){
+	global $head_injected_js;
+	$head_injected_js .= $js;
+}
+
+/// Render injected JavaScript into Head Tag.
+/// @return Rendered injected JavaScript.
+function head_render_injected_js(){
+	global $head_injected_js;
+	return '
+	<script type="text/javascript">
+		'.$head_injected_js.'
+	</script>';
 }
 
 /// Render HTML-Tag to include CSS into main document.

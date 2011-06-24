@@ -25,6 +25,12 @@ class DevelCard extends Control{
 		else return $this->summaryPage();
 	}
 	
+	public function personalPage(){
+		$id = (int) gg('id');
+		if($id) return $this->rederPersonalPage();
+		else return $this->rederPersonalList();
+	}
+	
 	public function reporterListPage(){
 		$uid = $this->getUserID();
 		$mode = 'develcard_reporter_list/'.$uid;
@@ -32,7 +38,7 @@ class DevelCard extends Control{
 		$clause  = $this->handleStatus($mode);
 		$clause .= $this->handleType($mode);
 		$title = tt('DevelCard reported by me');
-		$clause = 'WHERE reporter='.$uid.$clause.' ORDER BY id DESC';
+		$clause = 'WHERE reporter='.$uid.$clause.' ORDER BY deadline DESC';
 		return $this->renderListPage($title, $clause, $mode);
 	}
 	
@@ -49,12 +55,16 @@ class DevelCard extends Control{
 		$clause  = $this->handleStatus($mode);
 		$clause .= $this->handleType($mode);
 		$title = tt('DevelCard in My Duty');
-		$clause = 'WHERE '.$idClause.$clause.' ORDER BY id DESC';
+		$clause = 'WHERE '.$idClause.$clause.' ORDER BY deadline DESC';
 		return $this->renderListPage($title, $clause, $mode);
 	}
 	
 	public function dropResolver(){
 		db_drop('develcard_resolver', (int)gg('id'));
+	}
+	
+	public function setStatus(){
+	
 	}
 	
 	protected function renderListPage($title, $clause, $mode){
@@ -74,6 +84,14 @@ class DevelCard extends Control{
 		return $render;
 	}
 	
+	private function renderPersonalPage(){
+	
+	}
+	
+	private function renderPersonalList(){
+	
+	}
+	
 	private function summaryPage(){
 		$mode = 'develcard';
 		$clause  = $this->handleStatus($mode);
@@ -86,11 +104,11 @@ class DevelCard extends Control{
 	private function display(){
 		$this->selectByID($this->column);
 		$this->dataByID = $this->prepareData($this->dataByID, 'develcard');
-		
 		head_add_css('develcard.css');
 		document_set_path($this->dataByID['status']['label'], $this->dataByID['status_uri']);
 		document_set_path($this->dataByID['type']['label'], $this->dataByID['type_uri']);
 		document_set_path($this->dataByID['topic']);
+		$this->dataByID['editable'] = (develcard_is_admin() or authority_group('develcard_resolver'));
 		return render($this->dataByID, 'develcard_display.tpl', 'develcard_display');
 	}
 	
@@ -110,9 +128,12 @@ class DevelCard extends Control{
 		$this->addAccessMethod('develcard_reporter', 'write');
 		$this->addAccessMethod('develcard_reporter', 'insert');
 		$this->addAccessMethod('develcard_reporter', 'reporterListPage');
+		$this->addAccessMethod('develcard_reporter', 'personalPage');
 		
 		$this->addAccessMethod('develcard_reporter', 'index');
 		$this->addAccessMethod('develcard_resolver', 'resolverListPage');
+		$this->addAccessMethod('develcard_resolver', 'personalPage');
+		$this->addAccessMethod('develcard_resolver', 'setStatus');
 		
 		$this->addAccessMethod('develcard_moderator', 'index');
 		$this->addAccessMethod('develcard_moderator', 'write');
@@ -124,7 +145,8 @@ class DevelCard extends Control{
 		$this->addAccessMethod('develcard_moderator', 'reporterListPage');
 		$this->addAccessMethod('develcard_moderator', 'resolverListPage');
 		$this->addAccessMethod('develcard_moderator', 'dropResolver');
-		
+		$this->addAccessMethod('develcard_moderator', 'personalPage');
+		$this->addAccessMethod('develcard_moderator', 'setStatus');
 	}
 	
 	private function prepareData($data, $mode){
@@ -172,8 +194,9 @@ class DevelCard extends Control{
 	private function setAction(){
 		$this->addAction('develcard_reporter_list', 'reporterListPage');
 		$this->addAction('develcard_resolver_list', 'resolverListPage');
-		$this->addAction('develcard_display', 'display');
 		$this->addAction('develcard_drop_resolver', 'dropResolver');
+		$this->addAction('develcard_personal', 'personalPage');
+		$this->addAction('develcard_set_status', 'setStatus');
 	}
 	
 	private function setConfig(){
@@ -194,6 +217,10 @@ class DevelCard extends Control{
 		$uid = (int) gg('id');
 		if(empty($uid)) $uid = USER_ID;
 		return $uid;
+	}
+	
+	private function setResolverStatus($status){
+		
 	}
 }
 ?>
