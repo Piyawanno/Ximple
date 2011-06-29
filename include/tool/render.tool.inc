@@ -23,14 +23,16 @@ function render_get_tpl($tpl){
 	}
 	
 	$tpl_sys = THEME_PATH.'default/systemtemplate/'.$tpl;
-	$tpl_module_sys = MODULE_PATH.''.MODULE.'/systemtheme/'.$tpl;
-	$tpl_theme = THEME_PATH.''.cc('theme').'/template/'.$tpl;
+	$tpl_module_sys = MODULE_PATH.MODULE.'/systemtheme/'.$tpl;
+	$tpl_private = SECTION_PATH.'private/theme/'.cc('theme').'/template/'.$tpl;
+	$tpl_theme = THEME_PATH.cc('theme').'/template/'.$tpl;
 	$tpl_default = THEME_PATH.'default/template/'.$tpl;
-	$tpl_module = MODULE_PATH.''.MODULE.'/theme/'.$tpl;
+	$tpl_module = MODULE_PATH.MODULE.'/theme/'.$tpl;
 	$tpl_abs = ROOT_PATH.$tpl;
 	
 	if(is_file($tpl_sys)) $tpl_out = $tpl_sys;
 	elseif(is_file($tpl_module_sys)) $tpl_out = $tpl_module_sys;
+	elseif(is_file($tpl_private)) $tpl_out = $tpl_private;
 	elseif(is_file($tpl_theme)) $tpl_out = $tpl_theme;
 	elseif(is_file($tpl_default)) $tpl_out = $tpl_default;
 	elseif(is_file($tpl_module)) $tpl_out = $tpl_module;

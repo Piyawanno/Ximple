@@ -242,11 +242,13 @@ function head_add_print_css($css){
 /// @return URI of CSS.
 function head_get_css_uri($file_name){
 	$path_custom = 'files/customtheme/'.SECTION.'/'.cc('theme').'/css/'.$file_name;
+	$path_private = 'private/theme/'.cc('theme').'/css/'.$file_name;
 	$path_theme = 'theme/'.cc('theme').'/css/'.$file_name;
 	$path_default = 'theme/default/css/'.$file_name;
 	$path_module = 'module/'.MODULE.'/theme/'.$file_name;
 	
 	if(is_file(ROOT_PATH.$path_custom)) return ROOT_URI.$path_custom;
+	elseif(is_file(SECTION_PATH.$path_private)) return SECTION_URI.$path_private;
 	elseif(is_file(ROOT_PATH.$path_theme)) return ROOT_URI.$path_theme;
 	elseif(is_file(ROOT_PATH.$path_default)) return ROOT_URI.$path_default;
 	elseif(is_file(ROOT_PATH.$path_module)) return ROOT_URI.$path_module;

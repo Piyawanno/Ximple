@@ -8,7 +8,7 @@ define('SECTION_SCRIPT',
 	define('BOOT_TIME', (float)microtime(true));
 	define('SECTION', %s);
 	define('SECTION_URI', '%s');
-	define('SECTION_PATH', dirname(__FILE__));
+	define('SECTION_PATH', dirname(__FILE__).'/');
 	require('%sinclude/tool/boot.tool.inc');
 	boot();
 ?>");

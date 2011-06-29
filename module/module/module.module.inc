@@ -97,7 +97,14 @@ function module_deactivate_module(){
 }
 
 function module_get_information(){
-	list($module, $init_file) = module_get_init_file();
+	$private_path = SECTION_PATH.'private/module/';
+
+	list($module_private, $init_file_private) = module_get_init_file($private_path);
+	list($module_system, $init_file_system) = module_get_init_file(MODULE_PATH);
+	
+	$module = array_merge($module_private, $module_system);
+	$init_file = array_merge($init_file_private, $init_file_system);
+	
 	module_include_init_file($init_file);
 	$module = module_check_function($module);
 	$module = module_check_status($module);
@@ -105,10 +112,9 @@ function module_get_information(){
 	return $module;
 }
 
-function module_get_init_file(){
+function module_get_init_file($dir_name){
 	$init_array = array();
 	$module_array = array();
-	$dir_name = MODULE_PATH.'';
 	$dir = dir($dir_name);
 	while (false !== ($entry = $dir->read())) {
 		if($entry != '.' and $entry != '..'){

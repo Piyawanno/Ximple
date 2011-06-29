@@ -248,15 +248,29 @@ function execute_include_files($module, $extension){
 	$module_require = cc('module_require');
 	if(isset($module_require[$module])){
 		$module_require = $module_require[$module];
-		translate_add_directory(MODULE_PATH.''.$module.'/');
+		$module_directory = execute_get_module_directory($module);
+		translate_add_directory($module_directory);
 		if(!is_array($module_require)){
-			execute_include(MODULE_PATH.''.$module.'/'.$module_require);
+			execute_include($module_directory.$module_require);
 		}elseif(isset($module_require[$extension])){
-			execute_include(MODULE_PATH.''.$module.'/'.$module_require[$extension]);
+			execute_include($module_directory.$module_require[$extension]);
 		}else{
-			execute_include(MODULE_PATH.''.$module.'/'.$module_require['#primary']);
+			execute_include($module_directory.$module_require['#primary']);
 		}
 	}
+}
+
+
+/// Get directory for given module.
+/// @param $module : given module name
+/// @return Directory for given module.
+function execute_get_module_directory($module){
+	if(is_dir(MODULE_PATH.$module.'/')){
+		$module_directory = MODULE_PATH.$module.'/';
+	}else{
+		$module_directory = SECTION_PATH.'private/module/'.$module.'/';
+	}
+	return $module_directory;
 }
 
 /// Low level of including required file for execution.

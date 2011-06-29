@@ -320,7 +320,7 @@ function config_check_default($config){
 	}
 	$config['module_require'] = array_merge($config['module_require'], config_default_require());
 	$config['module_name'] = array_merge($config['module_name'], config_default_module_name());
-	if(!is_dir(THEME_PATH.''.$config['theme'])){
+	if(!(is_dir(THEME_PATH.$config['theme']) or is_dir(SECTION_PATH.'private/theme/'.$config['theme']))){
 		$config['theme'] = 'default';
 	}
 	return $config;

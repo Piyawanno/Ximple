@@ -121,7 +121,10 @@ function theme_config_save(){
 }
 
 function theme_execute_external($function){
-	include_once(THEME_PATH.''.cc('theme').'/theme.config.inc');
+	if(is_dir(THEME_PATH.cc('theme').'/')) $theme_dir = THEME_PATH.cc('theme').'/';
+	else $theme_dir = SECTION_PATH.'private/theme/'.cc('theme').'/';
+	
+	include_once('theme.config.inc');
 	if(function_exists($function)){
 		return $function();
 	}else{
@@ -155,7 +158,13 @@ function theme_check_custom_directory($type){
 }
 
 function theme_get_information(){
-	list($theme, $init_file) = theme_get_init_file();
+	$private_path = SECTION_PATH.'private/theme/';
+	list($theme_private, $init_file_private) = theme_get_init_file($private_path);
+	list($theme_system, $init_file_system) = theme_get_init_file(THEME_PATH);
+	
+	$theme = array_merge($theme_private, $theme_system);
+	$init_file = array_merge($init_file_private, $init_file_system);
+	
 	theme_include_init_file($init_file);
 	$theme = theme_check_function($theme);
 	$theme = theme_check_status($theme);
@@ -163,10 +172,9 @@ function theme_get_information(){
 	return $theme;
 }
 
-function theme_get_init_file(){
+function theme_get_init_file($dir_name){
 	$init_array = array();
 	$theme_array = array();
-	$dir_name = THEME_PATH.'';
 	$dir = dir($dir_name);
 	while (false !== ($entry = $dir->read())) {
 		if($entry != '.' and $entry != '..'){
@@ -217,7 +225,9 @@ function theme_get_description($theme){
 		$theme_info = $function_name();
 		if(theme_check_info($theme_info)){
 			$theme[$name] = array_merge($theme[$name], $theme_info);
-			$theme[$name]['preview'] = ROOT_URI.'theme/'.$name.'/'.$theme[$name]['preview'];
+			$preview = 'theme/'.$name.'/'.$theme[$name]['preview'];
+			if(is_file(ROOT_PATH.$preview)) $theme[$name]['preview'] = ROOT_URI.$preview;
+			else $theme[$name]['preview'] = SECTION_URI.'private/'.$preview;
 		}else{
 			unset($theme[$name]);
 			if(state_is_develop()){
@@ -255,7 +265,10 @@ function theme_copy_custom($theme){
 	if(!is_dir($custom_dir.'image')) mkdir($custom_dir.'image');
 	$source = THEME_PATH.'default/';
 	io_copy_directory($source.'css', $custom_dir.'css');
-	$source = THEME_PATH.''.$theme.'/';
+	
+	if(is_dir(THEME_PATH.$theme.'/')) $source = THEME_PATH.$theme.'/';
+	else $source = SECTION_PATH.'private/theme/'.$theme.'/';
+	
 	io_copy_directory($source.'css', $custom_dir.'css');
 	io_copy_directory($source.'image', $custom_dir.'image');
 }

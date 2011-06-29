@@ -113,9 +113,12 @@ function main_count_visitor(){
 
 /// Get setup values from setup file.
 function main_get_setup(){
-	$setup_directory = dirname(dirname(__FILE__));
+	if(!defined('SETUP_DIRECTORY')) $setup_directory = dirname(dirname(__FILE__));
+	else $setup_directory = SETUP_DIRECTORY;
+	
 	$test_setup = $setup_directory.'/setup.test.php';
 	$setup = $setup_directory.'/setup.php';
+	
 	if(state_is_test() and is_file($test_setup)) include($test_setup);
 	else include($setup);
 }
@@ -224,6 +227,7 @@ function main_init_var(){
 	if(cc('friendly_url_enable')) define('Q', ''.$language);
 	else define('Q', '?/'.$language);
 	main_init_section_uri();
+	main_init_theme_uri();
 	main_init_uri_param();
 }
 
@@ -237,6 +241,14 @@ function main_init_section_uri(){
 		}else{
 			define('SECTION_URI', ROOT_URI.'section/'.cc('section_path').'/');
 		}
+	}
+}
+
+function main_init_theme_uri(){
+	if(is_dir(THEME_PATH.cc('theme'))){
+		define('THEME_URI', ROOT_URI.'theme/'.cc('theme').'/');
+	}elseif(is_dir(SECTION_PATH.'private/theme/'.cc('theme'))){
+		define('THEME_URI', SECTION_URI.'private/theme/'.cc('theme').'/');
 	}
 }
 

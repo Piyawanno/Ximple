@@ -40,7 +40,7 @@
 					<?php endif?>
 				</div>
 				<div style="height:120px;">
-					<img src="<?=$value['preview']?>" style="width:150px;" alt="theme preview image" />
+					<img src="<?=$value['preview']?>" class="theme_preview_image" alt="theme preview image" />
 				</div>
 				<p><?=$value['description']?></p>
 			</td>
