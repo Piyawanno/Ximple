@@ -1,5 +1,14 @@
 <?php
+/// @file
+/// This file provides functions for image manipulation.
+///
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
 
+/// Check size of image, which is not allowed to exceed the limit.
+/// Error notification will occur, if image size exceed the limit.
+/// @param $file : array of file information.
+/// @param $path : localtion of the given image.
+/// @param $maxwidth : given maximum width, which should not be exceeded.
 function image_check_max_width($file, $path, $maxwidth){
 	$image_src = image_get_src($file, $path);
 	if($image_src){
@@ -18,6 +27,10 @@ function image_check_max_width($file, $path, $maxwidth){
 	}
 }
 
+/// Crop image to square format.
+/// @param $file : array of file information.
+/// @param $path : localtion of the given image.
+/// @param size : given size to crop.
 function image_square_crop($file, $path, $size){
 	$image_src = image_get_src($file, $path);
 	if($image_src){
@@ -29,6 +42,10 @@ function image_square_crop($file, $path, $size){
 	}
 }
 
+/// Generate thumbnail for given image.
+/// @param $file : array of file information.
+/// @param $path : localtion of the given image.
+/// @param $thumbpath : location of image thumbnail.
 function image_generate_thumb($file, $path, $thumbpath){
 	$image_src = image_get_src($file, $path);
 	if($image_src){
@@ -48,6 +65,10 @@ function image_generate_thumb($file, $path, $thumbpath){
 	}
 }
 
+
+/// Check the given file : Is it a image file?
+/// @param $file : array of file information.
+/// @param $path : localtion of the given image.
 function image_get_src($file, $path){
 	if(is_file($path)){
 		if($file['type'] == "image/jpeg" or $file['type'] == "image/pjpeg"){
@@ -62,11 +83,13 @@ function image_get_src($file, $path){
 	}
 }
 
-function image_generate_rounded_corner(){
 
-}
-
+/// Generate gradient image.
 /// Source http://www.bradshawenterprises.com/blog/2010/dynamically-drawing-gradients-with-php/
+/// @param $width : image width
+/// @param $height : image height
+/// @param $startColor : start color for gradient
+/// @param $endColor : end color for gradient
 function image_generate_gradient($width, $height, $startColor, $endColor) {
 	$final=imagecreatetruecolor($width,$height);
  

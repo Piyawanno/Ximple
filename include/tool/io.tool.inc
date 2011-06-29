@@ -1,4 +1,8 @@
 <?php
+/// @file
+/// This file provides functions for inpu output (IO) manipulation.
+///
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
 
 /// Read content of a file
 /// @param  $file_name : file name with absolute path
@@ -33,16 +37,22 @@ function io_write_file($file_name, $content, $mode='w'){
 	}
 }
 
+/// Delete file
+/// @param $file_name : file name with absolute path
 function io_drop_file($file_name){
 	$size = filesize($file_name);
 	userinfo_decrease_used_space(USER_ID, $size);
 	unlink($file_name);
 }
 
+/// Append content into a file.
+/// @param $file_name : file name with absolute path
 function io_append_file($file_name, $content){
 	io_write_file($file_name, $content, 'a');
 }
 
+/// Drop uploaded file
+/// @param $file_name : file name with absolute path
 function io_drop_uploaded_file($file_name){
 	$p = tt('Problem by dropping file : %s.');
 	$size = filesize($file_name);
@@ -50,6 +60,8 @@ function io_drop_uploaded_file($file_name){
 	userinfo_increase_used_space(USER_ID, $size);
 }
 
+/// Drop all files and directories in given directory
+/// @param $dir_name : directory name with absolute path
 function io_clear_directory($dir_name){
 	if(is_dir($dir_name)){
 		$success = true;
@@ -67,6 +79,9 @@ function io_clear_directory($dir_name){
 	}
 }
 
+/// Copy all files and directories to the given directory.
+/// @param $source : source directory name with absolute path
+/// @param $dest : source directory name with absolute path
 function io_copy_directory($source, $dest){
 	if(is_dir($source) and is_dir($dest)){
 		$dir = dir($source);

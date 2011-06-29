@@ -199,9 +199,16 @@ abstract class Content extends Control{
 	protected function initComment(){
 		if(!$this->comment){
 			include_once(MODULE_PATH.'comment/Comment.class.inc');
+
 			if(!isset($this->dataByID['comment_permission'])) $permission = null;
 			else $permission = $this->dataByID['comment_permission'];
-			$this->comment = new Comment($this->fullModuleName, $this->id, $permission, $this->dataByID['writer']['id']);
+
+			$this->comment = new Comment();
+			$this->comment->setMode($this->fullModuleName);
+			$this->comment->setParent($this->id);
+			$this->comment->setPermission($permission);
+			$this->comment->setParentWriter($this->dataByID['writer']['id']);
+			$this->comment->init();
 		}
 	}
 	

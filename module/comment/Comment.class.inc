@@ -2,25 +2,68 @@
 execute_add_class('comment', 'Comment');
 include('CommentModel.class.inc');
 
+define('XIMPLE_COMMENT_ALL', 0);
+define('XIMPLE_COMMENT_AUTHENTICATED', 1);
+define('XIMPLE_COMMENT_READ_ONLY', 2);
+define('XIMPLE_COMMENT_DISABLE', 3);
+
 class Comment extends Control{
-	private $mode;
-	private $parent;
-	private $permission;
+	private $mode = null;
+	private $parent = null;
+	private $permission = null;
+	private $parentWriter = null;
 	private $parentData;
 	private $template;
 	private $insertMode;
+	private $parentAdminGroup;
 	
-	function Comment($mode=null, $parent=null, $permission=null, $parentWriter=null){
+	function Comment($isInit=true){
 		$this->tableName = 'comment';
 		$this->moduleName = 'comment';
 		$this->moduleTitle = tt('Comment');
-		$this->setMode($mode);
-		$this->setParent($parent);
-		$this->setPermission($permission);
-		$this->setAccess();
 		$this->template = 'comment.tpl';
 		$this->insertMode = 'comment_insert';
-		$this->init(new CommentModel($this->mode, $this->parent, $parentWriter));
+		if($isInit) $this->parentlessInit();
+	}
+	
+	public function parentlessInit(){
+		$this->setParent(null);
+		$this->setMode(null);
+		$this->setPermission(null);
+		$this->setAccess();
+		Control::init(new CommentModel($this->mode, $this->parent, $this->parentWriter));
+	}
+	
+	public function init(){
+		$this->setAccess();
+		Control::init(new CommentModel($this->mode, $this->parent, $this->parentWriter));
+	}
+	
+	public function setMode($mode){
+		if($mode) $this->mode = $mode;
+		elseif(pp('mode')) $this->mode = addslashes(pp('mode'));
+		elseif(gg('module')) $this->mode = addslashes(gg('module'));
+		$this->parentAdminGroup = $this->mode.'_comment_admin';
+	}
+	
+	public function setParent($parent){
+		if($parent) $this->parent = $parent;
+		elseif(pp('parent')) $this->parent = (int) pp('parent');
+		elseif(gg('parent')) $this->parent = (int) gg('parent');
+	}
+	
+	public function setParentWriter($parentWriter){
+		$this->parentWriter = $parentWriter;
+	}
+	
+	public function setPermission($permission){
+		if($permission){
+			$this->permission = $permission;
+		}elseif(!empty($this->mode) and !empty($this->mode)){
+			$clause = 'WHERE id='.((int) $this->parent);
+			$permission = db_select_single_column($this->mode, 'comment_permission', $clause, false);
+			$this->permission = $permission[0];
+		}
 	}
 	
 	public function render(){
@@ -44,6 +87,7 @@ class Comment extends Control{
 	}
 	
 	public function insert(){
+		echo('permission : '.$this->permission);
 		if($this->isWritable()){
 			Control::insert();
 			count_increase('contribution', USER_ID);
@@ -100,12 +144,18 @@ class Comment extends Control{
 		$this->ownerColumn = 'writer_id';
 		if($this->isWritable()) $this->addAccessMethod('guest', 'insert');
 		$this->setAdmin('comment_admin');
+		
 		$this->addAction('comment_list', 'listPage');
 		$this->addAction('comment_section_list', 'sectionListPage');
 		$this->addAction('comment_contributor_list', 'contributorListPage');
+		
 		$this->addAccessMethod('user', 'listPage');
 		$this->addAccessMethod('user', 'sectionListPage');
 		$this->addAccessMethod('user', 'contributorListPage');
+		
+		$this->addAccessMethod($this->parentAdminGroup, 'edit');
+		$this->addAccessMethod($this->parentAdminGroup, 'update');
+		$this->addAccessMethod($this->parentAdminGroup, 'drop');
 	}
 	
 	protected function renderListPage($clause, $label, $description){
@@ -120,29 +170,6 @@ class Comment extends Control{
 		$this->renderParentTopic();
 		return Control::renderListPage();
 	}
-	
-	private function setMode($mode){
-		if($mode) $this->mode = $mode;
-		elseif(pp('mode')) $this->mode = addslashes(pp('mode'));
-		elseif(gg('module')) $this->mode = addslashes(gg('module'));
-	}
-	
-	private function setParent($parent){
-		if($parent) $this->parent = $parent;
-		elseif(pp('parent')) $this->parent = (int) pp('parent');
-		elseif(gg('parent')) $this->parent = (int) gg('parent');
-	}
-	
-	private function setPermission($permission){
-		if($permission){
-			$this->permission = $permission;
-		}elseif(!empty($this->mode) and !empty($this->mode)){
-			$clause = 'WHERE id='.((int) $this->parent);
-			$permission = db_select_single_column($this->mode, 'comment_permission', $clause, false);
-			$this->permission = $permission[0];
-		}
-	}
-	
 	
 	private function renderEntry(){
 		if($this->isReadable()){
@@ -168,18 +195,19 @@ class Comment extends Control{
 	}
 	
 	private function isReadable(){
-		return ($this->permission < 3);
+		return ($this->permission != XIMPLE_COMMENT_DISABLE);
 	}
 	
 	private function isWritable(){
-		if($this->permission == 0) return true;
-		elseif($this->permission == 1 and !authority_is_guest()) return true;
+		if($this->permission == XIMPLE_COMMENT_ALL) return true;
+		elseif($this->permission == XIMPLE_COMMENT_AUTHENTICATED and !authority_is_guest()) return true;
 		else return false;
 	}
 	
 	private function checkDataEditable(){
+		$isAdmin = $this->isCallable('edit');
 		foreach($this->data as $key => $value){
-			$this->data[$key]['editable'] = authority_owner('comment_admin', $value['writer_id']);
+			$this->data[$key]['editable'] = ($isAdmin or $value['writer_id'] == USER_ID);
 		}
 	}
 	

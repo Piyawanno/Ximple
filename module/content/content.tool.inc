@@ -27,6 +27,11 @@ function content_add_role($moduleName, $moduleTitle){
 	$contributor->setName($moduleTitle.' Contributor');
 	$contributor->setDescription(sprintf('Who can insert, edit and drop own %s.', $moduleTitle));
 	$contributor->submit();
+	
+	$commentAdmin = new RoleManager($moduleName.'_comment_admin');
+	$commentAdmin->setName($moduleTitle.' Comment Administrator');
+	$commentAdmin->setDescription(sprintf('Who can edit and drop comments in %s.', $moduleTitle));
+	$commentAdmin->submit();
 	return array($admin, $editor, $contributor);
 }
 

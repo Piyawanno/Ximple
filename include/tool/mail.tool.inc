@@ -3,7 +3,7 @@
 /// This file provides functions for email tools by using
 /// PHPMailer (http://phpmailer.codeworxtech.com/)
 ///
-/// @author bow_der_kleine <bow_der_kleine@yahoo.de>
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
 
 include(INCLUDE_PATH.'external/phpmailer/class.phpmailer.php');
 

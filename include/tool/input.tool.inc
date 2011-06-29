@@ -1,14 +1,27 @@
 <?php
+/// @file
+/// This file provides functions for input and request data manipulation.
+///
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
 
+/// Check email conformation of given input data
+/// @param $email : given input to check conformation.
+/// @return TRUE, if given in put is conformed for email.
 function input_is_email($email){
 	return preg_match('/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/', $email);
 }
 
+/// Trim white space from given input.
+/// @param $input : given input
+/// @return Input without white space.
 function input_trim($input){
 	$input = preg_replace('/\s+/', ' ', $input);
 	return $input;
 }
 
+/// Split givrn string to array of string using comma to separate string.
+/// @param $input : given input
+/// @return Array of splitted string.
 function input_split_comma($input){
 	$input = split(',', str_replace(' ', '', addslashes(input_trim($input))));
 	foreach($input as $key => $value){
@@ -17,10 +30,16 @@ function input_split_comma($input){
 	return $input;
 }
 
+/// Strip image tag from given input.
+/// @param $input : given input
+/// @return String without image tag.
 function input_strip_image($input){
 	return  preg_replace("/<img[^>]+\>/i", "", $input);
 }
 
+/// Reorder array of submitted files information to more usable form.
+/// @param $name : name of file input
+/// @return Reordered array of file information.
 function input_reorder_multiple_files($name){
 	$reordered = array();
 	$received = ff($name);
@@ -37,6 +56,10 @@ function input_reorder_multiple_files($name){
 	return $reordered;
 }
 
+/// Process special characters of requested URI.
+/// @param $uri_get : original $_GET input
+/// @param $uri_server : original requested URI
+/// @return Requested URI with processed special characters.
 function input_special_char($uri_get, $uri_server){
 	foreach($uri_server as $key => $value){
 		if(strpos($value, '%') !== false){
@@ -53,7 +76,9 @@ function input_special_char($uri_get, $uri_server){
 	return $uri_server;
 }
 
-
+/// Strip slash from array of string (recursive)
+/// @param $array : array of string
+/// @return Array of string without slash.
 function input_strip_slash_array($array){
 	foreach($array as $key => $value){
 		if(is_array($value)) $array[$key] = input_strip_slash_array($value);
@@ -62,6 +87,10 @@ function input_strip_slash_array($array){
 	return $array;
 }
 
+/// Strip unwanted HTML tag from input string to prevent XSS.
+/// @param $data : data to strip HTML tag
+/// @param $allowed_tag : allowed HTML tag
+/// @return String without unwanted HTML tag.
 function input_strip_tags($data, $allowed_tag){
 	$data = str_replace('<!--', '&lt;!--', $data);
 	$data = str_replace('--!>', '--!&gt;', $data);
