@@ -26,9 +26,9 @@ function module_init_contact(){
 	
 	$panel = new PanelManager('Contact');
 	$panel->setControl($contact);
-	$panel->append('contact_write', 'create new contact');
-	$panel->append('contact', 'list & manage  contact');
-	$panel->append('contact_config', 'config contact');
+	$panel->append('contact_write', 'create new Contact');
+	$panel->append('contact', 'list & manage  Contact');
+	$panel->append('contact_config', 'config Contact');
 	$panel->appendRole($admin);
 	$panel->submit();
 	

@@ -17,7 +17,27 @@ class Poll extends Control{
 	
 	}
 	
+	public function listPage(){
+	
+	}
+	
 	public function vote(){
+	
+	}
+	
+	public function embed(){
+	
+	}
+	
+	public function widget(){
+	
+	}
+	
+	private function renderVoteForm(){
+	
+	}
+	
+	private function renderResult(){
 	
 	}
 	
@@ -26,8 +46,12 @@ class Poll extends Control{
 		
 		$this->addAccessMethod('guest', 'index');
 		$this->addAccessMethod('guest', 'vote');
+		$this->addAccessMethod('guest', 'embed');
+		$this->addAccessMethod('guest', 'widget');
 		
 		$this->addAction('poll_vote', 'vote');
+		$this->addAction('poll_embed', 'embed');
+		$this->addAction('poll_widget', 'widget');
 	}
 }
 ?>
