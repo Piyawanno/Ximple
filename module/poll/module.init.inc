@@ -27,6 +27,11 @@ function module_init_poll(){
 	$admin->setDescription('Who can insert, edit and drop Poll.');
 	$admin->submit();
 	
+	$voter = new RoleManager('poll_voter');
+	$voter->setName('Poll Voter');
+	$voter->setDescription('Who can vote in restricted Poll.');
+	$voter->submit();
+	
 	$panel = new PanelManager('Poll');
 	$panel->setControl($poll);
 	$panel->append('poll_write', 'create new Poll');
@@ -38,6 +43,7 @@ function module_init_poll(){
 	$widget->submit();
 	
 	extension_add('content_post_select', 'poll_embed');
+	extension_add('content_form_description', 'poll_write_icon');
 }
 
 function module_drop_poll(){
@@ -49,6 +55,9 @@ function module_drop_poll(){
 	$admin = new RoleManager('poll_admin');
 	$admin->drop();
 	
+	$voter = new RoleManager('poll_voter');
+	$voter->drop();
+	
 	$panel = new PanelManager('Poll');
 	$panel->drop();
 	
@@ -56,5 +65,6 @@ function module_drop_poll(){
 	$widget->drop();
 	
 	extension_drop('content_post_select', 'poll_embed');
+	extension_drop('content_form_description', 'poll_write_icon');
 }
 ?>

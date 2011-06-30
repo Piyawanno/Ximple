@@ -7,6 +7,7 @@ abstract class Content extends Control{
 	
 	public function write(){
 		$this->setConfigForm();
+		$this->extendFormDescription();
 		if(strlen($this->writeLabel) == 0){
 			$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
 		}
@@ -15,6 +16,7 @@ abstract class Content extends Control{
 	
 	public function edit(){
 		$this->setConfigForm();
+		$this->extendFormDescription();
 		return Control::edit();
 	}
 	
@@ -252,6 +254,12 @@ abstract class Content extends Control{
 		$searchEngine = $this->getNewConfigForm(tt('search engine'));
 		$searchEngine->append('uri');
 		$searchEngine->append('description');
+	}
+	
+	private function extendsFormDescription(){
+		$description = $this->formMeta->description;
+		extension_execute('content_form_description', $description, $description);
+		$this->formMeta->description = $description;
 	}
 	
 	protected function addMetaData(){

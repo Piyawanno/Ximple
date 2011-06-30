@@ -25,11 +25,19 @@ class Poll extends Control{
 	
 	}
 	
-	public function embed(){
-	
+	public function embed($data){
+		return $data;
 	}
 	
 	public function widget(){
+	
+	}
+	
+	public function embedIcon($description){
+		return $description;
+	}
+	
+	public function embedForm(){
 	
 	}
 	
@@ -48,9 +56,12 @@ class Poll extends Control{
 		$this->addAccessMethod('guest', 'vote');
 		$this->addAccessMethod('guest', 'embed');
 		$this->addAccessMethod('guest', 'widget');
+		$this->addAccessMethod('guest', 'embedWriteIcon');
 		
 		$this->addAction('poll_vote', 'vote');
 		$this->addAction('poll_embed', 'embed');
+		$this->addAction('poll_embed_icon', 'embedIcon');
+		$this->addAction('poll_embed_form', 'embedForm');
 		$this->addAction('poll_widget', 'widget');
 	}
 }
