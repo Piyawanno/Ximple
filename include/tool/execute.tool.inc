@@ -251,11 +251,11 @@ function execute_include_files($module, $extension){
 		$module_directory = execute_get_module_directory($module);
 		translate_add_directory($module_directory);
 		if(!is_array($module_require)){
-			execute_include($module_directory.$module_require);
+			execute_include($module_directory.$module_require, $module);
 		}elseif(isset($module_require[$extension])){
-			execute_include($module_directory.$module_require[$extension]);
+			execute_include($module_directory.$module_require[$extension], $module);
 		}else{
-			execute_include($module_directory.$module_require['#primary']);
+			execute_include($module_directory.$module_require['#primary'], $module);
 		}
 	}
 }
@@ -275,7 +275,7 @@ function execute_get_module_directory($module){
 
 /// Low level of including required file for execution.
 /// @param $require : absolute path of required file.
-function execute_include($require){
+function execute_include($require, $module){
 	if(is_file($require)){
 		include_once($require);
 	}elseif(state_is_develop()){

@@ -35,7 +35,7 @@ class Blog extends Content{
 		$data = db_select('blog', $column, $clause);
 		$renderArray = array('data' => array_values($data));
 		head_add_css('blog.css');
-		return render($renderArray, 'promotedblogs.tpl', 'promotedblogs');
+		return render($renderArray, 'blog_promote.tpl', 'blog_propmote');
 	}
 	
 	protected function getSummary(){
@@ -73,7 +73,7 @@ class Blog extends Content{
 			'show_category' => in_array('category_icon', cc('blog_appearance')),
 		);
 		$render = $this->renderWriteIcon();
-		$render.= render($renderArray, 'multipleblogs.tpl', 'multiple_blogs');
+		$render.= render($renderArray, 'blog_multiple.tpl', 'blog_multiple');
 		$render.= $this->pager->render('blog'.$this->getPageMode());
 		return $render;
 	}
@@ -82,7 +82,7 @@ class Blog extends Content{
 		head_add_css('blog.css');
 		$this->prepareRender();
 		$render = $this->renderWriteIcon();
-		$render.= render($this->dataByID, 'singleblog.tpl', 'single_blog');
+		$render.= render($this->dataByID, 'blog_single.tpl', 'blog_single');
 		$render.= $this->comment->render();
 		$this->setDocumentData();
 		return $render;

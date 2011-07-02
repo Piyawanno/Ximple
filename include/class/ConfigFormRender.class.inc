@@ -37,8 +37,8 @@ class ConfigFormRender extends FormModelRender{
 				'show' => $this->showByDefault,
 				'description' => $this->description,
 			);
-			$renderArray['rendered_form'] = render($renderArray, 'configform.tpl', 'config_form');
-			return render($renderArray, 'configformframe.tpl', 'config_form_frame');
+			$renderArray['rendered_form'] = render($renderArray, 'config_form.tpl', 'config_form');
+			return render($renderArray, 'config_form_frame.tpl', 'config_form_frame');
 		}
 	}
 	

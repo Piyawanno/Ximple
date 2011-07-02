@@ -8,9 +8,9 @@ function module_get_info_poll(){
 }
 
 function module_init_poll(){
-	require('Poll.class.inc');
-	require('PollCoiseModel.class.inc');
-	require('PollVoteModel.class.inc');
+	require_once('Poll.class.inc');
+	require_once('PollChoiseModel.class.inc');
+	require_once('PollVoteModel.class.inc');
 	include_once(INCLUDE_PATH.'class/QuickTableCreator.class.inc');
 	
 	$poll = new Poll();
@@ -47,7 +47,7 @@ function module_init_poll(){
 }
 
 function module_drop_poll(){
-	require('Poll.class.inc');
+	require_once('Poll.class.inc');
 	
 	$poll = new Poll();
 	$poll->dropModule();

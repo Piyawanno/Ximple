@@ -15,9 +15,9 @@ function syswidget_login(){
 			'registable' => cc('registable')
 		);
 		head_add_js('include/external/sha1.js');
-		return render($render_array, 'loginform.tpl', 'loginform');
+		return render($render_array, 'login_form.tpl', 'login_form');
 	}else{
-		return render(array(), 'logoutform.tpl', 'logoutform');
+		return render(array(), 'logout_form.tpl', 'logout_form');
 	}
 }
 
@@ -49,7 +49,7 @@ function syswidget_translate(){
 	if(!is_array($render_array['language'])){
 		$render_array['language'] = array();
 	}
-	return render($render_array, 'translatewidget.tpl', 'translatewidget');
+	return render($render_array, 'translate_widget.tpl', 'translate_widget');
 }
 
 function syswidget_navigation_config(){

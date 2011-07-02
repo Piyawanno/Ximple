@@ -27,7 +27,7 @@ abstract class Authority{
 	private $action = array();
 	
 	/// Name of Admin-Role.
-	private $adminGroup;
+	private $adminGroup = 'admin';
 	
 	/// Uer-ID of the Owner.
 	private $owner;

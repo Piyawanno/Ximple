@@ -109,7 +109,7 @@ function notify_check(){
 			'notify' => $render,
 		);
 		$notify_savable = false;
-		return render($rener_array, 'notifycheck.tpl', 'notifycheck');
+		return render($rener_array, 'notify_check.tpl', 'notify_check');
 	}
 }
 

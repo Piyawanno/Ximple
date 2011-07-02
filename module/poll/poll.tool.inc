@@ -1,9 +1,17 @@
 <?php
+define('POLL_PERMISSION_ALL', 0);
+define('POLL_PERMISSION_AUTHENTICATED', 1);
+define('POLL_PERMISSION_VOTER_ONLY', 2);
+
 function poll_permission_option(){
 	return array(
-		0 => tt('everyone can vote'),
-		1 => tt('only authenticated user can vote'),
-		2 => tt('only user with Poll-Voter roll can vote'),
+		POLL_PERMISSION_ALL => tt('everyone can vote'),
+		POLL_PERMISSION_AUTHENTICATED => tt('only authenticated user can vote'),
+		POLL_PERMISSION_VOTER_ONLY => tt('only user with Poll-Voter roll can vote'),
 	);
+}
+
+function poll_get_ip(){
+	return getenv(REMOTE_ADDR).':'.getenv(HTTP_X_FORWARDED_FOR);
 }
 ?>

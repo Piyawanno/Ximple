@@ -14,7 +14,7 @@ class DevelCardModel extends Model{
 		$this->create_date->formatDateBySelect = true;
 		
 		$this->end_date = $this->now();
-		$this->end_date->defaultData = time() + 60*60*24*7;
+		$this->end_date->defaultData = date('Y-m-d H:i:s', time() + 60*60*24*7);
 		
 		$type = cc('develcard_type');
 		if(!is_array($type)) $type = develcard_get_default_type_option();

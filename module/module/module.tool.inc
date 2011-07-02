@@ -1,6 +1,7 @@
 <?php
 include('RoleManager.class.inc');
 include('PanelManager.class.inc');
+include('WidgetManager.class.inc');
 
 global $role_config, $panel_config;
 

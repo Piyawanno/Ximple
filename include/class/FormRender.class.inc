@@ -52,7 +52,7 @@ class FormRender extends FormModelRender{
 			'config' => $this->renderedConfigForm,
 		);
 		$renderArray['rendered_form'] = render($renderArray, 'form.tpl', 'form');
-		$render = render($renderArray, 'formframe.tpl', 'formframe');
+		$render = render($renderArray, 'form_frame.tpl', 'form_frame');
 		head_add_js_array('gridRowArray', FormRender::$gridRowArray);
 		return $render;
 	}

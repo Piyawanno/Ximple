@@ -41,7 +41,12 @@ class QuickFormRender{
 			'help' => $modelConnector->getColumnAttribute('help'),
 			'not_null' => $modelConnector->getColumnNameByBoolean('isNotNull'),
 		);
-		return render($rednerArray, 'quickform.tpl', 'render_quick_form');
+		return render($rednerArray, 'quick_form.tpl', 'quick_form');
+	}
+	
+	public function renderEntireForm(){
+		$rednerArray = array('form' => $this->render());
+		return render($rednerArray, 'quick_form_frame.tpl', 'quick_form_entire');
 	}
 	
 	private function renderFormModel($id){

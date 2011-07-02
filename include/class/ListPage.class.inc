@@ -67,7 +67,7 @@ class ListPage{
 				'search' => $search,
 				'label' => $this->label,
 			);
-			return render($renderArray, 'listsearch.tpl', 'list_search');
+			return render($renderArray, 'list_search.tpl', 'list_search');
 		}
 	}
 	
