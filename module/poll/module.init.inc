@@ -42,6 +42,8 @@ function module_init_poll(){
 	$widget = new WidgetManager(tt('Poll'), 'poll_widget');
 	$widget->submit();
 	
+	config_set('poll_comment_write_label', tt('Please, write your opinion.'));
+	config_set('poll_comment_page_length', 10);
 	extension_add('content_post_select', 'poll_embed');
 	extension_add('content_form_description', 'poll_write_icon');
 }

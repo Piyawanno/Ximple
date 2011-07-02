@@ -14,6 +14,7 @@ class Poll extends Control{
 		$this->setAccess();
 		$this->redirectToIDPage = true;
 		$this->init(new PollModel());
+		$this->setConfigForm();
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
@@ -31,16 +32,16 @@ class Poll extends Control{
 	
 	public function listPage(){
 		document_set_path(tt('List of Polls'));
-		$this->selectListPage('WHERE section='.SECTION);
+		$this->selectListPage(20, 'WHERE section='.SECTION);
 		return $this->renderDefaultListPage();
 	}
 	
 	public function vote(){
 		$this->id = (int) gg('id');
-		if(isVotable()){
-			$choise = (int) gg('choise');
+		if($this->isVotable()){
+			$choise = (int) pp('choise');
 			$this->increaseChoise($choise);
-			$this->checkVote($choise);
+			$this->checkVote($this->id);
 		}
 		execute_set_db();
 		document_set_redirect('poll/'.$this->id);
@@ -51,11 +52,11 @@ class Poll extends Control{
 	}
 	
 	public function widget(){
-		$this->select(array('name'), "WHERE end_date > '".NOW."'");
+		$this->select(array('topic'), "WHERE end_date > '".NOW."'");
 		$render = '';
 		foreach($this->data as $id => $data){
 			$renderArray = array(
-				'name' => $data['name'],
+				'topic' => $data['topic'],
 				'form' => $this->renderVoteForm($id),
 			);
 			$render .= render($renderArray, 'poll_widget.tpl', 'poll_widget');
@@ -90,29 +91,45 @@ class Poll extends Control{
 	
 	private function renderPage($poll){
 		head_add_css('poll.css');
-		document_set_path($this->dataByID['name']);
+		document_set_path($this->dataByID['topic']);
 		$this->dataByID['poll'] = $poll;
 		$this->dataByID['editable'] = authority_group('poll_admin');
-#		$this->initComment();
+		$this->initComment();
 		$render  = render($this->dataByID, 'poll.tpl', 'poll');
-#		$render .= $this->comment->render();
+		$render .= $this->comment->render();
 		return $render;
 	}
 	
 	private function renderVoteForm($id){
 		require_once(INCLUDE_PATH.'class/QuickFormRender.class.inc');
+		require_once(INCLUDE_PATH.'class/FormMetaData.class.inc');
+		
+		$formMeta = new FormMetaData();
+		$formMeta->id = 'poll_vote';
+		$formMeta->mode = 'poll_vote/'.$id;
+		
+		$choises = db_select_single_column('poll_choise', 'choise', 'WHERE poll='.$id);
+		
 		$quickForm = new QuickFormRender('poll_vote');
-		$clause = 'WHERE poll='.$id;
-		$choises = db_select_single_column('poll_choise', 'choise', $clause);
 		$quickForm->append('choise', Model::radio('', $choises));
-		return $quickForm->render();
+		return $quickForm->renderEntireForm($formMeta);
 	}
 	
 	private function renderResult($id){
 		$clause = 'WHERE poll='.$id;
-		$column = array('choise', 'vote_number');
+		$column = array('choise', 'voted_number');
 		$choises = db_select('poll_choise', $column, $clause);
-		$renderArray = array('choises' => $choises);
+		$sum = 0;
+		foreach($choises as $key => $value){
+			$sum += $value['voted_number'];
+		}
+		foreach($choises as $key => $value){
+			$choises[$key]['percent'] = floor(100*$value['voted_number']/$sum);
+		}
+		$renderArray = array(
+			'choises' => $choises,
+			'sum' => $sum,
+		);
 		return render($renderArray, 'poll_result.tpl', 'poll_result');
 	}
 	
@@ -146,22 +163,30 @@ class Poll extends Control{
 		db_update('poll_choise', $data, $choise);
 	}
 	
-	private function checkVote($choise){
+	private function checkVote($id){
 		$data = array(
 			'voter' => USER_ID,
 			'voter_ip' => poll_get_ip(),
+			'poll' => $id,
 		);
-		db_update('poll_vote', $data, $choise);
+		db_insert('poll_vote', $data);
 	}
 	
 	private function initComment(){
 		include_once(MODULE_PATH.'comment/Comment.class.inc');
-		$this->comment = new Comment();
+		$this->comment = new Comment(false);
 		$this->comment->setMode($this->fullModuleName);
 		$this->comment->setParent($this->id);
 		$this->comment->setPermission(XIMPLE_COMMENT_ALL);
-		$this->comment->setParentWriter($this->dataByID['owner']['id']);
+		$this->comment->setParentWriter($this->dataByID['writer']['id']);
 		$this->comment->init();
+	}
+	
+	private function setConfigForm(){
+		$permission = $this->getNewConfigForm(tt('permission'));
+		$permission->append('end_date');
+		$permission->append('permission');
+		$permission->append('comment_permission');
 	}
 	
 	private function setAccess(){

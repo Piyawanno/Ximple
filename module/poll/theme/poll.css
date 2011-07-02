@@ -3,3 +3,15 @@
 	font-size:11px;
 	margin-bottom:-5px;
 }
+
+.poll_choise{
+	display:block;
+	padding:2px;
+	height:10px;
+	background:#666;
+}
+
+.poll_choise_label{
+	font-size:11px;	
+	margin-top:15px;
+}

@@ -1,11 +1,7 @@
 <?php
 execute_add_class('comment', 'Comment');
 include('CommentModel.class.inc');
-
-define('XIMPLE_COMMENT_ALL', 0);
-define('XIMPLE_COMMENT_AUTHENTICATED', 1);
-define('XIMPLE_COMMENT_READ_ONLY', 2);
-define('XIMPLE_COMMENT_DISABLE', 3);
+include_once('comment.tool.inc');
 
 class Comment extends Control{
 	private $mode = null;
@@ -16,6 +12,7 @@ class Comment extends Control{
 	private $template;
 	private $insertMode;
 	private $parentAdminGroup;
+	private $parentPermissionColumn = 'comment_permission';
 	
 	function Comment($isInit=true){
 		$this->tableName = 'comment';
@@ -56,12 +53,16 @@ class Comment extends Control{
 		$this->parentWriter = $parentWriter;
 	}
 	
+	public function setParentPermissionColumn($parentPermissionColumn){
+		$this->parentPermissionColumn = $parentPermissionColumn;
+	}
+	
 	public function setPermission($permission){
-		if($permission){
+		if(strlen($permission)){
 			$this->permission = $permission;
 		}elseif(!empty($this->mode) and !empty($this->mode)){
 			$clause = 'WHERE id='.((int) $this->parent);
-			$permission = db_select_single_column($this->mode, 'comment_permission', $clause, false);
+			$permission = db_select_single_column($this->mode, $this->parentPermissionColumn, $clause, false);
 			$this->permission = $permission[0];
 		}
 	}
@@ -87,7 +88,6 @@ class Comment extends Control{
 	}
 	
 	public function insert(){
-		echo('permission : '.$this->permission);
 		if($this->isWritable()){
 			Control::insert();
 			count_increase('contribution', USER_ID);

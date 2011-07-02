@@ -12,6 +12,6 @@ function poll_permission_option(){
 }
 
 function poll_get_ip(){
-	return getenv(REMOTE_ADDR).':'.getenv(HTTP_X_FORWARDED_FOR);
+	return vv('REMOTE_ADDR').':'.getenv('HTTP_X_FORWARDED_FOR');
 }
 ?>

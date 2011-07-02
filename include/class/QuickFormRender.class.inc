@@ -4,6 +4,7 @@ class QuickFormRender{
 	private $model = array();
 	private $modelFactory;
 	private $modelConnector;
+	private $renderArray= null;
 	
 	function QuickFormRender($id){
 		$this->id = $id;
@@ -33,20 +34,28 @@ class QuickFormRender{
 	}
 	
 	public function render(){
-		$modelConnector = new ModelConnector($this->model, null);
-		$rednerArray = array(
-			'id' => $this->id,
-			'form' => $this->renderFormModel($this->id),
-			'label' => $modelConnector->getColumnAttribute('label'),
-			'help' => $modelConnector->getColumnAttribute('help'),
-			'not_null' => $modelConnector->getColumnNameByBoolean('isNotNull'),
-		);
-		return render($rednerArray, 'quick_form.tpl', 'quick_form');
+		$this->getRenderArray();
+		return render($this->renderArray, 'quick_form.tpl', 'quick_form');
 	}
 	
-	public function renderEntireForm(){
-		$rednerArray = array('form' => $this->render());
-		return render($rednerArray, 'quick_form_frame.tpl', 'quick_form_entire');
+	public function renderEntireForm($formMeta){
+		$this->renderArray['rendered_form'] = $this->render();
+		$this->renderArray['meta'] = $formMeta;
+		return render($this->renderArray, 'form_frame.tpl', 'quick_form_frame');
+	}
+	
+	private function getRenderArray(){
+		if(!is_array($this->renderArray)){
+			$modelConnector = new ModelConnector($this->model, null);
+			$this->renderArray = array(
+				'id' => $this->id,
+				'form' => $this->renderFormModel($this->id),
+				'label' => $modelConnector->getColumnAttribute('label'),
+				'help' => $modelConnector->getColumnAttribute('help'),
+				'not_null' => $modelConnector->getColumnNameByBoolean('isNotNull'),
+			);
+		}
+		return $this->renderArray;
 	}
 	
 	private function renderFormModel($id){

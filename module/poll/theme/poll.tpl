@@ -1,9 +1,9 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
-<h3 class="title_label"><?=$name?></h3>
+<h3 class="title_label"><?=$topic?></h3>
 <?=$poll?>
 <p><?=$description?></p>
 <p class="poll_info">
-	<?=$create_date?> | <?=tt('by')?> <?=render_profile_link($owner)?>
+	<?=$create_date?> | <?=tt('by')?> <?=render_profile_link($writer)?>
 </p>
 <p class="operation_bar">
 	<span>read <!--{ximple_read/poll/<?=$id?>}--></span>

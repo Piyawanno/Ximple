@@ -205,7 +205,7 @@ abstract class Content extends Control{
 			if(!isset($this->dataByID['comment_permission'])) $permission = null;
 			else $permission = $this->dataByID['comment_permission'];
 
-			$this->comment = new Comment();
+			$this->comment = new Comment(false);
 			$this->comment->setMode($this->fullModuleName);
 			$this->comment->setParent($this->id);
 			$this->comment->setPermission($permission);
