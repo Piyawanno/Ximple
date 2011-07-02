@@ -77,7 +77,7 @@ function theme_css(){
 		document_set_path(tt('Theme'), 'theme');
 		document_set_path($title);
 		document_set_title($title);
-		return render(array('data' => $css_list), 'themecss.tpl', 'theme_css');
+		return render(array('data' => $css_list), 'theme_css.tpl', 'theme_css');
 	}
 }
 
@@ -91,7 +91,7 @@ function theme_edit_css(){
 		document_set_path(tt('Custom CSS'), 'theme_css');
 		document_set_path($title);
 		document_set_title($title);
-		return render(array('data' => $css, 'file_name' => $file_name), 'cssedit.tpl', 'css_edit');
+		return render(array('data' => $css, 'file_name' => $file_name), 'theme_css_edit.tpl', 'theme_css_edit');
 	}
 }
 

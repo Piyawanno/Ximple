@@ -26,7 +26,7 @@ function forum_entry_last_commented(){
 		$data[$key]['last_commentator_info'] = userinfo_get_info_by_id($value['last_commentator_id']);
 		$data[$key]['write_time'] = date(cc('time_format'), strtotime($value['write_time']));
 	}
-	return render(array('data' => $data), 'lastcommented.tpl', 'lastcommented');
+	return render(array('data' => $data), 'forum_last_commented.tpl', 'forum_last_commented');
 }
 
 function forum_entry_last_commented_config(){

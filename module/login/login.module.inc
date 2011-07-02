@@ -28,12 +28,12 @@ function login_render(){
 	);
 	head_add_css('form.css');
 	head_add_js('include/external/sha1.js');
-	return render($render_array, 'loginpage.tpl', 'loginpage');
+	return render($render_array, 'login_page.tpl', 'login_page');
 }
 
 function login_render_logout(){
 	head_add_css('form.css');
 	head_add_js('include/external/sha1.js');
-	return render(array(), 'logoutpage.tpl', 'logoutpage');
+	return render(array(), 'logout_page.tpl', 'logout_page');
 }
 ?>

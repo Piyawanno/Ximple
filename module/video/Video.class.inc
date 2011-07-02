@@ -22,7 +22,7 @@ class Video extends Content{
 		$this->selectByID($this->column);
 		if($this->isReadable()){
 			$this->prepareRender();
-			$render = render($this->dataByID, 'singlevideo.tpl', 'single_video');
+			$render = render($this->dataByID, 'video.tpl', 'video');
 			$render.= $this->comment->render();
 			head_add_css('video.css');
 			$this->setDocumentData();
@@ -38,7 +38,7 @@ class Video extends Content{
 		$this->getCommentNumber();
 		$this->getDataEditable();
 		$this->setPathMutiplePage();
-		$render = render(array('data' => $this->data), 'multiplevideos.tpl', 'multiple_videos');
+		$render = render(array('data' => $this->data), 'video_multiple.tpl', 'video_multiple');
 		$render.= $this->pager->render('video'.$this->getPageMode());
 		return $render;
 	}

@@ -41,7 +41,7 @@ class Gallery extends Content{
 			$this->dataByID['picture'] = $this->getPictures($this->id);
 			$this->getPictureForm();
 			$this->getAppearanceConfiguration();
-			$render = render($this->dataByID, 'singlegallery.tpl', 'single_gallery');
+			$render = render($this->dataByID, 'gallery_single.tpl', 'gallery_single');
 			$render.= $this->comment->render();
 			$this->setDocumentData();
 			return $render;
@@ -66,7 +66,7 @@ class Gallery extends Content{
 			'description' => $this->getCategoryDescription(),
 			'data' => $this->data
 		);
-		$render  = render($renderArray, 'multiplegalleries.tpl', 'multiple_galleries');
+		$render  = render($renderArray, 'gallery_multiple.tpl', 'gallery_multiple');
 		$render .= $this->pager->render('gallery'.$this->getPageMode());
 		return $render;
 	}

@@ -23,7 +23,7 @@ function useronline_widget_cont(){
 function useronline_widget_user_list(){
 	$user_info = useronline_get_array_info();
 	$render_array = array('user' => $user_info);
-	return render($render_array, 'useronlinewidget.tpl', 'useronlinewidget');
+	return render($render_array, 'useronline_widget.tpl', 'useronline_widget');
 }
 
 function useronline_set_access(){

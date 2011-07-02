@@ -45,10 +45,10 @@ class ForumEntry extends Content{
 		
 		$this->initComment();
 		$this->insertTracker('read');
-		$this->comment->setTemplate('forumcomment.tpl');
+		$this->comment->setTemplate('forum_comment.tpl');
 		$this->comment->setInsertMode('forum_entry_insert_comment');
 		
-		$render = render($this->dataByID, 'forumentry.tpl', 'forumentry');
+		$render = render($this->dataByID, 'forum_entry.tpl', 'forumentry');
 		$render.= $this->comment->render();
 		
 		return $render;
@@ -114,7 +114,7 @@ class ForumEntry extends Content{
 			'writable' => $this->isWritable(),
 			'pager' => $this->pager->render('forum_entry_list/forum/'.gg('forum')),
 		);
-		return render($renderArray, 'forumlist.tpl', 'forumlist');
+		return render($renderArray, 'foruml_ist.tpl', 'forum_list');
 	}
 	
 	public function contributorListPage(){
