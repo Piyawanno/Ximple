@@ -11,7 +11,7 @@ function module_init_blog(){
 	include_once('Blog.class.inc');
 	include_once('BlogConfig.class.inc');
 	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
-	include_once(MODULE_PATH.'flashwidget/flashwidget.module.inc');
+	include_once(MODULE_PATH.'flashwidget/FlashWidgetManager.class.inc');
 	
 	$blog = new Blog();
 	$blog->initModule('Blog.class.inc');
@@ -21,30 +21,48 @@ function module_init_blog(){
 	
 	config_set('blog_entries_number', 5);
 	
-	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2) ORDER BY publish_time DESC';
-	flashwidget_add('blog_last_post', 'blog', tt('Last posted Blogs'), 'blog', 'topic', $clause);
+	$flash = new FlashWidgetManager('blog_last_post');
+	$flash->setMode('blog');
+	$flash->setName(tt('Last posted Blogs'));
+	$flash->setTable('blog');
+	$flash->setColumn('topic');
+	$flash->setClause('WHERE (section='.SECTION.' AND publishing_status < 2) ORDER BY publish_time DESC');
+	$flash->submit();
 	
-	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2 AND comment_time > 0) ORDER BY comment_time DESC';
-	flashwidget_add('blog_last_commented', 'blog', tt('Last commented Blogs'), 'blog', 'topic', $clause);
+	$flash = new FlashWidgetManager('blog_last_commented');
+	$flash->setMode('blog');
+	$flash->setName(tt('Last commented Blogs'));
+	$flash->setTable('blog');
+	$flash->setColumn('topic');
+	$flash->setClause('WHERE (section='.SECTION.' AND publishing_status < 2 AND comment_time > 0) ORDER BY comment_time DESC');
+	$flash->submit();
 	
-	widget_add(tt('Promoted Blogs'), 'blog_promote_widget');
+	$widget = new WidgetManager(tt('Promoted Blogs'), 'blog_promote_widget');
+	$widget->submit();
 }
 
 function module_drop_blog(){
 	include_once('Blog.class.inc');
 	include_once('BlogConfig.class.inc');
 	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
-	include_once(MODULE_PATH.'flashwidget/flashwidget.module.inc');
+	include_once(MODULE_PATH.'flashwidget/FlashWidgetManager.class.inc');
 	
 	$blog = new Blog();
 	$blog->dropModule();
+	
 	$blogConfig = new BlogConfig();
 	$blogConfig->dropModule();
 	
+	$flash = new FlashWidgetManager('blog_last_post');
+	$flash->drop();
+	
+	$flash = new FlashWidgetManager('blog_last_commented');
+	$flash->drop();
+	
+	$widget = new WidgetManager(tt('Promoted Blogs'), 'blog_promote_widget');
+	$widget->drop();
+	
 	notify_add_info(tt('Blog has been successfully deactivated'));
 	config_drop('blog_entries_number');
-	flashwidget_drop('blog_last_post');
-	flashwidget_drop('blog_last_commented');
-	widget_drop('blog_promote_widget');
 }
 ?>

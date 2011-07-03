@@ -21,7 +21,7 @@ class FlashWidgetManager{
 		$this->mode = $mode;
 	}
 	
-	public function setName($Name){
+	public function setName($name){
 		$this->name = $name;
 	}
 	
@@ -38,11 +38,11 @@ class FlashWidgetManager{
 	}
 	
 	public function submit(){
-		flashwidget_add($this->reference, $this->mode, $this->name, $this->table, $this->column, $this->clause)
+		flashwidget_add($this->reference, $this->mode, $this->name, $this->table, $this->column, $this->clause);
 	}
 	
 	public function drop(){
-		flashwidget_drop($this->reference)
+		flashwidget_drop($this->reference);
 	}
 }
 ?>
