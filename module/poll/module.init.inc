@@ -9,12 +9,16 @@ function module_get_info_poll(){
 
 function module_init_poll(){
 	require_once('Poll.class.inc');
+	require_once('PollConfig.class.inc');
 	require_once('PollChoiseModel.class.inc');
 	require_once('PollVoteModel.class.inc');
 	include_once(INCLUDE_PATH.'class/QuickTableCreator.class.inc');
 	
 	$poll = new Poll();
 	$poll->initModule('Poll.class.inc');
+	
+	$pollConfig = new PollConfig();
+	$pollConfig->initModule('PollConfig.class.inc');
 	
 	$pollChoise = new QuickTableCreator(new PollChoiseModel());
 	$pollChoise->create();
@@ -36,6 +40,7 @@ function module_init_poll(){
 	$panel->setControl($poll);
 	$panel->append('poll_write', 'create new Poll');
 	$panel->append('poll_list', 'list & manage  Poll');
+	$panel->append('poll_config', 'configure Poll');
 	$panel->appendRole($admin);
 	$panel->submit();
 	
@@ -44,15 +49,20 @@ function module_init_poll(){
 	
 	config_set('poll_comment_write_label', tt('Please, write your opinion.'));
 	config_set('poll_comment_page_length', 10);
+	config_set('poll_result_color', '#999');
 	extension_add('content_post_select', 'poll_embed');
 	extension_add('content_form_description', 'poll_write_icon');
 }
 
 function module_drop_poll(){
 	require_once('Poll.class.inc');
+	require_once('PollConfig.class.inc');
 	
 	$poll = new Poll();
 	$poll->dropModule();
+	
+	$pollConfig = new PollConfig();
+	$pollConfig->dropModule();
 	
 	$admin = new RoleManager('poll_admin');
 	$admin->drop();

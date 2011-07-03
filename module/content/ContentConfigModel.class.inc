@@ -14,7 +14,7 @@ abstract class ContentConfigModel extends Model{
 		$this->$comment_write_label = $this->title(tt('label for comment write form'));
 		
 		$comment_page_length = $mode.'_comment_page_length';
-		$this->$comment_page_length = $this->spin(tt('comments per page'), 5, 50);
+		$this->$comment_page_length = $this->spin(tt('comments number per page'), 5, 50);
 		
 		$option = $this->getCommentPermission();
 		$comment_permission = $mode.'_comment_permission';
