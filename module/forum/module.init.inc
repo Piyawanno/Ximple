@@ -11,8 +11,7 @@ function module_init_forum(){
 	include_once('Forum.class.inc');
 	include_once('ForumEntry.class.inc');
 	include_once('ForumConfig.class.inc');
-	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
-	include_once(MODULE_PATH.'flashwidget/flashwidget.module.inc');
+	include_once(MODULE_PATH.'flashwidget/FlashWidgetManager.class.inc');
 	
 	$forumEntry = new ForumEntry();
 	$forumEntry->initModule('ForumEntry.class.inc');
@@ -23,8 +22,7 @@ function module_init_forum(){
 	$forumConfig = new ForumConfig();
 	$forumConfig->initModule('ForumConfig.class.inc');
 	
-	menu_drop('forum_entry');
-	menu_add('forum', tt('Forum'));
+	
 	list($admin, $editor, $contributor) = content_add_role('forum_entry', tt('Forum Entry'));
 	
 	$panel = new PanelManager('Forum Entry');
@@ -48,30 +46,42 @@ function module_init_forum(){
 	$panel->append('forum_entry_editor_list', 'list Forum entry in Section');
 	$panel->submit();
 	
-	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2) ORDER BY id DESC';
-	flashwidget_add('forum_entry_last_post', 'forum_entry', tt('Last posted Forum Entries'), 'forum_entry', 'topic', $clause);
+	$flash = new FlashWidgetManager('forum_entry_last_post');
+	$flash->setMode('forum_entry');
+	$flash->setName(tt('Last posted Forum Entries'));
+	$flash->setTable('forum_entry');
+	$flash->setColumn('topic');
+	$flash->setClause('WHERE (section='.SECTION.' AND publishing_status < 2) ORDER BY id DESC');
+	$flash->submit();
 	
-	$clause = 'WHERE (section='.SECTION.' AND publishing_status < 2 AND comment_time > 0) ORDER BY comment_time DESC';
-	flashwidget_add('forum_entry_last_commented', 'forum_entry', tt('Last commented Forum Entries'), 'forum_entry', 'topic', $clause);
+	$flash->setReference('forum_entry_last_commented');
+	$flash->setName(tt('Last commented Forum Entries'));
+	$flash->setClause('WHERE (section='.SECTION.' AND publishing_status < 2 AND comment_time > 0) ORDER BY comment_time DESC');
+	$flash->submit();
 	
-	$clause = 'WHERE section='.SECTION.' AND category != 0 ORDER BY position';
-	flashwidget_add('forum_list', 'forum_entry_list/forum', tt('List of Forums'), 'forum', 'name', $clause);
+	$flash = new FlashWidgetManager('forum_list');
+	$flash->setMode('forum_entry_list/forum');
+	$flash->setName(tt('List of Forums'));
+	$flash->setTable('forum');
+	$flash->setColumn('name');
+	$flash->setClause('WHERE section='.SECTION.' AND category != 0 ORDER BY position');
+	$flash->submit();
 	
-	widget_add(
-		tt('Advanced Last commented Forum Entries'),
-		'forum_entry_last_commented',
-		'disabled',
-		'forum_entry_last_commented_config',
-		'forum_entry_last_commented_config_save'
-	);
+	$widget = new WidgetManager(tt('Advanced Last commented Forum Entries'), 'forum_entry_last_commented');
+	$widget->setPosition('disabled');
+	$widget->setFormMode('forum_entry_last_commented_config');
+	$widget->setSaveMode('forum_entry_last_commented_config_save');
+	$widget->submit();
+	
+	menu_drop('forum_entry');
+	menu_add('forum', tt('Forum'));
 }
 
 function module_drop_forum(){
 	include_once('Forum.class.inc');
 	include_once('ForumEntry.class.inc');
 	include_once('ForumConfig.class.inc');
-	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
-	include_once(MODULE_PATH.'flashwidget/flashwidget.module.inc');
+	include_once(MODULE_PATH.'flashwidget/FlashWidgetManager.class.inc');
 	
 	$forumEntry = new ForumEntry();
 	$forumEntry->dropModule();
@@ -85,13 +95,20 @@ function module_drop_forum(){
 	$panel = new PanelManager('Forum');
 	$panel->drop();
 	
+	$flash = new FlashWidgetManager('forum_entry_last_post');
+	$flash->drop();
+	
+	$flash = new FlashWidgetManager('forum_entry_last_commented');
+	$flash->drop();
+	
+	$flash = new FlashWidgetManager('forum_list');
+	$flash->drop();
+	
+	$widget = new WidgetManager(tt('Advanced Last commented Forum Entries'), 'forum_entry_last_commented');
+	$widget->drop();
+	
 	content_drop_module('forum_entry', tt('Forum Entry'));
 	menu_drop('forum');
-	flashwidget_drop('forum_entry_last_post');
-	flashwidget_drop('forum_entry_last_commented');
-	flashwidget_drop('forum_list');
-	
-	widget_drop('forum_entry_last_commented');
 	notify_add_info(tt('Forum has been successfully deactivated'));
 }
 ?>
