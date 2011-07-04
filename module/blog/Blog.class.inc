@@ -82,7 +82,7 @@ class Blog extends Content{
 		head_add_css('blog.css');
 		$this->prepareRender();
 		$render = $this->renderWriteIcon();
-		$render.= render($this->dataByID, 'blog_single.tpl', 'blog_single');
+		$render.= render($this->dataByID, 'blog.tpl', 'blog');
 		$render.= $this->comment->render();
 		$this->setDocumentData();
 		return $render;

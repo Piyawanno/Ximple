@@ -41,7 +41,7 @@ class Gallery extends Content{
 			$this->dataByID['picture'] = $this->getPictures($this->id);
 			$this->getPictureForm();
 			$this->getAppearanceConfiguration();
-			$render = render($this->dataByID, 'gallery_single.tpl', 'gallery_single');
+			$render = render($this->dataByID, 'gallery.tpl', 'gallery');
 			$render.= $this->comment->render();
 			$this->setDocumentData();
 			return $render;
