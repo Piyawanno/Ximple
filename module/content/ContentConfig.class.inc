@@ -89,7 +89,7 @@ abstract class ContentConfig extends ConfigControl{
 	
 	private function getAdditionalConfig(){
 		$additionalConfig = array('module' => $this->mode);
-		$additionalConfig = extension_execute('content_config', $additionalConfig, $additionalConfig);
+		$additionalConfig = extension_execute('content_config', $additionalConfig);
 		unset($additionalConfig['module']);
 		return $additionalConfig;
 	}

@@ -51,9 +51,13 @@ class FormRender extends FormModelRender{
 			'is_translate' => $this->isTranslate,
 			'config' => $this->renderedConfigForm,
 		);
+		if(!$this->formMeta->isAjax){
+			head_add_js_var('modeID', MODE_ID);
+			head_add_js_var('moduleName', MODULE);
+		}
 		$renderArray['rendered_form'] = render($renderArray, 'form.tpl', 'form');
-		$render = render($renderArray, 'form_frame.tpl', 'form_frame');
 		head_add_js_array('gridRowArray', FormRender::$gridRowArray);
+		$render = render($renderArray, 'form_frame.tpl', 'form_frame');
 		return $render;
 	}
 	
@@ -101,7 +105,6 @@ class FormRender extends FormModelRender{
 	
 	private function getTranslateLabel(){
 		if($this->isTranslate){
-			head_add_js_var('modeID', MODE_ID);
 			head_add_js('include/javascript/translate.js');
 			$pattern = tt('You can use <a %s><strong>Translate-Form</strong></a> to translate this form.');
 			$help = sprintf($pattern, 'href="#" onclick="showTranslateDialog();return false"');

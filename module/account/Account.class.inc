@@ -31,7 +31,7 @@ class Account extends User{
 		if(isset($config['subscribe'])) $this->updateSubscriber($config['subscribe']);
 		else $this->updateSubscriber(array());
 		
-		$config = extension_execute('account_update', $config, $config);
+		$config = extension_execute('account_update', $config);
 		io_serialize($config, $accountDirectory.$this->id);
 		document_set_redirect('account');
 		notify_add_info(tt('Your account configuration has been successfully updated.'));

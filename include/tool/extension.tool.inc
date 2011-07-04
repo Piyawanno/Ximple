@@ -15,9 +15,23 @@
 /// Execute given extension.
 /// @param $reference : reference name of extension.
 /// @param $params : array of parameters for called function or method
+/// @return Result from extension.
+function extension_execute($reference, $params=null){
+	$extension = cc('extension');
+	if(isset($extension[$reference])){
+		foreach($extension[$reference] as $key => $value){
+			$params = execute_string($value, $params);
+		}
+	}
+	return $params;
+}
+
+/// Execute given extension.
+/// @param $reference : reference name of extension.
+/// @param $params : array of parameters for called function or method
 /// @param $result : result from called function or method
 /// @return Result from extemsion.
-function extension_execute($reference, $params=null, $result=null){
+function extension_execute_append_result($reference, $params, $result){
 	$extension = cc('extension');
 	if(isset($extension[$reference])){
 		foreach($extension[$reference] as $key => $value){

@@ -17,6 +17,14 @@ function checkForm(notNull, label){
 	return ok;
 }
 
+function initForm(form, initFunction){
+	form.each(function(){
+		if($(this).attr("rel") != "initialized"){
+			initFunction($(this));
+		}
+		$(this).attr("rel", "initialized");
+	});
+}
 
 function checkNotNull(notNull, label){
 	var ok = true;

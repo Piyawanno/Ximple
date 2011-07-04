@@ -31,7 +31,6 @@ abstract class Translatable extends Authority{
 		notify_add_info(tt('Your translated content has been successfully updated.'));
 	}
 	
-	
 	protected function init(){
 		if(strlen($this->moduleExtension) == 0) $this->fullModuleName = $this->moduleName;
 		else $this->fullModuleName = $this->moduleName.'_'.$this->moduleExtension;

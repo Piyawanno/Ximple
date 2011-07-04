@@ -25,8 +25,8 @@ class Profile extends Control{
 		$uid = $this->getUID();
 		$editable = authority_owner('profile_admin', $uid);
 		$userInfo = userinfo_get_info_by_id($uid);
-		$additionalLink = extension_execute('additional_profile_link', $userInfo, array());
-		$additionalProfile = extension_execute('additional_profile', $userInfo, array());
+		$additionalLink = extension_execute_append_result('additional_profile_link', $userInfo, array());
+		$additionalProfile = extension_execute_append_result('additional_profile', $userInfo, array());
 		$renderArray = array(
 			'user' => userinfo_get_info_by_id($uid),
 			'data' => $this->prepareIndexData(),

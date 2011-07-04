@@ -104,6 +104,7 @@ class GridFormRender{
 			<td>
 				<a onclick="delGridRow(this, \''.$dropMode.'\');return false;" href="#">
 				<img src="'.ROOT_URI.'files/icon/drop.png" border="0" align="left" />
+				</a>
 			</td>';
 	}
 	

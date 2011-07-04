@@ -58,14 +58,14 @@ function main_render(){
 		header('Content-Type: text/html; charset=UTF-8');
 		$render = main_render_db();
 	}elseif(execute_as_ajax()){
-		$body = extension_execute('pre_main_render_ajax', $body, $body);
+		$body = extension_execute('pre_main_render_ajax', $body);
 		header('Content-Type: text; charset=UTF-8');
 		$render = $body;
 	}elseif(execute_as_print()){
 		header('Content-Type: text/html; charset=UTF-8');
 		$render = main_render_print($body);
 	}
-	$render = extension_execute('post_main_render', $render, $render);
+	$render = extension_execute('post_main_render', $render);
 	return $render;
 }
 
@@ -73,7 +73,7 @@ function main_render_site($body){
 	include_once(INCLUDE_PATH.'tool/menu.tool.inc');
 	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	search_increase_point();
-	$body = extension_execute('pre_main_render_site', $body, $body);
+	$body = extension_execute('pre_main_render_site', $body);
 	$render_array = array(
 		'body' => $body,
 		'path' => document_render_path(),
@@ -90,7 +90,7 @@ function main_render_site($body){
 }
 
 function main_render_print($body){
-	$body = extension_execute('pre_main_render_print', $body, $body);
+	$body = extension_execute('pre_main_render_print', $body);
 	$render_array = array(
 		'body' => $body,
 		'section_name' => cc('section_name'),

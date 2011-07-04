@@ -1,34 +1,31 @@
 $(document).bind("ready", function(){
-	$('.auto_complete').each(function(){
-		if($(this).attr("rel") != "initialized"){
-			$(this).keypress(function(){
-				var words = $(this).val().split(',');
-				var lastWord = jQuery.trim(words[words.length-1]);
-				if(lastWord.length){
-					var option = $('#complete_option');
-					var pos = $(this).offset();
-					option.css({
-						top: pos.top + $(this).height() + 4 + autoCompleteTop,
-						left: pos.left + autoCompleteLeft,
-						width: $(this).width() + 2,
-					});
-					$('#complete_option option').remove();
-					option.attr('rel', $(this).attr('id'));
-					var uri = sectionURI+$(this).attr('rel')+'/wildcard/'+lastWord;
-					$.get(uri, function(data){
-						if(data.length){
-							option.append(data);
-							option.show();
-						}
-					});
-				}
-			});
-		}
-		$(this).attr("rel", "initialized");
+	initForm($('.auto_complete'), function(form){
+		form.keypress(function(){
+			var words = $(this).val().split(',');
+			var lastWord = jQuery.trim(words[words.length-1]);
+			if(lastWord.length){
+				var option = $('#complete_option');
+				var pos = $(this).offset();
+				option.css({
+					top: pos.top + $(this).height() + 4 + autoCompleteTop,
+					left: pos.left + autoCompleteLeft,
+					width: $(this).width() + 2,
+				});
+				$('#complete_option option').remove();
+				option.attr('rel', $(this).attr('id'));
+				var uri = sectionURI+$(this).attr('rel')+'/wildcard/'+lastWord;
+				$.get(uri, function(data){
+					if(data.length){
+						option.append(data);
+						option.show();
+					}
+				});
+			}
+		});
 	});
 	
-	if(!$('#complete_option').attr('initialized')){
-		$('#complete_option').click(function(){
+	initForm($('#complete_option'), function(form){
+		form.click(function(){
 			var input = $('#'+$(this).attr('rel'));
 			var value = '';
 			var words = input.val().split(',');
@@ -39,8 +36,7 @@ $(document).bind("ready", function(){
 			input.val(value);
 			$(this).hide();
 		});
-	}
-	$('#complete_option').attr('initialized', true);
+	});
 	
 	$('body').click(function(){
 		$('#complete_option').hide();

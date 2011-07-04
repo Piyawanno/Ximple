@@ -1,3 +1,8 @@
+.poll_result{
+	width:85%;
+	margin:25px 0px;
+}
+
 .poll_info{
 	color:gray;
 	font-size:11px;
@@ -14,4 +19,9 @@
 .poll_choise_label{
 	font-size:11px;	
 	margin-top:15px;
+}
+
+#poll_embed_form{
+	display:none;
+	text-align:left;
 }

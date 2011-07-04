@@ -51,7 +51,6 @@ abstract class SelectiveColumn extends ModelColumn{
 		$render .= '</div>';
 		$render .= '</div>';
 		$render .= '<span id="info_'.$id.'"></span>';
-		$render .= '<p style="clear:both;">';
 		return $render;
 	}
 	

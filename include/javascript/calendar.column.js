@@ -1,5 +1,7 @@
 $(document).bind("ready", function(){
-	$(".calendar_form").datepicker({ 
-		dateFormat: "d MM yy"
-	})
+	initForm($(".calendar_form"), function(form){
+		form.datepicker({ 
+			dateFormat: "d MM yy"
+		});
+	});
 });

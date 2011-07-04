@@ -1,6 +1,6 @@
 $(document).bind("ready", function(){
-	$('.color_picker').each(function(){
-		formID = $(this).attr('id');
+	initForm($('.color_picker'), function(form){
+		formID = form.attr('id');
 		$("#picker_"+formID).farbtastic("#"+formID);
 		$("#picker_"+formID).dialog({
 			bgiframe : true,
@@ -11,7 +11,7 @@ $(document).bind("ready", function(){
 			title : selectColorLabel
 		});
 		$("#"+formID).click(function(){
-			$("#picker_"+$(this).attr('id')).dialog("open");
+			$("#picker_"+form.attr('id')).dialog("open");
 		});
 	});
 });

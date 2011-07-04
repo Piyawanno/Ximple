@@ -51,7 +51,7 @@ function module_init_poll(){
 	config_set('poll_comment_page_length', 10);
 	config_set('poll_result_color', '#999');
 	extension_add('content_post_select', 'poll_embed');
-	extension_add('content_form_description', 'poll_write_icon');
+	extension_add('content_edit_description', 'poll_embed_icon');
 }
 
 function module_drop_poll(){
@@ -77,6 +77,7 @@ function module_drop_poll(){
 	$widget->drop();
 	
 	extension_drop('content_post_select', 'poll_embed');
-	extension_drop('content_form_description', 'poll_write_icon');
+	extension_drop('content_edit_description', 'poll_embed_icon');
+	extension_drop('content_edit_description', 'poll_write_icon');
 }
 ?>

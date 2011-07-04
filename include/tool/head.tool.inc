@@ -28,7 +28,6 @@ $head_js = array(
 
 $head_js_var = array(
 	'rootURI' => ROOT_URI,
-	'moduleName' => MODULE,
 	'translateModuleName' => null,
 	'modeName' => MODE,
 	'sectionID' => SECTION,

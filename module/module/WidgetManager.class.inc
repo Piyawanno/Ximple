@@ -4,7 +4,7 @@ require_once(INCLUDE_PATH.'tool/widget.tool.inc');
 class WidgetManager{
 	private $title;
 	private $mode;
-	private $position = 'disable';
+	private $position = 'disabled';
 	private $formMode;
 	private $saveMode;
 	private $sortNumber;

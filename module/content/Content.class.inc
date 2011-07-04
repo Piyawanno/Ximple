@@ -7,7 +7,7 @@ abstract class Content extends Control{
 	
 	public function write(){
 		$this->setConfigForm();
-		$this->extendFormDescription();
+		$this->extendFormDescription('content_write_description');
 		if(strlen($this->writeLabel) == 0){
 			$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
 		}
@@ -16,7 +16,7 @@ abstract class Content extends Control{
 	
 	public function edit(){
 		$this->setConfigForm();
-		$this->extendFormDescription();
+		$this->extendFormDescription('content_edit_description');
 		return Control::edit();
 	}
 	
@@ -135,7 +135,7 @@ abstract class Content extends Control{
 		foreach($this->data as $key => $value){
 			$this->data[$key]['module'] = $this->fullModuleName;
 		}
-		$this->data = extension_execute('content_post_select', $this->data, $this->data);
+		$this->data = extension_execute('content_post_select', $this->data);
 	}
 	
 	protected function getCommentNumber(){
@@ -256,9 +256,9 @@ abstract class Content extends Control{
 		$searchEngine->append('description');
 	}
 	
-	private function extendsFormDescription(){
+	private function extendFormDescription($mode){
 		$description = $this->formMeta->description;
-		extension_execute('content_form_description', $description, $description);
+		$description = extension_execute($mode, $description);
 		$this->formMeta->description = $description;
 	}
 	
