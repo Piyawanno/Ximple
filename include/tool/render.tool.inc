@@ -185,4 +185,41 @@ function render_tag_cloud($mode, $freetag){
 	$href = SECTION_URI.Q.$mode.'/tag/'.$freetag['freetag'];
 	return '<a href="'.$href.'" style="font-size:'.$size.'px;">'.$freetag['freetag'].'</a>';
 }
+
+function render_calendar($data, $mode, $month, $year){
+	head_add_css('calendar.css');
+	$time = strtotime("$year-$month-01");
+	
+	if($month == 1){
+		$prev_month = 12;
+		$prev_year = $year - 1;
+	}else{
+		$prev_month = $month - 1;
+		$prev_year = $year;
+	}
+	
+	if($month == 2){
+		$next_month = 1;
+		$next_year = $year + 1;
+	}else{
+		$next_month = $month + 1;
+		$next_year = $year;
+	}
+	
+	$render_array = array(
+		'data' => $data,
+		'mode' => $mode,
+		'first_day' => date('w', $time),
+		'day_number' => date('t', $time),
+		'today' => date('Y-n-j'),
+		'month' => $month,
+		'month_name' => date('F', $time),
+		'year' => $year,
+		'prev_month' => $prev_month,
+		'prev_year' => $prev_year,
+		'next_month' => $next_month,
+		'next_year' => $next_year,
+	);
+	return render($render_array, 'calendar.tpl', 'calendar');
+}
 ?>

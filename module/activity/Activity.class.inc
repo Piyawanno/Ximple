@@ -47,6 +47,13 @@ class Activity extends Content{
 	}
 	
 	private function renderCalendar(){
+		$month = (int) gg('month');
+		$year = (int) gg('year');
+		
+		if(empty($month)) $month = date('n');
+		if(empty($year)) $year = date('Y');
+		
+		return render_calendar(array(), 'activity', $month, $year);
 	}
 	
 	private function executeRender(){

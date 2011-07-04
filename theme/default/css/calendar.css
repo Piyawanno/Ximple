@@ -1,0 +1,37 @@
+.calendar_table{
+	border:1px solid #ccc;
+	margin:20px 0px 20px 0px;
+	border-collapse:collapse;
+}
+
+#calendar_today{
+	border:2px solid #1c83b7;
+	background:#ddd;
+}
+
+.calendar_table tr{
+	height:40px;
+}
+
+.calendar_table td{
+	border-top:1px solid #ccc;
+	border-right:1px solid #ccc;
+	padding:10px 15px;
+	text-align:right;
+	font-size:12px;
+}
+
+.calendar_table img{
+	padding-right:10px;
+}
+
+.calendar_table th{
+	border-right:1px solid #ccc;
+	text-align:center;
+	font-size:12px;
+}
+
+.calendar_table td:hover{
+	background:#d7e3f4;
+}
+
