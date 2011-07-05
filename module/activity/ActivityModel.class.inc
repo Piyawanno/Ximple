@@ -4,9 +4,14 @@ class ActivityModel extends ContentModel{
 		ContentModel::ContentModel('activity');
 		$this->checkPath();
 		$this->icon = $this->imageLoader(tt('icon'), 'files/activity/');
-		$this->activity_date = $this->calendar(tt('activity date'));
+		$this->start_date = $this->calendar(tt('start date'));
+		$this->end_date = $this->calendar(tt('end date'));
 		$this->extendAfter('topic', 'icon');
-		$this->extendAfter('topic', 'activity_date');
+		$this->extendAfter('topic', 'start_date');
+		$this->extendAfter('topic', 'end_date');
+		
+		$this->publish_time = $this->now();
+		$this->publish_time->isUpdateTime = true;
 	}
 	
 	private function checkPath(){

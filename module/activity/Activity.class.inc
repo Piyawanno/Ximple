@@ -32,12 +32,6 @@ class Activity extends Content{
 		return $this->dataByID['content'];
 	}
 	
-	protected function isReadable(){
-		$status = $this->dataByID['publishing_status'];
-		$promote = activity_get_publishing_status();
-		return (Content::isReadable() or ($status == $promote[4]));
-	}
-	
 	private function renderSingleActivity(){
 		$this->id = mid();
 		$this->selectByID($this->column);
@@ -47,13 +41,67 @@ class Activity extends Content{
 	}
 	
 	private function renderCalendar(){
+		head_add_css('activity.css');
+		list($month, $year) = $this->getMonth();
+		$this->getActivity($month, $year);
+		$calendarData = $this->getCalendarData($month);
+		$calendar = render_calendar($calendarData, 'activity', $month, $year);
+		$renderArray = array(
+			'calendar' => $calendar,
+			'month' => date('F Y', strtotime("$year-$month-01")),
+			'write_icon' => $this->renderWriteIcon(),
+			'data' => $this->data,
+		);
+		return render($renderArray, 'activity_calendar.tpl', 'activity_calendar');
+	}
+	
+	private function getMonth(){
 		$month = (int) gg('month');
 		$year = (int) gg('year');
 		
-		if(empty($month)) $month = date('n');
-		if(empty($year)) $year = date('Y');
+		if(empty($month)) $month = (int) date('n');
+		if(empty($year)) $year = (int) date('Y');
 		
-		return render_calendar(array(), 'activity', $month, $year);
+		return array($month, $year);
+	}
+	
+	private function getActivity($month, $year){
+		if(strlen($month) == 1) $month = '0'.$month;
+		$monthBegin = "'$year-$month-01 00:00:00'";
+		$monthEnd = "'$year-$month-".date('t', strtotime($monthBegin))." 23:59:59'";
+		$clause  = "WHERE ((start_date >= $monthBegin AND start_date <= $monthEnd) ";
+		$clause .= "OR (end_date >= $monthBegin AND end_date <= $monthEnd)) ";
+		$clause .= "AND publishing_status < 2";
+		$this->select(array('id', 'topic', 'start_date', 'end_date'), $clause);
+	}
+	
+	private function getCalendarData($month){
+		$this->getDayOfMonth($month);
+		$calendarArray = array();
+		for($i=1; $i<=31; $i++){
+			foreach($this->data as $key => $value){
+				if($i >= $value['start'] and $i <= $value['end']){
+					$calendarArray[$i]['class'] = 'active_activity';
+					$calendarArray[$i]['link'][] = 'activity/'.$key;
+				}
+			}
+		}
+		return $calendarArray;
+	}
+	
+	private function getDayOfMonth($month){
+		foreach($this->data as $key => $value){
+			$this->data[$key]['start'] = $this->processDayOfMonth($value['start_date'], $month);
+			$this->data[$key]['end'] = $this->processDayOfMonth($value['end_date'], $month);
+		}
+	}
+	
+	private function processDayOfMonth($date, $month){
+		$time = strtotime($date);
+		$dateMonth = (int) date('n', $time);
+		if($dateMonth < $month) return -1;
+		elseif($dateMonth > $month) return 1000;
+		else return (int) date('j', $time);
 	}
 	
 	private function executeRender(){

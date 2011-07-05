@@ -32,7 +32,14 @@
 		<?php endif?>
 		
 		<?php if(isset($data[$i]['link'])):?>
-			<a href="<?=SECTION_URI.Q.$data[$i]['link']?>" mouseover="showDetail(<?=$i?>, this)"><?=$i?></a>
+			<?php if(count($data[$i]['link']) == 1):?>
+				<a href="<?=SECTION_URI.Q.$data[$i]['link'][0]?>" ><?=$i?></a>
+			<?php else:?>
+				<?=$i?><br />
+				<?php foreach($data[$i]['link'] as $key => $link):?>
+					<a href="<?=SECTION_URI.Q.$link?>" class="calendar_multiple_link"><?=$key + 1?></a>
+				<?php endforeach?>
+			<?php endif?>
 		<?php else:?>
 			<?=$i?>
 		<?php endif?>
@@ -54,6 +61,9 @@
 		</tr>
 	<?php endif?>
 </table>
+
+<div id="calendar_detail"></div>
+
 <p class="operation_bar">
 	<?=render_operation_link($mode, 'month/'.$prev_month.'/year/'.$prev_year, '&#8249;')?>
 	<?=render_operation_link($mode, 'month/'.$month.'/year/'.($year-1), '&#171;')?>

@@ -1,6 +1,10 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <div class="activity">
 	<h3 class="title_label"><?=$topic?></h3>
+	<p class="activity_time_span">
+		<label><?=tt('from')?></label> <?=$start_date?>
+		<label><?=tt('to')?></label> <?=$end_date?>
+	</p>
 	<table  style="width:100%;"><tbody>
 	<tr>
 		<td>
@@ -22,7 +26,7 @@
 	</tr>
 	</tbody></table>
 	<p class="activity_info">
-		<?=$publish_time?> | <?=tt('by')?> <?=render_profile_link($writer)?> | <?=tt('tags')?>
+		<?=tt('by')?> <?=render_profile_link($writer)?> | <?=tt('tags')?>
 		<?=render_tag($category, $freetag, 'activity')?>
 	</p>
 	<p class="operation_bar">

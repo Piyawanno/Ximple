@@ -1,12 +1,21 @@
+#calendar_today{
+	background:#ddd;
+	border-bottom:3px solid #1c83b7;
+}
+
+#calendar_detail{
+	border-top:2px solid #1c83b7;
+	background:#ddd;
+	position:absolute;
+	padding:15px;
+	width:250px;
+	display:none;
+}
+
 .calendar_table{
 	border:1px solid #ccc;
 	margin:20px 0px 20px 0px;
 	border-collapse:collapse;
-}
-
-#calendar_today{
-	border:2px solid #1c83b7;
-	background:#ddd;
 }
 
 .calendar_table tr{
@@ -18,7 +27,7 @@
 	border-right:1px solid #ccc;
 	padding:10px 15px;
 	text-align:right;
-	font-size:12px;
+	font-size:16px;
 }
 
 .calendar_table img{
@@ -33,5 +42,10 @@
 
 .calendar_table td:hover{
 	background:#d7e3f4;
+}
+
+.calendar_multiple_link{
+	font-size:10px;
+	padding-left:8px;
 }
 
