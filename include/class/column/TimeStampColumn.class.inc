@@ -14,13 +14,11 @@ class TimeStampColumn extends CalendarColumn{
 	}
 	
 	public function triggerPostInsert(){
-		$time = pp($this->name.'_hour').':'.pp($this->name.'_minute').':00';
-		$this->data = date('Y-m-d', strtotime($this->data)).' '.$time;
+		$this->data = date('Y-m-d H:i:s', strtotime($this->data));
 	}
 	
 	public function triggerPostUpdate(){
-		$time = pp($this->name.'_hour').':'.pp($this->name.'_minute').':00';
-		$this->data = date('Y-m-d', strtotime(pp($this->name))).' '.$time;
+		$this->data = date('Y-m-d H:i:s', strtotime($this->data));
 	}
 	
 	private function prepareHead(){
@@ -47,14 +45,14 @@ class TimeStampColumn extends CalendarColumn{
 	private function renderDate($id, $date){
 		$this->setFormAttribute('name', $this->name);
 		$this->setFormAttribute('id', $id);
-		$this->setFormAttribute('class', 'calendar_form');
+		$this->setFormAttribute('class', 'timestamp_date_form');
 		$this->setFormAttribute('value', $date);
 		return '<input '.$this->renderFormAttribute().'/>';
 	}
 	
 	
 	private function renderHour($id, $hour){
-		$this->setFormAttribute('id', null);
+		$this->setFormAttribute('id', $id.'_hour');
 		$this->setFormAttribute('size', 3);
 		$this->setFormAttribute('name', $this->name.'_hour');
 		$this->setFormAttribute('class', 'timestamp_hour_form');
@@ -63,7 +61,7 @@ class TimeStampColumn extends CalendarColumn{
 	}
 	
 	private function renderMinute($id, $minute){
-		$this->setFormAttribute('id', null);
+		$this->setFormAttribute('id', $id.'_minute');
 		$this->setFormAttribute('size', 3);
 		$this->setFormAttribute('name', $this->name.'_minute');
 		$this->setFormAttribute('class', 'timestamp_minute_form');

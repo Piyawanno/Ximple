@@ -13,7 +13,7 @@ function checkForm(notNull, label){
 	ok = ok && verifyCaptcha();
 	if(!ok) return false;
 	ok = ok && checkNotNull(notNull, label);
-	$(document).trigger("submitform");
+	$(document).trigger("submit");
 	return ok;
 }
 

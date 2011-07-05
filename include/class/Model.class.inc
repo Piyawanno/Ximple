@@ -179,9 +179,9 @@ abstract class Model{
 		return new CheckEditColumn($label, $option, $help);
 	}
 	
-	public function timeInterval($label, $interval, $help=null){
+	public function timeInterval($label, $help=null){
 		include_once('column/TimeIntervalColumn.class.inc');
-		return new TimeIntervalColumn($label, $interval, $help);
+		return new TimeIntervalColumn($label, $help);
 	}
 	
 	public function text($label, $help=null){

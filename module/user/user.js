@@ -44,7 +44,7 @@ $(document).bind("ready", function(){
 	$('#user_confirm_password').keyup(checkPasswdConfirm);
 });
 
-$(document).bind("submitform", function(){
+$(document).bind("submit", function(){
 	if($('#user_password').val().length == 0 && !insertUser){
 		alert(passwdNotChange);
 	}
