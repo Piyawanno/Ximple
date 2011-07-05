@@ -33,6 +33,5 @@ $(document).bind("submit", function(){
 			$(this).val(value);
 		}
 		$(this).attr("rel", "processed");
-		alert($(this).val());
 	});
 });

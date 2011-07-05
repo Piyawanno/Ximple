@@ -60,8 +60,9 @@ class SectionConfigModel extends Model{
 		}
 		$this->time_format = $this->select(tt('time format'), $option);
 		
-		$timeInterval = array(5, 10, 30, 60, 300, 600, 1800);
-		$this->notify_interval = $this->timeInterval(tt('notification refresh interval'), $timeInterval);
+		$this->notify_interval = $this->timeInterval(tt('notification refresh interval'));
+		$this->notify_interval->isDay = false;
+		$this->notify_interval->isHour = false;
 		
 		$cacheOptions = array(
 			3 => tt('agressive process cache (side-effects)'),
@@ -70,8 +71,8 @@ class SectionConfigModel extends Model{
 			0 => tt('database cache only'),
 		);
 		$this->cache_mode = $this->radio(tt('cache mode'), $cacheOptions);
-		$timeInterval = array(30, 60, 300, 600, 1800, 3600, 6*3600, 12*3600, 24*3600, 48*3600);
-		$this->cache_time = $this->timeInterval(tt('cache time'), $timeInterval);
+		$this->cache_time = $this->timeInterval(tt('cache time'));
+		$this->cache_time->isSecond = false;
 		
 		$this->section_description = $this->plain(tt('description'));
 		$this->section_keywords = $this->plain(tt('keywords'));
@@ -88,14 +89,21 @@ class SectionConfigModel extends Model{
 		$this->feed_comment_explicit = $this->enable(tt('explicit comment feed'));
 		
 		$this->antispam_salt = $this->title(tt('antispam salt'));
-		$timeInterval = array(3600, 2*3600, 6*3600, 12*3600);
-		$this->antispam_time = $this->timeInterval(tt('antispam time'), $timeInterval);
+		$this->antispam_time = $this->timeInterval(tt('antispam time'));
+		$this->antispam_time->isDay = false;
+		$this->antispam_time->isSecond = false;
 		
 		$this->syslog_enable = $this->enable(tt('system logging enable'));
-		$timeInterval = array(3*24*3600, 5*24*3600, 7*24*3600, 15*24*3600, 30*24*3600, 90*24*3600, 120*24*3600, 180*24*3600);
-		$this->syslog_time = $this->timeInterval(tt('system logging expiration'), $timeInterval);
+		
+		$this->syslog_time = $this->timeInterval(tt('system logging expiration'));
+		$this->syslog_time->isMinute = false;
+		$this->syslog_time->isSecond = false;
+		
 		$this->tracker_enable = $this->enable(tt('user tracker enable'));
-		$this->tracker_time = $this->timeInterval(tt('user tracker expiration'), $timeInterval);
+		
+		$this->tracker_time = $this->timeInterval(tt('user tracker expiration'));
+		$this->tracker_time->isMinute = false;
+		$this->tracker_time->isSecond = false;
 		
 		$path = FILES_PATH.'smiley/'.SECTION.'/';
 		$this->smiley = new MultipleFilesColumn(tt('smiley'), $path, 'smiley');
