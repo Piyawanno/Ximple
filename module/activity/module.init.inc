@@ -1,6 +1,6 @@
 <?php
 function module_get_info_activity(){
-	$describe = tt('Calendar of Acivities in this the Section.');
+	$describe = tt('Calendar of Activities in this the Section.');
 	return array(
 		'name' => tt('Activity'),
 		'description' => $describe,
@@ -36,9 +36,6 @@ function module_init_activity(){
 	$flash->setColumn('topic');
 	$flash->setClause('WHERE (section='.SECTION.' AND publishing_status < 2 AND comment_time > 0) ORDER BY comment_time DESC');
 	$flash->submit();
-	
-	$widget = new WidgetManager(tt('Promoted Activities'), 'activity_promote_widget');
-	$widget->submit();
 }
 
 function module_drop_activity(){
@@ -58,9 +55,6 @@ function module_drop_activity(){
 	
 	$flash = new FlashWidgetManager('activity_last_commented');
 	$flash->drop();
-	
-	$widget = new WidgetManager(tt('Promoted Activities'), 'activity_promote_widget');
-	$widget->drop();
 	
 	notify_add_info(tt('Activity has been successfully deactivated'));
 	config_drop('activity_entries_number');

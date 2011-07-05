@@ -133,6 +133,11 @@ abstract class Model{
 		return new CalendarColumn($label, $help);
 	}
 	
+	public function timeStamp($label, $help=null){
+		include_once('column/TimeStampColumn.class.inc');
+		return new TimeStampColumn($label, $help);
+	}
+	
 	public function select($label, $option, $help=null){
 		include_once('column/SelectColumn.class.inc');
 		return new SelectColumn($label, $option, $help);

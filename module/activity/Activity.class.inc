@@ -42,6 +42,7 @@ class Activity extends Content{
 	
 	private function renderCalendar(){
 		head_add_css('activity.css');
+		document_set_path(tt('Activity Calendar'));
 		list($month, $year) = $this->getMonth();
 		$this->getActivity($month, $year);
 		$calendarData = $this->getCalendarData($month);
