@@ -17,15 +17,6 @@ class Activity extends Content{
 		else return $this->renderCalendar();
 	}
 	
-	public function printPage(){
-		$this->id = MODE_ID;
-		$this->selectByID($this->column);
-		execute_set_print();
-		document_set_title($this->dataByID['topic']);
-		$this->dataByID['content'] = $this->dataByID['intro'].$this->dataByID['content'];
-		return render($this->dataByID, 'content_print.tpl', 'activity_print');
-	}
-	
 	private function renderSingleActivity(){
 		$this->id = mid();
 		$this->selectByID($this->column);
@@ -56,7 +47,7 @@ class Activity extends Content{
 		$monthEnd = "'$year-$month-".date('t', strtotime($monthBegin))." 23:59:59'";
 		$clause  = "WHERE ((start_date >= $monthBegin AND start_date <= $monthEnd) ";
 		$clause .= "OR (end_date >= $monthBegin AND end_date <= $monthEnd)) ";
-		$clause .= "AND publishing_status < 2";
+		$clause .= "AND publishing_status < 2 ORDER BY start_date";
 		$this->select(array('id', 'topic', 'start_date', 'end_date'), $clause);
 	}
 	

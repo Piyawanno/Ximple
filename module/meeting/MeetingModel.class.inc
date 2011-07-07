@@ -13,9 +13,8 @@ class MeetingModel extends ContentModel{
 		$this->meeting_period->isDay = false;
 		$this->meeting_period->isSecond = false;
 		
-		$this->extendAfter('topic', 'icon');
-		$this->extendAfter('topic', 'meeting_date');
-		$this->extendAfter('topic', 'meeting_period');
+		$this->summary = $this->text(tt('summary'));
+		$this->summary->isForm = false;
 		
 		$this->paricipant_group = $this->group('');
 		$this->paricipant_group->defaultData = cc('meeting_default_group');
@@ -24,6 +23,11 @@ class MeetingModel extends ContentModel{
 		
 		$this->publish_time = $this->now();
 		$this->publish_time->isUpdateTime = true;
+		
+		$this->extendAfter('topic', 'icon');
+		$this->extendAfter('topic', 'meeting_date');
+		$this->extendAfter('topic', 'meeting_period');
+		$this->extendAfter('content', 'summary');
 	}
 	
 	private function checkPath(){

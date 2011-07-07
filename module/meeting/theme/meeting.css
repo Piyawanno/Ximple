@@ -1,6 +1,7 @@
 .meeting_time_span{
 	background:url(calendar.png) no-repeat;
 	padding-left:25px;
+	margin-left:5px;
 }
 
 .meeting_time_span label{
@@ -25,5 +26,5 @@
 /*====== Calendar ======*/
 .active_meeting{
 	background:#ddd;
-	border-bottom:3px solid #800;
+	border-bottom:3px solid #080;
 }

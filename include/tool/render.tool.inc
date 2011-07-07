@@ -84,7 +84,7 @@ function render_tag($category, $freetag, $mode){
 function render_icon($mode, $icon, $title){
 	return '
 	<a href="'.SECTION_URI.Q.$mode.'" class="write_icon">
-		<img src="'.ROOT_URI.$icon.'" border="0" align="left">
+		<img src="'.ROOT_URI.$icon.'" border="0" >
 		'.$title.'
 	</a>';
 }

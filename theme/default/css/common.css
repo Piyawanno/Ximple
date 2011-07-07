@@ -190,6 +190,8 @@ ins{
 /* ========= Write icon ========= */
 .write_icon{
 	font-weight:bold;
+	text-decoration:none;
+	line-height:32px;
 }
 
 .write_icon img, .warning_icon{

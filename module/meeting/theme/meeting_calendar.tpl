@@ -7,7 +7,10 @@
 <?php foreach($data as $key => $value):?>
 	<li>
 		<?=render_operation_link('meeting', $key, $value['topic'])?>
-		@ <?=$value['start_date']?> - <?=$value['end_date']?>
+		@ <?=$value['meeting_date']?>
+		<label><?=tt('from')?></label> <?=$value['meeting_time']?>
+		<label><?=tt('to')?></label> <?=$value['end_time']?>
+		(<?=$value['meeting_period']?> <?=tt('hours')?>)
 	</li>
 <?php endforeach?>
 </ul>

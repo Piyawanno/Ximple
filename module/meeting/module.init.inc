@@ -9,8 +9,11 @@ function module_get_info_meeting(){
 
 function module_init_meeting(){
 	include_once('Meeting.class.inc');
+	include_once('MeetingParticipantModel.class.inc');
+	include_once('MeetingParticipantKeyModel.class.inc');
 	include_once('MeetingConfig.class.inc');
 	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
+	include_once(INCLUDE_PATH.'class/QuickTableCreator.class.inc');
 	include_once(MODULE_PATH.'flashwidget/FlashWidgetManager.class.inc');
 	
 	$meeting = new Meeting();
@@ -18,6 +21,12 @@ function module_init_meeting(){
 	
 	$meetingConfig = new MeetingConfig();
 	$meetingConfig->initModule('MeetingConfig.class.inc');
+	
+	$meetingParticipant = new QuickTableCreator(new MeetingParticipantModel());
+	$meetingParticipant->create();
+	
+	$meetingParticipantKey = new QuickTableCreator(new MeetingParticipantKeyModel());
+	$meetingParticipantKey->create();
 	
 	config_set('meeting_entries_number', 5);
 	

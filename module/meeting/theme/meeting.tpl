@@ -7,6 +7,8 @@
 		<label><?=tt('to')?></label> <?=$end_time?>
 		(<?=$meeting_period?> <?=tt('hours')?>)
 	</p>
+	<?=$participate_icon?>
+	<?=$decline_icon?>
 	<table  style="width:100%;"><tbody>
 	<tr>
 		<td>

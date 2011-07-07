@@ -20,12 +20,19 @@ class Meeting extends Content{
 		else return $this->renderCalendar();
 	}
 	
+	public function edit(){
+		if($this->isSummarizable($this->dataByID)){
+			$this->modelConnector->setAttribute('summary', 'isForm', true);
+		}
+		return Content::edit();
+	}
+	
 	public function printPage(){
 		$this->id = MODE_ID;
 		$this->selectByID($this->column);
 		execute_set_print();
 		document_set_title($this->dataByID['topic']);
-		$this->dataByID['content'] = $this->dataByID['intro'].$this->dataByID['content'];
+		$this->dataByID['content'] = $this->dataByID['content'].$this->dataByID['summary'];
 		return render($this->dataByID, 'content_print.tpl', 'meeting_print');
 	}
 	
@@ -33,7 +40,15 @@ class Meeting extends Content{
 	
 	}
 	
+	public function decline(){
+	
+	}
+	
 	public function participatePerMail(){
+	
+	}
+	
+	public function declinePerMail(){
 	
 	}
 	
@@ -63,9 +78,10 @@ class Meeting extends Content{
 	
 	private function getMeetingInMonth($month, $year){
 		if(strlen($month) == 1) $month = '0'.$month;
-		$date = "'$year-$month-01 00:00:00'";
-		$clause  = "WHERE (meeting_date >= $date AND meeting_date <= $date) ";
-		$clause .= "AND publishing_status < 2";
+		$monthBegin = "'$year-$month-01 00:00:00'";
+		$monthEnd = "'$year-$month-".date('t', strtotime($monthBegin))." 23:59:59'";
+		$clause  = "WHERE (meeting_date >= $monthBegin AND meeting_date <= $monthEnd) ";
+		$clause .= "AND publishing_status < 2 ORDER BY meeting_date";
 		$this->select(array('id', 'topic', 'meeting_date', 'meeting_period'), $clause);
 	}
 	
@@ -101,6 +117,11 @@ class Meeting extends Content{
 		head_add_css('meeting.css');
 		$this->prepareRender();
 		$render = $this->renderWriteIcon();
+		$this->dataByID['participate_icon'] = $this->renderParticipateIcon();
+		$this->dataByID['decline_icon'] = $this->renderDeclineIcon();
+		$this->dataByID['participant'] = $this->getParticipant();
+		$this->dataByID['disclaimer'] = $this->getDisclaimer();
+		$this->dataByID['is_summarizable'] = $this->isSummarizable($this->dataByID);
 		$render.= render($this->dataByID, 'meeting.tpl', 'meeting');
 		$render.= $this->comment->render();
 		$this->setDocumentData();
@@ -141,16 +162,60 @@ class Meeting extends Content{
 		}
 	}
 	
-	private function isParticipant(){
+	private function renderParticipateIcon(){
+		if($this->isParticipant($this->dataByID)){
+			$icon = 'module/meeting/theme/participate.png';
+			return render_icon('meeting_participate', $icon, tt('join Meeting'));
+		}
+	}
 	
+	private function renderDeclineIcon(){
+		if($this->isParticipant($this->dataByID)){
+			$icon = 'files/icon/drop.png';
+			return render_icon('meeting_decline', $icon, tt('decline Meeting'));
+		}
+	}
+	
+	private function isParticipant($data){
+		$clause = 'WHERE meeting='.$data['id'].' AND participant='.USER_ID;
+		$isParticipated = count(db_select_single_column('meeting_participant', 'id', $clause));
+		if($isParticipated == 0){
+			$group = $data['paricipant_group'];
+			$isInGroup = count(array_intersect(ss('login_group'), $group));
+			if($isInGroup) return true;
+		}
+		return false;
+	}
+	
+	private function getParticipant(){
+		return $this->getRelatedUser(1);
+	}
+	
+	private function getDisclaimer(){
+		return $this->getRelatedUser(0);
+	}
+	
+	private function getRelatedUser($status){
+		$clause = 'WHERE meeting='.$this->id.' AND status='.$status;
+		$participant = db_select('meeting_participant', array('participant'), $clause);
+		return userinfo_get_info($participant, 'participant');
+	}
+	
+	private function isSummarizable($data){
+		return (strtotime($data['meeting_date']) < time());
 	}
 	
 	private function setAccess(){
 		$this->addAction('meeting_participate', 'participate');
+		$this->addAction('meeting_decline', 'decline');
 		$this->addAction('meeting_participate_per_mail', 'participatePerMail');
+		$this->addAction('meeting_decline_per_mail', 'declinePerMail');
 		
 		$this->addAccessMethod('user', 'participate');
+		$this->addAccessMethod('user', 'decline');
+		
 		$this->addAccessMethod('guest', 'participatePerMail');
+		$this->addAccessMethod('guest', 'declinePerMail');
 	}
 }
 ?>
