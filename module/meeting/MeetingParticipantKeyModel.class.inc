@@ -5,7 +5,7 @@ class MeetingParticipantKeyModel extends ContentModel{
 		$this->participant = $this->owner();
 		$this->meeting = $this->hidden(null, 'int');
 		$this->secure_key = $this->hidden(null, 'char');
-		$this->meeting_date = $this->now();
+		$this->status = $this->hidden(null, 'int');
 	}
 }
 ?>

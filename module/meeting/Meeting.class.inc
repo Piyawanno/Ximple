@@ -3,6 +3,10 @@ execute_add_class('meeting', 'Meeting');
 include_once(MODULE_PATH.'content/Content.class.inc');
 include_once('MeetingModel.class.inc');
 
+define('XIMPLE_MEETING_DECLINE', 0);
+define('XIMPLE_MEETING_PARTICIPATE', 1);
+define('XIMPLE_MEETING_NO_RESPONSE', 2);
+
 class Meeting extends Content{
 	function Meeting(){
 		$this->tableName = 'meeting';
@@ -11,7 +15,7 @@ class Meeting extends Content{
 		$this->setAccess();
 		$this->init(new MeetingModel());
 		$participant = $this->getNewConfigForm(tt('participant groups'));
-		$participant->append('paricipant_group');
+		$participant->append('participant_group');
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
@@ -27,6 +31,16 @@ class Meeting extends Content{
 		return Content::edit();
 	}
 	
+	public function insert(){
+		Content::insert();
+		$this->sendInvitation();
+	}
+	
+	public function update(){
+		Content::update();
+		$this->sendInvitation();
+	}
+	
 	public function printPage(){
 		$this->id = MODE_ID;
 		$this->selectByID($this->column);
@@ -36,20 +50,30 @@ class Meeting extends Content{
 		return render($this->dataByID, 'content_print.tpl', 'meeting_print');
 	}
 	
-	public function participate(){
-	
+	public function participate($uid=USRE_ID){
+		$this->addParicipantStatus(XIMPLE_MEETING_PARTICIPATE, $uid);
+		$pattern = tt('Your name has been successfully inserted into the list of participants in %s.');
+		$message = sprintf($pattern, $this->dataByID['topic']);
+		notify_add_info($message);
 	}
 	
-	public function decline(){
-	
+	public function decline($uid=USRE_ID){
+		$this->addParicipantStatus(XIMPLE_MEETING_DECLINE, $uid);
+		$pattern = tt('Your name has been successfully inserted into the list of disclaimers in %s.');
+		$message = sprintf($pattern, $this->dataByID['topic']);
+		notify_add_info($message);
 	}
 	
 	public function participatePerMail(){
-	
+		$uid = $this->checkSecureKey(XIMPLE_MEETING_PARTICIPATE);
+		if($uid) $this->participate($uid);
+		else error_denined();
 	}
 	
 	public function declinePerMail(){
-	
+		$uid = $this->checkSecureKey(XIMPLE_MEETING_DECLINE);
+		if($uid) $this->decline($uid);
+		else error_denined();
 	}
 	
 	private function renderSingleMeeting(){
@@ -165,14 +189,14 @@ class Meeting extends Content{
 	private function renderParticipateIcon(){
 		if($this->isParticipant($this->dataByID)){
 			$icon = 'module/meeting/theme/participate.png';
-			return render_icon('meeting_participate', $icon, tt('join Meeting'));
+			return render_icon('meeting_participate/'.$this->id, $icon, tt('join Meeting'));
 		}
 	}
 	
 	private function renderDeclineIcon(){
 		if($this->isParticipant($this->dataByID)){
 			$icon = 'files/icon/drop.png';
-			return render_icon('meeting_decline', $icon, tt('decline Meeting'));
+			return render_icon('meeting_decline/'.$this->id, $icon, tt('decline Meeting'));
 		}
 	}
 	
@@ -180,7 +204,7 @@ class Meeting extends Content{
 		$clause = 'WHERE meeting='.$data['id'].' AND participant='.USER_ID;
 		$isParticipated = count(db_select_single_column('meeting_participant', 'id', $clause));
 		if($isParticipated == 0){
-			$group = $data['paricipant_group'];
+			$group = $data['participant_group'];
 			$isInGroup = count(array_intersect(ss('login_group'), $group));
 			if($isInGroup) return true;
 		}
@@ -188,11 +212,11 @@ class Meeting extends Content{
 	}
 	
 	private function getParticipant(){
-		return $this->getRelatedUser(1);
+		return $this->getRelatedUser(XIMPLE_MEETING_PARTICIPATE);
 	}
 	
 	private function getDisclaimer(){
-		return $this->getRelatedUser(0);
+		return $this->getRelatedUser(XIMPLE_MEETING_DECLINE);
 	}
 	
 	private function getRelatedUser($status){
@@ -203,6 +227,81 @@ class Meeting extends Content{
 	
 	private function isSummarizable($data){
 		return (strtotime($data['meeting_date']) < time());
+	}
+	
+	private function addParicipantStatus($status, $uid){
+		$this->id = mid();
+		$this->selectByID(array('id', 'participant_group', 'topic'));
+		if($this->isParticipant($this->dataByID)){
+			$data = array(
+				'meeting' => $this->id,
+				'status' => $status,
+				'participant' => $uid,
+			);
+			db_insert('meeting_participant', $data);
+		}
+		execute_set_db();
+		document_set_redirect('meeting/'.$this->id);
+	}
+	
+	private function checkSecureKey($status){
+		$clause = 'WHERE status='.XIMPLE_MEETING_NO_RESPONSE.' ';
+		$clause.= "AND secure_key='".gg('secure_key')."' ";
+		$clause.= 'AND participant='.gg('participant').' ';
+		$clause.= 'AND meeting='.((int) gg('id'));
+		$uid = db_select_single_column('meeting_key', 'participant', $clause);
+		if(count($uid)){
+			$id = array_pop(array_keys($uid));
+			db_update('meeting_key', array('status' => $status), $id);
+			return array_pop($uid);
+		}
+		return false;
+	}
+	
+	private function sendInvitation(){
+		$uidArray = userinfo_get_uid_by_group($this->dataByID['participant_group']);
+		$secureKey = $this->generateSecureKey($uidArray);
+		$messageArray = $this->getInvitationMessage($secureKey);
+		$subject = tt('Meeting Invitation');
+		$email = userinfo_get_email($uidArray);
+		foreach($messageArray as $uid => $message){
+			mail_send($email[$uid], $subject, $message, true);
+		}
+	}
+	
+	private function generateSecureKey($uidArray){
+		$clause = 'WHERE meeting='.$this->id;
+		$existence = db_select_single_column('meeting_key', 'participant', $clause, false);
+		$uidArray = array_intersect($uidArray, $existence);
+		$secureKey = array();
+		foreach($uidArray as $key => $uid){
+			$key = md5(rand().time()).sha1(rand().rand());
+			$secureKey[$uid] = $key;
+			$data = array(
+				'secure_key' => $key,
+				'meeting' => $this->id,
+				'participant' => $uid,
+				'status' => XIMPLE_MEETING_NO_RESPONSE,
+			);
+			db_insert('meeting_key', $data);
+		}
+		return $secureKey;
+	}
+	
+	private function getInvitationMessage($secureKey){
+		$meesage = array();
+		$topic = $this->dataByID['topic'];
+		$params  = $this->id'/participant/%d/secure_key/%s/';
+		$pattern = cc('meeting_invitation_message');
+		$pattern.= '<p>';
+		$pattern.= render_operation_link('meeting_participate_per_mail', $params, tt('join Meeting : ').$topic);
+		$pattern.= '</p><p>';
+		$pattern.= render_operation_link('meeting_decline_per_mail', $params, tt('decline Meeting : ').$topic);
+		$pattern.= '</p>';
+		foreach($secureKey as $uid => $key){
+			$message[$uid] = sprintf($pattern, $uid, $key);
+		}
+		return $message;
 	}
 	
 	private function setAccess(){

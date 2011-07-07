@@ -137,15 +137,17 @@ function userinfo_check_email_exists(){
 }
 
 function userinfo_get_uid_by_role($role){
-	$gid = cc($role);
-	if(count($gid)){
+	return userinfo_get_uid_by_group(cc($role));
+}
+
+function userinfo_get_uid_by_group($gid){
+	if(is_array($gid) and count($gid)){
 		$clause = 'WHERE groups='.join(' OR groups=', $gid);
 		return db_select_single_column('map', 'users', $clause, false);
 	}else{
 		return array();
 	}
 }
-
 
 function userinfo_get_login_name_by_role($role){
 	$uid = userinfo_get_uid_by_role($role);

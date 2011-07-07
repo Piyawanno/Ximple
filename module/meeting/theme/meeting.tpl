@@ -7,8 +7,12 @@
 		<label><?=tt('to')?></label> <?=$end_time?>
 		(<?=$meeting_period?> <?=tt('hours')?>)
 	</p>
-	<?=$participate_icon?>
-	<?=$decline_icon?>
+
+	<?php if(!$is_summarizable):?>
+		<?=$participate_icon?>
+		<?=$decline_icon?>
+	<?php endif?>
+
 	<table  style="width:100%;"><tbody>
 	<tr>
 		<td>
@@ -28,7 +32,34 @@
 			</td>
 		<?php endif?>
 	</tr>
+	<?php if($is_summarizable):?>
+		<tr>
+			<td colspan="2">
+				<h4 class="small_label"><?=tt('Summary')?></h4>
+				<?=$summary?>
+			</td>
+		</tr>
+	<?php endif?>
 	</tbody></table>
+	
+	<?php if(count($participant)):?>
+		<h4 class="small_label"><?=tt('Paricipants')?></h4>
+		<ul>
+		<?php foreach($participant as $uid => $user):?>
+			<li><?=render_profile_link($user['participant'])?></li>
+		<?php endforeach?>
+		</ul>
+	<?php endif?>
+	
+	<?php if(count($disclaimer)):?>
+		<h4 class="small_label"><?=tt('Disclaimers')?></h4>
+		<ul>
+		<?php foreach($disclaimer as $uid => $user):?>
+			<li><?=render_profile_link($user['participant'])?></li>
+		<?php endforeach?>
+		</ul>
+	<?php endif?>
+	
 	<p class="meeting_info">
 		<?=tt('by')?> <?=render_profile_link($writer)?> | <?=tt('tags')?>
 		<?=render_tag($category, $freetag, 'meeting')?>

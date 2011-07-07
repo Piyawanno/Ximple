@@ -47,6 +47,7 @@ function module_init_meeting(){
 	$flash->submit();
 	
 	config_set('meeting_default_group', array(1, 3));
+	config_set('meeting_invitation_message', tt('You are invited to a meeting please response by clicking the followed links :'));
 }
 
 function module_drop_meeting(){

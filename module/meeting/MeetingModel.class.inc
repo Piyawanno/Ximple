@@ -16,10 +16,10 @@ class MeetingModel extends ContentModel{
 		$this->summary = $this->text(tt('summary'));
 		$this->summary->isForm = false;
 		
-		$this->paricipant_group = $this->group('');
-		$this->paricipant_group->defaultData = cc('meeting_default_group');
-		$this->paricipant_group->isExceptedGuest = true;
-		$this->paricipant_group->isExceptedAdmin = false;
+		$this->participant_group = $this->group('');
+		$this->participant_group->defaultData = cc('meeting_default_group');
+		$this->participant_group->isExceptedGuest = true;
+		$this->participant_group->isExceptedAdmin = false;
 		
 		$this->publish_time = $this->now();
 		$this->publish_time->isUpdateTime = true;
