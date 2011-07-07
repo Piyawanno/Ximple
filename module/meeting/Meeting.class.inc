@@ -291,7 +291,7 @@ class Meeting extends Content{
 	private function getInvitationMessage($secureKey){
 		$meesage = array();
 		$topic = $this->dataByID['topic'];
-		$params  = $this->id'/participant/%d/secure_key/%s/';
+		$params  = $this->id.'/participant/%d/secure_key/%s/';
 		$pattern = cc('meeting_invitation_message');
 		$pattern.= '<p>';
 		$pattern.= render_operation_link('meeting_participate_per_mail', $params, tt('join Meeting : ').$topic);
