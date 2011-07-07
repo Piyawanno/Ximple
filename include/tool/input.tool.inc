@@ -100,4 +100,16 @@ function input_strip_tags($data, $allowed_tag){
 	return $data;
 }
 
+
+/// Get month and year from $_GET. Set to current month and year, if $_GET is not set.
+/// @return Month and year.
+function input_get_month(){
+	$month = (int) gg('month');
+	$year = (int) gg('year');
+	
+	if(empty($month)) $month = (int) date('n');
+	if(empty($year)) $year = (int) date('Y');
+	
+	return array($month, $year);
+}
 ?>

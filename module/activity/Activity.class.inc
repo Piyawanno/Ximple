@@ -8,8 +8,6 @@ class Activity extends Content{
 		$this->tableName = 'activity';
 		$this->moduleName = 'activity';
 		$this->moduleTitle = tt('Activity');
-		$this->addAction('activity_promote_widget', 'renderPromoteWidget');
-		$this->addAccessMethod('guest', 'renderPromoteWidget');
 		$this->init(new ActivityModel());
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
@@ -28,10 +26,6 @@ class Activity extends Content{
 		return render($this->dataByID, 'content_print.tpl', 'activity_print');
 	}
 	
-	protected function getSummary(){
-		return $this->dataByID['content'];
-	}
-	
 	private function renderSingleActivity(){
 		$this->id = mid();
 		$this->selectByID($this->column);
@@ -43,7 +37,7 @@ class Activity extends Content{
 	private function renderCalendar(){
 		head_add_css('activity.css');
 		document_set_path(tt('Activity Calendar'));
-		list($month, $year) = $this->getMonth();
+		list($month, $year) = input_get_month();
 		$this->getActivity($month, $year);
 		$calendarData = $this->getCalendarData($month);
 		$calendar = render_calendar($calendarData, 'activity', $month, $year);
@@ -54,16 +48,6 @@ class Activity extends Content{
 			'data' => $this->data,
 		);
 		return render($renderArray, 'activity_calendar.tpl', 'activity_calendar');
-	}
-	
-	private function getMonth(){
-		$month = (int) gg('month');
-		$year = (int) gg('year');
-		
-		if(empty($month)) $month = (int) date('n');
-		if(empty($year)) $year = (int) date('Y');
-		
-		return array($month, $year);
 	}
 	
 	private function getActivity($month, $year){

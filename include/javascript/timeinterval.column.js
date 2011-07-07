@@ -32,7 +32,6 @@ $(document).bind("ready", function(){
 });
 
 $(document).bind("submit", function(){
-	alert('hey');
 	$(".timeinterval_form").each(function(){
 		if($(this).attr("rel") != "processed"){
 			var formID = $(this).attr('id');

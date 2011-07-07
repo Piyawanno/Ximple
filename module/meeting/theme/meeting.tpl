@@ -2,8 +2,10 @@
 <div class="meeting">
 	<h3 class="title_label"><?=$topic?></h3>
 	<p class="meeting_time_span">
-		<label><?=tt('from')?></label> <?=$start_date?>
-		<label><?=tt('to')?></label> <?=$end_date?>
+		<?=$meeting_date?>
+		<label><?=tt('from')?></label> <?=$meeting_time?>
+		<label><?=tt('to')?></label> <?=$end_time?>
+		(<?=$meeting_period?> <?=tt('hours')?>)
 	</p>
 	<table  style="width:100%;"><tbody>
 	<tr>

@@ -11,6 +11,7 @@ class FormRender extends FormModelRender{
 	private $notNull;
 	private $notNullID = array();
 	private $help;
+	private $formItem;
 	private $renderedConfigForm = '';
 	
 	function FormRender($modelConnector, $formMeta){
@@ -43,7 +44,7 @@ class FormRender extends FormModelRender{
 		document_init_form();
 		$this->prepareHead();
 		$renderArray = array(
-			'form' => $this->renderFormModel($this->formMeta->id),
+			'form' => $this->formItem,
 			'meta' => $this->formMeta,
 			'help' => $this->help,
 			'label' => $this->label,
@@ -66,6 +67,7 @@ class FormRender extends FormModelRender{
 	}
 	
 	protected function prepareRender(){
+		$this->formItem = $this->renderFormModel($this->formMeta->id);
 		$this->prepareCaptcha();
 		$this->prepareNotNull();
 		$this->prepareLabel();

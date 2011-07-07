@@ -2,7 +2,7 @@
 <h3 class="list_label"><?=tt('Meeting Calendar')?> : <?=$month?></h3>
 <?=$write_icon?>
 <?=$calendar?>
-<h4 class="small_label"><?=tt('List of Activies')?></h4>
+<h4 class="small_label"><?=tt('List of Meeting')?></h4>
 <ul>
 <?php foreach($data as $key => $value):?>
 	<li>

@@ -8,9 +8,10 @@ class Meeting extends Content{
 		$this->tableName = 'meeting';
 		$this->moduleName = 'meeting';
 		$this->moduleTitle = tt('Meeting');
-		$this->addAction('meeting_promote_widget', 'renderPromoteWidget');
-		$this->addAccessMethod('guest', 'renderPromoteWidget');
+		$this->setAccess();
 		$this->init(new MeetingModel());
+		$participant = $this->getNewConfigForm(tt('participant groups'));
+		$participant->append('paricipant_group');
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
 	
@@ -28,8 +29,12 @@ class Meeting extends Content{
 		return render($this->dataByID, 'content_print.tpl', 'meeting_print');
 	}
 	
-	protected function getSummary(){
-		return $this->dataByID['content'];
+	public function participate(){
+	
+	}
+	
+	public function participatePerMail(){
+	
 	}
 	
 	private function renderSingleMeeting(){
@@ -43,8 +48,8 @@ class Meeting extends Content{
 	private function renderCalendar(){
 		head_add_css('meeting.css');
 		document_set_path(tt('Meeting Calendar'));
-		list($month, $year) = $this->getMonth();
-		$this->getMeeting($month, $year);
+		list($month, $year) = input_get_month();
+		$this->getMeetingInMonth($month, $year);
 		$calendarData = $this->getCalendarData($month);
 		$calendar = render_calendar($calendarData, 'meeting', $month, $year);
 		$renderArray = array(
@@ -56,24 +61,12 @@ class Meeting extends Content{
 		return render($renderArray, 'meeting_calendar.tpl', 'meeting_calendar');
 	}
 	
-	private function getMonth(){
-		$month = (int) gg('month');
-		$year = (int) gg('year');
-		
-		if(empty($month)) $month = (int) date('n');
-		if(empty($year)) $year = (int) date('Y');
-		
-		return array($month, $year);
-	}
-	
-	private function getMeeting($month, $year){
+	private function getMeetingInMonth($month, $year){
 		if(strlen($month) == 1) $month = '0'.$month;
-		$monthBegin = "'$year-$month-01 00:00:00'";
-		$monthEnd = "'$year-$month-".date('t', strtotime($monthBegin))." 23:59:59'";
-		$clause  = "WHERE ((start_date >= $monthBegin AND start_date <= $monthEnd) ";
-		$clause .= "OR (end_date >= $monthBegin AND end_date <= $monthEnd)) ";
+		$date = "'$year-$month-01 00:00:00'";
+		$clause  = "WHERE (meeting_date >= $date AND meeting_date <= $date) ";
 		$clause .= "AND publishing_status < 2";
-		$this->select(array('id', 'topic', 'start_date', 'end_date'), $clause);
+		$this->select(array('id', 'topic', 'meeting_date', 'meeting_period'), $clause);
 	}
 	
 	private function getCalendarData($month){
@@ -81,7 +74,7 @@ class Meeting extends Content{
 		$calendarArray = array();
 		for($i=1; $i<=31; $i++){
 			foreach($this->data as $key => $value){
-				if($i >= $value['start'] and $i <= $value['end']){
+				if($i == $value['day']){
 					$calendarArray[$i]['class'] = 'active_meeting';
 					$calendarArray[$i]['link'][] = 'meeting/'.$key;
 				}
@@ -92,8 +85,7 @@ class Meeting extends Content{
 	
 	private function getDayOfMonth($month){
 		foreach($this->data as $key => $value){
-			$this->data[$key]['start'] = $this->processDayOfMonth($value['start_date'], $month);
-			$this->data[$key]['end'] = $this->processDayOfMonth($value['end_date'], $month);
+			$this->data[$key] = $this->processMeetingTime($value);
 		}
 	}
 	
@@ -123,6 +115,17 @@ class Meeting extends Content{
 		$this->addMetaData();
 		$this->getAppearanceConfiguration();
 		$this->dataByID['editable'] = $this->isEditable($this->dataByID['writer']['id']);
+		$this->dataByID = $this->processMeetingTime($this->dataByID);
+	}
+	
+	private function processMeetingTime($data){
+		$meetingTime = strtotime($data['meeting_date']);
+		$data['meeting_date'] = date(cc('time_format'), $meetingTime);
+		$data['meeting_time'] = date('H:i', $meetingTime);
+		$data['end_time'] = date('H:i', $meetingTime + $data['meeting_period']);
+		$data['meeting_period'] = date('H:i', $data['meeting_period']);
+		$data['day'] = (int) date('j', $meetingTime);
+		return $data;
 	}
 	
 	private function getAppearanceConfiguration(){
@@ -136,6 +139,18 @@ class Meeting extends Content{
 		if($this->isCallable('write')){
 			return render_write_icon('meeting_write', tt('Write new Meeting entry'));
 		}
+	}
+	
+	private function isParticipant(){
+	
+	}
+	
+	private function setAccess(){
+		$this->addAction('meeting_participate', 'participate');
+		$this->addAction('meeting_participate_per_mail', 'participatePerMail');
+		
+		$this->addAccessMethod('user', 'participate');
+		$this->addAccessMethod('guest', 'participatePerMail');
 	}
 }
 ?>

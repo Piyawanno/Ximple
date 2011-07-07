@@ -36,6 +36,8 @@ function module_init_meeting(){
 	$flash->setColumn('topic');
 	$flash->setClause('WHERE (section='.SECTION.' AND publishing_status < 2 AND comment_time > 0) ORDER BY comment_time DESC');
 	$flash->submit();
+	
+	config_set('meeting_default_group', array(1, 3));
 }
 
 function module_drop_meeting(){
