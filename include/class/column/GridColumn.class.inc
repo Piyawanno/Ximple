@@ -1,6 +1,6 @@
 <?php
-require_once(INCLUDE_PATH.'class/ModelFactory.class.inc');
-require_once(INCLUDE_PATH.'class/ModelConnector.class.inc');
+require_once(ROOT_PATH.'include/class/ModelFactory.class.inc');
+require_once(ROOT_PATH.'include/class/ModelConnector.class.inc');
 
 /// This class is a container for other ModelColumns.
 /// It does not represent a column of database table.
@@ -16,6 +16,7 @@ class GridColumn extends ModelColumn{
 	private $updateData = array();
 	private $postData;
 	private $childTableName;
+	private $hasUpdateData = false;
 	
 	function GridColumn($label, $help=null){
 		$this->setType('array');
@@ -42,7 +43,7 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function renderForm($formID){
-		require_once(INCLUDE_PATH.'class/GridFormRender.class.inc');
+		require_once(ROOT_PATH.'include/class/GridFormRender.class.inc');
 		$this->getMember();
 		$formRender = new GridFormRender();
 		$formRender->setGridColumn($this);
@@ -71,10 +72,12 @@ class GridColumn extends ModelColumn{
 			$this->separateData();
 			$this->insertBeforeUpdate();
 			
-			$this->dataModifier->prepareUpdate();
-			$this->modelConnector->setData($this->updateData);
-			$this->modelConnector->triggerSetParent($this->id);
-			$this->dataModifier->update(false);
+			if($this->hasUpdateData){
+				$this->dataModifier->prepareUpdate();
+				$this->modelConnector->setData($this->updateData);
+				$this->modelConnector->triggerSetParent($this->id);
+				$this->dataModifier->update(false);
+			}
 		}
 	}
 	
@@ -187,7 +190,7 @@ class GridColumn extends ModelColumn{
 	
 	private function initDataModifier(){
 		if(!$this->dataModifier){
-			include_once(INCLUDE_PATH.'class/DataModifier.class.inc');
+			include_once(ROOT_PATH.'include/class/DataModifier.class.inc');
 			$this->dataModifier = new DataModifier($this->childTableName, $this->modelConnector);
 		}
 	}
@@ -203,6 +206,7 @@ class GridColumn extends ModelColumn{
 				$this->updateData[$name] = $data;
 			}
 		}
+		if(!$this->hasUpdateData) $this->updateData = array(); 
 		$this->checkEmpyData();
 	}
 	
@@ -210,6 +214,7 @@ class GridColumn extends ModelColumn{
 		foreach($data as $key => $value){
 			if(substr($key,0,2) == 'id'){
 				$this->updateData[$name][substr($key, 3)] = $value;
+				$this->hasUpdateData = true;
 			}else{
 				$this->data[$name][] = $value;
 			}

@@ -23,6 +23,7 @@ define('ROOT_URI','http://mydomain/');
 define('ROOT_PATH','/var/www/ximple/');
 
 // User upload file size
+define('LIMIT_UPLOAD', false);
 define('MAX_UPLOADED_FILE_SIZE', 500e3);
 define('MAX_USER_SPACE_SIZE', 100e6);
 
