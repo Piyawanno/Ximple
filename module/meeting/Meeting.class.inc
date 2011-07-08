@@ -21,6 +21,7 @@ class Meeting extends Content{
 	
 	public function index(){
 		if($this->isSingleEntry()) return $this->renderSingleMeeting();
+		elseif(gg('tag')) return $this->renderTagPage();
 		else return $this->renderCalendar();
 	}
 	
@@ -50,15 +51,15 @@ class Meeting extends Content{
 		return render($this->dataByID, 'content_print.tpl', 'meeting_print');
 	}
 	
-	public function participate($uid=USRE_ID){
-		$this->addParicipantStatus(XIMPLE_MEETING_PARTICIPATE, $uid);
+	public function participate($uid=USRE_ID, $checkParticipant=true){
+		$this->addParicipantStatus(XIMPLE_MEETING_PARTICIPATE, $uid, $checkParticipant);
 		$pattern = tt('Your name has been successfully inserted into the list of participants in %s.');
 		$message = sprintf($pattern, $this->dataByID['topic']);
 		notify_add_info($message);
 	}
 	
-	public function decline($uid=USRE_ID){
-		$this->addParicipantStatus(XIMPLE_MEETING_DECLINE, $uid);
+	public function decline($uid=USRE_ID, $checkParticipant=true){
+		$this->addParicipantStatus(XIMPLE_MEETING_DECLINE, $uid, $checkParticipant);
 		$pattern = tt('Your name has been successfully inserted into the list of disclaimers in %s.');
 		$message = sprintf($pattern, $this->dataByID['topic']);
 		notify_add_info($message);
@@ -66,19 +67,48 @@ class Meeting extends Content{
 	
 	public function participatePerMail(){
 		$uid = $this->checkSecureKey(XIMPLE_MEETING_PARTICIPATE);
-		if($uid) $this->participate($uid);
-		else error_denined();
+		if($uid) $this->participate($uid, false);
+		else error_denied();
+		if(authority_is_guest()) document_set_redirect('');
 	}
 	
 	public function declinePerMail(){
 		$uid = $this->checkSecureKey(XIMPLE_MEETING_DECLINE);
-		if($uid) $this->decline($uid);
-		else error_denined();
+		if($uid) $this->decline($uid, false);
+		else error_denied();
+		if(authority_is_guest()) document_set_redirect('');
+	}
+	
+	protected function isReadable(){
+		if(authority_group('meeting_admin')) return true;
+		if(authority_group('meeting_editor')) return true;
+		if(authority_group('meeting_contributor')) return true;
+		$group = $this->dataByID['participant_group'];
+		if(count(array_intersect(ss('login_group'), $group))) return true;
+	}
+	
+	private function renderTagPage(){
+		head_add_css('meeting.css');
+		$column = $this->modelConnector->getColumnNameExcepted(array('summary'));
+		$this->selectFirstPage($column, cc('meeting_entries_number'));
+		$this->getCommentNumber();
+		$this->getDataEditable();
+		$this->setPathMutiplePage();
+		$this->translateData();
+		$renderArray = array(
+			'data' => $this->data,
+			'show_category' => in_array('category_icon', cc('meeting_appearance')),
+		);
+		$render = $this->renderWriteIcon();
+		$render.= render($renderArray, 'meeting_multiple.tpl', 'meeting_multiple');
+		$render.= $this->pager->render('meeting'.$this->getPageMode());
+		return $render;
 	}
 	
 	private function renderSingleMeeting(){
 		$this->id = mid();
 		$this->selectByID($this->column);
+		if(!$this->isReadable()) error_denied();
 		$this->publishDate = date('Y-m-d H:i:s', strtotime($this->dataByID['publish_time']));
 		if($this->isReadable()) return $this->executeRender();
 		else $this->accessDeniedEntry();
@@ -200,8 +230,8 @@ class Meeting extends Content{
 		}
 	}
 	
-	private function isParticipant($data){
-		$clause = 'WHERE meeting='.$data['id'].' AND participant='.USER_ID;
+	private function isParticipant($data, $uid=USER_ID){
+		$clause = 'WHERE meeting='.$data['id'].' AND participant='.$uid;
 		$isParticipated = count(db_select_single_column('meeting_participant', 'id', $clause));
 		if($isParticipated == 0){
 			$group = $data['participant_group'];
@@ -229,10 +259,10 @@ class Meeting extends Content{
 		return (strtotime($data['meeting_date']) < time());
 	}
 	
-	private function addParicipantStatus($status, $uid){
+	private function addParicipantStatus($status, $uid, $checkParticipant=true){
 		$this->id = mid();
 		$this->selectByID(array('id', 'participant_group', 'topic'));
-		if($this->isParticipant($this->dataByID)){
+		if(!$checkParticipant or $this->isParticipant($this->dataByID, $uid)){
 			$data = array(
 				'meeting' => $this->id,
 				'status' => $status,
@@ -259,11 +289,12 @@ class Meeting extends Content{
 	}
 	
 	private function sendInvitation(){
-		$uidArray = userinfo_get_uid_by_group($this->dataByID['participant_group']);
+		$uidArray = userinfo_group_to_id($this->dataByID['participant_group']);
 		$secureKey = $this->generateSecureKey($uidArray);
 		$messageArray = $this->getInvitationMessage($secureKey);
 		$subject = tt('Meeting Invitation');
 		$email = userinfo_get_email($uidArray);
+		$invitation = '';
 		foreach($messageArray as $uid => $message){
 			mail_send($email[$uid], $subject, $message, true);
 		}
@@ -272,7 +303,7 @@ class Meeting extends Content{
 	private function generateSecureKey($uidArray){
 		$clause = 'WHERE meeting='.$this->id;
 		$existence = db_select_single_column('meeting_key', 'participant', $clause, false);
-		$uidArray = array_intersect($uidArray, $existence);
+		$uidArray = array_diff($uidArray, $existence);
 		$secureKey = array();
 		foreach($uidArray as $key => $uid){
 			$key = md5(rand().time()).sha1(rand().rand());
@@ -289,7 +320,7 @@ class Meeting extends Content{
 	}
 	
 	private function getInvitationMessage($secureKey){
-		$meesage = array();
+		$message = array();
 		$topic = $this->dataByID['topic'];
 		$params  = $this->id.'/participant/%d/secure_key/%s/';
 		$pattern = cc('meeting_invitation_message');
@@ -299,7 +330,7 @@ class Meeting extends Content{
 		$pattern.= render_operation_link('meeting_decline_per_mail', $params, tt('decline Meeting : ').$topic);
 		$pattern.= '</p>';
 		foreach($secureKey as $uid => $key){
-			$message[$uid] = sprintf($pattern, $uid, $key);
+			$message[$uid] = sprintf($pattern, $uid, $key, $uid, $key);
 		}
 		return $message;
 	}

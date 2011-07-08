@@ -17,6 +17,23 @@ class Activity extends Content{
 		else return $this->renderCalendar();
 	}
 	
+	private function renderTagPage(){
+		head_add_css('activity.css');
+		$this->selectFirstPage($this->column, cc('activity_entries_number'));
+		$this->getCommentNumber();
+		$this->getDataEditable();
+		$this->setPathMutiplePage();
+		$this->translateData();
+		$renderArray = array(
+			'data' => $this->data,
+			'show_category' => in_array('category_icon', cc('activity_appearance')),
+		);
+		$render = $this->renderWriteIcon();
+		$render.= render($renderArray, 'activity_multiple.tpl', 'activity_multiple');
+		$render.= $this->pager->render('activity'.$this->getPageMode());
+		return $render;
+	}
+	
 	private function renderSingleActivity(){
 		$this->id = mid();
 		$this->selectByID($this->column);

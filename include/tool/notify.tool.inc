@@ -149,7 +149,7 @@ function notify_multiple_subscribe($message, $uid, $reference){
 	
 	if(count($subcribable_uid)){
 		require_once('mail.tool.inc');
-		$email = userinfo_get_email($subcribable_uid);
+		$email = join(',', userinfo_get_email($subcribable_uid));
 		$subject = notify_get_subscribe_subject();
 		mail_send($email, $subject, $message, true);
 	}
@@ -159,7 +159,7 @@ function notify_subscribe_by_mode($message, $mode){
 	$uid = io_unserialize(FILES_PATH.'subscribe/'.$mode);
 	if(is_array($uid)){
 		require_once('mail.tool.inc');
-		$email = userinfo_get_email(array_keys($uid));
+		$email = join(',', userinfo_get_email($subcribable_uid));
 		$subject = notify_get_subscribe_subject();
 		mail_send($email, $subject, $message, true);
 	}

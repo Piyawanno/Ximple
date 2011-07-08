@@ -2,6 +2,11 @@
 class MeetingConfigModel extends ContentConfigModel{
 	function MeetingConfigModel(){
 		ContentConfigModel::ContentConfigModel('meeting');
+		$this->meeting_default_group = $this->group(tt('default participant groups'));
+		$this->meeting_default_group->isExceptedGuest = true;
+		$this->meeting_default_group->isExceptedAdmin = false;
+		
+		$this->meeting_invitation_message = $this->shortText(tt('invitation text'));
 		$option = array(
 			'avatar' => tt('show avatar'),
 			'category_icon' => tt('show category icon'),

@@ -137,7 +137,7 @@ function userinfo_check_email_exists(){
 }
 
 function userinfo_get_uid_by_role($role){
-	return userinfo_get_uid_by_group(cc($role));
+	return userinfo_group_to_id(cc($role));
 }
 
 function userinfo_get_uid_by_group($gid){
@@ -173,8 +173,7 @@ function user_info_get_config($uid, $reference){
 function userinfo_get_email($uid){
 	if(count($uid)){
 		$clause = 'WHERE id='.join(' OR id=', $uid);
-		$email = db_select_single_column('users', 'email', $clause);
-		return join(',', $email);
+		return db_select_single_column('users', 'email', $clause);
 	}
 }
 ?>
