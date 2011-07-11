@@ -1,8 +1,4 @@
 <?php
-/// @file
-/// This file provides functions for inpu output (IO) manipulation.
-///
-/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
 
 /// Read content of a file
 /// @param  $file_name : file name with absolute path
@@ -37,22 +33,16 @@ function io_write_file($file_name, $content, $mode='w'){
 	}
 }
 
-/// Delete file
-/// @param $file_name : file name with absolute path
 function io_drop_file($file_name){
 	$size = filesize($file_name);
 	userinfo_decrease_used_space(USER_ID, $size);
 	unlink($file_name);
 }
 
-/// Append content into a file.
-/// @param $file_name : file name with absolute path
 function io_append_file($file_name, $content){
 	io_write_file($file_name, $content, 'a');
 }
 
-/// Drop uploaded file
-/// @param $file_name : file name with absolute path
 function io_drop_uploaded_file($file_name){
 	$p = tt('Problem by dropping file : %s.');
 	$size = filesize($file_name);
@@ -60,13 +50,10 @@ function io_drop_uploaded_file($file_name){
 	userinfo_increase_used_space(USER_ID, $size);
 }
 
-/// Drop all files and directories in given directory
-/// @param $dir_name : directory name with absolute path
 function io_clear_directory($dir_name){
 	if(is_dir($dir_name)){
-		$success = true;
-		@$dir = dir($dir_name) or $success=false;
-		while ($success and false !== ($entry = $dir->read())) {
+		$dir = dir($dir_name);
+		while (false !== ($entry = $dir->read())) {
 			if($entry != '.' and $entry != '..'){
 				if(is_dir($dir_name.'/'.$entry)){
 					io_clear_directory($dir_name.'/'.$entry);
@@ -75,13 +62,10 @@ function io_clear_directory($dir_name){
 				}
 			}
 		}
-		@rmdir($dir_name);
+		rmdir($dir_name);
 	}
 }
 
-/// Copy all files and directories to the given directory.
-/// @param $source : source directory name with absolute path
-/// @param $dest : source directory name with absolute path
 function io_copy_directory($source, $dest){
 	if(is_dir($source) and is_dir($dest)){
 		$dir = dir($source);
@@ -136,7 +120,7 @@ function io_unserialize($file_name){
 /// @param $increase_space : IF TRUE, increase used space of user.
 /// @return File path for success, null else.
 function io_upload($file, $path, $is_image=false, $increase_space=true){
-	include_once(INCLUDE_PATH.'tool/userinfo.tool.inc');
+	include_once(ROOT_PATH.'include/tool/userinfo.tool.inc');
 	if($file and !io_check_image($file['name'], $is_image)){
 		notify_add_error(tt('Only .png, .jpeg and .jpg are allowed to be uploaded.'));
 		return null;
@@ -144,11 +128,13 @@ function io_upload($file, $path, $is_image=false, $increase_space=true){
 	
 	$name = null;
 	if($file['size'] == 0) return null;
-	if($file['size'] > MAX_UPLOADED_FILE_SIZE){
+	if(LIMIT_UPLOAD and $file['size'] > MAX_UPLOADED_FILE_SIZE){
+		echo(1);
 		notify_add_warning(tt('Size of uploaded file exceeds the limit.'));
 		return null;
 	}
-	if($file['size'] > MAX_USER_SPACE_SIZE){
+	if(LIMIT_UPLOAD and $file['size'] > MAX_USER_SPACE_SIZE){
+		echo(2);
 		notify_add_warning(tt('Size of uploaded file exceeds the limit.'));
 		return null;
 	}
@@ -171,7 +157,7 @@ function io_upload($file, $path, $is_image=false, $increase_space=true){
 	if(substr($name, 0, strlen(ROOT_PATH)) == ROOT_PATH){
 		$name = substr($name, strlen(ROOT_PATH));
 	}
-	if(USER_ID != -1 and $increase_space){
+	if(USER_ID != -1 and $increase_space and LIMIT_UPLOAD){
 		userinfo_increase_used_space(USER_ID, $size);
 	}
 	return $name;
@@ -199,7 +185,7 @@ function io_get_log_file($prevois_day=0){
 }
 
 function io_get_loop_file($loop_name, $interval, $prevois_day=0){
-	$log_dir = FILES_PATH.''.$loop_name.'/';
+	$log_dir = ROOT_PATH.'files/'.$loop_name.'/';
 	if(!is_dir($log_dir)) mkdir($log_dir);
 	$log_dir.= SECTION.'/';
 	if(!is_dir($log_dir)) mkdir($log_dir);
