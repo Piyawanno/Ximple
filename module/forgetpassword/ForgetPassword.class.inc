@@ -40,7 +40,7 @@ class ForgetPassword extends ConfigControl{
 		$gentime = pp('captcha_gentime_captcha');
 		$parity = pp('captcha_code_captcha');
 		$code = pp('captcha');
-		if(!captcha_check($gentime, $code, $parity)){
+		if(captcha_check($gentime, $code, $parity)){
 			$clause = "WHERE email='".addslashes((string) pp('email'))."'";
 			$email = db_select_single_column('users', 'id', $clause, false);
 			$exist = count($email);

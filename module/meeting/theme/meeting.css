@@ -1,7 +1,6 @@
 .meeting_time_span{
 	background:url(calendar.png) no-repeat;
 	padding-left:25px;
-	margin-left:5px;
 }
 
 .meeting_time_span label{

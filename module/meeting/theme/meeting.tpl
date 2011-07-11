@@ -10,6 +10,7 @@
 
 	<?php if(!$is_summarizable):?>
 		<?=$participate_icon?>
+		<br />
 		<?=$decline_icon?>
 	<?php endif?>
 

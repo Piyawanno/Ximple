@@ -10,9 +10,9 @@
 <div class="comment">
 	<h3 class="title_label">
 		<?php if($value['writer_id']['id'] == -1):?>
-			<a href="<?=$value['homepage']?>"><?=$value['writer']?></a>
+			<a href="<?=$value['homepage']?>" class="label_link"><?=$value['writer']?></a>
 		<?php else:?>
-			<?=render_profile_link($value['writer_id'])?>
+			<?=render_profile_link($value['writer_id'], 'class="label_link"')?>
 		<?php endif?>
 	</h3>
 	<?php if(strlen(uu('signature')) and $show_signature):?>

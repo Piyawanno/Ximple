@@ -107,9 +107,9 @@ function render_file_size($size){
 	else return sprintf('%.1f kB', $size/1e3);
 }
 
-function render_profile_link($user){
+function render_profile_link($user, $attribute=null){
 	if($user['id'] == -1) return $user['login_name'];
-	else return '<a href="'.SECTION_URI.Q.'profile/'.$user['id'].'">'.$user['login_name'].'</a>';
+	else return '<a href="'.SECTION_URI.Q.'profile/'.$user['id'].'" '.$attribute.'>'.$user['login_name'].'</a>';
 }
 
 function render_signature($user){

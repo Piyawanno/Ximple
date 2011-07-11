@@ -26,12 +26,13 @@ class ResetPassword extends ConfigControl{
 		$gentime = pp('captcha_gentime_captcha');
 		$parity = pp('captcha_code_captcha');
 		$code = pp('captcha');
-		if(!captcha_check($gentime, $code, $parity)){
+		execute_set_db();
+		if(captcha_check($gentime, $code, $parity)){
 			if($this->checkKey()){
+				echo(pp('password'));
 				db_update('users', array('password' => pp('password')), $this->userID);
 				unlink($this->fileName.'.php');
-				execute_set_db();
-				notify_add_info(tt('Your pass word has been already changed, please login.'));
+				notify_add_info(tt('Your password has been already changed, please login.'));
 			}else{
 				$this->invalidLink();
 			}
@@ -45,6 +46,7 @@ class ResetPassword extends ConfigControl{
 		$this->formMeta->mode = 'forgetpassword_reset_save/file/'.gg('file').'/key/'.gg('key');
 		$this->formMeta->title = $this->moduleTitle;
 		$this->formMeta->isCaptcha = true;
+		head_add_js('module/user/user.js');
 		head_add_js_var('insertUser', true);
 		head_add_js_var('passwdTooShort', tt('Password is too short.'));
 		head_add_js_var('passwdVeryStrong', tt('Password strength is very strong.'));

@@ -14,6 +14,7 @@ class Activity extends Content{
 	
 	public function index(){
 		if($this->isSingleEntry()) return $this->renderSingleActivity();
+		elseif(gg('tag')) return $this->renderTagPage();
 		else return $this->renderCalendar();
 	}
 	

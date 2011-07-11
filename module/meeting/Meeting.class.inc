@@ -289,6 +289,7 @@ class Meeting extends Content{
 	}
 	
 	private function sendInvitation(){
+		require_once(INCLUDE_PATH.'tool/mail.tool.inc');
 		$uidArray = userinfo_group_to_id($this->dataByID['participant_group']);
 		$secureKey = $this->generateSecureKey($uidArray);
 		$messageArray = $this->getInvitationMessage($secureKey);

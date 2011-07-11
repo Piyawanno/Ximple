@@ -67,8 +67,8 @@ class FormRender extends FormModelRender{
 	}
 	
 	protected function prepareRender(){
-		$this->formItem = $this->renderFormModel($this->formMeta->id);
 		$this->prepareCaptcha();
+		$this->formItem = $this->renderFormModel($this->formMeta->id);
 		$this->prepareNotNull();
 		$this->prepareLabel();
 		$this->help = $this->modelConnector->getColumnAttribute('help');

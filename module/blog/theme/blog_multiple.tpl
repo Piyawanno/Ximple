@@ -1,7 +1,7 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <?php foreach($data as $key=>$value):?>
 	<div class="blog">
-		<h3 class="title_label"><a href="<?=render_uri('blog', $value)?>"><?=$value['topic']?></a></h3>
+		<h3 class="title_label"><a href="<?=render_uri('blog', $value)?>" class="label_link"><?=$value['topic']?></a></h3>
 		<table width="100%" ><tbody><tr>
 			<td>
 				<?php if(strlen($value['icon'])):?>
