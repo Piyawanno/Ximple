@@ -3,7 +3,7 @@ class ActivityModel extends ContentModel{
 	function ActivityModel(){
 		ContentModel::ContentModel('activity');
 		$this->checkPath();
-		$this->icon = $this->imageLoader(tt('icon'), 'files/activity/');
+		$this->icon = $this->imageLoader(tt('icon'), 'files/activity/', cc('activity_icon_size'));
 		$this->start_date = $this->timeStamp(tt('start date'));
 		$this->end_date = $this->calendar(tt('end date'));
 		$this->extendAfter('topic', 'icon');

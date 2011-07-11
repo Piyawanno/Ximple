@@ -3,7 +3,7 @@ class MeetingModel extends ContentModel{
 	function MeetingModel(){
 		ContentModel::ContentModel('meeting');
 		$this->checkPath();
-		$this->icon = $this->imageLoader(tt('icon'), 'files/meeting/');
+		$this->icon = $this->imageLoader(tt('icon'), 'files/meeting/', cc('meeting_icon_size'));
 		
 		$this->meeting_date = $this->timeStamp(tt('meeting date time'));
 		$this->meeting_date->dateFormat = 'Y-m-d H:i:s';

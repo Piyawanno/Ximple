@@ -21,6 +21,7 @@ class MeetingConfig extends ContentConfig{
 		$general->append('meeting_invitation_message');
 		
 		$this->groupConfigForm();
+		$this->appearanceFormGroup->append('meeting_icon_size');
 		$this->appearanceFormGroup->setShowByDefault(false);
 		$this->formMeta->mode = 'meeting_config_save';
 		$this->formMeta->title = $this->moduleTitle;

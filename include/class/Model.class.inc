@@ -213,9 +213,9 @@ abstract class Model{
 		return new UserColumn($label, $help);
 	}
 	
-	public function imageLoader($label, $path){
+	public function imageLoader($label, $path, $size=null){
 		include_once('column/ImageLoaderColumn.class.inc');
-		return new ImageLoaderColumn($label, $path);
+		return new ImageLoaderColumn($label, $path, $size);
 	}
 	
 	public function grid($label, $help=null){

@@ -28,8 +28,6 @@ function module_init_meeting(){
 	$meetingParticipantKey = new QuickTableCreator(new MeetingParticipantKeyModel());
 	$meetingParticipantKey->create();
 	
-	config_set('meeting_entries_number', 5);
-	
 	$flash = new FlashWidgetManager('meeting_last_post');
 	$flash->setMode('meeting');
 	$flash->setName(tt('Last posted Meetings'));
@@ -46,6 +44,8 @@ function module_init_meeting(){
 	$flash->setClause('WHERE (section='.SECTION.' AND publishing_status < 2 AND comment_time > 0) ORDER BY comment_time DESC');
 	$flash->submit();
 	
+	config_set('meeting_entries_number', 5);
+	config_set('meeting_icon_size', 64);
 	config_set('meeting_default_group', array(1, 3));
 	config_set('meeting_invitation_message', tt('You are invited to a meeting please response by clicking the followed links :'));
 }

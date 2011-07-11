@@ -1,11 +1,13 @@
 <?php
 class ImageLoaderColumn extends ModelColumn{
 	private $path;
+	private $size;
 	
-	function ImageLoaderColumn($label, $path){
+	function ImageLoaderColumn($label, $path, $size=null){
 		$this->setType('char');
 		$this->label = $label;
 		$this->path = $path;
+		$this->size = $size;
 		$this->help = tt('Click on image to upload or change image.');
 	}
 	
@@ -21,12 +23,11 @@ class ImageLoaderColumn extends ModelColumn{
 		$this->setFormAttribute('id', 'input_'.$id);
 		$render = '
 		<input '.$this->renderFormAttribute().'/>
-		<a href="#" onclick="showImageLoader(\''.$id.'\', \''.$this->path.'\');return false;">
+		<a href="#" onclick="showImageLoader(\''.$id.'\', \''.$this->path.'\', '.((int) $this->size).');return false;">
 			<img src="'.$imageSource.'" border="0" id="image_'.$id.'" alt="image"/>
 		</a>
 		<div id="loader_'.$id.'" style="display:none;"></div>';
 		return $render;
 	}
 }
-
 ?>

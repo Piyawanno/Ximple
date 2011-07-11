@@ -40,6 +40,7 @@ function module_init_video(){
 	config_set('video_entries_number', 5);
 	config_set('video_width', 480);
 	config_set('video_height', 390);
+	config_set('video_icon_size', 64);
 	$video_directoy = FILES_PATH.'video';
 	if(!is_dir($video_directoy)) mkdir($video_directoy);
 }

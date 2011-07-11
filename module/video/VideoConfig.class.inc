@@ -18,6 +18,7 @@ class VideoConfig extends ContentConfig{
 		$this->groupConfigForm();
 		$this->appearanceFormGroup->append('video_width');
 		$this->appearanceFormGroup->append('video_height');
+		$this->appearanceFormGroup->append('video_icon_size');
 		$this->appearanceFormGroup->append('video_entries_number');
 		$this->formMeta->mode = 'video_config_save';
 		$this->formMeta->title = $this->moduleTitle;

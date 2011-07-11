@@ -4,6 +4,7 @@ require_once('blog.tool.inc');
 class BlogConfigModel extends ContentConfigModel{
 	function BlogConfigModel(){
 		ContentConfigModel::ContentConfigModel('blog');
+		$this->blog_icon_size = $this->spin(tt('icon size'), 16, 1024);
 		
 		$option = array(
 			'avatar' => tt('show avatar'),

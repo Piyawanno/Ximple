@@ -19,8 +19,6 @@ function module_init_activity(){
 	$activityConfig = new ActivityConfig();
 	$activityConfig->initModule('ActivityConfig.class.inc');
 	
-	config_set('activity_entries_number', 5);
-	
 	$flash = new FlashWidgetManager('activity_last_post');
 	$flash->setMode('activity');
 	$flash->setName(tt('Last posted Activities'));
@@ -36,6 +34,9 @@ function module_init_activity(){
 	$flash->setColumn('topic');
 	$flash->setClause('WHERE (section='.SECTION.' AND publishing_status < 2 AND comment_time > 0) ORDER BY comment_time DESC');
 	$flash->submit();
+	
+	config_set('activity_icon_size', 64);
+	config_set('activity_entries_number', 5);
 }
 
 function module_drop_activity(){

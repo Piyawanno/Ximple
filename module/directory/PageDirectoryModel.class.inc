@@ -11,7 +11,7 @@ class PageDirectoryModel extends Model{
 		$this->uri = $this->char(tt('URI'));
 		$this->category = $this->category('page');
 		$this->index_page = new PageColumn();
-		$this->icon = $this->imageLoader(tt('icon'), 'files/directory/');
+		$this->icon = $this->imageLoader(tt('icon'), 'files/directory/', 64);
 
 		$this->description = $this->shortText(tt('description'));
 		$this->description->enableTranslate();

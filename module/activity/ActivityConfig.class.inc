@@ -16,6 +16,7 @@ class ActivityConfig extends ContentConfig{
 	public function index(){
 		document_set_path(tt('Activity'), 'activity');
 		$this->groupConfigForm();
+		$this->appearanceFormGroup->append('activity_icon_size');
 		$this->formMeta->mode = 'activity_config_save';
 		$this->formMeta->title = $this->moduleTitle;
 		return $this->render();

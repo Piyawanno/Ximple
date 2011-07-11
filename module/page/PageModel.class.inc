@@ -9,7 +9,7 @@ class PageModel extends ContentModel{
 		$this->publishing_status->isList = true;
 		$this->publishing_status->isTriggerSelect = true;
 		$this->parent = $this->hidden($parent, 'int');
-		$this->icon = $this->imageLoader(tt('icon'), 'files/directory/');
+		$this->icon = $this->imageLoader(tt('icon'), 'files/directory/', 64);
 		$this->author_name = $this->char(tt('author name'), tt('If blank, your login-name will be shown.'));
 		$this->introduction = $this->shortText(tt('introduction'));
 		$this->introduction->enableTranslate();

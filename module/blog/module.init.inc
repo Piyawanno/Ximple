@@ -19,8 +19,6 @@ function module_init_blog(){
 	$blogConfig = new BlogConfig();
 	$blogConfig->initModule('BlogConfig.class.inc');
 	
-	config_set('blog_entries_number', 5);
-	
 	$flash = new FlashWidgetManager('blog_last_post');
 	$flash->setMode('blog');
 	$flash->setName(tt('Last posted Blogs'));
@@ -39,6 +37,9 @@ function module_init_blog(){
 	
 	$widget = new WidgetManager(tt('Promoted Blogs'), 'blog_promote_widget');
 	$widget->submit();
+	
+	config_set('blog_entries_number', 5);
+	config_set('blog_icon_size', 64);
 }
 
 function module_drop_blog(){

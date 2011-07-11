@@ -1,9 +1,11 @@
 var currentPath = null;
 var currentLoaderID = null;
+var currentSize = null;
 
-function showImageLoader(loaderID, path){
+function showImageLoader(loaderID, path, size){
 	currentLoaderID = loaderID;
 	currentPath = path;
+	currentSize = size;
 	var loader = $('#loader_'+loaderID);
 	loader.dialog({
 		bgiframe: true,
@@ -13,7 +15,7 @@ function showImageLoader(loaderID, path){
 		modal: true,
 		title: 'Image Loader'
 	});
-	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+path+'&loader_id='+loaderID;
+	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+path+'&loader_id='+loaderID+'&size='+size;
 	$.get(uri, function(data){
 		loader.html(data);
 	});
@@ -27,7 +29,7 @@ function submitImageLoader(){
 
 function refreshImageLoader(){
 	var loader = $('#loader_'+currentLoaderID);
-	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+currentPath+'&loader_id='+currentLoaderID;
+	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+currentPath+'&loader_id='+currentLoaderID+'&size='+currentSize;
 	$.get(uri, function(data){
 		loader.html(data);
 		$('#loader_info').html(uploadSuccess);
