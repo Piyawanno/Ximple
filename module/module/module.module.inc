@@ -21,18 +21,26 @@ function module_init(){
 	module_prepare();
 	$module_array = module_get_information();
 	$submit_array = pp();
+	$activated_module = array();
 	foreach($submit_array as $key => $value){
 		if(isset($module_array[$key]) and !$module_array[$key]['installed']){
 			$function = 'module_init_'.$key;
 			$function();
+			$activated_module[] = $key;
 		}
 	}
+	extension_execute('module_activate', $activated_module);
+	
+	$deactivated_module = array();
 	foreach($module_array as $key => $value){
 		if(!isset($submit_array[$key]) and $value['installed']){
 			$function = 'module_drop_'.$key;
 			$function();
+			$deactivated_module[] = $key;
 		}
 	}
+	extension_execute('module_deactivate', $deactivated_module);
+	
 	config_save();
 	module_post();
 	notify_add_info(tt('Module configuration has been successfully saved.'));
@@ -81,6 +89,7 @@ function module_activate_module(){
 		if(!$module_array[$module_name]['installed']){
 			$function = 'module_init_'.$module_name;
 			$function();
+			extension_execute('module_activate', array($module_name));
 		}
 	}
 }
@@ -92,6 +101,7 @@ function module_deactivate_module(){
 		if($module_array[$module_name]['installed']){
 			$function = 'module_drop_'.$module_name;
 			$function();
+			extension_execute('module_deactivate', array($module_name));
 		}
 	}
 }
