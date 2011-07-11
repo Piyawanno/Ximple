@@ -99,8 +99,8 @@ function module_deactivate_module(){
 function module_get_information(){
 	$private_path = SECTION_PATH.'private/module/';
 
-	list($module_private, $init_file_private) = module_get_init_file($private_path);
-	list($module_system, $init_file_system) = module_get_init_file(MODULE_PATH);
+	list($module_private, $init_file_private) = module_get_init_file($private_path, true);
+	list($module_system, $init_file_system) = module_get_init_file(MODULE_PATH, false);
 	
 	$module = array_merge($module_private, $module_system);
 	$init_file = array_merge($init_file_private, $init_file_system);
@@ -112,7 +112,7 @@ function module_get_information(){
 	return $module;
 }
 
-function module_get_init_file($dir_name){
+function module_get_init_file($dir_name, $is_private){
 	$init_array = array();
 	$module_array = array();
 	$dir = dir($dir_name);
@@ -121,11 +121,11 @@ function module_get_init_file($dir_name){
 			$init_file = $dir_name.$entry.'/module.init.inc';
 			if(is_file($init_file)){
 				$init_array[] = $init_file;
-				$module_array[] = $entry;
+				$module_array[$entry]['is_private'] = $is_private;
 			}
 		}
 	}
-	sort($module_array);
+	ksort($module_array);
 	return array($module_array, $init_array);
 }
 
@@ -141,12 +141,12 @@ function module_include_init_file($init_file){
 
 function module_check_function($module){
 	$module_out = array();
-	foreach($module as $name){
+	foreach($module as $name => $value){
 		$functions_exist = function_exists('module_init_'.$name);
 		$functions_exist = $functions_exist and function_exists('module_get_info_'.$name);
 		$functions_exist = $functions_exist and function_exists('module_drop_'.$name);
 		if($functions_exist){
-			$module_out[] = $name;
+			$module_out[$name] = $value;
 		}
 	}
 	return $module_out;
@@ -155,9 +155,11 @@ function module_check_function($module){
 function module_check_status($module){
 	$module_out = array();
 	$installed = cc('module_require');
-	foreach($module as $name){
+	foreach($module as $name => $value){
+		$module_out[$name] = $value;
 		$module_out[$name]['installed'] = array_key_exists($name, $installed);
 	}
+	
 	return $module_out;
 }
 

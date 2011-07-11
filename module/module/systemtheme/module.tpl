@@ -16,8 +16,25 @@
 		<th width="10%"><?=tt('activate')?></th>
 		<th width="10%"><?=tt('refresh')?></th>
 	</tr>
-	<?php foreach($module as $name => $value):?>
 	<tr>
+		<td colspan="4">
+			<strong><?=tt('Private Module')?></strong>
+			<p><?=tt('The followed modules can be used only in this Section.')?></p>
+		</td>
+	</tr>
+	<?php $previous=true?>
+	<?php foreach($module as $name => $value):?>
+	<?php if($value['is_private']):?>
+		<tr class="private_module">
+	<?php elseif($previous):?>
+		<tr>
+			<td colspan="4"><strong><?=tt('Public Module')?></strong></td>
+		</tr>
+		<tr>
+		<?php $previous=false?>
+	<?php else:?>
+		<tr>
+	<?php endif?>
 		<td width="80%">
 			<p><strong><?=$value['name']?></strong></p>
 			<p><?=$value['description']?></p>
