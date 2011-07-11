@@ -65,7 +65,7 @@ abstract class ConfigControl extends Translatable{
 			notify_add_error($message);
 		}
 		include_once('ConfigFormRender.class.inc');
-		$configForm = new ConfigFormRender($this->modelConnector, $title, $description);
+		$configForm = new ConfigFormRender($title, $this->modelConnector, $description);
 		$this->configForm[] = $configForm;
 		return $configForm;
 	}

@@ -25,11 +25,14 @@ class SpinColumn extends ModelColumn{
 		$render.= '<span id="info_'.$id.'"></span>';
 		$render.= '
 		<script>
-			$("#'.$id.'").spinbox({
-				min  : '.$this->min.',
-				max  : '.$this->max.',
-				step : '.$this->step.'
-			});
+			if($("#'.$id.'").attr("rel") != "initialized"){
+				$("#'.$id.'").spinbox({
+					min  : '.$this->min.',
+					max  : '.$this->max.',
+					step : '.$this->step.'
+				});
+			}
+			$("#'.$id.'").attr("rel", "initialized");
 		</script>';
 		return $render;
 	}

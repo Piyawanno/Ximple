@@ -14,6 +14,7 @@ class SectionConfig extends ConfigControl{
 	}
 	
 	public function save(){
+		extension_execute('section_config_save');
 		$oldIcon = cc('icon');
 		$this->setLanguage();
 		ConfigControl::save();
@@ -92,6 +93,9 @@ class SectionConfig extends ConfigControl{
 		$syslog->append('syslog_time');
 		$syslog->append('tracker_enable');
 		$syslog->append('tracker_time');
+		
+		$this->renderAdditionalConfig();
+		
 		return $this->render();
 	}
 	
@@ -145,6 +149,21 @@ class SectionConfig extends ConfigControl{
 		io_clear_directory($dir);
 		if(!is_dir($dir)) mkdir($dir);
 		io_write_file($dir.pp('state'), "");
+	}
+	
+	private function renderAdditionalConfig(){
+		include_once(INCLUDE_PATH.'class/ConfigFormRender.class.inc');
+		$configModel = extension_execute_append_result('section_config', null, array());
+		if(is_array($configModel)){
+			foreach($configModel as $label => $modelArray){
+				$configForm = new ConfigFormRender($label, $this->modelConnector);
+				$this->configForm[] = $configForm;
+				foreach($modelArray as $name => $model){
+					$model->data = cc($name);
+					$configForm->appendModel($name, $model);
+				}
+			}
+		}
 	}
 }
 

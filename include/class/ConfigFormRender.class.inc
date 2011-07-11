@@ -7,9 +7,10 @@ class ConfigFormRender extends FormModelRender{
 	private $showByDefault = false;
 	private $model = array();
 	
-	function ConfigFormRender($modelConnector, $title){
-		$this->modelConnector = $modelConnector;
+	function ConfigFormRender($title, $modelConnector, $description=null){
 		$this->title = $title;
+		$this->modelConnector = $modelConnector;
+		$this->description = $this->description;
 	}
 	
 	public function append($col){
@@ -23,6 +24,12 @@ class ConfigFormRender extends FormModelRender{
 		}elseif(state_is_develop()){
 			notify_add_error('Column '.$col.' does not exist and can not be set to ConfigForm. (ConfigFormRender->addColumn())');
 		}
+	}
+	
+	public function appendModel($name, $modelColumn){
+		$this->model[$name] = $modelColumn;
+		$this->modelConnector->addModel($name, $modelColumn);
+		$this->modelConnector->setAsConfigForm($name);
 	}
 	
 	public function render($formMeta){

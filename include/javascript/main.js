@@ -19,7 +19,7 @@ function checkNotify(){
 					}
 				});
 			}
-//			setTimeout("checkNotify()", checkNotifyInterval);
+			setTimeout("checkNotify()", checkNotifyInterval);
 		});
 	}
 }

@@ -114,7 +114,7 @@ class ForumEntry extends Content{
 			'writable' => $this->isWritable(),
 			'pager' => $this->pager->render('forum_entry_list/forum/'.gg('forum')),
 		);
-		return render($renderArray, 'foruml_ist.tpl', 'forum_list');
+		return render($renderArray, 'forum_list.tpl', 'forum_list');
 	}
 	
 	public function contributorListPage(){
