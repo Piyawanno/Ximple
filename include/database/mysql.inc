@@ -10,7 +10,8 @@
 /// These variables should not be used outside this file.
 
 global $db_connect, $db_transaction, $db_query_number;
-global $db_query_all_number, $db_query_count, $db_query_all_count;
+global $db_query_all_number, $db_query_count;
+global $db_query_all_count, $db_column;
 
 $db_connect = null;
 $db_transaction = false;
@@ -18,6 +19,7 @@ $db_query_number = array();
 $db_query_all_number = 0;
 $db_query_count = array();
 $db_query_all_count = 0;
+$db_column = array();
 
 function db_init(){
 	global $db_connect;
@@ -220,9 +222,19 @@ function db_exist_table($table){
 }
 
 function db_exist_column($table, $column){
-	global $db_connect;
-	$table = DB_TABLE_PREFIX.$table;
-	$columns = mysql_list_fields(DB_NAME, $table, $db_connect);
+	global $db_connect, $db_column;
+	if(isset($db_column[$table])){
+		$columns = $db_column[$table];
+	}else{
+		$columns = array();
+		$table = DB_TABLE_PREFIX.$table;
+		$state = mysql_list_fields(DB_NAME, $table, $db_connect);
+		$number = mysql_num_fields($state);
+		for($i = 0; $i < $number; $i++){
+			$columns[] = mysql_field_name($state, $i);
+		}
+		$db_column[$table] = $columns;
+	}
 	return in_array($column, $columns);
 }
 
@@ -235,6 +247,16 @@ function db_create_table($table, $columns){
 	}
 	$query.= 'PRIMARY KEY (id)) CHARACTER SET utf8;';
 	db_modify($table, $query);
+}
+
+function db_get_tables(){
+	global $db_connect;
+	$state = mysql_list_tables(DB_NAME, $db_connect);
+	$tables = array();
+	while($row = mysql_fetch_row($state)){
+		$tables[] = $row[0];
+	}
+	return $tables;
 }
 
 function db_modify($table, $query){

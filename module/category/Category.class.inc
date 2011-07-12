@@ -27,6 +27,16 @@ class Category extends Control{
 		return $this->renderListPage();
 	}
 	
+	public function insert(){
+		Control::insert();
+		extension_execute('category_insert', $this->data);
+	}
+	
+	public function update(){
+		Control::update();
+		extension_execute('category_update', $this->data);
+	}
+	
 	public function isCallable($methodName){
 		$this->getMode();
 		$this->indexMode = 'category/module/'.$this->mode;

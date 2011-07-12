@@ -16,11 +16,13 @@ function module_init_sitemap(){
 	extension_add('content_insert', 'sitemap_update');
 	extension_add('content_update', 'sitemap_update');
 	extension_add('content_drop', 'sitemap_update');
+	extension_add('category_insert', 'sitemap_update');
+	extension_add('category_update', 'sitemap_update');
 	extension_add('section_config', 'sitemap_config');
 	extension_add('section_config_save', 'sitemap_config_save');
 	
-	config_set('sitemap_enable_xml', true);
 	config_set('sitemap_enable_topic', false);
+	widget_add_navigation('sitemap', tt('SiteMap'));
 }
 
 function module_drop_sitemap(){
@@ -31,7 +33,11 @@ function module_drop_sitemap(){
 	extension_drop('content_insert', 'sitemap_update');
 	extension_drop('content_update', 'sitemap_update');
 	extension_drop('content_drop', 'sitemap_update');
+	extension_drop('category_insert', 'sitemap_update');
+	extension_drop('category_update', 'sitemap_update');
 	extension_drop('section_config', 'sitemap_config');
 	extension_drop('section_config_save', 'sitemap_config_save');
+	
+	widget_drop_navigation('sitemap');
 }
 ?>
