@@ -10,7 +10,6 @@ function extension(){
 	require_once(INCLUDE_PATH.'class/Model.class.inc');
 	
 	document_set_path(tt('Mange Extension'));
-	head_add_css('form.css');
 	
 	$form = new QuickFormRender('extension');
 	$meta = new FormMetaData();
@@ -52,16 +51,18 @@ function extension_save(){
 	
 	$post = pp();
 	foreach($all_extension as $reference => $extension){
-		if(isset($post[$reference])){
-			foreach($extension as $key => $name){
-				if(in_array($name, $post[$reference])){
-					$enabled_extension[$reference][] = $name;
-				}else{
-					$disabled_extension[$reference][] = $name;
-				}
-			}
-		}elseif(count($extension)){
+		if(!isset($post[$reference]) and count($extension)){
 			$disabled_extension[$reference] = $extension;
+		}
+	}
+	
+	foreach($post as $reference => $extension){
+		foreach($extension as $key => $name){
+			if(in_array($name, $post[$reference])){
+				$enabled_extension[$reference][] = $name;
+			}else{
+				$disabled_extension[$reference][] = $name;
+			}
 		}
 	}
 	config_set('extension', $enabled_extension);

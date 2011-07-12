@@ -39,6 +39,8 @@ class QuickFormRender{
 	}
 	
 	public function renderEntireForm($formMeta){
+		head_add_js('include/javascript/form.js');
+		head_add_css('form.css');
 		$this->renderArray['rendered_form'] = $this->render();
 		$this->renderArray['meta'] = $formMeta;
 		$data = array(

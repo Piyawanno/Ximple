@@ -1,0 +1,27 @@
+.option a{
+	padding:0;
+	margin:0 2px;
+}
+
+.option a img{
+	padding:0;
+	margin:0;
+}
+
+.operation_option{
+	position:absolute;
+	border:1px solid #666;
+	padding:0;
+	background:white;
+}
+
+.operation_option a, .operation_option span{
+	display:block;
+	text-decoration:none;
+	border-bottom:1px solid #aaa;
+	padding:10px;
+}
+
+.operation_option a:hover, .operation_option span:hover{
+	background:#ddf;
+}

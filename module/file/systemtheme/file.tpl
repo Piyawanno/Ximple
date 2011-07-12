@@ -1,59 +1,34 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 	<div class="list">
 	<h3 class="list_label"><?=$title?></h3>
-	<label><?=tt('Legend')?></label>
-	<ul>
-		<li style="float:left;width:240px;">
-			<img src="<?=ROOT_URI?>files/icon/edit.png" border="0" alt="rename" style="margin:0px;"/>
-			: <?=tt('rename file')?>
-		</li>
-		<li>
-			<img src="<?=ROOT_URI?>files/icon/editcut.png" border="0" alt="cut" style="margin:0px;"/>
-			: <?=tt('cut file')?>
-		</li>
-		<li style="float:left;width:240px;">
-			<img src="<?=ROOT_URI?>files/icon/editcopy.png" border="0" alt="copy" style="margin:0px;"/>
-			: <?=tt('copy file')?>
-		</li>
-		<li>
-			<img src="<?=ROOT_URI?>files/icon/stop.png" border="0" alt="delete" style="margin:0px;"/>
-			: <?=tt('delete file')?>
-		</li>
-		<li style="float:left;width:240px;">
-			<img src="<?=ROOT_URI?>files/icon/misc.png" border="0" alt="permission" style="margin:0px;"/>
-			: <?=tt('change file permission')?>
-		</a>
-		<li>
-			<img src="<?=ROOT_URI?>files/icon/html.png" border="0" alt="permission" style="margin:0px;"/>
-			: <?=tt('file URL')?>
-		</a>
-	</ul>
 	<p><b>Used Space : <?=$user_used_space?>, Free Space : <?=$free_space?></b></p>
 	<p><b>Path ::: </b><?=$dir_nav?></p>
+	<p><img src="<?=ROOT_URI?>files/icon/help.png" border="0" alt="help"/> Click on type icon for file operation.</p>
+	<?php $options=''?>
+	<?php $j=0?>
 	<table width="100%"><tbody>
 		<tr>
 			<th width="20px"></th>
 			<th width="60px">
 				<a href="<?=$uri?>&amp;order=type_desc">&lt;</a>
-				type
+					<?=tt('type')?>
 				<a href="<?=$uri?>&amp;order=type">&gt;</a>
 			</th>
 			<th>
 				<a href="<?=$uri?>&amp;order=name_desc">&lt;</a>
-					file name
+					<?=tt('name')?>
 				<a href="<?=$uri?>&amp;order=name">&gt;</a>
 			</th>
 			<th width="70px">
 				<a href="<?=$uri?>&amp;order=time_desc">&lt;</a>
-					time
+					<?=tt('time')?>
 				<a href="<?=$uri?>&amp;order=time">&gt;</a>
 			</th>
 			<th width="60px">
 				<a href="<?=$uri?>&amp;order=size_desc">&lt;</a>
-					size
+					<?=tt('size')?>
 				<a href="<?=$uri?>&amp;order=size">&gt;</a>
 			</th>
-			<th width="200px">operation</th>
 		</tr>
 		<?php for($i=0;$i<2;$i++):?>
 			<?php foreach($filelist as $key => $value): ?>
@@ -63,7 +38,9 @@
 						<input type="checkbox" class="file_check" name="<?=$key?>" onchange="checkFile(this,'<?=$dir?><?=$key?>')" value="<?=$dir?><?=$key?>"/>
 					</td>
 					<td align="center">
-						<img src="<?=$value['icon']?>" border="0" alt="" title="<?=$value['type']?>"/>
+						<a href="javascript:showOption(<?=$j?>)" title="copy" id="option_icon_<?=$j?>">
+							<img src="<?=$value['icon']?>" border="0" alt="" title="<?=$value['type']?>"/>
+						</a>
 					</td>
 					<td>
 						<?=$value['href']?>
@@ -74,34 +51,45 @@
 					<td align="center">
 						<?=$value['size']?>
 					</td>
-					<td class="option">
+					<?php ob_start();?>
+					<div id="option_<?=$j?>" style="display:none;" class="operation_option">
 						<a href="javascript:renameDialog('<?=$key?>')" title="rename">
-							<img src="<?=ROOT_URI?>files/icon/edit.png" border="0" alt="rename" style="margin:0px;"/>
+							<img src="<?=ROOT_URI?>files/icon/edit.png" border="0" alt="rename"/>
+							<?=tt('rename')?>
 						</a>
 						<a href="javascript:cutFile('<?=$dir?><?=$key?>')" title="cut">
-							<img src="<?=ROOT_URI?>files/icon/editcut.png" border="0" alt="cut" style="margin:0px;"/>
+							<img src="<?=ROOT_URI?>files/icon/editcut.png" border="0" alt="cut"/>
+							<?=tt('cut')?>
 						</a>
 						<a href="javascript:copyFile('<?=$dir?><?=$key?>')" title="copy">
-							<img src="<?=ROOT_URI?>files/icon/editcopy.png" border="0" alt="copy" style="margin:0px;"/>
+							<img src="<?=ROOT_URI?>files/icon/editcopy.png" border="0" alt="copy"/>
+							<?=tt('copy')?>
 						</a>
 						<a href="<?=SECTION_URI?>?dir=<?=$dir?>&amp;file=<?=$key?>&amp;mode=file_drop&amp;next_mode=<?=$mode?>" title="delete">
-							<img src="<?=ROOT_URI?>files/icon/stop.png" border="0" alt="delete" style="margin:0px;"/>
+							<img src="<?=ROOT_URI?>files/icon/stop.png" border="0" alt="delete"/>
+							<?=tt('delete')?>
 						</a>
 						<a href="javascript:chmodDialog('<?=$key?>', <?=$value['permission']?>)" title="change permission">
-							<img src="<?=ROOT_URI?>files/icon/misc.png" border="0" alt="permission" style="margin:0px;"/>
+							<img src="<?=ROOT_URI?>files/icon/lock.png" border="0" alt="permission"/>
+							<?=tt('change permission')?>
 						</a>
 						<?php if(!$value['is_dir']):?>
-							<a href="javascript:urlDialog('<?=$value['uri']?>')" title="URL">
-								<img src="<?=ROOT_URI?>files/icon/html.png" border="0" alt="permission" style="margin:0px;"/>
-							</a>
+							<span>
+								<img src="<?=ROOT_URI?>files/icon/html.png" border="0" alt="url"/>
+								<?=tt('URI').' : '.$value['uri']?>
+							</span>
 						<?php endif?>
-					</td>
+					</div>
+					<?php $options .= ob_get_contents();?>
+					<?php ob_end_clean();?>
 				</tr>
 				<?php endif?>
+				<?php $j++?>
 			<?php endforeach?>
 		<?php endfor?>
 	</tbody></table>
 	</div>
+	<?=$options?>
 	<div class="form">
 	
 	<a href="javascript:checkAll()">check all</a> |
@@ -234,6 +222,7 @@
 	}
 	
 	function renameDialog(fname){
+		$('.operation_option').hide();
 		$('#rename_file_name').attr('value', fname);
 		$('#rename_head').html("<?=tt('File Rename')?> : "+fname);
 		$('#rename_dialog').dialog('open');
@@ -245,6 +234,7 @@
 	}
 	
 	function chmodDialog(fname, owner, group, or, ow, ox, gr, gw, gx, ar, aw, ax){
+		$('.operation_option').hide();
 		$('#chmod_file_name').attr('value', fname);
 		$('#chmod_head').html("<?=tt('Permission Change Mode')?> : "+fname);
 		$('#chmod_owner').html("<?=tt('Owner')?> : "+owner+" | <?=tt('Group')?> : "+group);
@@ -335,6 +325,8 @@
 		$.get("<?=SECTION_URI?>?mode=file_copy&file="+fileName, function(data){
 			$("#copy_list").html(data);
 		});
+		alert('<?=tt('The selected file is appended to file list for copying. Select target directory and click pase icon.')?>');
+		$('.operation_option').hide();
 	}
 	
 	function copyfileList(){
@@ -345,6 +337,7 @@
 		$.get("<?=SECTION_URI?>?mode=file_copy&"+fileListURL, function(data){
 			$("#copy_list").html(data);
 		});
+		alert('<?=tt('The selected file is appended to file list for copying. Select target directory and click pase icon.')?>');
 	}
 	
 	function clearCopy(){
@@ -357,6 +350,8 @@
 		$.get("<?=SECTION_URI?>?mode=file_cut&file="+fileName, function(data){
 			$("#cut_list").html(data);
 		});
+		alert('<?=tt('The selected file is appended to file list for cutting. Select target directory and click pase icon.')?>');
+		$('.operation_option').hide();
 	}
 	
 	function cutfileList(){
@@ -367,12 +362,24 @@
 		$.get("<?=SECTION_URI?>?mode=file_cut&"+fileListURL, function(data){
 			$("#cut_list").html(data);
 		});
+		alert('<?=tt('The selected file is appended to file list for cutting. Select target directory and click pase icon.')?>');
 	}
 	
 	function clearCut(){
 		$.get("<?=SECTION_URI?>?mode=file_cut&clear=true", function(data){
 			$("#cut_list").html(data);
 		});
+	}
+	
+	function showOption(number){
+		var pos = $('#option_icon_'+number).offset();
+		$('.operation_option').each(function(){
+			if($(this).attr('id') !=  'option_'+number) $(this).hide();
+		});
+		$($('#option_'+number)).css({
+			 top: pos.top+16, left: pos.left
+		});
+		$('#option_'+number).toggle('blind');
 	}
 	
 	function addFileRow(){

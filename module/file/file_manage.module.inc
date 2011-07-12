@@ -61,6 +61,7 @@ function file_manage($root_path, $dir, $mode, $title){
 	$render = render($render_data, 'module/file/systemtheme/file.tpl', 'file_manager');
 	head_add_css('list.css');
 	head_add_css('form.css');
+	head_add_css('file.css');
 	return $render;
 }
 

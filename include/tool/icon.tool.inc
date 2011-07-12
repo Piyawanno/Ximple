@@ -12,7 +12,7 @@ function icon(){
 	$icons['jpg'] = 'image.png';
 	$icons['png'] = 'image.png';
 	$icons['gif'] = 'image.png';
-	$icons['txt'] = 'txt.png';
+	$icons['txt'] = 'text.png';
 	$icons['doc'] = 'word.png';
 	$icons['odf'] = 'document.png';
 	$icons['odt'] = 'document.png';
