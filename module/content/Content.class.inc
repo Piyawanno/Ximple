@@ -22,6 +22,7 @@ abstract class Content extends Control{
 	
 	public function insert(){
 		Control::insert();
+		extension_execute('content_insert', $this->data);
 		$this->selectByID($this->column, true);
 		$this->insertTracker('write');
 		if($this->isFeed() and $this->isReadable(false)){
@@ -35,6 +36,7 @@ abstract class Content extends Control{
 	
 	public function update(){
 		Control::update();
+		extension_execute('content_update', $this->data);
 		$this->insertTracker('update');
 		if($this->isReadable(false)){
 			$feedData = $this->formatFeedData();
@@ -50,6 +52,7 @@ abstract class Content extends Control{
 		feed_drop($this->fullModuleName, $this->id);
 		db_drop_many('comment', 'parent='.$this->id);
 		Control::drop();
+		extension_execute('content_drop', $this->id);
 	}
 	
 	public function listPage(){

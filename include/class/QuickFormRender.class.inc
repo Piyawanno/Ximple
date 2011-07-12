@@ -41,11 +41,16 @@ class QuickFormRender{
 	public function renderEntireForm($formMeta){
 		$this->renderArray['rendered_form'] = $this->render();
 		$this->renderArray['meta'] = $formMeta;
-		return render($this->renderArray, 'form_frame.tpl', 'quick_form_frame');
+		$data = array(
+			'form' => render($this->renderArray, 'form_frame.tpl', 'quick_form_frame'),
+			'meta' => $formMeta,
+		);
+		return render($data, 'quick_form_appearance.tpl', 'quick_form_appearance');
 	}
 	
 	private function getRenderArray(){
 		if(!is_array($this->renderArray)){
+			require_once('ModelConnector.class.inc');
 			$modelConnector = new ModelConnector($this->model, null);
 			$this->renderArray = array(
 				'id' => $this->id,

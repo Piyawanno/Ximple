@@ -118,6 +118,7 @@ function config_default_require(){
 		'search' => 'search.module.inc',
 		'forgetpassword' => 'forgetpassword.module.inc',
 		'login' => 'login.module.inc',
+		'extension' => 'extension.module.inc',
 	);
 }
 
@@ -179,7 +180,8 @@ function config_default_panel_access(){
 				'manage file' => 'file_manage_admin'
 			),
 			'module_admin' => array(  
-				'manage module' => 'module_manage'
+				'manage module' => 'module_manage',
+				'manage extension' => 'extension'
 			),
 			'config_admin' => array(  
 				'configure section' => 'config/'.SECTION,
@@ -264,7 +266,7 @@ function config_default(){
 		'index_mode' => 'about',
 		'start' => '2006-09-19',
 		'meta_data' => '',
-		'allowed_tags' => '<a><p><img><strong><h3><h4><h5><obj><param><embed><span><em><widgetquote><table><tbody><tr><td><ul><ol><li><br><pre><b><u><i><div><s><sub><sup><hr><font><span>',
+		'allowed_tags' => '<a><p><img><strong><h3><h4><h5><obj><param><embed><span><em><blockquote><table><tbody><tr><td><ul><ol><li><br><pre><b><u><i><div><s><sub><sup><hr><font><span><style>',
 		'cachable_mode' => array( ),
 		'cache_mode' => 'txt',
 		'cache_time' => '18000',
