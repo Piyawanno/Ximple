@@ -46,6 +46,7 @@ function module_init_meeting(){
 	
 	config_set('meeting_entries_number', 5);
 	config_set('meeting_icon_size', 64);
+	config_set('meeting_permission', array(2));
 	config_set('meeting_default_group', array(1, 3));
 	config_set('meeting_invitation_message', tt('You are invited to a meeting please response by clicking the followed links :'));
 }

@@ -7,6 +7,8 @@ define('XIMPLE_MEETING_DECLINE', 0);
 define('XIMPLE_MEETING_PARTICIPATE', 1);
 define('XIMPLE_MEETING_NO_RESPONSE', 2);
 
+if(!authority(array(), cc('meeting_permission'))) error_denied();
+
 class Meeting extends Content{
 	function Meeting(){
 		$this->tableName = 'meeting';

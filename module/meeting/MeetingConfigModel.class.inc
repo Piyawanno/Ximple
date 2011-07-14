@@ -6,6 +6,7 @@ class MeetingConfigModel extends ContentConfigModel{
 		$this->meeting_default_group->isExceptedGuest = true;
 		$this->meeting_default_group->isExceptedAdmin = false;
 		$this->meeting_icon_size = $this->spin(tt('icon size'), 16, 1024);
+		$this->meeting_permission = $this->group('allowed group');
 		
 		$this->meeting_invitation_message = $this->shortText(tt('invitation text'));
 		$option = array(

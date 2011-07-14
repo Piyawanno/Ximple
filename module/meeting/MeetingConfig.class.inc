@@ -17,6 +17,7 @@ class MeetingConfig extends ContentConfig{
 		document_set_path(tt('Meeting'), 'meeting');
 		$general = $this->getNewConfigForm(tt('general configuration'));
 		$general->setShowByDefault(true);
+		$general->append('meeting_permission');
 		$general->append('meeting_default_group');
 		$general->append('meeting_invitation_message');
 		

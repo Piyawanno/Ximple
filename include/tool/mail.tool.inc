@@ -17,6 +17,8 @@ function mail_send($receiver, $subject, $body, $is_html=false, $attachment=null)
 	$mail = new PHPMailer();
 	$mail->IsSMTP();
 	
+	echo($receiver);
+	
 	$server_info = split(":", SMTP_SERVER);
 	$mail->Host = $server_info[0];
 	if(count($server_info) > 1) $mail->Port = $server_info[1];

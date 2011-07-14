@@ -9,9 +9,9 @@ class ProfileMailForm extends ConfigControl{
 	}
 	
 	public function render($description){
-		$this->formMeta->id = 'contact';
+		$this->formMeta->id = 'profile_send_mail';
 		$this->formMeta->description = $description;
-		$this->formMeta->mode = 'contact_send';
+		$this->formMeta->mode = 'profile_send_mail';
 		$this->formMeta->title = $this->moduleTitle;
 		$this->formMeta->isCaptcha = true;
 		return ConfigControl::render();

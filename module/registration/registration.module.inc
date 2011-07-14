@@ -16,8 +16,8 @@ function registration_switch_load(){
 
 function registration(){
 	if(cc('registration_enable')){
-		include(INCLUDE_PATH.'class/Control.class.inc');
-		include('Registration.class.inc');
+		include_once(INCLUDE_PATH.'class/Control.class.inc');
+		include_once('Registration.class.inc');
 		$registration = new Registration();
 		return $registration->write();
 	}else{

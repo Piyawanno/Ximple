@@ -15,10 +15,10 @@
 			<a href="<?=SECTION_URI?>"><h1><?=$section_name?></h1></a>
 			<h2><?=$section_slogan?></h2>
 		</div>
-		<div id="menu_container">
-			<?=$menu?>
-		</div>
 		<div id="main">
+			<div id="menu_container">
+				<?=$menu?>
+			</div>
 			<div id="body">
 				<div id="content">
 					<p><?=$path?></p>

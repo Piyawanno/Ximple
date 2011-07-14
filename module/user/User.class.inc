@@ -9,13 +9,22 @@ class User extends Control{
 		$this->tableName = 'users';
 		$this->moduleName = 'user';
 		$this->setAdmin('user_admin');
+		$this->addAccessMethod('guest', 'index');
 		$this->init(new UserModel());
 	}
 	
 	public function index(){
 		$this->moduleTitle = tt('User');
+		
 		document_set_path(tt('User'), 'user');
 		document_set_title(tt('User'));
+		
+		if(authority_is_guest()){
+			$this->modelConnector->setAttribute('email', 'isList', false);
+			$this->modelConnector->setAttribute('email', 'isReachable', false);
+			$this->modelConnector->setAttribute('space_used', 'isList', false);
+		}
+		
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->description = tt('You can use this page to manage and communicate with the users in the Section.');
 		$this->listMeta->mode = 'user';
