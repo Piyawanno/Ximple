@@ -119,6 +119,7 @@ function config_default_require(){
 		'forgetpassword' => 'forgetpassword.module.inc',
 		'login' => 'login.module.inc',
 		'extension' => 'extension.module.inc',
+		'locale' => 'Locale.class.inc'
 	);
 }
 
@@ -242,6 +243,9 @@ function config_default_role(){
 		'menu_admin' => array(  
 			'name' => 'Menu Manager',
 			'description' => 'Who can manage Menus in Section.'),
+		'locale_admin' => array(  
+			'name' => 'Locale Manager',
+			'description' => 'Who can use tools for text translation (Section must be set to development state).'),
 		'syslog_admin' => array(  
 			'name' => 'System Watcher',
 			'description' => 'Who can access Syslog-management in Section.')

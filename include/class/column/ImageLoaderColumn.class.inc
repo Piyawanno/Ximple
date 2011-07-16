@@ -2,6 +2,7 @@
 class ImageLoaderColumn extends ModelColumn{
 	private $path;
 	private $size;
+	private $separateSection = true;
 	
 	function ImageLoaderColumn($label, $path, $size=null){
 		$this->setType('char');
@@ -9,6 +10,7 @@ class ImageLoaderColumn extends ModelColumn{
 		$this->path = $path;
 		$this->size = $size;
 		$this->help = tt('Click on image to upload or change image.');
+		$this->checkPath();
 	}
 	
 	public function renderForm($formID){
@@ -28,6 +30,13 @@ class ImageLoaderColumn extends ModelColumn{
 		</a>
 		<div id="loader_'.$id.'" style="display:none;"></div>';
 		return $render;
+	}
+	
+	private function checkPath(){
+		if($this->separateSection){
+			$this->path = $this->path.SECTION.'/';
+			if(!is_dir(ROOT_PATH.$this->path)) mkdir(ROOT_PATH.$this->path);
+		}
 	}
 }
 ?>

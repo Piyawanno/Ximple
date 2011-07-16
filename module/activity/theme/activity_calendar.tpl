@@ -1,5 +1,5 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
-<h3 class="list_label"><?=tt('Activity Calendar')?> : <?=$month?></h3>
+<h3 class="list_label"><?=tt('Activity')?> : <?=$month?></h3>
 <?=$write_icon?>
 <?=$calendar?>
 <h4 class="small_label"><?=tt('List of Activies')?></h4>

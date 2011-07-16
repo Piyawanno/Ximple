@@ -1,7 +1,7 @@
 <?php
 execute_add_function('sitemap');
-execute_add_function('sitemap_update');
-execute_add_function('sitemap_update_table');
+execute_add_function('sitemap_reset');
+execute_add_function('sitemap_reset_table');
 execute_add_function('sitemap_config');
 execute_add_function('sitemap_config_save');
 
@@ -13,6 +13,28 @@ function sitemap(){
 		'sitemap' => sitemap_render($sitemap),
 	);
 	return render($data, 'sitemap_frame.tpl', 'sitemap_frame');
+}
+
+function sitemap_reset(){
+	$file = FILES_PATH.'sitemap/'.SECTION.'/map.php';
+	if(is_file($file)) unlink($file);
+}
+
+function sitemap_reset_table(){
+	$file = FILES_PATH.'sitemap/'.SECTION.'/table.php';
+	if(is_file($file)) unlink($file);
+}
+
+function sitemap_config($params, $result){
+	$result[tt('SiteMap')] = array(
+		'sitemap_enable_topic' => Model::enable(tt('enable SiteMap for all topics (time consuming)')),
+	);
+	return $result;
+}
+
+function sitemap_config_save(){
+	config_set('sitemap_enable_topic', pp('sitemap_enable_topic'));
+	sitemap_reset();
 }
 
 function sitemap_update(){
@@ -51,17 +73,6 @@ function sitemap_update_table(){
 	return $content_tables;
 }
 
-function sitemap_config($params, $result){
-	$result[tt('SiteMap')] = array(
-		'sitemap_enable_topic' => Model::enable(tt('enable SiteMap for all topics (time consuming)')),
-	);
-	return $result;
-}
-
-function sitemap_config_save(){
-	config_set('sitemap_enable_topic', pp('sitemap_enable_topic'));
-	unlink(FILES_PATH.'sitemap/'.SECTION.'/map.php');
-}
 
 function sitemap_get_content_map($tables){
 	$sitemap = array();
@@ -165,7 +176,9 @@ function sitemap_get_child_page($page, $parent){
 		$child = array();
 		foreach($page[$parent] as $id => $data){
 			$uri = 'page/'.$id;
-			if(strlen($data['uri'])) $uri .= '/'.$value['uri'].'.html';
+			if(isset($data['uri']) and strlen($data['uri'])){
+				$uri .= '/'.$data['uri'].'.html';
+			}
 			$child[] = array(
 				'label' => $data['topic'],
 				'uri' => $uri,

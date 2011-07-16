@@ -20,6 +20,7 @@ function translate_get_interface_language(){
 		'en' => 'English',
 		'de' => 'Deutsch',
 		'th' => 'ไทย',
+		'jp' => 'Japanese',
 	);
 	return $language;
 }

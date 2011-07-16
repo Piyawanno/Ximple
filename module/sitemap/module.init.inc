@@ -11,13 +11,13 @@ function module_get_info_sitemap(){
 function module_init_sitemap(){
 	module_add('sitemap', 'sitemap.module.inc', 'Site Map');
 	
-	extension_add('module_activate', 'sitemap_update_table');
-	extension_add('module_deactivate', 'sitemap_update_table');
-	extension_add('content_insert', 'sitemap_update');
-	extension_add('content_update', 'sitemap_update');
-	extension_add('content_drop', 'sitemap_update');
-	extension_add('category_insert', 'sitemap_update');
-	extension_add('category_update', 'sitemap_update');
+	extension_add('module_activate', 'sitemap_reset_table');
+	extension_add('module_deactivate', 'sitemap_reset_table');
+	extension_add('content_insert', 'sitemap_reset');
+	extension_add('content_update', 'sitemap_reset');
+	extension_add('content_drop', 'sitemap_reset');
+	extension_add('category_insert', 'sitemap_reset');
+	extension_add('category_update', 'sitemap_reset');
 	extension_add('section_config', 'sitemap_config');
 	extension_add('section_config_save', 'sitemap_config_save');
 	
@@ -27,14 +27,14 @@ function module_init_sitemap(){
 
 function module_drop_sitemap(){
 	module_drop('sitemap');
-	
-	extension_drop('module_activate', 'sitemap_update_table');
-	extension_drop('module_deactivate', 'sitemap_update_table');
-	extension_drop('content_insert', 'sitemap_update');
-	extension_drop('content_update', 'sitemap_update');
-	extension_drop('content_drop', 'sitemap_update');
-	extension_drop('category_insert', 'sitemap_update');
-	extension_drop('category_update', 'sitemap_update');
+
+	extension_drop('module_activate', 'sitemap_reset_table');
+	extension_drop('module_deactivate', 'sitemap_reset_table');
+	extension_drop('content_insert', 'sitemap_reset');
+	extension_drop('content_update', 'sitemap_reset');
+	extension_drop('content_drop', 'sitemap_reset');
+	extension_drop('category_insert', 'sitemap_reset');
+	extension_drop('category_update', 'sitemap_reset');
 	extension_drop('section_config', 'sitemap_config');
 	extension_drop('section_config_save', 'sitemap_config_save');
 	

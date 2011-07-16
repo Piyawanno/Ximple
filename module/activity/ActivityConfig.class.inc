@@ -21,5 +21,9 @@ class ActivityConfig extends ContentConfig{
 		$this->formMeta->title = $this->moduleTitle;
 		return $this->render();
 	}
+	
+	public function getConfig(){
+	
+	}
 }
 ?>

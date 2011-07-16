@@ -13,7 +13,7 @@ class MenuWidgetColumn extends SelectColumn{
 		if(cc('menu_include_widget')){
 			return SelectColumn::renderForm($formID);
 		}else{
-			return $this->renderAdHidden($formID);
+			return $this->renderAsHidden($formID);
 		}
 	}
 	
@@ -35,7 +35,7 @@ class MenuWidgetColumn extends SelectColumn{
 	
 	private function renderAsHidden($formID){
 		require_once(INCLUDE_PATH.'class/column/HiddenColumn.class.inc');
-		$hidden = new Hidden($this->data, 'int');
+		$hidden = new HiddenColumn($this->data, 'int');
 		return $hidden->renderForm($formID);
 	}
 }

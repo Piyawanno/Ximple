@@ -64,8 +64,6 @@ This file contains TO-DO list for additional procedure by software upgrading.
 
 - ALTER TABLE menu CHANGE block widget int;
 
-/// NOT UPDATED
-
 - ALTER TABLE section ADD `uri` VARCHAR(250);
 
 - define('SECTION_PATH', dirname(__FILE__));

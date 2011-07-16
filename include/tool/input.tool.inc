@@ -112,4 +112,15 @@ function input_get_month(){
 	
 	return array($month, $year);
 }
+
+/// Dump variable into parsable string.
+/// @param $input : input to dump.
+/// @return String of dumped variable. 
+function input_dump_var($input){
+	ob_start();
+	var_export($input);
+	$dump = ob_get_contents();
+	ob_end_clean();
+	return str_replace('  ', "\t", $dump);
+}
 ?>
