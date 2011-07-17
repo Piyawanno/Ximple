@@ -22,7 +22,7 @@ function image_check_max_width($file, $path, $maxwidth){
 			imageCopyResized($image_dst, $image_src, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
 			imageJPEG($image_dst, $path, 85);
 			imageFilter($image_dst, IMG_FILTER_SMOOTH, 12);
-			notify_add_info(tt('Image has been automaticaaly resized.'));
+			notify_add_info(tt('Image has been automatically resized.'));
 		}
 	}
 }
