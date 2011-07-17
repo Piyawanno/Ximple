@@ -10,9 +10,7 @@ if(!state_is_develop()) error_denied();
 class Locale extends ConfigControl{
 	function Locale(){
 		$this->moduleName = 'locale';
-		$this->moduleExtension = 'config';
 		$this->moduleTitle = tt('Get Locale Array');
-		$this->addAction('locale', 'index');
 		$this->setAdmin('locale_admin');
 		$this->init(new LocaleModel());
 	}

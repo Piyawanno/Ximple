@@ -119,7 +119,10 @@ function config_default_require(){
 		'forgetpassword' => 'forgetpassword.module.inc',
 		'login' => 'login.module.inc',
 		'extension' => 'extension.module.inc',
-		'locale' => 'Locale.class.inc'
+		'locale' => array(
+			'#primary' => 'Locale.class.inc',
+			'module' => 'LocaleModule.class.inc',
+		),
 	);
 }
 
@@ -202,6 +205,12 @@ function config_default_panel_access(){
 	);
 	if(SECTION == 1){
 		$panel['System Admin']['section_admin']['manage section'] = 'section_manage';
+	}
+	if(SECTION == 1 and state_is_develop()){
+		$panel['Locale']['locale_admin'] = array(
+			'get locale array' => 'locale',
+			'initial locale' => 'locale_module',
+		);
 	}
 	return $panel;
 }

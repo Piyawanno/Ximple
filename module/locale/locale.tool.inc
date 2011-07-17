@@ -81,7 +81,7 @@ function locale_check_exist($key){
 function locale_get_processed($directory, $language, $key){
 	global $locale;
 	$processed = array();
-	$file = $directory.'locale/'.$language.'.locale.inc';
+	$file = $directory.'/locale/'.$language.'.locale.inc';
 	if(is_file($file)) require_once($file);
 	foreach($key as $tt){
 		if(isset($locale[$tt])) $processed[$tt] = $locale[$tt];
@@ -90,23 +90,29 @@ function locale_get_processed($directory, $language, $key){
 	return $processed;
 }
 
-locale_init();
-
 function locale_init(){
-	$directory = ROOT_PATH.'module/';
-	$modules = io_get_directory_entry($directory);
-	$languages = translate_get_interface_language();
+	$modules = io_get_directory_entry(MODULE_PATH);
 	foreach($modules as $module){
-		$locale_directory = $directory.$module.'/locale/';
-		if(!is_dir($locale_directory)) mkdir($locale_directory);
-		foreach($languages as $language => $label){
-			$code = locale_get('module/'.$module, $language);
-			$code = str_replace('&lt;', '<', $code);
-			$code = str_replace('&gt;', '>', $code);
-			if(strlen($code)){
-				$file = $locale_directory.$language.'.locale.inc';
-				io_write_file($file, $code);
-			}
+		locale_init_module($module);
+	}
+}
+
+function locale_get_module(){
+	$module = io_get_directory_entry(MODULE_PATH);
+	return array_combine($module, $module);
+}
+
+function locale_init_module($module){
+	$languages = translate_get_interface_language();
+	$locale_directory = MODULE_PATH.$module.'/locale/';
+	if(!is_dir($locale_directory)) mkdir($locale_directory);
+	foreach($languages as $language => $label){
+		$code = locale_get('module/'.$module, $language);
+		$code = str_replace('&lt;', '<', $code);
+		$code = str_replace('&gt;', '>', $code);
+		if(strlen($code)){
+			$file = $locale_directory.$language.'.locale.inc';
+			io_write_file($file, $code);
 		}
 	}
 }
