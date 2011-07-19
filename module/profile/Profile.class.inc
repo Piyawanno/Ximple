@@ -49,6 +49,7 @@ class Profile extends Control{
 	}
 	
 	public function sendMail(){
+		require_once(INCLUDE_PATH.'tool/mail.tool.inc');
 		execute_set_db();
 		document_set_redirect('profile/'.gg('id'));
 		if(pp('email')){
@@ -60,7 +61,7 @@ class Profile extends Control{
 		$message = sprintf('<p>'.tt('Email from %s').'</p>', $sender).pp('message');
 		$userInfo = userinfo_get_info_by_id(pp('receiver'));
 		$receiver = $userInfo['email'];
-		$result = mail_send($receiver, pp('subject'), $message, true, $this->attachment);
+		$result = mail_send($receiver, pp('subject'), $message, true);
 		if($result !== true){
 			notify_add_error($result);
 		}

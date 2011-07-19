@@ -9,7 +9,7 @@ class ForgetPassword extends ConfigControl{
 	
 	function ForgetPassword(){
 		$this->moduleName = 'forgetpassword';
-		$this->moduleTitle = tt('Forget Password');
+		$this->moduleTitle = tt('Forgot Password');
 		$this->addAction('forgetpassword_response', 'response');
 		$this->addAccessMethod('guest', 'index');
 		$this->addAccessMethod('guest', 'response');

@@ -193,6 +193,8 @@ function head_include_main_css(){
 	$jquery_css = 'theme/'.cc('theme').'/jquery/ui.all.css';
 	if(is_file(ROOT_PATH.$jquery_css)){
 		$head_css[] = $jquery_css;
+	}elseif(is_file(SECTION_PATH.'private/'.$jquery_css)){
+		$head_css[] = 'private/'.$jquery_css;
 	}else{
 		$head_css[] = 'include/external/jquery/themes/base/ui.all.css';
 	}
@@ -252,6 +254,7 @@ function head_get_css_uri($file_name){
 	elseif(is_file(ROOT_PATH.$path_default)) return ROOT_URI.$path_default;
 	elseif(is_file(ROOT_PATH.$path_module)) return ROOT_URI.$path_module;
 	elseif(is_file(ROOT_PATH.$file_name)) return ROOT_URI.$file_name;
+	elseif(is_file(SECTION_PATH.$file_name)) return SECTION_URI.$file_name;
 	else return ROOT_URI.header_find_css($file_name);
 }
 

@@ -38,23 +38,14 @@ abstract class ContentModel extends Model{
 		$this->publishing_status = $publishingStatus;
 		
 		$help = tt('You can use "extended URI" to increase search engine optimozation. ');
-		$help.= tt('This will appear in URI to this entry without any effect.');
 		$this->uri = $this->char(tt('extended URI'), $help);
 		$this->uri->isReachable = true;
 		$help = tt('Short description about this content for search engine optimization. ');
 		$this->description = $this->plain(tt('description'), $help);
 		$this->description->isReachable = true;
 		$this->category = $this->category($moduleName);
-		
 		$this->freetag = new FreeTagColumn($moduleName);
-		
 		$this->section = $this->section();
-		
-		if(uu('editor') == 1 or uu('editor') == 2){
-			$this->code = $this->plain(tt('code writer'));
-		}else{
-			$this->code = $this->hidden('', 'shorttext');
-		}
 	}
 	
 	public function getCommentPermission(){

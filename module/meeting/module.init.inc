@@ -69,8 +69,6 @@ function module_drop_meeting(){
 	$flash = new FlashWidgetManager('meeting_last_commented');
 	$flash->drop();
 	
-	
-	notify_add_info(tt('Meeting has been successfully deactivated'));
 	config_drop('meeting_entries_number');
 }
 ?>

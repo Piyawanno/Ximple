@@ -29,7 +29,6 @@ class ResetPassword extends ConfigControl{
 		execute_set_db();
 		if(captcha_check($gentime, $code, $parity)){
 			if($this->checkKey()){
-				echo(pp('password'));
 				db_update('users', array('password' => pp('password')), $this->userID);
 				unlink($this->fileName.'.php');
 				notify_add_info(tt('Your password has been already changed, please login.'));

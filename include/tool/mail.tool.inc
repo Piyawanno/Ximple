@@ -33,7 +33,7 @@ function mail_send($receiver, $subject, $body, $is_html=false, $attachment=null)
 
 	$mail->From = SITE_MAIL;
 	$mail->FromName = cc('section_name');
-	$mail->CharSet = 'utf-8';
+	$mail->CharSet = 'UTF-8';
 	$mail->WordWrap = 150;
 	$mail->IsHTML($is_html);
 	$mail->Subject = $subject;

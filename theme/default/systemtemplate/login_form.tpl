@@ -13,7 +13,7 @@
 	</form>
 	<br />
 	<?php if($forget_password):?>
-		<a href="<?= SECTION_URI.Q?>forgot_password"><?=tt('forget password')?></a>
+		<a href="<?= SECTION_URI.Q?>forgetpassword"><?=tt('forgot password')?></a>
 	<?php endif?>
 	<?php if($registable):?>
 		<a href="<?= SECTION_URI.Q?>registration"><?=tt('registration')?></a>

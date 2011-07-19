@@ -63,7 +63,6 @@ function module_drop_blog(){
 	$widget = new WidgetManager(tt('Promoted Blogs'), 'blog_promote_widget');
 	$widget->drop();
 	
-	notify_add_info(tt('Blog has been successfully deactivated'));
 	config_drop('blog_entries_number');
 }
 ?>

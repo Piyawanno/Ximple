@@ -7,8 +7,6 @@ define('XIMPLE_MEETING_DECLINE', 0);
 define('XIMPLE_MEETING_PARTICIPATE', 1);
 define('XIMPLE_MEETING_NO_RESPONSE', 2);
 
-if(!authority(array(), cc('meeting_permission'))) error_denied();
-
 class Meeting extends Content{
 	function Meeting(){
 		$this->tableName = 'meeting';
@@ -22,6 +20,7 @@ class Meeting extends Content{
 	}
 	
 	public function index(){
+		$this->checkPermission();
 		if($this->isSingleEntry()) return $this->renderSingleMeeting();
 		elseif(gg('tag')) return $this->renderTagPage();
 		else return $this->renderCalendar();
@@ -45,6 +44,7 @@ class Meeting extends Content{
 	}
 	
 	public function printPage(){
+		$this->checkPermission();
 		$this->id = MODE_ID;
 		$this->selectByID($this->column);
 		execute_set_print();
@@ -349,6 +349,10 @@ class Meeting extends Content{
 		
 		$this->addAccessMethod('guest', 'participatePerMail');
 		$this->addAccessMethod('guest', 'declinePerMail');
+	}
+	
+	private checkPermission(){
+		if(!authority(array(), cc('meeting_permission'))) error_denied();
 	}
 }
 ?>
