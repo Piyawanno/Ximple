@@ -53,28 +53,28 @@
 					</td>
 					<?php ob_start();?>
 					<div id="option_<?=$j?>" style="display:none;" class="operation_option">
-						<a href="javascript:renameDialog('<?=$key?>')" title="rename">
+						<a href="javascript:renameDialog('<?=$key?>')" title="rename" style="color:#222;">
 							<img src="<?=ROOT_URI?>files/icon/edit.png" border="0" alt="rename"/>
 							<?=tt('rename')?>
 						</a>
-						<a href="javascript:cutFile('<?=$dir?><?=$key?>')" title="cut">
+						<a href="javascript:cutFile('<?=$dir?><?=$key?>')" title="cut" style="color:#222;">
 							<img src="<?=ROOT_URI?>files/icon/editcut.png" border="0" alt="cut"/>
 							<?=tt('cut')?>
 						</a>
-						<a href="javascript:copyFile('<?=$dir?><?=$key?>')" title="copy">
+						<a href="javascript:copyFile('<?=$dir?><?=$key?>')" title="copy" style="color:#222;">
 							<img src="<?=ROOT_URI?>files/icon/editcopy.png" border="0" alt="copy"/>
 							<?=tt('copy')?>
 						</a>
-						<a href="<?=SECTION_URI?>?dir=<?=$dir?>&amp;file=<?=$key?>&amp;mode=file_drop&amp;next_mode=<?=$mode?>" title="delete">
+						<a href="<?=SECTION_URI?>?dir=<?=$dir?>&amp;file=<?=$key?>&amp;mode=file_drop&amp;next_mode=<?=$mode?>" title="delete" style="color:#222;">
 							<img src="<?=ROOT_URI?>files/icon/stop.png" border="0" alt="delete"/>
 							<?=tt('delete')?>
 						</a>
-						<a href="javascript:chmodDialog('<?=$key?>', <?=$value['permission']?>)" title="change permission">
+						<a href="javascript:chmodDialog('<?=$key?>', <?=$value['permission']?>)" title="change permission" style="color:#222;">
 							<img src="<?=ROOT_URI?>files/icon/lock.png" border="0" alt="permission"/>
 							<?=tt('change permission')?>
 						</a>
 						<?php if(!$value['is_dir']):?>
-							<span>
+							<span style="color:#222;">
 								<img src="<?=ROOT_URI?>files/icon/html.png" border="0" alt="url"/>
 								<?=tt('URI').' : '.$value['uri']?>
 							</span>

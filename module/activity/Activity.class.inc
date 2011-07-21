@@ -124,11 +124,5 @@ class Activity extends Content{
 		$this->dataByID['show_avatar'] = in_array('avatar', $appearance);
 		$this->dataByID['show_category'] = in_array('category_icon', $appearance);
 	}
-	
-	private function renderWriteIcon(){
-		if($this->isCallable('write')){
-			return render_write_icon('activity_write', tt('Write new Activity entry'));
-		}
-	}
 }
 ?>

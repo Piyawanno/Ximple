@@ -120,11 +120,5 @@ class Blog extends Content{
 		$this->dataByID['show_category'] = in_array('category_icon', $appearance);
 		$this->dataByID['show_sibling'] = in_array('sibling', $appearance);
 	}
-	
-	private function renderWriteIcon(){
-		if($this->isCallable('write')){
-			return render_write_icon('blog_write', tt('Write new Blog entry'));
-		}
-	}
 }
 ?>

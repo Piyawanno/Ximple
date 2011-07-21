@@ -35,6 +35,12 @@ class CategoryColumn extends SelectColumn{
 	private function getSelection(){
 		$clause = "WHERE (mode='".$this->module."' AND section=".SECTION.")";
 		$this->option = db_select_single_column('category', 'category', $clause);
+		$this->getData();
+	}
+	
+	private function getData(){
+		$cid = (int) gg('category_id');
+		if($cid) $this->defaultData = $cid;
 	}
 }
 ?>

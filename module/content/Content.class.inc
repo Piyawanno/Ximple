@@ -5,6 +5,7 @@ include('locale/'.LANGUAGE.'.locale.inc');
 
 abstract class Content extends Control{
 	protected $comment;
+	protected $categoryID;
 	
 	public function write(){
 		$this->setConfigForm();
@@ -260,12 +261,6 @@ abstract class Content extends Control{
 		$searchEngine->append('description');
 	}
 	
-	private function extendFormDescription($mode){
-		$description = $this->formMeta->description;
-		$description = extension_execute($mode, $description);
-		$this->formMeta->description = $description;
-	}
-	
 	protected function addMetaData(){
 		document_add_keywords($this->dataByID['freetag']);
 		document_set_description($this->dataByID['description']);
@@ -312,6 +307,25 @@ abstract class Content extends Control{
 	
 	protected function getPublishingStatus(){
 		return content_get_publishing_status();
+	}
+	
+	protected function renderWriteIcon(){
+		if($this->isCallable('write')){
+			if($this->categoryID) $category = '/category_id/'.$this->categoryID;
+			else $category = null;
+			
+			if(strlen($this->writeLabel) == 0){
+				$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
+			}
+			$mode = $this->fullModuleName.'_write'.$category;
+			return render_write_icon($mode, $this->writeLabel);
+		}
+	}
+	
+	private function extendFormDescription($mode){
+		$description = $this->formMeta->description;
+		$description = extension_execute($mode, $description);
+		$this->formMeta->description = $description;
 	}
 	
 	private function selectFirstPageTag($column, $pageLength){
@@ -446,8 +460,14 @@ abstract class Content extends Control{
 	private function getCategoryClause($tag){
 		$clause = "WHERE (category='".$tag."' AND mode='".$this->fullModuleName."')";
 		$category = array_keys(db_select_single_column('category', 'id', $clause));
-		if(isset($category[0])) return 'category='.$category[0];
-		else return '';
+		if(isset($category[0])){
+			$this->categoryID = $category[0];
+			return 'category='.$category[0];
+		}else{
+			$this->categoryID = null;
+			return '';
+		}
+		
 	}
 	
 	private function subscribe(){

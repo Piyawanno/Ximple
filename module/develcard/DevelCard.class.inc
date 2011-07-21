@@ -207,12 +207,6 @@ class DevelCard extends Control{
 		$config->append('deadline');
 	}
 	
-	private function renderWriteIcon(){
-		if($this->isCallable('write')){
-			return render_write_icon('develcard_write', tt('Submit new DevelCard'));
-		}
-	}
-	
 	private function getUserID(){
 		$uid = (int) gg('id');
 		if(empty($uid)) $uid = USER_ID;

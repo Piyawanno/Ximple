@@ -212,12 +212,6 @@ class Meeting extends Content{
 		$this->dataByID['show_category'] = in_array('category_icon', $appearance);
 	}
 	
-	private function renderWriteIcon(){
-		if($this->isCallable('write')){
-			return render_write_icon('meeting_write', tt('Write new Meeting entry'));
-		}
-	}
-	
 	private function renderParticipateIcon(){
 		if($this->isParticipant($this->dataByID)){
 			$icon = 'module/meeting/theme/participate.png';
