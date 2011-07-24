@@ -345,7 +345,7 @@ class Meeting extends Content{
 		$this->addAccessMethod('guest', 'declinePerMail');
 	}
 	
-	private checkPermission(){
+	private function checkPermission(){
 		if(!authority(array(), cc('meeting_permission'))) error_denied();
 	}
 }
