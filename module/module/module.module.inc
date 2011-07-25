@@ -13,7 +13,11 @@ function module_manage(){
 	head_add_css('list.css');
 	head_add_css('module.css');
 	document_set_path($title);
-	return render(array('module' => $module), 'module.tpl', 'module_manage');
+	$render_array = array(
+		'module' => $module,
+		'has_private' => module_has_private($module),
+	);
+	return render($render_array, 'module.tpl', 'module_manage');
 }
 
 function module_init(){
@@ -107,13 +111,14 @@ function module_deactivate_module(){
 }
 
 function module_get_information(){
-	$private_path = SECTION_PATH.'private/module/';
-
-	list($module_private, $init_file_private) = module_get_init_file($private_path, true);
-	list($module_system, $init_file_system) = module_get_init_file(MODULE_PATH, false);
+	list($module, $init_file) = module_get_init_file(MODULE_PATH, false);
 	
-	$module = array_merge($module_private, $module_system);
-	$init_file = array_merge($init_file_private, $init_file_system);
+	$private_path = SECTION_PATH.'private/module/';
+	if(is_dir($private_path)){
+		list($module_private, $init_file_private) = module_get_init_file($private_path, true);
+		$module = array_merge($module_private, $module);
+		$init_file = array_merge($init_file_private, $init_file);
+	}
 	
 	module_include_init_file($init_file);
 	$module = module_check_function($module);
@@ -190,5 +195,12 @@ function module_prepare(){
 function module_post(){
 	module_save_panel();
 	module_save_role();
+}
+
+function module_has_private($module){
+	foreach($module as $key => $value){
+		if($value['is_private']) return true;
+	}
+	return false;
 }
 ?>

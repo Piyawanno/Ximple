@@ -158,12 +158,14 @@ function theme_check_custom_directory($type){
 }
 
 function theme_get_information(){
-	$private_path = SECTION_PATH.'private/theme/';
-	list($theme_private, $init_file_private) = theme_get_init_file($private_path);
-	list($theme_system, $init_file_system) = theme_get_init_file(THEME_PATH);
+	list($theme, $init_file) = theme_get_init_file(THEME_PATH);
 	
-	$theme = array_merge($theme_private, $theme_system);
-	$init_file = array_merge($init_file_private, $init_file_system);
+	$private_path = SECTION_PATH.'private/theme/';
+	if(is_dir($private_path)){
+		list($theme_private, $init_file_private) = theme_get_init_file($private_path);
+		$theme = array_merge($theme_private, $theme);
+		$init_file = array_merge($init_file_private, $init_file);
+	}
 	
 	theme_include_init_file($init_file);
 	$theme = theme_check_function($theme);
