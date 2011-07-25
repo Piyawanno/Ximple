@@ -116,9 +116,12 @@ function config_default_require(){
 		'flashwidget' => 'flashwidget.module.inc',
 		'imageloader' => 'imageloader.module.inc',
 		'search' => 'search.module.inc',
-		'forgetpassword' => 'forgetpassword.module.inc',
 		'login' => 'login.module.inc',
 		'extension' => 'extension.module.inc',
+		'forgetpassword' => array(
+			'#primary' => 'ForgetPassword.class.inc',
+			'reset' => 'ResetPassword.class.inc',
+		),
 		'locale' => array(
 			'#primary' => 'Locale.class.inc',
 			'module' => 'LocaleModule.class.inc',

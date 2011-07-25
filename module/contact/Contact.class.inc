@@ -91,7 +91,7 @@ class Contact extends Control{
 	private function sendReply(){
 		$subject = cc('contact_subject');
 		$message = $this->dataByID['reply_message'];
-		$message.= "<widgetquote>".$_POST['message']."</widgetquote>";
+		$message.= "<blockquote>".$_POST['message']."</blockquote>";
 		$result = mail_send(pp('email'), $subject, $message, true, null);
 		if($result !== true) notify_add_error($result);
 	}

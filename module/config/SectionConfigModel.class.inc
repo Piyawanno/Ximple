@@ -31,7 +31,7 @@ class SectionConfigModel extends Model{
 		);
 		$this->state = $this->radio(tt('section state'), $option);
 		
-		$this->registable = $this->enable(('Enable registration for new users'));
+		$this->registration_enable = $this->enable(('Enable registration for new users'));
 		$this->forget_password = $this->enable(('Enable password recovery'));
 		$this->avatar_resizable = $this->enable(('Enable resizing avatar'));
 		$this->avatar_size = $this->spin(('Avatar size'), 16, 1024);

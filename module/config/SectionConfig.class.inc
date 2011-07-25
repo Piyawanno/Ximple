@@ -46,7 +46,7 @@ class SectionConfig extends ConfigControl{
 		$language->append('supported_language');
 		
 		$user = $this->getNewConfigForm(tt('User & Registration'));
-		$user->append('registable');
+		$user->append('registration_enable');
 		$user->append('forget_password');
 		$user->append('avatar_resizable');
 		$user->append('avatar_size');

@@ -2,6 +2,9 @@
 include_once(INCLUDE_PATH.'class/ConfigControl.class.inc');
 include('ForgetPasswordModel.class.inc');
 
+execute_add_class('forgetpassword', 'ForgetPassword');
+if(!cc('forget_password')) error_denied();
+
 class ForgetPassword extends ConfigControl{
 	private $userID;
 	private $fileName;

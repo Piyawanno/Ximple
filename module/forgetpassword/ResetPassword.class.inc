@@ -2,6 +2,9 @@
 include_once(INCLUDE_PATH.'class/ConfigControl.class.inc');
 include('ResetPasswordModel.class.inc');
 
+execute_add_extended_class('forgetpassword', 'reset', 'ResetPassword');
+if(!cc('forget_password')) error_denied();
+
 class ResetPassword extends ConfigControl{
 	private $userID;
 	private $fileName;
