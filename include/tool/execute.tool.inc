@@ -91,7 +91,7 @@ function execute_oop($mode, $module, $params, $result){
 			}
 		}
 	}
-	if(!$success) error_not_found();
+	if(!$success) error_not_found('System can not execute : '.$mode);
 	return $result;
 }
 
@@ -281,7 +281,7 @@ function execute_include($require, $module){
 	}elseif(state_is_develop()){
 		error_syslog('Error execute_include_files by module : '.$module.', file : '.$require);
 	}else{
-		error_not_found();
+		error_not_found('System can not include : '.$require);
 	}
 }
 

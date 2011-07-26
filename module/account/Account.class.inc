@@ -8,6 +8,7 @@ class Account extends User{
 		$this->moduleName = 'account';
 		$this->setAdmin('user_admin');
 		$this->initNotification();
+		$this->updateMap = false;
 		$this->init(new UserModel());
 	}
 	

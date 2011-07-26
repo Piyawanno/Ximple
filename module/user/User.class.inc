@@ -3,6 +3,8 @@ execute_add_class('user', 'User');
 include('UserModel.class.inc');
 
 class User extends Control{
+	protected $updateMap = true;
+	
 	private $groupForm;
 	
 	function User(){
@@ -76,9 +78,12 @@ class User extends Control{
 		return $this->renderUpdateForm();
 	}
 	
-	public function update($updateMap=true){
+	public function update(){
 		Control::update();
-		if($updateMap) $this->updateMap();
+		if(strlen(pp('password')) == 0){
+			notify_add_info(tt('Password is empty, hence password is not changed.'));
+		}
+		$this->updateMap();
 		$this->resizeAvatar();
 	}
 	
@@ -102,7 +107,6 @@ class User extends Control{
 		head_add_js_var('nameNotConformed', tt('Login name is not conformed.'));
 		head_add_js_var('nameExists', tt('Login name exists.'));
 		head_add_js_var('emailExists', tt('Email address exists.'));
-		head_add_js_var('passwdNotChange', tt('Password is empty, hence password is not changed.'));
 		head_add_js_var('passwdTooShort', tt('Password is too short.'));
 		head_add_js_var('passwdVeryStrong', tt('Password strength is very strong.'));
 		head_add_js_var('passwdStrong', tt('Password strength is strong.'));
@@ -136,16 +140,18 @@ class User extends Control{
 	}
 	
 	private function updateMap(){
-		if(is_array(pp('groups'))){
+		if($this->updateMap){
 			$clause = 'users='.((int) $this->id);
 			db_drop_many('map', $clause);
-			$data = array(
-				'users' => $this->id,
-				'section' => SECTION,
-			);
-			foreach(pp('groups') as $key => $value){
-				$data['groups'] = $value;
-				db_insert('map', $data);
+			if(is_array(pp('groups'))){
+				$data = array(
+					'users' => $this->id,
+					'section' => SECTION,
+				);
+				foreach(pp('groups') as $key => $value){
+					$data['groups'] = $value;
+					db_insert('map', $data);
+				}
 			}
 		}
 	}

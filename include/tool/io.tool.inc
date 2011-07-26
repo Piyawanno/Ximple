@@ -94,7 +94,7 @@ function io_get_directory_entry($dir_name){
 			}
 		}
 	}elseif(state_is_develop()){
-		notify_add_error('Directory : '.$dir.' does not exist (io_get_directory_entry).');
+		notify_add_error('Directory : '.$dir_name.' does not exist (io_get_directory_entry).');
 	}
 	return $entry_list;
 }

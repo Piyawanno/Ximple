@@ -41,7 +41,8 @@ function error_syslog($message, $redirect=null){
 }
 
 /// Error by access denied : not logged in User => Login form, else stop process.
-function error_denied(){
+/// @param $info : addition information about error.
+function error_denied($info=''){
 	io_write_log(tt('Invalid access for called page.'), 'denied');
 	header('HTTP/1.1 402 Access Denied');
 	if(authority_is_guest()){
@@ -55,6 +56,11 @@ function error_denied(){
 		$message  = tt('Invalid access for called page.');
 		$message .= sprintf(tt('<p>You should go to <a href="%s">this page</a> for further action.</p>'), $uri);
 	}
+	
+	if(state_is_deveop()){
+		$message .= '<br />'.$info;
+	}
+	
 	$data = array(
 		'title' => tt('System error occurred'),
 		'message' => $message
@@ -90,9 +96,13 @@ function error_db_connect(){
 }
 
 /// Error by page not found : stop process.
-function error_not_found(){
+/// @param $info : addition information about error.
+function error_not_found($info=''){
 	header("HTTP/1.0 404 Not Found");
 	$message = 'The requested page can not be found on the server.';
+	if(state_is_develop()){
+		$message .= '<br />'.$info;
+	}
 	$data = array(
 		'title' => 'Page not found',
 		'message' => $message,

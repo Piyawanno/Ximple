@@ -109,6 +109,10 @@ class SectionConfig extends ConfigControl{
 	public function reset(){
 		$configFile = FILES_PATH.'config/config'.SECTION.'.php';
 		if(is_file($configFile)) unlink($configFile);
+		$panelFile = FILES_PATH.'config/panel'.SECTION.'.php';
+		if(is_file($panelFile)) unlink($panelFile);
+		$roleFile = FILES_PATH.'config/role'.SECTION.'.php';
+		if(is_file($roleFile)) unlink($roleFile);
 		execute_set_db();
 		document_set_redirect('config');
 		notify_add_info(tt('Configuration have been successfully reset.'));
