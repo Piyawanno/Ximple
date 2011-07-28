@@ -6,7 +6,7 @@ class NowColumn extends HiddenColumn{
 	public $dateFormat;
 	
 	function NowColumn($dateFormat=null){
-		HiddenColumn::HiddenColumn(NOW, 'timestamp');
+		HiddenColumn::HiddenColumn(NOW, 'char');
 		if(!empty($dateFormat)){	
 			$this->dateFormat = $dateFormat;
 			$this->formatDateBySelect = true;
