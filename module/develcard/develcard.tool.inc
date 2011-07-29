@@ -45,7 +45,7 @@ function develcard_get_permission_option(){
 	);
 }
 
-function develcard_get_color($priority){
+function develcard_get_priority_color($priority){
 	$color = array(
 		0 => cc('develcard_hight_color'),
 		1 => cc('develcard_medium_color'),
@@ -53,6 +53,17 @@ function develcard_get_color($priority){
 		3 => cc('develcard_no_effect_color'),
 	);
 	return $color[$priority];
+}
+
+function develcard_get_status_color($status){
+	$color = array(
+		0 => cc('develcard_created_color'),
+		1 => cc('develcard_progress_color'),
+		2 => cc('develcard_close_color'),
+		3 => cc('develcard_fail_color'),
+		4 => cc('develcard_rejected_color'),
+	);
+	return $color[$status];
 }
 
 function develcard_is_admin(){

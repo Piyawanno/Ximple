@@ -1,5 +1,5 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
-<div class="develcard" style="border-top:4px solid <?=$color?>;">
+<div class="develcard" style="border-top:4px solid <?=$priority_color?>;">
 	<h3 class="title_label"><?=$topic?> </h3>
 	<p>
 		<label><?=tt('ID')?> : </label>

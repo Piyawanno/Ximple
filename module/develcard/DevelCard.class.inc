@@ -25,6 +25,11 @@ class DevelCard extends Control{
 		else return $this->summaryPage();
 	}
 	
+	public function update(){
+		Control::update();
+		$this->setResolverPoint((int)pp('status'));
+	}
+	
 	public function personalPage(){
 		$id = (int) gg('id');
 		if($id) return $this->rederPersonalPage();
@@ -64,7 +69,19 @@ class DevelCard extends Control{
 	}
 	
 	public function setStatus(){
-	
+		$this->id = (int) gg('id');
+		$status = (int) gg('status');
+		
+		$data = array('status' => $status);
+		db_update($this->tableName, $data, $this->id);
+		$this->setResolverPoint($status);
+		
+		execute_set_db();
+		document_set_redirect('develcard/'.$this->id);
+		
+		$statusOption = develcard_get_status_option();
+		$statusName = $statusOption[$status];
+		notify_add_info(tt('Status of DevelCard has been successfully changed to : ').$statusName);
 	}
 	
 	protected function renderListPage($title, $clause, $mode){
@@ -152,7 +169,7 @@ class DevelCard extends Control{
 	private function prepareData($data, $mode){
 		$data['type_uri'] = $this->getTypeURI($data, $mode);
 		$data['status_uri'] = $this->getStatusURI($data, $mode);
-		$data['color'] = develcard_get_color($data['priority']['value']);
+		$data['priority_color'] = develcard_get_priority_color($data['priority']['value']);
 		$data['residual_time'] = $this->getResidualTime($data);
 		return $data;
 	}
@@ -213,8 +230,44 @@ class DevelCard extends Control{
 		return $uid;
 	}
 	
-	private function setResolverStatus($status){
-		
+	private function renderWriteIcon(){
+		if($this->isCallable('write')){
+			$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
+			return render_write_icon('develcard_write', $this->writeLabel);
+		}
+	}
+	
+	private function setResolverPoint($status){
+		$clause = 'WHERE develcard='.$this->id;
+		$resolver = db_select_single_column('develcard_resolver', 'work_load', $clause);
+		if($status >= 2) $this->setResolverEndPoint($status, $resolver);
+		else $this->setResolverProgressPoint($status, $clause);
+	}
+	
+	private function setResolverEndPoint($status, $resolver){
+		$this->selectByID(array('deadline'));
+		$deadline = strtotime($this->dataByID['deadline']);
+		foreach($resolver as $key => $value){
+			$point = $this->caculateResolverPoint($value, $deadline);
+			$data = array(
+				'status' => $status,
+				'point' => $point,
+				'end_date' => NOW,
+			);
+			db_update('develcard_resolver', $data, $key);
+		}
+	}
+	
+	private function setResolverProgressPoint($status, $clause){
+		$data = array('status' => $status);
+		db_update_many('develcard_resolver', $data, $clause);
+	}
+	
+	private function caculateResolverPoint($load, $deadline){
+		$difference = time() - $deadline;
+		if(abs($difference) < 86400) return $load*2;
+		elseif($difference < 0)	return max($load, $load*2 + ceil($difference/86400));
+		else return $load*2 + ceil($difference/86400);
 	}
 }
 ?>
