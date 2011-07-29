@@ -57,9 +57,7 @@ function error_denied($info=''){
 		$message .= sprintf(tt('<p>You should go to <a href="%s">this page</a> for further action.</p>'), $uri);
 	}
 	
-	if(state_is_deveop()){
-		$message .= '<br />'.$info;
-	}
+	if(state_is_develop()) $message .= '<br />'.$info;
 	
 	$data = array(
 		'title' => tt('System error occurred'),
@@ -100,9 +98,7 @@ function error_db_connect(){
 function error_not_found($info=''){
 	header("HTTP/1.0 404 Not Found");
 	$message = 'The requested page can not be found on the server.';
-	if(state_is_develop()){
-		$message .= '<br />'.$info;
-	}
+	if(state_is_develop())	$message .= '<br />'.$info;
 	$data = array(
 		'title' => 'Page not found',
 		'message' => $message,

@@ -28,9 +28,9 @@ class ForumEntry extends Content{
 		if(!authority_is_guest()){
 			count_set('forum_entry'.USER_ID, $this->id, time());
 		}
-		$readable_status = ($this->dataByID['publishing_status'] <= 1);
-		$readable_status = ($readable_status or ($this->dataByID['writer']['id'] == USER_ID));
-		if(!$readable_status or !forum_check_readable($this->dataByID['forum'])){
+		$readableStatus = ($this->dataByID['publishing_status'] <= 1);
+		$readableStatus = ($readableStatus or ($this->dataByID['writer']['id'] == USER_ID));
+		if(!$readableStatus or !forum_check_readable($this->dataByID['forum'])){
 			error_denied();
 		}
 		

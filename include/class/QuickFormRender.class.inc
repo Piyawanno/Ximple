@@ -5,6 +5,7 @@ class QuickFormRender{
 	private $modelFactory;
 	private $modelConnector;
 	private $renderArray= null;
+	private $render = array();
 	
 	function QuickFormRender($id){
 		$this->id = $id;

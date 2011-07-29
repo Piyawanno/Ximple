@@ -125,9 +125,14 @@ function render_signature($user){
 
 function render_avatar($user, $show_profile=true){
 	if(strlen($user['avatar']) == 0) $user['avatar'] = 'files/default.png';
+	
+	if($user['id'] > 0) $uri = SECTION_URI.Q.'profile/'.$user['id'];
+	elseif(authority_is_guest()) $uri = '';
+	else $uri = SECTION_URI.Q.'profile_write_mail/send_to_address/'.$user['email'];
+	
 	$render = '
 	<p align="center">
-		<a href="'.SECTION_URI.Q.'profile/'.$user['id'].'">
+		<a href="'.$uri.'">
 			<img src="'.ROOT_URI.$user['avatar'].'" border="0" />
 		</a>
 	</p>';
