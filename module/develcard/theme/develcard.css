@@ -15,3 +15,13 @@
 	background:#eee;
 	display:block;
 }
+
+.active_deadline{
+	background:#ddd;
+	border-bottom:3px solid #800;
+}
+
+.active_end_date{
+	background:#ddd;
+	border-bottom:3px solid #080;
+}

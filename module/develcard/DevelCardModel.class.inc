@@ -1,11 +1,12 @@
 <?php
 include_once(MODULE_PATH.'freetag/FreeTagColumn.class.inc');
+include_once(MODULE_PATH.'comment/comment.tool.inc');
 
 class DevelCardModel extends Model{
 	function DevelCardModel(){
 		if(develcard_is_admin()) $this->initAdminColumns();
 		else $this->initContributorColumns();
-		$this->reporter = $this->owner();
+		$this->writer = $this->owner();
 		$this->topic = $this->title(tt('topic'));
 
 		$this->create_date = $this->now();
@@ -16,6 +17,8 @@ class DevelCardModel extends Model{
 		$this->end_date = $this->now();
 		$this->end_date->defaultData = date('Y-m-d H:i:s', time() + 60*60*24*7);
 		
+		$this->comment_permission = $this->radio(tt('comment permission'), comment_permission_option());
+		
 		$type = cc('develcard_type');
 		if(!is_array($type)) $type = develcard_get_default_type_option();
 		$this->type = $this->select(tt('type'), $type);
@@ -23,6 +26,7 @@ class DevelCardModel extends Model{
 		$this->description = $this->shortText(tt('description'));
 		$this->description->isReachable = true;
 		$this->freetag = new FreeTagColumn('peopleinfo_event');
+		$this->comment_time = $this->now();
 		
 		$this->section = $this->section();
 	}

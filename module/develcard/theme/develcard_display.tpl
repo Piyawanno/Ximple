@@ -30,8 +30,8 @@
 	<p><label><?=tt('description')?> : </label></p>
 	<p><?=$description?></p>
 	<p>
-		<?php if($reporter['id'] != -1):?>
-			<?=tt('reported by').' '.render_operation_link('develcard_personal', $reporter['id'], $reporter_name)?> @ 
+		<?php if($writer['id'] != -1):?>
+			<?=tt('reported by').' '.render_operation_link('develcard_personal', $writer['id'], $reporter_name)?> @ 
 		<?php else:?>
 			<?=tt('reported by').' '.$reporter_name?> @
 		<?php endif?>

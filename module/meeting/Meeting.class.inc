@@ -161,14 +161,6 @@ class Meeting extends Content{
 		}
 	}
 	
-	private function processDayOfMonth($date, $month){
-		$time = strtotime($date);
-		$dateMonth = (int) date('n', $time);
-		if($dateMonth < $month) return -1;
-		elseif($dateMonth > $month) return 1000;
-		else return (int) date('j', $time);
-	}
-	
 	private function executeRender(){
 		head_add_css('meeting.css');
 		$this->prepareRender();

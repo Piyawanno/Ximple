@@ -4,6 +4,10 @@ include('DevelCardModel.class.inc');
 include('develcard.tool.inc');
 
 class DevelCard extends Control{
+	private $comment;
+	private $type = null;
+	private $status = null;
+	
 	function DevelCard(){
 		$this->moduleTitle = tt('DevelCard');
 		$this->moduleName = 'develcard';
@@ -31,37 +35,34 @@ class DevelCard extends Control{
 	}
 	
 	public function personalPage(){
-		$id = (int) gg('id');
-		if($id) return $this->rederPersonalPage();
-		else return $this->rederPersonalList();
+		head_add_css('develcard.css');
+		$uid = $this->getUserID();
+		$user = userinfo_get_info_by_id($uid);
+		document_set_path($user['login_name'], 'develcard_personal/'.$uid);
+		$rednerArray = array(
+			'user' => $user,
+			'calendar' => $this->renderCalendar($uid),
+			'point' => $this->renderPointGraph($uid),
+		);
+		return render($rednerArray, 'develcard_personal.tpl', 'develcard_personal');
+	}
+	
+	public function personalListPage(){
+		$renderArray = array(
+			'resolver' => userinfo_get_login_name_by_role('develcard_resolver'),
+			'reporter' => userinfo_get_login_name_by_role('develcard_reporter'),
+		);
+		return render($renderArray, 'develcard_personal_list.tpl', 'develcard_personal_list');
 	}
 	
 	public function reporterListPage(){
 		$uid = $this->getUserID();
-		$mode = 'develcard_reporter_list/'.$uid;
-		document_set_path(tt('reported by me'), $mode);
-		$clause  = $this->handleStatus($mode);
-		$clause .= $this->handleType($mode);
-		$title = tt('DevelCard reported by me');
-		$clause = 'WHERE reporter='.$uid.$clause.' ORDER BY deadline DESC';
-		return $this->renderListPage($title, $clause, $mode);
+		return $this->renderReporterListPage($uid);
 	}
 	
 	public function resolverListPage(){
 		$uid = $this->getUserID();
-		$mode = 'develcard_resolver_list/'.$uid;
-		document_set_path(tt('in my duty'), $mode);
-		
-		$clause = 'WHERE resolver='.$uid;
-		$id = db_select_single_column('develcard_resolver', 'develcard', $clause);
-		if(count($id)) $idClause = 'id IN ('.join(',', $id).')';
-		else $idClause = 'id=0';
-		
-		$clause  = $this->handleStatus($mode);
-		$clause .= $this->handleType($mode);
-		$title = tt('DevelCard in My Duty');
-		$clause = 'WHERE '.$idClause.$clause.' ORDER BY deadline DESC';
-		return $this->renderListPage($title, $clause, $mode);
+		return $this->renderResolverListPage($uid);
 	}
 	
 	public function dropResolver(){
@@ -72,7 +73,10 @@ class DevelCard extends Control{
 		$this->id = (int) gg('id');
 		$status = (int) gg('status');
 		
-		$data = array('status' => $status);
+		$data = array(
+			'status' => $status,
+			'end_date' => NOW
+		);
 		db_update($this->tableName, $data, $this->id);
 		$this->setResolverPoint($status);
 		
@@ -82,6 +86,82 @@ class DevelCard extends Control{
 		$statusOption = develcard_get_status_option();
 		$statusName = $statusOption[$status];
 		notify_add_info(tt('Status of DevelCard has been successfully changed to : ').$statusName);
+	}
+	
+	private function display(){
+		$this->selectByID($this->column);
+		$this->dataByID = $this->prepareData($this->dataByID, 'develcard');
+		
+		head_add_css('develcard.css');
+		document_set_path($this->dataByID['status']['label'], $this->dataByID['status_uri']);
+		document_set_path($this->dataByID['type']['label'], $this->dataByID['type_uri']);
+		document_set_path($this->dataByID['topic']);
+		
+		$this->dataByID['editable'] = (develcard_is_admin() or authority_group('develcard_resolver'));
+		$this->initComment();
+		
+		$render = render($this->dataByID, 'develcard_display.tpl', 'develcard_display');
+		$render.= $this->comment->render();
+		return $render;
+	}
+	
+	
+	private function renderResolverListPage($uid){
+		$user = userinfo_get_info_by_id($uid);
+		$mode = 'develcard_resolver_list/'.$uid;
+		document_set_path($user['login_name'], 'develcard_personal/'.$uid);
+		document_set_path(tt('in duty'), $mode);
+		
+		$clause = 'WHERE resolver='.$uid;
+		$id = db_select_single_column('develcard_resolver', 'develcard', $clause);
+		if(count($id)) $idClause = 'id IN ('.join(',', $id).')';
+		else $idClause = 'id=0';
+		
+		$this->getType();
+		$this->getStatus();
+		$clause  = $this->handleStatus($mode);
+		$clause .= $this->handleType($mode);
+		$title = tt('DevelCard in Duty of : '.$user['login_name']);
+		$clause = 'WHERE '.$idClause.$clause.' ORDER BY deadline DESC';
+		return $this->renderListPage($title, $clause, $mode);
+	}
+	
+	private function renderReporterListPage($uid){
+		$user = userinfo_get_info_by_id($uid);
+		$mode = 'develcard_reporter_list/'.$uid;
+		document_set_path($user['login_name'], 'develcard_personal/'.$uid);
+		document_set_path(tt('reported'), $mode);
+		
+		$this->getType();
+		$this->getStatus();
+		$clause  = $this->handleStatus($mode);
+		$clause .= $this->handleType($mode);
+		$title = tt('DevelCard reported by : ').$user['login_name'];
+		$clause = 'WHERE writer='.$uid.$clause.' ORDER BY deadline DESC';
+		return $this->renderListPage($title, $clause, $mode);
+	}
+	
+	private function summaryPage(){
+		$mode = 'develcard';
+		$this->getType();
+		$this->getStatus();
+		$clause  = $this->handleStatus($mode);
+		$clause .= $this->handleType($mode);
+		$title = tt('DevelCard');
+		$clause = 'WHERE id!=0 '.$clause.' ORDER BY id DESC';
+		return $this->renderListPage($title, $clause, $mode);
+	}
+	
+	private function renderCalendar($uid){
+		list($month, $year) = input_get_month();
+		$this->getCalendarData($month, $year);
+		$this->filterData($uid);
+		$calendarData = $this->getCalendar($month);
+		return render_calendar($calendarData, 'develcard_personal/'.gg('id'), $month, $year);
+	}
+	
+	private function renderPointGraph($uid){
+	
 	}
 	
 	protected function renderListPage($title, $clause, $mode){
@@ -101,32 +181,13 @@ class DevelCard extends Control{
 		return $render;
 	}
 	
-	private function renderPersonalPage(){
-	
-	}
-	
-	private function renderPersonalList(){
-	
-	}
-	
-	private function summaryPage(){
-		$mode = 'develcard';
-		$clause  = $this->handleStatus($mode);
-		$clause .= $this->handleType($mode);
-		$title = tt('DevelCard');
-		$clause = 'WHERE id!=0 '.$clause.' ORDER BY id DESC';
-		return $this->renderListPage($title, $clause, $mode);
-	}
-	
-	private function display(){
-		$this->selectByID($this->column);
-		$this->dataByID = $this->prepareData($this->dataByID, 'develcard');
-		head_add_css('develcard.css');
-		document_set_path($this->dataByID['status']['label'], $this->dataByID['status_uri']);
-		document_set_path($this->dataByID['type']['label'], $this->dataByID['type_uri']);
-		document_set_path($this->dataByID['topic']);
-		$this->dataByID['editable'] = (develcard_is_admin() or authority_group('develcard_resolver'));
-		return render($this->dataByID, 'develcard_display.tpl', 'develcard_display');
+	private function setAction(){
+		$this->addAction('develcard_reporter_list', 'reporterListPage');
+		$this->addAction('develcard_resolver_list', 'resolverListPage');
+		$this->addAction('develcard_drop_resolver', 'dropResolver');
+		$this->addAction('develcard_personal', 'personalPage');
+		$this->addAction('develcard_personal_list', 'personalListPage');
+		$this->addAction('develcard_set_status', 'setStatus');
 	}
 	
 	private function setAccess(){
@@ -163,6 +224,7 @@ class DevelCard extends Control{
 		$this->addAccessMethod('develcard_moderator', 'resolverListPage');
 		$this->addAccessMethod('develcard_moderator', 'dropResolver');
 		$this->addAccessMethod('develcard_moderator', 'personalPage');
+		$this->addAccessMethod('develcard_moderator', 'personalListPage');
 		$this->addAccessMethod('develcard_moderator', 'setStatus');
 	}
 	
@@ -193,27 +255,17 @@ class DevelCard extends Control{
 	}
 	
 	private function handleType($mode){
-		$type = gg('type');
-		if(strlen($type)){
-			document_set_path(develcard_get_type_name($type), $mode);
-			return ' AND type='.$type;
+		if(strlen($this->type)){
+			document_set_path(develcard_get_type_name($this->type), $mode);
+			return ' AND type='.$this->type;
 		}
 	}
 	
 	private function handleStatus($mode){
-		$status = gg('status');
-		if(strlen($status)){
-			document_set_path(develcard_get_status_name($status), $mode);
-			return ' AND status='.$status;
+		if(strlen($this->status)){
+			document_set_path(develcard_get_status_name($this->status), $mode);
+			return ' AND status='.$this->status;
 		}
-	}
-	
-	private function setAction(){
-		$this->addAction('develcard_reporter_list', 'reporterListPage');
-		$this->addAction('develcard_resolver_list', 'resolverListPage');
-		$this->addAction('develcard_drop_resolver', 'dropResolver');
-		$this->addAction('develcard_personal', 'personalPage');
-		$this->addAction('develcard_set_status', 'setStatus');
 	}
 	
 	private function setConfig(){
@@ -222,6 +274,7 @@ class DevelCard extends Control{
 		$config->append('status');
 		$config->append('resolver');
 		$config->append('deadline');
+		$config->append('comment_permission');
 	}
 	
 	private function getUserID(){
@@ -266,8 +319,78 @@ class DevelCard extends Control{
 	private function caculateResolverPoint($load, $deadline){
 		$difference = time() - $deadline;
 		if(abs($difference) < 86400) return $load*2;
-		elseif($difference < 0)	return max($load, $load*2 + ceil($difference/86400));
-		else return $load*2 + ceil($difference/86400);
+		elseif($difference > 0)	return max($load, $load*2 - floor($difference/86400));
+		else return $load*2 - floor($difference/86400);
+	}
+	
+	private function getType(){
+		$this->type = gg('type');
+	}
+	
+	private function getStatus(){
+		$this->status = gg('status');
+	}
+	
+	private function initComment(){
+		if(!$this->comment){
+			include_once(MODULE_PATH.'comment/Comment.class.inc');
+
+			if(!isset($this->dataByID['comment_permission'])) $permission = null;
+			else $permission = $this->dataByID['comment_permission']['value'];
+
+			$this->comment = new Comment(false);
+			$this->comment->setMode($this->fullModuleName);
+			$this->comment->setParent($this->id);
+			$this->comment->setPermission($permission);
+			$this->comment->setParentWriter($this->dataByID['writer']['id']);
+			$this->comment->init();
+		}
+	}
+	
+	private function getCalendarData($month, $year){
+		if(strlen($month) == 1) $month = '0'.$month;
+		$monthBegin = "'$year-$month-01 00:00:00'";
+		$monthEnd = "'$year-$month-".date('t', strtotime($monthBegin))." 23:59:59'";
+		$clause  = "WHERE ((deadline >= $monthBegin AND deadline <= $monthEnd) OR ";
+		$clause .= "(end_date >= $monthBegin AND end_date <= $monthEnd))";
+		$clause .= "AND section=".SECTION;
+		$this->select(array('id', 'topic', 'deadline', 'end_date'), $clause);
+	}
+	
+	private function filterData($uid){
+		if(count($this->data)){
+			$id = array_keys($this->data);
+			$clause = 'WHERE (develcard='.join(' OR id=', $id).') AND resolver='.$uid;
+			$resolver = db_select_single_column('develcard_resolver', 'develcard', $clause);
+			$data = $this->data;
+			$this->data = array();
+			foreach($resolver as $key => $value){
+				$this->data[$value] = $data[$value];
+			}
+		}
+	}
+	
+	private function getCalendar($month){
+		$calendarArray = array();
+		for($i=1; $i<=31; $i++){
+			foreach($this->data as $key => $value){
+				$deadine = $value['deadline'];
+				if($i ==  $this->getDate('j', $deadine) and $month == $this->getDate('m', $deadine)){
+					$calendarArray[$i]['class'] = 'active_deadline';
+					$calendarArray[$i]['link'][] = 'develcard/'.$key;
+				}
+				$end = $value['end_date'];
+				if($i ==  $this->getDate('j', $end) and $month == $this->getDate('m', $end)){
+					$calendarArray[$i]['class'] = 'active_end_date';
+					$calendarArray[$i]['link'][] = 'develcard/'.$key;
+				}
+			}
+		}
+		return $calendarArray;
+	}
+	
+	private function getDate($format, $data){
+		return (int) date($format, strtotime($data));
 	}
 }
 ?>
