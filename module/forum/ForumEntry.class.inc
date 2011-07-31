@@ -86,6 +86,7 @@ class ForumEntry extends Content{
 		$data = array(
 			'last_commentator' => pp('writer'),
 			'last_commentator_id' => USER_ID,
+			'update_time' => NOW,
 		);
 		db_update('forum_entry', $data, pp('parent'));
 		$this->id = pp('parent');
@@ -225,10 +226,10 @@ class ForumEntry extends Content{
 	private function getRegularData(){
 		$forumID = (int) gg('forum');
 		if(authority_group('forum_entry_editor') or authority_group('forum_entry_admin')){
-			$pattern = "WHERE forum=%d AND (publishing_status=0 OR publishing_status=4) ORDER by comment_time DESC";
+			$pattern = "WHERE forum=%d AND (publishing_status=0 OR publishing_status=4) ORDER by update_time DESC";
 			$clause = sprintf($pattern, $forumID);
 		}else{
-			$pattern = "WHERE forum=%d AND (publishing_status=0 OR (publishing_status=4 AND writer=%d)) ORDER by comment_time DESC";
+			$pattern = "WHERE forum=%d AND (publishing_status=0 OR (publishing_status=4 AND writer=%d)) ORDER by update_time DESC";
 			$clause = sprintf($pattern, $forumID, USER_ID);
 		}
 		return $this->getDataFromDB($clause);

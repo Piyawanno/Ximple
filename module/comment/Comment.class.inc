@@ -97,7 +97,7 @@ class Comment extends Control{
 			$this->insertTracker();
 			$this->insertNotify();
 			db_update($this->mode, array('comment_time' => NOW), $this->parent);
-			document_set_redirect($this->mode.'/'.$this->parent.'/page/'.pid().'#last_comment');
+			document_set_redirect($this->mode.'/'.$this->parent.'/page/'.pid());
 		}
 	}
 	
