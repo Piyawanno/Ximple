@@ -5,6 +5,8 @@ include('develcard.tool.inc');
 
 class DevelCard extends Control{
 	private $comment;
+	private $pointYear;
+	
 	private $type = null;
 	private $status = null;
 	
@@ -161,7 +163,27 @@ class DevelCard extends Control{
 	}
 	
 	private function renderPointGraph($uid){
-	
+		$this->getPointYear();
+		$pointData = $this->getYearPointData($uid);
+		list($point, $sumLoad, $sumPoint) = $this->calculatePoint($pointData);
+		$renderArray = array(
+			'point' => $point,
+			'pixel' => cc('develcard_pixel_per_point'),
+			'first_year' => $this->getResolverFistYear($uid),
+			'last_year' => (int) date('Y'),
+			'load_color' => cc('develcard_load_color'),
+			'load_bg_color' => cc('develcard_load_bg_color'),
+			'point_color' => cc('develcard_point_color'),
+			'point_bg_color' => cc('develcard_point_bg_color'),
+			'point_year' => $this->pointYear,
+			'sum_load' => $sumLoad,
+			'sum_point' => $sumPoint,
+		);
+		if(count($point)){
+			$renderArray['first_week'] = min(array_keys($point));
+			$renderArray['last_week'] = max(array_keys($point));
+		}
+		return render($renderArray, 'develcard_point.tpl', 'develcard_point');
 	}
 	
 	protected function renderListPage($title, $clause, $mode){
@@ -294,7 +316,7 @@ class DevelCard extends Control{
 		$clause = 'WHERE develcard='.$this->id;
 		$resolver = db_select_single_column('develcard_resolver', 'work_load', $clause);
 		if($status >= 2) $this->setResolverEndPoint($status, $resolver);
-		else $this->setResolverProgressPoint($status, $clause);
+		else $this->setResolverProgressPoint($status, 'develcard='.$this->id);
 	}
 	
 	private function setResolverEndPoint($status, $resolver){
@@ -375,12 +397,11 @@ class DevelCard extends Control{
 		for($i=1; $i<=31; $i++){
 			foreach($this->data as $key => $value){
 				$deadine = $value['deadline'];
+				$end = $value['end_date'];
 				if($i ==  $this->getDate('j', $deadine) and $month == $this->getDate('m', $deadine)){
 					$calendarArray[$i]['class'] = 'active_deadline';
 					$calendarArray[$i]['link'][] = 'develcard/'.$key;
-				}
-				$end = $value['end_date'];
-				if($i ==  $this->getDate('j', $end) and $month == $this->getDate('m', $end)){
+				}elseif($i ==  $this->getDate('j', $end) and $month == $this->getDate('m', $end)){
 					$calendarArray[$i]['class'] = 'active_end_date';
 					$calendarArray[$i]['link'][] = 'develcard/'.$key;
 				}
@@ -391,6 +412,45 @@ class DevelCard extends Control{
 	
 	private function getDate($format, $data){
 		return (int) date($format, strtotime($data));
+	}
+	
+	private function getPointYear(){
+		$this->pointYear = (int) gg('point_year');
+		if(empty($this->pointYear)) $this->pointYear = (int) date('Y');
+	}
+	
+	private function getYearPointData($uid){
+		$yearBegin = $this->pointYear.'-01-01 00:00:00';
+		$yearEnd = $this->pointYear.'-12-31 23:59:59';
+		$clause = "WHERE (end_date >= '$yearBegin' AND end_date <= '$yearEnd') ";
+		$clause.= "AND resolver=$uid AND status >= 2";
+		return  db_select('develcard_resolver', array('end_date', 'work_load', 'point'), $clause);
+	}
+	
+	private function calculatePoint($pointData){
+		$point = array();
+		$sumLoad = 0;
+		$sumPoint = 0;
+		foreach($pointData as $key => $value){
+			$week = (int) date('W', strtotime($value['end_date']));
+			if(isset($point[$week])){
+				$point[$week]['load']  += $value['work_load'];
+				$point[$week]['point'] += $value['point'];
+			}else{
+				$point[$week]['load']  = $value['work_load'];
+				$point[$week]['point'] = $value['point'];
+			}
+			$sumLoad += $value['work_load'];
+			$sumPoint += $value['point'];
+		}
+		return array($point, $sumLoad, $sumPoint);
+	}
+	
+	private function getResolverFistYear($uid){
+		$clause = "WHERE resolver=$uid ORDER BY end_date LIMIT 1";
+		$data = db_select_single_column('develcard_resolver', 'end_date', $clause, false);
+		if(count($data)) return (int) date('Y', strtotime($data[0]));
+		else return (int) date('Y');
 	}
 }
 ?>

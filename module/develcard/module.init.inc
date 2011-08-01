@@ -55,6 +55,12 @@ function module_init_develcard(){
 	$panel->submit();
 	
 	config_set('develcard_access', 2);
+	config_set('develcard_pixel_per_point', 12);
+	config_set('develcard_load_color', '#ffffff');
+	config_set('develcard_load_bg_color', '#aa00aa');
+	config_set('develcard_point_color', '#ffffff');
+	config_set('develcard_point_bg_color', '#00aaaa');
+	
 	config_set('develcard_list_per_page', 20);
 	config_set('develcard_hight_color', '#ff0000');
 	config_set('develcard_medium_color', '#ffff00');
