@@ -43,6 +43,7 @@ class DevelCard extends Control{
 		document_set_path($user['login_name'], 'develcard_personal/'.$uid);
 		$rednerArray = array(
 			'user' => $user,
+			'write_icon' => $this->renderWriteIcon(),
 			'calendar' => $this->renderCalendar($uid),
 			'point' => $this->renderPointGraph($uid),
 		);
@@ -197,6 +198,7 @@ class DevelCard extends Control{
 			'data' => $this->data,
 			'title' => $title,
 			'write_icon' => $this->renderWriteIcon(),
+			'personal_icon' => render_icon('develcard_personal', 'module/develcard/theme/devel.png', tt('My DevelCard')),
 		);
 		$render = render($renderArray, 'develcard_list.tpl', 'develcard_list');
 		$render.= $this->pager->render($mode);
