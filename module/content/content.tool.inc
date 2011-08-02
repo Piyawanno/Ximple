@@ -9,7 +9,7 @@ function content_init_module($content){
 	content_add_panel($content);
 	content_set_config($moduleName);
 	menu_add($moduleName, $moduleTitle);
-	notify_add_subscribe($moduleName, tt('someone posts in : ').$moduleTitle);
+	notify_add_subscribe($moduleName, tt('someone posts in : ', true).$moduleTitle);
 }
 
 function content_add_role($moduleName, $moduleTitle){

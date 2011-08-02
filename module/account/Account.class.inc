@@ -108,7 +108,7 @@ class Account extends User{
 	}
 	
 	private function getSubcribeOption(){
-		$configSubscribe = cc('subscribable_module');
+		$configSubscribe = notify_get_subscribable_module();
 		if(!is_array($configSubscribe)) $configSubscribe = array();
 		$option = array(
 			'comment' => tt('someone comments on my contributions'),

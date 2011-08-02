@@ -1,6 +1,12 @@
 <?php
 execute_add_function('translate_set_language');
 
+global $translate_directory;
+global $translate_is_prepare_central;
+
+$translate_directory = array();
+$translate_is_prepare_central = false;
+
 function translate_define_language(){
 	if(!defined('LANGUAGE')){
 		$language = ss('language');
@@ -113,12 +119,56 @@ function translate_set_data($translation){
 }
 
 function translate_add_directory($directory){
+	global $translate_directory;
 	if(defined('LANGUAGE')){
+		translate_prepare_central();
+		$translate_directory[] = $directory;
 		$locale_file = $directory.'/locale/'.LANGUAGE.'.locale.inc';
 		if(is_file($locale_file)){
 			require_once($locale_file);
 		}
 	}
+}
+
+function translate_prepare_central(){
+	global $translate_is_prepare_central;
+	if(!$translate_is_prepare_central){
+		$translate_is_prepare_central = true;
+		$file_name = FILES_PATH.'locale/'.SECTION.'/'.LANGUAGE;
+		globalvar_add_locale(io_unserialize($file_name));
+	}
+}
+
+function translate_save_central($text){
+	global $translate_directory;
+	global $locale;
+	$directory = translate_get_central_directory();
+	$central_locale = io_unserialize($directory.LANGUAGE);
+	if(!isset($central_locale[$text])){
+		$original_locale = $locale;
+		$languages = translate_get_interface_language();
+		foreach($languages as $language => $label){
+			$locale = array();
+			foreach($translate_directory as $locale_directory){
+				$locale_file = $locale_directory.'/locale/'.$language.'.locale.inc';
+				if(is_file($locale_file)) require($locale_file);
+			}
+			if(isset($locale[$text])){
+				$central_locale = io_unserialize($directory.$language);
+				$central_locale[$text] = $locale[$text];
+				io_serialize($central_locale, $directory.$language);
+			}
+		}
+		$locale = $original_locale;
+	}
+}
+
+function translate_get_central_directory(){
+	$directory = FILES_PATH.'locale/';
+	if(!is_dir($directory)) mkdir($directory);
+	$directory.= SECTION.'/';
+	if(!is_dir($directory)) mkdir($directory);
+	return $directory;
 }
 
 function translate_date_th($date){

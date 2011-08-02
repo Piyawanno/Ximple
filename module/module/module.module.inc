@@ -91,6 +91,7 @@ function module_activate_module(){
 	$module_name = gg('module_name');
 	if(array_key_exists($module_name, $module_array)){
 		if(!$module_array[$module_name]['installed']){
+			module_include_locale($module_name, $module_array[$module_name]);
 			$function = 'module_init_'.$module_name;
 			$function();
 			extension_execute('module_activate', array($module_name));
@@ -103,6 +104,7 @@ function module_deactivate_module(){
 	$module_name = gg('module_name');
 	if(array_key_exists($module_name, $module_array)){
 		if($module_array[$module_name]['installed']){
+			module_include_locale($module_name, $module_array[$module_name]);
 			$function = 'module_drop_'.$module_name;
 			$function();
 			extension_execute('module_deactivate', array($module_name));
@@ -202,5 +204,13 @@ function module_has_private($module){
 		if($value['is_private']) return true;
 	}
 	return false;
+}
+
+function module_include_locale($module, $info){
+	if($info['is_private']){
+		translate_add_directory(SECTION_PATH.'private/module/'.$module);
+	}else{
+		translate_add_directory(ROOT_PATH.'module/'.$module);
+	}
 }
 ?>

@@ -58,5 +58,6 @@ globalvar_add_locale(array (
 	'List My Develcard' => '',
 	'List All Develcard' => '',
 	'Develcard Category' => '',
+	'someone posts in DevelCard' => 'มีคนส่ง DevelCard เข้ามาในระบบ',
 ));
 ?>

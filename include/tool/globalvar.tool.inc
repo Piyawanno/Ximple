@@ -125,12 +125,19 @@ function uu($key=null){
 }
 
 /// Get translated text.
-/// @param $key : original text.
+/// @param $text : original text.
+/// @param $is_prepare : prepare for translation (not direct translate).
 /// @return Translated text.
-function tt($key){
+function tt($text, $is_prepare=false){
 	global $locale;
-	if(isset($locale[$key]) and strlen($locale[$key])) return $locale[$key];
-	else return $key;
+	if($is_prepare){
+		translate_save_central($text);
+		return $text;
+	}elseif(isset($locale[$text]) and strlen($locale[$text])){
+		return $locale[$text];
+	}else{
+		return $text;
+	}
 }
 
 /// Get called XimpleMODE.
@@ -181,6 +188,8 @@ function globalvar_reset_post(){
 /// @param $additional : additional translated text.
 function globalvar_add_locale($additional){
 	global $locale;
-	$locale = array_merge($locale, $additional);
+	if(is_array($additional)){
+		$locale = array_merge($locale, $additional);
+	}
 }
 ?>

@@ -26,8 +26,8 @@ class ForumModel extends Model{
 		$clause = 'WHERE section='.SECTION;
 		$forum = db_select_single_column('forum', 'name', $clause);
 		foreach($forum as $id => $name){
-			notify_subscribe_add_module('forum_'.$id, tt('someone posts in forum : ').$name);
-			notify_subscribe_add_module('forum_comment_'.$id, tt('someone comments in forum : ').$name);
+			notify_add_subscribe('forum_'.$id, tt('someone posts in forum : ', true).$name);
+			notify_add_subscribe('forum_comment_'.$id, tt('someone comments in forum : ', true).$name);
 		}
 		config_save();
 	}
