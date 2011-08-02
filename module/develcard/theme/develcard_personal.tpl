@@ -1,5 +1,5 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
-<h3 class="list_label"><?=tt('Develcard of : ').$user['login_name']?></h3>
+<h3 class="list_label"><?=tt('DevelCard : ').$user['login_name']?></h3>
 <?=render_avatar($user)?>
 <?=$write_icon?>
 <h4 class="title_label"><?=tt('List of DevelCards')?></h4>

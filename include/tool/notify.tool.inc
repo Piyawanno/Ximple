@@ -156,7 +156,7 @@ function notify_multiple_subscribe($message, $uid, $reference){
 }
 
 function notify_subscribe_by_mode($message, $mode){
-	$uid = io_unserialize(FILES_PATH.'subscribe/'.$mode);
+	$uid = io_unserialize(FILES_PATH.'subscribe/'.SECTION.'/'.$mode.SECTION);
 	if(is_array($uid)){
 		require_once('mail.tool.inc');
 		$email = join(',', userinfo_get_email($uid));
@@ -179,11 +179,13 @@ function notify_add_subscribe($module, $label){
 	$subscribe = cc('subscribable_module');
 	$subscribe[$module] = $label;
 	config_set('subscribable_module', $subscribe);
+	config_save();
 }
 
 function notify_drop_subscribe($module){
 	$subscribe = cc('subscribable_module');
 	unset($subscribe[$module]);
 	config_set('subscribable_module', $subscribe);
+	config_save();
 }
 ?>

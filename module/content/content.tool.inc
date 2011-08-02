@@ -100,7 +100,7 @@ function content_get_comment_permission(){
 		0 => tt('everybody can comment'),
 		1 => tt('only authenticated user can comment'),
 		2 => tt('read only'),
-		3 => tt('disable'),
+		3 => tt('disable comment'),
 	);
 }
 

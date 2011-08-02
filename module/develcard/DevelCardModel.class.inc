@@ -7,6 +7,15 @@ class DevelCardModel extends Model{
 		if(develcard_is_admin()) $this->initAdminColumns();
 		else $this->initContributorColumns();
 		$this->writer = $this->owner();
+		
+		if(authority_is_guest()){
+			$this->reporter_name = $this->title(tt('your name'));
+			$this->comment_permission = $this->hidden(0, 'int');
+		}else{
+			$this->reporter_name = $this->hidden(USER_NAME, 'char');
+			$this->comment_permission = $this->radio(tt('comment permission'), comment_permission_option());
+		}
+		
 		$this->topic = $this->title(tt('topic'));
 
 		$this->create_date = $this->now();
@@ -16,8 +25,6 @@ class DevelCardModel extends Model{
 		
 		$this->end_date = $this->now();
 		$this->end_date->defaultData = date('Y-m-d H:i:s', time() + 60*60*24*7);
-		
-		$this->comment_permission = $this->radio(tt('comment permission'), comment_permission_option());
 		
 		$type = cc('develcard_type');
 		if(!is_array($type)) $type = develcard_get_default_type_option();
@@ -33,7 +40,6 @@ class DevelCardModel extends Model{
 	
 	private function initAdminColumns(){
 		require_once('ResolverModel.class.inc');
-		$this->reporter_name = $this->hidden(USER_NAME, 'char');
 		$this->priority = $this->select(tt('priority'), develcard_get_priority_option());
 		$this->priority->isReachable = true;
 		
@@ -44,10 +50,10 @@ class DevelCardModel extends Model{
 	}
 	
 	private function initContributorColumns(){
-		$this->reporter_name = $this->title(tt('your name'));
 		$this->priority = $this->hidden(2, 'int');
-		$this->status->defaultData = 0;
-		
+		$this->status = $this->hidden(0, 'int');
+		$this->resolver = $this->hidden(0, 'int');
+		$this->resolver->isDB = false;
 		$this->deadline = $this->now();
 		$this->deadline->defaultData = time() + 60*60*24*7;
 	}

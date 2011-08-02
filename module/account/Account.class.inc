@@ -147,6 +147,8 @@ class Account extends User{
 	private function createSubcribeDirectory(){
 		$subscribeDir = FILES_PATH.'subscribe/';
 		if(!is_dir($subscribeDir)) mkdir($subscribeDir);
+		$subscribeDir.= SECTION.'/';
+		if(!is_dir($subscribeDir)) mkdir($subscribeDir);
 		return $subscribeDir;
 	}
 }

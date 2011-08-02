@@ -25,12 +25,10 @@ class ForumModel extends Model{
 	private function updateSubscription(){
 		$clause = 'WHERE section='.SECTION;
 		$forum = db_select_single_column('forum', 'name', $clause);
-		$subscribe = cc('subscribable_module');
 		foreach($forum as $id => $name){
-			$subscribe['forum_'.$id] = tt('someone posts in forum : ').$name;
-			$subscribe['forum_comment_'.$id] = tt('someone comments in forum : ').$name;
+			notify_subscribe_add_module('forum_'.$id, tt('someone posts in forum : ').$name);
+			notify_subscribe_add_module('forum_comment_'.$id, tt('someone comments in forum : ').$name);
 		}
-		config_set('subscribable_module', $subscribe);
 		config_save();
 	}
 }

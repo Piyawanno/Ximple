@@ -31,7 +31,7 @@ globalvar_add_locale(array (
 	'everybody can comment' => 'ทุกคนสามารถแสดงความคิดเห็นได้',
 	'only authenticated user can comment' => 'เฉพาะสมาชิกผู้มีสิทธิ',
 	'read only' => 'อ่านเท่านั้น',
-	'disable' => 'ปิดระบบความคิดเห็น',
+	'disable comment' => 'ปิดระบบความคิดเห็น',
 	'published' => 'เผยแพร่',
 	'featured' => 'ปักหมุด',
 	'in review' => 'รอพิจรณา',

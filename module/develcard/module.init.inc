@@ -54,6 +54,8 @@ function module_init_develcard(){
 	$panel->appendRole($reporter);
 	$panel->submit();
 	
+	notify_add_subscribe('develcard', tt('someone posts in DevelCard'));
+	
 	config_set('develcard_access', 2);
 	config_set('develcard_pixel_per_point', 12);
 	config_set('develcard_load_color', '#ffffff');
@@ -93,5 +95,7 @@ function module_drop_develcard(){
 	
 	$panel = new PanelManager('DevelCard');
 	$panel->drop();
+	
+	notify_drop_subscribe('develcard');
 }
 ?>
