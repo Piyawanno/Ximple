@@ -9,7 +9,7 @@ globalvar_add_locale(array(
 	'comments' => 'ความคิดเห็น',
 	'no comment' => 'ไม่มีความคิดเห็น',
 	'read more' => 'อ่านเพิ่ม',
-	'search' => 'ค้าหา',
+	'search' => 'ค้นหา',
 	'print' => 'พิมพ์',
 	'Navigation' => 'เส้นทางหลัก',
 	'Control Panel' => 'แผงควบคุม',

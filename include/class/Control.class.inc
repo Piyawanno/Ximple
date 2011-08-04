@@ -43,6 +43,10 @@ abstract class Control extends Translatable{
 	public $tableName;
 	
 	public function index(){
+		return $this->listPage();
+	}
+	
+	public function listPage(){
 		$this->selectListPage(20, 'WHERE (section='.SECTION.')');
 		return $this->renderDefaultListPage();
 	}
@@ -195,6 +199,10 @@ abstract class Control extends Translatable{
 		$this->setDefaultNotify();
 		$this->initObject($modelObj);
 		$this->modelConnector->triggerSetTableName($this->tableName);
+	}
+	
+	protected function setOwnerColumn($ownerColumn){
+		$this->ownerColumn = $ownerColumn;
 	}
 	
 	protected function setListWriteIcon($label=null, $mode=null){
