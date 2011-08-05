@@ -8,7 +8,7 @@ class ContentStatusColumn extends RadioColumn{
 	public $isTriggerSelect = false;
 	
 	function ContentStatusColumn($label, $moduleName){
-		RadioColumn::RadioColumn($label, array());
+		RadioColumn::SelectiveColumn($label, array());
 		$this->setType('int');
 		$this->moduleName = $moduleName;
 	}
