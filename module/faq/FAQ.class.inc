@@ -126,5 +126,12 @@ class FAQ extends Control{
 		$this->addAction('faq_save_arrange', 'saveArrange');
 		$this->addAction('faq_contributor_list', 'contributorListPage');
 	}
+	
+	private function renderWriteIcon(){
+		if($this->isCallable('write')){
+			$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
+			return render_write_icon('faq_write', $this->writeLabel);
+		}
+	}
 }
 ?>

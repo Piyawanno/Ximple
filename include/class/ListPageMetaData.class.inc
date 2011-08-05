@@ -2,7 +2,7 @@
 class ListPageMetaData{
 	public $operation = array();
 	public $title;
-	public $mode;
+	public $mode = MODE;
 	public $page = MODE_PAGE;
 	public $description;
 	public $writeMode;

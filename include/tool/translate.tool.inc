@@ -1,5 +1,6 @@
 <?php
 execute_add_function('translate_set_language');
+execute_add_function('translate_unset_language');
 
 global $translate_directory;
 global $translate_is_prepare_central;
@@ -43,6 +44,12 @@ function translate_get_language(){
 		}
 	}
 	return $language;
+}
+
+function translate_unset_language(){
+	unset($_SESSION['language']);
+	execute_set_db();
+	document_set_redirect('');
 }
 
 function translate_set_language(){
