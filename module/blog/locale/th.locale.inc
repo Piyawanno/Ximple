@@ -1,7 +1,7 @@
 <?php
 globalvar_add_locale(array (
 	'promote' => 'โปรโมท',
-	'Blog Configuration' => 'ปรัยแต่งค่าสำหรับ Blog',
+	'Blog Configuration' => 'ปรับแต่งค่าสำหรับ Blog',
 	'Blog' => 'Blog',
 	'icon' => 'ไอคอน',
 	'introduction' => 'บทนำ',

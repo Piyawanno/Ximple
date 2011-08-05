@@ -43,8 +43,8 @@ function content_add_panel($content){
 	$panel->setControl($content);
 	$panel->append('category/module/'.$moduleName, $moduleTitle.' category');
 	$panel->append($moduleName.'_write', 'write new '.$moduleTitle.' entry');
-	$panel->append($moduleName.'_editor_list', 'list my '.$moduleTitle);
-	$panel->append($moduleName.'_contributor_list', 'list '.$moduleTitle.' in Section');
+	$panel->append($moduleName.'_contributor_list', 'list my '.$moduleTitle);
+	$panel->append($moduleName.'_editor_list', 'list '.$moduleTitle.' in Section');
 	$panel->append($moduleName.'_config', 'configure '.$moduleTitle);
 	$panel->appendRole($admin);
 	$panel->appendRole($editor);

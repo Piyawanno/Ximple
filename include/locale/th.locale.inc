@@ -43,7 +43,7 @@ globalvar_add_locale(array(
 	'submit' => 'ส่งข้อมูลเข้าสู่ระบบ',
 	'Please, fill the required field : ' => 'กรุณากรอกข้อมูลในช่อง : ',
 	'Any field in the form is not correctly filled. Please correct it and try again.' => 'ข้อมูลบางอย่างไม่ถูกต้อง กรุณากรอกข้อมูลให้ถูกต้องแล้วลงส่งข้อมูลอีกครั้ง',
-	'You can use <a %s><strong>Translate-Form</strong></a> to translate this form.' => 'กรุณาใช้ <a %s><strong>แบบฟอร์แปลภาษา</strong></a> เพื่อแปลเนื้อหา',
+	'You can use <a %s><strong>Translate-Form</strong></a> to translate this form.' => 'กรุณาใช้ <a %s><strong>แบบฟอร์มแปลภาษา</strong></a> เพื่อแปลเนื้อหา',
 	'Configurations have been successfully saved.' => 'ค่าปรับแต่งได้รับการบันทึกเรียบร้อยแล้ว',
 	'Data can not be prepared without any given ID.' => 'ไม่สามารถเตรียมข้อมูลได้ เพราะไม่มี ID ข้อข้อมูล',
 	'The selected data is empty.' => 'ข้อมูลที่เลือกว่าง',

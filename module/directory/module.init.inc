@@ -47,8 +47,8 @@ function module_init_directory(){
 	list($admin, $editor, $contributor) = content_add_role('page', tt('Page'));
 	$panel->setControl($page);
 	$panel->append('category/module/page', 'Page category');
-	$panel->append('page_editor_list', 'list my Page');
-	$panel->append('page_contributor_list', 'list Page in Section');
+	$panel->append('page_contributor_list', 'list my Page');
+	$panel->append('page_editor_list', 'list Page in Section');
 	$panel->appendRole($admin);
 	$panel->appendRole($editor);
 	$panel->appendRole($contributor);
