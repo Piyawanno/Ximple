@@ -3,10 +3,10 @@
 execute_add_function('notify_check');
 execute_add_function('notify_mark_as_read');
 
-global $notify, $notify_savable;
-$notify_savable = true;
-
+global $notify, $notify_savable, $notify_sent_email;
 $notify = array();
+$notify_savable = true;
+$notify_sent_email = array();
 
 function notify_add_info($message, $uid=USER_ID){
 	notify_add($message, 'info', $uid);
@@ -128,10 +128,8 @@ function notify_subscribe($message, $uid, $reference){
 	}
 	
 	if(in_array($reference, $subscribe_array)){
-		require_once('mail.tool.inc');
 		$user_info = userinfo_get_info_by_id($uid);
-		$subject = notify_get_subscribe_subject();
-		mail_send($user_info['email'], $subject, $message, true);
+		notify_send_mail($message, $user_info['email']);
 	}
 }
 
@@ -148,31 +146,47 @@ function notify_multiple_subscribe($message, $uid, $reference){
 	}
 	
 	if(count($subcribable_uid)){
-		require_once('mail.tool.inc');
-		$email = join(',', userinfo_get_email($subcribable_uid));
-		$subject = notify_get_subscribe_subject();
-		mail_send($email, $subject, $message, true);
+		notify_send_mail($message, userinfo_get_email($subcribable_uid));
 	}
 }
 
 function notify_subscribe_by_mode($message, $mode){
-	$uid = io_unserialize(FILES_PATH.'subscribe/'.SECTION.'/'.$mode.SECTION);
+	$uid = io_unserialize(FILES_PATH.'subscribe/'.SECTION.'/'.$mode);
 	if(is_array($uid)){
-		require_once('mail.tool.inc');
-		$email = join(',', userinfo_get_email($uid));
-		$subject = notify_get_subscribe_subject();
-		mail_send($email, $subject, $message, true);
+		notify_send_mail($message, userinfo_get_email(array_keys($uid)));
 	}
+}
+
+function notify_direct_subscribe($message, $email){
+	notify_send_mail($message, $email);
+}
+
+function notify_send_mail($message, $email){
+	require_once('mail.tool.inc');
+	global $notify_sent_email;
+	if(is_array($email)){
+		$email = array_diff($email, $notify_sent_email);
+		$notify_sent_email = array_merge($email, $notify_sent_email);
+		$email = join(',', $email);
+	}else{
+		$notify_sent_email[] = $email;
+	}
+	$subject = notify_get_subscribe_subject();
+	$message = notify_unset_locale($message);
+	echo($message.'<br />');
+	mail_send($email, $subject, $message, true);
 }
 
 function notify_get_subscribe_subject(){
 	return '['.cc('section_name').'] '.tt('Notification (not reply)');
 }
 
-function notify_direct_subscribe($message, $email){
-	require_once('mail.tool.inc');
-	$subject = notify_get_subscribe_subject();
-	mail_send($email, $subject, $message, true);
+function notify_unset_locale($message){
+	$language = ss('language');
+	if(strlen($language)) $language = $language.'/';
+	$Q = str_replace($language, '', Q);
+	$message = str_replace(SECTION_URI.Q, SECTION_URI.$Q, $message);
+	return $message;
 }
 
 function notify_add_subscribe($module, $label){
