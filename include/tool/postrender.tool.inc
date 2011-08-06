@@ -1,4 +1,21 @@
 <?php
+function postrender_target_link($render){
+	$target = cc('link_target');
+	if(in_array('#external', $target)){
+		$render = str_replace('href="'.SECTION_URI, '#internel#', $render);
+		$render = str_replace('href="http://', 'target="_blank" href="http://', $render);
+		$render = str_replace('#internel#', 'href="'.SECTION_URI, $render);
+	}
+	foreach($target as $key => $value){
+		if($value != '#external' and $value!= '#notify'){
+			$link = 'href="'.SECTION_URI.Q.$value;
+			$blank = 'target="_blank" ';
+			$render = str_replace($link, $blank.$link, $render);
+		}
+	}
+	return $render;
+}
+
 function postrender_correct_uri($render){
 	$render = str_replace('href="?', 'href="'.SECTION_URI.'?', $render);
 	$render = str_replace('src="files','src="'.ROOT_URI.'files', $render);

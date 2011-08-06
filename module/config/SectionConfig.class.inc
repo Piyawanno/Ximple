@@ -62,6 +62,7 @@ class SectionConfig extends ConfigControl{
 		$html = $this->getNewConfigForm(tt('HTML'));
 		$html->append('meta_data');
 		$html->append('allowed_tags');
+		$html->append('link_target');
 		
 		$smiley = $this->getNewConfigForm(tt('Smiley'));
 		$smiley->append('smiley');

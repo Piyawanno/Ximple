@@ -37,6 +37,7 @@ function main_exec(){
 		cache_save_page($render, $cache_file);
 		$render = postrender_get_read_number($render);
 		$render = postrender_get_site_info($render);
+		$render = postrender_target_link($render);
 		echo($render);
 	}
 	notify_save();

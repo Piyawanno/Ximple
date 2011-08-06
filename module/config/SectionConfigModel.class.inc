@@ -80,6 +80,11 @@ class SectionConfigModel extends Model{
 		$this->meta_data = $this->plain(tt('HTML header meta-data'));
 		$this->allowed_tags = $this->plain(tt('allowed HTML-TAG'));
 		
+		$targetOption = cc('module_name');
+		$targetOption['#notify'] = tt('Notification');
+		$targetOption['#external'] = tt('External link');
+		$this->link_target = $this->checkBox(tt('open page in new window by'), $targetOption);
+		
 		$availableFeed = cc('feed_available_mode');
 		if(!is_array($availableFeed)) $availableFeed = array();
 		$this->feed_mode = $this->checkbox(tt('modules enabled feed'), $availableFeed);
