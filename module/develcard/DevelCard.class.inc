@@ -212,6 +212,7 @@ class DevelCard extends Control{
 	}
 	
 	protected function renderListPage($title, $clause, $mode){
+		$mode = $this->getModeParameter($mode);
 		head_add_css('develcard.css');
 		document_set_title($title);
 		$this->selectPage($this->column, cc('develcard_list_per_page'), $clause);
@@ -434,9 +435,6 @@ class DevelCard extends Control{
 				if($i ==  $this->getDate('j', $deadine) and $month == $this->getDate('m', $deadine)){
 					$calendarArray[$i]['class'] = 'active_deadline';
 					$calendarArray[$i]['link'][] = 'develcard/'.$key;
-				}elseif($i ==  $this->getDate('j', $end) and $month == $this->getDate('m', $end) and $status >= 2){
-					$calendarArray[$i]['class'] = 'active_end_date';
-					$calendarArray[$i]['link'][] = 'develcard/'.$key;
 				}
 			}
 		}
@@ -499,6 +497,12 @@ class DevelCard extends Control{
 		else $userName = USER_NAME;
 		$uri = SECTION_URI.Q.'develcard/'.$this->id;
 		return sprintf(tt('%s posts <a href="%s">%s</a> in DevelCard.'), $userName, $uri, pp('topic'));
+	}
+	
+	private function getModeParameter($mode){
+		if($this->status) $mode = $mode.'/status/'.$this->status;
+		if($this->type) $mode = $mode.'/type/'.$this->type;
+		return $mode;
 	}
 }
 ?>

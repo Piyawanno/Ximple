@@ -21,6 +21,6 @@
 		<?=render_operation_link('develcard_reporter_list', $user['id'].'/status/4', tt('rejected'))?>]
 	</li>
 </ul>
-<h4 class="title_label"><?=tt('Deadline & End Date Calendar')?></h4>
+<h4 class="title_label"><?=tt('Deadline Calendar')?></h4>
 <?=$calendar?>
 <?=$point?>

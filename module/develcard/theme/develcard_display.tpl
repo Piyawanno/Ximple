@@ -24,7 +24,7 @@
 	<p><label><?=tt('resolver')?> : </label></p>
 	<ul>
 	<?php foreach($resolver as $uid => $user):?>
-		<li><?=render_operation_link('develcard_personal', $user['resolver']['value'], $user['resolver']['label'])?></li>
+		<li><?=render_operation_link('develcard_personal', $user['resolver']['value'], $user['resolver']['label'].' ('. $user['work_load'].')')?></li>
 	<?php endforeach?>
 	</ul>
 	<p><label><?=tt('description')?> : </label></p>
