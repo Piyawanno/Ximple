@@ -1,18 +1,24 @@
 <?php
 function postrender_target_link($render){
 	$target = cc('link_target');
+	$blank = 'target="_blank" ';
 	if(in_array('#external', $target)){
 		$render = str_replace('href="'.SECTION_URI, '#internel#', $render);
-		$render = str_replace('href="http://', 'target="_blank" href="http://', $render);
+		$render = str_replace('href="http://', $blank.'href="http://', $render);
 		$render = str_replace('#internel#', 'href="'.SECTION_URI, $render);
 	}
 	foreach($target as $key => $value){
 		if($value != '#external' and $value!= '#notify'){
 			$link = 'href="'.SECTION_URI.Q.$value;
-			$blank = 'target="_blank" ';
 			$render = str_replace($link, $blank.$link, $render);
 		}
 	}
+	if(MODE_ID == 0){
+		$page_id = 'href="'.SECTION_URI.Q.MODE;
+	}else{
+		$page_id = 'href="'.SECTION_URI.Q.MODE.'/'.MODE_ID;
+	}
+	$render = str_replace($blank.$page_id, $page_id, $render);
 	return $render;
 }
 

@@ -173,7 +173,6 @@ function notify_send_mail($message, $email){
 	}
 	$subject = notify_get_subscribe_subject();
 	$message = notify_unset_locale($message);
-	echo($message.'<br />');
 	mail_send($email, $subject, $message, true);
 }
 

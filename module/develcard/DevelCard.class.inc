@@ -102,16 +102,27 @@ class DevelCard extends Control{
 	}
 	
 	public function renderTagPage(){
+		document_set_path($tag, $mode);
 		$tag = gg('tag');
 		$mode = 'develcard_tag/tag/'.$tag;
-		document_set_path($tag, $mode);
-		
-		$this->getType();
-		$this->getStatus();
-		$clause  = $this->handleStatus($mode);
-		$clause .= $this->handleType($mode);
+		$clause = $this->getStatusTypeClause($mode);
 		$title = tt('DevelCard tagged by : ').$tag;
 		$clause = "WHERE freetag LIKE '%$tag%' $clause ORDER BY comment_time DESC";
+		return $this->renderListPage($title, $clause, $mode);
+	}
+	
+	public function renderWeekList(){
+		$week = (int) gg('week');
+		$year = (int) gg('year');
+		$resolver = (int) gg('resolver');
+		$mode = "develcard_week_list/resolver/$resolver/week/$week/year/$year";
+		
+		$resolverInfo = userinfo_get_info_by_id($resolver);
+		$title  = tt('DevelCard resolved by : ').$resolverInfo['login_name'].' '.$year.'W'.$week;
+		
+		$weekClause = $this->getWeekListClause($resolver, $week, $year);
+		$clause = $this->getStatusTypeClause($mode);
+		$clause = "WHERE ($weekClause) $clause ORDER BY comment_time DESC";
 		return $this->renderListPage($title, $clause, $mode);
 	}
 	
@@ -144,10 +155,7 @@ class DevelCard extends Control{
 		if(count($id)) $idClause = 'id IN ('.join(',', $id).')';
 		else $idClause = 'id=0';
 		
-		$this->getType();
-		$this->getStatus();
-		$clause  = $this->handleStatus($mode);
-		$clause .= $this->handleType($mode);
+		$clause = $this->getStatusTypeClause($mode);
 		$title = tt('DevelCard in Duty of : '.$user['login_name']);
 		$clause = 'WHERE '.$idClause.$clause.' ORDER BY comment_time DESC';
 		return $this->renderListPage($title, $clause, $mode);
@@ -157,24 +165,16 @@ class DevelCard extends Control{
 		$user = userinfo_get_info_by_id($uid);
 		$mode = 'develcard_reporter_list/'.$uid;
 		document_set_path($user['login_name'], 'develcard_personal/'.$uid);
-		document_set_path(tt('reported'), $mode);
-		
-		$this->getType();
-		$this->getStatus();
-		$clause  = $this->handleStatus($mode);
-		$clause .= $this->handleType($mode);
+		$clause = $this->getStatusTypeClause($mode);
 		$title = tt('DevelCard reported by : ').$user['login_name'];
 		$clause = 'WHERE writer='.$uid.$clause.' ORDER BY comment_time DESC';
 		return $this->renderListPage($title, $clause, $mode);
 	}
 	
 	private function summaryPage(){
-		$mode = 'develcard';
-		$this->getType();
-		$this->getStatus();
-		$clause  = $this->handleStatus($mode);
-		$clause .= $this->handleType($mode);
-		$title = tt('DevelCard');
+		$mode   = 'develcard';
+		$clause = $this->getStatusTypeClause($mode);
+		$title  = tt('DevelCard');
 		$clause = 'WHERE id!=0 '.$clause.' ORDER BY comment_time DESC';
 		return $this->renderListPage($title, $clause, $mode);
 	}
@@ -192,6 +192,7 @@ class DevelCard extends Control{
 		$pointData = $this->getYearPointData($uid);
 		list($point, $sumLoad, $sumPoint) = $this->calculatePoint($pointData);
 		$renderArray = array(
+			'resolver' => $uid,
 			'point' => $point,
 			'pixel' => cc('develcard_pixel_per_point'),
 			'first_year' => $this->getResolverFistYear($uid),
@@ -238,6 +239,7 @@ class DevelCard extends Control{
 		$this->addAction('develcard_personal_list', 'personalListPage');
 		$this->addAction('develcard_set_status', 'setStatus');
 		$this->addAction('develcard_tag', 'renderTagPage');
+		$this->addAction('develcard_week_list', 'renderWeekList');
 	}
 	
 	private function setAccess(){
@@ -258,12 +260,14 @@ class DevelCard extends Control{
 		$this->addAccessMethod('develcard_reporter', 'reporterListPage');
 		$this->addAccessMethod('develcard_reporter', 'personalPage');
 		$this->addAccessMethod('develcard_reporter', 'renderTagPage');
+		$this->addAccessMethod('develcard_reporter', 'renderWeekList');
 		
 		$this->addAccessMethod('develcard_resolver', 'index');
 		$this->addAccessMethod('develcard_resolver', 'resolverListPage');
 		$this->addAccessMethod('develcard_resolver', 'personalPage');
 		$this->addAccessMethod('develcard_resolver', 'setStatus');
 		$this->addAccessMethod('develcard_resolver', 'renderTagPage');
+		$this->addAccessMethod('develcard_resolver', 'renderWeekList');
 		
 		$this->addAccessMethod('develcard_moderator', 'index');
 		$this->addAccessMethod('develcard_moderator', 'write');
@@ -279,6 +283,7 @@ class DevelCard extends Control{
 		$this->addAccessMethod('develcard_moderator', 'personalListPage');
 		$this->addAccessMethod('develcard_moderator', 'setStatus');
 		$this->addAccessMethod('develcard_moderator', 'renderTagPage');
+		$this->addAccessMethod('develcard_moderator', 'renderWeekList');
 	}
 	
 	private function prepareData($data, $mode){
@@ -305,6 +310,14 @@ class DevelCard extends Control{
 		elseif($residual > 1) $residual = sprintf(tt('%d days left'), $residual);
 		else $residual = sprintf(tt('%d days ago'), $residual);
 		return $residual;
+	}
+	
+	private function getStatusTypeClause($mode){
+		$this->type = gg('type');
+		$this->status = gg('status');
+		$clause  = $this->handleStatus($mode);
+		$clause .= $this->handleType($mode);
+		return $clause;
 	}
 	
 	private function handleType($mode){
@@ -376,14 +389,6 @@ class DevelCard extends Control{
 		if(abs($difference) < 86400) return $load*2;
 		elseif($difference > 0)	return max($load, $load*2 - floor($difference/86400));
 		else return $load*2 - floor($difference/86400);
-	}
-	
-	private function getType(){
-		$this->type = gg('type');
-	}
-	
-	private function getStatus(){
-		$this->status = gg('status');
 	}
 	
 	private function initComment(){
@@ -503,6 +508,15 @@ class DevelCard extends Control{
 		if($this->status) $mode = $mode.'/status/'.$this->status;
 		if($this->type) $mode = $mode.'/type/'.$this->type;
 		return $mode;
+	}
+	
+	private function getWeekListClause($resolver, $week, $year){
+		$weekDate = $year."W".sprintf('%2d', $week);
+		$start = date('Y-m-d', strtotime($weekDate."1")).'00:00:00';
+		$end = date('Y-m-d', strtotime($weekDate."7")).'23:59:59';
+		$clause = "WHERE resolver=$resolver AND end_date>='$start' AND end_date<='$end'";
+		$cardID = db_select_single_column('develcard_resolver', 'develcard', $clause);
+		if(count($cardID)) return 'id='.join(' OR id=', $cardID);
 	}
 }
 ?>

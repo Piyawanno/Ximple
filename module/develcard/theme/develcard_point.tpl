@@ -6,7 +6,9 @@
 <?php if(!empty($first_week) and !empty($last_week)):?>
 	<?php for($i=$first_week;$i<=$last_week;$i++):?>
 		<div style="display:block;">
-			<div style="float:left;margin-right:15px;"><?=$i?>. : </div>
+			<div style="float:left;margin-right:15px;">
+				<?=render_operation_link('develcard_week_list', "resolver/$resolver/week/$i/year/$point_year", $i)?>. :
+			</div>
 		<?php if(isset($point[$i])):?>
 			<div style="float:left;padding:0 10px;height:18px;width:<?=$point[$i]['load']*$pixel?>px;background:<?=$load_bg_color?>;color:<?=$load_color?>;"><?=$point[$i]['load']?></div>
 			<div style="float:left;padding:0 10px;height:18px;width:<?=$point[$i]['point']*$pixel?>px;background:<?=$point_bg_color?>;color:<?=$point_color?>;"><?=$point[$i]['point']?></div>
