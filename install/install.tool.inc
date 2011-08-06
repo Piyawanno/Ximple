@@ -146,7 +146,11 @@ function install_check_path(){
 		$next_enable = true;
 	}else{
 		$root_path = dirname(dirname($_SERVER['SCRIPT_FILENAME']));
-		$page ='<b>ROOT_PATH :</b> <b class="invalid">Invalid !!! Please try to use '.$root_path.'/</b><br />';
+		$info = '';
+		if(substr($root_path, -1) != "/"){
+			$info = tt('The last character of ROOT_PATH must be "/".');
+		}
+		$page ='<b>ROOT_PATH :</b> <b class="invalid">Invalid !!! Please try to use '.$root_path.'/. '.$info.'</b><br />';
 		$next_enable = false;
 	}
 	
@@ -170,7 +174,11 @@ function install_check_uri(){
 			$page ='<b>ROOT_URI :</b> <b class="valid">OK</b><br />';
 			$next_enable = true;
 		}else{
-			$page ='<b>ROOT_URI :</b> <b class="invalid">Invalid !!! Please try to use '.$root_uri.' or '.$root_uri2.'</b><br />';
+			$info = '';
+			if(substr(ROOT_URI, -1) != "/"){
+				$info = tt('The last character of ROOT_URI must be "/".');
+			}
+			$page ='<b>ROOT_URI :</b> <b class="invalid">Invalid !!! Please try to use '.$root_uri.' or '.$root_uri2.'. '.$info.'</b><br />';
 			$next_enable = false;
 		}
 	}
@@ -288,7 +296,7 @@ function install_get_step_label(){
 }
 
 function install_define_constant(){
-	define('SECTION', 1);
+	if(!defined('SECTION')) define('SECTION', 1);
 	define('SECTION_URI', ROOT_URI);
 	define('MODULE', 'install');
 	define('Q', '?/');

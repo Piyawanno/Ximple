@@ -24,10 +24,19 @@ function install_boot(){
 function install_check_setup(){
 	global $agree;
 	install_set_lang();
-	if(is_file(dirname(__FILE__).'/../include/setup.php')){
+	$step = (int) substr((string) gg('mode'), -1, 1);
+	if(!is_file(dirname(__FILE__).'/../include/setup.php')){
+		install_error_setup_not_exist();
+	}elseif($step < 2){
+		$root_uri = 'http://'.$_SERVER['HTTP_HOST'].dirname(dirname($_SERVER['PHP_SELF'])).'/';
+		$root_path = dirname(dirname($_SERVER['SCRIPT_FILENAME']));
+		define('INSTALL_ROOT_URI', $root_uri);
+		define('INSTALL_ROOT_PATH', $root_path);
 		require_once('../include/setup.php');
 	}else{
-		install_error_setup_not_exist();
+		require_once('../include/setup.php');
+		define('INSTALL_ROOT_URI', ROOT_URI);
+		define('INSTALL_ROOT_PATH', ROOT_PATH);
 	}
 }
 
@@ -91,15 +100,29 @@ function install_step2(){
 	$title = 'Step 2 : '.tt('Permission validation');
 	$page = '<h2>'.$title.'</h2>';
 	$path = array('files', 'section');
+	$is_windows = (strtoupper(substr(php_uname('s'), 0, 3)) == 'WIN');
 	foreach($path as $item){
 		$item = ROOT_PATH.$item;
-		if((fileperms($item) & 0x0002)){
-			$page.='<b>'.$item.' :</b> <b class="valid">OK</b><br />';
-			$next_enable = '';
-		}
-		else{
-			$page.='<b>'.$item.' :</b> <b class="invalid">Invalid !!! Please change to 0757</b><br />';
-			$next_enable = 'disabled="disabled"';
+		if($is_windows){
+			if(fileperms($item) & 0x0002){
+				$page.='<b>'.$item.' :</b> <b class="valid">OK</b><br />';
+				$next_enable = '';
+			}else{
+				$page.='<b>'.$item.' :</b> <b class="invalid">Invalid !!! Please make sure that the directory can be modified.</b><br />';
+				$next_enable = 'disabled="disabled"';
+			}
+		}else{
+			$owner = posix_getpwuid(posix_geteuid());
+			$owner = $owner['uid'];
+			$is_mode = (substr(sprintf('%o', fileperms($item)), -4) == '1777');
+			$is_owner = (substr(sprintf('%o', fileperms($item)), -4) == '0755' and fileowner($item) == $owner);
+			if($is_mode or $is_owner){
+				$page.='<b>'.$item.' :</b> <b class="valid">OK</b><br />';
+				$next_enable = '';
+			}else{
+				$page.='<b>'.$item.' :</b> <b class="invalid">Invalid !!! Please change to 1777 or (mod : 0755, owner : '.$owner.')</b><br />';
+				$next_enable = 'disabled="disabled"';
+			}
 		}
 	}
 	

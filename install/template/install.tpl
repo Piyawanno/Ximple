@@ -4,8 +4,8 @@
 	<head>
 		<title><?=$title;?> : X-BLC Installation</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-		<link rel="shortcut icon" href="<?=ROOT_URI?>files/xblc.png" type="image/png" />
-		<link rel="stylesheet" type="text/css" href="<?=ROOT_URI?>install/css/main.css" />
+		<link rel="shortcut icon" href="<?=INSTALL_ROOT_URI?>files/xblc.png" type="image/png" />
+		<link rel="stylesheet" type="text/css" href="<?=INSTALL_ROOT_URI?>install/css/main.css" />
 	</head>
 	<body>
 		<div id="personal_bar">
