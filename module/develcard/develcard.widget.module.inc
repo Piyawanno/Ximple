@@ -33,7 +33,9 @@ function develcard_widget_personal(){
 	$is_moderator = authority_group('develcard_moderator');
 	$is_mode = ((MODE == 'develcard_personal') or (MODE == 'develcard_resolver_list'));
 	if(($is_resolver or $is_moderator) and $is_mode){
-		return develcard_widget_render(MODE_ID);
+		if(MODE_ID == 0) $uid = USER_ID;
+		else $uid = MODE_ID;
+		return develcard_widget_render($uid);
 	}else{
 		return null;
 	}

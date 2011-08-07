@@ -51,10 +51,12 @@ function widget_render_item($item, $tpl){
 }
 
 function widget_get_body($item){
-	$body = $item['body'];
 	if(strlen($item['call_mode'])){
 		$call_mode = $item['call_mode'].'/'.$item['id'];
-		$body .= execute_string($call_mode);
+		$body = execute_string($call_mode);
+		if(strlen($body)) $body = $item['body'].$body;
+	}else{
+		$body = $item['body'];
 	}
 	return $body;
 }
