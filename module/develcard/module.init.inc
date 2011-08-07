@@ -12,6 +12,7 @@ function module_init_develcard(){
 	include_once('ResolverModel.class.inc');
 	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	include_once(INCLUDE_PATH.'class/QuickTableCreator.class.inc');
+	include_once(MODULE_PATH.'flashwidget/FlashWidgetManager.class.inc');
 	
 	$develcard = new DevelCard();
 	$develcard->initModule('DevelCard.class.inc');
@@ -54,6 +55,26 @@ function module_init_develcard(){
 	$panel->appendRole($reporter);
 	$panel->submit();
 	
+	module_add('develcard', 'develcard.widget.module.inc', tt('DevelCard'), 'widget');
+	
+	$flash = new FlashWidgetManager('develcard_recent_progress');
+	$flash->setMode('develcard');
+	$flash->setName(tt('Recent DevelCard in progress'));
+	$flash->setTable('develcard');
+	$flash->setColumn('topic');
+	$flash->setClause('WHERE (section='.SECTION.' AND status=1) ORDER BY comment_time DESC');
+	$flash->submit();
+	
+	$widget = new WidgetManager(tt('My DevelCard in progress'), 'develcard_widget_resolver');
+	$widget->setFormMode('develcard_widget_resolver_config');
+	$widget->setSaveMode('develcard_widget_resolver_save');
+	$widget->submit();
+	
+	$widget = new WidgetManager(tt('DevelCard of current User in progress'), 'develcard_widget_personal');
+	$widget->setFormMode('develcard_widget_personal_config');
+	$widget->setSaveMode('develcard_widget_personal_save');
+	$widget->submit();
+	
 	notify_add_subscribe('develcard', tt('someone posts in DevelCard', true));
 	
 	config_set('develcard_access', 2);
@@ -71,6 +92,9 @@ function module_init_develcard(){
 	config_set('develcard_type', develcard_get_default_type_option());
 	config_set('develcard_comment_write_label', tt('Please, write your opinion'));
 	config_set('develcard_comment_page_length', 10);
+	
+	config_set('develcard_widget_resolver_number', 5);
+	config_set('develcard_widget_personal_number', 5);
 }
 
 function module_drop_develcard(){

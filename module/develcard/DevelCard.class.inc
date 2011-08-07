@@ -317,6 +317,7 @@ class DevelCard extends Control{
 		$this->status = gg('status');
 		$clause  = $this->handleStatus($mode);
 		$clause .= $this->handleType($mode);
+		$clause .= ' AND section='.SECTION;
 		return $clause;
 	}
 	
