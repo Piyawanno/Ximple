@@ -49,7 +49,7 @@ class Forum extends Control{
 		head_add_css('forum.css');
 		head_add_css('list.css');
 		head_add_css('form.css');
-		return render($renderArray, 'forumedit.tpl', 'forumedit');
+		return render($renderArray, 'forum_edit.tpl', 'forum_edit');
 	}
 	
 	public function drop(){

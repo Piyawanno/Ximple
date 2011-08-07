@@ -21,10 +21,10 @@
 <fieldset>
 	<legend><label><?=tt('Category').' : '.$title?></label></legend>
 	<?php $sortable_id .= '#forum_sort_'.$reference.', ';?>
-	<ul id="forum_sort_<?=$reference?>" class="sortable">
+	<div id="forum_sort_<?=$reference?>" class="sortable">
 	<?php if(isset($data[$reference])):?>
 		<?php foreach($data[$reference] as $forum):?>
-		<li>
+		<div class="sortable_item">
 			<a name="forum_<?=$forum['id']?>" />
 			<img src="<?=ROOT_URI?>files/icon/move.png" align="left"/> 
 			<a href="<?=SECTION_URI.Q.'forum_edit/'.$forum['id']?>" style="text-decoration:none;">
@@ -33,10 +33,10 @@
 			<?=$forum['name']?>
 			<input type="hidden" name="category[]" class="category_input" value=""/>
 			<input type="hidden" name="forum[]" value="<?=$forum['id']?>"/>
-		</li>
+		</div>
 		<?php endforeach?>
 	<?php endif?>
-	</ul>
+	</div>
 </fieldset>
 <?php endforeach?>
 
