@@ -4,10 +4,11 @@ function selectTranslateLanguage(languageSelect){
 	var translate = $('#translate_dialog');
 	var language = $(languageSelect).val();
 	if(translateModuleName == null){
-		var uri = sectionURI+moduleName+'_translate_form';
+		var uri = sectionURI+modeName;
 	}else{
 		var uri = sectionURI+translateModuleName+'_translate_form';
 	}
+	alert(uri);
 	
 	uri += '/module_id/'+modeID;
 	uri += '/language/'+language;

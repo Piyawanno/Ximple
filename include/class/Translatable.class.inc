@@ -50,7 +50,7 @@ abstract class Translatable extends Authority{
 		if(!$this->translateFormRender){
 			include_once('FormRender.class.inc');
 			include_once('TranslateFormRender.class.inc');
-			$this->translateFormRender = new TranslateFormRender($this->modelConnector, $this->formMeta, $this->moduleName);
+			$this->translateFormRender = new TranslateFormRender($this->modelConnector, $this->formMeta, $this->fullModuleName);
 		}
 		$this->formMeta->configForm = $this->configForm;
 		if($this->formMeta->isSetTitle){

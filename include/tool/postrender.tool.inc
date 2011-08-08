@@ -1,6 +1,7 @@
 <?php
 function postrender_target_link($render){
 	$target = cc('link_target');
+	if(!is_array($target)) $target = array();
 	$blank = 'target="_blank" ';
 	if(in_array('#external', $target)){
 		$render = str_replace('href="'.SECTION_URI, '#internel#', $render);
