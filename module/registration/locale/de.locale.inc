@@ -10,8 +10,8 @@ globalvar_add_locale(array (
 	'Your registration can not be proceeded. Please contact the administrator of the web-site.' => '',
 	'Registration' => '',
 	'Registration Configuration' => '',
-	'regitration enable' => '',
-	'text in reristration page' => '',
+	'registration enable' => '',
+	'text in registration page' => '',
 	'auto reply text' => '',
 	'Congratulation and welcome to %s. Your registration is completed.' => '',
 ));
