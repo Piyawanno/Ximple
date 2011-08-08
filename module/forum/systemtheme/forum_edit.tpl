@@ -54,7 +54,7 @@ $(document).bind("ready", function(){
 
 function getCategory(){
 	<?php foreach($category as $reference => $title):?>
-		$('#forum_sort_<?=$reference?> li .category_input').attr('value', "<?=$reference?>");
+		$('#forum_sort_<?=$reference?> div .category_input').attr('value', "<?=$reference?>");
 	<?php endforeach?>
 }
 </script>
