@@ -119,10 +119,13 @@ class DevelCard extends Control{
 		
 		$resolverInfo = userinfo_get_info_by_id($resolver);
 		$title  = tt('DevelCard resolved by : ').$resolverInfo['login_name'].' '.$year.'W'.$week;
-		
+
+		document_set_path($resolverInfo['login_name'], 'develcard_personal/'.$resolver);
+		document_set_path($year.'W'.$week);
+				
 		$weekClause = $this->getWeekListClause($resolver, $week, $year);
 		$clause = $this->getStatusTypeClause($mode);
-		$clause = "WHERE ($weekClause) $clause ORDER BY comment_time DESC";
+		$clause = "WHERE ($weekClause) $clause AND status=2 ORDER BY comment_time DESC";
 		return $this->renderListPage($title, $clause, $mode);
 	}
 	
@@ -195,7 +198,7 @@ class DevelCard extends Control{
 			'resolver' => $uid,
 			'point' => $point,
 			'pixel' => cc('develcard_pixel_per_point'),
-			'first_year' => $this->getResolverFistYear($uid),
+			'first_year' => $this->getResolverFirstYear($uid),
 			'last_year' => (int) date('Y'),
 			'load_color' => cc('develcard_load_color'),
 			'load_bg_color' => cc('develcard_load_bg_color'),
@@ -460,7 +463,7 @@ class DevelCard extends Control{
 		$yearBegin = $this->pointYear.'-01-01 00:00:00';
 		$yearEnd = $this->pointYear.'-12-31 23:59:59';
 		$clause = "WHERE (end_date >= '$yearBegin' AND end_date <= '$yearEnd') ";
-		$clause.= "AND resolver=$uid AND status >= 2";
+		$clause.= "AND resolver=$uid AND status=2";
 		return  db_select('develcard_resolver', array('end_date', 'work_load', 'point'), $clause);
 	}
 	
@@ -483,7 +486,7 @@ class DevelCard extends Control{
 		return array($point, $sumLoad, $sumPoint);
 	}
 	
-	private function getResolverFistYear($uid){
+	private function getResolverFirstYear($uid){
 		$clause = "WHERE resolver=$uid ORDER BY end_date LIMIT 1";
 		$data = db_select_single_column('develcard_resolver', 'end_date', $clause, false);
 		if(count($data)) return (int) date('Y', strtotime($data[0]));
@@ -513,8 +516,8 @@ class DevelCard extends Control{
 	
 	private function getWeekListClause($resolver, $week, $year){
 		$weekDate = $year."W".sprintf('%2d', $week);
-		$start = date('Y-m-d', strtotime($weekDate."1")).'00:00:00';
-		$end = date('Y-m-d', strtotime($weekDate."7")).'23:59:59';
+		$start = date('Y-m-d', strtotime($weekDate."1")).' 00:00:00';
+		$end = date('Y-m-d', strtotime($weekDate."7")).' 23:59:59';
 		$clause = "WHERE resolver=$resolver AND end_date>='$start' AND end_date<='$end'";
 		$cardID = db_select_single_column('develcard_resolver', 'develcard', $clause);
 		if(count($cardID)) return 'id='.join(' OR id=', $cardID);

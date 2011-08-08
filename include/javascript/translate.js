@@ -8,7 +8,6 @@ function selectTranslateLanguage(languageSelect){
 	}else{
 		var uri = sectionURI+translateModuleName+'_translate_form';
 	}
-	alert(uri);
 	
 	uri += '/module_id/'+modeID;
 	uri += '/language/'+language;
