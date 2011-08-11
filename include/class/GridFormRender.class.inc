@@ -58,7 +58,7 @@ class GridFormRender{
 	private function renderDataRow($id){
 		$render = '';
 		foreach($this->data as $key => $data){
-			$render .= '<tr>';
+			$render .= '<tr valign="top">';
 			foreach($this->memberColumn as $name => $member){
 				$member->data = $data[$name];
 				$form = $this->renderRowForm($id, $member);

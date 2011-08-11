@@ -1,6 +1,9 @@
 <?php
 function module_get_info_product(){
-	return array();
+	return array(
+		'name' => tt('Product'),
+		'description' => tt('Show your products on online shop.'),
+	);
 }
 
 

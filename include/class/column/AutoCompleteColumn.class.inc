@@ -10,7 +10,7 @@ class AutoCompleteColumn extends CharColumn{
 	
 	public function renderForm($formID){
 		head_add_js('include/javascript/autocomplete.column.js');
-		$this->setFormAttribute('rel', $this->ajaxMode);
+		$this->setFormAttribute('alt', $this->ajaxMode);
 		$this->setFormAttribute('class', 'auto_complete');
 		return CharColumn::renderForm($formID);
 	}
