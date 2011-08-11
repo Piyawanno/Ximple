@@ -14,7 +14,7 @@ require('globalvar.tool.inc');
 /// @param $section : SECION-ID
 function setini(){
 	define('STATE', state_read());
-	if((state_is_product() or state_is_install() or state_is_maintain()) and false){
+	if((state_is_product() or state_is_install() or state_is_maintain())){
 		ini_set('display_errors', 0);
 	}else{
 		ini_set('display_errors', 1);
