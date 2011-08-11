@@ -6,7 +6,7 @@ class ProductFileModel extends Model{
 	
 	function PeopleFileModel($productID=null){
 		$this->short_description = $this->char(tt('short description'));
-		$this->file = $this->file(tt('file'), 'files/peopleinfo/');
+		$this->file = $this->file(tt('file'), 'files/product/'.SECTION.'/');
 		$this->type = $this->hidden('', 'char');
 		$this->product = $this->none($productID, 'int');
 		$this->product->isGridForm = false;
