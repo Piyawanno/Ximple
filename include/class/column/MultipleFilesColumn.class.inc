@@ -45,9 +45,9 @@ class MultipleFilesColumn extends ModelColumn{
 				$this->data[] = io_upload($value, $this->path, $this->isImage);
 			}else{
 				unset($this->fileArray[$key]);
-				$this->data[] = null;
 			}
 		}
+		print_r($this->data);
 	}
 }
 ?>

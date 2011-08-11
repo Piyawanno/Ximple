@@ -17,7 +17,7 @@ function image_check_max_width($file, $path, $maxwidth){
 			$dst_w = $maxwidth;
 			$dst_h = ceil($maxwidth/$src_w * $src_h);
 
-			$im->thumbnailImage($dst_w,$dst_h,true);
+			$im->thumbnailImage($dst_w, $dst_h, true);
 			$im->writeImage($path);
 			notify_add_info(tt('Image has been automatically resized.'));
 		}
@@ -31,10 +31,8 @@ function image_square_crop($file, $path, $size){
 	$im = image_get_src($file, $path);
 	if($im){
 		$src_size = min($im->getImageWidth(),$im->getImageHeight());
-
-		$im->cropImage($src_size,$src_size,0,0);
-		$im->thumbnailImage($size,$size,true);
-
+		$im->cropImage($src_size, $src_size, 0, 0);
+		$im->thumbnailImage($size, $size, true);
 		$im->writeImage($path);
 	}
 }
@@ -55,9 +53,8 @@ function image_generate_thumb($file, $path, $thumbpath){
 			$dst_w = 100;
 			$dst_h = ($src_h/$src_w)*100;
 		}
-		$im->cropImage($src_w,$src_h,0,0);
-		$im->thumbnailImage($dst_w,$dst_h);
-
+		$im->cropImage($src_w, $src_h,0,0);
+		$im->thumbnailImage($dst_w, $dst_h);
 		$im->writeImage($thumbpath);
 	}
 }
@@ -67,7 +64,7 @@ function image_generate_thumb($file, $path, $thumbpath){
 /// @param $path : localtion of the given image.
 function image_get_src($file, $path){
 	if(is_file($path)){
-		if( strncasecmp($file['type'],"image",5)) {
+		if(substr($file['type'], 0, 5)  == "image") {
 			$im = new Imagick();
 			$im->readImage($path);
 			return $im;

@@ -35,12 +35,13 @@ class GalleryPicture extends Control{
 	
 	public function drop(){
 		$this->id = (int) gg('id');
+		$this->galleryID = (int) gg('gallery');
 		$this->selectByID($this->column, true);
 		$path = FILES_PATH.'gallery/'.$this->galleryID.'/';
 		unlink($path.$this->dataByID['picture']);
 		unlink($path.'thumb_'.$this->dataByID['picture']);
-		document_set_redirect('gallery/'.$gallery->id);
 		Control::drop();
+		document_set_redirect('gallery/'.$this->galleryID);
 	}
 	
 	public function getPictures(){
