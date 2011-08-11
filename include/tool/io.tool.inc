@@ -52,8 +52,9 @@ function io_drop_uploaded_file($file_name){
 
 function io_clear_directory($dir_name){
 	if(is_dir($dir_name)){
-		$dir = dir($dir_name);
-		while (false !== ($entry = $dir->read())) {
+		$success = true;
+		@$dir = dir($dir_name) or $success = false;
+		while ($success and (false !== ($entry = $dir->read()))) {
 			if($entry != '.' and $entry != '..'){
 				if(is_dir($dir_name.'/'.$entry)){
 					io_clear_directory($dir_name.'/'.$entry);
@@ -62,7 +63,7 @@ function io_clear_directory($dir_name){
 				}
 			}
 		}
-		rmdir($dir_name);
+		if ($success) rmdir($dir_name);
 	}
 }
 
