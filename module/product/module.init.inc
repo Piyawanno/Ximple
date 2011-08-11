@@ -1,6 +1,6 @@
 <?php
 function module_get_info_product(){
-
+	return array();
 }
 
 

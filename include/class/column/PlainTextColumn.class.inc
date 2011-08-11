@@ -17,5 +17,13 @@ class PlainTextColumn extends ModelColumn{
 		$render.= '<span id="info_'.$id.'"></span>';
 		return $render;
 	}
+	
+	public function renderGridForm($formID){
+		$this->setFormAttribute('name', $this->name.'[]');
+		$this->setFormAttribute('style', 'width:100%;height:120px;');
+		$this->setFormAttribute('rows', 5);
+		$render = '<textarea '.$this->renderFormAttribute().'>'.$this->data.'</textarea>';
+		return $render;
+	}
 }
 ?>
