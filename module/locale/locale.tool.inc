@@ -99,7 +99,12 @@ function locale_init(){
 
 function locale_get_module(){
 	$module = io_get_directory_entry(MODULE_PATH);
-	return array_combine($module, $module);
+	$system = array_combine($module, $module);
+	$module = io_get_directory_entry(SECTION_PATH.'private/module/');
+	$private = array_combine($module, $module);
+	$module = array_merge($system, $private);
+	ksort($module);
+	return $module;
 }
 
 function locale_init_module($module){
