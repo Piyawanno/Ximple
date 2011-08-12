@@ -225,10 +225,12 @@ ins{
 }
 
 .avatar_icon_container{
-	height:32px;
+	min-width:96px;
+	height:24px;
 }
 
 .avatar_icon{
 	padding:3px;
+	margin:0;
 	display:none;
 }

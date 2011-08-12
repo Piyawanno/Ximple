@@ -1,3 +1,11 @@
+#tracker_table{
+	color:#444;
+}
+
+#tracker_table a, #tracker_legend a{
+	color:#66a;
+}
+
 .tracker_group li{
 	line-height:25px;
 	float:left;

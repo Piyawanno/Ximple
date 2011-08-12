@@ -30,7 +30,7 @@
 <p style="clear:both;"></p>
 
 <h4><?=tt('System Log Type')?></h4>
-<ul class="log_group">
+<ul class="log_group" id="syslog_legend">
 <?php foreach($type_number as $key => $value ):?>
 	<li class="syslog_<?=$key?>">
 		<a href="<?=SECTION_URI.Q?>syslog_render/<?=$selected?>/type/<?=$key?>"><?=$key?> (<?=$value?>)</a>

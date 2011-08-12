@@ -125,6 +125,7 @@ function render_signature($user){
 
 function render_avatar($user, $show_profile=true){
 	head_add_js('include/javascript/avatar.js');
+	head_add_js('include/javascript/form.js');
 	if(strlen($user['avatar']) == 0) $user['avatar'] = 'files/default.png';
 	
 	if($user['id'] > 0) $uri = SECTION_URI.Q.'profile/'.$user['id'];

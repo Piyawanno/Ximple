@@ -1,5 +1,10 @@
 #syslog_table{
 	border:1px solid #aaa;
+	color:#444;
+}
+
+#syslog_table a, #syslog_legend a{
+	color:#66a;
 }
 
 #syslog_table tr td{

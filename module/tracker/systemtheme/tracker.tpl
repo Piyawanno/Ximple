@@ -29,7 +29,7 @@
 <p style="clear:both;"></p>
 
 <h4><?=tt('Tracker Action')?></h4>
-<ul class="tracker_group">
+<ul class="tracker_group" id="tracker_legend">
 <?php foreach($action_number as $key => $value ):?>
 	<li class="tracker_<?=$key?>">
 		<a href="<?=SECTION_URI.Q?>tracker/<?=$uid?>/day/<?=$selected?>/action/<?=$key?>"><?=$key?> (<?=$value?>)</a>
