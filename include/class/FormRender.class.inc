@@ -13,6 +13,7 @@ class FormRender extends FormModelRender{
 	private $help;
 	private $formItem;
 	private $renderedConfigForm = '';
+	private $captchaForm;
 	
 	function FormRender($modelConnector, $formMeta){
 		$this->modelConnector = $modelConnector;
@@ -45,6 +46,7 @@ class FormRender extends FormModelRender{
 		$this->prepareHead();
 		$renderArray = array(
 			'form' => $this->formItem,
+			'captcha' => $this->captchaForm,
 			'meta' => $this->formMeta,
 			'help' => $this->help,
 			'label' => $this->label,
@@ -73,6 +75,7 @@ class FormRender extends FormModelRender{
 		$this->prepareLabel();
 		$this->help = $this->modelConnector->getColumnAttribute('help');
 		$this->renderConfigForm();
+		$this->separateCaptcha(); 
 	}
 	
 	private function prepareCaptcha(){
@@ -111,6 +114,17 @@ class FormRender extends FormModelRender{
 			$pattern = tt('You can use <a %s><strong>Translate-Form</strong></a> to translate this form.');
 			$help = sprintf($pattern, 'href="#" onclick="showTranslateDialog();return false"');
 			$this->formMeta->description .= '<p>'.$help.'</p>';
+		}
+	}
+	
+	private function separateCaptcha(){
+		if(isset($this->formItem['captcha'])){
+			$this->captchaForm = array(
+				'form' => $this->formItem['captcha'],
+				'label' => $this->label['captcha'],
+				'help' => $this->help['captcha'],
+			);
+			unset($this->formItem['captcha']);
 		}
 	}
 }

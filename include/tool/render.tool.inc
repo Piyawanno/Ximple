@@ -181,6 +181,11 @@ function render_print_link($print_mode){
 	return '<a href="'.SECTION_URI.Q.$print_mode.'" onclick="ximplePrint(this); return false;">'.tt('print').'</a>';
 }
 
+function render_raw_link($uri){
+	if(substr($uri, 0, 7) != 'http://') $uri = 'http://'.$uri;
+	return "<a href=\"$uri\">$uri</a>";
+}
+
 function render_tag_cloud($mode, $freetag){
 	if($freetag['number'] < 520){
 		$size = 12 + $freetag['number']/10;
