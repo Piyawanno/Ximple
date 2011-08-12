@@ -124,22 +124,23 @@ function render_signature($user){
 }
 
 function render_avatar($user, $show_profile=true){
+	head_add_js('include/javascript/avatar.js');
 	if(strlen($user['avatar']) == 0) $user['avatar'] = 'files/default.png';
 	
 	if($user['id'] > 0) $uri = SECTION_URI.Q.'profile/'.$user['id'];
 	elseif(authority_is_guest()) $uri = '';
 	else $uri = SECTION_URI.Q.'profile_write_mail/send_to_address/'.$user['email'];
 	
-	$render = '
-	<p align="center">
-		<a href="'.$uri.'">
-			<img src="'.ROOT_URI.$user['avatar'].'" border="0" />
-		</a>
-	</p>';
-	if($show_profile){
-		$render .= '<p align="center">'.render_profile_link($user).'</p>';
-	}
-	return $render;
+	if($show_profile) $profile_link = render_profile_link($user);
+	else $profile_link = '';
+	
+	$render_array = array(
+		'profile_uri' => $uri,
+		'profile_link' => $profile_link,
+		'icon' => render_get_profile_icon($user),
+		'avatar_uri' => ROOT_URI.$user['avatar'],
+	);
+	return render($render_array, 'avatar.tpl', 'avatar');
 }
 
 function render_category_icon($category, $mode){
@@ -231,5 +232,26 @@ function render_calendar($data, $mode, $month, $year){
 		'next_year' => $next_year,
 	);
 	return render($render_array, 'calendar.tpl', 'calendar');
+}
+
+function render_get_profile_icon($user){
+	$id = $user['id'];
+	$name = $user['login_name'];
+	$path = 'files/icon/';
+	
+	$profile_icon = array(
+		"profile_write_mail/$id/send_to/$name" => $path.'email.png',
+	);
+	
+	if(!authority_is_guest()){
+		$profile_icon["message_write/send_to/$name"] = $path.'message.png';
+		$profile_icon["tracker/$id"] = $path.'tracker.png';
+	}
+	
+	$addition = extension_execute_append_result('additional_profile_link', $user, array());
+	foreach($addition as $key => $value){
+		$profile_icon[$value['mode']] = $value['icon'];
+	}
+	return $profile_icon;
 }
 ?>

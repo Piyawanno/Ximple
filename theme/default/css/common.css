@@ -211,3 +211,24 @@ ins{
 	font-size:11px;
 	color:#666;
 }
+
+/* ========= Avatar ========= */
+.avatar_container{
+	text-align:center;
+	padding:10px;
+	margin:1px;
+}
+
+.avatar_container:hover{
+	border:1px solid #ddd;
+	margin:0;
+}
+
+.avatar_icon_container{
+	height:32px;
+}
+
+.avatar_icon{
+	padding:3px;
+	display:none;
+}
