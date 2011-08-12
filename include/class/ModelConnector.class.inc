@@ -13,6 +13,10 @@ class ModelConnector{
 		$this->modelObject = $modelObject;
 	}
 	
+	public function hasSection(){
+		return $this->model->hasSection();
+	}
+	
 	public function setID($id){
 		$this->id = $id;
 		$this->triggerGetID($id);

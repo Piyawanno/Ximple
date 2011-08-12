@@ -47,7 +47,9 @@ abstract class Control extends Translatable{
 	}
 	
 	public function listPage(){
-		$this->selectListPage(20, 'WHERE (section='.SECTION.')');
+		if(!$this->modelConnector->hasSection()) $clause = '';
+		else $clause = 'WHERE (section='.SECTION.')';
+		$this->selectListPage(20, $clause);
 		return $this->renderDefaultListPage();
 	}
 	

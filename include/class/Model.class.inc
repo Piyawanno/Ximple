@@ -7,6 +7,7 @@ abstract class Model{
 	private $extendedObjBefore = array();
 	private $extendedObjAfter = array();
 	private $caegorized = false;
+	private $sectionColumn = false;
 	
 	public function getExtendedBefore($columnName){
 		if(isset($this->extendedObjBefore[$columnName])){
@@ -28,6 +29,10 @@ abstract class Model{
 		return $this->caegorized;
 	}
 	
+	public function hasSection(){
+		return $this->sectionColumn;
+	}
+	
 	protected function extendBefore($beforeColumnName, $extendedColumnName){
 		$this->extendedObjBefore[$beforeColumnName][] = $extendedColumnName;
 	}
@@ -42,6 +47,7 @@ abstract class Model{
 	
 	public function section(){
 		require_once('column/SectionColumn.class.inc');
+		$this->sectionColumn = true;
 		return new SectionColumn();
 	}
 	
