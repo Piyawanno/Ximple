@@ -1,0 +1,51 @@
+#calendar_today{
+	background:url(../image/content-background.png);
+	border-bottom:3px solid #1c83b7;
+}
+
+#calendar_detail{
+	border-top:2px solid #1c83b7;
+	background:url(../image/content-background.png);
+	position:absolute;
+	padding:15px;
+	width:250px;
+	display:none;
+}
+
+.calendar_table{
+	border:1px solid #ccc;
+	margin:20px 0px 20px 0px;
+	border-collapse:collapse;
+}
+
+.calendar_table tr{
+	height:40px;
+}
+
+.calendar_table td{
+	border-top:1px solid #ccc;
+	border-right:1px solid #ccc;
+	padding:10px;
+	text-align:right;
+	font-size:16px;
+}
+
+.calendar_table img{
+	padding-right:10px;
+}
+
+.calendar_table th{
+	border-right:1px solid #ccc;
+	text-align:center;
+	font-size:12px;
+}
+
+.calendar_table td:hover{
+	background:url(../image/content-background.png);
+}
+
+.calendar_multiple_link{
+	font-size:10px;
+	padding-left:2px;
+}
+

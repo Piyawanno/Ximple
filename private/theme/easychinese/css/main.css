@@ -1,0 +1,269 @@
+/* ========= HTML-TAG ========= */
+html{
+	height:100%;
+}
+
+body{
+	font-size:12px ;
+	font-family:Tahoma;
+	line-height:20px;
+	margin:20px;
+	padding:0px;
+	text-align:center;
+	height:100%;
+	background:#98c6df url(../image/concrete.png);
+}
+
+td{
+	font-size: 12px ;
+	line-height:20px;
+
+}
+
+h1, h2, h3, h4{
+	margin-top:0px;
+}
+
+a{
+	color:#a06327;
+}
+
+input{
+	font-size:12px;
+	border:1px solid gray;
+}
+
+/* ========= Labels ========= */
+.list_label{
+	padding:10px 0px 10px 0px;
+	font-size:18px;
+	font-weight:bold;
+	border-bottom:1px solid #ddd;
+	border-top:1px solid #ddd;
+	text-decoration:underline;
+	color:#800;
+}
+
+.title_label{
+	font-size:18px;
+	color:#800;
+	text-decoration:underline;
+}
+
+.small_label{
+	font-size:14px;
+	color:rgb(25%,25%,25%);
+	text-decoration:underline;
+}
+
+.label_link{
+	color:#800;
+}
+
+.sublist_label{
+	padding:10px 0px 10px 0px;
+	font-size:14px;
+	font-weight:bold;
+	border-bottom:1px solid #ddd;
+	text-decoration:underline;
+	color:#666;
+}
+
+/* ========= search ========= */
+#search{
+	width:950px;
+	text-align:right;
+	margin:-10px auto 10px auto;
+	padding-right:30px;
+}
+
+/* ========= Head ========= */
+#head{
+	height:350px;
+	width:950px;
+	margin:15px 15px 0px 15px;
+}
+
+#head_left{
+	float:left;
+	width:175px;
+	height:350px;
+	margin:0;
+	background:url(../image/roof.png) bottom center no-repeat;
+}
+
+#head_left a{
+	text-decoration:none;
+}
+
+#head_left a h1{
+	color:white;
+	font-size:32px;
+	margin-top:10px;
+	text-align:center;
+}
+
+#head_right{
+	float:left;
+	width:520px;
+	height:325px;
+	margin-left:10px;
+	border:2px solid #b1b6cc;
+	padding:10px 200px 10px 10px;
+	background:url(../image/chair.png) bottom right no-repeat;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+
+#head_widget{
+	width:500px;
+	height:150px;
+}
+
+/* ========= Main Layout ========= */
+#main_container{
+	width:950px;
+	margin:0 auto;
+	text-align:left;
+	background-color:#FFF;
+	padding:1px 0 20px 0;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+
+#main{
+	width:950px;
+	margin: 0px auto 0px auto;
+	text-align:left;
+	background:white;
+}
+
+#body{
+	height:auto;
+	margin:5px 15px 0px 15px;
+}
+
+#content{
+	width:710px;
+	margin-top:-8px;
+	padding-top:13px;
+	padding-bottom:25px;
+	float:left;
+	background:url(../image/chinese_dragon.png) no-repeat top left;
+	min-height:590px;
+}
+
+/* ========= Menu ========= */
+#menu_container{
+	width:920px;
+	background:#2b0000;
+	border-bottom:3px solid #bd7d39;
+	margin:5px 15px;
+	padding:0;
+}
+
+#menu{
+	margin:0;
+	padding:0;
+}
+
+#menu li{
+	float: left;
+	list-style: none;
+}
+
+#menu li a{
+	color: white;
+	font-size:13px;
+	display: block;
+	text-decoration:none;
+	padding:3px 40px;
+	font-weight:bold;
+}
+
+#menu li a:hover{
+	background:#800;
+	color:white;
+}
+
+#menu li a#active_page{
+	background:#a56a2d;
+	color:white;
+}
+
+/* ========= Widgets ========= */
+#widget_left{
+	width: 200px;
+	margin:0px 0px 0px 10px;
+	padding:0 0 200px 0;
+	float:left;
+	background:#800000 url(../image/winter_flower.png) bottom right no-repeat;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	color:white;
+}
+
+#widget_left a{
+	color:white;
+}
+
+.widget_left_head h3{
+	padding:8px 0px 3px 0px;
+	margin:0 10px;
+	font-size:16px;
+	color:white;
+	border-bottom:1px solid #aaa;
+}
+
+.widget_left_head{
+	padding-bottom:5px ;
+}
+
+.widget_left_body{
+	width:180px;
+	margin:15px 0px;
+	padding-left:10px;
+}
+
+.widget_left_body ul{
+	list-style:none;
+	padding:0px;
+	margin-left:20px;
+}
+
+.widget_left_body ul li{
+	line-height:2.4em;
+	padding:0;
+	margin:0;
+}
+
+.widget_head_head h3{
+	color:#800;
+	padding:0;
+	margin:3px 0;
+}
+
+.panel_head a{
+	text-decoration:none;
+}
+
+/* ========= Foot ========= */
+#foot{
+	width:910px;
+	margin-top:20px;
+	font-size:12px;
+	text-align:right;
+	padding:10px 20px 5px 20px;
+	background:url(../image/foot.png) repeat-x top left;
+	
+}
+
+#foot a{
+	color:gray;
+}
+
+#siteInfo {
+	display:block;
+	margin-top:20px;
+}
+

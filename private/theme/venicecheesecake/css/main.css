@@ -1,0 +1,285 @@
+/* ========= HTML-TAG ========= */
+body{
+	font-family:tahoma;
+	font-size: 12px ;
+	line-height:18px;
+	padding:0px;
+	text-align:center;
+	height:100%;
+	background:#241c1c;
+	color:#ccc;
+}
+
+td{
+	font-family: Tahoma;
+	font-size: 12px ;
+	line-height:20px;
+
+}
+
+h1, h2, h3, h4{
+	margin-top:0px;
+}
+
+a{
+	color:#666;
+}
+
+input{
+	font-size:12px;
+	border:1px solid gray;
+}
+
+/* ========= Labels ========= */
+.list_label, .title_label{
+	color:#ccc;
+	font-size:32px;
+	margin:5px 0;
+}
+
+.small_label{
+	color:#ccc;
+	font-size:18px;
+}
+
+.sublist_label{
+	color:#ccc;
+	font-size:16px;
+}
+
+/* ========= Head ========= */
+#head{
+	margin:10px 20px;
+}
+
+#head h2{
+	margin:-15px 0 0 20px;
+	padding:0;
+	color:#d41000;
+	font-size:16px;
+	font-weight:normal;
+}
+
+/* ========= Main Layout ========= */
+#main_container{
+	width:960px;
+	min-height:720px;
+	border:1px solid #333;
+	margin:30px auto 0 auto;
+	text-align:justify;
+	background:#000;
+}
+
+#main{
+	margin:0;
+}
+
+#home_body, #body{
+	width:920px;
+	padding:5px 0px 5px 40px;
+	min-height:500px;
+}
+
+#home_body{
+	background:black url(../image/home_background.jpeg) bottom left no-repeat;
+}
+
+#body{
+	background:black url(../image/background.jpeg) bottom left no-repeat;
+}
+
+#content, #wide_content{
+	margin-top: 0px;
+	float:left;
+}
+
+#content{
+	width:355px;
+}
+
+#wide_content{
+	width:685px;
+}
+
+
+/* ========= Menu ========= */
+#menu_container{
+	width:960px;
+	margin:0;
+	padding:0;
+	height:22px;
+	background:#550000;
+}
+
+#menu{
+	margin:0;
+	padding:0;
+}
+
+#menu li{
+	float: left;
+	list-style: none;
+}
+
+#menu li a{
+	padding: 2px 40px;
+	color: #f3ecd2;
+	font-size:13px;
+	display: widget;
+	text-decoration:none;
+	border-right:2px solid black;
+}
+
+#menu li a:hover{
+	background:#f3ecd2;
+	color:#550000;
+}
+
+#menu li a#active_page{
+	background:#c39853;
+	color:#550000;
+}
+
+/* ========= Widgets ========= */
+#middle_widget{
+	width: 300px;
+	height:480px;
+	margin:0px 0px 0px 10px;
+	padding:10px;
+	float:left;
+	background:url(../image/middlebox.png) top center no-repeat;
+}
+
+#left_widget{
+	width: 220px;
+	height:500px;
+	float:left;
+	margin:0px 0px 0px 10px;
+	background:url(../image/copyright.png) bottom right no-repeat;
+}
+
+#facebook_box{
+	width: 180px;
+	height:330px;
+	padding:0;
+	padding:10px;
+	background:url(../image/facebookbox.png) top center no-repeat;
+}
+
+#flavor_box{
+	width: 180px;
+	height:120px;
+	margin-top:10px;
+	padding:0;
+	padding:10px;
+	background:url(../image/flavorbox.png) top center no-repeat;
+}
+
+#ximple_link{
+	width:16px;
+	height:265px;
+	float:left;
+	margin:230px auto auto -16px;
+}
+
+#deluca_link{
+	width:960px;
+	height:69px;
+	margin-top:-69px;
+}
+
+/* ========= Foot ========= */
+#foot{
+	clear:both;
+	width:960px;
+	height:69px;
+	margin:0;
+	font-size:12px;
+	text-align:right;
+	background:#f3ecd2;
+	padding-top:5px;
+}
+
+#partner_label{
+	color:#550000;
+	margin-right:10px;
+	font-weight:normal;
+}
+
+#partner_slogan{
+	color:black;
+	margin:25px auto auto 282px;
+	font-size:11px;
+	font-weight:normal;
+	text-align:left;
+}
+
+/* ========= Operation bar ========= */
+#operation_bar{
+	position:fixed;
+	top:0;
+	left:0;
+	height:25px;
+	padding:0;
+	line-height:20px;
+	width:100%;
+	background:black;
+	text-align:right;
+	border-bottom:1px solid #333;
+}
+
+#operation_bar a{
+	color:#ccc;
+	text-decoration:none;
+	font-weight:bold;
+	font-size:13px;
+	margin:auto 15px;
+}
+
+#operation_content, #search_bar{
+	margin: 1px auto 1px 1%;
+	width:48%;
+	float:left;
+	height:20px;
+}
+
+#search_bar{
+	text-align:left;
+}
+
+#login_popup #loginsubmit{
+	width:80px;
+}
+
+#login_popup{
+	border:1px solid #666;
+	padding:15px;
+	background:#ccc;
+	width:240px;
+	position:fixed;
+	top:26px;
+	right:0px;
+	text-align:left;
+}
+
+#login_popup h4{
+	color:#666;
+}
+
+#login_popup a{
+	color:#369;
+}
+
+#login_popup input{
+	width:200px;
+}
+
+#facebook_share{
+	margin-top:-1px;
+	float:right;
+	width:80px;
+	padding:1px;
+	clear:none;
+	border:none;
+	overflow:hidden;
+}
