@@ -5,8 +5,7 @@ class LedgerMovementModel extends Model {
 		$ledger_transaction_status = array(1=>"submit",2=>"approve",3=>"revoke");
 
 		$this->transaction_id	= $transactionID; 
-		$this->ledger_id	= $this->label( tt('ledger_id') );
-		$this->ledger_id->setType('int');
+		$this->ledger_id	= $this->hidden(null, int);
 
 		$this->debit		= $this->char( tt('debit') ); 
 		$this->debit->setType('int');

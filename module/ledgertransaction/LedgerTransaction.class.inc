@@ -6,7 +6,7 @@ class LedgerTransaction extends Control {
 		$this->moduleTitle = tt('LedgerTransaction');
 		$this->moduleName  = tt('ledgertransaction');
 		$this->tableName	= tt('Ledgertransaction');
-		$this->init( new LedgerTransaction() );
+		$this->init( new LedgerTransactionModel() );
 	}
 	function index(){
 		
