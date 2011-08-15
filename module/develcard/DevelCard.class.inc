@@ -33,6 +33,7 @@ class DevelCard extends Control{
 	
 	public function insert(){
 		Control::insert();
+		$this->insertTracker('insert');
 		$message = $this->getSubscribeMessage();
 		$this->subscribeResolver($message);
 		notify_subscribe_by_mode($message, 'develcard');
@@ -42,6 +43,7 @@ class DevelCard extends Control{
 		$message = $this->getSubscribeMessage();
 		$this->subscribeResolver($message);
 		Control::update();
+		$this->insertTracker('update');
 		$this->setResolverPoint((int)pp('status'));
 	}
 	
@@ -140,6 +142,7 @@ class DevelCard extends Control{
 		
 		$this->dataByID['editable'] = (develcard_is_admin() or authority_group('develcard_resolver'));
 		$this->initComment();
+		$this->insertTracker('read');
 		
 		$render = render($this->dataByID, 'develcard_display.tpl', 'develcard_display');
 		$render.= $this->comment->render();
@@ -521,6 +524,20 @@ class DevelCard extends Control{
 		$clause = "WHERE resolver=$resolver AND end_date>='$start' AND end_date<='$end'";
 		$cardID = db_select_single_column('develcard_resolver', 'develcard', $clause);
 		if(count($cardID)) return 'id='.join(' OR id=', $cardID);
+	}
+	
+	private function insertTracker($action){
+		include_once(MODULE_PATH.'tracker/tracker.tool.inc');
+		$data = $this->dataByID;
+		if(!is_array($this->dataByID['writer'])){
+			$data['writer'] = $this->dataByID['writer'];
+		}else{
+			$data['writer'] = $this->dataByID['writer']['id'];
+		}
+		$data['writer_name'] = $this->dataByID['reporter_name'];
+		$data['action'] = $action;
+		$data['mode'] = $this->fullModuleName;
+		tracker_insert($data);
 	}
 }
 ?>
