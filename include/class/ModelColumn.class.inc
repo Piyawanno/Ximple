@@ -90,7 +90,7 @@ abstract class ModelColumn{
 	}
 	
 	public function triggerCheckNull(){
-		if($this->isNotNull and empty($this->data)){
+		if($this->isNotNull and $this->data === null){
 			error_syslog(sprintf(tt('Data in column %s is not allowed be empty.'), $this->name));
 		}
 	}

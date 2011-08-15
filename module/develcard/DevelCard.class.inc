@@ -33,10 +33,11 @@ class DevelCard extends Control{
 	
 	public function insert(){
 		Control::insert();
-		$this->insertTracker('insert');
 		$message = $this->getSubscribeMessage();
 		$this->subscribeResolver($message);
 		notify_subscribe_by_mode($message, 'develcard');
+		$this->selectByID($this->column);
+		$this->insertTracker('write');
 	}
 	
 	public function update(){
