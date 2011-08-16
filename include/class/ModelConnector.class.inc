@@ -14,7 +14,7 @@ class ModelConnector{
 	}
 	
 	public function hasSection(){
-		return $this->model->hasSection();
+		return $this->modelObject->hasSection();
 	}
 	
 	public function setID($id){
