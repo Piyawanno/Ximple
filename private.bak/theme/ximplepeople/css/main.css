@@ -1,0 +1,280 @@
+/* ========= HTML-TAG ========= */
+html{
+	height:100%;
+}
+
+body{
+	font-size: 14px ;
+	line-height:20px;
+	padding:0;
+	margin:0;
+	text-align:center;
+	background:#080808 url(../image/people.jpeg) center top fixed no-repeat;
+}
+
+td{
+	font-family: Tahoma;
+	font-size: 14px ;
+	line-height:20px;
+
+}
+
+h1, h2, h3, h4{
+	margin-top:0px;
+}
+
+a{
+	color:#fab259;
+}
+
+a:hover{
+	color:#800;
+}
+
+input{
+	font-size:12px;
+	border:1px solid #aaa;
+}
+
+/* ========= Labels ========= */
+.list_label{
+	color:white;
+	font-family:Century Gothic, sans-serif;
+	line-height:56px;
+	font-size:48px;
+	margin-top:25px;
+}
+
+.title_label{
+	color:white;
+	font-family:Century Gothic, sans-serif;
+	line-height:48px;
+	font-size:32px;
+	margin-top:25px;
+}
+
+.label_link{
+	text-decoration:none;
+	color:white;
+}
+
+.small_label{
+	color:white;
+	font-family:Century Gothic, sans-serif;
+	margin-top:25px;
+	line-height:42px;
+	font-size:32px;
+}
+
+.sublist_label{
+	padding:10px 0px 10px 0px;
+	font-size:14px;
+	font-weight:bold;
+	border-bottom:1px solid #ddd;
+	text-decoration:underline;
+	color:#666;
+}
+
+
+/* ========= Main Layout ========= */
+#main_container{
+	max-width:1020px;
+	min-width:960px;
+	margin:35px auto 0 auto;
+	padding:0;
+	text-align:left;
+}
+
+#main{
+	text-align:left;
+	padding:0;
+}
+
+#content{
+	font-family: Tahoma;
+	font-size: 14px ;
+	color:#ddd;
+	width:520px;
+	min-height:960px;
+	margin: 0 75px 0 0;
+	padding: 150px 10px 40px 10px;
+	float:right;
+	background:url(../image/content-background.png);
+}
+
+#content a{
+	color:#fab259;
+}
+
+#content .label_link{
+	color:white;
+}
+
+#profile{
+	width:70px;
+	margin:0px;
+	text-align:right;
+}
+
+
+/* ========= Logo ========= */
+#ximple_logo{
+	margin:-100px 80px auto auto;
+	float:right;
+}
+
+/* ========= Menu ========= */
+#menu_container{
+	width:1020px;
+	height:25px;
+	padding:0;
+	height:150px;
+	position:fixed;
+	top:45px;
+	left:auto;
+	right:auto;
+}
+
+#menu{
+	height:25px;
+	width:970px;
+	height:25px;
+	margin: 85px 0 0 0;
+	padding:0 0 0 50px;
+	background:url(../image/menu-background.png);
+	font-family:Century Gothic, sans-serif;
+	font-size:14px;
+}
+
+#menu li{
+	float: left;
+	list-style: none;
+	padding:0;
+}
+
+#menu li a{
+	text-decoration:none;
+	color:black;
+	padding:2px 25px;
+	line-height:25px;
+}
+
+#menu li a:hover{
+	color:#900;
+	text-decoration:underline;
+}
+
+#menu li a#active_page{
+	background:white;
+	color:#900;
+}
+
+/* ========= Left side bar ========= */
+#widget_left{
+	margin:180px 40px 40px auto;
+	width:320px;
+	color:white;
+	float:right;
+	font-family:Century Gothic, sans-serif;
+}
+
+#widget_left a{
+	color:white;
+}
+
+#widget_left a:hover{
+	color:#900;
+}
+
+/* ========= Egg link ========= */
+a.egg_link{
+	min-height:110px;
+	min-width:80px;
+	font-size:16px;
+	display:block;
+	background:url(../image/egg.png) center top no-repeat;
+}
+
+a.egg_link:hover, a.egg_link:active{
+	background:url(../image/egg-comrade.png) center top no-repeat;
+}
+
+/* ========= Foot ========= */
+#foot{
+	position:fixed;
+	bottom:0;
+	left:0;
+	height:15px;
+	padding:5px 40px;
+	width:100%;
+	background:black;
+	text-align:left;
+	font-size:10px;
+	color:#666;
+	font-family:Century Gothic;
+}
+
+.widget_foot{
+	line-height:15px;
+	display:inline;
+}
+
+#site_info{
+	display:inline;
+}
+
+/* ========= Operation bar ========= */
+
+#operation_bar{
+	position:fixed;
+	top:0;
+	left:0;
+	height:36px;
+	width:100%;
+	background:black;
+	text-align:right;
+}
+
+#operation_bar a{
+	color:white;
+	text-decoration:none;
+	font-weight:bold;
+	font-size:13px;
+	margin:auto 15px;
+}
+
+#operation_content, #search_bar{
+	margin: 6px auto auto 1%;
+	width:48%;
+	float:left;
+	height:20px;
+}
+
+#search_bar{
+	text-align:left;
+}
+
+#login_popup #loginsubmit{
+	width:80px;
+}
+
+#login_popup{
+	border:1px solid #666;
+	padding:15px;
+	background:white;
+	width:240px;
+	position:fixed;
+	top:36px;
+	right:0px;
+	text-align:left;
+	z-index:1500;
+	font-size: 12px ;
+}
+
+#login_popup a{
+	color:#369;
+}
+
+#login_popup input{
+	width:200px;
+}

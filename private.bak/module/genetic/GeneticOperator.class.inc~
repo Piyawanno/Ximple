@@ -1,0 +1,25 @@
+<?php
+class GeneticOperator{
+	public function crossOver($fatherChromosome, $motherChromosome, $fatherCutPoint, $motherCutPoint){
+		// Array of chromosomes
+		$childrenChromosome = array();
+		$childrenChromosome[] = $fatherChromosome;
+		$childrenChromosome[] = $motherChromosome;
+		if($this->checkCutPoint($fatherChromosome, $fatherCutPoint) and $this->checkCutPoint($motherChromosome, $motherCutPoint)){
+			
+			return $childrenChromosome;
+		}
+		return $childrenChromosome;
+	}
+	
+	public function mutation($originalChromosome){
+		$resultChromosome = array();
+		$resultChromosome[] = $originalChromosome;
+		return $resultChromosome;
+	}
+	
+	private function checkCutPoint($chromosome, $cutPoint){
+		
+	}
+}
+?>

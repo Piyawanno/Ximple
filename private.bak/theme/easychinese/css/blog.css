@@ -1,0 +1,32 @@
+p.blog_info{
+	color:gray;
+	font-size:11px;
+	margin-bottom:-5px;
+}
+
+p.blog_foot{
+	border-top:1px solid #eee;
+	text-align:right;
+}
+
+p.blog_foot a{
+	text-decoration:none;
+	padding:0px 10px 0px 10px;
+	border-left:1px solid #eee;
+}
+
+.blog{
+	margin:0px 0px 50px 0px;
+}
+
+.promoted_blog{
+	overflow:auto;
+	height:280px;
+	width:520px;
+}
+
+.promoted_blog_activated{
+	padding:3px 10px;
+	background:url(../image/circle.png) no-repeat center top;
+	text-decoration:none;
+}
