@@ -13,6 +13,8 @@ class Comment extends Control{
 	private $insertMode;
 	private $parentAdminGroup;
 	private $parentPermissionColumn = 'comment_permission';
+	private $subscribeMode = null;
+	private $subscribeMessage = null;
 	
 	function Comment($isInit=true){
 		$this->tableName = 'comment';
@@ -47,6 +49,10 @@ class Comment extends Control{
 		if($parent) $this->parent = $parent;
 		elseif(pp('parent')) $this->parent = (int) pp('parent');
 		elseif(gg('parent')) $this->parent = (int) gg('parent');
+	}
+	
+	public function setSubscribeMode($mode){
+		$this->subscribeMode = $mode;
 	}
 	
 	public function setParentWriter($parentWriter){
@@ -270,6 +276,9 @@ class Comment extends Control{
 			}
 		}
 		notify_multiple_subscribe($message, $relatedUser, 'comment');
+		if($this->subscribeMode){
+			notify_subscribe_by_mode($this->subscribeMode, $message);
+		}
 	}
 	
 	private function renderParentTopic(){

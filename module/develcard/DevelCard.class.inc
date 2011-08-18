@@ -410,6 +410,7 @@ class DevelCard extends Control{
 			$this->comment->setMode($this->fullModuleName);
 			$this->comment->setParent($this->id);
 			$this->comment->setPermission($permission);
+			$this->comment->setSubscribeMode('develcard_comment');
 			$this->comment->setParentWriter($this->dataByID['writer']['id']);
 			$this->comment->init();
 		}

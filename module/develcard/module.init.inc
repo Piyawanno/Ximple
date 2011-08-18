@@ -76,25 +76,28 @@ function module_init_develcard(){
 	$widget->submit();
 	
 	notify_add_subscribe('develcard', tt('someone posts in DevelCard', true));
+	notify_add_subscribe('develcard_comment', tt('someone comments on DevelCard', true));
 	
-	config_set('develcard_access', 2);
-	config_set('develcard_pixel_per_point', 12);
-	config_set('develcard_load_color', '#ffffff');
-	config_set('develcard_load_bg_color', '#aa00aa');
-	config_set('develcard_point_color', '#ffffff');
-	config_set('develcard_point_bg_color', '#00aaaa');
+	if(!is_array(cc('develcard_type'))){
+		config_set('develcard_access', 2);
+		config_set('develcard_pixel_per_point', 12);
+		config_set('develcard_load_color', '#ffffff');
+		config_set('develcard_load_bg_color', '#aa00aa');
+		config_set('develcard_point_color', '#ffffff');
+		config_set('develcard_point_bg_color', '#00aaaa');
 	
-	config_set('develcard_list_per_page', 20);
-	config_set('develcard_hight_color', '#ff0000');
-	config_set('develcard_medium_color', '#ffff00');
-	config_set('develcard_low_color', '#00ff00');
-	config_set('develcard_no_effect_color', '#0000ff');
-	config_set('develcard_type', develcard_get_default_type_option());
-	config_set('develcard_comment_write_label', tt('Please, write your opinion'));
-	config_set('develcard_comment_page_length', 10);
+		config_set('develcard_list_per_page', 20);
+		config_set('develcard_hight_color', '#ff0000');
+		config_set('develcard_medium_color', '#ffff00');
+		config_set('develcard_low_color', '#00ff00');
+		config_set('develcard_no_effect_color', '#0000ff');
+		config_set('develcard_type', develcard_get_default_type_option());
+		config_set('develcard_comment_write_label', tt('Please, write your opinion'));
+		config_set('develcard_comment_page_length', 10);
 	
-	config_set('develcard_widget_resolver_number', 5);
-	config_set('develcard_widget_personal_number', 5);
+		config_set('develcard_widget_resolver_number', 5);
+		config_set('develcard_widget_personal_number', 5);
+	}
 }
 
 function module_drop_develcard(){
@@ -121,5 +124,6 @@ function module_drop_develcard(){
 	$panel->drop();
 	
 	notify_drop_subscribe('develcard');
+	notify_drop_subscribe('develcard_comment');
 }
 ?>
