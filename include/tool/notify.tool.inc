@@ -155,7 +155,7 @@ function notify_subscribe_by_mode($message, $mode, $send_message=true){
 	if(is_array($uid)){
 		if($send_message){
 			foreach($uid as $key => $value){
-				notify_add_info($message, $value);
+				notify_add_info($message, $key);
 			}
 		}
 		notify_send_mail($message, userinfo_get_email(array_keys($uid)));
