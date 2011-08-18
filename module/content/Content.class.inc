@@ -471,7 +471,7 @@ abstract class Content extends Control{
 	}
 	
 	private function subscribe(){
-		$message = tt('%s posts <a href="%s">%s</a> in %s.');
+		$message = tt('<p>%s posts <a href="%s">%s</a> in %s.</p>');
 		$uri = SECTION_URI.Q.$this->fullModuleName.'/'.$this->id;
 		$message = sprintf($message, USER_NAME, $uri, pp('topic'), $this->moduleTitle);
 		notify_subscribe_by_mode($message, $this->fullModuleName);

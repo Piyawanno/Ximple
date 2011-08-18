@@ -307,14 +307,14 @@ class ForumEntry extends Content{
 	}
 	
 	private function subscribe(){
-		$message = tt('%s posts <a href="%s">%s</a> in your subscribed forum.');
+		$message = tt('<p>%s posts <a href="%s">%s</a> in your subscribed forum.</p>');
 		$uri = SECTION_URI.Q.'forum_entry/'.$this->id;
 		$message = sprintf($message, pp('writer_name'), $uri, pp('topic'));
 		notify_subscribe_by_mode($message, 'forum_'.pp('forum'));
 	}
 	
 	private function subscribeComment(){
-		$message = tt('%s comments in <a href="%s">%s</a>, which is in your subscribed forum.');
+		$message = tt('<p>%s comments in <a href="%s">%s</a>, which is in your subscribed forum.</p>');
 		$uri = SECTION_URI.Q.'forum_entry/'.$this->id;
 		$message = sprintf($message, pp('writer'), $uri, $this->dataByID['topic']);
 		notify_subscribe_by_mode($message, 'forum_comment_'.$this->dataByID['forum']);

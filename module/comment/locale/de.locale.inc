@@ -6,7 +6,7 @@ globalvar_add_locale(array (
 	'Comments in %s' => '',
 	'List of %s' => '',
 	'guest' => '',
-	'%s commented on your contribution : <a href="%s">%s</a>.' => '',
+	'<p>%s commented on your contribution : <a href="%s">%s</a></p>.' => '',
 	'everybody can comment' => '',
 	'only authenticated user can comment' => '',
 	'read only' => '',

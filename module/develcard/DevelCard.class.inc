@@ -509,7 +509,7 @@ class DevelCard extends Control{
 		if(authority_is_guest()) $userName = pp('reporter_name');
 		else $userName = USER_NAME;
 		$uri = SECTION_URI.Q.'develcard/'.$this->id;
-		return sprintf(tt('%s posts <a href="%s">%s</a> in DevelCard.'), $userName, $uri, pp('topic'));
+		return sprintf(tt('<p>%s posts <a href="%s">%s</a> in DevelCard.</p>'), $userName, $uri, pp('topic'));
 	}
 	
 	private function getModeParameter($mode){

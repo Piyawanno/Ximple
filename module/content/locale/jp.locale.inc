@@ -11,7 +11,7 @@ globalvar_add_locale(array (
 	'publishing and comment' => '',
 	'search engine' => '',
 	'You are not allowed to view the selected %s.' => '',
-	'%s posts <a href="%s">%s</a> in %s.' => '',
+	'<p>%s posts <a href="%s">%s</a> in %s.</p>' => '',
 	'topic' => '',
 	'writer' => '',
 	'publish date' => '',

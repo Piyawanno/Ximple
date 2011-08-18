@@ -150,11 +150,13 @@ function notify_multiple_subscribe($message, $uid, $reference){
 	}
 }
 
-function notify_subscribe_by_mode($message, $mode){
+function notify_subscribe_by_mode($message, $mode, $send_message=true){
 	$uid = io_unserialize(FILES_PATH.'subscribe/'.SECTION.'/'.$mode);
 	if(is_array($uid)){
-		foreach($uid as $key => $value){
-			notify_add_info($message, $value);
+		if($send_message){
+			foreach($uid as $key => $value){
+				notify_add_info($message, $value);
+			}
 		}
 		notify_send_mail($message, userinfo_get_email(array_keys($uid)));
 	}

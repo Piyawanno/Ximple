@@ -11,7 +11,7 @@ globalvar_add_locale(array (
 	'publishing and comment' => 'การเผยแพร่และความคิดเห็น',
 	'search engine' => 'search engine',
 	'You are not allowed to view the selected %s.' => 'คุณไม่ได้รับอนุญาตให้ดู%s',
-	'%s posts <a href="%s">%s</a> in %s.' => '%s posts <a href="%s">%s</a> ใน %s.',
+	'<p>%s posts <a href="%s">%s</a> in %s.</p>' => '%s posts <a href="%s">%s</a> ใน %s.',
 	'topic' => 'หัวข้อ',
 	'writer' => 'ผู้เขียน',
 	'publish date' => 'วันเผยแพร่',

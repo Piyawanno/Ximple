@@ -253,7 +253,7 @@ class Comment extends Control{
 	}
 	
 	private function insertNotify(){
-		$p = tt('%s commented on your contribution : <a href="%s">%s</a>.');
+		$p = tt('<p>%s commented on your contribution : <a href="%s">%s</a></p>.');
 		$uri = SECTION_URI.Q.$this->mode.'/'.$this->parent.'/page/'.pid().'#last_comment';
 		$message = sprintf($p, pp('writer'), $uri, $this->parentData['topic']);
 		if($this->parentData['writer'] != USER_ID){
