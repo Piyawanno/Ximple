@@ -141,7 +141,7 @@ class User extends Control{
 	
 	private function updateMap(){
 		if($this->updateMap){
-			$clause = 'users='.((int) $this->id);
+			$clause = 'users='.((int) $this->id).' AND section='.SECTION;
 			db_drop_many('map', $clause);
 			if(is_array(pp('groups'))){
 				$data = array(
