@@ -56,12 +56,6 @@ function module_drop_video(){
 	$videoConfig = new VideoConfig();
 	$videoConfig->dropModule();
 	
-	$flash = new FlashWidgetManager('video_last_post');
-	$flash->drop();
-	
-	$flash = new FlashWidgetManager('video_last_commented');
-	$flash->drop();
-	
 	notify_add_info(tt('Video has been successfully deactivated'));
 	config_drop('video_entries_number');
 	config_drop('video_width');

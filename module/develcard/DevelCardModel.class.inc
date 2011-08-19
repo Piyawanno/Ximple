@@ -43,7 +43,9 @@ class DevelCardModel extends Model{
 		$this->priority = $this->select(tt('priority'), develcard_get_priority_option());
 		$this->priority->isReachable = true;
 		
-		$this->status = $this->select(tt('status'), develcard_get_status_option());
+		$option = develcard_get_status_option();
+		unset($option[0]);
+		$this->status = $this->select(tt('status'), $option);
 		$this->resolver = $this->grid(tt('resolvers'))->setModel(new ResolverModel());
 		
 		$this->deadline = $this->calendar(tt('deadline'));

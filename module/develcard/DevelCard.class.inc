@@ -105,11 +105,11 @@ class DevelCard extends Control{
 	}
 	
 	public function renderTagPage(){
-		document_set_path($tag, $mode);
 		$tag = gg('tag');
 		$mode = 'develcard_tag/tag/'.$tag;
 		$clause = $this->getStatusTypeClause($mode);
 		$title = tt('DevelCard tagged by : ').$tag;
+		document_set_path($tag, $mode);
 		$clause = "WHERE freetag LIKE '%$tag%' $clause ORDER BY comment_time DESC";
 		return $this->renderListPage($title, $clause, $mode);
 	}

@@ -57,6 +57,14 @@ function module_init_develcard(){
 	
 	module_add('develcard', 'develcard.widget.module.inc', tt('DevelCard'), 'widget');
 	
+	$flash = new FlashWidgetManager('develcard_recent_created');
+	$flash->setMode('develcard');
+	$flash->setName(tt('Recently created DevelCard'));
+	$flash->setTable('develcard');
+	$flash->setColumn('topic');
+	$flash->setClause('WHERE (section='.SECTION.' AND status=0) ORDER BY comment_time DESC');
+	$flash->submit();
+	
 	$flash = new FlashWidgetManager('develcard_recent_progress');
 	$flash->setMode('develcard');
 	$flash->setName(tt('Recent DevelCard in progress'));

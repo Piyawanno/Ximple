@@ -112,19 +112,23 @@ function widget_drop_navigation($mode){
 }
 
 function widget_add($title, $call_mode, $position='disabled', $form_mode='', $save_mode='', $sort_number=1){
-	$insert_data = array(
-		'title' => (string) $title,
-		'config_form_mode' => (string) $form_mode,
-		'config_save_mode' => (string) $save_mode,
-		'call_mode' => (string) $call_mode,
-		'position' => $position,
-		'appear_module' => (string) serialize(array()),
-		'appear_group' => (string) serialize(array(0)),
-		'body' => '',
-		'sort_number' => $sort_number,
-		'section' => SECTION,
-	);
-	db_insert('widget', $insert_data);
+	$clause = 'WHERE section='.SECTION." AND call_mode='$call_mode'";
+	$existence_data = db_select_single_column('widget', 'id', $clause);
+	if(count($existence_data) == 0){
+		$insert_data = array(
+			'title' => (string) $title,
+			'config_form_mode' => (string) $form_mode,
+			'config_save_mode' => (string) $save_mode,
+			'call_mode' => (string) $call_mode,
+			'position' => $position,
+			'appear_module' => (string) serialize(array()),
+			'appear_group' => (string) serialize(array(0)),
+			'body' => '',
+			'sort_number' => $sort_number,
+			'section' => SECTION,
+		);
+		db_insert('widget', $insert_data);
+	}
 }
 
 function widget_drop($call_mode){

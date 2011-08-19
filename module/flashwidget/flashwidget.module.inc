@@ -25,17 +25,21 @@ function flashwidget_clear_cache($table){
 
 function flashwidget_add($reference, $mode, $name, $table, $column, $clause){
 	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
-	$data = array(
-		'reference' => $reference,
-		'mode' => $mode,
-		'table_name' => $table,
-		'column_name' => $column,
-		'clause' => $clause,
-		'section' => SECTION,
-		'item_number' => 5,
-	);
-	$id = db_insert('flashwidget', $data);
-	widget_add($name, 'flashwidget/'.$id, 'disabled', 'flashwidget_config/'.$id, 'flashwidget_save/'.$id);
+	$clause = 'WHERE section='.SECTION." AND reference='$reference'";
+	$existence_data = db_select_single_column('flashwidget', 'id', $clause);
+	if(count($existence_data) == 0){
+		$data = array(
+			'reference' => $reference,
+			'mode' => $mode,
+			'table_name' => $table,
+			'column_name' => $column,
+			'clause' => $clause,
+			'section' => SECTION,
+			'item_number' => 5,
+		);
+		$id = db_insert('flashwidget', $data);
+		widget_add($name, 'flashwidget/'.$id, 'disabled', 'flashwidget_config/'.$id, 'flashwidget_save/'.$id);
+	}
 }
 
 function flashwidget_drop($reference){

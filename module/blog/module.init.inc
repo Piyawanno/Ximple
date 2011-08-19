@@ -54,15 +54,6 @@ function module_drop_blog(){
 	$blogConfig = new BlogConfig();
 	$blogConfig->dropModule();
 	
-	$flash = new FlashWidgetManager('blog_last_post');
-	$flash->drop();
-	
-	$flash = new FlashWidgetManager('blog_last_commented');
-	$flash->drop();
-	
-	$widget = new WidgetManager(tt('Promoted Blogs'), 'blog_promote_widget');
-	$widget->drop();
-	
 	config_drop('blog_entries_number');
 }
 ?>

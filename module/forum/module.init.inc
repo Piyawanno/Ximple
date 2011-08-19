@@ -95,15 +95,6 @@ function module_drop_forum(){
 	$panel = new PanelManager('Forum');
 	$panel->drop();
 	
-	$flash = new FlashWidgetManager('forum_entry_last_post');
-	$flash->drop();
-	
-	$flash = new FlashWidgetManager('forum_entry_last_commented');
-	$flash->drop();
-	
-	$flash = new FlashWidgetManager('forum_list');
-	$flash->drop();
-	
 	$widget = new WidgetManager(tt('Advanced Last commented Forum Entries'), 'forum_entry_last_commented');
 	$widget->drop();
 	
