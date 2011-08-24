@@ -21,6 +21,11 @@
 	margin-top:15px;
 }
 
+.poll_embed{
+	display:block;
+	clear:both;
+}
+
 #poll_embed_form{
 	display:none;
 	text-align:left;

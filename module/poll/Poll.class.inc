@@ -112,8 +112,13 @@ class Poll extends Control{
 		if($this->checkEmbedExistence($module, $moduleID)){
 			head_add_css('poll.css');
 			$this->selectByID($this->column);
-			if($this->isVotable($this->id)) return $this->renderVoteForm($this->id);
-			else return $this->renderResult($this->id);
+			$render = array('label' => $this->dataByID['topic']);
+			if($this->isVotable($this->id)){
+				$render['page'] = $this->renderVoteForm($this->id);
+			}else{
+				$render['page'] = $this->renderResult($this->id);
+			}
+			return render($render, 'poll_embed.tpl', 'poll_embed');
 		}
 	}
 	
@@ -177,6 +182,7 @@ class Poll extends Control{
 	
 	private function checkPermission($id){
 		$permission = $this->data[$id]['permission'];
+		if(is_array($permission)) $permission = $permission['value'];
 		if($permission == POLL_PERMISSION_ALL){
 			return true;
 		}elseif($permission == POLL_PERMISSION_AUTHENTICATED){
