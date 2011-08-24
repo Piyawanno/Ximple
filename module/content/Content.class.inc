@@ -343,7 +343,7 @@ abstract class Content extends Control{
 		}
 
 		$clause  = "WHERE (section=".SECTION." AND publishing_status < 2 ";
-		$clause .= "AND publish_time <= '".date('Y-m-d')."' $tagClause )";
+		$clause .= "AND publish_time <= '".date('Y-m-d')." 23:59:59' $tagClause )";
 		$clause .= "ORDER BY publish_time DESC, id DESC";
 		$this->selectPage($column, $pageLength, $clause);
 	}
@@ -366,9 +366,8 @@ abstract class Content extends Control{
 	}
 	
 	private function selectFirstPageFearured($column, $pageLength){
-		$clause = "WHERE (section=".SECTION." AND publishing_status=1 AND publish_time <= '".date('Y-m-d')."') ";
+		$clause = "WHERE (section=".SECTION." AND publishing_status=1 AND publish_time <= '".date('Y-m-d')." 23:59:59') ";
 		$clause.= "ORDER BY publish_time DESC, id DESC";
-		
 		$this->selectPage($column, $pageLength, $clause);
 		$featuredData = $this->data;
 		
@@ -385,7 +384,7 @@ abstract class Content extends Control{
 	}
 	
 	private function selectFirstPageCommon($column, $pageLength){
-		$clause = "WHERE (section=".SECTION." AND publishing_status=0 AND publish_time <= '".date('Y-m-d')."') ";
+		$clause = "WHERE (section=".SECTION." AND publishing_status=0 AND publish_time <= '".date('Y-m-d')." 23:59:59') ";
 		$clause.= "ORDER BY publish_time DESC, id DESC";
 		$this->selectPage($column, $pageLength, $clause);
 	}

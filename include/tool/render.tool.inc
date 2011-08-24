@@ -140,6 +140,7 @@ function render_avatar($user, $show_profile=true){
 		'profile_link' => $profile_link,
 		'icon' => render_get_profile_icon($user),
 		'avatar_uri' => ROOT_URI.$user['avatar'],
+		'is_guest' => ($user['id'] == -1),
 	);
 	return render($render_array, 'avatar.tpl', 'avatar');
 }

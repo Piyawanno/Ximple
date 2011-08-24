@@ -30,7 +30,7 @@
 	<table width="100%">
 		<tr>
 			<td valign="top"><?=$value['comment']?></td>
-			<td valign="top" align="center" style="min-width:120px;">
+			<td valign="top" align="center" style="min-width:120px;" width="10%">
 			<?php if($show_avatar):?>
 				<?=render_avatar($value['writer_id'], false)?>
 				<?=forum_render_level($value['writer_id']['id'])?>
@@ -38,11 +38,11 @@
 			</td>
 		</tr>
 	</table>
-	<p class="comment_foot">
-		<a><?=$value['write_time']?></a>
+	<p class="operation_bar">
+		<span><?=$value['write_time']?></span>
 		<?php if($value['editable']):?>
-			<a href="<?=SECTION_URI.Q?>comment_edit/<?=$value['id']?>/module/<?=$value['mode']?>/parent/<?=$value['parent']?>"><?=tt('edit')?></a>
-			<a href="<?=SECTION_URI.Q?>comment_drop/<?=$value['id']?>/module/<?=$value['mode']?>/parent/<?=$value['parent']?>"><?=tt('drop')?></a>
+			<?=render_operation_link('comment_edit', $value['id'].'/module/'.$value['mode'].'/parent/'.$value['parent'], tt('edit'))?>
+			<?=render_operation_link('comment_drop', $value['id'].'/module/'.$value['mode'].'/parent/'.$value['parent'], tt('drop'))?>
 		<?php endif?>
 	</p>
 </div>
