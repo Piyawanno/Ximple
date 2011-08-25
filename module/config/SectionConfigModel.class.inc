@@ -60,10 +60,6 @@ class SectionConfigModel extends Model{
 		}
 		$this->time_format = $this->select(tt('time format'), $option);
 		
-		$this->notify_interval = $this->timeInterval(tt('notification refresh interval'));
-		$this->notify_interval->isDay = false;
-		$this->notify_interval->isHour = false;
-		
 		$cacheOptions = array(
 			3 => tt('agressive process cache (side-effects)'),
 			2 => tt('page cache (recommended)'),
@@ -109,6 +105,12 @@ class SectionConfigModel extends Model{
 		$this->tracker_time = $this->timeInterval(tt('user tracker expiration'));
 		$this->tracker_time->isMinute = false;
 		$this->tracker_time->isSecond = false;
+		
+		$this->notify_interval = $this->timeInterval(tt('notification refresh interval'));
+		$this->notify_interval->isDay = false;
+		$this->notify_interval->isHour = false;
+		
+		$this->notify_default_subscription = $this->checkbox(tt('default subscription'), notify_get_subscribable_module());
 		
 		$path = FILES_PATH.'smiley/'.SECTION.'/';
 		$this->smiley = new MultipleFilesColumn(tt('smiley'), $path, 'smiley');

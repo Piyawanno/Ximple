@@ -213,6 +213,15 @@ function notify_get_subscribable_module(){
 	foreach($subscribe as $mode => $label){
 		$translated[$mode] = tt($label);
 	}
+	$translated['comment']= tt('someone comments on my contributions');
 	return $translated;
+}
+
+function notify_create_subscribe_directory(){
+	$directory = FILES_PATH.'subscribe/';
+	if(!is_dir($directory)) mkdir($directory);
+	$directory.= SECTION.'/';
+	if(!is_dir($directory)) mkdir($directory);
+	return $directory;
 }
 ?>

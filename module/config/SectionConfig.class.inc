@@ -21,6 +21,7 @@ class SectionConfig extends ConfigControl{
 		$this->uploadIcon($oldIcon);
 		$this->setState();
 		$this->modelConnector->triggerPostInsert();
+		$this->setDefaultSubscription();
 	}
 	
 	public function index(){
@@ -38,7 +39,6 @@ class SectionConfig extends ConfigControl{
 		$general->append('index_mode');
 		$general->append('home_label');
 		$general->append('icon');
-		$general->append('notify_interval');
 		$general->append('friendly_url_enable');
 		$general->append('state');
 		
@@ -89,11 +89,13 @@ class SectionConfig extends ConfigControl{
 		$spam->append('antispam_salt');
 		$spam->append('antispam_time');
 		
-		$syslog = $this->getNewConfigForm(tt('System Log'));
+		$syslog = $this->getNewConfigForm(tt('System Log & Notification'));
 		$syslog->append('syslog_enable');
 		$syslog->append('syslog_time');
 		$syslog->append('tracker_enable');
 		$syslog->append('tracker_time');
+		$syslog->append('notify_interval');
+		$syslog->append('notify_default_subscription');
 		
 		$this->renderAdditionalConfig();
 		
@@ -168,6 +170,15 @@ class SectionConfig extends ConfigControl{
 					$configForm->appendModel($name, $model);
 				}
 			}
+		}
+	}
+	
+	private function setDefaultSubscription(){
+		$default = cc('notify_default_subscription');
+		$directory = notify_create_subscribe_directory();
+		$uid = db_select_single_column('users', 'id', 'WHERE section='.SECTION);
+		foreach($default as $key => $value){
+			io_serialize($uid, $directory.$value);
 		}
 	}
 }

@@ -74,9 +74,9 @@ class Account extends User{
 		$language = Model::select(tt('default language for my user interface'), translate_get_interface_language());
 		$language->data = user_info_get_config($this->id, 'language');
 		
-		$subscribeOption = $this->getSubcribeOption();
+		$subscribeOption = notify_get_subscribable_module();
 		$subscribe = Model::checkbox(tt('send me an email by'), $subscribeOption);
-		$subscribe->data = user_info_get_config($this->id, 'subscribe');
+		$subscribe->data = $this->getSubscriptionConfig();
 		
 		$permissionOption = $this->getProfilePermissionOption();
 		$profile = Model::radio(tt('who can see my profile'), $permissionOption);
@@ -107,17 +107,8 @@ class Account extends User{
 		);
 	}
 	
-	private function getSubcribeOption(){
-		$configSubscribe = notify_get_subscribable_module();
-		if(!is_array($configSubscribe)) $configSubscribe = array();
-		$option = array(
-			'comment' => tt('someone comments on my contributions'),
-		);
-		return array_merge($option, $configSubscribe);
-	}
-	
 	private function updateSubscriber($subscribe){
-		$subscribeDir = $this->createSubcribeDirectory();
+		$subscribeDir = notify_create_subscribe_directory();
 		$this->addSubscriber($subscribe, $subscribeDir);
 		$this->dropSubscriber($subscribe, $subscribeDir);
 	}
@@ -134,7 +125,7 @@ class Account extends User{
 	}
 	
 	private function dropSubscriber($subscribe, $subscribeDir){
-		$configSubscribe = cc('subscribable_module');
+		$configSubscribe = notify_get_subscribable_module();
 		foreach($configSubscribe  as $key => $value){
 			if(!in_array($key, $subscribe)){
 				$subscriber = io_unserialize($subscribeDir.$key);
@@ -144,12 +135,15 @@ class Account extends User{
 		}
 	}
 	
-	private function createSubcribeDirectory(){
-		$subscribeDir = FILES_PATH.'subscribe/';
-		if(!is_dir($subscribeDir)) mkdir($subscribeDir);
-		$subscribeDir.= SECTION.'/';
-		if(!is_dir($subscribeDir)) mkdir($subscribeDir);
-		return $subscribeDir;
+	private function getSubscriptionConfig(){
+		$subscribe = notify_get_subscribable_module();
+		$directory = notify_create_subscribe_directory();
+		$config = array();
+		foreach($subscribe  as $key => $value){
+			$subscriber = io_unserialize($directory.$key);
+			if(isset($subscriber[$this->id])) $config[] = $key;
+		}
+		return $config;
 	}
 }
 ?>
