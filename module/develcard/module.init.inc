@@ -7,13 +7,37 @@ function module_get_info_develcard(){
 }
 
 function module_init_develcard(){
+	module_develcard_require();
+	$panel = new PanelManager('DevelCard');
+	module_develcard_init_control($panel);
+	module_develcard_init_role($panel);
+	module_develcard_init_panel($panel);
+	module_add('develcard', 'develcard.widget.module.inc', tt('DevelCard'), 'widget');
+	module_develcard_add_widget();
+	notify_add_subscribe('develcard', tt('someone posts in DevelCard', true));
+	notify_add_subscribe('develcard_comment', tt('someone comments on DevelCard', true));
+	module_develcard_init_config();
+}
+
+function module_drop_develcard(){
+	module_develcard_require();
+	module_develcard_drop_control();
+	module_develcard_drop_role();
+	module_develcard_drop_panel();
+	notify_drop_subscribe('develcard');
+	notify_drop_subscribe('develcard_comment');
+}
+
+function module_develcard_require(){
 	include_once('DevelCard.class.inc');
 	include_once('DevelCardConfig.class.inc');
 	include_once('ResolverModel.class.inc');
 	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
 	include_once(INCLUDE_PATH.'class/QuickTableCreator.class.inc');
 	include_once(MODULE_PATH.'flashwidget/FlashWidgetManager.class.inc');
-	
+}
+
+function module_develcard_init_control($panel){
 	$develcard = new DevelCard();
 	$develcard->initModule('DevelCard.class.inc');
 	
@@ -22,7 +46,18 @@ function module_init_develcard(){
 	
 	$resolverCreator = new QuickTableCreator(new ResolverModel());
 	$resolverCreator->create();
+	$panel->appendControl($develcard);
+}
+
+function module_develcard_drop_control(){
+	$develcard = new DevelCard();
+	$develcard->dropModule();
 	
+	$develcardConfig = new DevelCardConfig();
+	$develcardConfig->dropModule();
+}
+
+function module_develcard_init_role($panel){
 	$admin = new RoleManager('develcard_admin');
 	$admin->setName('DevelCard Administrator');
 	$admin->setDescription('Who can configure, edit and drop DevelCard.');
@@ -43,20 +78,37 @@ function module_init_develcard(){
 	$reporter->setDescription('Who can DevelCard Report.');
 	$reporter->submit();
 	
-	$panel = new PanelManager('DevelCard');
-	$panel->setControl($develcard);
-	$panel->append('develcard_config', 'configure DevelCard');
-	$panel->append('develcard_personal', 'my Develcard');
-	$panel->append('develcard_personal_list', 'list of personals');
-	$panel->append('develcard_write', 'submit new DevelCard');
 	$panel->appendRole($admin);
 	$panel->appendRole($moderator);
 	$panel->appendRole($resolver);
 	$panel->appendRole($reporter);
+}
+
+function module_develcard_drop_role(){
+	$admin = new RoleManager('develcard_admin');
+	$admin->drop();
+	
+	$moderator = new RoleManager('develcard_moderator');
+	$moderator->drop();
+	
+	$reporter = new RoleManager('develcard_reporter');
+	$reporter->drop();
+}
+
+function module_develcard_init_panel($panel){
+	$panel->append('develcard_config', 'configure DevelCard');
+	$panel->append('develcard_personal', 'my Develcard');
+	$panel->append('develcard_personal_list', 'list of personals');
+	$panel->append('develcard_write', 'submit new DevelCard');
 	$panel->submit();
-	
-	module_add('develcard', 'develcard.widget.module.inc', tt('DevelCard'), 'widget');
-	
+}
+
+function module_develcard_drop_panel(){
+	$panel = new PanelManager('DevelCard');
+	$panel->drop();
+}
+
+function module_develcard_add_widget(){
 	$flash = new FlashWidgetManager('develcard_recent_created');
 	$flash->setMode('develcard');
 	$flash->setName(tt('Recently created DevelCard'));
@@ -82,10 +134,9 @@ function module_init_develcard(){
 	$widget->setFormMode('develcard_widget_personal_config');
 	$widget->setSaveMode('develcard_widget_personal_save');
 	$widget->submit();
-	
-	notify_add_subscribe('develcard', tt('someone posts in DevelCard', true));
-	notify_add_subscribe('develcard_comment', tt('someone comments on DevelCard', true));
-	
+}
+
+function module_develcard_init_config(){
 	if(!is_array(cc('develcard_type'))){
 		config_set('develcard_access', 2);
 		config_set('develcard_pixel_per_point', 12);
@@ -106,32 +157,5 @@ function module_init_develcard(){
 		config_set('develcard_widget_resolver_number', 5);
 		config_set('develcard_widget_personal_number', 5);
 	}
-}
-
-function module_drop_develcard(){
-	include_once('DevelCard.class.inc');
-	include_once('DevelCardConfig.class.inc');
-	include_once(INCLUDE_PATH.'tool/widget.tool.inc');
-	
-	$develcard = new DevelCard();
-	$develcard->dropModule();
-	
-	$develcardConfig = new DevelCardConfig();
-	$develcardConfig->dropModule();
-	
-	$admin = new RoleManager('develcard_admin');
-	$admin->drop();
-	
-	$moderator = new RoleManager('develcard_moderator');
-	$moderator->drop();
-	
-	$reporter = new RoleManager('develcard_reporter');
-	$reporter->drop();
-	
-	$panel = new PanelManager('DevelCard');
-	$panel->drop();
-	
-	notify_drop_subscribe('develcard');
-	notify_drop_subscribe('develcard_comment');
 }
 ?>

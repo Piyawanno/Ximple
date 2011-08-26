@@ -1,5 +1,6 @@
 <?php
 require_once('ModelFactory.class.inc');
+require_once('TableCreator.class.inc');
 
 class QuickTableCreator{
 	private $moduleName;

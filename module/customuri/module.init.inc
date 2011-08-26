@@ -20,7 +20,7 @@ function module_init_customuri(){
 		$admin->submit();
 	
 		$panel = new PanelManager('Custom URI');
-		$panel->setControl($customuri);
+		$panel->appendControl($customuri);
 		$panel->append('customuri', 'manage Custom URI');
 		$panel->append('customuri_write', 'add new Custom URI');
 		$panel->appendRole($admin);

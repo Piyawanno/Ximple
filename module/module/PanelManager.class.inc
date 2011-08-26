@@ -1,8 +1,8 @@
 <?php
 class PanelManager{
 	private $name;
-	private $control;
-	private $admin;
+	private $control = array();
+	private $admin = array();
 	private $item = array();
 	private $role = array();
 	
@@ -10,9 +10,9 @@ class PanelManager{
 		$this->name = $name;
 	}
 	
-	public function setControl($control){
-		$this->control = $control;
-		$this->admin = $this->control->getAdmin();
+	public function appendControl($control){
+		$this->control[] = $control;
+		$this->admin[] = $control->getAdmin();
 	}
 	
 	public function append($mode, $label){
@@ -25,12 +25,15 @@ class PanelManager{
 	}
 	
 	public function submit(){
-		foreach($this->item as $mode => $label){
-			module_add_panel($this->name, $this->admin, $mode, $label);
-			$method = $this->control->getAction($mode);
-			foreach($this->role as $role){
-				if($this->control->hasAccessMethod($role, $method)){
-					module_add_panel($this->name, $role, $mode, $label);
+		foreach($this->control as $key => $control){
+			$admin = $this->admin[$key];
+			foreach($this->item as $mode => $label){
+				module_add_panel($this->name, $admin, $mode, $label);
+				$method = $control->getAction($mode);
+				foreach($this->role as $role){
+					if($control->hasAccessMethod($role, $method)){
+						module_add_panel($this->name, $role, $mode, $label);
+					}
 				}
 			}
 		}

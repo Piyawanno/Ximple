@@ -37,7 +37,7 @@ function module_init_poll(){
 	$voter->submit();
 	
 	$panel = new PanelManager('Poll');
-	$panel->setControl($poll);
+	$panel->appendControl($poll);
 	$panel->append('poll_write', 'create new Poll');
 	$panel->append('poll_list', 'list & manage  Poll');
 	$panel->append('poll_config', 'configure Poll');
