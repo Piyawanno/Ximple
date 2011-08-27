@@ -395,7 +395,7 @@ abstract class Control extends Translatable{
 	
 	private function initObject($modelObj){
 		$modelFactory = new ModelFactory($modelObj);
-		$this->modelConnector = $modelFactory->bind($this);
+		$this->modelConnector = $modelFactory->bind();
 		$this->column = $this->modelConnector->getColumnName();
 		$this->formMeta = new FormMetaData();
 		$this->listMeta = new ListPageMetaData();
