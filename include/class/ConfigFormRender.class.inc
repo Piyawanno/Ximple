@@ -26,7 +26,17 @@ class ConfigFormRender extends FormModelRender{
 		}
 	}
 	
-	public function appendModel($name, $modelColumn){
+	public function appendModel($name, $modelObject){
+		$this->id = $name;
+		$model = $modelObject->asArray();
+		foreach($model as $key => $value){
+			$this->modelConnector->addModel($key, $value);
+			$this->modelConnector->setAsConfigForm($key);
+			$this->model[$key] = $value;	
+		}
+	}
+	
+	public function appendModelColumn($name, $modelColumn){
 		$this->id = $name;
 		$this->model[$name] = $modelColumn;
 		$this->modelConnector->addModel($name, $modelColumn);

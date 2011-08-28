@@ -14,7 +14,6 @@ abstract class Control extends Translatable{
 	private $listPage;
 	private $modelHasCategory;
 	
-	
 	protected $data;
 	protected $dataByID;
 	protected $listMeta;
@@ -240,6 +239,18 @@ abstract class Control extends Translatable{
 		$this->tableCreator->create();
 	}
 	
+	public function getNewConfigForm($title, $description=null){
+		if(!$this->modelConnector and state_is_develop()) {
+			$message  = 'You should call Control::createModel';
+			$message .= 'before calling Control::initConfigForm().';
+			notify_add_error($message);
+		}
+		include_once('ConfigFormRender.class.inc');
+		$configForm = new ConfigFormRender($title, $this->modelConnector, $description);
+		$this->configForm[] = $configForm;
+		return $configForm;
+	}
+	
 	protected function renderDefaultListPage($description=null){
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->mode = $this->fullModuleName;
@@ -265,18 +276,6 @@ abstract class Control extends Translatable{
 	
 	protected function setPrepareAction($methodName, $prepareMethodName){
 		$this->prepareMethodMap[$mode] = $methodName;
-	}
-	
-	protected function getNewConfigForm($title, $description=null){
-		if(!$this->modelConnector and state_is_develop()) {
-			$message  = 'You should call Control::createModel';
-			$message .= 'before calling Control::initConfigForm().';
-			notify_add_error($message);
-		}
-		include_once('ConfigFormRender.class.inc');
-		$configForm = new ConfigFormRender($title, $this->modelConnector, $description);
-		$this->configForm[] = $configForm;
-		return $configForm;
 	}
 	
 	protected function renderInsertForm($setPath=true){

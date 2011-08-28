@@ -8,6 +8,15 @@ abstract class Model{
 	private $extendedObjAfter = array();
 	private $caegorized = false;
 	private $sectionColumn = false;
+	private $factory = null;
+	
+	public function asArray(){
+		if(empty($this->factory)){
+			require_once('ModelFactory.class.inc');
+			$this->factory = new ModelFactory($this);
+		}
+		return $this->factory->getModelArray();
+	}
 	
 	public function getExtendedBefore($columnName){
 		if(isset($this->extendedObjBefore[$columnName])){

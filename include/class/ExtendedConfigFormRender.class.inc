@@ -1,0 +1,35 @@
+<?php
+class ExtendedConfigFormRender{
+	private $control;
+	private $configMode;
+	
+	function ExtendedConfigFormRender($control, $configMode){
+		$this->control = $control;
+		$this->configMode = $configMode;
+	}
+	
+	public function render(){
+		$configModel = extension_execute_append_result($this->configMode, null, array());
+		if(is_array($configModel)){
+			foreach($configModel as $label => $model){
+				if(is_array($model)) $this->renderAdditionConfigModelArray($label, $model);
+				elseif(is_a($mode, 'Model')) $this->renderAdditionConfigModelObject($label, $model);
+				elseif(state_is_develop) notify_add_error(sprintf(tt('The given addition configuration is corrupted (%s).'), $label));
+			}
+		}
+	}
+	
+	private function renderAdditionConfigModelArray($label, $modelArray){
+		$configForm = $this->control->getNewConfigForm($label);
+		foreach($modelArray as $name => $model){
+			$model->data = cc($name);
+			$configForm->appendModelColumn($name, $model);
+		}
+	}
+	
+	private function renderAdditionConfigModelObject($label, $modelObject){
+		$configForm = $this->control->getNewConfigForm($label);
+		$configForm->appendModel($modelObject->moduleName, $modelObject);
+	}
+}
+?>

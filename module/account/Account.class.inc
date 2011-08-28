@@ -42,7 +42,6 @@ class Account extends User{
 	}
 	
 	private function renderForm(){
-		$additionalForm = $this->renderAdditionForm();
 		$this->initJS();
 		head_add_js_var('insertUser', false);
 		head_add_js_var('uid', gg('id'));
@@ -53,27 +52,20 @@ class Account extends User{
 		$this->renderConfigForm();
 		$this->formMeta->additionalForm = $additionalForm;
 		$this->renderAvatar();
+		$additionalForm = $this->renderAdditionalConfig();
 		return $this->renderUpdateForm();
 	}
 	
-	private function renderAdditionForm(){
-		$form = array();
-		$additional = cc('account_config');
-		if(is_array($additional)){
-			foreach($additional as $key => $value){
-				$form[] = execute_string($value);
-			}
-		}
-		return $form;
+	private function renderAdditionalConfig(){
+		include_once(INCLUDE_PATH.'class/ExtendedConfigFormRender.class.inc');
+		$formRender = new ExtendedConfigFormRender($this, 'account_config');
+		$formRender->render();
 	}
 	
 	private function renderConfigForm(){
-		require_once(INCLUDE_PATH.'class/ConfigFormRender.class.inc');
 		require_once('AccountConfigModel.class.inc');
-		$label = tt('Generic Configuration');
-		$generic = new ConfigFormRender($label, $this->modelConnector);
+		$generic = $this->getNewConfigForm(tt('General Configuration'), $this->modelConnector);
 		$generic->appendModel('generic', new AccountConfigModel($this->id));
-		$this->configForm[] = $generic;
 	}
 	
 	private function getUID(){
