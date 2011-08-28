@@ -1,7 +1,13 @@
 <?php
 class OverlayGridFormRender{
-	function OverlayGridFormRender(){
+	private $moduleName;
 	
+	function OverlayGridFormRender($moduleName){
+		$this->moduleName = $moduleName;
+	}
+	
+	public function renderForm($formID){
+		
 	}
 }
 ?>

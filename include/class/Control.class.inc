@@ -64,6 +64,7 @@ abstract class Control extends Translatable{
 	
 	public function edit(){
 		$this->formMeta->id = $this->fullModuleName;
+		head_add_js_var('translateModuleName', $this->fullModuleName);
 		if($this->editLabel) $this->formMeta->title = $this->editLabel;
 		else $this->formMeta->title = sprintf(tt('Edit %s'), $this->moduleTitle);
 		$this->formMeta->mode = $this->fullModuleName.'_update';

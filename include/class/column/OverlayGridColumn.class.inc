@@ -1,23 +1,20 @@
 <?php
 class OverlayGridColumn extends ModelColumn{
-	private $childControl;
+	private $childModule;
 	
-	function OverlayGridColumn($label, $help=null){
+	function OverlayGridColumn($label, $childModule, $help=null){
 		$this->setType('array');
-		$this->help = $help;
 		$this->label = $label;
+		$this->childModule = $childModule;
+		$this->help = $help;
 		$this->isMultipleInsert = true;
 		$this->memberColumn = array();
 		$this->isDB = false;
 	}
 	
-	public function setChildControl($control){
-		$this->childControl = $control;
-	}
-	
 	public function renderForm($formID){
 		require_once(ROOT_PATH.'include/class/OverlayGridFormRender.class.inc');
-		$formRender = new OverlayGridFormRender();
+		$formRender = new OverlayGridFormRender($this->childModule);
 		return $formRender->renderForm($formID);
 	}
 }
