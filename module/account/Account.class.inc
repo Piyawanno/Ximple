@@ -34,11 +34,16 @@ class Account extends User{
 		if(isset($config['subscribe'])) $this->updateSubscriber($config['subscribe']);
 		else $this->updateSubscriber(array());
 		
-		$config = extension_execute('account_update', $config);
+		$config = extension_execute_append_result('account_config_save', null, $config);
+		print_r($config);
 		io_serialize($config, $accountDirectory.$this->id);
 		document_set_redirect('account');
 		notify_add_info(tt('Your account configuration has been successfully updated.'));
 		document_set_redirect('account/'.$this->id);
+	}
+	
+	public function getConfigValue($reference){
+		return user_info_get_config($this->id, $reference);
 	}
 	
 	private function renderForm(){
@@ -50,7 +55,6 @@ class Account extends User{
 		$this->formMeta->title = $this->moduleTitle;
 		$this->formMeta->mode = 'account_update';
 		$this->renderConfigForm();
-		$this->formMeta->additionalForm = $additionalForm;
 		$this->renderAvatar();
 		$additionalForm = $this->renderAdditionalConfig();
 		return $this->renderUpdateForm();

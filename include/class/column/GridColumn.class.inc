@@ -50,7 +50,6 @@ class GridColumn extends ModelColumn{
 		return $formRender->renderForm($formID);
 	}
 	
-	
 	public function triggerSelect(){
 		$this->getDBData();
 		$this->data = $this->modelConnector->triggerSelect($this->data);

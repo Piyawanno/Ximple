@@ -121,6 +121,10 @@ class SectionConfig extends ConfigControl{
 		notify_add_info(tt('Configuration have been successfully reset.'));
 	}
 	
+	public function getConfigValue($reference){
+		return cc($reference);
+	}
+	
 	private function setLanguage(){
 		$languageAbbreviation = pp('language_abbreviation');
 		$languaDescription = pp('language_description');
