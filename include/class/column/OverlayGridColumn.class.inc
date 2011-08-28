@@ -1,11 +1,11 @@
 <?php
 class OverlayGridColumn extends ModelColumn{
-	private $childModule;
+	public $childModuleName;
 	
-	function OverlayGridColumn($label, $childModule, $help=null){
+	function OverlayGridColumn($label, $childModuleName, $help=null){
 		$this->setType('array');
 		$this->label = $label;
-		$this->childModule = $childModule;
+		$this->childModuleName = $childModuleName;
 		$this->help = $help;
 		$this->isMultipleInsert = true;
 		$this->memberColumn = array();
@@ -13,9 +13,14 @@ class OverlayGridColumn extends ModelColumn{
 	}
 	
 	public function renderForm($formID){
-		require_once(ROOT_PATH.'include/class/OverlayGridFormRender.class.inc');
-		$formRender = new OverlayGridFormRender($this->childModule);
-		return $formRender->renderForm($formID);
+		head_add_js('include/javascript/overlayGrid.column.js');
+		$renderArray = array(
+			'form_id' => $formID,
+			'module_name' => $this->childModuleName,
+			'label' => $this->label,
+			'help' => $this->help,
+		);
+		return render($renderArray, 'overlay_form.tpl', 'overlay_form');
 	}
 }
 ?>
