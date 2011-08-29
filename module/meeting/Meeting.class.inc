@@ -180,6 +180,8 @@ class Meeting extends Content{
 		$this->getAppearanceConfiguration();
 		$this->dataByID['editable'] = $this->isEditable($this->dataByID['writer']['id']);
 		$this->dataByID = $this->processMeetingTime($this->dataByID);
+		$operation = $this->getExtendedOperation();
+		$this->dataByID['addition_operation'] = $operation[$this->id];
 	}
 	
 	private function processMeetingTime($data){

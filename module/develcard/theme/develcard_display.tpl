@@ -52,5 +52,8 @@
 		<?php endif?>
 		<?=render_operation_link('develcard_edit', $id, tt('edit'))?>
 		<?=render_operation_link('develcard_drop', $id, tt('drop'))?>
+		<?php foreach($addition_operation as $link):?>
+			<?=$link?>
+		<?php endforeach?>
 	</p>
 </div>

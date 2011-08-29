@@ -90,9 +90,10 @@ function render_icon($mode, $icon, $title){
 }
 
 function render_ajax_icon($onclick, $icon, $title){
+	if(substr($icon, 0, 7) != 'http://') $icon = ROOT_URI.$icon;
 	return '
 	<a href="#" onclick="return '.$onclick.'()" class="write_icon">
-		<img src="'.ROOT_URI.$icon.'" border="0" align="left">
+		<img src="'.$icon.'" border="0" align="left">
 		'.$title.'
 	</a>';
 }
@@ -187,6 +188,10 @@ function render_print_link($print_mode){
 function render_raw_link($uri){
 	if(substr($uri, 0, 7) != 'http://') $uri = 'http://'.$uri;
 	return "<a href=\"$uri\">$uri</a>";
+}
+
+function render_ajax_link($onclick, $title){
+	return '<a href="#" onclick="return '.$onclick.'()">'.$title.'</a>';
 }
 
 function render_tag_cloud($mode, $freetag){

@@ -97,6 +97,8 @@ class Page extends Content{
 			$this->getRenderConfiguration();
 			if($renderRelated) $this->renderRelatedPage();
 			$this->renderSibling();
+			$operation = $this->getExtendedOperation();
+			$this->dataByID['addition_operation'] = $operation[$this->id];
 			$render = render($this->dataByID, 'page.tpl', 'page');
 			$render.= $this->comment->render();
 			return $render;

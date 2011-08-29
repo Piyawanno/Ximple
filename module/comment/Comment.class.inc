@@ -25,6 +25,18 @@ class Comment extends Control{
 		if($isInit) $this->parentlessInit();
 	}
 	
+	public function index(){
+		$this->id = (int) gg('id');
+		if($this->id){
+			$this->selectByID(array('mode', 'parent'));
+			$uri = $this->dataByID['mode'].'/'.$this->dataByID['parent'].'#comment_'.$this->id;
+			document_set_redirect($uri);
+			execute_set_db();
+		}else{
+			error_not_found();
+		}
+	}
+	
 	public function parentlessInit(){
 		$this->setParent(null);
 		$this->setMode(null);
@@ -191,6 +203,7 @@ class Comment extends Control{
 				'data' => $this->data,
 				'show_avatar' => $this->checkAvatar(),
 				'show_signature' => $this->checkSignature(),
+				'addition_operation' => $this->getExtendedOperation(),
 			);
 			$render.= render($renderArray, $this->template, 'comment');
 			$render.= $pager;
@@ -198,6 +211,17 @@ class Comment extends Control{
 		}else{
 			return '';
 		}
+	}
+	
+	private function getExtendedOperation(){
+		$operation = array();
+		foreach($this->data as $id => $data){
+			$data['module'] = 'comment';
+			if(is_array($data['writer_id'])) $data['owner'] = $data['writer_id']['id'];
+			else $data['owner'] = $data['writer_id'];
+			$operation[$id] = extension_execute_append_result('comment_operation', $data, array());
+		}
+		return $operation;
 	}
 	
 	private function isReadable(){

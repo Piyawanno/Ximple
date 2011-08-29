@@ -37,6 +37,9 @@
 			<?=render_operation_link('blog_edit', $id, tt('edit'))?>
 			<?=render_operation_link('blog_drop', $id, tt('drop'))?>
 		<?php endif?>
+		<?php foreach($addition_operation as $link):?>
+			<?=$link?>
+		<?php endforeach?>
 	</p>
 	<p class="blog_sibling">
 		<?php if(count($back) and $show_sibling):?>

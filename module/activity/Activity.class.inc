@@ -116,6 +116,8 @@ class Activity extends Content{
 		$this->addMetaData();
 		$this->getAppearanceConfiguration();
 		$this->dataByID['editable'] = $this->isEditable($this->dataByID['writer']['id']);
+		$operation = $this->getExtendedOperation();
+		$this->dataByID['addition_operation'] = $operation[$this->id];
 	}
 	
 	private function getAppearanceConfiguration(){

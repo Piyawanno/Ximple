@@ -126,5 +126,10 @@ abstract class Authority{
 	protected function dropAction($mode){
 		unset($this->action[$mode]);
 	}
+	
+	/// Unset all defined Actions.
+	protected function unsetAction(){
+		$this->action = array();
+	}
 }
 ?>

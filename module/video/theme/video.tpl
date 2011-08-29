@@ -56,6 +56,9 @@
 			<?=render_operation_link('video_edit', $id, ('edit'))?>
 			<?=render_operation_link('video_drop', $id, ('drop'))?>
 		<?php endif?>
+		<?php foreach($addition_operation as $link):?>
+			<?=$link?>
+		<?php endforeach?>
 	</p>
 	<div id="embed_dialog" style="display:none;">
 		<textarea style="width:500px;height:180px;"><?=input_trim($embed);?></textarea>

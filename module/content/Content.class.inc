@@ -322,6 +322,17 @@ abstract class Content extends Control{
 		}
 	}
 	
+	protected function getExtendedOperation(){
+		$operation = array();
+		foreach($this->data as $id => $data){
+			$data['module'] = $this->fullModuleName;
+			if(is_array($data['writer'])) $data['owner'] = $data['writer']['id'];
+			else $data['owner'] = $data['writer'];
+			$operation[$id] = extension_execute_append_result('content_operation', $data, array());
+		}
+		return $operation;
+	}
+	
 	private function extendFormDescription($mode){
 		$description = $this->formMeta->description;
 		$description = extension_execute($mode, $description);

@@ -33,6 +33,7 @@ $head_js_var = array(
 	'sectionID' => SECTION,
 	'sectionURI' => SECTION_URI.Q,
 	'sectionURICommon' => SECTION_URI,
+	'themeURI' => THEME_URI,
 	'checkNotifyInterval' => cc('notify_interval')*1000,
 	'isGuest' => authority_is_guest(),
 	'autoCompleteTop' => 0,

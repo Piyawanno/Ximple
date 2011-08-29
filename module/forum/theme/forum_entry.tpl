@@ -28,5 +28,8 @@
 			<?=render_operation_link('forum_entry_edit', $id, ('edit'))?>
 			<?=render_operation_link('forum_entry_drop', $id, ('drop'))?>
 		<?php endif?>
+		<?php foreach($addition_operation as $link):?>
+			<?=$link?>
+		<?php endforeach?>
 	</p>
 </div>

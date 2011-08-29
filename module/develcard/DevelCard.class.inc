@@ -145,6 +145,8 @@ class DevelCard extends Control{
 		$this->initComment();
 		$this->insertTracker('read');
 		
+		$operation = $this->getExtendedOperation();
+		$this->dataByID['addition_operation'] = $operation[$this->id];
 		$render = render($this->dataByID, 'develcard_display.tpl', 'develcard_display');
 		$render.= $this->comment->render();
 		return $render;
@@ -540,6 +542,17 @@ class DevelCard extends Control{
 		$data['action'] = $action;
 		$data['mode'] = $this->fullModuleName;
 		tracker_insert($data);
+	}
+	
+	private function getExtendedOperation(){
+		$operation = array();
+		foreach($this->data as $id => $data){
+			$data['module'] = $this->fullModuleName;
+			if(is_array($data['writer'])) $data['owner'] = $data['writer']['id'];
+			else $data['owner'] = $data['writer'];
+			$operation[$id] = extension_execute_append_result('content_operation', $data, array());
+		}
+		return $operation;
 	}
 }
 ?>

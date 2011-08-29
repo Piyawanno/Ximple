@@ -86,7 +86,7 @@ function execute_oop($mode, $module, $params, $result){
 			if(!$obj->isCallable($method)){
 				error_denied();
 			}elseif($method){
-				$result = $obj->$method($params);
+				$result = $obj->$method($params, $result);
 				$success = true;
 			}
 		}

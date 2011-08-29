@@ -22,6 +22,9 @@
 				<?=render_operation_link('faq_edit', $key, ('edit'))?>
 				<?=render_operation_link('faq_drop', $key, ('drop'))?>
 			<?php endif?>
+			<?php foreach($addition_operation[$cid] as $link):?>
+				<?=$link?>
+			<?php endforeach?>
 			</p>
 		<?php endforeach?>
 	</div>
