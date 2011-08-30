@@ -15,6 +15,12 @@ abstract class SelectiveColumn extends ModelColumn{
 		$this->option = $option;
 	}
 	
+	public function triggerGetJavaScript(){
+		if($this->isSortable){
+			head_add_js('include/javascript/sortable.js');
+		}
+	}
+	
 	public function check(){
 		if(!is_array($this->option) and state_is_develop()){
 			notify_add_error('Option of '.$this->name.' is not set.');
@@ -59,7 +65,6 @@ abstract class SelectiveColumn extends ModelColumn{
 	
 	protected function checkSortable(){
 		if($this->isSortable){
-			head_add_js('include/javascript/sortable.js');
 			$this->listClass = 'sortable';
 			$this->itemClass = 'sortable_item';
 			$this->imageTag = '<img src="'.ROOT_URI.'files/icon/move.png" />';

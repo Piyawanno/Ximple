@@ -8,7 +8,6 @@ class ColorColumn extends CharColumn{
 	}
 	
 	public function renderForm($formID){
-		$this->initJS();
 		$this->setFormAttribute('class', 'color_picker');
 		$id = $formID.'_'.$this->name;
 		$render  = '<div id="picker_'.$id.'"></div>';
@@ -23,7 +22,7 @@ class ColorColumn extends CharColumn{
 		return CharColumn::renderGridForm($formID);
 	}
 	
-	private function initJS(){
+	public function triggerGetJavaScript(){
 		head_add_css('include/external/farbtastic/farbtastic.css');
 		head_add_js('include/external/farbtastic/farbtastic.js');
 		head_add_js('include/javascript/color.column.js');

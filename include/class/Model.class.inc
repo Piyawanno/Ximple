@@ -237,5 +237,10 @@ abstract class Model{
 		include_once('column/GridColumn.class.inc');
 		return new GridColumn($label, $help);
 	}
+	
+	public function overlayGrid($label, $childModuleName, $help=null){
+		include_once('column/OverlayGridColumn.class.inc');
+		return new OverlayGridColumn($label, $childModuleName, $help);
+	}
 }
 ?>

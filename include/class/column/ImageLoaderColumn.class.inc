@@ -13,9 +13,12 @@ class ImageLoaderColumn extends ModelColumn{
 		$this->checkPath();
 	}
 	
-	public function renderForm($formID){
+	public function triggerGetJavaScript(){
 		head_add_js('include/javascript/imageloader.js');
 		head_add_js_var('uploadSuccess', tt('image successfully uploaded'));
+	}
+	
+	public function renderForm($formID){
 		$id = $formID.'_'.$this->name;
 		if(strlen($this->data)) $imageSource = ROOT_URI.$this->data;
 		else $imageSource = ROOT_URI.'files/icon/loader.png';

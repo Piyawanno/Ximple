@@ -14,9 +14,12 @@ class SpinColumn extends ModelColumn{
 		$this->setFormAttribute('size', 5);
 	}
 	
-	public function renderForm($formID){
+	public function triggerGetJavaScript(){
 		head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
 		head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
+	}
+	
+	public function renderForm($formID){
 		$id = $formID.'_'.$this->name;
 		$this->setFormAttribute('name', $this->name);
 		$this->setFormAttribute('id', $id);
@@ -38,8 +41,6 @@ class SpinColumn extends ModelColumn{
 	}
 	
 	public function renderGridForm($formID){
-		head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
-		head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
 		$id = $formID.'_'.$this->name;
 		$this->setFormAttribute('name', $this->name.'[]');
 		$this->setFormAttribute('class', $id);

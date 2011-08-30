@@ -210,6 +210,10 @@ class ModelConnector{
 		$this->trigger('CheckNull');
 	}
 	
+	public function triggerGetJavaScript(){
+		$this->trigger('GetJavaScript');
+	}
+	
 	public function triggerSetParent(){
 		$this->triggerSingleParameter('SetParent', $this->parentID);
 	}

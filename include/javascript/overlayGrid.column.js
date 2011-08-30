@@ -1,12 +1,17 @@
 var currentOverlayDialog;
 
 function overlayWrite(formID, moduleName){
-	var overlayDialog = overlayOpenDialog(formID, moduleName);
 	var uri = sectionURI+moduleName+'_overlay_write';
+	var overlayDialog = overlayOpenDialog(formID, moduleName);
+	alert(uri);
+	overlayDialog.css({
+		'text-align' : 'left',
+	});
 	currentOverlayDialog = overlayDialog;
 	$.get(uri, function(data){
 		overlayDialog.html(data);
 	});
+	return false;
 }
 
 function overlaySubmitForm(form, notNull, label){
@@ -20,7 +25,7 @@ function overlaySubmitForm(form, notNull, label){
 
 function overlayEdit(formID, moduleName){
 	var overlayDialog = overlayOpenDialog(formID, moduleName);
-	var uri = sectionURI+moduleName+'_overlay_drop';
+	var uri = sectionURI+moduleName+'_overlay_edit';
 	currentOverlayDialog = overlayDialog;
 	$.get(uri, function(data){
 		overlayDialog.html(data);

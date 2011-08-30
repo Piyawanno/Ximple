@@ -4,11 +4,9 @@
 		<img src="<?=ROOT_URI?>files/icon/loader.gif"/>
 	</div>
 </div>
-<p><label style="font-weight:bold;"><?=$label?></label></p>
-<p class="form_help"><?=$help?></p>
 <div id="overlay_<?=$form_id.'_'.$module_name?>_table"></div>
 <p>
-	<a href="#" onclick="">
+	<a href="#" onclick="return overlayWrite('<?=$form_id?>', '<?=$module_name?>')">
 		<img src="<?=ROOT_URI?>files/icon/add.png"/><?=tt('add new row')?>
 	</a>
 </p>

@@ -2,15 +2,21 @@
 require_once('CalendarColumn.class.inc');
 class TimeStampColumn extends CalendarColumn{
 	public function renderForm($formID){
-		$this->prepareHead();		
 		$id = $formID.'_'.$this->name;
 		list($date, $hour, $minute) = $this->processTimeStamp();
 		$render  = $this->renderDate($id, $date).' '; 
 		$render .= tt('time').' ';
-		$render .= $this->renderHour($id, $hour).' : '; 
+		$render .= $this->renderHour($id, $hour).' : ';
 		$render .= $this->renderMinute($id, $minute); 
 		$render .= '<span id="info_'.$id.'"></span>';
 		return $render;
+	}
+	
+	public function triggerGetJavaScript(){
+		head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
+		head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
+		head_add_js('include/javascript/calendar.column.js');
+		head_add_js('include/javascript/timestamp.column.js');
 	}
 	
 	public function triggerPostInsert(){
@@ -19,13 +25,6 @@ class TimeStampColumn extends CalendarColumn{
 	
 	public function triggerPostUpdate(){
 		$this->data = date('Y-m-d H:i:s', strtotime($this->data));
-	}
-	
-	private function prepareHead(){
-		head_add_css('include/external/jquery-spinbox/jquery.spinbox.css');
-		head_add_js('include/external/jquery-spinbox/jquery.spinbox.js');
-		head_add_js('include/javascript/calendar.column.js');
-		head_add_js('include/javascript/timestamp.column.js');
 	}
 	
 	private function processTimeStamp(){

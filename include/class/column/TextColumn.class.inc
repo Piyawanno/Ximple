@@ -11,7 +11,6 @@ class TextColumn extends ModelColumn{
 	public function renderForm($formID){
 		$id = $formID.'_'.$this->name;
 		$this->prepareEditor();
-		$this->prepareHead();
 		$this->setFormAttribute('name', $this->name);
 		$this->setFormAttribute('id', $id);
 		$this->setFormAttribute('style', 'width:100%');
@@ -44,7 +43,7 @@ class TextColumn extends ModelColumn{
 		$this->data = highlight($this->data);
 	}
 	
-	public function prepareHead(){
+	public function triggerGetJavaScript(){
 		head_add_css('include/external/cleditor/jquery.cleditor.css');
 		head_add_js('include/external/cleditor/jquery.cleditor.js');
 		head_add_js('include/external/cleditor/jquery.cleditor.advancedtable.min.js');

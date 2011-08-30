@@ -13,8 +13,11 @@ class MultipleFilesColumn extends ModelColumn{
 		$this->isMultipleInsert = true;
 	}
 	
-	public function renderForm($formID){
+	public function triggerGetJavaScript(){
 		head_add_js('include/javascript/multiplefiles.column.js');
+	}
+	
+	public function renderForm($formID){
 		$id = $formID.'_'.$this->name;
 		$render  = '<div class="multiplefiles_list" id="'.$id.'">';
 		$render .= '<ul>';
