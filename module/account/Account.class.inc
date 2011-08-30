@@ -35,7 +35,6 @@ class Account extends User{
 		else $this->updateSubscriber(array());
 		
 		$config = extension_execute_append_result('account_config_save', null, $config);
-		print_r($config);
 		io_serialize($config, $accountDirectory.$this->id);
 		document_set_redirect('account');
 		notify_add_info(tt('Your account configuration has been successfully updated.'));
@@ -56,7 +55,7 @@ class Account extends User{
 		$this->formMeta->mode = 'account_update';
 		$this->renderConfigForm();
 		$this->renderAvatar();
-		$additionalForm = $this->renderAdditionalConfig();
+		$this->renderAdditionalConfig();
 		return $this->renderUpdateForm();
 	}
 	

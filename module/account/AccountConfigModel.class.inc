@@ -14,11 +14,11 @@ class AccountConfigModel extends Model{
 		$this->subscribe->data = $this->getSubscriptionConfig();
 		
 		$permissionOption = $this->getProfilePermissionOption();
-		$this->profile = $this->radio(tt('who can see my profile'), $permissionOption);
-		$this->profile->data = user_info_get_config($uid, 'profile_permission');
+		$this->profile_permission = $this->radio(tt('who can see my profile'), $permissionOption);
+		$this->profile_permission->data = user_info_get_config($uid, 'profile_permission');
 		
-		$this->email = $this->radio(tt('who can send me an email'), $permissionOption);
-		$this->email->data = user_info_get_config($uid, 'email_permission');
+		$this->email_permission = $this->radio(tt('who can send me an email'), $permissionOption);
+		$this->email_permission->data = user_info_get_config($uid, 'email_permission');
 	}
 	
 	private function getProfilePermissionOption(){
