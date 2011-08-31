@@ -14,17 +14,24 @@ abstract class OverlayControl extends Control{
 		$this->modelConnector->triggerGetJavaScript();
 	}
 	
+	public function overlayInsert(){
+		execute_set_ajax();
+		$this->insert();
+		return $this->tableName.'/'.$this->id;
+	}
+	
 	public function overlayWrite(){
 		execute_set_ajax();
+		$this->formMeta->mode = $this->fullModuleName.'_overlay_insert';
 		$this->formMeta->isAjax = true;
-		$this->formMeta->ajaxFunction = 'overlaySubmitForm';
+		$this->formMeta->ajaxFunction = 'overlayInsertForm';
 		return $this->write();
 	}
 	
 	public function overlayEdit(){
 		execute_set_ajax();
 		$this->formMeta->isAjax = true;
-		$this->formMeta->ajaxFunction = 'overlaySubmitForm';
+		$this->formMeta->ajaxFunction = 'overlayUpdateForm';
 		return $this->edit();
 	}
 	
@@ -64,6 +71,7 @@ abstract class OverlayControl extends Control{
 	
 	private function setAction(){
 		$this->addAction($this->fullModuleName.'_overlay_write', 'overlayWrite');
+		$this->addAction($this->fullModuleName.'_overlay_insert', 'overlayInsert');
 		$this->addAction($this->fullModuleName.'_overlay_edit', 'overlayEdit');
 		$this->addAction($this->fullModuleName.'_overlay_refresh', 'overlayRefresh');
 	}

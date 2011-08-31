@@ -14,9 +14,13 @@ function overlayWrite(formID, moduleName){
 	return false;
 }
 
-function overlaySubmitForm(form, notNull, label){
+function overlayInsertForm(form, notNull, label){
 	if(checkForm(notNull, label)){
-		$(form).ajaxSubmit({success : function(){
+		$(form).ajaxSubmit({success : function(data){
+			data = data.split('/');
+			var dataID = data[1];
+			var inputName = 'overlay_grid_'+data[0];
+			$(this).append('<input type="hidden" name="'+inputName+'" value="'+dataID+'" />');
 			currentOverlayDialog.dialog('close');
 		}});
 	}
@@ -31,6 +35,16 @@ function overlayEdit(formID, moduleName){
 		overlayDialog.html(data);
 	});
 }
+
+function overlayUpdateForm(form, notNull, label){
+	if(checkForm(notNull, label)){
+		$(form).ajaxSubmit({success : function(data){
+			currentOverlayDialog.dialog('close');
+		}});
+	}
+	return false;
+}
+
 
 function overlayDrop(){
 	
