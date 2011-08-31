@@ -193,7 +193,7 @@ abstract class Control extends Translatable{
 	}
 	
 	protected function init($modelObj){
-		Translatable::init();
+		Translatable::init($modelObj);
 		$this->modelHasCategory = $modelObj->hasCategory();
 		$this->setDefaultRedirect();
 		$this->setDefaultAction();

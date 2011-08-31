@@ -4,21 +4,29 @@ class OverlayGridColumn extends ModelColumn{
 	public $childTableName;
 	public $parentColumn;
 	
-	protected $childModule;
+	private $modelConnector;
 	
-	function OverlayGridColumn($label, $childModule, $help=null){
+	function OverlayGridColumn($label, $childModel, $help=null){
 		$this->setType('array');
 		$this->label = $label;
-		$this->childModule = $childModule;
-		$childModule->getJavaScript();
-		$this->childModuleName = $childModule->fullModuleName;
-		$this->childTableName = $childModule->tableName;
-		$this->parentColumn = $this->childModule->getParentColumnName();
+		
+		$modelFactory = new ModelFactory($childModel);
+		$this->modelConnector = $modelFactory->bind();
+		$this->modelConnector->triggerGetJavaScript();
+		
+		$this->childModuleName = $childModel->fullModuleName;
+		$this->childTableName = $childModel->tableName;
+		$this->parentColumn = $this->modelConnector->getParentColumnName();
+		
 		$this->help = $help;
 		$this->isMultipleInsert = true;
 		$this->memberColumn = array();
 		$this->isDB = false;
 		$this->isLink = true;
+	}
+	
+	public function setChildModule(){
+	
 	}
 	
 	public function triggerGetJavaScript(){
@@ -27,13 +35,12 @@ class OverlayGridColumn extends ModelColumn{
 	
 	public function triggerPostDBInsert(){
 		if($this->isLink){
-			$table = $this->childModule->tableName;
-			$parentColumn = $this->childModule->modelConnector->getParentColumnName();
+			$table = $this->childTableName->tableName;
 			$inputName = 'overlay_grid_'.$table;
 			$input = pp($inputName);
 			foreach($input as $key => $value){
 				$data = array(
-					$parentColumn => $this->id,
+					$this->parentColumn => $this->id,
 				);
 				db_update($data, $value);
 			}

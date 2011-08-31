@@ -3,6 +3,10 @@ include_once('ModelColumn.class.inc');
 
 abstract class Model{
 	public $tableName;
+	public $moduleName;
+	public $moduleExtension;
+	public $fullModuleName;
+	public $dropMode;
 	
 	private $extendedObjBefore = array();
 	private $extendedObjAfter = array();
