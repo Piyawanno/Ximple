@@ -48,6 +48,10 @@ abstract class OverlayControl extends Control{
 		return render($renderArray, 'overlay_list.tpl', 'overlay_list');
 	}
 	
+	public function getModelConntector(){
+		return $this->modelConnect;
+	}
+	
 	protected function getOverlayData(){
 		$this->getOverlayColumn();
 		$clause = $this->getParentClause();

@@ -80,6 +80,13 @@ class GridColumn extends ModelColumn{
 		}
 	}
 	
+	public function triggerDBDrop(){
+		if($this->isLink){
+			$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
+			db_drop_many($this->childTableName, $clause);
+		}
+	}
+	
 	public function triggerGetID($id){
 		$this->id = $id;
 		$this->modelConnector->setParentID($id);

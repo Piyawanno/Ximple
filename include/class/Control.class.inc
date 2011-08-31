@@ -252,6 +252,10 @@ abstract class Control extends Translatable{
 		return $configForm;
 	}
 	
+	public function getParentColumnName(){
+		return $this->modelConnector->getParentColumnName();
+	}
+	
 	protected function renderDefaultListPage($description=null){
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->mode = $this->fullModuleName;
