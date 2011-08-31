@@ -9,7 +9,6 @@ include_once('ListPageMetaData.class.inc');
 
 abstract class Control extends Translatable{
 	private $formRender;
-	private $prepareMethodMap = array();
 	private $tableCreator;
 	private $listPage;
 	private $modelHasCategory;
@@ -34,6 +33,8 @@ abstract class Control extends Translatable{
 	protected $updateNotify;
 	protected $dropNotify;
 	
+	protected $prepareMethodMap = array();
+	
 	protected $isOwnerMode = false;
 	
 	public $id;
@@ -56,7 +57,9 @@ abstract class Control extends Translatable{
 		$this->formMeta->id = $this->fullModuleName;
 		if($this->writeLabel) $this->formMeta->title = $this->writeLabel;
 		else $this->formMeta->title = sprintf(tt('Add %s'), $this->moduleTitle);
-		$this->formMeta->mode = $this->fullModuleName.'_insert';
+		if(empty($this->formMeta->mode)){
+			$this->formMeta->mode = $this->fullModuleName.'_insert';
+		}
 		$render = $this->renderInsertForm();
 		document_set_path($this->formMeta->title);
 		return $render;
@@ -67,7 +70,9 @@ abstract class Control extends Translatable{
 		head_add_js_var('translateModuleName', $this->fullModuleName);
 		if($this->editLabel) $this->formMeta->title = $this->editLabel;
 		else $this->formMeta->title = sprintf(tt('Edit %s'), $this->moduleTitle);
-		$this->formMeta->mode = $this->fullModuleName.'_update';
+		if(empty($this->formMeta->mode)){
+			$this->formMeta->mode = $this->fullModuleName.'_update';
+		}
 		$render = $this->renderUpdateForm();
 		document_set_path($this->formMeta->title);
 		return $render;

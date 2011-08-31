@@ -1,13 +1,19 @@
 var currentOverlayDialog;
+var currentFormID;
+var currentModuleName;
+var insertedOverlayDataID = new Array();
 
 function overlayWrite(formID, moduleName){
 	var uri = sectionURI+moduleName+'_overlay_write';
 	var overlayDialog = overlayOpenDialog(formID, moduleName);
-	alert(uri);
+	
+	if(overlayParentID) uri += '/parent/'+overlayParentID;
 	overlayDialog.css({
 		'text-align' : 'left',
 	});
 	currentOverlayDialog = overlayDialog;
+	currentFormID = formID;
+	currentModuleName = moduleName;
 	$.get(uri, function(data){
 		overlayDialog.html(data);
 	});
@@ -17,31 +23,43 @@ function overlayWrite(formID, moduleName){
 function overlayInsertForm(form, notNull, label){
 	if(checkForm(notNull, label)){
 		$(form).ajaxSubmit({success : function(data){
-			data = data.split('/');
-			var dataID = data[1];
-			var inputName = 'overlay_grid_'+data[0];
-			$(this).append('<input type="hidden" name="'+inputName+'" value="'+dataID+'" />');
+			data = data.replace(/(<([^>]+)>)/ig,"").split('\/');
+			var dataID = data[2];
+			var inputName = 'overlay_grid_'+data[1];
+			$('#'+currentFormID).append('<input type="hidden" name="'+inputName+'" value="'+dataID+'" />');
+			
+			if(insertedOverlayDataID[data[0]] == undefined){
+				insertedOverlayDataID[data[0]] = new Array();
+			}
+			
+			insertedOverlayDataID[data[0]].push(data[2]);
 			currentOverlayDialog.dialog('close');
-			overlayRefresh(formID, moduleName);
+			overlayRefresh(currentFormID, currentModuleName);
 		}});
 	}
 	return false;
 }
 
-function overlayEdit(formID, moduleName){
+function overlayEdit(formID, moduleName, moduleID){
 	var overlayDialog = overlayOpenDialog(formID, moduleName);
-	var uri = sectionURI+moduleName+'_overlay_edit';
+	var uri = sectionURI+moduleName+'_overlay_edit/'+moduleID+'';
+	overlayDialog.css({
+		'text-align' : 'left',
+	});
+	currentFormID = formID;
+	currentModuleName = moduleName;
 	currentOverlayDialog = overlayDialog;
 	$.get(uri, function(data){
 		overlayDialog.html(data);
 	});
+	return false;
 }
 
 function overlayUpdateForm(form, notNull, label){
 	if(checkForm(notNull, label)){
 		$(form).ajaxSubmit({success : function(data){
 			currentOverlayDialog.dialog('close');
-			overlayRefresh(formID, moduleName);
+			overlayRefresh(currentFormID, currentModuleName);
 		}});
 	}
 	return false;
@@ -53,11 +71,17 @@ function overlayDrop(formID, moduleName, moduleID){
 	$.get(uri, function(data){
 		overlayRefresh(formID, moduleName);
 	});
+	return false;
 }
 
 function overlayRefresh(formID, moduleName){
 	var overlayTable = $('#overlay_'+formID+'_'+moduleName+'_table');
-	var uri = sectionURI+moduleName+'_overlay_refresh';
+	var uri = sectionURI+moduleName+'_overlay_refresh'+'/form_id/'+formID;
+	var idArray = insertedOverlayDataID[moduleName];
+	
+	if(overlayParentID) uri += '/parent/'+overlayParentID+'/';
+	if(idArray != undefined) uri += 'refresh_id/'+idArray.join(':');
+	
 	overlayTable.html('<img src="'+rootURI+'files/icon/loader.gif"/></div>');
 	$.get(uri, function(data){
 		overlayTable.html(data);

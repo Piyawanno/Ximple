@@ -29,10 +29,12 @@
 				<?php endif?>
 			<?php endforeach?>
 			<td style="width:20px;" align="center">
-				<a href="<?=SECTION_URI.Q.$module.'_edit_overlay/'.$id?>">
+				<a href="#" onclick="return <?="overlayEdit('$form_id', '$module', $id)"?>">
 					<img src="<?=ROOT_URI.'files/icon/edit.png'?>" border="0" >
 				</a>
-				<a href="<?=SECTION_URI.Q.$module.'_drop/'.$id?>">
+			</td>
+			<td style="width:20px;" align="center">
+				<a href="#" onclick="return <?="overlayDrop('$form_id', '$module', $id)"?>">
 					<img src="<?=ROOT_URI.'files/icon/drop.png'?>" border="0" >
 				</a>
 			</td>

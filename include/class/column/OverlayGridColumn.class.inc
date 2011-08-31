@@ -60,8 +60,10 @@ class OverlayGridColumn extends ModelColumn{
 	
 	public function renderForm($formID){
 		head_add_css('list.css');
+		head_add_js_var('overlayParentID', $this->id);
 		$renderArray = array(
 			'form_id' => $formID,
+			'id' => $this->id,
 			'module_name' => $this->childModuleName,
 		);
 		return render($renderArray, 'overlay_form.tpl', 'overlay_form');

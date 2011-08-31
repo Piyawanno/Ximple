@@ -8,6 +8,7 @@ abstract class OverlayControl extends Control{
 		Control::init($modelObject);
 		$this->setAction();
 		$this->overlayDescription = sprintf(tt('You can use this table to manage entry of %s'), $this->moduleTitle);
+		$this->prepareMethodMap['overlayEdit'] = 'prepareModifyDB';
 	}
 	
 	public function getJavaScript(){
@@ -15,13 +16,16 @@ abstract class OverlayControl extends Control{
 	}
 	
 	public function overlayInsert(){
-		execute_set_ajax();
 		$this->insert();
-		return $this->tableName.'/'.$this->id;
+		execute_set_ajax();
+		return $this->fullModuleName.'/'.$this->tableName.'/'.$this->id;
 	}
 	
 	public function overlayWrite(){
 		execute_set_ajax();
+		$this->parentID = (int) gg('parent');
+		$this->modelConnector->setParentID($this->parentID);
+		$this->modelConnector->triggerSetParent();
 		$this->formMeta->mode = $this->fullModuleName.'_overlay_insert';
 		$this->formMeta->isAjax = true;
 		$this->formMeta->ajaxFunction = 'overlayInsertForm';
@@ -43,6 +47,7 @@ abstract class OverlayControl extends Control{
 			'label' => $this->modelConnector->getColumnAttribute('label'),
 			'module' => $this->fullModuleName,
 			'column' => $this->column,
+			'form_id' => gg('form_id'),
 			'description' => $this->overlayDescription,
 		);
 		return render($renderArray, 'overlay_list.tpl', 'overlay_list');
@@ -54,7 +59,7 @@ abstract class OverlayControl extends Control{
 	
 	protected function getOverlayData(){
 		$this->getOverlayColumn();
-		$clause = $this->getParentClause();
+		$clause = $this->getRefreshClause();
 		if(strlen($clause)) $this->select($this->column, $clause);
 		else $this->data = array();
 	}
@@ -63,14 +68,22 @@ abstract class OverlayControl extends Control{
 		$this->column = $this->modelConnector->getColumnNameByBoolean('isList');
 	}
 	
-	protected function getParentClause(){
+	protected function getRefreshClause(){
 		$this->parentColumn = $this->modelConnector->getParentColumnName();
 		$this->parentID = (int) gg('parent');
+		$refreshID = explode(':', gg('refresh_id'));
+		$clause = array();
 		if($this->parentID){
-			return 'WHERE '.$this->parentColumn.'='.$this->parentID;
-		}else{
-			return null;
+			$clause[] = $this->parentColumn.'='.$this->parentID;
 		}
+		if(count($refreshID)){
+			foreach($refreshID as $key => $value){
+				$refreshID[$key] = (int) $value;
+			}
+			$clause[] = 'id='.join(' OR id=', $refreshID);
+		}
+		if(count($clause)) return 'WHERE '.join(' OR ', $clause);
+		else return null;
 	}
 	
 	private function setAction(){
