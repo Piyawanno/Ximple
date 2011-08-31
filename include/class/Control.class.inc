@@ -169,6 +169,17 @@ abstract class Control extends Translatable{
 		}
 	}
 	
+	public function selectBySection($column, $isRaw=false){
+		if($this->modelConnector->hasSection()){
+			$dbColumn = $this->checkDBColumn($column);
+			$this->data = db_select($this->tableName, $dbColumn, 'WHERE section='.SECTION);
+			$this->unserializeData();
+			if(!$isRaw) $this->postSelect($column);
+		}elseif(state_is_develop()){
+			notify_add_error(sprintf(tt('%s does not have SECTION (selectBySection).'), $this->fullModuleName));
+		}
+	}
+	
 	public function selectPage($column, $pageLength, $clause=null, $isRaw=false){
 		$dbColumn = $this->checkDBColumn($column);
 		$this->listPageColumn = $dbColumn;

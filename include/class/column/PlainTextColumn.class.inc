@@ -4,6 +4,7 @@ class PlainTextColumn extends ModelColumn{
 		$this->setType('shorttext');
 		$this->label = $label;
 		$this->help = $help;
+		$this->isReachable = true;
 	}
 	
 	public function renderForm($formID){

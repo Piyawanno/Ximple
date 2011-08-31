@@ -6,6 +6,7 @@ class TextColumn extends ModelColumn{
 		$this->help = $help;
 		$this->isAllowedTranslate = true;
 		$this->setFormAttribute('class', 'text');
+		$this->isReachable = true;
 	}
 	
 	public function renderForm($formID){
