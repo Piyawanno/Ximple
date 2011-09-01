@@ -4,6 +4,7 @@ class OverlayGridColumn extends ModelColumn{
 	public $childTableName;
 	public $parentColumn;
 	
+	private $id;
 	private $modelConnector;
 	
 	function OverlayGridColumn($label, $childModel, $help=null){
@@ -35,14 +36,19 @@ class OverlayGridColumn extends ModelColumn{
 	
 	public function triggerPostDBInsert(){
 		if($this->isLink){
-			$table = $this->childTableName->tableName;
+			$table = $this->childTableName;
 			$inputName = 'overlay_grid_'.$table;
 			$input = pp($inputName);
-			foreach($input as $key => $value){
-				$data = array(
-					$this->parentColumn => $this->id,
-				);
-				db_update($data, $value);
+			echo($inputName);
+			print_r(pp());
+			if(is_array($input)){
+				print_r($input);
+				foreach($input as $key => $value){
+					$data = array(
+						$this->parentColumn => $this->id,
+					);
+					db_update($this->childTableName, $data, $value);
+				}
 			}
 		}
 	}

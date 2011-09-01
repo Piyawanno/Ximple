@@ -26,8 +26,7 @@ function overlayInsertForm(form, notNull, label){
 			data = data.replace(/(<([^>]+)>)/ig,"").split('\/');
 			var dataID = data[2];
 			var inputName = 'overlay_grid_'+data[1];
-			$('#'+currentFormID).append('<input type="hidden" name="'+inputName+'" value="'+dataID+'" />');
-			
+			$('#form_'+currentFormID).append('<input type="hidden" name="'+inputName+'[]" value="'+dataID+'" />');
 			if(insertedOverlayDataID[data[0]] == undefined){
 				insertedOverlayDataID[data[0]] = new Array();
 			}
@@ -76,10 +75,10 @@ function overlayDrop(formID, moduleName, moduleID){
 
 function overlayRefresh(formID, moduleName){
 	var overlayTable = $('#overlay_'+formID+'_'+moduleName+'_table');
-	var uri = sectionURI+moduleName+'_overlay_refresh'+'/form_id/'+formID;
+	var uri = sectionURI+moduleName+'_overlay_refresh'+'/form_id/'+formID+'/';
 	var idArray = insertedOverlayDataID[moduleName];
 	
-	if(overlayParentID) uri += '/parent/'+overlayParentID+'/';
+	if(overlayParentID) uri += 'parent/'+overlayParentID+'/';
 	if(idArray != undefined) uri += 'refresh_id/'+idArray.join(':');
 	
 	overlayTable.html('<img src="'+rootURI+'files/icon/loader.gif"/></div>');
