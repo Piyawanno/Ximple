@@ -82,7 +82,7 @@ abstract class OverlayControl extends Control{
 			}
 			$clause[] = 'id='.join(' OR id=', $refreshID);
 		}
-		if(count($clause)) return 'WHERE '.join(' OR ', $clause);
+		if(count($clause)) return 'WHERE '.join(' OR ', $clause).' ORDER BY id';
 		else return null;
 	}
 	

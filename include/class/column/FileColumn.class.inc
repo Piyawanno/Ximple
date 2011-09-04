@@ -2,6 +2,7 @@
 require_once('CharColumn.class.inc');
 class FileColumn extends CharColumn{
 	public $isImage = false;
+	public $path;
 	
 	protected $fileArray = array();
 	

@@ -23,7 +23,8 @@ function overlayWrite(formID, moduleName){
 function overlayInsertForm(form, notNull, label){
 	if(checkForm(notNull, label)){
 		$(form).ajaxSubmit({success : function(data){
-			data = data.replace(/(<([^>]+)>)/ig,"").split('\/');
+			data = data.replace(/(<([^>]+)>)/ig,"");
+			data = data.replace(/\s*/ig,"").split('\/');
 			var dataID = data[2];
 			var inputName = 'overlay_grid_'+data[1];
 			$('#form_'+currentFormID).append('<input type="hidden" name="'+inputName+'[]" value="'+dataID+'" />');

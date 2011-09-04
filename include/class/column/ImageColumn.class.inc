@@ -1,5 +1,6 @@
 <?php
 require_once('FileColumn.class.inc');
+require_once(INCLUDE_PATH.'tool/image.tool.inc');
 
 class ImageColumn extends FileColumn{
 	private $maxWidth;
@@ -23,13 +24,6 @@ class ImageColumn extends FileColumn{
 		$this->checkImage();
 	}
 	
-	private function checkImage(){
-		$file = ff($this->name);
-		if($file['size'] and is_file(ROOT_PATH.$this->data)){
-			image_check_max_width($file, ROOT_PATH.$this->data, $this->maxWidth);
-		}	
-	}
-	
 	public function triggerSelect(){
 		$fileName = basename($this->data);
 		if(is_file(ROOT_PATH.$this->data)){
@@ -37,6 +31,13 @@ class ImageColumn extends FileColumn{
 		}else{
 			$this->data = null;
 		}
+	}
+	
+	protected function checkImage(){
+		$file = ff($this->name);
+		if($file['size'] and is_file(ROOT_PATH.$this->data)){
+			image_check_max_width($file, ROOT_PATH.$this->data, $this->maxWidth);
+		}	
 	}
 }
 ?>

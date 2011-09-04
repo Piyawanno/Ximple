@@ -154,8 +154,10 @@ function head_include_js(){
 	global $head_js;
 	$link = '';
 	foreach($head_js as $value){
+		if(substr($value, 0, 7) != 'http://') $uri = ROOT_URI.$value;
+		else $uri = $value;
 		$link .= "\n\t\t";
-		$link .= '<script type="text/javascript" src="'.ROOT_URI.$value.'" ></script>';
+		$link .= '<script type="text/javascript" src="'.$uri.'" ></script>';
 	}
 	return $link;
 }

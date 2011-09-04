@@ -210,8 +210,10 @@ function notify_drop_subscribe($module){
 function notify_get_subscribable_module(){
 	$subscribe = cc('subscribable_module');
 	$translated = array();
-	foreach($subscribe as $mode => $label){
-		$translated[$mode] = tt($label);
+	if(is_array($subscribe)){
+		foreach($subscribe as $mode => $label){
+			$translated[$mode] = tt($label);
+		}
 	}
 	$translated['comment']= tt('someone comments on my contributions');
 	return $translated;
