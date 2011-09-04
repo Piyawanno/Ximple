@@ -159,14 +159,15 @@ function userinfo_get_login_name_by_role($role){
 	}
 }
 
-function user_info_get_config($uid, $reference){
+function user_info_get_config($uid, $reference=null){
 	global $user_config;
 	if(!isset($user_config[$uid])){
 		$account_dir = FILES_PATH.'account/';
 		$user_config[$uid] = io_unserialize($account_dir.$uid);
 	}
 	
-	if(isset($user_config[$uid][$reference])) return $user_config[$uid][$reference];
+	if($reference==null) return $user_config[$uid];
+	elseif(isset($user_config[$uid][$reference])) return $user_config[$uid][$reference];
 	else return null;
 }
 
