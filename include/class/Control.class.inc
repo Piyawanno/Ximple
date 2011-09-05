@@ -208,6 +208,30 @@ abstract class Control extends Translatable{
 		$this->selectPage($this->listPageColumn, $pageLength, $this->listPage->getClause($where), $isRaw);
 	}
 	
+	public function createTable(){
+		if(!$this->tableCreator){
+			include_once('TableCreator.class.inc');
+			$this->tableCreator = new TableCreator($this->modelConnector, $this->tableName);
+		}
+		$this->tableCreator->create();
+	}
+	
+	public function getNewConfigForm($title, $description=null){
+		if(!$this->modelConnector and state_is_develop()) {
+			$message  = 'You should call Control::createModel';
+			$message .= 'before calling Control::initConfigForm().';
+			notify_add_error($message);
+		}
+		include_once('ConfigFormRender.class.inc');
+		$configForm = new ConfigFormRender($title, $this->modelConnector, $description);
+		$this->configForm[] = $configForm;
+		return $configForm;
+	}
+	
+	public function getParentColumnName(){
+		return $this->modelConnector->getParentColumnName();
+	}
+	
 	protected function init($modelObj){
 		Translatable::init($modelObj);
 		$this->modelHasCategory = $modelObj->hasCategory();
@@ -246,30 +270,6 @@ abstract class Control extends Translatable{
 			if(empty($mode)) $mode = $this->fullModuleName.'_drop';
 			$this->listMeta->addOperation($mode, $label, 'drop.png');
 		}
-	}
-	
-	public function createTable(){
-		if(!$this->tableCreator){
-			include_once('TableCreator.class.inc');
-			$this->tableCreator = new TableCreator($this->modelConnector, $this->tableName);
-		}
-		$this->tableCreator->create();
-	}
-	
-	public function getNewConfigForm($title, $description=null){
-		if(!$this->modelConnector and state_is_develop()) {
-			$message  = 'You should call Control::createModel';
-			$message .= 'before calling Control::initConfigForm().';
-			notify_add_error($message);
-		}
-		include_once('ConfigFormRender.class.inc');
-		$configForm = new ConfigFormRender($title, $this->modelConnector, $description);
-		$this->configForm[] = $configForm;
-		return $configForm;
-	}
-	
-	public function getParentColumnName(){
-		return $this->modelConnector->getParentColumnName();
 	}
 	
 	protected function renderDefaultListPage($description=null){
@@ -335,6 +335,16 @@ abstract class Control extends Translatable{
 		$column = array_merge(array('id'), $column);
 		$this->listPageColumn = array_merge($column, $additionColumn);
 		$this->listPageColumn = array_unique($this->listPageColumn);
+	}
+	
+	protected function renderWriteIcon(){
+		if($this->isCallable('write')){
+			if(strlen($this->writeLabel) == 0){
+				$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
+			}
+			$mode = $this->fullModuleName.'_write';
+			return render_write_icon($mode, $this->writeLabel);
+		}
 	}
 		
 	private function initDataModifier(){

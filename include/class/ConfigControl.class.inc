@@ -7,7 +7,9 @@ include_once('FormMetaData.class.inc');
 
 abstract class ConfigControl extends Translatable{
 	private $formRender;
+	
 	protected $saveRedirection;
+	protected $isSectionConfig = true;
 	
 	protected function init($modelObj){
 		Translatable::init($modelObj);
@@ -75,6 +77,12 @@ abstract class ConfigControl extends Translatable{
 			module_add($this->moduleName, $requirement, null, $this->moduleExtension);
 		}else{
 			module_add($this->moduleName, $requirement, $this->moduleTitle, '#primary');
+		}
+		if($this->isSectionConfig){
+			$default = $this->modelConnector->getColumnAttribute('defaultData');
+			foreach($default as $key => $value){
+				config_set($key, $value);
+			}
 		}
 	}
 	

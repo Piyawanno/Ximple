@@ -7,6 +7,7 @@ abstract class Model{
 	public $moduleExtension;
 	public $fullModuleName;
 	public $dropMode;
+	public $isOverlayGridForm = false;
 	
 	private $extendedObjBefore = array();
 	private $extendedObjAfter = array();

@@ -23,6 +23,7 @@ abstract class OverlayControl extends Control{
 	
 	public function overlayWrite(){
 		execute_set_ajax();
+		$this->modelConnector->setAsOverlayGridForm();
 		$this->parentID = (int) gg('parent');
 		$this->modelConnector->setParentID($this->parentID);
 		$this->modelConnector->triggerSetParent();
@@ -34,6 +35,7 @@ abstract class OverlayControl extends Control{
 	
 	public function overlayEdit(){
 		execute_set_ajax();
+		$this->modelConnector->setAsOverlayGridForm();
 		$this->formMeta->isAjax = true;
 		$this->formMeta->ajaxFunction = 'overlayUpdateForm';
 		return $this->edit();
