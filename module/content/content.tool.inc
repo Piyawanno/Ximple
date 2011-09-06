@@ -40,7 +40,7 @@ function content_add_panel($content){
 	$moduleTitle = $content->moduleTitle;
 	list($admin, $editor, $contributor) = content_add_role($moduleName, $moduleTitle);
 	$panel = new PanelManager($moduleTitle);
-	$panel->setControl($content);
+	$panel->appendControl($content);
 	$panel->append('category/module/'.$moduleName, $moduleTitle.' category');
 	$panel->append($moduleName.'_write', 'write new '.$moduleTitle.' entry');
 	$panel->append($moduleName.'_contributor_list', 'list my '.$moduleTitle);
