@@ -7,7 +7,6 @@ function content_init_module($content){
 	module_add_feed($moduleName, $moduleTitle);
 	module_add_cache($moduleName);
 	content_add_panel($content);
-	content_set_config($moduleName);
 	menu_add($moduleName, $moduleTitle);
 	notify_add_subscribe($moduleName, tt('someone posts in : ', true).$moduleTitle);
 }
@@ -50,19 +49,6 @@ function content_add_panel($content){
 	$panel->appendRole($editor);
 	$panel->appendRole($contributor);
 	$panel->submit();	
-}
-
-function content_set_config($moduleName){
-	config_set($moduleName.'_comment_permission', array(0, 1, 2, 3));
-	config_set($moduleName.'_comment_permission_default', 0);
-	config_set($moduleName.'_appearance', array());
-	
-	config_set($moduleName.'_publishing_status', array(2, 3));
-	config_set($moduleName.'_publishing_status_default', 3);
-	
-	config_set($moduleName.'_comment_write_label', tt('Please, write your opinion.'));
-	config_set($moduleName.'_comment_page_length', 10);
-	config_set($moduleName.'_comment_show_avatar', false);
 }
 
 function content_drop_module($moduleName, $moduleTitle){

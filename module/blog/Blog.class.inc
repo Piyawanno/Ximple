@@ -68,9 +68,11 @@ class Blog extends Content{
 		$this->getDataEditable();
 		$this->setPathMutiplePage();
 		$this->translateData();
+		$appearance = cc('blog_appearance');
+		if(!is_array($appearance)) $appearance = array();
 		$renderArray = array(
 			'data' => $this->data,
-			'show_category' => in_array('category_icon', cc('blog_appearance')),
+			'show_category' => in_array('category_icon', $appearance),
 		);
 		$render = $this->renderWriteIcon();
 		$render.= render($renderArray, 'blog_multiple.tpl', 'blog_multiple');
