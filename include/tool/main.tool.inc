@@ -62,6 +62,7 @@ function main_render(){
 		$body = extension_execute('pre_main_render_ajax', $body);
 		header('Content-Type: text; charset=UTF-8');
 		$render = $body;
+		search_add_source_page($body);
 	}elseif(execute_as_print()){
 		header('Content-Type: text/html; charset=UTF-8');
 		$render = main_render_print($body);

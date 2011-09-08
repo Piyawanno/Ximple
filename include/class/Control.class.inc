@@ -249,7 +249,7 @@ abstract class Control extends Translatable{
 	
 	protected function setListWriteIcon($label=null, $mode=null){
 		if($this->isCallable('write')){
-			if(empty($label)) $label = sprintf(tt('Add %s'), $this->moduleTitle);
+			if(empty($label)) $label = $this->writeLabel;
 			if(empty($mode)) $mode = $this->fullModuleName.'_write';
 			$this->listMeta->writeLabel = $label;
 			$this->listMeta->writeMode = $mode;
@@ -273,7 +273,9 @@ abstract class Control extends Translatable{
 	}
 	
 	protected function renderDefaultListPage($description=null){
-		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
+		if(empty($this->listMeta->title)){
+			$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
+		}
 		$this->listMeta->mode = $this->fullModuleName;
 		$this->listMeta->defaultOrder = 'id';
 		$this->listMeta->description = $description;
