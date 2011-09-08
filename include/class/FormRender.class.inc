@@ -60,8 +60,7 @@ class FormRender extends FormModelRender{
 		}
 		$renderArray['rendered_form'] = render($renderArray, 'form.tpl', 'form');
 		head_add_js_array('gridRowArray', FormRender::$gridRowArray);
-		$render = render($renderArray, 'form_frame.tpl', 'form_frame');
-		return $render;
+		return render($renderArray, 'form_frame.tpl', 'form_frame');
 	}
 	
 	protected function checkTranslate(){

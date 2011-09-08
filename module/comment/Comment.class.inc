@@ -3,16 +3,34 @@ execute_add_class('comment', 'Comment');
 include('CommentModel.class.inc');
 include_once('comment.tool.inc');
 
+/// Module, which uses comment, must have these columns (in other cases alternative column name must be set) :
+/// - topic
+/// - writer
+//  - comment_permission
+//  - comment_time
+/// and these configurations :
+/// - module_name_appearance [comment_avatar, signature]
+/// - module_name_comment_write_label
+/// - module_name_comment_page_length
 class Comment extends Control{
+	public $parentTopicColumn = 'topic';
+	public $parentWriterColumn = 'writer';
+	public $parentURIColumn = 'uri';
+	public $parentHasURIColumn = true;
+	public $parentPermissionColumn = 'comment_permission';
+	public $parentIsAjax = false;
+	public $parentCommentTimeColumn = 'comment_time';
+	
 	private $mode = null;
 	private $parent = null;
 	private $permission = null;
+	
 	private $parentWriter = null;
 	private $parentData;
+	
 	private $template;
 	private $insertMode;
 	private $parentAdminGroup;
-	private $parentPermissionColumn = 'comment_permission';
 	private $subscribeMode = null;
 	private $subscribeMessage = null;
 	
@@ -99,6 +117,8 @@ class Comment extends Control{
 			$this->formMeta->mode  = $this->insertMode;
 			$this->formMeta->mode .= '/page/'.$this->pager->getNextPage();
 			$this->formMeta->isSetTitle = false;
+			$this->formMeta->isAjax = $this->parentIsAjax;
+			$this->setParentColumn();
 			return $this->renderInsertForm(false);
 		}else{
 			return '';
@@ -107,9 +127,10 @@ class Comment extends Control{
 	
 	public function insert(){
 		if($this->isWritable()){
+			$this->getParentColumn();
 			Control::insert();
 			count_increase('contribution', USER_ID);
-			$column = array('id', 'topic', 'writer');
+			$column = array('id', $this->parentTopicColumn, $this->parentWriterColumn);
 			$this->parentData = db_select($this->mode, $column, 'WHERE id='.$this->parent);
 			$this->parentData = $this->parentData[$this->parent];
 			$this->insertTracker();
@@ -157,7 +178,7 @@ class Comment extends Control{
 	public function setInsertMode($insertMode){
 		$this->insertMode = $insertMode;
 	}
-	
+		
 	private function setAccess(){
 		$this->ownerColumn = 'writer_id';
 		if($this->isWritable()) $this->addAccessMethod('guest', 'insert');
@@ -267,14 +288,15 @@ class Comment extends Control{
 	private function insertTracker(){
 		if(!authority_is_guest()){
 			include_once(MODULE_PATH.'tracker/tracker.tool.inc');
-			$writerName = db_select_single_column('users', 'login_name', 'WHERE id='.$this->parentData['writer'], false);
+			$writerName = db_select_single_column('users', 'login_name', 'WHERE id='. $this->parentData[$this->parentWriterColumn], false);
 			if(isset($writerName[0])) $writerName = $writerName[0];
 			else $writerName = tt('guest');
+			
 			$trackerData = array(
 				'mode' => $this->mode,
 				'id' => $this->parent,
-				'topic' => $this->parentData['topic'],
-				'writer' => $this->parentData['writer'],
+				'topic' => $this->formatTopic($this->parentData[$this->parentTopicColumn]),
+				'writer' =>  $this->parentData[$this->parentWriterColumn],
 				'writer_name' => $writerName,
 				'action' => 'comment',
 			);
@@ -282,18 +304,25 @@ class Comment extends Control{
 		}
 	}
 	
+	private function formatTopic($topic){
+		mb_internal_encoding('utf8');
+		$topic = preg_replace("/\s/", " ", $topic);
+		if(strlen($topic) > 30) $topic = mb_substr($topic, 0, 30).' ...';
+		return $topic;
+	}
+	
 	private function insertNotify(){
 		$p = tt('%s commented on your contribution : <a href="%s">%s</a>.');
 		$uri = SECTION_URI.Q.$this->mode.'/'.$this->parent.'/page/'.pid().'#last_comment';
-		$message = sprintf($p, pp('writer'), $uri, $this->parentData['topic']);
-		if($this->parentData['writer'] != USER_ID){
-			notify_add_info($message, $this->parentData['writer']);
-			notify_subscribe($message, $this->parentData['writer'], 'comment');
+		$message = sprintf($p, pp('writer'), $uri, $this->formatTopic($this->parentData[$this->parentTopicColumn]));
+		if( $this->parentData[$this->parentWriterColumn] != USER_ID){
+			notify_add_info($message,  $this->parentData[$this->parentWriterColumn]);
+			notify_subscribe($message,  $this->parentData[$this->parentWriterColumn], 'comment');
 		}
 		$clause = "WHERE mode='".$this->mode."' AND parent=".$this->parent." AND writer_id != -1 GROUP BY writer_id";
 		$relatedUser = db_select_single_column('comment', 'writer_id', $clause, false);
 		foreach($relatedUser as $key => $uid){
-			if($uid != $this->parentData['writer'] and $uid != USER_ID){
+			if($uid !=  $this->parentData[$this->parentWriterColumn] and $uid != USER_ID){
 				notify_add_info($message, $uid);
 			}else{
 				unset($relatedUser[$key]);
@@ -312,14 +341,16 @@ class Comment extends Control{
 		}
 		
 		$parent = array();
+		$column = array('id', $this->parentTopicColumn);
+		if($this->parentHasURIColumn) $column[] = $this->parentURIColumn;
 		foreach($mode as $table => $id_array){
 			$clause = 'WHERE id='.join(' OR id=', $id_array);
-			$parent[$table] = db_select($table, array('id', 'topic', 'uri'), $clause);
+			$parent[$table] = db_select($table, $column, $clause);
 		}
 		
 		foreach($this->data as $key => $value){
 			$uri = render_uri($value['mode'], $parent[$value['mode']][$value['parent']]);
-			$topic = $parent[$value['mode']][$value['parent']]['topic'];
+			$topic = $this->formatTopic($parent[$value['mode']][$value['parent']][$this->parentTopicColumn]);
 			$this->data[$key]['parent'] = '<a href="'.$uri.'">'.$topic.'</a>';
 		}
 	}
@@ -331,6 +362,21 @@ class Comment extends Control{
 	private function checkSignature(){
 		return config_has_value($this->mode.'_appearance', 'signature');
 	}
+	
+	private function setParentColumn(){
+		$this->modelConnector->setAttribute('parent_topic_column', 'defaultData', $this->parentTopicColumn);
+		$this->modelConnector->setAttribute('parent_writer_column', 'defaultData', $this->parentWriterColumn);
+		$this->modelConnector->setAttribute('parent_uri_column', 'defaultData', $this->parentURIColumn);
+		$this->modelConnector->setAttribute('parent_has_uri_column', 'defaultData', $this->parentHasURIColumn);
+		$this->modelConnector->setAttribute('parent_permission_column', 'defaultData', $this->parentPermissionColumn);
+	}
+	
+	private function getParentColumn(){
+		$this->parentTopicColumn = pp('parent_topic_column');
+		$this->parentWriterColumn = pp('parent_writer_column');
+		$this->parentURIColumn = pp('parent_uri_column');
+		$this->parentHasURIColumn = (bool) pp('parent_has_uri_column');
+		$this->parentPermissionColumn = pp('parent_permission_column');
+	}
 }
-
 ?>

@@ -23,6 +23,22 @@ class CommentModel extends Model{
 		$this->write_time->isList = true;
 		$this->mode = $this->hidden($mode, 'char');
 		$this->parent_writer = $this->hidden($parentWriter, 'int');
+		
+		$this->parent_topic_column = $this->hidden(null);
+		$this->parent_topic_column->isDB = false;
+		
+		$this->parent_writer_column = $this->hidden(null);
+		$this->parent_writer_column->isDB = false;
+		
+		$this->parent_uri_column = $this->hidden(null);
+		$this->parent_uri_column->isDB = false;
+		
+		$this->parent_has_uri_column = $this->hidden(null);
+		$this->parent_has_uri_column->isDB = false;
+		
+		$this->parent_permission_column = $this->hidden(null);
+		$this->parent_permission_column->isDB = false;
+		
 		$this->section = $this->section();
 	}
 }
