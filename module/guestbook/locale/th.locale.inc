@@ -7,7 +7,7 @@ globalvar_add_locale(array (
 	'You can now assess Guestbook with <a href="%s">this link</a>. Add this link somewhere to Widget or Menu.' => '',
 	'Guestbook has been successfully deactivated' => '',
 	'Please sign on our website.' => '',
-	'your name' => '',
+	'your name' => 'ชื่อของคุณ',
 	'your email (not show)' => '',
 	'your opinion' => '',
 ));
