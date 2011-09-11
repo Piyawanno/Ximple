@@ -6,6 +6,7 @@ class GridFormRender{
 	private $name;
 	private $isLink;
 	private $isEmptyForm;
+	private $isWritable;
 	
 	function GridFormRender(){
 	}
@@ -17,6 +18,7 @@ class GridFormRender{
 		$this->name = $gridColumn->name;
 		$this->isLink = $gridColumn->isLink;
 		$this->isEmptyForm = $gridColumn->isEmptyForm;
+		$this->isWritable = $gridColumn->isWritable;
 	}
 	
 	public function renderForm($formID){
@@ -110,11 +112,15 @@ class GridFormRender{
 	}
 	
 	private function renderAddIcon($id){
-		return '
+		if($this->isWritable){
+			return '
 			<a onclick="addGridRow(\''.$id.'\');return false;" href="#" class="write_icon">
 				<img src="'.ROOT_URI.'files/icon/add.png" border="0" align="left" />
 				'.tt('add new row').'
 			</a>';
+		}else{
+			return null;
+		}
 	}
 	
 	private function addGridRow($id, $gridRow){
