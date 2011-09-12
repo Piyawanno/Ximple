@@ -111,6 +111,7 @@ class Comment extends Control{
 	
 	public function write(){
 		if($this->isWritable()){
+			$this->setFormParentColumn();
 			$this->formMeta->id = $this->moduleName;
 			$this->formMeta->title = cc($this->mode.'_comment_write_label');
 			$this->formMeta->isCaptcha = true;
@@ -288,15 +289,16 @@ class Comment extends Control{
 	private function insertTracker(){
 		if(!authority_is_guest()){
 			include_once(MODULE_PATH.'tracker/tracker.tool.inc');
-			$writerName = db_select_single_column('users', 'login_name', 'WHERE id='. $this->parentData[$this->parentWriterColumn], false);
+			$parentWriter = $this->parentData[$this->parentWriterColumn];
+			$writerName = db_select_single_column('users', 'login_name', 'WHERE id='.$parentWriter, false);
 			if(isset($writerName[0])) $writerName = $writerName[0];
 			else $writerName = tt('guest');
 			
 			$trackerData = array(
 				'mode' => $this->mode,
 				'id' => $this->parent,
-				'topic' => $this->formatTopic($this->parentData[$this->parentTopicColumn]),
-				'writer' =>  $this->parentData[$this->parentWriterColumn],
+				'topic' => $this->parentData[$this->parentTopicColumn],
+				'writer' => $this->parentData[$this->parentWriterColumn],
 				'writer_name' => $writerName,
 				'action' => 'comment',
 			);
@@ -314,15 +316,15 @@ class Comment extends Control{
 	private function insertNotify(){
 		$p = tt('%s commented on your contribution : <a href="%s">%s</a>.');
 		$uri = SECTION_URI.Q.$this->mode.'/'.$this->parent.'/page/'.pid().'#last_comment';
-		$message = sprintf($p, pp('writer'), $uri, $this->formatTopic($this->parentData[$this->parentTopicColumn]));
-		if( $this->parentData[$this->parentWriterColumn] != USER_ID){
-			notify_add_info($message,  $this->parentData[$this->parentWriterColumn]);
-			notify_subscribe($message,  $this->parentData[$this->parentWriterColumn], 'comment');
+		$message = sprintf($p, pp('writer'), $uri, $this->parentData[$this->parentTopicColumn]);
+		if($this->parentData[$this->parentWriterColumn] != USER_ID){
+			notify_add_info($message, $this->parentData[$this->parentWriterColumn]);
+			notify_subscribe($message, $this->parentData[$this->parentWriterColumn], 'comment');
 		}
 		$clause = "WHERE mode='".$this->mode."' AND parent=".$this->parent." AND writer_id != -1 GROUP BY writer_id";
 		$relatedUser = db_select_single_column('comment', 'writer_id', $clause, false);
 		foreach($relatedUser as $key => $uid){
-			if($uid !=  $this->parentData[$this->parentWriterColumn] and $uid != USER_ID){
+			if($uid != $this->parentData[$this->parentWriterColumn] and $uid != USER_ID){
 				notify_add_info($message, $uid);
 			}else{
 				unset($relatedUser[$key]);
@@ -340,6 +342,8 @@ class Comment extends Control{
 			$mode[$value['mode']][] = $value['parent'];
 		}
 		
+		$column = array('id', $this->parentTopicColumn);
+		if($this->parentHasURIColumn) $column[] = $this->parentURIColumn;
 		$parent = array();
 		$column = array('id', $this->parentTopicColumn);
 		if($this->parentHasURIColumn) $column[] = $this->parentURIColumn;

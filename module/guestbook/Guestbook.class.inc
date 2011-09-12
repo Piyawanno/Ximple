@@ -18,7 +18,7 @@ class Guestbook extends Control{
 	}
 	
 	function index(){
-		$this->selectPage($this->column, 10, 'WHERE section='.SECTION.' ORDER BY id DESC');
+		$this->selectPage($this->column, 2, 'WHERE section='.SECTION.' ORDER BY id DESC');
 		$rednerArray = array(
 			'is_admin' => authority_group('guestbook_admin'),
 			'data' => $this->data

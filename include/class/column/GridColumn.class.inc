@@ -6,6 +6,7 @@ require_once(ROOT_PATH.'include/class/ModelConnector.class.inc');
 /// It does not represent a column of database table.
 class GridColumn extends ModelColumn{
 	public $isEmptyForm = false;
+	public $isWritable = true;
 	public $memberColumn;
 	public $dropMode;
 	
@@ -43,8 +44,11 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function renderForm($formID){
-		require_once(ROOT_PATH.'include/class/GridFormRender.class.inc');
 		$this->getMember();
+		if(!$this->isWritable and count($this->data) == 0){
+			return null;
+		}
+		require_once(ROOT_PATH.'include/class/GridFormRender.class.inc');
 		$formRender = new GridFormRender();
 		$formRender->setGridColumn($this);
 		return $formRender->renderForm($formID);

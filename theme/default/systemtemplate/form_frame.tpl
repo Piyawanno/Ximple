@@ -18,7 +18,7 @@
 </div>
 
 <?php if(!$meta->isAjax):?>
-	<select style="display:none;position:absolute;" id="complete_option" multiple="multiple" size="5">
+	<select style="display:none;position:absolute;z-index:2500;" id="complete_option" multiple="multiple" size="5">
 	</select>
 	<div id="cle_image_loader" style="display:none;"></div>
 	<?php if(isset($is_translate) and is_array(cc('supported_language'))):?>
