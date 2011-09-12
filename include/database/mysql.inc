@@ -212,7 +212,6 @@ function db_drop_many($table, $where){
 }
 
 function db_exist_table($table){
-	return false;
 	global $db_connect;
 	$table = DB_TABLE_PREFIX.$table;
 	$tables = mysql_list_tables(DB_NAME, $db_connect);
