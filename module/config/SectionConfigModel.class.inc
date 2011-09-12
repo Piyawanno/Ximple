@@ -1,5 +1,6 @@
 <?php
 require_once(INCLUDE_PATH.'class/column/MultipleFilesColumn.class.inc');
+require_once(INCLUDE_PATH.'tool/country.tool.inc');
 
 class SectionConfigModel extends Model{
 	function SectionConfigModel(){
@@ -11,7 +12,6 @@ class SectionConfigModel extends Model{
 		$this->home_label->enableTranslate();
 		$this->index_mode = $this->select('fronpage module', cc('module_name'));
 		$this->icon = $this->image(tt('section icon (16x16)'), 'files/misc/');
-		
 		
 		if(function_exists('apache_get_modules')) $module = apache_get_modules();
 		else $module = null;
@@ -38,16 +38,10 @@ class SectionConfigModel extends Model{
 		
 		$help = tt('Add supported language for contents in Section.');
 		$this->supported_language = $this->grid(tt('Supported language'), $help);
-		
-		$supportedLanguageVaue = cc('supported_language');
-		$languageAbbreviation = Model::char(tt('abbreviation'));
-		$languaDescription = Model::char(tt('description'));
-		if(is_array($supportedLanguageVaue)){
-			$languageAbbreviation->data = array_keys($supportedLanguageVaue);
-			$languaDescription->data = array_values($supportedLanguageVaue);
-		}
-		$this->supported_language->append('language_abbreviation', $languageAbbreviation);
-		$this->supported_language->append('language_description', $languaDescription);
+		$this->supported_language->isEmptyForm = true;
+		$language = Model::select(tt('country'), country());
+		$language->data = cc('supported_language');
+		$this->supported_language->append('supported_language', $language);
 		
 		$option = timezone_identifiers_list();
 		$option = array_combine($option, $option);

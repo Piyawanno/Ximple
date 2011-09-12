@@ -1,21 +1,23 @@
 <?php
 class CaptchaColumn extends ModelColumn{
+	private $genTime;
+	
 	function CaptchaColumn(){
 		$this->setType('char');
 		$this->isDB = false;
 		$this->isNotNull = true;
 		$this->label = tt('insert code from followed picture before submit');
+		$this->genTime = time();
 	}
 	
 	public function renderForm($formID){
 		$id = $formID.'_'.$this->name;
-		$genTime = time();
-		$this->prepareJS($genTime);
+		$this->triggerGetJavaScript();
 		
 		$this->resetFormAttribute();
 		$this->setFormAttribute('name', 'captcha_gentime_'.$this->name);
 		$this->setFormAttribute('type', 'hidden');
-		$this->setFormAttribute('value', $genTime);
+		$this->setFormAttribute('value', $this->genTime);
 		$render  = '<input '.$this->renderFormAttribute().'/>';
 		
 		$this->resetFormAttribute();
@@ -35,7 +37,7 @@ class CaptchaColumn extends ModelColumn{
 		$render .= '<br /><br />';
 		
 		$this->resetFormAttribute();
-		$this->setFormAttribute('src', SECTION_URI.Q.'captcha/gentime/'.$genTime);
+		$this->setFormAttribute('src', SECTION_URI.Q.'captcha/gentime/'.$this->genTime);
 		$this->setFormAttribute('style', 'padding:0;');
 		$this->setFormAttribute('border', '0');
 		$this->setFormAttribute('id', 'captcha_img_'.$this->name);
@@ -51,9 +53,9 @@ class CaptchaColumn extends ModelColumn{
 		return $render;
 	}
 	
-	private function prepareJS($genTime){
+	public function triggerGetJavaScript(){
 		head_add_js('include/javascript/captcha.column.js');
-		head_add_js_var('generateTime', $genTime);
+		head_add_js_var('generateTime', $this->genTime);
 		head_add_js_var('captchaMessage', tt('Please insert code from image before submit.'));
 		head_add_js_var('captchaCorrect', tt('Code from image is correct.'));
 		head_add_js_var('captchaWrong', tt('Code from image is wrong.'));

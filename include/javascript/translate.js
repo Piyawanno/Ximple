@@ -1,27 +1,35 @@
 var translateForm;
 
-function selectTranslateLanguage(languageSelect){
-	var translate = $('#translate_dialog');
-	var language = $(languageSelect).val();
-	translate.html('<div style="text-align:center;padding:50px;"><img src="'+rootURI+'files/icon/loader.gif"/></div>');
-	if(translateModuleName == null){
-		var uri = sectionURI+modeName;
-	}else{
-		var uri = sectionURI+translateModuleName+'_translate_form';
+function selectTranslateLanguage(language, moduleName, moduleID){
+	if($('#translate_dialog').length == 0){
+		$('body').append('<div id="translate_dialog"></div>');
 	}
-	uri += '/module_id/'+modeID;
+	var translate = $('#translate_dialog');
+	translate.css({
+		'text-align':'left'
+	});
+	var uri = sectionURI+moduleName+'_translate_form';
+	uri += '/module_id/'+moduleID;
 	uri += '/language/'+language;
+	
+	translate.dialog({
+		bgiframe : true,
+		autoOpen : false,
+		modal : true,
+		width : 520,
+	});
+	translate.dialog('open');
+	translate.html('<div style="text-align:center;padding:50px;"><img src="'+rootURI+'files/icon/loader.gif"/></div>');
 	$.get(uri, function(data){
 		translate.html(data);
 	});
+	return false;
 }
 
 function submitTranslateForm(form, notNull, label){
-	var translate = $('#translate_dialog');
 	if(checkForm(notNull, label)){
 		$(form).ajaxSubmit({success : function(){
-			translate.html(translateForm);
-			translate.dialog('close');
+			$('#translate_dialog').dialog('close');
 		}});
 	}
 	return false;

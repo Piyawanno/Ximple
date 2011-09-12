@@ -111,7 +111,6 @@ class Comment extends Control{
 	
 	public function write(){
 		if($this->isWritable()){
-			$this->setFormParentColumn();
 			$this->formMeta->id = $this->moduleName;
 			$this->formMeta->title = cc($this->mode.'_comment_write_label');
 			$this->formMeta->isCaptcha = true;

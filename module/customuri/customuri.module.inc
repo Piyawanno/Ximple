@@ -7,7 +7,7 @@ function customuri_map(){
 	$called_uri = substr(vv('QUERY_STRING'), 1);
 	$splitted = split('\/', $called_uri);
 	
-	if(in_array($splitted[0], array_keys(cc('supported_language')))){
+	if(in_array($splitted[0], cc('supported_language'))){
 		$called_uri = substr($called_uri, strlen($splitted[0]) + 1);
 		$language = '/'.$splitted[0];
 	}else{

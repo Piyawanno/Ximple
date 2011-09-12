@@ -15,9 +15,10 @@ abstract class Translatable extends Authority{
 	
 	public function renderTranslateForm(){
 		execute_set_ajax();
-		$supportedLanguage = cc('supported_language');
+		require_once(INCLUDE_PATH.'tool/country.tool.inc');
+		$country = country();
 		$this->formMeta->id = $this->fullModuleName;
-		$this->formMeta->title = sprintf(tt('Translation : %s'), $supportedLanguage[gg('language')]);
+		$this->formMeta->title = sprintf(tt('Translation : %s'), $country[gg('language')]);
 		$this->formMeta->mode = $this->fullModuleName.'_translate';
 		$this->prepareTranslateForm();
 		$translation = translate_get_all_data($this->fullModuleName, gg('module_id'), gg('language'));
@@ -41,6 +42,7 @@ abstract class Translatable extends Authority{
 		foreach($this->data as $key => $value){
 			$this->data[$key] = translate_content($value, $this->fullModuleName, $value['id']);
 		}
+		if($this->id) $this->dataByID = $this->data[$this->id];
 	}
 	
 	protected function translateDataByID(){

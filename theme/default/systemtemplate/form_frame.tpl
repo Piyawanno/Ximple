@@ -21,17 +21,6 @@
 	<select style="display:none;position:absolute;z-index:2500;" id="complete_option" multiple="multiple" size="5">
 	</select>
 	<div id="cle_image_loader" style="display:none;"></div>
-	<?php if(isset($is_translate) and is_array(cc('supported_language'))):?>
-		<div id="translate_dialog" style="display:none;text-align:left;" class="form">
-			<p><label><?=tt('Select language')?></label></p>
-			<select onchange="selectTranslateLanguage(this)">
-				<option><?=tt('Please, select language')?></option>
-				<?php foreach(cc('supported_language') as $key => $value):?>
-					<option value="<?=$key?>"><?=$value?></option>
-				<?php endforeach?>
-			</select>
-		</div>
-	<?php endif?>
 <?php else:?>
 	<?=head_define_js_var();?>
 	<?=head_define_js_array();?>

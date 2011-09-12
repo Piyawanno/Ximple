@@ -2,6 +2,7 @@
 
 class ModelConnector{
 	private $id;
+	private $moduleName;
 	private $parentID;
 	private $modelObject;
 	private $model;
@@ -20,6 +21,18 @@ class ModelConnector{
 	public function setID($id){
 		$this->id = $id;
 		$this->triggerGetID($id);
+	}
+	
+	public function getID(){
+		return $this->id;
+	}
+	
+	public function setModuleName($moduleName){
+		$this->moduleName = $moduleName;
+	}
+	
+	public function getModuleName(){
+		return $this->moduleName;
 	}
 	
 	public function setAsOverlayGridForm(){

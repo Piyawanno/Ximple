@@ -8,7 +8,6 @@ include_once('FormMetaData.class.inc');
 include_once('ListPageMetaData.class.inc');
 
 abstract class Control extends Translatable{
-	private $formRender;
 	private $tableCreator;
 	private $listPage;
 	private $modelHasCategory;
@@ -20,7 +19,9 @@ abstract class Control extends Translatable{
 	protected $ownerColumn;
 	protected $dataModifier;
 	protected $pager;
-	
+
+	protected $formRender;
+		
 	protected $insertRedirect;
 	protected $updateRedirect;
 	protected $dropRedirect;
@@ -241,6 +242,7 @@ abstract class Control extends Translatable{
 		$this->setDefaultNotify();
 		$this->initObject($modelObj);
 		$this->modelConnector->triggerSetTableName($this->tableName);
+		$this->modelConnector->setModuleName($this->fullModuleName);
 	}
 	
 	protected function setOwnerColumn($ownerColumn){

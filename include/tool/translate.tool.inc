@@ -37,7 +37,6 @@ function translate_get_language(){
 	if(strlen($language) == 0){
 		$language = cc('supported_language');
 		if(is_array($language) and count($language)){	
-			$language = array_keys($language);
 			$language = $language[0];
 		}else{
 			$language = 'DEFAULT';
@@ -53,9 +52,10 @@ function translate_unset_language(){
 }
 
 function translate_set_language(){
+	require_once('country.tool.inc');
 	$_SESSION['language'] = gg('language');
-	$language = cc('supported_language');
-	$language = $language[gg('language')];
+	$country = country();
+	$language = $country[gg('language')];
 	$message  = sprintf(tt('Contents are set to %s language. '), $language);
 	$message .= tt('Only translated contents will be shown. ');
 	$message .= tt('Other cases, the original content will be shown.');

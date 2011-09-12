@@ -57,19 +57,3 @@ function verifyCaptcha(){
 	}
 	return ok;
 }
-
-function showTranslateDialog(){
-	var translate = $('#translate_dialog');
-	translateForm = translate.html();
-	translate.dialog({
-		bgiframe : true,
-		autoOpen : false,
-		modal : true,
-		title : 'Translate-Form',
-		width : 520,
-		close : function(event, ui){
-			$('#translate_dialog').html(translateForm);
-		}
-	});
-	translate.dialog('open');
-}

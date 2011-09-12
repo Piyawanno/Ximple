@@ -16,7 +16,7 @@ class SectionConfig extends ConfigControl{
 	public function save(){
 		extension_execute('section_config_save');
 		$oldIcon = cc('icon');
-		$this->setLanguage();
+		config_set('supported_language', pp('supported_language'));
 		ConfigControl::save();
 		$this->uploadIcon($oldIcon);
 		$this->setState();
@@ -123,18 +123,6 @@ class SectionConfig extends ConfigControl{
 	
 	public function getConfigValue($reference){
 		return cc($reference);
-	}
-	
-	private function setLanguage(){
-		$languageAbbreviation = pp('language_abbreviation');
-		$languaDescription = pp('language_description');
-		$language = array();
-		foreach($languageAbbreviation as $key => $value){
-			if(strlen($value) and strlen($languaDescription[$key])){
-				$language[$value] = $languaDescription[$key];
-			}
-		}
-		$this->setConfig('supported_language', $language);
 	}
 	
 	private function uploadIcon($oldIcon){

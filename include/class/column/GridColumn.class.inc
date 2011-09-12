@@ -93,7 +93,7 @@ class GridColumn extends ModelColumn{
 	
 	public function triggerGetID($id){
 		$this->id = $id;
-		$this->modelConnector->setParentID($id);
+		if($this->modelConnector) $this->modelConnector->setParentID($id);
 	}
 	
 	private function getMember(){

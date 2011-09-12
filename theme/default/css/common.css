@@ -201,9 +201,7 @@ ins{
 
 /* ========= Translate Widget ========= */
 .translate_widget a{
-	margin-left:25px;
-	font-weight:bold;
-	text-decoration:underline;
+	margin-left:5px;
 }
 
 .signature{

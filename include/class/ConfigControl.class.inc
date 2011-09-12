@@ -23,6 +23,8 @@ abstract class ConfigControl extends Translatable{
 		if(!$this->saveRedirection){
 			$this->saveRedirection = $this->fullModuleName;
 		}
+		$this->modelConnector->setModuleName($this->fullModuleName);
+		$this->modelConnector->setID(MODE_ID);
 	}
 	
 	public function initValue(){
@@ -34,6 +36,7 @@ abstract class ConfigControl extends Translatable{
 	}
 	
 	public function render($setPath=true){
+		head_add_js_var('translateModuleName', $this->fullModuleName);
 		if(!$this->formRender){
 			include_once('FormRender.class.inc');
 			$this->formRender = new FormRender($this->modelConnector, $this->formMeta);

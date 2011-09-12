@@ -5,6 +5,7 @@ class PlainTextColumn extends ModelColumn{
 		$this->label = $label;
 		$this->help = $help;
 		$this->isReachable = true;
+		$this->isAllowedTranslate = true;
 	}
 	
 	public function renderForm($formID){

@@ -15,6 +15,9 @@ class FormRender extends FormModelRender{
 	private $renderedConfigForm = '';
 	private $captchaForm;
 	
+	private $moduleName;
+	private $moduleID;
+	
 	function FormRender($modelConnector, $formMeta){
 		$this->modelConnector = $modelConnector;
 		$this->formMeta = $formMeta;
@@ -109,10 +112,14 @@ class FormRender extends FormModelRender{
 	
 	private function getTranslateLabel(){
 		if($this->isTranslate){
+			$this->moduleID = $this->modelConnector->getID();
+			$this->moduleName = $this->modelConnector->getModuleName();
 			head_add_js('include/javascript/translate.js');
-			$pattern = tt('You can use <a %s><strong>Translate-Form</strong></a> to translate this form.');
-			$help = sprintf($pattern, 'href="#" onclick="showTranslateDialog();return false"');
-			$this->formMeta->description .= '<p>'.$help.'</p>';
+			$label = tt('Translate to : ');
+			foreach(cc('supported_language') as $key => $value){
+				$label .= '<a href="#" onclick="return selectTranslateLanguage(\''.$value.'\', \''.$this->moduleName.'\','.$this->moduleID.')"><img src="'.ROOT_URI.'files/flag/'.$value.'.png"></a> ';
+			}
+			$this->formMeta->description .= '<p>'.$label.'</p>';
 		}
 	}
 	
