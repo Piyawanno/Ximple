@@ -141,7 +141,7 @@ abstract class Control extends Translatable{
 	}
 	
 	public function dropModule(){
-		module_drop($this->fullModuleName);
+		module_drop($this->moduleName);
 	}
 	
 	public function select($column, $clause=null, $isRaw=false){

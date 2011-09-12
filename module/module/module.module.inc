@@ -102,12 +102,22 @@ function module_activate_module(){
 function module_deactivate_module(){
 	$module_array = module_get_information();
 	$module_name = gg('module_name');
+	$set_require = false;
+	$require = cc('module_require');
 	if(array_key_exists($module_name, $module_array)){
 		if($module_array[$module_name]['installed']){
 			module_include_locale($module_name, $module_array[$module_name]);
 			$function = 'module_drop_'.$module_name;
 			$function();
 			extension_execute('module_deactivate', array($module_name));
+			if(isset($require[$module_name]) and count($require[$module_name]) == 0){
+				unset($require[$module_name]);
+				$set_require = true;
+			}
+		}
+		if($set_require){
+			config_set('module_require', $require);
+			config_save();
 		}
 	}
 }
