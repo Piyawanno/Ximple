@@ -85,6 +85,7 @@ abstract class Control extends Translatable{
 		$insertOk = $this->dataModifier->insert($this->formMeta->isCaptcha);
 		if($insertOk){
 			$this->id = $this->dataModifier->getID();
+			echo($this->insertRedirect.'::');
 			$this->setRedirect($this->insertRedirect);
 			notify_add_info($this->insertNotify);
 		}

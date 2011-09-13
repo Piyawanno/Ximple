@@ -123,12 +123,14 @@ function render_signature($user){
 	}
 }
 
-function render_avatar($user, $show_profile=true){
-	head_add_js('include/javascript/avatar.js');
-	head_add_js('include/javascript/form.js');
+function render_avatar($user, $show_profile=true, $show_function=true, $mode='profile'){
+	if($show_function){
+		head_add_js('include/javascript/avatar.js');
+		head_add_js('include/javascript/form.js');
+	}
 	if(strlen($user['avatar']) == 0) $user['avatar'] = 'files/default.png';
 	
-	if($user['id'] > 0) $uri = SECTION_URI.Q.'profile/'.$user['id'];
+	if($user['id'] > 0) $uri = SECTION_URI.Q.$mode.'/'.$user['id'];
 	elseif(authority_is_guest()) $uri = '';
 	else $uri = SECTION_URI.Q.'profile_write_mail/send_to_address/'.$user['email'];
 	
@@ -141,6 +143,7 @@ function render_avatar($user, $show_profile=true){
 		'icon' => render_get_profile_icon($user),
 		'avatar_uri' => ROOT_URI.$user['avatar'],
 		'is_guest' => ($user['id'] == -1),
+		'show_function' => $show_function,
 	);
 	return render($render_array, 'avatar.tpl', 'avatar');
 }

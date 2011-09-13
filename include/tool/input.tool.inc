@@ -23,9 +23,11 @@ function input_trim($input){
 /// @param $input : given input
 /// @return Array of splitted string.
 function input_split_comma($input){
-	$input = split(',', str_replace(' ', '', input_trim($input)));
-	foreach($input as $key => $value){
-		if(strlen($value) == 0) unset($input[$key]);
+	if(strlen($input)){
+		$input = split(',', str_replace(' ', '', input_trim($input)));
+		foreach($input as $key => $value){
+			if(strlen($value) == 0) unset($input[$key]);
+		}
 	}
 	return $input;
 }

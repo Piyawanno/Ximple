@@ -26,8 +26,8 @@ function authority($users=array(), $groups=array(), $first_check=false){
 	authority_handle_login();
 	authority_init_salt();
 	$crypt = authority_get_crypt();
+	$user_db = authority_get_user_array();
 	if($crypt != ss('authority') or authority_is_login()){
-		$user_db = authority_get_user_array();
 		if(isset($user_db[0])){
 			$_SESSION['login_name']  = $user_db[0]['login_name'];
 		}
@@ -37,11 +37,11 @@ function authority($users=array(), $groups=array(), $first_check=false){
 			authority_handle_user($user_db[0]['id']);
 		}else{
 			authority_handle_guest();
-			authority_define_const();
+			authority_define_const($user_db);
 			return false;
 		}
 	}
-	authority_define_const();
+	authority_define_const($user_db);
 	if(USER_ID == 1) return true;
 	return authority_check_users_groups($users, $groups);
 }
@@ -127,15 +127,11 @@ function authority_init_salt(){
 /// Get user array from database for authorization.
 /// @return Array of logging-in user information from data base.
 function authority_get_user_array(){
-	if(strlen(ss('login_name'))){
-		$clause = "WHERE (login_name='".ss('login_name')."') LIMIT 1";
-		$user_db = db_select('users', array('id', 'login_name', 'password'), $clause);
-		if(count($user_db) == 0){
-			$clause = "WHERE (email='".ss('login_name')."') ORDER BY id LIMIT 1";
-			$user_db = db_select('users', array('id', 'login_name', 'password'), $clause);
-		}
-	}else{
-		$user_db = array();
+	$clause = "WHERE (login_name='".ss('login_name')."') LIMIT 1";
+	$user_db = db_select('users', array('id', 'login_name', 'password', 'email'), $clause);
+	if(count($user_db) == 0){
+		$clause = "WHERE (email='".ss('login_name')."') ORDER BY id LIMIT 1";
+		$user_db = db_select('users', array('id', 'login_name', 'password', 'email'), $clause);
 	}
 	return array_values($user_db);
 }
@@ -178,7 +174,7 @@ function authority_handle_user($uid){
 }
 
 /// Define constant for user.
-function authority_define_const(){
+function authority_define_const($data){
 	if(!defined('USER_ID')){
 		define('USER_ID', ss('ximple_id'));
 	}
@@ -187,6 +183,9 @@ function authority_define_const(){
 	}
 	if(!defined('USER_PASSWD')){
 		define('USER_PASSWD', ss('login_password'));
+	}
+	if(!defined('USER_EMAIL')){
+		define('USER_EMAIL', $data[0]['email']);
 	}
 }
 
