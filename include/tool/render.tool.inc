@@ -37,12 +37,7 @@ function render_get_tpl($tpl){
 	elseif(is_file($tpl_default)) $tpl_out = $tpl_default;
 	elseif(is_file($tpl_module)) $tpl_out = $tpl_module;
 	elseif(is_file($tpl_abs)) $tpl_out = $tpl_abs;
-	else{
-		$tpl_out = render_find_tpl($tpl);
-		if($tpl_out == null){
-			echo('Template file can not be found : '.$tpl_out);
-		}
-	}
+	else $tpl_out = render_find_tpl($tpl);
 	
 	$render_cache_tpl[$tpl] = $tpl_out;
 	return $tpl_out;
@@ -61,6 +56,7 @@ function render_find_tpl($tpl){
 			return $tpl_path;
 		}
 	}
+	echo('Template file can not be found : '.$tpl);
 	return null;
 }
 
@@ -107,9 +103,9 @@ function render_file_size($size){
 	else return sprintf('%.1f kB', $size/1e3);
 }
 
-function render_profile_link($user, $attribute=null){
+function render_profile_link($user, $attribute=null, $mode='profile'){
 	if($user['id'] == -1) return $user['login_name'];
-	else return '<a href="'.SECTION_URI.Q.'profile/'.$user['id'].'" '.$attribute.'>'.$user['login_name'].'</a>';
+	else return '<a href="'.SECTION_URI.Q.$mode.'/'.$user['id'].'" '.$attribute.'>'.$user['login_name'].'</a>';
 }
 
 function render_signature($user){

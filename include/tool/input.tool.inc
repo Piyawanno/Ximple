@@ -28,8 +28,9 @@ function input_split_comma($input){
 		foreach($input as $key => $value){
 			if(strlen($value) == 0) unset($input[$key]);
 		}
+		return $input;
 	}
-	return $input;
+	return array();
 }
 
 /// Strip image tag from given input.

@@ -184,7 +184,7 @@ function authority_define_const($data){
 	if(!defined('USER_PASSWD')){
 		define('USER_PASSWD', ss('login_password'));
 	}
-	if(!defined('USER_EMAIL')){
+	if(!defined('USER_EMAIL') and count($data)){
 		define('USER_EMAIL', $data[0]['email']);
 	}
 }

@@ -164,6 +164,7 @@ function locale_check_directory($directory, $parent){
 
 function locale_init_directory($locale_directory, $code_directory){
 	$languages = translate_get_interface_language();
+	echo($locale_directory);
 	if(!is_dir($locale_directory)) mkdir($locale_directory);
 	foreach($languages as $language => $label){
 		$code = locale_get($code_directory, $language);
