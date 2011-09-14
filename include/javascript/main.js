@@ -19,6 +19,7 @@ function checkNotify(){
 					}
 				});
 			}
+			if(checkNotifyInterval < 5000) checkNotifyInterval = 500;
 			setTimeout("checkNotify()", checkNotifyInterval);
 		});
 	}

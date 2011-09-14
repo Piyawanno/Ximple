@@ -130,12 +130,10 @@ function io_upload($file, $path, $is_image=false, $increase_space=true){
 	$name = null;
 	if($file['size'] == 0) return null;
 	if(LIMIT_UPLOAD and $file['size'] > MAX_UPLOADED_FILE_SIZE){
-		echo(1);
 		notify_add_warning(tt('Size of uploaded file exceeds the limit.'));
 		return null;
 	}
 	if(LIMIT_UPLOAD and $file['size'] > MAX_USER_SPACE_SIZE){
-		echo(2);
 		notify_add_warning(tt('Size of uploaded file exceeds the limit.'));
 		return null;
 	}

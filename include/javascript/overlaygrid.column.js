@@ -23,18 +23,23 @@ function overlayWrite(formID, moduleName){
 function overlayInsertForm(form, notNull, label){
 	if(checkForm(notNull, label)){
 		$(form).ajaxSubmit({success : function(data){
-			data = data.replace(/(<([^>]+)>)/ig,"");
-			data = data.replace(/\s*/ig,"").split('\/');
-			var dataID = data[2];
-			var inputName = 'overlay_grid_'+data[1];
-			$('#form_'+currentFormID).append('<input type="hidden" name="'+inputName+'[]" value="'+dataID+'" />');
-			if(insertedOverlayDataID[data[0]] == undefined){
-				insertedOverlayDataID[data[0]] = new Array();
+			try{
+				alert(data);
+				data = data.replace(/(<([^>]+)>)/ig,"");
+				data = data.replace(/\s*/ig,"").split('\/');
+				var dataID = data[2];
+				var inputName = 'overlay_grid_'+data[1];
+				$('#form_'+currentFormID).append('<input type="hidden" name="'+inputName+'[]" value="'+dataID+'" />');
+				if(insertedOverlayDataID[data[0]] == undefined){
+					insertedOverlayDataID[data[0]] = new Array();
+				}
+				insertedOverlayDataID[data[0]].push(data[2]);
+				currentOverlayDialog.dialog('close');
+				overlayRefresh(currentFormID, currentModuleName);
+				alert(currentFormID);
+			}catch(e){
+				alert(e);
 			}
-			
-			insertedOverlayDataID[data[0]].push(data[2]);
-			currentOverlayDialog.dialog('close');
-			overlayRefresh(currentFormID, currentModuleName);
 		}});
 	}
 	return false;

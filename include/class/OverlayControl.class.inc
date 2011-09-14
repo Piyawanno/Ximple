@@ -18,6 +18,7 @@ abstract class OverlayControl extends Control{
 	public function overlayInsert(){
 		$this->insert();
 		execute_set_ajax();
+		ob_end_clean();
 		return $this->fullModuleName.'/'.$this->tableName.'/'.$this->id;
 	}
 	

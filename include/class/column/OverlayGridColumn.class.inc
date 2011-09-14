@@ -39,10 +39,7 @@ class OverlayGridColumn extends ModelColumn{
 			$table = $this->childTableName;
 			$inputName = 'overlay_grid_'.$table;
 			$input = pp($inputName);
-			echo($inputName);
-			print_r(pp());
 			if(is_array($input)){
-				print_r($input);
 				foreach($input as $key => $value){
 					$data = array(
 						$this->parentColumn => $this->id,

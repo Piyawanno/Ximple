@@ -50,7 +50,6 @@ class MultipleFilesColumn extends ModelColumn{
 				unset($this->fileArray[$key]);
 			}
 		}
-		print_r($this->data);
 	}
 }
 ?>
