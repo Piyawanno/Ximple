@@ -1,6 +1,10 @@
 <?php
 require_once('SelectiveColumn.class.inc');
 class SelectColumn extends SelectiveColumn{
+	function SelectColumn($label, $option, $help=null){
+		SelectiveColumn::SelectiveColumn($label, $option, $help);
+	}
+	
 	public function renderForm($formID){
 		$id = $formID.'_'.$this->name;
 		$this->setFormAttribute('name', $this->name);
