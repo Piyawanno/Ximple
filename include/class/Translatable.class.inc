@@ -33,9 +33,9 @@ abstract class Translatable extends Authority{
 	}
 	
 	protected function init($modelObj){
+		$this->checkAtribute($modelObj);
 		if(strlen($this->moduleExtension) == 0) $this->fullModuleName = $this->moduleName;
 		else $this->fullModuleName = $this->moduleName.'_'.$this->moduleExtension;
-		$this->checkAtribute($modelObj);
 	}
 	
 	protected function translateData(){

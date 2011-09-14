@@ -73,7 +73,7 @@ function error_denied($info=''){
 /// @param $error : database error message.
 function error_db_log($query, $error){
 	$message = 'Database error : '.$error.' by query : '.$query.' ';
-	if(!state_is_product()){
+	if(!state_is_product() or true){
 		error_syslog($message);
 	}else{
 		db_rollback();
