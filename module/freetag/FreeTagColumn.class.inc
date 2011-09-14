@@ -46,7 +46,6 @@ class FreeTagColumn extends AutoCompleteColumn{
 	
 	private function vadiladeTag(){
 		$tagArray = input_split_comma($this->data);
-		print_r($tagArray);
 		if(count($tagArray)) $this->data = join(', ', $tagArray).', ';
 		else $this->data = '';
 	}
