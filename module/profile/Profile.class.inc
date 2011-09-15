@@ -18,8 +18,8 @@ class Profile extends Control{
 		$this->addAccessMethod('guest', 'writeMail');
 		$this->addAccessMethod('guest', 'sendMail');
 		
-		$this->addAccessMethod('users', 'write');
-		$this->addAccessMethod('users', 'insert');
+		$this->addAccessMethod('user', 'write');
+		$this->addAccessMethod('user', 'insert');
 		
 		$this->init(new ProfileModel());
 		document_set_path($this->moduleTitle, $this->moduleName);
