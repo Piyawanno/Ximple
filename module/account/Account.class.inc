@@ -13,6 +13,7 @@ class Account extends User{
 		$this->updateMap = false;
 		$this->init(new UserModel());
 		$this->prepareMethodMap['index'] = 'prepareData';
+		$this->prepareMethodMap['update'] = 'prepareData';
 	}
 	
 	public function index(){
