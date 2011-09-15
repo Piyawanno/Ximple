@@ -12,12 +12,11 @@ class Account extends User{
 		$this->initNotification();
 		$this->updateMap = false;
 		$this->init(new UserModel());
+		$this->prepareMethodMap['index'] = 'prepareData';
 	}
 	
 	public function index(){
 		document_set_path(tt('Configure Account'));
-		$this->getUID();
-		$this->selectByID($this->column, true);
 		return $this->renderForm();
 	}
 	
@@ -43,6 +42,12 @@ class Account extends User{
 	
 	public function getConfigValue($reference){
 		return user_info_get_config($this->id, $reference);
+	}
+	
+	public function prepareData(){
+		$this->getUID();
+		$this->selectByID($this->column, true);
+		$this->setOwner($this->id);
 	}
 	
 	private function renderForm(){
