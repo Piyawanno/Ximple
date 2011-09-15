@@ -187,7 +187,7 @@ abstract class Control extends Translatable{
 		}
 	}
 	
-	public function selectPage($column, $pageLength, $clause=null, $isRaw=false){
+	public function selectPage($column, $pageLength, $clause=null, $isRaw=false, $page=MODE_PAGE){
 		$dbColumn = $this->checkDBColumn($column);
 		$this->listPageColumn = $dbColumn;
 		$rowsNumber = db_get_rows_number($this->tableName, $clause);
@@ -198,7 +198,7 @@ abstract class Control extends Translatable{
 		$this->pager->setPageLength($pageLength);
 		$this->pager->setRowsNumber($rowsNumber);
 		
-		$clause .= ' LIMIT '.(int)$pageLength.' OFFSET '.(int)(MODE_PAGE*$pageLength);
+		$clause .= ' LIMIT '.(int)$pageLength.' OFFSET '.(int)($page*$pageLength);
 		$this->data = db_select($this->tableName, $dbColumn, $clause);
 		$this->unserializeData();
 		if(!$isRaw) $this->postSelect($column);
