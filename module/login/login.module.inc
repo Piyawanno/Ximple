@@ -24,7 +24,8 @@ function login_submit(){
 function login_render(){
 	$render_array = array(
 		'forget_password' => cc('forget_password'),
-		'registable' => cc('registable')
+		'registable' => cc('registration_enable'),
+		'text' => cc('registration_login_page'),
 	);
 	head_add_css('form.css');
 	head_add_js('include/external/sha1.js');
