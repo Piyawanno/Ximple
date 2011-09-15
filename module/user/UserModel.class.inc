@@ -1,6 +1,7 @@
 <?php
 require('UserLoginHashColumn.class.inc');
 require('UserPasswordColumn.class.inc');
+require('AvatarColumn.class.inc');
 
 class UserModel extends Model{
 	function UserModel(){
@@ -14,9 +15,7 @@ class UserModel extends Model{
 		$this->confirm_password = $this->password(tt('confirm password'));
 		$this->confirm_password->isDB = false;
 		$this->status = $this->hidden('active');
-		$maxWidth = cc('avatar_size');
-		if(empty($maxWidth)) $maxWidth = 120;
-		$this->avatar = $this->image(tt('avarta'), 'files/avatar/', $maxWidth);
+		$this->avatar = new AvatarColumn();
 		$this->section = $this->section();
 		$this->space_used = $this->fileSize(tt('used space'));
 		$this->login_name_hash = new UserLoginHashColumn();

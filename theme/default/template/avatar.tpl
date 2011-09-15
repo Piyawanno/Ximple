@@ -1,8 +1,8 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <?php if($show_function):?><div class="avatar_container"><?php endif?>
-<a href="<?=$profile_uri?>">
+<?php if(strlen($profile_uri)):?><a href="<?=$profile_uri?>"><?php endif?>
 	<img src="<?=$avatar_uri?>" border="0" />
-</a>
+<?php if(strlen($profile_uri)):?></a><?php endif?>
 <?php if($show_function):?>
 	<p><?=$profile_link?></p>
 	<?php if(!$is_guest):?>
@@ -14,4 +14,3 @@
 	<?php endif?>
 	</div>
 <?php endif?>
-	

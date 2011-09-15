@@ -50,6 +50,7 @@ class SectionConfig extends ConfigControl{
 		$user->append('forget_password');
 		$user->append('avatar_resizable');
 		$user->append('avatar_size');
+		$user->append('avatar_big_size');
 		
 		$time = $this->getNewConfigForm(tt('Time'));
 		$time->append('time_zone');

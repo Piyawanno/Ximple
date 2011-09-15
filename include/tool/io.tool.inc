@@ -138,13 +138,13 @@ function io_upload($file, $path, $is_image=false, $increase_space=true){
 		return null;
 	}
 
-	$name = $path.$file['name'];
+	$name = $path.md5($file['name']).'.'.end(explode('.', $file['name']));;
 	$size = $file['size'];
 	$error = false;
 	$i = 0;
 	while(true){
 		if(!is_file($name)){
-			move_uploaded_file($file['tmp_name'], $name);# or $error = true;
+			move_uploaded_file($file['tmp_name'], $name);
 			if($error) return null;
 			break;
 		}else{

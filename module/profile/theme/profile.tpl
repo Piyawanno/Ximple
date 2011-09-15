@@ -1,17 +1,7 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <div class="profile">
 	<h3 class="list_label"><?=sprintf(tt('Profile of %s'), $user['login_name'])?></h3>
-	<p align="center"><img src="<?=ROOT_URI?><?=$user['avatar']?>" alt="userlogo"></img></p>
-	<?php if($allow_email):?>
-		<?=render_icon('profile_write_mail/'.$user['id'].'/send_to/'.$user['login_name'], 'files/icon/email.png', sprintf(tt('Send an email to %s'), $user['login_name']));?>
-	<?php endif?>
-	<?php if(!authority_is_guest()):?>
-		<?=render_icon('message_write/send_to/'.$user['login_name'], 'files/icon/message.png', sprintf(tt('Send a message to %s'), $user['login_name']));?>
-		<?=render_icon('tracker/'.$user['id'], 'files/icon/tracker.png', sprintf(tt('See tracker of  %s'), $user['login_name']));?>
-	<?php endif?>
-	<?php foreach($additional_link as $key => $value):?>
-		<?=render_icon($value['mode'], $value['icon'], $value['label']);?>
-	<?php endforeach?>
+	<p align="center"><?=render_avatar($user, false, true, null, true)?></p>
 	<br />
 	<?=render_write_icon('profile_write', tt('Add new User-Profile'))?>
 	<?php if($readable):?>

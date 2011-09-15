@@ -119,16 +119,22 @@ function render_signature($user){
 	}
 }
 
-function render_avatar($user, $show_profile=true, $show_function=true, $mode='profile'){
+function render_avatar($user, $show_profile=true, $show_function=true, $mode='profile', $is_big=false){
 	if($show_function){
 		head_add_js('include/javascript/avatar.js');
 		head_add_js('include/javascript/form.js');
 	}
 	if(strlen($user['avatar']) == 0) $user['avatar'] = 'files/default.png';
 	
-	if($user['id'] > 0) $uri = SECTION_URI.Q.$mode.'/'.$user['id'];
-	elseif(authority_is_guest()) $uri = '';
-	else $uri = SECTION_URI.Q.'profile_write_mail/send_to_address/'.$user['email'];
+	if($is_big) $user['avatar'] = dirname($user['avatar']).'/big_'.basename($user['avatar']);
+	
+	if(strlen($mode)){
+		if($user['id'] > 0) $uri = SECTION_URI.Q.$mode.'/'.$user['id'];
+		elseif(authority_is_guest()) $uri = '';
+		else $uri = SECTION_URI.Q.'profile_write_mail/send_to_address/'.$user['email'];
+	}else{
+		$uri = '';
+	}
 	
 	if($show_profile) $profile_link = render_profile_link($user);
 	else $profile_link = '';
