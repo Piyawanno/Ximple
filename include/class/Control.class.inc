@@ -120,7 +120,7 @@ abstract class Control extends Translatable{
 		if(empty($this->id)) error_syslog(tt('Data can not be prepared without any given ID.'));
 		$this->selectByID($this->column, true);
 		if(!count($this->dataByID)) error_syslog(tt('The selected data is empty.'));
-		if($this->ownerColumn) $this->setOwner($this->dataByID[$this->ownerColumn]);
+		$this->setOwnerByID();
 		$this->modelConnector->setData($this->dataByID);
 	}
 	
@@ -173,6 +173,7 @@ abstract class Control extends Translatable{
 		}else{
 			error_not_found();
 		}
+		$this->setOwnerByID();
 	}
 	
 	public function selectBySection($column, $isRaw=false){
@@ -450,6 +451,14 @@ abstract class Control extends Translatable{
 					$this->data[$key][$column] = unserialize($value[$column]);
 				}
 			}
+		}
+	}
+	
+	private function setOwnerByID(){
+		if($this->id and strlen($this->ownerColumn) and isset($this->dataByID[$this->ownerColumn])){
+			$owner = $this->dataByID[$this->ownerColumn];
+			if(is_array($owner)) $this->setOwner($owner['id']);
+			else $this->setOwner($owner);
 		}
 	}
 }
