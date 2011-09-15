@@ -126,7 +126,10 @@ function render_avatar($user, $show_profile=true, $show_function=true, $mode='pr
 	}
 	if(strlen($user['avatar']) == 0) $user['avatar'] = 'files/default.png';
 	
-	if($is_big) $user['avatar'] = dirname($user['avatar']).'/big_'.basename($user['avatar']);
+	if($is_big){
+		$avatar = dirname($user['avatar']).'/big_'.basename($user['avatar']);
+		if(is_file(ROOT_PATH.$avatar)) $user['avatar'] = $avatar;
+	}
 	
 	if(strlen($mode)){
 		if($user['id'] > 0) $uri = SECTION_URI.Q.$mode.'/'.$user['id'];
