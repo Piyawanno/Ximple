@@ -7,6 +7,7 @@ class Profile extends Control{
 		$this->tableName = 'profile';
 		$this->moduleName = 'profile';
 		$this->moduleTitle = tt('User-Profile');
+		
 		$this->ownerColumn = 'owner';
 		$this->setAdmin('profile_admin');
 		
@@ -16,6 +17,10 @@ class Profile extends Control{
 		$this->addAccessMethod('guest', 'index');
 		$this->addAccessMethod('guest', 'writeMail');
 		$this->addAccessMethod('guest', 'sendMail');
+		
+		$this->addAccessMethod('users', 'write');
+		$this->addAccessMethod('users', 'insert');
+		
 		$this->init(new ProfileModel());
 		document_set_path($this->moduleTitle, $this->moduleName);
 	}
