@@ -221,6 +221,16 @@ function db_exist_table($table){
 	return false;
 }
 
+function db_get_tables(){
+	global $db_connect;
+	$tables = array();
+	$state = mysql_list_tables(DB_NAME, $db_connect);
+	while($row = mysql_fetch_row($state)){
+		$tables[] = $row[0];
+	}
+	return $tables;
+}
+
 function db_exist_column($table, $column){
 	global $db_connect, $db_column;
 	if(isset($db_column[$table])){
@@ -247,16 +257,6 @@ function db_create_table($table, $columns){
 	}
 	$query.= 'PRIMARY KEY (id)) CHARACTER SET utf8;';
 	db_modify($table, $query);
-}
-
-function db_get_tables(){
-	global $db_connect;
-	$state = mysql_list_tables(DB_NAME, $db_connect);
-	$tables = array();
-	while($row = mysql_fetch_row($state)){
-		$tables[] = $row[0];
-	}
-	return $tables;
 }
 
 function db_modify($table, $query){
@@ -302,4 +302,9 @@ function db_rollback(){
 	}
 }
 
+
+function db_query($query){
+	global $db_connect;
+	return mysql_db_query(DB_NAME, $query, $db_connect);
+}
 ?>
