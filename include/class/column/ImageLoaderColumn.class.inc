@@ -37,6 +37,7 @@ class ImageLoaderColumn extends ModelColumn{
 	
 	private function checkPath(){
 		if($this->separateSection){
+			if(!is_dir(ROOT_PATH.$this->path)) mkdir(ROOT_PATH.$this->path);
 			$this->path = $this->path.SECTION.'/';
 			if(!is_dir(ROOT_PATH.$this->path)) mkdir(ROOT_PATH.$this->path);
 		}
