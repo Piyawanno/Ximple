@@ -75,6 +75,7 @@ class Download extends Control{
 		$this->setListDropIcon();
 		$this->selectFile();
 		$this->renderFileDescription();
+		$this->getListColumn();
 		return $this->renderListPage();
 	}
 	

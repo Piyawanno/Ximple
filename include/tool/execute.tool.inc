@@ -91,7 +91,7 @@ function execute_oop($mode, $module, $params, $result){
 			}
 		}
 	}
-	if(!$success) error_not_found('System can not execute : '.$mode);
+	if($success === false) error_not_found('System can not execute : '.$mode);
 	return $result;
 }
 
@@ -293,7 +293,7 @@ function execute_parse_smart_uri($uri){
 	$size = count($splitted);
 	$result['mode'] = $splitted[1];
 	$laguange = cc('supported_language');
-	if(in_array($result['mode'], $laguange)){
+	if(is_array($laguange) and in_array($result['mode'], $laguange)){
 		$_SESSION['language'] = $result['mode'];
 		$result['mode'] = $splitted[2];
 		$splitted = array_slice($splitted, 1);
