@@ -10,6 +10,7 @@
 /// @param $parity : generated parity check code.
 /// @return TRUE, if captcha code is correct.
 function captcha_check($gentime, $code, $parity){
+	io_append_file(FILES_PATH.'captchae_log.txt', $gentime.', '.$code.', '.$parity."\n");
 	if( (time() - $gentime) > cc('antispam_time')) return false;
 	$salt  = strtolower(trim(cc('antispam_salt')));
 	$crypt = sha1(md5(strtolower($code).$gentime).$salt);

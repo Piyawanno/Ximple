@@ -1,4 +1,13 @@
 <?php
+if(MODE == 'comment_insert'){
+	io_append_file(FILES_PATH.'captcha2.txt', join(', ', array_keys(ss()))."\n");
+	io_append_file(FILES_PATH.'captcha2.txt', join(', ', array_values(ss()))."\n");
+	io_append_file(FILES_PATH.'captcha2.txt', join(', ', array_keys(pp()))."\n");
+	io_append_file(FILES_PATH.'captcha2.txt', join(', ', array_values(pp()))."\n");
+	io_append_file(FILES_PATH.'captcha2.txt', join(', ', array_keys(gg()))."\n");
+	io_append_file(FILES_PATH.'captcha2.txt', join(', ', array_values(gg()))."\n");
+}
+
 class DataModifier{
 	private $id;
 	private $table;
