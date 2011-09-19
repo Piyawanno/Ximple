@@ -16,8 +16,20 @@ function boot(){
 		require('setini.tool.inc');
 		setini();
 		require('main.tool.inc');
+		require('init.tool.inc');
 		main_init();
 		main_exec();
 	}
+}
+
+/// Bootstrap of Cron-Jobs.
+function boot_cron(){
+	session_start();
+	require('setini.tool.inc');
+	setini();
+	require('cron.tool.inc');
+	require('init.tool.inc');
+	cron_init();
+	cron_exec();
 }
 ?>

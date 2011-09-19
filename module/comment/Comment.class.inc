@@ -129,15 +129,16 @@ class Comment extends Control{
 		if($this->isWritable()){
 			$this->getParentColumn();
 			$this->formMeta->isCaptcha = true;
-			Control::insert();
-			count_increase('contribution', USER_ID);
-			$column = array('id', $this->parentTopicColumn, $this->parentWriterColumn);
-			$this->parentData = db_select($this->mode, $column, 'WHERE id='.$this->parent);
-			$this->parentData = $this->parentData[$this->parent];
-			$this->insertTracker();
-			$this->insertNotify();
-			db_update($this->mode, array('comment_time' => NOW), $this->parent);
-			document_set_redirect($this->mode.'/'.$this->parent.'/page/'.pid());
+			if(Control::insert()){
+				count_increase('contribution', USER_ID);
+				$column = array('id', $this->parentTopicColumn, $this->parentWriterColumn);
+				$this->parentData = db_select($this->mode, $column, 'WHERE id='.$this->parent);
+				$this->parentData = $this->parentData[$this->parent];
+				$this->insertTracker();
+				$this->insertNotify();
+				db_update($this->mode, array('comment_time' => NOW), $this->parent);
+				document_set_redirect($this->mode.'/'.$this->parent.'/page/'.pid());
+			}
 		}
 	}
 	

@@ -134,7 +134,7 @@ function render_avatar($user, $show_profile=true, $show_function=true, $mode='pr
 	if(strlen($mode)){
 		if($user['id'] > 0) $uri = SECTION_URI.Q.$mode.'/'.$user['id'];
 		elseif(authority_is_guest()) $uri = '';
-		else $uri = SECTION_URI.Q.'profile_write_mail/send_to_address/'.$user['email'];
+		elseif(isset($user['email'])) $uri = SECTION_URI.Q.'profile_write_mail/send_to_address/'.$user['email'];
 	}else{
 		$uri = '';
 	}

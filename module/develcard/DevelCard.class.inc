@@ -361,13 +361,6 @@ class DevelCard extends Control{
 		return $uid;
 	}
 	
-	private function renderWriteIcon(){
-		if($this->isCallable('write')){
-			$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
-			return render_write_icon('develcard_write', $this->writeLabel);
-		}
-	}
-	
 	private function setResolverPoint($status){
 		$clause = 'WHERE develcard='.$this->id;
 		$resolver = db_select_single_column('develcard_resolver', 'work_load', $clause);

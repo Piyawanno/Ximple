@@ -87,6 +87,8 @@ abstract class Control extends Translatable{
 			$this->id = $this->dataModifier->getID();
 			$this->setRedirect($this->insertRedirect);
 			notify_add_info($this->insertNotify);
+		}else{
+			return false;
 		}
 	}
 	

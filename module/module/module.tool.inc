@@ -104,4 +104,16 @@ function module_drop_cache($mode){
 	config_drop_by_value('cachable_mode', $mode);
 }
 
+
+function module_add_cron($reference, $time_span){
+	$cron = cc('cron');
+	$cron[$reference] = $time_span;
+	config_set('cron', $cron);
+}
+
+function module_drop_cron($reference){
+	$cron = cc('cron');
+	unset($cron[$reference]);
+	config_set('cron', $cron);
+}
 ?>
