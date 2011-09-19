@@ -4,8 +4,10 @@ execute_add_function('dbbackup_config');
 execute_add_function('dbbackup_config_save');
 
 function dbbackup(){
-	require_once(INCLUDE_PATH.'tool/dump.tool.inc');
-	dump();
+	if(cron_check_process()){
+		require_once(INCLUDE_PATH.'tool/dump.tool.inc');
+		dump();
+	}
 }
 
 function dbbackup_config($params, $result){

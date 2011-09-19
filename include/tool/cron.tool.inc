@@ -21,7 +21,7 @@ function cron_exec(){
 	if(is_array($cron) and count($cron)){
 		$time = time();
 		foreach($cron as $key => $value){
-			if($time%$value == 0){
+			if($value > 0 and $time%$value == 0){
 				execute($key);
 				$message .= sprintf("Execute %s.\n", $key);
 			}
@@ -37,5 +37,10 @@ function cron_write_log($time, $message){
 	if(!is_dir($dir)) mkdir($dir);
 	io_write_file($dir.SECTION.'.txt', (string) $time);
 	io_append_file($dir.SECTION.'_'.$loop.'_log.txt', date('Y-m-d H:i:s', $time)."\n$message\n");
+}
+
+function cron_check_process(){
+	if(XIMPLE_CRON_PROCESS == 'Cron Process') return true;
+	else error_denied();
 }
 ?>
