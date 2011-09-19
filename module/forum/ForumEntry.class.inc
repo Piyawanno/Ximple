@@ -17,6 +17,7 @@ class ForumEntry extends Content{
 		$this->addAccessMethod('guest', 'insertComment');
 		$this->init(new ForumEntryModel());
 		$this->writeLabel = tt('Write new Forum Entry');
+		$this->formMeta->isCaptcha = true;
 		document_set_path(tt('Forum'), 'forum');
 		menu_activate('forum');
 	}
@@ -60,7 +61,6 @@ class ForumEntry extends Content{
 	public function write(){
 		if($this->isWritable()){
 			if(gg('forum')) forum_set_path(gg('forum'));
-			$this->formMeta->isCaptcha = true;
 			return Content::write();
 		}else{
 			error_denied();

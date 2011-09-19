@@ -128,6 +128,7 @@ class Comment extends Control{
 	public function insert(){
 		if($this->isWritable()){
 			$this->getParentColumn();
+			$this->formMeta->isCaptcha = true;
 			Control::insert();
 			count_increase('contribution', USER_ID);
 			$column = array('id', $this->parentTopicColumn, $this->parentWriterColumn);
