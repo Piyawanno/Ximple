@@ -23,14 +23,11 @@ function cron_exec(){
 		foreach($cron as $key => $value){
 			if($time%$value == 0){
 				execute($key);
-				$message .= sprintf("Execute %s @ %s.\n", $key, date('Y-m-d H:i:s', $time));
+				$message .= sprintf("Execute %s.\n", $key);
 			}
 		}
 		cron_write_log($time, $message);
-		ob_start();
-		echo("$time\n$message");
-		ob_flush();
-		flush();
+		echo(date('Y-m-d H:i:s', $time)."\n$message\n");
 	}
 }
 
@@ -39,6 +36,6 @@ function cron_write_log($time, $message){
 	$loop = floor($time/3600)%720;
 	if(!is_dir($dir)) mkdir($dir);
 	io_write_file($dir.SECTION.'.txt', (string) $time);
-	io_append_file($dir.SECTION.'_'.$loop.'_log.txt', "$time\n$message");
+	io_append_file($dir.SECTION.'_'.$loop.'_log.txt', date('Y-m-d H:i:s', $time)."\n$message\n");
 }
 ?>

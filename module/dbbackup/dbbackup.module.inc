@@ -11,6 +11,8 @@ function dbbackup(){
 function dbbackup_config($params, $result){
 	$cron = cc('cron');
 	$interval = Model::timeInterval(tt('backup interval'));
+	$interval->isMinute = false;
+	$interval->isSecond = false;
 	$result[tt('Database Backup')] = array(
 		'dbbackup_interval' => $interval,
 	);
