@@ -32,5 +32,6 @@ function dump(){
 	}
 	fclose($file);
 	@ chmod($filename,0777);
+	return $filename;
 }
 ?>
