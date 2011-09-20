@@ -13,6 +13,19 @@ define('SECTION_SCRIPT',
 	boot();
 ?>");
 
+define('CRON_SCRIPT',
+"<?php
+	if(PHP_SAPI === 'cli'){
+		define('SECTION', %s);
+		define('SECTION_PATH', dirname(__FILE__).'/');
+		define('XIMPLE_CRON_PROCESS', 'Cron Process');
+		require('%sinclude/tool/boot.tool.inc');
+		boot_cron();
+	}else{
+		die('Cron Job can only be started from CLI.');
+	}
+?>");
+
 class Section extends Control{
 	function Section(){
 		$this->tableName = 'section';
@@ -126,8 +139,11 @@ class Section extends Control{
 	
 	private function writeScript($path){
 		$script = sprintf(SECTION_SCRIPT, $this->id, pp('uri'), ROOT_PATH);
+		$cron = sprintf(CRON_SCRIPT, $this->id, ROOT_PATH);
 		io_write_file($path.'index.php', $script);
-		io_write_file($path.'.htaccess', io_read_file(ROOT_PATH.'.htaccess'));
+		io_write_file($path.'cron.php', $cron);
+		copy($path.'.htaccess', ROOT_PATH.'.htaccess');
+		copy($path.'cron-start.php', ROOT_PATH.'cron-start.php');
 	}
 	
 	private function initConfig(){

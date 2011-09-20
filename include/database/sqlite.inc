@@ -1,12 +1,12 @@
 <?php
 /// @file
-/// This file provides functions for database handling with MySQL (support >= MySQL-5.0).
+/// This file provides functions for database handling with PostgreSQL (support >= PostgreSQL-8.2).
 /// The functions are extended with caching system and transaction.
 /// However, developers are not free to send any query to database due to the security.
 /// Queries are generated with query-templates and given array of data.
 /// This method does not simplify the development in all cases but is more secure.
 
-/// Internal global variables for mysql-database-tool.
+/// Internal global variables for postgresql-database-tool.
 /// These variables should not be used outside this file.
 
 global $db_connect, $db_transaction, $db_query_number;
@@ -26,24 +26,25 @@ $db_column = array();
 function db_init(){
 	global $db_connect;
 	global $db_transaction;
-	@$db_connect = mysql_connect(DB_HOST,DB_USER,DB_PASS) or error_db_connect();
-	@mysql_db_query(DB_NAME, 'START TRANSACTION;', $db_connect) or error_db_log($query, mysql_error());
+	$sqliteerror = null;
+	@$db_connect = sqlite_open(ROOT_PATH.'files/sqlite_'.SECTION.'.data', 0766, $sqliteerror)  or error_db_connect();
+	@sqlite_query($db_connect, 'START TRANSACTION') or error_db_log($query, sqlite_last_error($db_connect));
 	$db_transaction = true;
 }
 
-function db_select($table, $columns, $clause=null, $cachable=true){
+function db_select($table, $columns, $clause=null, $cachable=true){ //O.D. edited
 	global $db_connect;
 	$table = DB_TABLE_PREFIX.$table;
-	$query = 'SELECT '.join(', ', $columns).' FROM '.$table.' '.$clause.';';
+	$query = 'SELECT '.join(', ', $columns).' FROM '.$table.' '.$clause;
 	if($cachable){
 		$cache_file = cache_get_db_file($table, $query);
 		if(cache_check_db($cache_file)){
 			return cache_get_db_data($cache_file);
 		}
 	}
-	@$state = mysql_db_query(DB_NAME, $query, $db_connect) or error_db_log($query, mysql_error());
+	@$state = pg_query($db_connect, $query) or error_db_log($query, pg_last_error());
 	$data = array();
-	while($row = mysql_fetch_assoc($state)){
+	while($row = pg_fetch_assoc($state)){
 		if(count($columns) != count($row)){
 			error_syslog('Error by fetching data from database. Column number mismatch.');
 		}
@@ -68,8 +69,8 @@ function db_get_rows_number($table, $clause=null){
 	if(cache_check_db($cache_file)){
 		return cache_get_db_data($cache_file);
 	}
-	@$state = mysql_db_query(DB_NAME, $query, $db_connect) or error_db_log($query, mysql_error());
-	$row = mysql_fetch_assoc($state);
+	@$state = pg_query($db_connect, $query) or error_db_log($query, pg_last_error());
+	$row = pg_fetch_assoc($state);
 	cache_save_db($table, $query, $row['rows_number']);
 	db_increase_query($table);
 	return $row['rows_number'];
@@ -86,9 +87,9 @@ function db_count_group_by($table, $column, $where=null, $cachable=true){
 			return cache_get_db_data($cache_file);
 		}
 	}
-	@$state = mysql_db_query(DB_NAME, $query, $db_connect) or error_db_log($query, mysql_error());
+	@$state = pg_query($db_connect, $query) or error_db_log($query, pg_last_error());
 	$data = array();
-	while($row = mysql_fetch_assoc($state)){
+	while($row = pg_fetch_assoc($state)){
 		$row[$column] = stripslashes($row[$column]);
 		$data[] = $row;
 	}
@@ -97,51 +98,35 @@ function db_count_group_by($table, $column, $where=null, $cachable=true){
 	return $data;
 }
 
-
 function db_insert_id($result){
-	return mysql_insert_id();
+	return pg_last_oid($result);
 }
 
 function db_exist_table($table){
 	global $db_connect;
 	$table = DB_TABLE_PREFIX.$table;
-	$tables = mysql_list_tables(DB_NAME, $db_connect);
-	while($row = mysql_fetch_row($tables)){
-		if($row[0] == $table) return true;;
-	}
-	return false;
+	$tables = db_select('relname', array('pg_class'), "WHERE relname = '$table';");
+	if(count($tables))  return true;
+	else return false;
 }
 
 function db_get_tables(){
 	global $db_connect;
-	$tables = array();
-	$state = mysql_list_tables(DB_NAME, $db_connect);
-	while($row = mysql_fetch_row($state)){
-		$tables[] = $row[0];
-	}
-	return $tables;
+	$tables = db_select('relname', array('pg_class'), "WHERE relname = '$table';");
+	return array_values($tables);
 }
 
 function db_exist_column($table, $column){
 	global $db_connect, $db_column;
-	if(isset($db_column[$table])){
-		$columns = $db_column[$table];
-	}else{
-		$columns = array();
-		$table = DB_TABLE_PREFIX.$table;
-		$state = mysql_list_fields(DB_NAME, $table, $db_connect);
-		$number = mysql_num_fields($state);
-		for($i = 0; $i < $number; $i++){
-			$columns[] = mysql_field_name($state, $i);
-		}
-		$db_column[$table] = $columns;
-	}
+	$table = DB_TABLE_PREFIX.$table;
+	$columns = db_array("SELECT * FROM $table LIMIT 1");
+	$columns = array_keys($db_cols);
 	return in_array($column, $columns);
 }
 
 function db_modify($table, $query){
 	global $db_connect;
-	@$state = mysql_db_query(DB_NAME, $query, $db_connect) or error_db_log($query, mysql_error());
+	@$state = pg_query($db_connect, $query) or error_db_log($query, pg_last_error());
 	cache_clear_db($table);
 	db_increase_query($table);
 	return $state;
@@ -165,10 +150,7 @@ function db_close(){
 	global $db_connect;
 	global $db_transaction;
 	if($db_connect and $db_transaction){
-		mysql_db_query(DB_NAME, 'COMMIT;', $db_connect);
-	}
-	if($db_connect){
-		mysql_close($db_connect);
+		pg_query($db_connect, 'COMMIT;');// semi collon?
 	}
 }
 
@@ -176,16 +158,8 @@ function db_rollback(){
 	global $db_connect;
 	global $db_transaction;
 	if($db_transaction){
-		mysql_db_query(DB_NAME, 'ROLLBACK;', $db_connect);
-	}
-	if($db_connect){
-		mysql_close($db_connect);
+		pg_query($db_connect, 'ROLLBACK;'); // semi collon?
 	}
 }
-
-
-function db_query($query){
-	global $db_connect;
-	return mysql_db_query(DB_NAME, $query, $db_connect);
-}
+?>
 ?>
