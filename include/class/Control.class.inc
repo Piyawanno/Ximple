@@ -255,6 +255,7 @@ abstract class Control extends Translatable{
 	
 	protected function setListWriteIcon($label=null, $mode=null){
 		if($this->isCallable('write')){
+			$this->checkWriteLabel();
 			if(empty($label)) $label = $this->writeLabel;
 			if(empty($mode)) $mode = $this->fullModuleName.'_write';
 			$this->listMeta->writeLabel = $label;
@@ -347,9 +348,7 @@ abstract class Control extends Translatable{
 	
 	protected function renderWriteIcon(){
 		if($this->isCallable('write')){
-			if(strlen($this->writeLabel) == 0){
-				$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
-			}
+			$this->checkWriteLabel();
 			$mode = $this->fullModuleName.'_write';
 			return render_write_icon($mode, $this->writeLabel);
 		}
@@ -462,6 +461,12 @@ abstract class Control extends Translatable{
 			$owner = $this->dataByID[$this->ownerColumn];
 			if(is_array($owner)) $this->setOwner($owner['id']);
 			else $this->setOwner($owner);
+		}
+	}
+	
+	private function checkWriteLabel(){
+		if(strlen($this->writeLabel) == 0){
+			$this->writeLabel = sprintf(tt('Write new %s entry'), $this->moduleTitle);
 		}
 	}
 }

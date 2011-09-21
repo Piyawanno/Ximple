@@ -12,6 +12,7 @@ class TimeIntervalColumn extends ModelColumn{
 		$this->setType('int');
 		$this->label = $label;
 		$this->help = $help;
+		$this->defaultData = 0;
 	}
 	
 	public function triggerGetJavaScript(){
@@ -22,6 +23,7 @@ class TimeIntervalColumn extends ModelColumn{
 	
 	public function renderForm($formID){
 		$id = $formID.'_'.$this->name;
+		if(empty($this->data)) $this->data = $this->defaultData;
 		list($day, $hour, $minute, $second) = $this->processTimeInterval($this->data);
 		$this->renderDay($id, $day); 
 		$this->renderHour($id, $hour); 
