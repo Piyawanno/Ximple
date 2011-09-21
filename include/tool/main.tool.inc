@@ -15,7 +15,6 @@ function main_init(){
 	init_include();
 	main_count_visitor();
 	init_config();
-	db_init();
 	extension_execute('main_init');
 	init_set_time_zone();
 	init_var();
@@ -35,9 +34,11 @@ function main_exec(){
 		$render = main_render();
 		$render = postrender_correct_uri($render);
 		cache_save_page($render, $cache_file);
-		$render = postrender_get_read_number($render);
-		$render = postrender_get_site_info($render);
-		$render = postrender_target_link($render);
+		if(execute_as_site()){
+			$render = postrender_get_read_number($render);
+			$render = postrender_get_site_info($render);
+			$render = postrender_target_link($render);
+		}
 		echo($render);
 	}
 	notify_save();
@@ -46,7 +47,6 @@ function main_exec(){
 
 function main_render(){
 	include(INCLUDE_PATH.'tool/head.tool.inc');
-	include(INCLUDE_PATH.'tool/syswidget.tool.inc');
 	include(INCLUDE_PATH.'tool/userinfo.tool.inc');
 	include(INCLUDE_PATH.'tool/sectioninfo.tool.inc');
 	include(INCLUDE_PATH.'tool/search.tool.inc');
@@ -54,6 +54,7 @@ function main_render(){
 	extension_execute('pre_main_render');
 	$body = main_render_body();
 	if(execute_as_site()){
+		include(INCLUDE_PATH.'tool/syswidget.tool.inc');
 		header('Content-Type: text/html; charset=UTF-8');
 		$render = main_render_site($body);
 	}elseif(execute_as_db()){

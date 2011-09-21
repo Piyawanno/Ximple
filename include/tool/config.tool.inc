@@ -117,6 +117,7 @@ function config_default_require(){
 		'imageloader' => 'imageloader.module.inc',
 		'search' => 'search.module.inc',
 		'login' => 'login.module.inc',
+		'bench' => 'bench.module.inc',
 		'extension' => 'extension.module.inc',
 		'forgetpassword' => array(
 			'#primary' => 'ForgetPassword.class.inc',

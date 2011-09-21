@@ -33,6 +33,7 @@ function db_init(){
 
 function db_select($table, $columns, $clause=null, $cachable=true){
 	global $db_connect;
+	if(empty($db_connect)) db_init();
 	$table = DB_TABLE_PREFIX.$table;
 	$query = 'SELECT '.join(', ', $columns).' FROM '.$table.' '.$clause.';';
 	if($cachable){

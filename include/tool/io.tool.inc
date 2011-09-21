@@ -5,12 +5,16 @@
 /// @return Content of the file
 function io_read_file($file_name){
 	if(!is_file($file_name)) $file_name = ROOT_PATH.$file_name;
+	if(IS_APC and $cache = apc_fetch('read_file_'.$file_name)){
+		return $cache;
+	}
 	$content = '';
 	if(is_file($file_name)){
 		$file = fopen($file_name,'r');
 		$size = filesize($file_name);
 		if($size) $content = fread($file, $size);
 	}
+	if(IS_APC) apc_store('read_file_'.$file_name, $content);
 	return $content;
 }
 
@@ -31,6 +35,7 @@ function io_write_file($file_name, $content, $mode='w'){
 	}elseif(state_is_develop()){
 		notify_add_error('Error by writing file : '.$file_name);
 	}
+	if(IS_APC) apc_store('read_file_'.$file_name, $content);
 }
 
 function io_drop_file($file_name){

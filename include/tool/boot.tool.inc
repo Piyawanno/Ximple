@@ -6,6 +6,7 @@
 
 /// Bootstrap of XimpleCMS.
 function boot(){
+	define('IS_APC', function_exists('apc_add'));
 	session_start();
 	require('precache.tool.inc');
 	$to_die = precache_get_page();
@@ -24,6 +25,7 @@ function boot(){
 
 /// Bootstrap of Cron-Jobs.
 function boot_cron(){
+	define('IS_APC', function_exists('apc_add'));
 	session_start();
 	require('setini.tool.inc');
 	setini();
