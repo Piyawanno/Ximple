@@ -45,6 +45,7 @@ $head_injected_js = '';
 
 /// Render HTML-header with meta information and including javascript and css.
 function head_render(){
+	if(IS_APC and $cache = apc_fetch('head_'.CACHE_PAGE_FILE)) return $cache;
 	$head='
 		<title>'.head_get_document_title().'</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -58,6 +59,7 @@ function head_render(){
 		'.head_include_js().'
 		'.head_render_injected_js().'
 		'.cc('meta_data');
+	if(IS_APC) apc_add('head_'.CACHE_PAGE_FILE, $head);
 	return $head;
 }
 

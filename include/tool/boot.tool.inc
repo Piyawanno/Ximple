@@ -7,6 +7,7 @@
 /// Bootstrap of XimpleCMS.
 function boot(){
 	define('IS_APC', function_exists('apc_add'));
+	define('PRE_DEFINED_ROOT_PATH', dirname(dirname(dirname(__FILE__))).'/');
 	session_start();
 	require('precache.tool.inc');
 	$to_die = precache_get_page();

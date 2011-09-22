@@ -5,16 +5,14 @@
 /// @return Content of the file
 function io_read_file($file_name){
 	if(!is_file($file_name)) $file_name = ROOT_PATH.$file_name;
-	if(IS_APC and $cache = apc_fetch('read_file_'.$file_name)){
-		return $cache;
-	}
+	if(IS_APC and $cache = apc_fetch('read_file_'.$file_name)) return $cache;
 	$content = '';
 	if(is_file($file_name)){
 		$file = fopen($file_name,'r');
 		$size = filesize($file_name);
 		if($size) $content = fread($file, $size);
 	}
-	if(IS_APC) apc_store('read_file_'.$file_name, $content);
+	if(IS_APC) apc_add('read_file_'.$file_name, $content);
 	return $content;
 }
 
@@ -108,13 +106,17 @@ function io_get_directory_entry($dir_name){
 function io_serialize($data, $file_name){
 	$txt = '<?php die();'.serialize($data).'?>';
 	io_write_file($file_name.'.php', $txt);
+	if(IS_APC) apc_store('serialize_'.$file_name, $data);
 }
 
 function io_unserialize($file_name){
 	if(is_file($file_name.'.php')){
+		if(IS_APC and $cache = apc_fetch('serialize_'.$file_name)) return $cache;
 		$txt = io_read_file($file_name.'.php');
 		$txt = substr($txt, 12, -2);
-		return unserialize($txt);
+		$data = unserialize($txt);
+		if(IS_APC) apc_add('serialize_'.$file_name, $data);
+		return $data;
 	}
 }
 

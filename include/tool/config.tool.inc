@@ -84,6 +84,7 @@ function config_save(){
 	if(!is_dir($config_dir)) mkdir($config_dir);
 	io_serialize($GLOBALS['config'], $config_dir.'config'.SECTION);
 	cache_clear_section();
+	if(IS_APC) apc_clear_cache();
 }
 
 /// Default module requirement of XimpleCMS 
@@ -331,6 +332,7 @@ function config_default(){
 /// @param $config : Given configuration.
 /// @return Configuration with required values.
 function config_check_default($config){
+	if(IS_APC and $cache = apc_fetch('config_'.SECTION)) return $cache;
 	$default = config_default();
 	foreach($default as $key=>$value){
 		if(!isset($config[$key])){
@@ -342,6 +344,7 @@ function config_check_default($config){
 	if(!(is_dir(THEME_PATH.$config['theme']) or is_dir(SECTION_PATH.'private/theme/'.$config['theme']))){
 		$config['theme'] = 'default';
 	}
+	if(IS_APC) apc_add('config_'.SECTION, $config);
 	return $config;
 }
 

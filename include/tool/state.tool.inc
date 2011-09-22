@@ -45,7 +45,7 @@ function state_is_test(){
 /// @param $section : SECTION-ID
 /// @return ID of section state.
 function state_read(){
-	$state_dir = dirname(dirname(dirname(__FILE__))).'/files/state/';
+	$state_dir = PRE_DEFINED_ROOT_PATH.'/files/state/';
 	if(!is_file($state_dir.'install')) return 3;
 	
 	$state_dir .= SECTION.'/';

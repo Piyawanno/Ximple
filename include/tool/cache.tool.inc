@@ -71,11 +71,17 @@ function cache_clear_section(){
 }
 
 function cache_get_page_file(){
-	$cache_dir  = cache_get_dir('page').MODE.'/';
-	if(!is_dir($cache_dir)) mkdir($cache_dir);
-	$cache_dir .= gg('id').'/';
-	if(!is_dir($cache_dir)) mkdir($cache_dir);
-	return $cache_dir.md5($_SERVER['REQUEST_URI'].USER_ID);
+	if(!defined('CACHE_PAGE_FILE')){
+		$cache_dir  = cache_get_dir('page').MODE.'/';
+		if(!is_dir($cache_dir)) mkdir($cache_dir);
+		$cache_dir .= gg('id').'/';
+		if(!is_dir($cache_dir)) mkdir($cache_dir);
+		$cache_page_file = $cache_dir.md5($_SERVER['REQUEST_URI'].USER_ID);
+		define('CACHE_PAGE_FILE', $cache_page_file);
+		return $cache_page_file;
+	}else{
+		return CACHE_PAGE_FILE;
+	}
 }
 
 function cache_save_db($table, $query, $data){

@@ -109,7 +109,7 @@ function execute_add_function($mode){
 /// @param $class : name of class
 function execute_add_class($module, $class){
 	global $execute_class;
-	include_once(INCLUDE_PATH.'class/Control.class.inc');
+	require_once(INCLUDE_PATH.'class/Control.class.inc');
 	if(!isset($execute_class[$module])){
 		$execute_class[$module] = $class;
 	}elseif(state_is_develop()){
@@ -125,7 +125,7 @@ function execute_add_class($module, $class){
 /// @param $class : name of class
 function execute_add_extended_class($module, $extension, $class){
 	global $execute_class_extension;
-	include_once(INCLUDE_PATH.'class/Control.class.inc');
+	require_once(INCLUDE_PATH.'class/Control.class.inc');
 	if(isset($execute_class_extension[$module])){
 		if(!isset($execute_class_extension[$module][$extension])){
 			$execute_class_extension[$module][$extension] = $class;
@@ -277,7 +277,7 @@ function execute_get_module_directory($module){
 /// @param $require : absolute path of required file.
 function execute_include($require, $module){
 	if(is_file($require)){
-		include_once($require);
+		require_once($require);
 	}elseif(state_is_develop()){
 		error_syslog('Error execute_include_files by module : '.$module.', file : '.$require);
 	}else{

@@ -119,11 +119,10 @@ function main_count_visitor(){
 
 /// Check the installation of Ximple on server.
 function main_handle_install(){
-	$root_path = dirname(dirname(dirname(__FILE__))).'/';
-	if(state_is_install() or !is_file($root_path.'include/setup.php')){
-		include($root_path.'include/tool/error.tool.inc');
-		include($root_path.'include/tool/render.tool.inc');
-		define('ROOT_PATH', $root_path);
+	if(state_is_install() or !is_file(PRE_DEFINED_ROOT_PATH.'include/setup.php')){
+		include(PRE_DEFINED_ROOT_PATH.'include/tool/error.tool.inc');
+		include(PRE_DEFINED_ROOT_PATH.'include/tool/render.tool.inc');
+		define('ROOT_PATH', PRE_DEFINED_ROOT_PATH);
 		main_set_production_path();
 		$root_uri = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/';
 		define('ROOT_URI', $root_uri);
