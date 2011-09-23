@@ -28,6 +28,7 @@ define('MAX_UPLOADED_FILE_SIZE', 500e3);
 define('MAX_USER_SPACE_SIZE', 100e6);
 
 // Email configuration for sending mail.
+define('ENABLE_MAIL', false);
 define('SITE_MAIL', 'info@mydomain.net');
 define('SMTP_SERVER', 'smtp.mydomain.net:25');
 define('SMTP_LOGIN', 'Your login name for SMTP Server');

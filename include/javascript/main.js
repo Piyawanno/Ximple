@@ -25,7 +25,7 @@ function checkNotify(){
 	}
 }
 
-checkNotify();
+setTimeout("checkNotify()", checkNotifyInterval);
 
 function showNotify(){
 	$('#notify_container').dialog('open');

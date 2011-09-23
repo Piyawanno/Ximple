@@ -14,6 +14,7 @@ include(INCLUDE_PATH.'external/phpmailer/class.phpmailer.php');
 /// @param $attachment : file location of attachment.
 /// @param $is_html    : Does body of email contain HTML?
 function mail_send($receiver, $subject, $body, $is_html=false, $attachment=null){
+	if()
 	$mail = new PHPMailer();
 	$mail->IsSMTP();
 	

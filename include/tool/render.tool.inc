@@ -3,6 +3,8 @@ global $render_cache_tpl;
 
 $render_cache_tpl = array();
 
+if(IS_APC and $cache = apc_fetch('template_'.SECTION)) $render_cache_tpl = $cache;
+
 function render($data, $tpl, $id){
 	foreach($data as $key => $value){
 		$$key = $value;
@@ -40,6 +42,7 @@ function render_get_tpl($tpl){
 	else $tpl_out = render_find_tpl($tpl);
 	
 	$render_cache_tpl[$tpl] = $tpl_out;
+	if(IS_APC) apc_store('template_'.SECTION, $render_cache_tpl);
 	return $tpl_out;
 }
 

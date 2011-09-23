@@ -74,7 +74,9 @@ function init_set_production_path(){
 }
 
 function init_set_time_zone(){
-	date_default_timezone_set(cc('time_zone'));
+	if(strlen(cc('time_zone')) & cc('time_zone') != 'UTC'){
+		date_default_timezone_set(cc('time_zone'));
+	}
 }
 
 /// Initialize global variables.
@@ -200,7 +202,7 @@ function init_send_cron_error_mail(){
 	$message.= tt('However Cron-Jobs do not run correctly. ');
 	$message.= tt('Please check System Cron Script.');
 	$uid = userinfo_group_to_id(array(1));
-	//notify_send_mail($message, userinfo_get_email($uid));
+	notify_send_mail($message, userinfo_get_email($uid));
 }
 
 function init_get_cron_time(){

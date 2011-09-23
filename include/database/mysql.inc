@@ -33,7 +33,6 @@ function db_init(){
 
 function db_select($table, $columns, $clause=null, $cachable=true){
 	global $db_connect;
-	if(empty($db_connect)) db_init();
 	$table = DB_TABLE_PREFIX.$table;
 	$query = 'SELECT '.join(', ', $columns).' FROM '.$table.' '.$clause.';';
 	if($cachable){
@@ -42,6 +41,7 @@ function db_select($table, $columns, $clause=null, $cachable=true){
 			return cache_get_db_data($cache_file);
 		}
 	}
+	if(empty($db_connect)) db_init();
 	@$state = mysql_db_query(DB_NAME, $query, $db_connect) or error_db_log($query, mysql_error());
 	$data = array();
 	while($row = mysql_fetch_assoc($state)){
@@ -69,6 +69,7 @@ function db_get_rows_number($table, $clause=null){
 	if(cache_check_db($cache_file)){
 		return cache_get_db_data($cache_file);
 	}
+	if(empty($db_connect)) db_init();
 	@$state = mysql_db_query(DB_NAME, $query, $db_connect) or error_db_log($query, mysql_error());
 	$row = mysql_fetch_assoc($state);
 	cache_save_db($table, $query, $row['rows_number']);
@@ -87,6 +88,7 @@ function db_count_group_by($table, $column, $where=null, $cachable=true){
 			return cache_get_db_data($cache_file);
 		}
 	}
+	if(empty($db_connect)) db_init();
 	@$state = mysql_db_query(DB_NAME, $query, $db_connect) or error_db_log($query, mysql_error());
 	$data = array();
 	while($row = mysql_fetch_assoc($state)){
@@ -105,6 +107,7 @@ function db_insert_id($result){
 
 function db_exist_table($table){
 	global $db_connect;
+	if(empty($db_connect)) db_init();
 	$table = DB_TABLE_PREFIX.$table;
 	$tables = mysql_list_tables(DB_NAME, $db_connect);
 	while($row = mysql_fetch_row($tables)){
@@ -115,6 +118,7 @@ function db_exist_table($table){
 
 function db_get_tables(){
 	global $db_connect;
+	if(empty($db_connect)) db_init();
 	$tables = array();
 	$state = mysql_list_tables(DB_NAME, $db_connect);
 	while($row = mysql_fetch_row($state)){
@@ -125,6 +129,7 @@ function db_get_tables(){
 
 function db_exist_column($table, $column){
 	global $db_connect, $db_column;
+	if(empty($db_connect)) db_init();
 	if(isset($db_column[$table])){
 		$columns = $db_column[$table];
 	}else{
@@ -142,6 +147,7 @@ function db_exist_column($table, $column){
 
 function db_modify($table, $query){
 	global $db_connect;
+	if(empty($db_connect)) db_init();
 	@$state = mysql_db_query(DB_NAME, $query, $db_connect) or error_db_log($query, mysql_error());
 	cache_clear_db($table);
 	db_increase_query($table);

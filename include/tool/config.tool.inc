@@ -352,6 +352,8 @@ function config_check_default($config){
 /// @return Translated configuration.
 function config_translate(){
 	$GLOBALS['untranslated_config'] = $GLOBALS['config'];
+	if(IS_APC and $cache = apc_fetch('config_translat_'.SECTION)) return $cache;
 	$GLOBALS['config'] = translate_content($GLOBALS['config'], 'config', SECTION);
+	if(IS_APC) apc_add('config_translat_'.SECTION, $GLOBALS['config']);
 }
 ?>
