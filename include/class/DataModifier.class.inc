@@ -78,6 +78,20 @@ class DataModifier{
 		$this->modelConnector->triggerPostDBDrop();
 	}
 	
+	public function checkCaptcha(){
+		if(authority_is_guest()){
+			include_once(INCLUDE_PATH.'tool/captcha.tool.inc');
+			$gentime = pp('captcha_gentime_captcha');
+			$parity = pp('captcha_code_captcha');
+			$code = pp('captcha');
+			if(!captcha_check($gentime, $code, $parity)){
+				notify_add_error(tt('Your given code from the image was wrong. Data is not inserted.'));
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	private function prepare(){
 		$this->getData();
 		$this->modelConnector->setData($this->data);
@@ -100,20 +114,6 @@ class DataModifier{
 		if(empty($this->id)){
 			error_syslog(tt('Data can not be modified without any given ID.'));
 		}
-	}
-	
-	private function checkCaptcha(){
-		if(authority_is_guest()){
-			include_once(INCLUDE_PATH.'tool/captcha.tool.inc');
-			$gentime = pp('captcha_gentime_captcha');
-			$parity = pp('captcha_code_captcha');
-			$code = pp('captcha');
-			if(!captcha_check($gentime, $code, $parity)){
-				notify_add_error(tt('Your given code from the image was wrong. Data is not inserted.'));
-				return false;
-			}
-		}
-		return true;
 	}
 	
 	private function getDataFromConnector(){

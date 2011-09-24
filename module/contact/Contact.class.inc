@@ -33,7 +33,8 @@ class Contact extends Control{
 		$this->selectByID($this->column);
 		$this->translateDataByID();
 		$this->uploadAttachment();
-		if(authority(array(), $this->dataByID['permission'])){
+		$authority = authority(array(), $this->dataByID['permission']);
+		if($authority and $this->checkCaptcha()){
 			$this->sendReply();
 			$this->sendContact();
 			$groups = cc('contact_message_receiver_group');
@@ -125,6 +126,10 @@ class Contact extends Control{
 		if($this->dataByID['enable_attachment']){
 			$this->attachment = io_upload(ff('attachment'), 'files/contact/', false, false);
 		}
+	}
+	
+	private function checkCaptcha(){
+		return $this->dataModifier->checkCaptcha();
 	}
 }
 ?>

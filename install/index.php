@@ -5,16 +5,20 @@
 /// @author bow_der_kleine <bow_der_kleine@yahoo.de>
 
 include('install.tool.inc');
+define('IS_APC', function_exists('apc_add'));
+define('PRE_DEFINED_ROOT_PATH', dirname(dirname(__FILE__)).'/');
 define('SECTION', 1);
 define('MODE', 'install');
+define('MODE_ID', 0);
 install_boot();
 
 function install_boot(){
 	session_start();
-	include_once('../include/tool/setini.tool.inc');
+	include_once(PRE_DEFINED_ROOT_PATH.'include/tool/setini.tool.inc');
 	setini();
 	header('Content-Type: text/html; charset=UTF-8');
 	install_check_setup();
+	define('THEME_URI', ROOT_URI.'theme/default/');
 	install_set_path();
 	install_main();
 }

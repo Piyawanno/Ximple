@@ -15,7 +15,6 @@ function db_select_single_column($table, $column, $clause=null, $has_id=true, $c
 	return $data;
 }
 
-
 function db_increase_query($table){
 	global $db_query_number;
 	global $db_query_all_number;
