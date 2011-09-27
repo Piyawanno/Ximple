@@ -19,6 +19,7 @@ abstract class ModelColumn{
 	public $label;
 	public $help;
 	public $data;
+	public $dataDB;
 	public $defaultData;
 	public $listMode;
 	public $tableName;

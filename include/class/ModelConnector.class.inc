@@ -133,6 +133,16 @@ class ModelConnector{
 		return $model;
 	}
 	
+	public function setDataDB($data){
+		$model = $this->model;
+		foreach($model as $key => $value){
+			if(isset($data[$key])){
+				$model[$key]->dataDB = $data[$key];
+			}
+		}
+		return $model;
+	}
+	
 	public function getData(){
 		$data = array();
 		foreach($this->model as $key => $value){

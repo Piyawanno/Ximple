@@ -4,7 +4,7 @@ global $spin_init_js;
 $spin_init_js = false;
 
 class SpinColumn extends ModelColumn{
-	function SpinColumn($label, $min, $max, $step=1, $help=null){
+	function SpinColumn($label, $min, $max=4294967295, $step=1, $help=null){
 		$this->setType('int');
 		$this->label = $label;
 		$this->max = $max;

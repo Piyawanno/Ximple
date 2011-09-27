@@ -41,7 +41,8 @@ class DataModifier{
 		return $retult;
 	}
 	
-	public function prepareUpdate(){
+	public function prepareUpdate($data){
+		$this->modelConnector->setDataDB($data);
 		$this->checkID();
 		$this->modelConnector->setID($this->id);
 		$this->modelConnector->triggerPreUpdate();

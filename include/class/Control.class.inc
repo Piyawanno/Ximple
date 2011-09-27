@@ -95,7 +95,7 @@ abstract class Control extends Translatable{
 	
 	public function update(){
 		$this->initDataModifier();
-		$this->dataModifier->prepareUpdate();
+		$this->dataModifier->prepareUpdate($this->dataByID);
 		$updateOk = $this->dataModifier->update($this->formMeta->isCaptcha);
 		if($updateOk){
 			$this->setRedirect($this->updateRedirect);

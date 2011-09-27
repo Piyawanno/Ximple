@@ -84,7 +84,10 @@ function config_save(){
 	if(!is_dir($config_dir)) mkdir($config_dir);
 	io_serialize($GLOBALS['config'], $config_dir.'config'.SECTION);
 	cache_clear_section();
-	if(IS_APC) apc_clear_cache();
+	if(IS_APC){
+		apc_clear_cache();
+		apc_clear_cache('user');
+	}
 }
 
 /// Default module requirement of XimpleCMS 
