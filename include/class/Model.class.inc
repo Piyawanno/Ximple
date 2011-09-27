@@ -104,7 +104,7 @@ abstract class Model{
 		return new ImageColumn($label, $path, $maxWidth, $help);
 	}
 	
-	public function spin($label, $min, $max, $step=1, $help=null){
+	public function spin($label, $min, $max=4294967295, $step=1, $help=null){
 		include_once('column/SpinColumn.class.inc');
 		return new SpinColumn($label, $min, $max, $step, $help);
 	}
