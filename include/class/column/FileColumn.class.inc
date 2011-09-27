@@ -5,7 +5,6 @@ class FileColumn extends CharColumn{
 	public $path;
 	
 	protected $fileArray = array();
-	protected $dataDB;
 	
 	private $id;
 	

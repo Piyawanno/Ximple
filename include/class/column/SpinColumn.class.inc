@@ -4,6 +4,10 @@ global $spin_init_js;
 $spin_init_js = false;
 
 class SpinColumn extends ModelColumn{
+	public $min;
+	public $max;
+	public $step;
+	
 	function SpinColumn($label, $min, $max=4294967295, $step=1, $help=null){
 		$this->setType('int');
 		$this->label = $label;
