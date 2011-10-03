@@ -25,7 +25,7 @@ function addGridRow(tableID){
 function delGridRow(anchor, dropMode){
 	$(anchor).parent().parent().remove();
 	if(dropMode.length){
-		$.get(sectionURI+dropMode, function(){});
+		$.get(sectionURI+dropMode, function(){}, 'html');
 	}
 }
 

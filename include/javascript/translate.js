@@ -22,7 +22,7 @@ function selectTranslateLanguage(language, moduleName, moduleID){
 	translate.html('<div style="text-align:center;padding:50px;"><img src="'+rootURI+'files/icon/loader.gif"/></div>');
 	$.get(uri, function(data){
 		translate.html(data);
-	});
+	}, 'html');
 	return false;
 }
 

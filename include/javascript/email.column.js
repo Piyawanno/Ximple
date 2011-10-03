@@ -23,7 +23,7 @@ $(document).bind("ready", function(){
 								$('#info_user_email').css({color:'red'});
 								$('#info_user_email').html(imgWrong + emailExists);
 							}
-						});
+						}, 'html');
 					}else{
 						exist = false;
 					}

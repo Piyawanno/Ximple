@@ -15,13 +15,13 @@ function checkNotify(){
 					close : function (event, ui){
 						$('#notify_check').remove();
 						$('#notify_container').remove();
-						$.get(sectionURI+'notify_mark_as_read', function(data){});
+						$.get(sectionURI+'notify_mark_as_read', function(data){}, 'html');
 					}
 				});
 			}
 			if(checkNotifyInterval < 5000) checkNotifyInterval = 500;
 			setTimeout("checkNotify()", checkNotifyInterval);
-		});
+		}, 'html');
 	}
 }
 

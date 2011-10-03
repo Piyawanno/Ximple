@@ -25,6 +25,6 @@ function checkCaptcha(captchaKey, captchaID){
 			$('#captcha_info_'+captchaKey).attr('color', 'red');
 			captchaLock = true;
 		}
-	})
+	}, 'html')
 }
 

@@ -16,7 +16,7 @@ function overlayWrite(formID, moduleName){
 	currentModuleName = moduleName;
 	$.get(uri, function(data){
 		overlayDialog.html(data);
-	});
+	}, 'html');
 	return false;
 }
 
@@ -50,7 +50,7 @@ function overlayEdit(formID, moduleName, moduleID){
 	currentOverlayDialog = overlayDialog;
 	$.get(uri, function(data){
 		overlayDialog.html(data);
-	});
+	}, 'html');
 	return false;
 }
 
@@ -69,7 +69,7 @@ function overlayDrop(formID, moduleName, moduleID){
 	var uri = sectionURI+moduleName+'_drop'+'/'+moduleID+'/confirm/true';
 	$.get(uri, function(data){
 		overlayRefresh(formID, moduleName);
-	});
+	}, 'html');
 	return false;
 }
 
@@ -84,7 +84,7 @@ function overlayRefresh(formID, moduleName){
 	overlayTable.html('<img src="'+rootURI+'files/icon/loader.gif"/></div>');
 	$.get(uri, function(data){
 		overlayTable.html(data);
-	});
+	}, 'html');
 }
 
 function overlayOpenDialog(formID, moduleName){

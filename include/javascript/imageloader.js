@@ -11,14 +11,14 @@ function showImageLoader(loaderID, path, size){
 		bgiframe: true,
 		autoOpen: false,
 		height: 560,
-		width:480,
+		width:520,
 		modal: true,
 		title: 'Image Loader'
 	});
 	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+path+'&loader_id='+loaderID+'&size='+size;
 	$.get(uri, function(data){
 		loader.html(data);
-	});
+	}, 'html');
 	loader.dialog('open');
 }
 
@@ -34,7 +34,7 @@ function refreshImageLoader(){
 		loader.html(data);
 		$('#loader_info').html(uploadSuccess);
 		loader.dialog('open');
-	});
+	}, 'html');
 }
 
 function loaderChangeImage(loaderID, src, rel){
