@@ -51,6 +51,10 @@ function theme_clear_custom(){
 	execute_set_db();
 	document_set_redirect('theme_select/page/'.pid().'#selected_theme');
 	notify_add_info(tt('Your custom theme directories have been successfully cleared.'));
+	if(IS_APC){
+		apc_clear_cache();
+		apc_clear_cache('user');
+	}
 }
 
 function theme_image(){
