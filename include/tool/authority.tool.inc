@@ -26,26 +26,24 @@ function authority($users=array(), $groups=array(), $first_check=false){
 	authority_handle_login();
 	authority_init_salt();
 	$crypt = authority_get_crypt();
-	if($crypt != ss('authority')){
-		if(authority_is_login()){
-			$user_db = authority_get_user_array();
-			if(isset($user_db[0])){
-				$_SESSION['login_name']  = $user_db[0]['login_name'];
-				$_SESSION['email']  = $user_db[0]['email'];
-			}
-			authority_define_user_passwd($user_db);
-			$_SESSION['authority'] = $crypt;
-			if(USER_PASSWD == ss('login_password') and isset($user_db[0])){
-				authority_handle_user($user_db[0]['id']);
-			}else{
-				authority_handle_guest();
-				authority_define_const();
-				return false;
-			}
+	if($crypt != ss('authority') or authority_is_login()){
+		$user_db = authority_get_user_array();
+		if(isset($user_db[0])){
+			$_SESSION['login_name']  = $user_db[0]['login_name'];
+			$_SESSION['email']  = $user_db[0]['email'];
+		}
+		authority_define_user_passwd($user_db);
+		$_SESSION['authority'] = $crypt;
+		if(USER_PASSWD == ss('login_password') and isset($user_db[0])){
+			authority_handle_user($user_db[0]['id']);
 		}else{
 			authority_handle_guest();
 			authority_define_const();
+			return false;
 		}
+	}elseif($crypt != ss('authority')){
+		authority_handle_guest();
+		authority_define_const();
 	}
 	authority_define_const();
 	if(USER_ID == 1) return true;

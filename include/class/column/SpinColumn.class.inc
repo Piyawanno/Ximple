@@ -49,12 +49,12 @@ class SpinColumn extends ModelColumn{
 		$this->setFormAttribute('name', $this->name.'[]');
 		$this->setFormAttribute('class', $id);
 		$this->setFormAttribute('value', $this->data);
-		$this->initJS($id);
+		$this->initGridJS($id);
 		$render  = '<input '.$this->renderFormAttribute().'/>';
 		return $render;
 	}
 	
-	private function initJS($id){
+	private function initGridJS($id){
 		global $spin_init_js;
 		if(!$spin_init_js){
 			$js = '

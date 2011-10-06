@@ -13,6 +13,10 @@ class SectionConfigModel extends Model{
 		$this->index_mode = $this->select('fronpage module', cc('module_name'));
 		$this->icon = $this->image(tt('section icon (16x16)'), 'files/misc/');
 		
+		$help = tt('Currency is not automatically converted to given label. ');
+		$help.= tt('To avoid calculation error, you should only one currency.');
+		$this->currency_label = $this->title(tt('curreny label'), $help);
+		
 		if(function_exists('apache_get_modules')) $module = apache_get_modules();
 		else $module = null;
 		if($module==null or in_array('mod_rewrite', $module)){
@@ -114,5 +118,4 @@ class SectionConfigModel extends Model{
 		$this->smiley->help = sprintf($pattern, $link);
 	}
 }
-
 ?>
