@@ -1,5 +1,5 @@
 <?php
-class CurrencyColumn extends ModelColumn(){
+class CurrencyColumn extends ModelColumn{
 	private $mainData;
 	private $subData;
 	
@@ -38,8 +38,8 @@ class CurrencyColumn extends ModelColumn(){
 		$this->setFormAttribute('id', $id.'_sub');
 		$this->setFormAttribute('value', (int) $this->subData);
 		$this->setFormAttribute('class', 'currency_sub');
-		$this->setFormAttribute('size', 5);
-		$render.= '<input '.$this->renderFormAttribute().'/>'.cc('currency_label');
+		$this->setFormAttribute('size', 2);
+		$render.= '<input '.$this->renderFormAttribute().'/> '.cc('currency_label');
 		$render.= '<span id="info_'.$id.'"></span>';
 		return $render;
 	}

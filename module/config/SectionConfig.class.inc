@@ -38,6 +38,7 @@ class SectionConfig extends ConfigControl{
 		$general->append('section_slogan');
 		$general->append('index_mode');
 		$general->append('home_label');
+		$general->append('currency_label');
 		$general->append('icon');
 		$general->append('friendly_url_enable');
 		$general->append('state');

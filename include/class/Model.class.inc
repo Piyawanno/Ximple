@@ -109,6 +109,11 @@ abstract class Model{
 		return new SpinColumn($label, $min, $max, $step, $help);
 	}
 	
+	public function currency($label, $help=null){
+		include_once('column/CurrencyColumn.class.inc');
+		return new CurrencyColumn($label, $help);
+	}
+	
 	public function password($label, $help=null){
 		include_once('column/PasswordColumn.class.inc');
 		return new PasswordColumn($label, $help);
