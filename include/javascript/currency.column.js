@@ -16,8 +16,25 @@ $(document).bind("ready", function(){
 	});
 });
 
+function toInt(value){
+	return parseFloat($(value).val());
+}
+
+
 $(document).bind("submit", function(){
-	var realCurrency = $('currency');
-	var mainCurrency = $('currency_main');
-	var subCurrency  = $('currency_sub');
+	var mainCurrencyValue = new Array();
+	var subCurrencyValue = new Array();
+	
+	$('.currency_main').each(function(index, element){
+		mainCurrencyValue[index] = toInt(element);
+	});
+	
+	$('.currency_sub').each(function(index, element){
+		subCurrencyValue[index] = toInt(element);
+	});
+	
+	$('.currency').each(function(index, element){
+		$(element).val(mainCurrencyValue[index] + 0.01*subCurrencyValue[index]);
+	});
 });
+

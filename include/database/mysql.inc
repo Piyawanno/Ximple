@@ -157,7 +157,7 @@ function db_modify($table, $query){
 function db_get_type($type){
 	$typeMap = array(
 		'int' => 'INT',
-		'real' => 'DECIMAL',
+		'real' => 'REAL',
 		'char' => 'VARCHAR(250)',
 		'shorttext' => 'TEXT',
 		'text' => 'MEDIUMTEXT',
