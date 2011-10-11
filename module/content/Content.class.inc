@@ -1,7 +1,7 @@
 <?php
 include_once('content.tool.inc');
-include('ContentModel.class.inc');
-include('locale/'.LANGUAGE.'.locale.inc');
+include_once('ContentModel.class.inc');
+include_once('locale/'.LANGUAGE.'.locale.inc');
 
 abstract class Content extends Control{
 	protected $comment;
