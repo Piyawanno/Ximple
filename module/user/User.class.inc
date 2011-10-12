@@ -10,9 +10,12 @@ class User extends Control{
 	function User(){
 		$this->tableName = 'users';
 		$this->moduleName = 'user';
-		$this->setAdmin('user_admin');
-		$this->addAccessMethod('guest', 'index');
 		$this->init(new UserModel());
+		
+		$this->addAction('user_resign', 'resign');
+		$this->addAccessMethod('guest', 'index');
+		$this->addAccessMethod('user', 'resign');
+		$this->setAdmin('user_admin');
 	}
 	
 	public function index(){
@@ -42,6 +45,13 @@ class User extends Control{
 			$this->selectListPage(20, "WHERE (status='active')");
 		}
 		return $this->renderListPage();
+	}
+	
+	public function resign(){
+		echo('hey');
+		$this->drop(USER_ID);
+		authority_clear_session();
+		document_set_redirect('');
 	}
 	
 	public function write(){
@@ -87,8 +97,8 @@ class User extends Control{
 		$this->resizeAvatar();
 	}
 	
-	public function drop(){
-		$uid = (int) gg('id');
+	public function drop($uid=null){
+		if(empty($uid)) $uid = (int) gg('id');
 		if(!empty($uid)){
 			db_update('users', array('status' => 'deleted'), $uid);
 		}
