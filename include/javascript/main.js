@@ -1,3 +1,4 @@
+var gridInitFunction = new Array();
 
 function checkNotify(){
 	if(!isGuest){

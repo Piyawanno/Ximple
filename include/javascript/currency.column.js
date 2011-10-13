@@ -1,4 +1,8 @@
 $(document).bind("ready", function(){
+	currencyInit();
+});
+
+function currencyInit(){
 	initForm($(".currency_main"), function(form){
 		form.spinbox({
 			min  : 0,
@@ -14,7 +18,7 @@ $(document).bind("ready", function(){
 			step : 1
 		});
 	});
-});
+}
 
 function toInt(value){
 	return parseFloat($(value).val());
@@ -37,4 +41,6 @@ $(document).bind("submit", function(){
 		$(element).val(mainCurrencyValue[index] + 0.01*subCurrencyValue[index]);
 	});
 });
+
+gridInitFunction['currency'] = currencyInit;
 

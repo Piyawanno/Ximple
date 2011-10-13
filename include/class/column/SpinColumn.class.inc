@@ -58,7 +58,7 @@ class SpinColumn extends ModelColumn{
 		global $spin_init_js;
 		if(!$spin_init_js){
 			$js = '
-			$(document).bind("ready", function(){
+			gridInitFunction[".'.$id.'"] =  function(){
 				$(".'.$id.'").each(function(){
 					if($(this).attr("rel") != "initialized"){
 						$(this).spinbox({
@@ -69,7 +69,7 @@ class SpinColumn extends ModelColumn{
 					}
 					$(this).attr("rel", "initialized");
 				});
-			});';
+			}';
 			head_inject_js($js);
 			$spin_init_js = true;
 		}
