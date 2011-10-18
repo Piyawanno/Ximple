@@ -115,11 +115,12 @@ class FormRender extends FormModelRender{
 			$this->moduleID = $this->modelConnector->getID();
 			$this->moduleName = $this->modelConnector->getModuleName();
 			head_add_js('include/javascript/translate.js');
-			$label = tt('Translate to : ');
-			foreach(cc('supported_language') as $key => $value){
-				$label .= '<a href="#" onclick="return selectTranslateLanguage(\''.$value.'\', \''.$this->moduleName.'\','.$this->moduleID.')"><img src="'.ROOT_URI.'files/flag/'.$value.'.png"></a> ';
-			}
-			$this->formMeta->description .= '<p>'.$label.'</p>';
+			$renderArray = array(
+				'language' => cc('supported_language'),
+				'module_name' => $this->moduleName,
+				'module_id' => $this->moduleID,
+			);
+			$this->formMeta->description .= render($renderArray, 'translate_form.tpl', 'translate_form');
 		}
 	}
 	

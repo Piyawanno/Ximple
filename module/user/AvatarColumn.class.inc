@@ -4,6 +4,11 @@ require_once(INCLUDE_PATH.'class/column/ImageColumn.class.inc');
 class AvatarColumn extends ImageColumn{
 	function AvatarColumn(){
 		ImageColumn::ImageColumn(tt('avarta'), 'files/avatar/');
+		$this->help = tt('Image must be only .png or .jpeg or .jpg.');
+		$pattern = tt('Avatar will be automatically cropped to %dx%d and %dx%d.');
+		$size = cc('avatar_size');
+		$bigSize = cc('avatar_big_size');
+		$this->help.= sprintf($pattern, $size, $size, $bigSize, $bigSize);
 	}
 	
 	protected function checkImage(){

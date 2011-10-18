@@ -1,6 +1,6 @@
 <?php
 function country(){
-	return array(
+	$country = array(
 		'af' => 'Afghanistan',
 		'al' => 'Albania',
 		'dz' => 'Algeria',
@@ -240,5 +240,7 @@ function country(){
 		'zm' => 'Zambia',
 		'zw' => 'Zimbabwe',
 	);
+	
+	return extension_execute_append_result('country_append', null, $country);
 }
 ?>

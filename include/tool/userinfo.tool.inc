@@ -150,12 +150,18 @@ function userinfo_get_uid_by_group($gid){
 }
 
 function userinfo_get_login_name_by_role($role){
-	$uid = userinfo_get_uid_by_role($role);
-	if(count($uid)){
-		$clause = 'WHERE id='.join(' OR id=', $uid);
+	$gid = cc($role);
+	if(is_array($gid) and in_array(3, $gid)){
+		$clause = 'WHERE section='.SECTION;
 		return db_select_single_column('users', 'login_name', $clause);
 	}else{
-		return array();
+		$uid = userinfo_get_uid_by_role($role);
+		if(count($uid)){
+			$clause = 'WHERE id='.join(' OR id=', $uid);
+			return db_select_single_column('users', 'login_name', $clause);
+		}else{
+			return array();
+		}
 	}
 }
 

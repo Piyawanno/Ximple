@@ -69,10 +69,6 @@ class CurrencyColumn extends ModelColumn{
 		return $render;
 	}
 	
-	public function triggerSelect(){
-		$this->data = sprintf("%.2f %s", $this->data, cc('currency_label'));
-	}
-	
 	private function prepareData(){
 		$this->data = (float) $this->data;
 		$this->mainData = (int) $this->data;
