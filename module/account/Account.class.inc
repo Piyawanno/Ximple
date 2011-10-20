@@ -3,8 +3,6 @@ require_once(MODULE_PATH.'user/User.class.inc');
 execute_add_class('account', 'Account');
 
 class Account extends User{
-	private $additionConfigForm = array();
-	
 	public function Account(){
 		$this->tableName = 'users';
 		$this->moduleName = 'account';

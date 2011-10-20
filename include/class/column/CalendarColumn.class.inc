@@ -3,10 +3,10 @@ require_once('CharColumn.class.inc');
 class CalendarColumn extends CharColumn{
 	public $formatDateBySelect = true;
 	public $dateFormat;
+	public $emptyStart = false;
 	
 	function CalendarColumn($label, $help=null){
 		CharColumn::CharColumn($label, $help);
-		$this->data = NOW;
 		$this->defaultData = NOW;
 		$this->dateFormat = cc('time_format');
 	}
@@ -24,6 +24,8 @@ class CalendarColumn extends CharColumn{
 	public function renderForm($formID){
 		if($this->data){
 			$this->data = date('d F Y', strtotime($this->data));
+		}elseif($this->emptyStart){
+			$this->data = '';
 		}else{
 			$this->data = date('d F Y');
 		}

@@ -270,14 +270,16 @@ class ModelConnector{
 				$this->triggerGetID($id);
 				foreach($triggerColumn as $key => $col){
 					if(isset($this->model[$col])){
+						$isTrigger = false;
 						if(isset($value[$col])){
 							$this->model[$col]->data = $value[$col];
+							$isTrigger = true;
 						}
 						$this->model[$col]->triggerSelect();
 						if(method_exists($this->model[$col], 'triggerUnserialize')){
 							$this->model[$col]->triggerUnserialize();
 						}
-						$data[$id][$col] = $this->model[$col]->data;
+						if($isTrigger) $data[$id][$col] = $this->model[$col]->data;
 					}
 				}
 			}

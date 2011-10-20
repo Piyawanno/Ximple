@@ -39,7 +39,7 @@ $(document).bind("ready", function(){
 	});
 });
 
-gridInitFunction['email'] = function{
+gridInitFunction['email'] = function(){
 	initForm($('.email_grid_field'), function(form){
 		form.keyup(function(){
 			var reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

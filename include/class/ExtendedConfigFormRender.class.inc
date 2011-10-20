@@ -35,6 +35,9 @@ class ExtendedConfigFormRender{
 			if(empty($model->data)) $model->data = $model->defaultData;
 		}
 		$configForm->appendModel($modelObject->moduleName, $modelObject);
+		if(isset($modelObject->showByDefault)){
+			$configForm->setShowByDefault($modelObject->showByDefault);
+		}
 	}
 }
 ?>
