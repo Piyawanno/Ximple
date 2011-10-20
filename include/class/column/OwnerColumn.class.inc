@@ -6,10 +6,10 @@ class OwnerColumn extends HiddenColumn{
 	}
 	
 	public function triggerSelect(){
-		if($this->data != -1){
+		$uid = $this->data;
+		if($uid != -1){
 			$column =  array('id', 'login_name', 'email', 'avatar', 'space_used');
-			$data = db_select('users', $column, 'WHERE id='.$this->data);
-			$uid = $this->data;
+			$data = db_select('users', $column, 'WHERE id='.$uid);
 			$this->data = $data[$uid];
 			$this->data['config'] = io_unserialize(FILES_PATH.'account/'.$uid);
 		}else{

@@ -32,7 +32,7 @@
 	</p>
 	<p class="operation_bar">
 		<span>read <!--{ximple_read/blog/<?=$id?>}--></span>
-		<?=render_print_link('blog_edit/'.$id)?>
+		<?=render_print_link('blog_print/'.$id)?>
 		<?php if($editable):?>
 			<?=render_operation_link('blog_edit', $id, tt('edit'))?>
 			<?=render_operation_link('blog_drop', $id, tt('drop'))?>

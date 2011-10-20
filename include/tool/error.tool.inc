@@ -47,7 +47,7 @@ function error_denied($info=''){
 	header('HTTP/1.1 402 Access Denied');
 	if(authority_is_guest()){
 		if(!function_exists('syswidget_login')){
-			require(INCLDUE_PATH.'tool/syswidget.tool.inc');
+			require(INCLUDE_PATH.'tool/syswidget.tool.inc');
 		}
 		$data = array('form' => syswidget_login());
 		$message = render($data, 'error_login.tpl', 'error_login');
