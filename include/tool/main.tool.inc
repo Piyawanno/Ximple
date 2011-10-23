@@ -123,7 +123,7 @@ function main_handle_install(){
 		include(PRE_DEFINED_ROOT_PATH.'include/tool/error.tool.inc');
 		include(PRE_DEFINED_ROOT_PATH.'include/tool/render.tool.inc');
 		define('ROOT_PATH', PRE_DEFINED_ROOT_PATH);
-		main_set_production_path();
+		init_set_production_path();
 		$root_uri = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/';
 		define('ROOT_URI', $root_uri);
 		$error = 'Ximple is not installed on your system, please try to <a href="'.$root_uri.'install">install</a>';
