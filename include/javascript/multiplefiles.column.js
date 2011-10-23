@@ -1,4 +1,4 @@
-$(document).bind("ready", function(){
+addReady(function(){
 	initForm($(".add_multi_files"), function(form){
 		form.click(function(){
 			var rel = $(this).attr("rel");

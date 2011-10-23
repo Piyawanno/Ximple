@@ -1,4 +1,4 @@
-$(document).bind("ready", function(){
+addReady(function(){
 	initForm($(".sortable"), function(form){
 		form.sortable({
 			dropOnEmpty: true

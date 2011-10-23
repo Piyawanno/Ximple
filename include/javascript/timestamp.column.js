@@ -1,4 +1,4 @@
-$(document).bind("ready", function(){
+addReady(function(){
 	initForm($(".timestamp_date_form"), function(form){
 		form.datepicker({ 
 			dateFormat: "d MM yy"

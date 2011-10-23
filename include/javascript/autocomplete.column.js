@@ -1,4 +1,4 @@
-$(document).bind("ready", function(){
+addReady(function(){
 	initForm($('.auto_complete'), function(form){
 		form.keypress(function(){
 			var words = $(this).val().split(',');

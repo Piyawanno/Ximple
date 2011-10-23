@@ -1,4 +1,4 @@
-$(document).bind("ready", function(){
+addReady(function(){
 	for(i in gridInitFunction){
 		gridInitFunction[i]();
 	}

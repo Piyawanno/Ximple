@@ -1,4 +1,4 @@
-$(document).bind("ready", function(){
+addReady(function(){
 	initForm($('.avatar_container'), function(form){
 		form.mouseover(function(){
 			$(this).find('.avatar_icon').show();

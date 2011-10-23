@@ -1,4 +1,4 @@
-$(document).bind("ready", function(){
+addReady(function(){
 	initForm($('.color_picker'), function(form){
 		formID = form.attr('id');
 		$("#picker_"+formID).farbtastic("#"+formID);

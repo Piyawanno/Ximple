@@ -1,4 +1,4 @@
-$(document).bind("ready", function(){
+addReady(function(){
 	initForm($('.checkedit'), function(form){
 		form.change(function(){
 			var obj = $('#'+$(this).attr('rel'));

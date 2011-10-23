@@ -1,5 +1,12 @@
 var gridInitFunction = new Array();
 
+var readyFunction = new Array();
+
+function addReady(item){
+	$(document).bind("ready", item);
+	readyFunction.push(item);
+}
+
 function checkNotify(){
 	if(!isGuest){
 		$.get(sectionURI+'notify_check', function(data){

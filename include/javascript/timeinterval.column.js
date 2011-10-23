@@ -1,4 +1,4 @@
-$(document).bind("ready", function(){
+addReady(function(){
 	initForm($(".timeinterval_day_form"), function(form){
 		form.spinbox({ 
 			min : 0,

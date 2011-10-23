@@ -19,13 +19,13 @@ class AvatarColumn extends ImageColumn{
 			$bigAvatarWidth = cc('avatar_big_size');
 			if(empty($bigAvatarWidth)) $bigAvatarWidth = 128;
 			
+			$bigDBAvatarFileName = dirname(ROOT_PATH.$this->dataDB).'/big_'.basename($this->dataDB);
+			if(is_file($bigDBAvatarFileName)) unlink($bigDBAvatarFileName);
+			
 			$bigAvatarFileName = dirname(ROOT_PATH.$this->data).'/big_'.basename($this->data);
 			copy(ROOT_PATH.$this->data, $bigAvatarFileName);
 			image_square_crop($file, $bigAvatarFileName, $bigAvatarWidth);
 			image_square_crop($file, ROOT_PATH.$this->data, $avatarWidth);
-			
-			$bigDBAvatarFileName = dirname(ROOT_PATH.$this->dataDB).'/big_'.basename($this->dataDB);
-			if(is_file($bigDBAvatarFileName)) unlink($bigDBAvatarFileName);
 		}
 	}
 }

@@ -16,6 +16,9 @@ function overlayWrite(formID, moduleName){
 	currentModuleName = moduleName;
 	$.get(uri, function(data){
 		overlayDialog.html(data);
+		for(i in readyFunction){
+			readyFunction[i]();
+		}
 	}, 'html');
 	return false;
 }
@@ -36,6 +39,9 @@ function overlayInsertForm(form, notNull, label){
 			overlayRefresh(currentFormID, currentModuleName);
 		}});
 	}
+	for(i in readyFunction){
+		readyFunction[i]();
+	}
 	return false;
 }
 
@@ -50,6 +56,9 @@ function overlayEdit(formID, moduleName, moduleID){
 	currentOverlayDialog = overlayDialog;
 	$.get(uri, function(data){
 		overlayDialog.html(data);
+		for(i in readyFunction){
+			readyFunction[i]();
+		}
 	}, 'html');
 	return false;
 }
