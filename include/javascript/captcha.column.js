@@ -11,9 +11,7 @@ function checkCaptcha(captchaKey, captchaID){
 	var uri = sectionURI+'captcha_check/value/';
 	uri += ($('#'+captchaID).val());
 	uri += '/gentime/'+generateTime;
-	alert(uri);
 	$.get(uri, function(data){
-		alert(data);
 		if(data.substring(0,6) == "<code>"){
 			$('#captcha_info_'+captchaKey).html(imgCorrect + captchaCorrect);
 			$('#captcha_info_'+captchaKey).attr('color', 'green');
