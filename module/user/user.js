@@ -1,4 +1,4 @@
-$(document).bind("ready", function(){
+addReady(function(){
 	$('#user_login_name').keyup(function(){
 		formLock = true;
 		if($(this).val().length < 4){
@@ -18,7 +18,7 @@ $(document).bind("ready", function(){
 					$('#info_user_login_name').html(imgCorrect);
 					formLock = false;
 				}
-			});
+			}, 'html');
 		}
 	});
 	
