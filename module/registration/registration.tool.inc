@@ -25,9 +25,13 @@ function registration_verify_data(){
 	$exist = userinfo_check_user_exists($name);
 	$passwd = pp('password');
 	$verify = !empty($name);
+	echo('1 : '.$verify.'<br />');
 	$verify = ($verify and input_is_email(pp('email')));
+	echo('2 : '.$verify.'<br />');
 	$verify = ($verify and !empty($passwd));
+	echo('3 : '.$verify.'<br />');
 	$verify = ($verify and $exist != 'exist');
+	echo('4 : '.$verify.'<br />');
 	return $verify;
 }
 

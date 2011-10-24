@@ -45,9 +45,11 @@ addReady(function(){
 });
 
 $(document).bind("submit", function(){
-	//if($('#user_password').val().length == 0 && !insertUser){
-	//	alert(passwdNotChange);
-	//}
+	/*
+	if($('#user_password').val().length == 0 && !insertUser){
+		alert(passwdNotChange);
+	}
+	*/
 	if($('#user_password').val() == $('#user_confirm_password').val()){
 		var passwd = $('#user_password').val();
 		if(passwd.length){
