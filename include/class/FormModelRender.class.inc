@@ -1,6 +1,7 @@
 <?php
 abstract class FormModelRender{
 	protected $render = array();
+	protected $modelConnector;
 	protected abstract function getFormColumn();
 	
 	public function prepareHead(){
@@ -13,6 +14,7 @@ abstract class FormModelRender{
 	}
 	
 	protected function renderFormModel($id){
+		$this->modelConnector = extension_execute_append_result('form_render', $id, $this->modelConnector);
 		$modelArray = $this->getFormColumn();
 		foreach($modelArray as $name => $model){
 			if(method_exists($model, 'triggerGetJavaScript')) $model->triggerGetJavaScript();

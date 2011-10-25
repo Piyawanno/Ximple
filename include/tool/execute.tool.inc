@@ -75,7 +75,6 @@ function execute_string($uri, $params=null, $result=null){
 function execute_oop($mode, $module, $params, $result){
 	$class = execute_get_class($mode, $module);
 	$success = false;
-	$result = '';
 	if($class and class_exists($class)){
 		$obj = new $class();
 		if(!is_a($obj, 'Authority')){

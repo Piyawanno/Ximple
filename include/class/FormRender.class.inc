@@ -3,7 +3,6 @@ require_once('FormModelRender.class.inc');
 class FormRender extends FormModelRender{
 	static public $gridRowArray = array();
 
-	protected $modelConnector;
 	protected $isTranslate;
 	protected $label;
 	protected $formMeta;
