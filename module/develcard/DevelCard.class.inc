@@ -135,7 +135,6 @@ class DevelCard extends Control{
 	private function display(){
 		$this->selectByID($this->column);
 		$this->dataByID = $this->prepareData($this->dataByID, 'develcard');
-		
 		head_add_css('develcard.css');
 		document_set_path($this->dataByID['status']['label'], $this->dataByID['status_uri']);
 		document_set_path($this->dataByID['type']['label'], $this->dataByID['type_uri']);

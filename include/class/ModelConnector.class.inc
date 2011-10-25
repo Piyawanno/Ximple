@@ -317,7 +317,9 @@ class ModelConnector{
 						if(method_exists($this->model[$col], 'triggerUnserialize')){
 							$this->model[$col]->triggerUnserialize();
 						}
-						if($isTrigger) $data[$id][$col] = $this->model[$col]->data;
+						if($isTrigger or $this->model[$col]->isLink){
+							$data[$id][$col] = $this->model[$col]->data;
+						}
 					}
 				}
 			}

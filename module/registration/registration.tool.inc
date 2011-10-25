@@ -6,7 +6,8 @@ function registration_off(){
 }
 
 function registration_save_user($reply_mode, $text){
-	if(registration_verify_data()){	
+	if(registration_verify_data()){
+		echo('everything ok');
 		$register_dir = FILES_PATH.'registration/';
 		if(!is_dir($register_dir)) mkdir($register_dir);
 		list($user, $key1, $key2) = registration_get_user_data();
