@@ -38,6 +38,7 @@ function overlayInsertForm(form, notNull, label){
 			currentOverlayDialog.dialog('close');
 			overlayRefresh(currentFormID, currentModuleName);
 		}});
+		formChange = true;
 	}
 	for(i in readyFunction){
 		readyFunction[i]();
@@ -69,6 +70,7 @@ function overlayUpdateForm(form, notNull, label){
 			currentOverlayDialog.dialog('close');
 			overlayRefresh(currentFormID, currentModuleName);
 		}});
+		formChange = true;
 	}
 	return false;
 }

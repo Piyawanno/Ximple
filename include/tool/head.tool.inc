@@ -38,6 +38,7 @@ $head_js_var = array(
 	'isGuest' => authority_is_guest(),
 	'autoCompleteTop' => 0,
 	'autoCompleteLeft' => 0,
+	'isForm' => false,
 );
 
 $head_js_array = array();

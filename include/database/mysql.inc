@@ -42,7 +42,8 @@ function db_select($table, $columns, $clause=null, $cachable=true){
 		}
 	}
 	if(empty($db_connect)) db_init();
-	@$state = mysql_db_query(DB_NAME, $query, $db_connect) or error_db_log($query, mysql_error());
+	$state = mysql_db_query(DB_NAME, $query, $db_connect);
+#	@$state = mysql_db_query(DB_NAME, $query, $db_connect) or error_db_log($query, mysql_error());
 	$data = array();
 	while($row = mysql_fetch_assoc($state)){
 		if(count($columns) != count($row)){

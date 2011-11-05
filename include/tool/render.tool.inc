@@ -1,11 +1,11 @@
 <?php
 global $render_cache_tpl;
-
 $render_cache_tpl = array();
-
-if(IS_APC and $cache = apc_fetch('template_'.SECTION)) $render_cache_tpl = $cache;
+render_apc_cache();
 
 function render($data, $tpl, $id){
+	$data = extension_execute_append_result('pre_render_data', $id, $data);
+	$tpl = extension_execute_append_result('pre_render_template', $id, $tpl);
 	foreach($data as $key => $value){
 		$$key = $value;
 	}
@@ -14,7 +14,14 @@ function render($data, $tpl, $id){
 	if(is_file($tpl)) require($tpl);
 	$render = ob_get_contents();
 	ob_end_clean();
+	$render = extension_execute_append_result('post_render', $id, $render);
 	return $render;
+}
+
+function render_apc_cache(){
+	if(IS_APC and $cache = apc_fetch('template_'.SECTION)){
+		$render_cache_tpl = $cache;
+	}
 }
 
 function render_get_tpl($tpl){

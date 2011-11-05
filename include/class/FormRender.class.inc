@@ -61,6 +61,9 @@ class FormRender extends FormModelRender{
 			head_add_js_var('moduleName', MODULE);
 		}
 		$renderArray['rendered_form'] = render($renderArray, 'form.tpl', 'form');
+		$message = tt('Data in your form has been changed without submitting. Do you want to change location?');
+		head_add_js_var('changeLocationMessage', $message);
+		head_add_js_var('isForm', true);
 		head_add_js_array('gridRowArray', FormRender::$gridRowArray);
 		return render($renderArray, 'form_frame.tpl', 'form_frame');
 	}

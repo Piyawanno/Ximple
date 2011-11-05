@@ -121,6 +121,7 @@ function main_count_visitor(){
 function main_handle_install(){
 	if(state_is_install() or !is_file(PRE_DEFINED_ROOT_PATH.'include/setup.php')){
 		include(PRE_DEFINED_ROOT_PATH.'include/tool/error.tool.inc');
+		include(PRE_DEFINED_ROOT_PATH.'include/tool/extension.tool.inc');
 		include(PRE_DEFINED_ROOT_PATH.'include/tool/render.tool.inc');
 		define('ROOT_PATH', PRE_DEFINED_ROOT_PATH);
 		init_set_production_path();

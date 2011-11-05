@@ -3,6 +3,24 @@ var initedJQuery = false;
 var imgCorrect = '<img class="warning_icon" src="'+rootURI+'files/icon/correct.png" />';
 var imgWrong = '<img class="warning_icon" src="'+rootURI+'files/icon/stop.png" />';
 var formLock = false;
+var formChange = false;
+
+if(isForm){
+	addReady(function(){
+		$('input, textarea').keypress(function(){
+			formChange = true;
+		});
+		initForm($('a'), function(form){ form.click(function(){
+			if($(this).attr('href').substring(0, 1) != '#' &&  $(this).attr('href').length){
+				if(formChange){
+					return confirm(changeLocationMessage);
+				}else{
+					return true;
+				}
+			}
+		})});
+	});
+}
 
 function checkForm(notNull, label){
 	if(formLock){
