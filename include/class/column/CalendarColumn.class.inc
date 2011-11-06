@@ -22,10 +22,11 @@ class CalendarColumn extends CharColumn{
 	}
 	
 	public function renderForm($formID){
-		if($this->data){
-			$this->data = date('d F Y', strtotime($this->data));
-		}elseif($this->emptyStart){
+		$time = strtotime($this->data);
+		if($this->emptyStart or $time < 31536000){
 			$this->data = '';
+		}elseif($this->data){
+			$this->data = date('d F Y', strtotime($this->data));
 		}else{
 			$this->data = date('d F Y');
 		}

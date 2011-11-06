@@ -7,7 +7,6 @@ function registration_off(){
 
 function registration_save_user($reply_mode, $text){
 	if(registration_verify_data()){
-		echo('everything ok');
 		$register_dir = FILES_PATH.'registration/';
 		if(!is_dir($register_dir)) mkdir($register_dir);
 		list($user, $key1, $key2) = registration_get_user_data();
@@ -26,13 +25,9 @@ function registration_verify_data(){
 	$exist = userinfo_check_user_exists($name);
 	$passwd = pp('password');
 	$verify = !empty($name);
-	echo('1 : '.$verify.'<br />');
 	$verify = ($verify and input_is_email(pp('email')));
-	echo('2 : '.$verify.'<br />');
 	$verify = ($verify and !empty($passwd));
-	echo('3 : '.$verify.'<br />');
 	$verify = ($verify and $exist != 'exist');
-	echo('4 : '.$verify.'<br />');
 	return $verify;
 }
 

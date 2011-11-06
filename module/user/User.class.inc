@@ -48,7 +48,6 @@ class User extends Control{
 	}
 	
 	public function resign(){
-		echo('hey');
 		$this->drop(USER_ID);
 		authority_clear_session();
 		document_set_redirect('');
