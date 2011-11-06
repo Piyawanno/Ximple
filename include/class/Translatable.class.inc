@@ -42,7 +42,7 @@ abstract class Translatable extends Authority{
 		foreach($this->data as $key => $value){
 			$this->data[$key] = translate_content($value, $this->fullModuleName, $value['id']);
 		}
-		if($this->id) $this->dataByID = $this->data[$this->id];
+		if($this->id and isset($this->data[$this->id])) $this->dataByID = $this->data[$this->id];
 	}
 	
 	protected function translateDataByID(){
