@@ -16,7 +16,7 @@
 	<?php else:?>
 		background:#fff;
 	<?php endif?>
-	height:<?=cc('socialnetwork_like_box_uri')?>px;
+	height:<?=cc('socialnetwork_like_box_height')?>px;
 	width:<?=cc('socialnetwork_like_box_width')?>px;
 }
 </style>
