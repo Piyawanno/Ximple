@@ -14,18 +14,21 @@ function socialnetwork_like_type_config(){
 function socialnetwork_width_config($data=null){
 	$model = Model::spin(tt('width'), 80, 1024);
 	$model->data = $data;
+	$model->defaultData = 180;
 	return $model;
 }
 
 function socialnetwork_height_config($data=null){
 	$model = Model::spin(tt('height'), 80, 1024);
 	$model->data = $data;
+	$model->defaultData = 300;
 	return $model;
 }
 
 function socialnetwork_number_config($label, $data=null){
 	$model = Model::spin($label, 1, 256);
 	$model->data = $data;
+	$model->defaultData = 5;
 	return $model;
 }
 
@@ -36,6 +39,7 @@ function socialnetwork_color_config($data=null){
 	);
 	$model = Model::select(tt('color scheme'), $option);
 	$model->data = $data;
+	$model->defaultData = 'light';
 	return $model;
 }
 
@@ -46,12 +50,15 @@ function socialnetwork_tweet_type_config(){
 		'horizontal' => tt('horizontal count'),
 		'vertical' => tt('vertical count')
 	);
-	return Model::select(tt('type'), $option);
+	$model = Model::select(tt('type'), $option);
+	$model->defaultData = 'disable';
+	return $model;
 }
 
 function socialnetwork_uri_config($label, $data=null){
 	$model = Model::char($label);
 	$model->data = $data;
+	$model->defaultData = 'https://www.facebook.com/pages/XimpleSoft/208478522526035';
 	return $model;
 }
 
@@ -63,6 +70,7 @@ function socialnetwork_like_box_appearance_config(){
 	);
 	$model = Model::checkbox(tt('appearance'), $option);
 	$model->data = cc('socialnetwork_like_box_appearance');
+	$model->defaultData = array_keys($option);
 	return $model;
 }
 
@@ -73,6 +81,7 @@ function socialnetwork_activity_feed_appearance_config(){
 	);
 	$model = Model::checkbox(tt('appearance'), $option);
 	$model->data = cc('socialnetwork_activity_feed_appearance');
+	$model->defaultData = array_keys($option);
 	return $model;
 }
 
@@ -97,7 +106,9 @@ function socialnetwork_twitter_appearance_config(){
 		'timestamp' => tt('timestamp'),
 		'avatars' => tt('avatars'),
 	);
-	return Model::checkbox(tt('appearance'), $option);
+	$model = Model::checkbox(tt('appearance'), $option);
+	$model->defaultData = array_keys($option);
+	return $model;
 }
 
 function socialnetwork_get_widget_array(){
