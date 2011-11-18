@@ -54,7 +54,7 @@ function file_manage($root_path, $dir, $mode, $title){
 		'file_copy_list' => file_copy_list(),
 		'file_cut_list' => file_cut_list(),
 		'filelist' => $file_list,
-		'href' => SECTION_URI.'?mode='.$mode.'&amp;dir='.$dir,
+		'uri' => SECTION_URI.'?mode='.$mode.'&amp;dir='.$dir,
 		'user_used_space' => render_file_size($user_used_space),
 		'free_space' => render_file_size($free_space),
 	);

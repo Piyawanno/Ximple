@@ -127,48 +127,69 @@ function io_unserialize($file_name){
 /// @param $is_image : IF TRUE, only .png, .jpeg and .jpg are allowed.
 /// @param $increase_space : IF TRUE, increase used space of user.
 /// @return File path for success, null else.
-function io_upload($file, $path, $is_image=false, $increase_space=true){
+function io_upload($file, $path, $is_image=false, $increase_space=true, $original_name=false){
 	include_once(ROOT_PATH.'include/tool/userinfo.tool.inc');
 	if($file and !io_check_image($file['name'], $is_image)){
 		notify_add_error(tt('Only .png, .jpeg and .jpg are allowed to be uploaded.'));
 		return null;
 	}
 	
-	$name = null;
-	if($file['size'] == 0) return null;
-	if(LIMIT_UPLOAD and $file['size'] > MAX_UPLOADED_FILE_SIZE){
-		notify_add_warning(tt('Size of uploaded file exceeds the limit.'));
-		return null;
-	}
-	if(LIMIT_UPLOAD and $file['size'] > MAX_USER_SPACE_SIZE){
-		notify_add_warning(tt('Size of uploaded file exceeds the limit.'));
-		return null;
-	}
-
-	$name = $path.md5($file['name']).'.'.end(explode('.', $file['name']));;
-	$size = $file['size'];
-	$error = false;
-	$i = 0;
-	while(true){
-		if(!is_file($name)){
-			move_uploaded_file($file['tmp_name'], $name);
-			if($error) return null;
-			break;
-		}else{
-			$name = $path.$i.'_'.$file['name'];
-			$i++;
-		}
-	}
-	
-	if(substr($name, 0, strlen(ROOT_PATH)) == ROOT_PATH){
-		$name = substr($name, strlen(ROOT_PATH));
-	}
+	if(!io_check_upload_size($file)) return null;
+	$name = io_get_upload_file_name($file, $path, $original_name);
 	if(USER_ID != -1 and $increase_space and LIMIT_UPLOAD){
-		userinfo_increase_used_space(USER_ID, $size);
+		userinfo_increase_used_space(USER_ID, $file['size']);
 	}
 	return $name;
 }
 
+
+function io_check_upload_size($file){
+	if($file['size'] == 0) return false;
+	if(LIMIT_UPLOAD and $file['size'] > MAX_UPLOADED_FILE_SIZE){
+		notify_add_warning(tt('Size of uploaded file exceeds the limit.'));
+		return false;
+	}
+	if(LIMIT_UPLOAD and $file['size'] > MAX_USER_SPACE_SIZE){
+		notify_add_warning(tt('Size of uploaded file exceeds the limit.'));
+		return false;
+	}
+	return true;
+}
+
+function io_get_upload_file_name($file, $path, $original_name){
+	if($original_name){
+		$name = $path.io_format_upload_file_name($file['name']);
+	}else{
+		$name = $path.md5($file['name']).'.'.end(explode('.', $file['name']));
+	}
+	
+	$name = io_upload_check_exist_file($file, $name);
+	
+	if(substr($name, 0, strlen(ROOT_PATH)) == ROOT_PATH){
+		$name = substr($name, strlen(ROOT_PATH));
+	}
+	return $name;
+}
+
+function io_format_upload_file_name($name){
+	$name = str_replace(' ', '-', $name);
+	return $name;
+}
+
+function io_upload_check_exist_file($file, $name){
+	$i = 0;
+	while(true){
+		if(!is_file($name)){
+			move_uploaded_file($file['tmp_name'], $name);
+			break;
+		}else{
+			if($original_name) $name = $path.$i.'_'.$file['name'];
+			else $name = $path.md5($file['name'].$i).'.'.end(explode('.', $file['name']));
+			$i++;
+		}
+	}
+	return $name;
+}
 
 function io_check_image($name, $is_image){
 	if(!$is_image) return true;
