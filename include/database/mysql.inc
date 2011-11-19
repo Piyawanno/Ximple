@@ -27,7 +27,7 @@ function db_init(){
 	global $db_connect;
 	global $db_transaction;
 	@$db_connect = mysql_connect(DB_HOST,DB_USER,DB_PASS) or error_db_connect();
-	@mysql_db_query(DB_NAME, 'START TRANSACTION;', $db_connect) or error_db_log($query, mysql_error());
+	@mysql_db_query(DB_NAME, 'START TRANSACTION;', $db_connect) or error_db_log('START TRANSACTION', mysql_error());
 	$db_transaction = true;
 }
 
