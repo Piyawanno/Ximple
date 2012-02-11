@@ -1,4 +1,9 @@
 <?php
+/// @file
+/// This file provides Date class, which is used for date time handling.
+
+/// @author Kittipong Piyawanno <k.piyawanno@gmail.com>
+
 class Date{
 	public $data;
 	public $timestamp;
