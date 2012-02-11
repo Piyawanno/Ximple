@@ -257,7 +257,6 @@ function install_include(){
 	include(INCLUDE_PATH.'tool/config.tool.inc');
 	include(INCLUDE_PATH.'tool/input.tool.inc');
 	include(INCLUDE_PATH.'database/'.DB_TYPE.'.inc');
-	include_once(INCLUDE_PATH.'tool/extension.tool.inc');
 }
 
 function install_init_authority(){

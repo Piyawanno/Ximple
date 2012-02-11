@@ -151,6 +151,7 @@ function install_step2(){
 
 /// Step 3 of installation : render form to get root-login information.
 function install_step3(){
+	include(INCLUDE_PATH.'tool/extension.tool.inc');
 	$title = 'Step 3 : '.tt('Root-Login information');
 	install_create_db_table();
 	ob_start();
