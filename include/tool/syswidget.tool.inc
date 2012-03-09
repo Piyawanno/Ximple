@@ -49,7 +49,11 @@ function syswidget_translate(){
 	if(!is_array($render_array['language'])){
 		$render_array['language'] = array();
 	}
-	return render($render_array, 'translate_widget.tpl', 'translate_widget');
+	if(count($render_array['language'])){
+		return render($render_array, 'translate_widget.tpl', 'translate_widget');
+	}else{
+		return '';
+	}
 }
 
 function syswidget_navigation_config(){
