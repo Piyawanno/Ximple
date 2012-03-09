@@ -165,6 +165,7 @@ function install_step3(){
 function install_step4(){
 	$title = 'Step 4 : '.tt('Configuration');
 	install_insert_user();
+	db_close();
 	install_login();
 	$page  = '<h2>'.$title.'</h2>'.install_section_config_page();
 	return array($title, $page);
@@ -185,6 +186,7 @@ function install_step5(){
 	$state_dir = ROOT_PATH.'/files/state/1/';
 	if(!is_dir($state_dir)) mkdir($state_dir);
 	io_write_file($state_dir.'product', "");
+	db_close();
 	return array(tt('Happy Ending'), $page);
 }
 ?>

@@ -24,6 +24,7 @@ abstract class Content extends Control{
 	
 	public function insert(){
 		Control::insert();
+		echo('$this->id'.$this->id.'<br />');
 		extension_execute('content_insert', $this->data);
 		$this->selectByID($this->column, true);
 		$this->insertTracker('write');

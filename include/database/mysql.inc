@@ -26,7 +26,7 @@ $db_column = array();
 function db_init(){
 	global $db_connect;
 	global $db_transaction;
-	@$db_connect = mysql_connect(DB_HOST,DB_USER,DB_PASS) or error_db_connect();
+	@$db_connect = mysql_connect(DB_HOST, DB_USER, DB_PASS) or error_db_connect();
 	@mysql_db_query(DB_NAME, 'START TRANSACTION;', $db_connect) or error_db_log('START TRANSACTION', mysql_error());
 	$db_transaction = true;
 }
@@ -147,7 +147,7 @@ function db_exist_column($table, $column){
 
 function db_modify($table, $query){
 	global $db_connect;
-	if(empty($db_connect)) db_init();
+	db_init();
 	@$state = mysql_db_query(DB_NAME, $query, $db_connect) or error_db_log($query, mysql_error());
 	cache_clear_db($table);
 	db_increase_query($table);
