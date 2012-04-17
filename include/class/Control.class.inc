@@ -12,8 +12,6 @@ abstract class Control extends Translatable{
 	private $listPage;
 	private $modelHasCategory;
 	
-	protected $data;
-	protected $dataByID;
 	protected $listMeta;
 	
 	protected $ownerColumn;
@@ -40,6 +38,8 @@ abstract class Control extends Translatable{
 	
 	public $id;
 	public $column;
+	public $data;
+	public $dataByID;
 	public $listPageColumn;
 	public $tableName;
 	

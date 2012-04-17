@@ -22,9 +22,9 @@ function captcha(){
 	$img->salt = cc('antispam_salt');
 	$img->charset = 'ABCDEFGHKLMNPRSTUVWYZ23456789';
 	$img->generate_time = gg('gentime');
-	$img->image_width  = 280;
-	$img->image_height = 64;
-	$img->font_size    = 24;
+	$img->image_width  = cc('captcha_width');
+	$img->image_height = cc('captcha_height');
+	$img->font_size    = cc('captcha_font_size');
 	$img->ttf_file = ROOT_PATH."module/captcha/securimage/AHGBold.ttf";
 	$img->perturbation = 0.75;
 	$img->image_bg_color = new Securimage_Color(0x0, 0x0, 0x0);

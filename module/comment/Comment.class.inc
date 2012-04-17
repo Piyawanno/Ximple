@@ -1,6 +1,6 @@
 <?php
 execute_add_class('comment', 'Comment');
-include('CommentModel.class.inc');
+include_once('CommentModel.class.inc');
 include_once('comment.tool.inc');
 
 /// Module, which uses comment, must have these columns (in other cases alternative column name must be set) :
@@ -24,6 +24,7 @@ class Comment extends Control{
 	private $mode = null;
 	private $parent = null;
 	private $permission = null;
+	private $isPlainText = false;
 	
 	private $parentWriter = null;
 	private $parentData;
@@ -60,12 +61,12 @@ class Comment extends Control{
 		$this->setMode(null);
 		$this->setPermission(null);
 		$this->setAccess();
-		Control::init(new CommentModel($this->mode, $this->parent, $this->parentWriter));
+		Control::init(new CommentModel($this->mode, $this->parent, $this->parentWriter, $this->isPlainText));
 	}
 	
 	public function init(){
 		$this->setAccess();
-		Control::init(new CommentModel($this->mode, $this->parent, $this->parentWriter));
+		Control::init(new CommentModel($this->mode, $this->parent, $this->parentWriter, $this->isPlainText));
 	}
 	
 	public function setMode($mode){
@@ -180,7 +181,11 @@ class Comment extends Control{
 	public function setInsertMode($insertMode){
 		$this->insertMode = $insertMode;
 	}
-		
+	
+	public function setPlainText(){
+		$this->isPlainText = true;
+	}	
+	
 	private function setAccess(){
 		$this->ownerColumn = 'writer_id';
 		if($this->isWritable()) $this->addAccessMethod('guest', 'insert');
@@ -217,6 +222,7 @@ class Comment extends Control{
 			head_add_css('module/comment/theme/comment.css');
 			$clause = 'WHERE parent='.$this->parent." AND mode='".$this->mode."' ORDER BY id";
 			$this->selectPage($this->column, cc($this->mode.'_comment_page_length'), $clause);
+			$this->checkBreakLine();
 			$this->checkDataEditable();
 			$this->setGuestName();
 			$this->checkNew();
@@ -233,6 +239,14 @@ class Comment extends Control{
 			return $render;
 		}else{
 			return '';
+		}
+	}
+	
+	private function checkBreakLine(){
+		if($this->isPlainText){
+			foreach($this->data as $key => $value){
+				$this->data[$key]['comment'] = str_replace("\n", '<br />', $value['comment']);
+			}
 		}
 	}
 	

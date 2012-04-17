@@ -1,9 +1,10 @@
 <?php
 class CommentModel extends Model{
-	function CommentModel($mode, $parent, $parentWriter){
+	function CommentModel($mode, $parent, $parentWriter, $isPlainText){
 		$this->parent = $this->hidden($parent, 'int');
 		$this->parent->isList = true;
 		$this->parent->label = tt('commented in');
+		$this->writer_id = $this->owner();
 		if(authority_is_guest()){
 			$this->writer = $this->title(tt('Your name'));
 			$this->email = $this->email(tt('Your email (will not be shown)'));
@@ -16,8 +17,13 @@ class CommentModel extends Model{
 			$this->email = $this->hidden();
 			$this->homepage = $this->hidden();
 		}
-		$this->writer_id = $this->owner();
-		$this->comment = $this->shortText(tt('Your opinion'));
+		
+		if($isPlainText){
+			$this->comment = $this->plain(tt('Comment'));
+		}else{
+			$this->comment = $this->shortText(tt('Comment'));
+		}
+		
 		$this->write_time = $this->now(cc('time_format'));
 		$this->write_time->label = tt('comment time');
 		$this->write_time->isList = true;

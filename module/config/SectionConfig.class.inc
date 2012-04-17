@@ -90,6 +90,9 @@ class SectionConfig extends ConfigControl{
 		$spam = $this->getNewConfigForm(tt('Anti-Spamming'));
 		$spam->append('antispam_salt');
 		$spam->append('antispam_time');
+		$spam->append('captcha_width');
+		$spam->append('captcha_height');
+		$spam->append('captcha_font_size');
 		
 		$syslog = $this->getNewConfigForm(tt('System Log & Notification'));
 		$syslog->append('syslog_enable');

@@ -32,7 +32,9 @@ class User extends Control{
 		
 		$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		$this->listMeta->description = tt('You can use this page to manage and communicate with the users in the Section.');
-		$this->listMeta->mode = 'user';
+		if(strlen(gg('profile_mode'))){
+			$this->modelConnector->setAttribute('login_name', 'listMode', gg('profile_mode'));
+		}
 		$this->listMeta->defaultOrderDesc = 'id';
 		$this->setListWriteIcon(tt('Add a new User'));
 		$this->setListEditIcon();

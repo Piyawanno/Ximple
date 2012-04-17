@@ -93,6 +93,15 @@ class SectionConfigModel extends Model{
 		$this->antispam_time->isDay = false;
 		$this->antispam_time->isSecond = false;
 		
+		$this->captcha_width = $this->spin(tt('captcha image width'), 80);
+		$this->captcha_width->defaultData = 280;
+		
+		$this->captcha_height = $this->spin(tt('captcha image height'), 20);
+		$this->captcha_height->defaultData =64;
+		
+		$this->captcha_font_size = $this->spin(tt('captcha font size'), 6);
+		$this->captcha_font_size->defaultData =24;
+		
 		$this->syslog_enable = $this->enable(tt('system logging enable'));
 		
 		$this->syslog_time = $this->timeInterval(tt('system logging expiration'));
