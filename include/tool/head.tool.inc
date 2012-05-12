@@ -155,6 +155,9 @@ function head_add_js_array($name, $value){
 /// @return Link to external javascripts
 function head_include_js(){
 	global $head_js;
+	if(XIMPLE_THEME_MODE == 'MOBILE'){
+		$head_js[] = 'include/external/jquery/jquery.mobile.js';
+	}
 	$link = '';
 	foreach($head_js as $value){
 		if(substr($value, 0, 7) != 'http://') $uri = ROOT_URI.$value;
@@ -196,13 +199,17 @@ function head_render_injected_js(){
 /// @return Rendered HTML-Tag for CSS including.
 function head_include_main_css(){
 	global $head_css;
-	$jquery_css = 'theme/'.cc('theme').'/jquery/ui.all.css';
-	if(is_file(ROOT_PATH.$jquery_css)){
-		$head_css[] = $jquery_css;
-	}elseif(is_file(SECTION_PATH.'private/'.$jquery_css)){
-		$head_css[] = 'private/'.$jquery_css;
+	if(XIMPLE_THEME_MODE == 'MOBILE'){
+		$head_css[] = 'include/external/jquery/themes/jquery.mobile.css';
 	}else{
-		$head_css[] = 'include/external/jquery/themes/base/ui.all.css';
+		$jquery_css = 'theme/'.cc('theme').'/jquery/ui.all.css';
+		if(is_file(ROOT_PATH.$jquery_css)){
+			$head_css[] = $jquery_css;
+		}elseif(is_file(SECTION_PATH.'private/'.$jquery_css)){
+			$head_css[] = 'private/'.$jquery_css;
+		}else{
+			$head_css[] = 'include/external/jquery/themes/base/ui.all.css';
+		}
 	}
 	return head_include_css($head_css);
 }
@@ -248,12 +255,22 @@ function head_add_print_css($css){
 /// @param $file_name : file name of CSS.
 /// @return URI of CSS.
 function head_get_css_uri($file_name){
-	$path_custom = 'files/customtheme/'.SECTION.'/'.cc('theme').'/css/'.$file_name;
-	$path_private = 'private/theme/'.cc('theme').'/css/'.$file_name;
-	$path_private_module = 'private/module/'.MODULE.'/theme/'.$file_name;
-	$path_theme = 'theme/'.cc('theme').'/css/'.$file_name;
-	$path_default = 'theme/default/css/'.$file_name;
-	$path_module = 'module/'.MODULE.'/theme/'.$file_name;
+	if(XIMPLE_THEME_MODE != 'HTML4') $uri = head_get_css_mode_uri($file_name, XIMPLE_THEME_MODE.'/');
+	if(empty($uri)) $uri = head_get_css_mode_uri($file_name, 'HTML4/');
+	if(empty($uri)) $uri = head_get_css_mode_uri($file_name, '');
+	if(empty($uri)) $uri = ROOT_URI.header_find_css($file_name, XIMPLE_THEME_MODE.'/');
+	if(empty($uri)) $uri = ROOT_URI.header_find_css($file_name, 'HTML4/');
+	if(empty($uri)) $uri = ROOT_URI.header_find_css($file_name, '');
+	return $uri;
+}
+
+function head_get_css_mode_uri($file_name, $mode){
+	$path_custom = 'files/customtheme/'.SECTION.'/'.cc('theme').$mode.'/css/'.$file_name;
+	$path_private = 'private/theme/'.cc('theme').'/'.$mode.'css/'.$file_name;
+	$path_private_module = 'private/module/'.MODULE.'/theme/'.$mode.$file_name;
+	$path_theme = 'theme/'.cc('theme').'/'.$mode.'css/'.$file_name;
+	$path_default = 'theme/default/'.$mode.'css/'.$file_name;
+	$path_module = 'module/'.MODULE.'/theme/'.$mode.$file_name;
 	
 	if(is_file(ROOT_PATH.$path_custom)) return ROOT_URI.$path_custom;
 	elseif(is_file(SECTION_PATH.$path_private)) return SECTION_URI.$path_private;
@@ -263,13 +280,13 @@ function head_get_css_uri($file_name){
 	elseif(is_file(ROOT_PATH.$path_module)) return ROOT_URI.$path_module;
 	elseif(is_file(ROOT_PATH.$file_name)) return ROOT_URI.$file_name;
 	elseif(is_file(SECTION_PATH.$file_name)) return SECTION_URI.$file_name;
-	else return ROOT_URI.header_find_css($file_name);
+	else null;
 }
 
 /// Find CSS location dependent of configuration.
 /// @param $file_name : file name of CSS.
 /// @return Location of found CSS.
-function header_find_css($file_name){
+function header_find_css($file_name, $mode){
 	$included_files = get_included_files();
 	$included_dir = array();
 	foreach($included_files as $value){
@@ -277,7 +294,7 @@ function header_find_css($file_name){
 	}
 	$included_dir = array_unique($included_dir);
 	foreach($included_dir as $value){	
-		$css_path = $value.'/theme/'.$file_name;
+		$css_path = $value.'/theme/'.$mode.$file_name;
 		if(is_file($css_path)){
 			return substr($css_path, strlen(ROOT_PATH));
 		}

@@ -18,6 +18,7 @@ $document_redirect = '';
 $document_keywords = array();
 $document_form = false;
 $document_path = array();
+$document_mobile_footer = '';
 
 /// Set title of document.
 /// @param $title : title of document.
@@ -30,7 +31,8 @@ function document_set_title($title){
 /// @return Title of document.
 function document_get_title(){
 	global $document_title;
-	return $document_title;
+	if(strlen($document_title))	return $document_title;
+	else return cc('section_name');
 }
 
 /// Set description of document.
@@ -150,12 +152,12 @@ function document_render_path(){
 		}elseif($i != $size-1){
 			$render .= sprintf($p, SECTION_URI.Q.$uri, $name);
 		}else{
-			$render .= $name;
+			if(XIMPLE_THEME_MODE != "MOBILE") $render .= $name;
 			if(strlen($document_title) == 0){
 				$document_title = $name;
 			}
 		}
-		if($i != $size-1){
+		if($i != $size-1 and XIMPLE_THEME_MODE != "MOBILE"){
 			$render .= '&#160;&#187;&#160;';
 		}
 		$i++;
@@ -163,4 +165,14 @@ function document_render_path(){
 	return $render;
 }
 
+
+function document_set_mobile_footer($footer){
+	global $document_mobile_footer;
+	$document_mobile_footer .= $footer;
+}
+
+function document_get_mobile_footer(){
+	global $document_mobile_footer;
+	return $document_mobile_footer;
+}
 ?>

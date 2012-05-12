@@ -18,6 +18,7 @@ function main_init(){
 	extension_execute('main_init');
 	init_set_time_zone();
 	init_var();
+	main_check_theme_mode();
 	main_handle_drop();
 	authority();
 	translate_define_language();
@@ -43,6 +44,17 @@ function main_exec(){
 	}
 	notify_save();
 	init_check_cron();
+}
+
+function main_check_theme_mode(){
+	$agent = $_SERVER['HTTP_USER_AGENT'];
+	if(strpos($agent, 'Android')) $mode = 'MOBILE';
+	elseif(strpos($agent, 'iPhone')) $mode = 'MOBILE';
+	elseif(strpos($agent, 'iPad')) $mode = 'MOBILE';
+	elseif(strpos($agent, 'Chrome')) $mode = 'HTML5';
+	elseif(strpos($agent, 'Firefox')) $mode = 'HTML5';
+	else $mode = 'HTML4';
+	define('XIMPLE_THEME_MODE', $mode);
 }
 
 function main_render(){
@@ -87,6 +99,8 @@ function main_render_site($body){
 		'widget' => widget_render(),
 		'notify' => notify_render(),
 		'head' => head_render(),
+		'title' => document_get_title(),
+		'mobile_footer' => document_get_mobile_footer(),
 	);
 	$render_array['section_name'] = cc('section_name');
 	$render_array['section_slogan'] = cc('section_slogan');
