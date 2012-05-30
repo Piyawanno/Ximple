@@ -31,13 +31,28 @@ function render_get_tpl($tpl){
 		return $render_cache_tpl[$tpl];
 	}
 	
-	$tpl_sys = THEME_PATH.'default/systemtemplate/'.$tpl;
-	$tpl_module_sys = MODULE_PATH.MODULE.'/systemtheme/'.$tpl;
-	$tpl_private = SECTION_PATH.'private/theme/'.cc('theme').'/template/'.$tpl;
-	$tpl_theme = THEME_PATH.cc('theme').'/template/'.$tpl;
-	$tpl_default = THEME_PATH.'default/template/'.$tpl;
-	$tpl_module = MODULE_PATH.MODULE.'/theme/'.$tpl;
-	$tpl_abs = ROOT_PATH.$tpl;
+	if(XIMPLE_THEME_MODE != 'HTML4') $tpl_out = render_get_mode_tpl($tpl, XIMPLE_THEME_MODE.'/');
+	if(empty($tpl_out)) $tpl_out = render_get_mode_tpl($tpl, 'HTML4/');
+	if(empty($tpl_out)) $tpl_out = render_get_mode_tpl($tpl, '');
+	if(empty($tpl_out)) $tpl_out = render_find_tpl($tpl, XIMPLE_THEME_MODE.'/');
+	if(empty($tpl_out)) $tpl_out = render_find_tpl($tpl, 'HTML4/');
+	if(empty($tpl_out)) $tpl_out = render_find_tpl($tpl, '');
+	
+	if($tpl_out == null) echo('Template file can not be found : '.$tpl.'<br />');
+	
+	$render_cache_tpl[$tpl] = $tpl_out;
+	if(IS_APC) apc_store('template_'.SECTION, $render_cache_tpl);
+	return $tpl_out;
+}
+
+function render_get_mode_tpl($tpl, $mode){
+	$tpl_sys = THEME_PATH.'default/'.$mode.'/systemtemplate/'.$tpl;
+	$tpl_module_sys = MODULE_PATH.MODULE.'/'.$mode.'/systemtheme/'.$tpl;
+	$tpl_private = SECTION_PATH.'private/theme/'.cc('theme').'/'.$mode.'template/'.$tpl;
+	$tpl_theme = THEME_PATH.cc('theme').'/'.$mode.'template/'.$tpl;
+	$tpl_default = THEME_PATH.'default/'.$mode.'template/'.$tpl;
+	$tpl_module = MODULE_PATH.MODULE.'/theme/'.$mode.$tpl;
+	$tpl_abs = ROOT_PATH.$mode.'/'.$tpl;
 	
 	if(is_file($tpl_sys)) $tpl_out = $tpl_sys;
 	elseif(is_file($tpl_module_sys)) $tpl_out = $tpl_module_sys;
@@ -46,14 +61,11 @@ function render_get_tpl($tpl){
 	elseif(is_file($tpl_default)) $tpl_out = $tpl_default;
 	elseif(is_file($tpl_module)) $tpl_out = $tpl_module;
 	elseif(is_file($tpl_abs)) $tpl_out = $tpl_abs;
-	else $tpl_out = render_find_tpl($tpl);
-	
-	$render_cache_tpl[$tpl] = $tpl_out;
-	if(IS_APC) apc_store('template_'.SECTION, $render_cache_tpl);
+	else $tpl_out = null;
 	return $tpl_out;
 }
 
-function render_find_tpl($tpl){
+function render_find_tpl($tpl, $mode){
 	$included_files = get_included_files();
 	$included_dir = array();
 	foreach($included_files as $value){
@@ -61,12 +73,11 @@ function render_find_tpl($tpl){
 	}
 	$included_dir = array_unique($included_dir);
 	foreach($included_dir as $value){	
-		$tpl_path = $value.'/theme/'.$tpl;
+		$tpl_path = $value.'/theme/'.$mode.$tpl;
 		if(is_file($tpl_path)){
 			return $tpl_path;
 		}
 	}
-	echo('Template file can not be found : '.$tpl);
 	return null;
 }
 
@@ -195,7 +206,9 @@ function render_option($data){
 }
 
 function render_operation_link($mode, $id, $label){
-	return '<a href="'.SECTION_URI.Q.$mode.'/'.$id.'">'.$label.'</a>';
+	if(XIMPLE_THEME_MODE == "MOBILE") $role = 'data-role="button"';
+	else $role = '';
+	return '<a href="'.SECTION_URI.Q.$mode.'/'.$id.'" '.$role.'>'.$label.'</a>';
 }
 
 function render_print_link($print_mode){
