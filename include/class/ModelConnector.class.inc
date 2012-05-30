@@ -258,8 +258,8 @@ class ModelConnector{
 		$this->trigger('InsertForm');
 	}
 	
-	public function triggerUpdateForm(){
-		$this->trigger('UpdateForm');
+	public function triggerUpdateForm($data){
+		$this->triggerSingleParameter('UpdateForm', $data);
 	}
 	
 	public function triggerSerialize(){
