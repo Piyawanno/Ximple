@@ -35,11 +35,11 @@ class SectionConfigModel extends Model{
 		);
 		$this->state = $this->radio(tt('section state'), $option);
 		
-		$this->registration_enable = $this->enable(('Enable registration for new users'));
-		$this->forget_password = $this->enable(('Enable password recovery'));
-		$this->avatar_resizable = $this->enable(('Enable resizing avatar'));
-		$this->avatar_size = $this->spin(('Avatar size'), 32, 1024);
-		$this->avatar_big_size = $this->spin(('Big avatar size'), 64, 1024);
+		$this->registration_enable = $this->enable(('registration for new users'));
+		$this->forget_password = $this->enable(('password recovery'));
+		$this->avatar_resizable = $this->enable(('resizing avatar'));
+		$this->avatar_size = $this->spin(('avatar size'), 32, 1024);
+		$this->avatar_big_size = $this->spin(('big avatar size'), 64, 1024);
 		
 		$help = tt('Add supported language for contents in Section.');
 		$this->supported_language = $this->grid(tt('Supported language'), $help);
@@ -85,7 +85,7 @@ class SectionConfigModel extends Model{
 		$this->feed_mode = $this->checkbox(tt('modules enabled feed'), $availableFeed);
 		$this->feed_type = $this->checkbox(tt('feed type'), array('atom' => 'Atom', 'rss' => 'RSS'));
 		$this->feed_number = $this->spin(tt('number of feed entries'), 5, 50);
-		$this->feed_comment = $this->enable(tt('enable comment feed'));
+		$this->feed_comment = $this->enable(tt('comment feed'));
 		$this->feed_comment_explicit = $this->enable(tt('explicit comment feed'));
 		
 		$this->antispam_salt = $this->title(tt('antispam salt'));

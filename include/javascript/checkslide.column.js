@@ -1,0 +1,3 @@
+addReady(function(){
+	$('.checkslide').iButton();
+});

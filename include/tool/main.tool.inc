@@ -44,6 +44,7 @@ function main_exec(){
 	}
 	notify_save();
 	init_check_cron();
+	db_close();
 }
 
 function main_check_theme_mode(){

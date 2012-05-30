@@ -182,9 +182,9 @@ abstract class Model{
 	}
 	
 	public function enable($label, $help=null){
-		include_once('column/RadioColumn.class.inc');
-		$option = array(0 => tt('disable'), 1 => tt('enable'));
-		$modelColumn = new RadioColumn($label, $option, $help);
+		include_once('column/CheckSlideColumn.class.inc');
+		$option = array(1 => '');
+		$modelColumn = new CheckSlideColumn($label, $option, $help);
 		$modelColumn->setType('int');
 		return $modelColumn;
 	}
@@ -192,6 +192,16 @@ abstract class Model{
 	public function checkbox($label, $option, $help=null){
 		include_once('column/CheckBoxColumn.class.inc');
 		return new CheckBoxColumn($label, $option, $help);
+	}
+	
+	public function checkSlide($label, $option, $help=null){
+		include_once('column/CheckSlideColumn.class.inc');
+		return new CheckSlideColumn($label, $option, $help);
+	}
+	
+	public function checkSlideDual($label, $option, $help=null){
+		include_once('column/CheckSlideDualColumn.class.inc');
+		return new CheckSlideDualColumn($label, $option, $help);
 	}
 	
 	public function group($label, $help=null){
