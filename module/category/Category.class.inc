@@ -33,8 +33,8 @@ class Category extends Control{
 	}
 	
 	public function update(){
-		Control::update();
 		$this->dropPicture();
+		Control::update();
 		extension_execute('category_update', $this->data);
 	}
 	
