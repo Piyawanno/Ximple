@@ -249,6 +249,23 @@ abstract class Control extends Translatable{
 		$this->modelConnector->setModuleName($this->fullModuleName);
 	}
 	
+	protected function directInsert(){
+		$data = array();
+		foreach($this->data as $key => $value){
+			$id = db_insert($thi->tableName, $value);
+			$data[$id] = $value;
+		}
+		$this->data = $data;
+	}
+	
+	protected function directUpdate(){
+		db_update($this->tableName, $this->dataByID, $this->id);
+	}
+	
+	protected function directDelete(){
+		db_drop($this->tableName, $this->id);
+	}
+	
 	protected function setOwnerColumn($ownerColumn){
 		$this->ownerColumn = $ownerColumn;
 	}

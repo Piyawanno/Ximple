@@ -45,6 +45,13 @@ function ss($key=null){
 	else return null;
 }
 
+/// Set $_SESSION variable.
+/// @param $key : session key
+/// @param $value : session value
+function set_session_var($key, $value){
+	$_SESSION[$key] = $value;
+}
+
 /// Access $$_FILES variable.
 /// @param $key : key to access by default (null) the whole array is returned.
 /// @return $$_FILES[$key]
