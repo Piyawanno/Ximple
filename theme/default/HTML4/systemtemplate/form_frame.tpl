@@ -1,6 +1,6 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <div class="form">
-	<?php if($meta->isAjax):?>
+	<?php if($meta->isAjax or strlen($meta->ajaxFunction)):?>
 		<form enctype="multipart/form-data" method="post" action="<?=SECTION_URI.Q.$meta->mode?>" name="ximpleform" onsubmit="return <?=$meta->ajaxFunction?>(this, notNull<?=$meta->id?>, label<?=$meta->id?>)" id="<?=$meta->id?>">
 	<?php else:?>
 		<form enctype="multipart/form-data" method="post" action="<?=SECTION_URI.Q.$meta->mode?>" name="ximpleform" onsubmit="return checkForm(notNull<?=$meta->id?>, label<?=$meta->id?>)" id="form_<?=$meta->id?>">
