@@ -42,6 +42,7 @@ $execute_mode = 0;
 function execute($mode, $params=null, $result=null){
 	global $execute_callable;
 	list($module, $extension) = execute_get_module($mode);
+	globalvar_set_module($module);
 	execute_include_files($module, $extension);
 	if(!execute_is_callable($mode)) error_denied();
 	if(function_exists($mode) and in_array($mode, $execute_callable)){

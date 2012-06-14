@@ -83,7 +83,7 @@ class Like extends Control{
 	}
 	
 	private function renderLikeLink(){
-		head_add_js('module/like/like.js');
+		head_add_js('module/like/javascript/like.js');
 		if(authority_is_guest()){
 			$result['like']  = '';
 		}else{
@@ -94,7 +94,7 @@ class Like extends Control{
 	}
 	
 	private function renderUnlikeLink(){
-		head_add_js('module/like/like.js');
+		head_add_js('module/like/javascript/like.js');
 		if(authority_is_guest()){
 			$result['like']  = '';
 		}else{

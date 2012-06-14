@@ -15,7 +15,7 @@ function flashwidget(){
 			'mode' => $data['mode'],
 			'item' => $item,
 		);
-		return render($render_array, 'module/flashwidget/theme/flashwidget.tpl', 'flashwidget');
+		return render($render_array, 'flashwidget.tpl', 'flashwidget');
 	}else{
 		return null;
 	}

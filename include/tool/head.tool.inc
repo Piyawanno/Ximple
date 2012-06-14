@@ -12,8 +12,8 @@ global $head_js_var, $head_print_css;
 global $head_injected_js;
 
 $head_css = array(
-	'main.css',
-	'common.css',
+	head_get_css_uri('main.css'),
+	head_get_css_uri('common.css'),
 );
 
 $head_print_css = array(
@@ -225,8 +225,7 @@ function head_include_print_css(){
 /// @return Link to css style sheets.
 function head_include_css($css){
 	$link = '';
-	foreach($css as $value){
-		$uri = head_get_css_uri($value);
+	foreach($css as $uri){
 		$link .= "\n\t\t";
 		$link .= '<link rel="stylesheet" type="text/css" href="'.$uri.'" />';
 	}
@@ -237,6 +236,7 @@ function head_include_css($css){
 /// @param $css : css filename.
 function head_add_css($css){
 	global $head_css;
+	$css = head_get_css_uri($css);
 	if(!in_array($css, $head_css)){
 		$head_css[] = $css;
 	}
@@ -257,20 +257,19 @@ function head_add_print_css($css){
 function head_get_css_uri($file_name){
 	if(XIMPLE_THEME_MODE != 'HTML4') $uri = head_get_css_mode_uri($file_name, XIMPLE_THEME_MODE.'/');
 	if(empty($uri)) $uri = head_get_css_mode_uri($file_name, 'HTML4/');
-	if(empty($uri)) $uri = head_get_css_mode_uri($file_name, '');
 	if(empty($uri)) $uri = ROOT_URI.header_find_css($file_name, XIMPLE_THEME_MODE.'/');
 	if(empty($uri)) $uri = ROOT_URI.header_find_css($file_name, 'HTML4/');
-	if(empty($uri)) $uri = ROOT_URI.header_find_css($file_name, '');
 	return $uri;
 }
 
 function head_get_css_mode_uri($file_name, $mode){
+	$module = globalvar_get_module();
 	$path_custom = 'files/customtheme/'.SECTION.'/'.cc('theme').$mode.'/css/'.$file_name;
 	$path_private = 'private/theme/'.cc('theme').'/'.$mode.'css/'.$file_name;
-	$path_private_module = 'private/module/'.MODULE.'/theme/'.$mode.$file_name;
+	$path_private_module = 'private/module/'.$module.'/theme/'.$mode.'css/'.$file_name;
 	$path_theme = 'theme/'.cc('theme').'/'.$mode.'css/'.$file_name;
 	$path_default = 'theme/default/'.$mode.'css/'.$file_name;
-	$path_module = 'module/'.MODULE.'/theme/'.$mode.$file_name;
+	$path_module = 'module/'.$module.'/theme/'.$mode.'css/'.$file_name;
 	
 	if(is_file(ROOT_PATH.$path_custom)) return ROOT_URI.$path_custom;
 	elseif(is_file(SECTION_PATH.$path_private)) return SECTION_URI.$path_private;

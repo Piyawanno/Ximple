@@ -20,11 +20,11 @@ function theme_select(){
 	$title = tt('Manage Theme');
 	document_set_path($title);
 	document_set_title($title);
+	head_add_css('theme.css');
 	$theme = theme_get_information();
 	$render = render(array('data' => $theme), 'theme.tpl', 'theme');
 	$pager = new PagerRender(THEME_PAGE_LENGTH, count($theme));
 	$render.= $pager->render('theme_select');
-	head_add_css('theme.css');
 	return $render;
 }
 

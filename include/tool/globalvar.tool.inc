@@ -10,6 +10,7 @@
 /// These variables should not be used outside this file.
 global $global_get, $global_post;
 global $locale;
+global $current_module;
 
 $global_get  = $_GET;
 $global_post = $_POST;
@@ -48,7 +49,7 @@ function ss($key=null){
 /// Set $_SESSION variable.
 /// @param $key : session key
 /// @param $value : session value
-function set_session_var($key, $value){
+function globalvar_set_session_var($key, $value){
 	$_SESSION[$key] = $value;
 }
 
@@ -157,6 +158,20 @@ function mm(){
 /// @return EntryID.
 function mid(){
 	return gg('id');
+}
+
+/// Get called XimpleMODULE.
+/// @return XimpleMODULE.
+function globalvar_get_module(){
+	global $current_module;
+	return $current_module;
+}
+
+/// Set called XimpleMODULE.
+/// @param $module : XimpleMODULE.
+function globalvar_set_module($module){
+	global $current_module;
+	$current_module = $module;
 }
 
 /// Get called page number.
