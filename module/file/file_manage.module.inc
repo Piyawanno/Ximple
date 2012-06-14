@@ -58,7 +58,7 @@ function file_manage($root_path, $dir, $mode, $title){
 		'user_used_space' => render_file_size($user_used_space),
 		'free_space' => render_file_size($free_space),
 	);
-	$render = render($render_data, 'module/file/systemtheme/file.tpl', 'file_manager');
+	$render = render($render_data, 'file.tpl', 'file_manager');
 	head_add_css('list.css');
 	head_add_css('form.css');
 	head_add_css('file.css');

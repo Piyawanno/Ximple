@@ -257,7 +257,10 @@ function head_add_print_css($css){
 function head_get_css_uri($file_name){
 	if(XIMPLE_THEME_MODE != 'HTML4') $uri = head_get_css_mode_uri($file_name, XIMPLE_THEME_MODE.'/');
 	if(empty($uri)) $uri = head_get_css_mode_uri($file_name, 'HTML4/');
-	if(empty($uri)) $uri = ROOT_URI.header_find_css($file_name, XIMPLE_THEME_MODE.'/');
+	if(empty($uri)){
+		$uri = header_find_css($file_name, XIMPLE_THEME_MODE.'/');
+		if(strlen($uri)) $uri = ROOT_URI.$uri;
+	}
 	if(empty($uri)) $uri = ROOT_URI.header_find_css($file_name, 'HTML4/');
 	return $uri;
 }
@@ -291,12 +294,11 @@ function header_find_css($file_name, $mode){
 	foreach($included_files as $value){
 		$included_dir[] = dirname($value);
 	}
+	
 	$included_dir = array_unique($included_dir);
 	foreach($included_dir as $value){	
-		$css_path = $value.'/theme/'.$mode.$file_name;
-		if(is_file($css_path)){
-			return substr($css_path, strlen(ROOT_PATH));
-		}
+		$css_path = $value.'/theme/'.$mode.'css/'.$file_name;
+		if(is_file($css_path)) return substr($css_path, strlen($included_dir[0]));
 	}
 	return null;
 }

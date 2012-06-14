@@ -53,7 +53,7 @@ function render_get_mode_tpl($tpl, $mode){
 	$tpl_theme = THEME_PATH.cc('theme').'/'.$mode.'template/'.$tpl;
 	$tpl_default = THEME_PATH.'default/'.$mode.'template/'.$tpl;
 	$tpl_module = MODULE_PATH.$module.'/theme/'.$mode.'template/'.$tpl;
-	$tpl_abs = ROOT_PATH.$mode.'/'.$tpl;
+	$tpl_abs = ROOT_PATH.'/'.$tpl;
 	
 	if(is_file($tpl_sys)) $tpl_out = $tpl_sys;
 	elseif(is_file($tpl_private_module_sys)) $tpl_out = $tpl_private_module_sys;
@@ -77,9 +77,9 @@ function render_find_tpl($tpl, $mode){
 	$included_dir = array_unique($included_dir);
 	foreach($included_dir as $value){	
 		$tpl_path = $value.'/theme/'.$mode.'template/'.$tpl;
-		if(is_file($tpl_path)){
-			return $tpl_path;
-		}
+		if(is_file($tpl_path)) return $tpl_path;
+		$tpl_path = $value.'/theme/'.$mode.'systemtemplate/'.$tpl;
+		if(is_file($tpl_path)) return $tpl_path;
 	}
 	return null;
 }

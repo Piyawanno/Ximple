@@ -151,7 +151,8 @@ function theme_drop_additional_config($config){
 }
 
 function theme_check_custom_directory($type){
-	$custom_path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/';
+	$custom_path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/HTML5/';
+	if(!is_dir($custom_path)) $custom_path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/HTML4/';
 	if(!is_dir($custom_path)){
 		theme_set_config(cc('theme'));
 		notify_add_info(tt('Your custom theme directory does not exist. The directory has been created.'));
@@ -267,18 +268,33 @@ function theme_copy_custom($theme){
 	if(!is_dir($custom_dir)) mkdir($custom_dir);
 	$custom_dir .= $theme.'/';
 	if(!is_dir($custom_dir)) mkdir($custom_dir);
-	if(!is_dir($custom_dir.'css')) mkdir($custom_dir.'css');
 	if(!is_dir($custom_dir.'image')) mkdir($custom_dir.'image');
 	$source = THEME_PATH.'default/';
-	io_copy_directory($source.'css', $custom_dir.'css');
+	theme_copy_content($source, $custom_dir);
 	
 	if(is_dir(THEME_PATH.$theme.'/')) $source = THEME_PATH.$theme.'/';
 	else $source = SECTION_PATH.'private/theme/'.$theme.'/';
 	
-	io_copy_directory($source.'css', $custom_dir.'css');
-	io_copy_directory($source.'image', $custom_dir.'image');
+	theme_copy_content($source, $custom_dir);
+	io_copy_directory($source.'image', $custom_dir.'/image');
 }
 
+function theme_copy_content($source, $custom_dir){
+	theme_copy_mode_content($source, $custom_dir, 'HTML4');
+	theme_copy_mode_content($source, $custom_dir, 'HTML5');
+	theme_copy_mode_content($source, $custom_dir, 'MOBILE');
+}
+
+function theme_copy_mode_content($source, $custom_dir, $mode){
+	if(is_dir($source.'/'.$mode.'/css')){
+		$directory = $custom_dir.'/'.$mode;
+		if(!is_dir($directory)) mkdir($directory);
+		$directory = $directory.'/css';
+		if(!is_dir($directory)) mkdir($directory);
+		io_copy_directory($source.'/'.$mode.'/'.'css', $custom_dir.'/'.$mode.'/css');
+	}
+}
+ 
 function theme_set_config($theme_name){
 	$all_themes = theme_get_information();
 	$theme_config = $all_themes[$theme_name];
