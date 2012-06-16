@@ -17,7 +17,7 @@ class CategoryColumn extends SelectColumn{
 		$this->getSelection();
 	}
 	
-	public function triggerUpdateForm(){
+	public function triggerUpdateForm($data){
 		$this->getSelection();
 	}
 	

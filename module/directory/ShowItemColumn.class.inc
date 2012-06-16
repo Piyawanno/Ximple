@@ -5,7 +5,7 @@ class ShowItemColumn extends CheckBoxColumn{
 		$this->isSortable = true;
 	}
 	
-	function triggerUpdateForm(){
+	function triggerUpdateForm($data){
 		$this->getSelection();
 	}
 	

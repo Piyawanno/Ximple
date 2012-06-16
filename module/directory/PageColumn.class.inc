@@ -9,7 +9,7 @@ class PageColumn extends HiddenColumn{
 		$this->defaultData = 0;
 	}
 	
-	public function triggerUpdateForm(){
+	public function triggerUpdateForm($data){
 		$this->label = tt('index page');
 		$this->form = 'select';
 		$this->option = db_select_single_column('page', 'topic', 'WHERE parent='.mid());

@@ -16,7 +16,7 @@ class FileColumn extends CharColumn{
 		$this->setFormAttribute('type', 'file');
 	}
 	
-	public function triggerUpdateForm(){
+	public function triggerUpdateForm($data){
 		$this->data = null;
 	}
 	

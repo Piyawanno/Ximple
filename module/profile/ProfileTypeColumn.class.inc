@@ -12,7 +12,7 @@ class ProfileTypeColumn extends RadioColumn{
 		$this->getSelect();
 	}
 	
-	public function triggerUpdateForm(){
+	public function triggerUpdateForm($data){
 		$this->getSelect();
 	}
 	

@@ -4,6 +4,7 @@ execute_add_function('syswidget_login');
 execute_add_function('syswidget_panel');
 execute_add_function('syswidget_execute_info');
 execute_add_function('syswidget_translate');
+execute_add_function('syswidget_translate_flag');
 execute_add_function('syswidget_navigation');
 execute_add_function('syswidget_navigation_config');
 execute_add_function('syswidget_navigation_save');
@@ -51,6 +52,19 @@ function syswidget_translate(){
 	}
 	if(count($render_array['language'])){
 		return render($render_array, 'translate_widget.tpl', 'translate_widget');
+	}else{
+		return '';
+	}
+}
+
+function syswidget_translate_flag(){
+	$render_array = array();
+	$render_array['language'] = cc('supported_language');
+	if(!is_array($render_array['language'])){
+		$render_array['language'] = array();
+	}
+	if(count($render_array['language'])){
+		return render($render_array, 'translate_flag_widget.tpl', 'translate_flag_widget');
 	}else{
 		return '';
 	}

@@ -12,7 +12,7 @@ class TranslateFormRender extends FormRender{
 	public function renderTranslateForm($data){
 		$this->translateData = $data;
 		$this->modelConnector->setData($data);
-		$this->modelConnector->triggerUpdateForm();
+		$this->modelConnector->triggerUpdateForm($data);
 		$this->prepareRender();
 		$this->label['status'] = tt('status');
 		$this->formMeta->isAjax = true;
