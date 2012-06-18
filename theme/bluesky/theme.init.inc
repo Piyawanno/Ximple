@@ -1,5 +1,4 @@
 <?php
-
 function theme_get_info_bluesky(){
 	return array(
 		'name' => 'Blue Sky',

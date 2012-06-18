@@ -33,8 +33,6 @@
 					<?php foreach($widget['left'] as $key => $item):?>
 						<?=$item?>
 					<?php endforeach?>
-					<?=$panel?>
-					<?=$login?>
 				</div>
 			</div>
 			<div id="foot">

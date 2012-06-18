@@ -2,7 +2,9 @@
 <h3 class="list_label"><?=tt('Manage Theme')?></h3>
 <p><?=tt('You can select theme of Section with this page. Afterwards, you can customize your theme by :')?></p>
 <ul>
-	<li><a href="<?=SECTION_URI.Q?>theme_config">config theme</a></li>
+	<?php if($is_configable):?>
+		<li><a href="<?=SECTION_URI.Q?>theme_config">config theme</a></li>
+	<?php endif?>
 	<li><a href="<?=SECTION_URI.Q?>theme_css">custom css</a></li>
 	<li><a href="<?=SECTION_URI.Q?>theme_image">custom image</a></li>
 </ul>

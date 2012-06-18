@@ -267,7 +267,7 @@ function head_get_css_uri($file_name){
 
 function head_get_css_mode_uri($file_name, $mode){
 	$module = globalvar_get_module();
-	$path_custom = 'files/customtheme/'.SECTION.'/'.cc('theme').$mode.'/css/'.$file_name;
+	$path_custom = 'files/customtheme/'.SECTION.'/'.cc('theme').'/'.$mode.'css/'.$file_name;
 	$path_private = 'private/theme/'.cc('theme').'/'.$mode.'css/'.$file_name;
 	$path_private_module = 'private/module/'.$module.'/theme/'.$mode.'css/'.$file_name;
 	$path_theme = 'theme/'.cc('theme').'/'.$mode.'css/'.$file_name;

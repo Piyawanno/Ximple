@@ -155,12 +155,10 @@ function render_avatar($user, $show_profile=true, $show_function=true, $mode='pr
 		if(is_file(ROOT_PATH.$avatar)) $user['avatar'] = $avatar;
 	}
 	
+	$uri = '';
 	if(strlen($mode)){
 		if($user['id'] > 0) $uri = SECTION_URI.Q.$mode.'/'.$user['id'];
-		elseif(authority_is_guest()) $uri = '';
 		elseif(isset($user['email'])) $uri = SECTION_URI.Q.'profile_write_mail/send_to_address/'.$user['email'];
-	}else{
-		$uri = '';
 	}
 	
 	if($show_profile) $profile_link = render_profile_link($user);

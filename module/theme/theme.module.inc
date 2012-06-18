@@ -21,9 +21,13 @@ function theme_select(){
 	document_set_path($title);
 	document_set_title($title);
 	head_add_css('theme.css');
-	$theme = theme_get_information();
-	$render = render(array('data' => $theme), 'theme.tpl', 'theme');
-	$pager = new PagerRender(THEME_PAGE_LENGTH, count($theme));
+	$theme  = theme_get_information();
+	$render_array = array(
+		'data' => $theme,
+		'is_configable' => theme_is_configurable('theme_execute_config_form'),
+	);
+	$render = render($render_array, 'theme.tpl', 'theme');
+	$pager  = new PagerRender(THEME_PAGE_LENGTH, count($theme));
 	$render.= $pager->render('theme_select');
 	return $render;
 }
@@ -58,55 +62,64 @@ function theme_clear_custom(){
 }
 
 function theme_image(){
-	if(theme_check_custom_directory('image')){
-		include_once(MODULE_PATH.'file/file_manage.module.inc');
-		include_once(MODULE_PATH.'file/file.tool.inc');
-		$dir = gg('dir');
-		if(!$dir) $dir = '';
-		$root_path = file_get_mode_path('theme_image');
-		$title = tt('Theme custom image');
-		document_set_title($title);
-		document_set_path(tt('Theme'), 'theme');
-		document_set_path($title);
-		return file_manage($root_path, $dir, 'theme_image', $title);
-	}
+	theme_check_custom_directory('image');
+	include_once(MODULE_PATH.'file/file_manage.module.inc');
+	include_once(MODULE_PATH.'file/file.tool.inc');
+	$dir = gg('dir');
+	if(!$dir) $dir = '';
+	$root_path = file_get_mode_path('theme_image');
+	$title = tt('Theme custom image');
+	document_set_title($title);
+	document_set_path(tt('Theme'), 'theme_select');
+	document_set_path($title);
+	return file_manage($root_path, $dir, 'theme_image', $title);
 }
 
 function theme_css(){
-	$css_path = theme_check_custom_directory('css');
-	if($css_path){
-		$css_list = io_get_directory_entry($css_path);
-		sort($css_list);
-		$title = tt('Custom CSS');
-		document_set_path(tt('Theme'), 'theme');
-		document_set_path($title);
-		document_set_title($title);
-		return render(array('data' => $css_list), 'theme_css.tpl', 'theme_css');
+	theme_check_custom_directory('css');
+	$title = tt('Custom CSS');
+	document_set_path(tt('Theme'), 'theme_select');	
+	document_set_path($title);
+	document_set_title($title);
+	$render_array = array(
+		'HTML4' => theme_get_css_list('HTML4'),
+		'HTML5' => theme_get_css_list('HTML5'),
+		'MOBILE' => theme_get_css_list('MOBILE'),
+	);
+	return render($render_array, 'theme_css.tpl', 'theme_css');
+}
+
+function theme_get_css_list($mode){
+	$path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/'.$mode.'/css/';
+	if(is_dir($path)){
+		$css = io_get_directory_entry($path);
+		sort($css);
+		return $css;
+	}else{
+		return array();
 	}
 }
 
 function theme_edit_css(){
-	$css_path = theme_check_custom_directory('css');
-	if($css_path){
-		$file_name = str_replace('_', '.', gg('file'));
-		$css = io_read_file($css_path.'/'.$file_name);
-		$title = tt('Edit Custom CSS : '.$file_name);
-		document_set_path(tt('Theme'), 'theme');
-		document_set_path(tt('Custom CSS'), 'theme_css');
-		document_set_path($title);
-		document_set_title($title);
-		return render(array('data' => $css, 'file_name' => $file_name), 'theme_css_edit.tpl', 'theme_css_edit');
-	}
+	theme_check_custom_directory('css');
+	$path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/'.gg('theme_mode').'/css/';
+	$file_name = str_replace('_', '.', gg('file'));
+	$css = io_read_file($path.'/'.$file_name);
+	$title = tt('Edit Custom CSS : '.$file_name);
+	document_set_path(tt('Theme'), 'theme_select');
+	document_set_path(tt('Custom CSS'), 'theme_css');
+	document_set_path($title);
+	document_set_title($title);
+	return render(array('data' => $css, 'file_name' => $file_name), 'theme_css_edit.tpl', 'theme_css_edit');
 }
 
 function theme_save_css(){
-	$css_path = theme_check_custom_directory('css');
-	if($css_path){
-		io_write_file($css_path.'/'.pp('file'), pp('value'));
-		execute_set_db();
-		document_set_redirect('theme_css');
-		notify_add_info(tt('Your CSS file has been successfully saved.'));
-	}
+	theme_check_custom_directory('css');
+	$path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/'.pp('theme_mode').'/css/';
+	io_write_file($path.'/'.pp('file'), pp('value'));
+	execute_set_db();
+	document_set_redirect('theme_css');
+	notify_add_info(tt('Your CSS file has been successfully saved.'));
 }
 
 function theme_config(){
@@ -125,11 +138,7 @@ function theme_config_save(){
 }
 
 function theme_execute_external($function){
-	if(is_dir(THEME_PATH.cc('theme').'/')) $theme_dir = THEME_PATH.cc('theme').'/';
-	else $theme_dir = SECTION_PATH.'private/theme/'.cc('theme').'/';
-	
-	include_once('theme.config.inc');
-	if(function_exists($function)){
+	if(theme_is_configurable($function)){
 		return $function();
 	}else{
 		notify_add_error(tt('The selected theme can not be configured.'));
@@ -151,8 +160,7 @@ function theme_drop_additional_config($config){
 }
 
 function theme_check_custom_directory($type){
-	$custom_path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/HTML5/';
-	if(!is_dir($custom_path)) $custom_path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/HTML4/';
+	$custom_path = FILES_PATH.'customtheme/'.SECTION.'/'.cc('theme').'/';
 	if(!is_dir($custom_path)){
 		theme_set_config(cc('theme'));
 		notify_add_info(tt('Your custom theme directory does not exist. The directory has been created.'));
@@ -321,4 +329,12 @@ function theme_reset_widget_position($primary_position){
 	db_update_many('widget', array('position' => $primary_position), $clause);
 }
 
+
+function theme_is_configurable($function){
+	if(is_dir(THEME_PATH.cc('theme').'/')) $theme_dir = THEME_PATH.cc('theme').'/';
+	else $theme_dir = SECTION_PATH.'private/theme/'.cc('theme').'/';
+	
+	include_once($theme_dir.'theme.config.inc');
+	return function_exists($function);
+}
 ?>
