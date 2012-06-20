@@ -1,0 +1,268 @@
+/* ========= HTML-TAG ========= */
+html{
+	height:100%;
+}
+
+@font-face {
+    font-family:Pspimpdeed;
+    src: url(../../image/Pspimpdeed.ttf);
+}
+
+body{
+	font-family: Tahoma;
+	font-size: 13px ;
+	line-height:20px;
+	margin:0;
+	padding:0;
+	text-align:center;
+	background:black url(../../image/press.jpg) fixed repeat-y center top;
+}
+
+td{
+	font-family: Tahoma;
+	font-size: 13px ;
+	line-height:20px;
+
+}
+
+h1, h2, h3, h4{
+	margin-top:0px;
+}
+
+
+a{
+	color:#d0c0b3;
+}
+
+a:hover{
+	color:#c83802;
+}
+
+input{
+	font-size:13px;
+	border:1px solid gray;
+}
+
+label{
+	font-weight:bold;
+	color:#330f05;
+}
+
+/* ========= Labels ========= */
+.list_label, .title_label, .small_label{
+	font-weight:normal;
+	padding:0;
+	margin:15px 0;
+	font-family:Pspimpdeed;
+	color:white;
+}
+
+.label_link{
+	text-decoration:none;
+	color:white;
+}
+
+.label_link:hover{
+	color:#c83802;
+}
+
+.list_label{
+	font-size:36px;
+	font-weight:normal;
+	line-height:36px;
+}
+
+.title_label{
+	font-size:32px;
+	line-height:42px;
+}
+
+.small_label{
+	font-size:24px;
+	line-height:24px;
+}
+
+.sublist_label{
+	padding:10px 0px 10px 0px;
+	font-size:18px;
+	font-weight:bold;
+	border-bottom:1px solid #ddd;
+	text-decoration:underline;
+	color:#666;
+}
+
+
+/* ========= Head ========= */
+#section_head{
+	color:#fff;
+	text-decoration:none;
+	padding:0;
+	margin:0;
+}
+
+#section_head h1{
+	padding:0;
+	margin:0;
+	font-family:Pspimpdeed;
+	font-size:64px;
+	line-height:72px;
+	font-weight:normal;
+}
+
+#slogan_head{
+	font-family:Pspimpdeed;
+	font-size:18px;
+	line-height:32px;
+	padding:0;
+	margin:0;
+	font-weight:normal;
+}
+
+/* ========= Main Layout ========= */
+#main_container{
+	width:980px;
+	margin:0 auto 0 auto;
+	padding:0;
+	text-align:center;
+	display:table;
+}
+
+#main{
+	width:980px;
+	display:table-row;
+	margin:0px auto 20px auto;
+	padding:0;
+}
+
+#content{
+	width:600px;
+	padding:0 20px 10px 20px;
+	display:table-cell;
+	margin:0 20px 0 0;
+	min-height:600px;
+	background:url(../../image/background.png);
+	color:white;
+	text-align:left;
+}
+
+#content li a#active_page{
+	color:#808000;
+}
+
+/* ========= Widgets ========= */
+#space_container{
+	display:table-cell;
+}
+
+#space_holder{
+	width:20px;
+}
+
+#widget_container{
+	display:table-cell;
+	margin:0 0 0;
+	width:300px;
+	padding:0 20px;
+	text-align:left;
+	background:black;
+	color:white;
+} 
+
+#widget_right{
+	width: 300px;
+	padding:0;
+	text-align:left;
+}
+
+.widget_right_head{
+	padding:8px 0;
+	margin:0;
+	border-bottom:1px solid #666;
+}
+
+.widget_right_head h3{
+	color:white;
+	font-size:32px;
+	font-weight:normal;
+	line-height:32px;
+	padding:0;
+	margin:0;
+	font-family:Pspimpdeed;
+}
+
+.widget_right_body{
+	padding:10px 20px;
+	width: 240px;
+}
+
+.widget_right_body ul{
+	list-style:circle;
+}
+
+.widget_right_body ul li{
+	line-height:22px;
+	padding:0;
+	margin:0;
+}
+
+.panel_head a{
+	text-decoration:none;
+}
+
+/* ========= Menu ========= */
+#menu_container{
+	text-align:left;
+	width:640px;
+	margin:-20px -20px 0 -20px;
+	border-top:1px solid #666;
+	border-bottom:1px solid #666;
+}
+
+#menu{
+	padding:0;
+	margin:0 auto 0 auto;
+	width:600px;
+}
+
+#menu li{
+	list-style: none;
+	margin:0;
+	display:inline;
+}
+
+#menu li a{
+	color:white;
+	text-decoration:none;
+	font-size:22px;
+	font-family:Pspimpdeed;
+	display:inline-block;
+	padding:8px 15px;
+	margin:0 8px 0 0;
+}
+
+#menu li a:hover{
+	background:#888;
+	color:white;
+}
+
+#menu li a#active_page{
+	color:#d2864f;
+}
+
+/* ========= Foot ========= */
+#foot{
+	margin:0 auto;
+	font-size:11px;
+	text-align:left;
+	padding:20px;
+	color:white;
+	width:600px;
+	border-top:1px solid #666;
+	margin:0 -20px 0 -20px;
+}
+
+#siteInfo {
+	display:block;
+	margin-top:20px;
+}
+

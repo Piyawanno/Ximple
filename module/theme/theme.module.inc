@@ -172,7 +172,6 @@ function theme_check_custom_directory($type){
 
 function theme_get_information(){
 	list($theme, $init_file) = theme_get_init_file(THEME_PATH);
-	
 	$private_path = SECTION_PATH.'private/theme/';
 	if(is_dir($private_path)){
 		list($theme_private, $init_file_private) = theme_get_init_file($private_path);

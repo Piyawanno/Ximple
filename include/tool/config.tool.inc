@@ -344,7 +344,12 @@ function config_check_default($config){
 	}
 	$config['module_require'] = array_merge($config['module_require'], config_default_require());
 	$config['module_name'] = array_merge($config['module_name'], config_default_module_name());
-	if(!(is_dir(THEME_PATH.$config['theme']) or is_dir(SECTION_PATH.'private/theme/'.$config['theme']))){
+	if(!(
+		is_dir(ROOT_PATH.'theme/'.$config['theme']) or
+		is_dir(SECTION_PATH.'private/theme/'.$config['theme']) or
+		is_dir(ROOT_PATH.'test/theme/'.$config['theme'])) or
+		is_dir(SECTION_PATH.'test/theme/'.$config['theme'])
+	){
 		$config['theme'] = 'default';
 	}
 	if(IS_APC) apc_add('config_'.SECTION, $config);
