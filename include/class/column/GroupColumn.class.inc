@@ -18,7 +18,7 @@ class GroupColumn extends CheckBoxColumn{
 		$this->getOption();
 	}
 	
-	public function triggerUpdateForm(){
+	public function triggerUpdateForm($data){
 		$this->getOption();
 	}
 	

@@ -27,7 +27,7 @@ class ForumColumn extends SelectColumn{
 		if($this->isSelect) $this->getOption();
 	}
 	
-	public function triggerUpdateForm(){
+	public function triggerUpdateForm($data){
 		if($this->isSelect) $this->getOption();
 	}
 	

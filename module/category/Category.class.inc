@@ -33,6 +33,7 @@ class Category extends Control{
 	}
 	
 	public function update(){
+		$this->dropPicture();
 		Control::update();
 		extension_execute('category_update', $this->data);
 	}
@@ -94,6 +95,16 @@ class Category extends Control{
 		if(!$this->mode) $this->mode = pp('mode');
 		if(!$this->mode) $this->mode = $this->dataByID['mode'];
 		return $this->mode;
+	}
+	
+	private function dropPicture(){
+		if(count(pp('pic_drop'))){
+			if($this->dataByID['pic'] != 'files/icon/uncategorized.png'){
+				io_drop_file(ROOT_PATH.$this->dataByID['pic']);
+			}
+			$this->dataByID['pic'] = '';
+			db_update($this->tableName, $this->dataByID, $this->id);
+		}
 	}
 }
 ?>

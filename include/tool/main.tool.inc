@@ -23,7 +23,7 @@ function main_init(){
 	authority();
 	translate_define_language();
 	config_translate();
-	translate_add_directory(THEME_PATH.''.cc('theme'));
+	main_add_theme_locale();
 }
 
 function main_exec(){
@@ -44,6 +44,7 @@ function main_exec(){
 	}
 	notify_save();
 	init_check_cron();
+	db_close();
 }
 
 function main_check_theme_mode(){
@@ -188,5 +189,13 @@ function main_render_db(){
 	);
 	$render = render($render_data, 'redirect.tpl', 'db_redirect');
 	echo($render);
+}
+
+function main_add_theme_locale(){
+	if(is_dir(THEME_PATH.''.cc('theme'))){
+		translate_add_directory(THEME_PATH.cc('theme'));
+	}else{
+		translate_add_directory(SECTION_PATH.'private/theme/'.cc('theme'));
+	}
 }
 ?>

@@ -216,7 +216,7 @@ class PageDirectory extends Control{
 		}
 		if(count($icon)){
 			head_add_css('directory_edit.css');
-			head_add_js('module/directory/theme/directory_edit.js');
+			head_add_js('module/directory/javascript/directory_edit.js');
 			return render(array('icon' => $icon), 'directory_icon_bar.tpl', 'directory_icon_bar');
 		}
 	}

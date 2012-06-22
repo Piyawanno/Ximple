@@ -4,18 +4,21 @@ var imgCorrect = '<img class="warning_icon" src="'+rootURI+'files/icon/correct.p
 var imgWrong = '<img class="warning_icon" src="'+rootURI+'files/icon/stop.png" />';
 var formLock = false;
 var formChange = false;
+var formCheckLocation = true;
 
 if(isForm){
 	addReady(function(){
 		$('input, textarea').keypress(function(){
 			formChange = true;
 		});
-		initForm($('a'), function(form){ form.click(function(){
-			if($(this).attr('href').substring(0, 1) != '#' &&  $(this).attr('href').length){
-				if(formChange){
-					return confirm(changeLocationMessage);
-				}else{
-					return true;
+		initForm($('a'), function(form){form.click(function(){
+			if(formCheckLocation){
+				if($(this).attr('href').substring(0, 1) != '#' &&  $(this).attr('href').length){
+					if(formChange){
+						return confirm(changeLocationMessage);
+					}else{
+						return true;
+					}
 				}
 			}
 		})});

@@ -16,7 +16,7 @@ class NowColumn extends HiddenColumn{
 		}
 	}
 	
-	public function triggerUpdateForm(){
+	public function triggerUpdateForm($data){
 		if($this->isUpdateTime) $this->data = NOW;
 	}
 	

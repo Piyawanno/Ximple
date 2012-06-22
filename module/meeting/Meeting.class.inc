@@ -203,7 +203,7 @@ class Meeting extends Content{
 	
 	private function renderParticipateIcon(){
 		if($this->isParticipant($this->dataByID)){
-			$icon = 'module/meeting/theme/participate.png';
+			$icon = 'module/meeting/theme/image/participate.png';
 			return render_icon('meeting_participate/'.$this->id, $icon, tt('join Meeting'));
 		}
 	}

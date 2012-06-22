@@ -173,7 +173,7 @@ abstract class Control extends Translatable{
 		if(!$isRaw) $this->postSelect($column);
 		if(isset($this->data[$this->id])){
 			$this->dataByID = $this->data[$this->id];
-		}else{
+		}elseif(state_is_develop()){
 			notify_add_error('Selected data id not found '.$this->tableName.' '.$this->id);
 		}
 		$this->setOwnerByID();
@@ -247,6 +247,23 @@ abstract class Control extends Translatable{
 		$this->initObject($modelObj);
 		$this->modelConnector->triggerSetTableName($this->tableName);
 		$this->modelConnector->setModuleName($this->fullModuleName);
+	}
+	
+	protected function directInsert(){
+		$data = array();
+		foreach($this->data as $key => $value){
+			$id = db_insert($thi->tableName, $value);
+			$data[$id] = $value;
+		}
+		$this->data = $data;
+	}
+	
+	protected function directUpdate(){
+		db_update($this->tableName, $this->dataByID, $this->id);
+	}
+	
+	protected function directDelete(){
+		db_drop($this->tableName, $this->id);
 	}
 	
 	protected function setOwnerColumn($ownerColumn){

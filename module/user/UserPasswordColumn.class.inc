@@ -13,7 +13,7 @@ class UserPasswordColumn extends PasswordColumn{
 		$this->isNotNull = true;
 	}
 	
-	function triggerUpdateForm(){
+	function triggerUpdateForm($data){
 		$this->help = tt('If empty, password will not be changed.');
 		$this->help.= tt('Else, password must be longer than 8 characters');
 		$this->data = '';

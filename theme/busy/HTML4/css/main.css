@@ -1,0 +1,302 @@
+/* ========= HTML-TAG ========= */
+html{
+	height:100%;
+}
+
+@font-face {
+    font-family:Supermarket;
+    src: url(../../image/supermarket.ttf);
+}
+
+body{
+	font-family: Tahoma;
+	font-size: 13px ;
+	line-height:20px;
+	margin:0;
+	padding:0;
+	text-align:center;
+	background:url(../../image/background.gif) 
+}
+
+td{
+	font-family: Tahoma;
+	font-size: 13px ;
+	line-height:20px;
+}
+
+h1, h2, h3, h4{
+	margin-top:0px;
+}
+
+
+a{
+	color:#05133b;
+}
+
+a:hover{
+	color:#294b57;
+	text-decoration:none;
+	font-weight:bold;
+}
+
+input{
+	font-size:13px;
+	border:1px solid gray;
+}
+
+label{
+	font-weight:bold;
+	color:#330f05;
+}
+
+/* ========= Labels ========= */
+.list_label, .title_label, .small_label{
+	font-weight:normal;
+	padding:0;
+	margin:15px 0;
+	font-family:Supermarket;
+	color:#05133b;
+}
+
+.label_link{
+	text-decoration:none;
+	color:#05133b;
+}
+
+.label_link:hover{
+	color:#c83802;
+}
+
+.list_label{
+	font-size:36px;
+	font-weight:normal;
+	line-height:36px;
+}
+
+.title_label{
+	font-size:32px;
+	line-height:42px;
+}
+
+.small_label{
+	font-size:24px;
+	line-height:24px;
+}
+
+.sublist_label{
+	padding:10px 0px 10px 0px;
+	font-size:18px;
+	font-weight:bold;
+	border-bottom:1px solid #ddd;
+	text-decoration:underline;
+	color:#666;
+}
+
+
+/* ========= Head ========= */
+#section_head{
+	display:block;
+	width:660px;
+	padding:0 10px;
+	text-align:left;
+	float:left;
+}
+
+#section_head a{
+	text-decoration:none;
+}
+
+#section_head a h1{
+	padding:0;
+	margin:0;
+	font-family:Supermarket;
+	font-size:36px;
+	line-height:36px;
+	font-weight:normal;
+	display:inline-block;
+}
+
+#search_container{
+	width:290px;
+	float:left;
+	padding:5px 10px 0 0;
+	text-align:right;
+}
+
+#head{
+	width:960px;
+	height:320px;
+	padding:0;
+	margin:0 10px;
+	background:url(../../image/people.jpg) no-repeat;
+}
+
+#slogan_head{
+	font-family:Supermarket;
+	font-size:18px;
+	display:inline-block;
+	padding:0;
+	margin:0;
+	font-weight:normal;
+}
+
+/* ========= Main Layout ========= */
+#main_container{
+	width:980px;
+	margin:0 auto 0 auto;
+	padding:0;
+	text-align:center;
+	background:white;
+}
+
+#main{
+	width:980px;
+	margin:0px auto 20px auto;
+	padding:0;
+}
+
+#content{
+	width:620px;
+	padding:0 10px 10px 10px;
+	margin:0;
+	min-height:600px;
+	color:#333;
+	text-align:left;
+	float:right;
+}
+
+#content li a#active_page{
+	color:#808000;
+}
+
+/* ========= Widgets ========= */
+ #widget_top{
+ 	float:right;
+ 	text-align:left;
+ 	padding:10px;
+	margin:0 auto 0 auto;
+	background:url(../../image/background.png);
+	-moz-border-radius: 5px;
+	border-radius:5px;
+	width:600px;
+	height:180px;
+}
+
+.widget_top{
+	float:left;
+	width:200px;
+	height:180px;
+	margin:0;
+}
+ 
+#widget_container{
+	float:right;
+	margin:10px 10px 0 10px;
+	width:320px;
+	padding:0 0 30px 0;
+	text-align:left;
+} 
+
+.widget_left{
+	width: 300px;
+	padding:0;
+	text-align:left;
+	margin:10px;
+}
+
+.widget_left_head{
+	padding:5px 0;
+	width:300px;
+	margin:0;
+	border-bottom:3px solid #4c94bc;
+}
+
+.widget_left_head h3, .widget_top_head h3{
+	color:#223148;
+	font-size:24px;
+	font-weight:normal;
+	line-height:32px;
+	padding:0;
+	margin:0;
+	font-family:Supermarket;
+}
+
+.widget_left_body{
+	padding:10px 20px;
+	width: 240px;
+}
+
+.widget_left_body ul{
+	list-style:circle;
+}
+
+.widget_left_body ul li{
+	line-height:22px;
+	padding:0;
+	margin:0;
+}
+
+.panel_head a{
+	text-decoration:none;
+}
+
+/* ========= Menu ========= */
+#menu_container, #widget_top_container{
+	text-align:right;
+	margin:0;
+	padding:30px 10px 0 0;
+}
+
+#menu{
+	padding:0;
+	margin:0 auto 0 auto;
+	display:inline-block;
+	background:url(../../image/background.png);
+	-moz-border-radius: 5px;
+	border-radius:5px;
+	width:620px;
+}
+
+#menu li{
+	list-style: none;
+	margin:0;
+	display:inline;
+}
+
+#menu li a{
+	color:#333;
+	text-decoration:none;
+	font-size:22px;
+	font-family:Supermarket;
+	display:inline-block;
+	padding:8px 10px;
+	margin:0 8px 0 0;
+}
+
+#menu li a:hover{
+	background:#05133b;
+	color:white;
+}
+
+#menu li a#active_page{
+	color:#d2864f;
+}
+
+
+/* ========= Foot ========= */
+#foot{
+	margin:0 auto;
+	font-size:11px;
+	text-align:left;
+	padding:20px;
+	color:#222;
+	width:920px;
+	border-top:5px solid #4c94bc;
+	margin:0 10px;
+}
+
+#siteInfo {
+	display:block;
+	margin-top:20px;
+}
+

@@ -21,7 +21,7 @@ class MenuWidgetColumn extends SelectColumn{
 		$this->getWidget();
 	}
 	
-	public function triggerUpdateForm(){
+	public function triggerUpdateForm($data){
 		$this->getWidget();
 	}
 	

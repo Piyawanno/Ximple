@@ -77,7 +77,7 @@ class Poll extends Control{
 			head_add_js('module/poll/poll.js');
 			head_add_js('include/javascript/grid.column.js');
 			$label = tt('Add or edit poll for this entry');
-			$render  = render_ajax_icon('pollEmbedForm', 'module/poll/theme/poll.png', $label);
+			$render  = render_ajax_icon('pollEmbedForm', 'module/poll/theme/image/poll.png', $label);
 			$render .= '<div id="poll_embed_form" title="'.$label.'"></div>';
 			$description = $render.$description;
 		}

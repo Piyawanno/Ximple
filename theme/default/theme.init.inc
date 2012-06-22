@@ -1,8 +1,8 @@
 <?php
 
 function theme_get_info_default(){
-	$description = tt('Default and reference theme for Ximple.');
-	$description.= tt('Fixed or fluid width, 2 or 3 columns, tableless, recolorable, flexible and highly configurable.');
+	$description = tt('Default and reference theme for Ximple. ');
+	$description.= tt('Fixed or fluid width, 2 or 3 columns, tableless, recolorable, flexible and highly configurable. ');
 	$description.= tt('The theme can be applied for many purposes.');
 	return array(
 		'name' => 'FlexiFun',

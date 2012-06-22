@@ -176,14 +176,14 @@ function io_format_upload_file_name($name){
 	return $name;
 }
 
-function io_upload_check_exist_file($file, $name){
+function io_upload_check_exist_file($file, $name, $original_name=true){
 	$i = 0;
 	while(true){
 		if(!is_file($name)){
 			move_uploaded_file($file['tmp_name'], $name);
 			break;
 		}else{
-			if($original_name) $name = $path.$i.'_'.$file['name'];
+			if($original_name) $name = $i.'_'.$file['name'];
 			else $name = $path.md5($file['name'].$i).'.'.end(explode('.', $file['name']));
 			$i++;
 		}

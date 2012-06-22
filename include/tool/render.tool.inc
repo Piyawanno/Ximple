@@ -33,10 +33,8 @@ function render_get_tpl($tpl){
 	
 	if(XIMPLE_THEME_MODE != 'HTML4') $tpl_out = render_get_mode_tpl($tpl, XIMPLE_THEME_MODE.'/');
 	if(empty($tpl_out)) $tpl_out = render_get_mode_tpl($tpl, 'HTML4/');
-	if(empty($tpl_out)) $tpl_out = render_get_mode_tpl($tpl, '');
 	if(empty($tpl_out)) $tpl_out = render_find_tpl($tpl, XIMPLE_THEME_MODE.'/');
 	if(empty($tpl_out)) $tpl_out = render_find_tpl($tpl, 'HTML4/');
-	if(empty($tpl_out)) $tpl_out = render_find_tpl($tpl, '');
 	
 	if($tpl_out == null) echo('Template file can not be found : '.$tpl.'<br />');
 	
@@ -46,17 +44,22 @@ function render_get_tpl($tpl){
 }
 
 function render_get_mode_tpl($tpl, $mode){
+	$module = globalvar_get_module();
 	$tpl_sys = THEME_PATH.'default/'.$mode.'/systemtemplate/'.$tpl;
-	$tpl_module_sys = MODULE_PATH.MODULE.'/'.$mode.'/systemtheme/'.$tpl;
+	$tpl_private_module_sys = SECTION_PATH.'private/'.$module.'/theme/'.$mode.'systemtemplate/'.$tpl;
+	$tpl_module_sys = MODULE_PATH.$module.'/theme/'.$mode.'systemtemplate/'.$tpl;
 	$tpl_private = SECTION_PATH.'private/theme/'.cc('theme').'/'.$mode.'template/'.$tpl;
+	$tpl_private_module = SECTION_PATH.'private/'.mm().'/theme/'.$mode.'template/'.$tpl;
 	$tpl_theme = THEME_PATH.cc('theme').'/'.$mode.'template/'.$tpl;
 	$tpl_default = THEME_PATH.'default/'.$mode.'template/'.$tpl;
-	$tpl_module = MODULE_PATH.MODULE.'/theme/'.$mode.$tpl;
-	$tpl_abs = ROOT_PATH.$mode.'/'.$tpl;
+	$tpl_module = MODULE_PATH.$module.'/theme/'.$mode.'template/'.$tpl;
+	$tpl_abs = ROOT_PATH.'/'.$tpl;
 	
 	if(is_file($tpl_sys)) $tpl_out = $tpl_sys;
+	elseif(is_file($tpl_private_module_sys)) $tpl_out = $tpl_private_module_sys;
 	elseif(is_file($tpl_module_sys)) $tpl_out = $tpl_module_sys;
 	elseif(is_file($tpl_private)) $tpl_out = $tpl_private;
+	elseif(is_file($tpl_private_module)) $tpl_out = $tpl_private_module;
 	elseif(is_file($tpl_theme)) $tpl_out = $tpl_theme;
 	elseif(is_file($tpl_default)) $tpl_out = $tpl_default;
 	elseif(is_file($tpl_module)) $tpl_out = $tpl_module;
@@ -73,10 +76,10 @@ function render_find_tpl($tpl, $mode){
 	}
 	$included_dir = array_unique($included_dir);
 	foreach($included_dir as $value){	
-		$tpl_path = $value.'/theme/'.$mode.$tpl;
-		if(is_file($tpl_path)){
-			return $tpl_path;
-		}
+		$tpl_path = $value.'/theme/'.$mode.'template/'.$tpl;
+		if(is_file($tpl_path)) return $tpl_path;
+		$tpl_path = $value.'/theme/'.$mode.'systemtemplate/'.$tpl;
+		if(is_file($tpl_path)) return $tpl_path;
 	}
 	return null;
 }
@@ -152,12 +155,10 @@ function render_avatar($user, $show_profile=true, $show_function=true, $mode='pr
 		if(is_file(ROOT_PATH.$avatar)) $user['avatar'] = $avatar;
 	}
 	
+	$uri = '';
 	if(strlen($mode)){
 		if($user['id'] > 0) $uri = SECTION_URI.Q.$mode.'/'.$user['id'];
-		elseif(authority_is_guest()) $uri = '';
 		elseif(isset($user['email'])) $uri = SECTION_URI.Q.'profile_write_mail/send_to_address/'.$user['email'];
-	}else{
-		$uri = '';
 	}
 	
 	if($show_profile) $profile_link = render_profile_link($user);

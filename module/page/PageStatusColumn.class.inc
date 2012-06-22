@@ -17,7 +17,7 @@ class PageStatusColumn extends RadioColumn{
 		$this->initSelect();
 	}
 	
-	public function triggerUpdateForm(){
+	public function triggerUpdateForm($data){
 		$this->initSelect();
 	}
 	
