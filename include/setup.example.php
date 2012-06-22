@@ -7,10 +7,10 @@
 define('DB_TYPE','mysql');
 
 // Database-Configurations (SQLite does not need these configurations)
-define('DB_USER','login name for database');
-define('DB_NAME','your database name');
-define('DB_HOST','your database host example localhost');
-define('DB_PASS','database password');
+define('DB_USER','root');
+define('DB_NAME','rtna');
+define('DB_HOST','localhost');
+define('DB_PASS','0204');
 define('DB_TABLE_PREFIX','');
 
 // Ximple 0.4 supports  en, th, de.
