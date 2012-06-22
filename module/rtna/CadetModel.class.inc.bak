@@ -1,7 +1,0 @@
-<?php
-class CadetModel extends Model{
-	function CadetModel(){
-		
-	}
-}
-?>
