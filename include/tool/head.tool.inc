@@ -160,8 +160,11 @@ function head_include_js(){
 	}
 	$link = '';
 	foreach($head_js as $value){
-		if(substr($value, 0, 7) != 'http://') $uri = ROOT_URI.$value;
-		else $uri = $value;
+		if(substr($value, 0, 7) != 'http://' and substr($value, 0, 8) != 'https://'){
+			$uri = ROOT_URI.$value;
+		}else{
+			$uri = $value;
+		}
 		$link .= "\n\t\t";
 		$link .= '<script type="text/javascript" src="'.$uri.'" ></script>';
 	}
