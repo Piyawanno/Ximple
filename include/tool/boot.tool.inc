@@ -6,7 +6,9 @@
 
 /// Bootstrap of XimpleCMS.
 function boot(){
-	define('PRE_DEFINED_ROOT_PATH', dirname(dirname(dirname(__FILE__))).'/');
+	if(!defined('PRE_DEFINED_ROOT_PATH')){
+		define('PRE_DEFINED_ROOT_PATH', dirname(dirname(dirname(__FILE__))).'/');
+	}
 	session_start();
 	require('precache.tool.inc');
 	$to_die = precache_get_page();
