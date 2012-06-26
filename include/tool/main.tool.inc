@@ -155,6 +155,7 @@ function main_handle_maintain(){
 	if(state_is_maintain() and $is_guest and !($is_login or $is_login_submit)){
 		include(INCLUDE_PATH.'tool/error.tool.inc');
 		include(INCLUDE_PATH.'tool/render.tool.inc');
+		include(INCLUDE_PATH.'tool/extension.tool.inc');
 		$error = 'We are under maintenance, please be patient.';
 		error_fatal('Under maintenance', $error);
 	}
