@@ -98,7 +98,7 @@ abstract class ConfigControl extends Translatable{
 	}
 	
 	protected function setConfig($key, $value){
-		config_set($key, $value);
+		config_set($key, stripslashes($value));
 	}
 	
 	protected function saveConfig(){
