@@ -49,7 +49,7 @@ function render_get_mode_tpl($tpl, $mode){
 	$tpl_private_module_sys = SECTION_PATH.'private/'.$module.'/theme/'.$mode.'systemtemplate/'.$tpl;
 	$tpl_module_sys = MODULE_PATH.$module.'/theme/'.$mode.'systemtemplate/'.$tpl;
 	$tpl_private = SECTION_PATH.'private/theme/'.cc('theme').'/'.$mode.'template/'.$tpl;
-	$tpl_private_module = SECTION_PATH.'private/'.mm().'/theme/'.$mode.'template/'.$tpl;
+	$tpl_private_module = SECTION_PATH.'private/module/'.$module.'/theme/'.$mode.'template/'.$tpl;
 	$tpl_theme = THEME_PATH.cc('theme').'/'.$mode.'template/'.$tpl;
 	$tpl_default = THEME_PATH.'default/'.$mode.'template/'.$tpl;
 	$tpl_module = MODULE_PATH.$module.'/theme/'.$mode.'template/'.$tpl;

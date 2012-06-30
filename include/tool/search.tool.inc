@@ -23,12 +23,14 @@ function search_add_source_page($content){
 	if($search_page and MODE_ID != 0){
 		$clause = 'WHERE '.search_get_where_clause(MODE, MODE_ID);
 		$source = db_select('search_source', array('id'), $clause);
+		$content = input_trim(htmlspecialchars_decode(strip_tags($content)));
+		$content = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $content);
 		if(count($source) == 0){
 			$data = array(
 				'title' => document_get_title(),
 				'description' => document_get_description(),
 				'keyword' => document_get_keywords(),
-				'content' => input_trim(htmlspecialchars_decode(strip_tags($content))),
+				'content' => $content,
 				'mode' => MODE,
 				'mode_id' => MODE_ID,
 				'insert_time' => NOW,
