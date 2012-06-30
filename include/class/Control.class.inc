@@ -173,8 +173,6 @@ abstract class Control extends Translatable{
 		if(!$isRaw) $this->postSelect($column);
 		if(isset($this->data[$this->id])){
 			$this->dataByID = $this->data[$this->id];
-		}elseif(state_is_develop()){
-			notify_add_error('Selected data id not found '.$this->tableName.' '.$this->id);
 		}
 		$this->setOwnerByID();
 	}
