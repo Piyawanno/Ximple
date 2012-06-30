@@ -93,9 +93,9 @@ abstract class Control extends Translatable{
 		}
 	}
 	
-	public function update(){
+	public function update($id=null){
 		$this->initDataModifier();
-		$this->dataModifier->prepareUpdate($this->dataByID);
+		$this->dataModifier->prepareUpdate($this->dataByID, $id);
 		$updateOk = $this->dataModifier->update($this->formMeta->isCaptcha);
 		if($updateOk){
 			$this->setRedirect($this->updateRedirect);
@@ -103,9 +103,9 @@ abstract class Control extends Translatable{
 		}
 	}
 	
-	public function drop(){
+	public function drop($id=null){
 		$this->initDataModifier();
-		$this->dataModifier->prepareDrop();
+		$this->dataModifier->prepareDrop($id);
 		$this->dataModifier->drop();
 		document_set_redirect($this->dropRedirect);
 		notify_add_info($this->dropNotify);

@@ -42,9 +42,9 @@ class DataModifier{
 		return $retult;
 	}
 	
-	public function prepareUpdate($data){
+	public function prepareUpdate($data, $id){
 		$this->modelConnector->setDataDB($data);
-		$this->checkID();
+		$this->checkID($id);
 		$this->modelConnector->setID($this->id);
 		$this->modelConnector->triggerPreUpdate();
 		$this->columnDB = $this->modelConnector->getColumnNameByBoolean('isDB');
@@ -68,9 +68,9 @@ class DataModifier{
 		return $retult;
 	}
 	
-	public function prepareDrop(){
+	public function prepareDrop($id){
 		$this->columnDB = $this->modelConnector->getColumnNameByBoolean('isDB');
-		$this->checkID();
+		$this->checkID($id);
 		$this->modelConnector->setID($this->id);
 		$this->modelConnector->triggerDrop();
 	}
@@ -113,8 +113,9 @@ class DataModifier{
 		}
 	}
 	
-	private function checkID(){
-		$this->id = (int) gg('id');
+	private function checkID($id){
+		if(empty($id)) $this->id = (int) gg('id');
+		else $this->id = $id;
 		if(empty($this->id)){
 			error_syslog(tt('Data can not be modified without any given ID.'));
 		}
