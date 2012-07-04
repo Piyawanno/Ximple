@@ -1,19 +1,20 @@
 <?php
-execute_add_class('rtna', 'Cadet');
+execute_add_extended_class('rtna', 'cadet', 'Cadet');
 include('CadetModel.class.inc');
 
 class Cadet extends Control{
 	function Cadet(){
 		$this->moduleTitle = tt('Cadet');
 		$this->moduleName = 'rtna';
-		$this->tableName = 'cadet';
+		$this->moduleExtension = 'cadet';
+		$this->tableName = 'rtna_cadet';
 		$this->init(new CadetModel());
 		
 		$this->setAccess();
 		$this->setAction();
 		
 		document_set_path(tt('RTNA Database'), 'rtna');
-		document_set_path($this->moduleTitle, 'rtna_list');
+		document_set_path($this->moduleTitle, 'rtna_cadet_list');
 	}
 
 	public function index(){
@@ -21,6 +22,7 @@ class Cadet extends Control{
 	}
 
 	public function renderClassList(){
+		document_set_path(tt('Cadet class'), 'rtna_cadet_class');
 		
 	}
 
@@ -31,7 +33,7 @@ class Cadet extends Control{
 	}
 
 	private function setAction(){
-		$this->addAction('rtna_class', 'renderClassList');
+		$this->addAction('rtna_cadet_class', 'renderClassList');
 	}
 }
 ?>

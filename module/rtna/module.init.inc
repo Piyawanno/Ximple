@@ -8,6 +8,7 @@ function module_get_info_rtna(){
 
 function module_init_rtna(){
 	include_once('Cadet.class.inc');
+	module_add('rtna', 'rtna.module.inc', tt('RTNA Database'));
 	$cadet = new Cadet();
 	$cadet->initModule('Cadet.class.inc');
 	
@@ -23,6 +24,7 @@ function module_init_rtna(){
 }
 
 function module_drop_rtna(){
+	module_drop('rtna');
 	include_once('Cadet.class.inc');
 	$cadet = new Cadet();
 	$cadet->dropModule();
