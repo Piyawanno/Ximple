@@ -40,13 +40,13 @@ function feed_render(){
 
 
 function feed_render_rss($data){
-	$render = render(array('data' => $data), 'module/feed/theme/rss.tpl', 'rss_feed');
+	$render = render(array('data' => $data), 'rss.tpl', 'rss_feed');
 	$feed_dir = feed_get_dir();
 	io_write_file($feed_dir.'rss.xml', $render);
 }
 
 function feed_render_atom($data){
-	$render = render(array('data' => $data), 'module/feed/theme/atom.tpl', 'atom_feed');
+	$render = render(array('data' => $data), 'atom.tpl', 'atom_feed');
 	$feed_dir = feed_get_dir();
 	io_write_file($feed_dir.'atom.xml', $render);
 }
