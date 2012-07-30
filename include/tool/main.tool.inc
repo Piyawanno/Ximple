@@ -176,13 +176,17 @@ function main_handle_drop(){
 }
 
 function main_render_db(){
-	$redirect = document_get_redirect();
 	$post_redirect = pp('redirect');
-	if(strlen($post_redirect)) $redirect = $post_redirect;
-	elseif(document_get_redirect_back()) $redirect = vv('HTTP_REFERER');
-	elseif(substr($redirect, 0, 1) == '?') $redirect = SECTION_URI.$redirect;
-	elseif(strlen($redirect)) $redirect = SECTION_URI.Q.$redirect;
-	else $redirect = SECTION_URI;
+	if(strlen($post_redirect)){
+		$redirect = SECTION_URI.$post_redirect;
+	}else{
+		$redirect = document_get_redirect();
+		if(document_get_redirect_back()) $redirect = vv('HTTP_REFERER');
+		elseif(substr($redirect, 0, 1) == '?') $redirect = SECTION_URI.$redirect;
+		elseif(strlen($redirect)) $redirect = SECTION_URI.Q.$redirect;
+		else $redirect = SECTION_URI;
+	}
+	echo($redirect.', ');
 	$confirm = SMART_URI ? '/confirm/true' : '&confirm=true';
 	$render_data = array(
 		'redirect' => $redirect,
