@@ -75,6 +75,7 @@ class FormRender extends FormModelRender{
 	protected function prepareRender(){
 		$this->prepareCaptcha();
 		$this->formItem = $this->renderFormModel($this->formMeta->id);
+		$this->checkRedirect();
 		$this->prepareNotNull();
 		$this->prepareLabel();
 		$this->help = $this->modelConnector->getColumnAttribute('help');
@@ -134,6 +135,15 @@ class FormRender extends FormModelRender{
 				'help' => $this->help['captcha'],
 			);
 			unset($this->formItem['captcha']);
+		}
+	}
+	
+	private function checkRedirect(){
+		$redirect = gg('redirect');
+		if(strlen($redirect) && !isset($this->formItem['redirect'])){
+			$redirectForm = new HiddenColumn($redirect, 'char');
+			$redirectForm->name = 'redirect';
+			$this->formItem['redirect'] = $redirectForm->renderForm($this->formMeta->id);
 		}
 	}
 }
