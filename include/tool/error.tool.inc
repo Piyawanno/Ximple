@@ -8,6 +8,7 @@
 /// @param $title : title of error.
 /// @param $message : information about error.
 function error_fatal($title, $message){
+	header('Content-Type: text/html; charset=UTF-8');
 	header('HTTP/1.1 500 Internal Server Error');
 	$data = array(
 		'title' => $title,
@@ -24,6 +25,7 @@ function error_fatal($title, $message){
 /// @param $message : information about error.
 /// @param $redirect : target URI for redirection.
 function error_syslog($message, $redirect=null){
+	header('Content-Type: text/html; charset=UTF-8');
 	header('HTTP/1.1 500 Internal Server Error');
 
 	if($redirect) $uri = SECTION_URI.Q.$redirect;
@@ -44,6 +46,7 @@ function error_syslog($message, $redirect=null){
 /// @param $info : addition information about error.
 function error_denied($info=''){
 	io_write_log(tt('Invalid access for called page.'), 'denied');
+	header('Content-Type: text/html; charset=UTF-8');
 	header('HTTP/1.1 402 Access Denied');
 	if(authority_is_guest()){
 		if(!function_exists('syswidget_login')){

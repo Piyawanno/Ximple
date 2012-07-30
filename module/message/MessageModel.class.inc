@@ -2,7 +2,7 @@
 class MessageModel extends Model{
 	function MessageModel(){
 		$this->sender = $this->owner();
-		$this->receiver = $this->user(tt('send to'));
+		$this->receiver = $this->users(tt('send to'));
 		$this->receiver->defaultData = gg('send_to');
 		$this->sendback = $this->checkbox('', array('sendback' => 'Send me a copy.'));
 		$this->sendback->isDB = false;

@@ -326,6 +326,8 @@ function config_default(){
 		'time_zone' => 'UTC',
 		'time_format' => 'd F Y',
 		'supported_language' => array(),
+		'captcha_width' => 280,
+		'captcha_height' => 64,
 	);
 }
 

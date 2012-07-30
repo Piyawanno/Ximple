@@ -41,6 +41,11 @@ function userinfo_get_login_name($data, $column){
 	return $data;
 }
 
+function userinfo_get_login_name_in_section(){
+	$clause = "WHERE section=".SECTION;
+	return db_select_single_column('users', 'login_name', $clause);
+}
+
 function userinfo_get_info_by_id($uid){
 	$dummy = array($uid => array('id' => $uid));
 	$info = userinfo_get_info($dummy, 'id');

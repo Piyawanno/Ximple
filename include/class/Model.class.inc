@@ -243,9 +243,15 @@ abstract class Model{
 		return new AutoCompleteColumn($label, $ajaxMode, $help);
 	}
 	
-	public function user($label, $help=null){
+	public function users($label, $help=null){
 		include_once('column/UserColumn.class.inc');
 		return new UserColumn($label, $help);
+	}
+	
+	public function user($label, $help=null){
+		include_once('column/SelectColumn.class.inc');
+		$option = userinfo_get_login_name_in_section();
+		return new SelectColumn($label, $option, $help);
 	}
 	
 	public function imageLoader($label, $path, $size=null){

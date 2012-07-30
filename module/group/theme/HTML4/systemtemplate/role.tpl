@@ -16,7 +16,7 @@
 	<?php if($gid != 3):?>
 		<select style="display:none;position:absolute;" id="complete_option" multiple="multiple" size="5"></select>
 		<p><label style="font-weight:bold;"><?=tt('add new users')?></label></p>
-		<input name="insert_user" value="" size="35" maxlength="80" class="auto_complete" id="message_receiver" rel="userinfo_get_ajax_name"/>
+		<input name="insert_user" value="" size="35" maxlength="80" class="auto_complete" id="message_receiver" alt="userinfo_get_ajax_name"/>
 		<p class="form_help"><?=
 			tt('Type beginning letters of the user name. ').
 			tt('The full name will be automatically completed. ').
