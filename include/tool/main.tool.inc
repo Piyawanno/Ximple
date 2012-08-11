@@ -163,7 +163,13 @@ function main_handle_maintain(){
 
 function main_handle_drop(){
 	if(preg_match('/drop/', MODE) and gg('confirm') != "true"){
-		$confirm = SMART_URI ? '/confirm/true' : '&confirm=true';
+		if(SMART_URI){
+			if(substr(vv('REQUEST_URI'), -1, 1) == '/')	$confirm = 'confirm/true';
+			else $confirm = '/confirm/true';
+		}else{
+			$confirm = '&confirm=true';
+		}
+		
 		$render_data = array(
 			'redirect' => '',
 			'check_drop' => true,
