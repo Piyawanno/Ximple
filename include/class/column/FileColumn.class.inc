@@ -2,6 +2,7 @@
 require_once('CharColumn.class.inc');
 class FileColumn extends CharColumn{
 	public $isImage = false;
+	public $isOriginalFileName = false;
 	public $path;
 	
 	protected $fileArray = array();
@@ -48,7 +49,7 @@ class FileColumn extends CharColumn{
 	private function singleInsert(){
 		$file = ff($this->name);
 		if($file['size']){
-			$this->data = io_upload($file, $this->path, $this->isImage);
+			$this->data = io_upload($file, $this->path, $this->isImage, $this->isOriginalFileName);
 		}
 	}
 	

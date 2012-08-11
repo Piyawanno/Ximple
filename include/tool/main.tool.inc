@@ -186,7 +186,6 @@ function main_render_db(){
 		elseif(strlen($redirect)) $redirect = SECTION_URI.Q.$redirect;
 		else $redirect = SECTION_URI;
 	}
-	echo($redirect.', ');
 	$confirm = SMART_URI ? '/confirm/true' : '&confirm=true';
 	$render_data = array(
 		'redirect' => $redirect,

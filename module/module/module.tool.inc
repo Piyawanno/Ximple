@@ -41,9 +41,13 @@ function module_add_panel($module_name, $role, $mode, $name){
 	$panel_config[$module_name][$role][$name] = $mode;
 }
 
-function module_drop_panel($module_name){
+function module_drop_panel($module_name, $role=null, $name=null){
 	global $panel_config;
-	unset($panel_config[$module_name]);
+	if(strlen($role) and strlen($name) and isset($panel_config[$module_name][$role][$name])){
+		unset($panel_config[$module_name][$role][$name]);
+	}else{
+		unset($panel_config[$module_name]);
+	}
 }
 
 
