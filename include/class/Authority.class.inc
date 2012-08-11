@@ -18,6 +18,7 @@
 ///		- The residual methods can be accessed applying Role-System (see terminology).
 ///		- Only Users (see terminology) with the authorized Role for the called method
 ///		  can access the called method (use addAccessMethod() method).
+
 abstract class Authority{
 
 	/// Associated array of the called method to the allowed Roles.
