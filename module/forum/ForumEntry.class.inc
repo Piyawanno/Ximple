@@ -24,6 +24,7 @@ class ForumEntry extends Content{
 	
 	public function index(){
 		$this->id = gg('id');
+		print_r($this->accesMethod);
 		$this->selectByID($this->column);
 		$this->getCommentNumber();
 		if(!authority_is_guest()){
@@ -142,6 +143,13 @@ class ForumEntry extends Content{
 		$this->listMeta->mode = $this->moduleName.'_editor_list';
 		$this->getListColumn();
 		return $this->renderListPage('WHERE (section='.SECTION.')');
+	}
+	
+	public function initModule($requirement){
+		Control::initModule($requirement);
+		module_add_feed($this->fullModuleName, $this->moduleTitle);
+		module_add_cache($this->fullModuleName);
+		notify_add_subscribe($this->fullModuleName, tt('someone posts in : ', true).$this->moduleTitle);
 	}
 	
 	protected function setConfigForm(){
