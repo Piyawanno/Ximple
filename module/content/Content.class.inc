@@ -23,7 +23,8 @@ abstract class Content extends Control{
 	}
 	
 	public function insert(){
-		if(Control::insert()){
+		$result = Control::insert();
+		if($result){
 			extension_execute('content_insert', $this->data);
 			$this->selectByID($this->column, true);
 			$this->insertTracker('write');
@@ -35,10 +36,11 @@ abstract class Content extends Control{
 			count_increase('contribution', USER_ID);
 			$this->subscribe();
 		}
+		return $result;
 	}
 	
 	public function update(){
-		Control::update();
+		$result = Control::update();
 		extension_execute('content_update', $this->data);
 		$this->insertTracker('update');
 		if($this->isReadable(false)){
@@ -47,6 +49,7 @@ abstract class Content extends Control{
 		}
 		document_set_redirect($this->fullModuleName.'/'.$this->id);
 		$this->subscribe();
+		return $result;
 	}
 	
 	public function drop(){

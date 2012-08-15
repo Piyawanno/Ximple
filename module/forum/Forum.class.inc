@@ -22,7 +22,6 @@ class Forum extends Control{
 	}
 	
 	public function index(){
-		print_r(cc('forum_entry_contributor'));
 		$clause = "WHERE mode='forum' AND section=".SECTION;
 		$category = db_select('category', array('id', 'pic', 'category', 'description'), $clause);
 		if(gg('category')){
