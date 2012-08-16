@@ -209,11 +209,12 @@ class Comment extends Control{
 		document_set_path($title);
 		document_set_title($title);
 		$this->listMeta->title = $title;
-		$this->listMeta->mode = $this->moduleName;
+		$this->listMeta->mode = MODE;
 		$this->listMeta->defaultOrderDesc = 'id';
 		$this->listMeta->description = $description;
 		$this->selectListPage(20, $clause, array('mode'));
 		$this->renderParentTopic();
+		$this->listPageColumn = array('parent', 'writer', 'write_time');
 		return Control::renderListPage();
 	}
 	
@@ -357,12 +358,13 @@ class Comment extends Control{
 			$mode[$value['mode']][] = $value['parent'];
 		}
 		
-		$column = array('id', $this->parentTopicColumn);
-		if($this->parentHasURIColumn) $column[] = $this->parentURIColumn;
 		$parent = array();
-		$column = array('id', $this->parentTopicColumn);
+		$basicColumn = array('id');
 		if($this->parentHasURIColumn) $column[] = $this->parentURIColumn;
 		foreach($mode as $table => $id_array){
+			$column = $basicColumn;
+			if(db_exist_column($table, 'topic')) $column[] = 'topic';
+			if(db_exist_column($table, 'uri')) $column[] = 'uri';
 			$clause = 'WHERE id='.join(' OR id=', $id_array);
 			$parent[$table] = db_select($table, $column, $clause);
 		}

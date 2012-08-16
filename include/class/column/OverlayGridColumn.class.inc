@@ -5,6 +5,7 @@ class OverlayGridColumn extends ModelColumn{
 	public $parentColumn;
 	
 	private $id;
+	private $childModule;
 	private $modelConnector;
 	
 	function OverlayGridColumn($label, $childModel, $help=null){
@@ -14,6 +15,14 @@ class OverlayGridColumn extends ModelColumn{
 		$modelFactory = new ModelFactory($childModel);
 		$this->modelConnector = $modelFactory->bind();
 		$this->modelConnector->triggerGetJavaScript();
+		
+		if(strlen($childModel->fullModuleName) == 0 and state_is_develop()){
+			notify_add_error(sprintf(tt('Model Error : childModel of "%s" has no fullModuleName'), $label));
+		}
+		
+		if(strlen($childModel->tableName) == 0 and state_is_develop()){
+			notify_add_error(sprintf(tt('Model Error : childModel of "%s" has no tableName'), $label));
+		}
 		
 		$this->childModuleName = $childModel->fullModuleName;
 		$this->childTableName = $childModel->tableName;
@@ -26,8 +35,10 @@ class OverlayGridColumn extends ModelColumn{
 		$this->isLink = true;
 	}
 	
-	public function setChildModule(){
-	
+	public function setChildModule($childModule){
+		$this->childModule = $childModule;
+		$this->childModuleName = $childModule->fullModuleName;
+		$this->childTableName = $childModule->tableName;
 	}
 	
 	public function triggerGetJavaScript(){

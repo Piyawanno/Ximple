@@ -29,3 +29,7 @@ td.message_container{
 .message{
 	margin:0px 0px 50px 0px;
 }
+
+.message_content{
+	min-height:80px;
+}
