@@ -5,6 +5,7 @@ class OverlayGridColumn extends ModelColumn{
 	public $parentColumn;
 	
 	private $id;
+	private $childModule;
 	private $modelConnector;
 	
 	function OverlayGridColumn($label, $childModel, $help=null){
@@ -34,8 +35,10 @@ class OverlayGridColumn extends ModelColumn{
 		$this->isLink = true;
 	}
 	
-	public function setChildModule(){
-	
+	public function setChildModule($childModule){
+		$this->childModule = $childModule;
+		$this->childModuleName = $childModule->fullModuleName;
+		$this->childTableName = $childModule->tableName;
 	}
 	
 	public function triggerGetJavaScript(){
