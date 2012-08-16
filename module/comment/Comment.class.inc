@@ -209,7 +209,7 @@ class Comment extends Control{
 		document_set_path($title);
 		document_set_title($title);
 		$this->listMeta->title = $title;
-		$this->listMeta->mode = $this->moduleName;
+		$this->listMeta->mode = MODE;
 		$this->listMeta->defaultOrderDesc = 'id';
 		$this->listMeta->description = $description;
 		$this->selectListPage(20, $clause, array('mode'));
