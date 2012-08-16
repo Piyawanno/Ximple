@@ -272,6 +272,12 @@ function render_calendar($data, $mode, $month, $year){
 	return render($render_array, 'calendar.tpl', 'calendar');
 }
 
+function render_autocomplete_option($option){
+	if(count($option)){
+		return '<option>'.join('</option><option>', $option).'</option>';
+	}
+}
+
 function render_get_profile_icon($user){
 	$id = $user['id'];
 	$name = $user['login_name'];
