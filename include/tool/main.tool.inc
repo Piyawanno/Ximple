@@ -49,12 +49,16 @@ function main_exec(){
 
 function main_check_theme_mode(){
 	$agent = $_SERVER['HTTP_USER_AGENT'];
-	if(strpos($agent, 'Android')) $mode = 'MOBILE';
-	elseif(strpos($agent, 'iPhone')) $mode = 'MOBILE';
-	elseif(strpos($agent, 'iPad')) $mode = 'MOBILE';
-	elseif(strpos($agent, 'Chrome')) $mode = 'HTML5';
-	elseif(strpos($agent, 'Firefox')) $mode = 'HTML5';
+	$is_mobile = cc('theme_is_MOBILE');
+	$is_html5 = cc('theme_is_HTML5');
+	
+	if(strpos($agent, 'Android') and $is_mobile) $mode = 'MOBILE';
+	elseif(strpos($agent, 'iPhone') and $is_mobile) $mode = 'MOBILE';
+	elseif(strpos($agent, 'iPad') and $is_mobile) $mode = 'MOBILE';
+	elseif(strpos($agent, 'Chrome') and $is_html5) $mode = 'HTML5';
+	elseif(strpos($agent, 'Firefox') and $is_html5) $mode = 'HTML5';
 	else $mode = 'HTML4';
+	
 	define('XIMPLE_THEME_MODE', $mode);
 }
 
@@ -163,7 +167,13 @@ function main_handle_maintain(){
 
 function main_handle_drop(){
 	if(preg_match('/drop/', MODE) and gg('confirm') != "true"){
-		$confirm = SMART_URI ? '/confirm/true' : '&confirm=true';
+		if(SMART_URI){
+			if(substr(vv('REQUEST_URI'), -1, 1) == '/')	$confirm = 'confirm/true';
+			else $confirm = '/confirm/true';
+		}else{
+			$confirm = '&confirm=true';
+		}
+		
 		$render_data = array(
 			'redirect' => '',
 			'check_drop' => true,
