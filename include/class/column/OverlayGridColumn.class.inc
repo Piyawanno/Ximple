@@ -15,6 +15,14 @@ class OverlayGridColumn extends ModelColumn{
 		$this->modelConnector = $modelFactory->bind();
 		$this->modelConnector->triggerGetJavaScript();
 		
+		if(strlen($childModel->fullModuleName) == 0 and state_is_develop()){
+			notify_add_error(sprintf(tt('Model Error : childModel of "%s" has no fullModuleName'), $label));
+		}
+		
+		if(strlen($childModel->tableName) == 0 and state_is_develop()){
+			notify_add_error(sprintf(tt('Model Error : childModel of "%s" has no tableName'), $label));
+		}
+		
 		$this->childModuleName = $childModel->fullModuleName;
 		$this->childTableName = $childModel->tableName;
 		$this->parentColumn = $this->modelConnector->getParentColumnName();
