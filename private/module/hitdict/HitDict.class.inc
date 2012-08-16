@@ -51,30 +51,16 @@ class HitDict extends Control{
 	}
 	
 	private function sortLanguangeLink(){
-		$message = tt('The followed list show all Headwords in all languages. ');
-		$message .= tt('You can select Keywords sorted by followed language pair.<br>');
-		$this->listMeta->title = 'Headword of HitDict';
+		$message  = tt('The followed list show all Headwords in all languages. ');
+		$message .= tt('You can select Keywords sorted by followed language pair.');
 		$this->listMeta->description = $message;
-		$pair = gg('pair');
-		$sortlanguage = hitpedia_get_language_pair_option();
-		
-		if($pair != null){
-			$sortLabel = tt('sort by').' : '.$sortlanguage[$pair];
-			$this->listMeta->title .= '  ('.$sortLabel.')';
-			document_set_path($sortLabel, $this->fullModuleName);
+		$this->listMeta->description.= '<ul>';
+		foreach(hitdict_get_language_pair_option() as $key => $value){
+		$this->listMeta->description .= $value;
+		$this->listMeta->description .= '<li>'.render_operation_link('hitdict_sort_by_language', 'pair/'.$key, $value).'</li>';
 		}
-		
-		$item = '';
-		foreach($sortlanguage as $key => $value){
-			if($pair != $key){
-				$item .= '<li>'.render_operation_link('hitdict_sort_by_language', 'pair/'.$key, $value).'</li>';
-			}
-		}
-		
-		$this->listMeta->description.= '<ul>'.$item;
-		$this->listMeta->description .= '<li>'.render_operation_link('hitdict', null ,'show all').'</li>';
 		$this->listMeta->description.= '</ul>';
-		}
+	}
 	
 	public function renderListPageSortByLanguage(){
 		$this->sortLanguangeLink();
@@ -82,7 +68,7 @@ class HitDict extends Control{
 		$this->setListEditIcon();
 		$this->setListDropIcon();
 	
-		$clause = 'WHERE language like"%' . gg('pair').'%"';
+		$clause = 'WHERE language="' . gg('pair').'"';
 	    $this->selectListPage(20, $clause);
 		return $this->renderListPage();
 	}
