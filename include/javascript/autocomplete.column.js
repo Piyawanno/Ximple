@@ -1,6 +1,6 @@
 addReady(function(){
 	initForm($('.auto_complete'), function(form){
-		form.keypress(function(){
+		form.keyup(function(){
 			var words = $(this).val().split(',');
 			var lastWord = jQuery.trim(words[words.length-1]);
 			if(lastWord.length){

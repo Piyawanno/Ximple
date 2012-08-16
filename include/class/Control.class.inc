@@ -300,7 +300,7 @@ abstract class Control extends Translatable{
 		}
 		$this->listMeta->mode = $this->fullModuleName;
 		$this->listMeta->defaultOrder = 'id';
-		$this->listMeta->description = $description;
+		if(strlen($description)) $this->listMeta->description = $description;
 		$this->setListWriteIcon();
 		$this->setListEditIcon();
 		$this->setListDropIcon();
