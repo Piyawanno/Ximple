@@ -56,6 +56,7 @@ class HitDict extends Control{
 		$this->listMeta->description = $message;
 		$this->listMeta->description.= '<ul>';
 		foreach(hitdict_get_language_pair_option() as $key => $value){
+		$this->listMeta->description .= $value;
 		$this->listMeta->description .= '<li>'.render_operation_link('hitdict_sort_by_language', 'pair/'.$key, $value).'</li>';
 		}
 		$this->listMeta->description.= '</ul>';
