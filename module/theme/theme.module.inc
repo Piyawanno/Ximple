@@ -14,6 +14,7 @@ execute_add_function('theme_config_save');
 
 define('THEME_PAGE_LENGTH', 6);
 define('THEME_ROW_LENGTH', 2);
+
 include_once(INCLUDE_PATH.'class/PagerRender.class.inc');
 
 function theme_select(){
@@ -306,6 +307,13 @@ function theme_set_config($theme_name){
 	$all_themes = theme_get_information();
 	$theme_config = $all_themes[$theme_name];
 	config_set('theme', $theme_name);
+	
+	if(!isset($theme_name['MOBILE'])) $theme_name['MOBILE'] = false;
+	config_set('theme_is_MOBILE', $theme_name['MOBILE']);
+	
+	if(!isset($theme_name['HTML5'])) $theme_name['HTML5'] = false;
+	config_set('theme_is_HTML5', $theme_name['HTML5']);
+	
 	$position = array_merge($theme_config['widget_position'], array('disabled' => 'Disabled'));
 	config_set('widget_position', $position);
 	config_set('widget_primary_position', $theme_config['widget_primary_position']);
