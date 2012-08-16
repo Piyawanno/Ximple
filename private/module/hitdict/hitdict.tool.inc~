@@ -1,6 +1,0 @@
-<?php
-function hitdict_get_language_pair_option(){
-	
-}
-
-?>
