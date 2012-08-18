@@ -34,6 +34,7 @@ class GridColumn extends ModelColumn{
 		$this->isLink = true;
 		$this->isDB = false;
 		$this->initModelConnector($modelObj);
+		$this->modelConnector->setInChildTable();
 		$this->mergeModel();
 		$this->parentColumn = $this->modelConnector->getParentColumnName();
 		return $this;
@@ -216,7 +217,7 @@ class GridColumn extends ModelColumn{
 				$this->updateData[$name] = $data;
 			}
 		}
-		if(!$this->hasUpdateData) $this->updateData = array(); 
+		if(!$this->hasUpdateData) $this->updateData = array();
 		$this->checkEmpyData();
 	}
 	

@@ -147,7 +147,9 @@ class DataModifier{
 		foreach($this->data as $key => $value){
 			$this->modelConnector->setData($value);
 			$this->modelConnector->triggerCheckNull();
-			$this->id[] = db_insert($this->table, $value);
+			if($this->checkNotNull()){
+				$this->id[] = db_insert($this->table, $value);
+			}
 		}
 		return true;
 	}
@@ -165,8 +167,12 @@ class DataModifier{
 		foreach($this->data as $key => $value){
 			$this->modelConnector->setData($value);
 			$this->modelConnector->triggerCheckNull();
-			$this->id[] = $key;
-			db_update($this->table, $value, $key);
+			if($this->checkNotNull()){
+				$this->id[] = $key;
+				db_update($this->table, $value, $key);
+			}else{
+				db_drop($this->table, $key);
+			}
 		}
 		return true;
 	}
@@ -184,6 +190,15 @@ class DataModifier{
 			}
 		}
 		$this->data = $formattedData;
+	}
+	
+	private function checkNotNull(){
+		$isNotNullColumn = $this->modelConnector->getColumnNameByBoolean('isNotNull');
+		foreach($isNotNullColumn as $key => $value){
+			$column = $this->modelConnector->getColumn($value);
+			if(!$column->triggerCheckNull()) return false;
+		}
+		return true;
 	}
 }
 ?>

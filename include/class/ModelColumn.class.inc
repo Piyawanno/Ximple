@@ -26,6 +26,7 @@ abstract class ModelColumn{
 	
 	public $isDB = true;
 	public $isLink = false;
+	public $isInChildTable = false;
 	public $isRepresentative = false;
 	public $isForm = true;
 	public $isOverlayGridForm = false;
@@ -92,8 +93,16 @@ abstract class ModelColumn{
 	}
 	
 	public function triggerCheckNull(){
-		if($this->isNotNull and $this->data === null){
-			error_syslog(sprintf(tt('Data in column %s is not allowed be empty.'), $this->name));
+		if($this->isNotNull and empty($this->data)){
+			if(!$this->isInChildTable){
+				error_syslog(sprintf(tt('Data in column %s is not allowed be empty.'), $this->name));
+			}
+			return false;
+		}else{
+			//echo('<pre>');
+			//print_r($this->data);
+			//echo('</pre>');
+			return true;
 		}
 	}
 	

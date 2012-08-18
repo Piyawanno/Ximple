@@ -106,6 +106,12 @@ class ModelConnector{
 		return $attr;
 	}
 	
+	public function setInChildTable(){
+		foreach($this->model as $key => $value){
+			$value->isInChildTable = true;
+		}
+	}
+	
 	public function resetData(){
 		$model = $this->model;
 		foreach($model as $key => $value){
@@ -164,7 +170,7 @@ class ModelConnector{
 	public function setData($data){
 		$model = $this->model;
 		foreach($model as $key => $value){
-			if(isset($data[$key])){
+			if(array_key_exists($key, $data)){
 				$model[$key]->data = $data[$key];
 			}
 		}
@@ -198,7 +204,8 @@ class ModelConnector{
 	}
 	
 	public function getColumnNameByBoolean($attrName){
-		return $this->getColumnNameByAttribute($attrName, true);
+		$column = $this->getColumnNameByAttribute($attrName, true);
+		return $column;
 	}
 	
 	public function getColumnNameByAttribute($attrName, $attr){
