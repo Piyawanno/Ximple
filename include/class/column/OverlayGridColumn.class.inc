@@ -59,6 +59,12 @@ class OverlayGridColumn extends ModelColumn{
 		$this->id = $id;
 	}
 	
+	public function triggerSelect(){
+		$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
+		$this->childControl->select($this->childControl->column, $clause);
+		$this->data = $this->childControl->data;
+	}
+	
 	public function renderForm($formID){
 		head_add_css('list.css');
 		head_add_js_var('overlayParentID', $this->id);
