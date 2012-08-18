@@ -94,10 +94,10 @@ class TimeIntervalColumn extends ModelColumn{
 	}
 	
 	private function processTimeInterval($second){
-		$day = date('z', $second);
-		$hour = date('H', $second%86400);
-		$minute = date('i', $second%3600);
-		$second = date('s', $second%60);
+		$day = gmdate('z', $second);
+		$hour = gmdate('H', $second%86400);
+		$minute = gmdate('i', $second%3600);
+		$second = gmdate('s', $second%60);
 		return array($day, $hour, $minute, $second);
 	}
 }

@@ -84,7 +84,8 @@ function init_var(){
 	$_SESSION['xblc_section'] = SECTION;
 	unset($_SESSION['is_admin']);
 	
-	define('NOW', date('Y-m-d H:i:s'));
+	define('SQL_TIME_FORMAT', 'Y-m-d H:i:s');
+	define('NOW', date(SQL_TIME_FORMAT));
 	define('TODAY', date('d F Y'));
 	
 	$language = ss('language');
