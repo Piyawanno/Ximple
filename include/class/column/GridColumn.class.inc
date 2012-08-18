@@ -37,6 +37,11 @@ class GridColumn extends ModelColumn{
 		$this->modelConnector->setInChildTable();
 		$this->mergeModel();
 		$this->parentColumn = $this->modelConnector->getParentColumnName();
+		if(strlen($this->parentColumn) == 0 and state_is_develop()){
+			$pattern = tt('Model of %s has no parent column. Please set isParent of the appropriated column to be true.');
+			$message = sprintf($pattern, $$modelObj->tableName->fullModuleName);
+			notify_add_error($message);
+		}
 		return $this;
 	}
 	

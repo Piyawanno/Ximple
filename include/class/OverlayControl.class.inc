@@ -73,6 +73,11 @@ abstract class OverlayControl extends Control{
 	
 	protected function getRefreshClause(){
 		$this->parentColumn = $this->modelConnector->getParentColumnName();
+		if(strlen($this->parentColumn) == 0 and state_is_develop()){
+			$pattern = tt('Model of %s has no parent column. Please set isParent of the appropriated column to be true.');
+			$message = sprintf($pattern, $this->fullModuleName);
+			notify_add_error($message);
+		}
 		$this->parentID = (int) gg('parent');
 		$refreshID = explode(':', gg('refresh_id'));
 		$clause = array();

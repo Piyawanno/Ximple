@@ -1,4 +1,6 @@
 <?php
+/// This class is a container for other ModelColumns.
+/// It does not represent a column of database table.
 class OverlayGridColumn extends ModelColumn{
 	public $childModuleName;
 	public $childTableName;
@@ -9,6 +11,9 @@ class OverlayGridColumn extends ModelColumn{
 	private $modelConnector;
 	
 	function OverlayGridColumn($label, $childControl, $help=null){
+		if(!is_a($childControl, 'OverlayControl') and state_is_develop()){
+			notify_add_error(tt('Child Control of OverlayGridColumn should be OverlayControl.'));
+		}
 		$this->setType('array');
 		$this->label = $label;
 		$this->childControl = $childControl;
