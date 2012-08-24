@@ -30,6 +30,8 @@ class Cadet extends Control{
 		$this->setAdmin('rtna_admin');
 		$this->addAccessMethod('rtna_cadet_data_manager', 'index');
 		$this->addAccessMethod('rtna_cadet_data_manager', 'write');
+		$this->addAccessMethod('rtna_cadet_data_manager', 'insert');
+		
 	}
 
 	private function setAction(){
