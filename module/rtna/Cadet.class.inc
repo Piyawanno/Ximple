@@ -4,7 +4,7 @@ include('CadetModel.class.inc');
 
 class Cadet extends Control{
 	function Cadet(){
-		$this->moduleTitle = tt('Cadet');
+		$this->moduleTitle = tt('Cadet'); //nattapon
 		$this->moduleName = 'rtna';
 		$this->moduleExtension = 'cadet';
 		$this->tableName = 'rtna_cadet';
