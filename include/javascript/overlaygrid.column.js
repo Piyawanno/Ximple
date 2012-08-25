@@ -6,11 +6,11 @@ var insertedOverlayDataID = new Array();
 function overlayWrite(formID, moduleName){
 	var uri = sectionURI+moduleName+'_overlay_write';
 	var overlayDialog = overlayOpenDialog(formID, moduleName);
-	
 	if(overlayParentID) uri += '/parent/'+overlayParentID;
 	overlayDialog.css({
 		'text-align' : 'left',
 	});
+	alert(uri);
 	currentOverlayDialog = overlayDialog;
 	currentFormID = formID;
 	currentModuleName = moduleName;
@@ -104,7 +104,7 @@ function overlayOpenDialog(formID, moduleName){
 		bgiframe : true,
 		autoOpen : false,
 		modal : true,
-		width : 520,
+		width :640,
 	});
 	overlayDialog.dialog('open');
 	return overlayDialog;
