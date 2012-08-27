@@ -10,7 +10,6 @@ function overlayWrite(formID, moduleName){
 	overlayDialog.css({
 		'text-align' : 'left',
 	});
-	alert(uri);
 	currentOverlayDialog = overlayDialog;
 	currentFormID = formID;
 	currentModuleName = moduleName;
