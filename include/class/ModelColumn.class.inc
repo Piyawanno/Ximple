@@ -99,9 +99,6 @@ abstract class ModelColumn{
 			}
 			return false;
 		}else{
-			//echo('<pre>');
-			//print_r($this->data);
-			//echo('</pre>');
 			return true;
 		}
 	}

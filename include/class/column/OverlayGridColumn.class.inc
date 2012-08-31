@@ -35,6 +35,7 @@ class OverlayGridColumn extends ModelColumn{
 	
 	public function triggerGetJavaScript(){
 		head_add_js('include/javascript/overlaygrid.column.js');
+		head_add_js('include/javascript/grid.column.js');
 	}
 	
 	public function triggerPostDBInsert(){

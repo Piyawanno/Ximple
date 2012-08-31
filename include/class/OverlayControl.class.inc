@@ -49,7 +49,7 @@ abstract class OverlayControl extends Control{
 			'data' => $this->data,
 			'label' => $this->modelConnector->getColumnAttribute('label'),
 			'module' => $this->fullModuleName,
-			'column' => $this->column,
+			'column' => $this->overlayColumn,
 			'form_id' => gg('form_id'),
 			'description' => $this->overlayDescription,
 		);
@@ -63,12 +63,12 @@ abstract class OverlayControl extends Control{
 	protected function getOverlayData(){
 		$this->getOverlayColumn();
 		$clause = $this->getRefreshClause();
-		if(strlen($clause)) $this->select($this->column, $clause);
+		if(strlen($clause)) $this->select($this->overlayColumn, $clause);
 		else $this->data = array();
 	}
 	
 	protected function getOverlayColumn(){
-		$this->column = $this->modelConnector->getColumnNameByBoolean('isList');
+		$this->overlayColumn = $this->modelConnector->getColumnNameByBoolean('isList');
 	}
 	
 	protected function getRefreshClause(){
