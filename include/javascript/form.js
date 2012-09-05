@@ -22,6 +22,15 @@ if(isForm){
 				}
 			}
 		})});
+		hideConfigForm();
+	});
+}
+
+function hideConfigForm(){
+	$('.subform').each(function(index){
+		if($(this).attr('rel') == 'hide'){
+			$(this).hide();
+		}
 	});
 }
 
