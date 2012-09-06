@@ -44,6 +44,7 @@ function main_exec(){
 	}
 	notify_save();
 	init_check_cron();
+	print_r(cc());
 	db_close();
 }
 
