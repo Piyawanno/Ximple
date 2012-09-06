@@ -15,8 +15,9 @@
 	padding:2px 15px 2px 15px;
 	border:1px solid #aaa;
 	background:#fff;
+	color:#222;
 	float:left;
-	width:220px;
+	width:180px;
 }
 
 #role_user_list ul li#holder{

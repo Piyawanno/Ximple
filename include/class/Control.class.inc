@@ -11,6 +11,7 @@ abstract class Control extends Translatable{
 	private $tableCreator;
 	private $listPage;
 	private $modelHasCategory;
+	private $model;
 	
 	protected $listMeta;
 	
@@ -235,14 +236,19 @@ abstract class Control extends Translatable{
 		return $this->modelConnector->getParentColumnName();
 	}
 	
-	protected function init($modelObj){
-		Translatable::init($modelObj);
-		$this->modelHasCategory = $modelObj->hasCategory();
+	public function getModel(){
+		return $this->model;
+	}
+	
+	protected function init($model){
+		Translatable::init($model);
+		$this->model = $model;
+		$this->modelHasCategory = $model->hasCategory();
 		$this->setDefaultRedirect();
 		$this->setDefaultAction();
 		$this->setDefaultPrepareMethod();
 		$this->setDefaultNotify();
-		$this->initObject($modelObj);
+		$this->initObject($model);
 		$this->modelConnector->triggerSetTableName($this->tableName);
 		$this->modelConnector->setModuleName($this->fullModuleName);
 	}
@@ -300,7 +306,7 @@ abstract class Control extends Translatable{
 		}
 		$this->listMeta->mode = $this->fullModuleName;
 		$this->listMeta->defaultOrder = 'id';
-		$this->listMeta->description = $description;
+		if(strlen($description)) $this->listMeta->description = $description;
 		$this->setListWriteIcon();
 		$this->setListEditIcon();
 		$this->setListDropIcon();

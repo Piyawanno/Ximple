@@ -12,6 +12,7 @@ function content_init_module($content){
 }
 
 function content_add_role($moduleName, $moduleTitle){
+	echo($moduleName.'_admin');
 	$admin = new RoleManager($moduleName.'_admin');
 	$admin->setName($moduleTitle.' Administrator');
 	$admin->setDescription(sprintf('Who can configure, insert, edit and drop %s from everyone.', $moduleTitle));

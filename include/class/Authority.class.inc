@@ -22,7 +22,7 @@
 abstract class Authority{
 
 	/// Associated array of the called method to the allowed Roles.
-	private $accesMethod = array();
+	public $accesMethod = array();
 	
 	/// Associated array of mapped ximple_mode to the called method.
 	private $action = array();

@@ -8,9 +8,12 @@ function module_get_info_rtna(){
 
 function module_init_rtna(){
 	include_once('Cadet.class.inc');
-	module_add('rtna', 'rtna.module.inc', tt('RTNA Database'));
 	$cadet = new Cadet();
 	$cadet->initModule('Cadet.class.inc');
+
+	include_once('YearSerie.class.inc');
+	$yearSerie = new YearSerie();
+	$yearSerie->initModule('YearSerie.class.inc');
 	
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
@@ -21,18 +24,44 @@ function module_init_rtna(){
 	$cadetDataManager->setName('RTNA Cadet Data Manager');
 	$cadetDataManager->setDescription('Who can add and edit data of Cadets.');
 	$cadetDataManager->submit();
+
+	$cadetRTNA = new RoleManager('rtna_cadet');
+	$cadetRTNA->setName('Cadet of RTNA');
+	$cadetRTNA->setDescription('Who can edit own personal data.');
+	$cadetRTNA->submit();
+
+	$panel = new PanelManager('RTNA Database');
+	$panel->appendControl($cadet);
+	$panel->appendControl($yearSerie);
+	$panel->append('rtna_cadet_write', 'Create new Cadet');
+	$panel->append('rtna_cadet_list', 'List Cadet');
+	$panel->appendRole($admin);
+	$panel->appendRole($cadetDataManager);
+	$panel->appendRole($cadetRTNA);
+	$panel->submit();
 }
 
 function module_drop_rtna(){
-	module_drop('rtna');
 	include_once('Cadet.class.inc');
 	$cadet = new Cadet();
 	$cadet->dropModule();
+
+	include_once('YearSerie.class.inc');
+	$yearSerie = new YearSerie();
+	$yearSerie->dropModule();
 	
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();
 
 	$cadetDataManager = new RoleManager('rtna_cadet_data_manager');
 	$cadetDataManager->drop();
+
+	$cadetRTNA = new RoleManager('rtna_cadet');
+	$cadetRTNA->drop();
+	
+	$panel = new PanelManager('RTNA Database');
+	$panel->drop();
+
+	
 }
 ?>

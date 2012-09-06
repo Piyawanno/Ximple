@@ -40,6 +40,8 @@
 					<a href="<?=SECTION_URI.Q.$link?>" class="calendar_multiple_link"><?=$key + 1?></a>
 				<?php endforeach?>
 			<?php endif?>
+		<?php elseif(isset($data[$i]['ajax'])):?>
+			<a href="#" onclick="return <?=$data[$i]['ajax']?>('<?=$year.'-'.$month.'-'.$i?>')" ><?=$i?></a>
 		<?php else:?>
 			<?=$i?>
 		<?php endif?>

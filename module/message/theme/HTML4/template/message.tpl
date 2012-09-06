@@ -15,11 +15,13 @@
 					<strong style="color:#f70;">new message</strong>
 				</p>
 			<?php endif?>
-			<?=$value['message']?>
+			<div class="message_content">
+				<?=$value['message']?>
+			</div>
 			<p class="operation_bar">
 				<span><?=$value['write_time']?></span>
-				<a href="<?=SECTION_URI.Q?>message_drop/<?=$value['id']?>"><img src="<?=ROOT_URI?>files/icon/stop.png" border="0" style="margin-left:10px;"/></a>
-				<a href="<?=SECTION_URI.Q?>message_write/send_to/<?=$value['sender']['login_name']?>" ><img src="<?=ROOT_URI?>files/icon/message.png" border="0" style="margin-left:10px;"/></a>
+				<a href="<?=SECTION_URI.Q?>message_drop/<?=$value['id']?>"><?=tt('drop')?></a>
+				<a href="<?=SECTION_URI.Q?>message_write/send_to/<?=$value['sender']['login_name']?>" ><?=tt('reply')?></a>
 			</p>
 		</td>
 	</tr>

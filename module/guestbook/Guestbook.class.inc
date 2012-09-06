@@ -24,6 +24,7 @@ class Guestbook extends Control{
 		$render  = render($rednerArray, 'guestbook.tpl', 'guestbook');
 		$render .= $this->pager->render('guestbook');
 		return $render;
+		
 	}
 	
 	private function setAccess(){

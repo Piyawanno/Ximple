@@ -23,21 +23,24 @@ abstract class Content extends Control{
 	}
 	
 	public function insert(){
-		Control::insert();
-		extension_execute('content_insert', $this->data);
-		$this->selectByID($this->column, true);
-		$this->insertTracker('write');
-		if($this->isFeed() and $this->isReadable(false)){
-			$feedData = $this->formatFeedData();
-			feed_insert($this->fullModuleName, $feedData);
+		$result = Control::insert();
+		if($result){
+			extension_execute('content_insert', $this->data);
+			$this->selectByID($this->column, true);
+			$this->insertTracker('write');
+			if($this->isFeed() and $this->isReadable(false)){
+				$feedData = $this->formatFeedData();
+				feed_insert($this->fullModuleName, $feedData);
+			}
+			document_set_redirect($this->fullModuleName.'/'.$this->id);
+			count_increase('contribution', USER_ID);
+			$this->subscribe();
 		}
-		document_set_redirect($this->fullModuleName.'/'.$this->id);
-		count_increase('contribution', USER_ID);
-		$this->subscribe();
+		return $result;
 	}
 	
 	public function update(){
-		Control::update();
+		$result = Control::update();
 		extension_execute('content_update', $this->data);
 		$this->insertTracker('update');
 		if($this->isReadable(false)){
@@ -46,6 +49,7 @@ abstract class Content extends Control{
 		}
 		document_set_redirect($this->fullModuleName.'/'.$this->id);
 		$this->subscribe();
+		return $result;
 	}
 	
 	public function drop(){

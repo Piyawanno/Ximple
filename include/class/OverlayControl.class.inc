@@ -49,7 +49,7 @@ abstract class OverlayControl extends Control{
 			'data' => $this->data,
 			'label' => $this->modelConnector->getColumnAttribute('label'),
 			'module' => $this->fullModuleName,
-			'column' => $this->column,
+			'column' => $this->overlayColumn,
 			'form_id' => gg('form_id'),
 			'description' => $this->overlayDescription,
 		);
@@ -63,16 +63,21 @@ abstract class OverlayControl extends Control{
 	protected function getOverlayData(){
 		$this->getOverlayColumn();
 		$clause = $this->getRefreshClause();
-		if(strlen($clause)) $this->select($this->column, $clause);
+		if(strlen($clause)) $this->select($this->overlayColumn, $clause);
 		else $this->data = array();
 	}
 	
 	protected function getOverlayColumn(){
-		$this->column = $this->modelConnector->getColumnNameByBoolean('isList');
+		$this->overlayColumn = $this->modelConnector->getColumnNameByBoolean('isList');
 	}
 	
 	protected function getRefreshClause(){
 		$this->parentColumn = $this->modelConnector->getParentColumnName();
+		if(strlen($this->parentColumn) == 0 and state_is_develop()){
+			$pattern = tt('Model of %s has no parent column. Please set isParent of the appropriated column to be true.');
+			$message = sprintf($pattern, $this->fullModuleName);
+			notify_add_error($message);
+		}
 		$this->parentID = (int) gg('parent');
 		$refreshID = explode(':', gg('refresh_id'));
 		$clause = array();

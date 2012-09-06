@@ -1,22 +1,29 @@
 <?php
+/// This class is a container for other ModelColumns.
+/// It does not represent a column of database table.
 class OverlayGridColumn extends ModelColumn{
 	public $childModuleName;
 	public $childTableName;
 	public $parentColumn;
 	
 	private $id;
+	private $childControl;
 	private $modelConnector;
 	
-	function OverlayGridColumn($label, $childModel, $help=null){
+	function OverlayGridColumn($label, $childControl, $help=null){
+		if(!is_a($childControl, 'OverlayControl') and state_is_develop()){
+			notify_add_error(tt('Child Control of OverlayGridColumn should be OverlayControl.'));
+		}
 		$this->setType('array');
 		$this->label = $label;
+		$this->childControl = $childControl;
 		
-		$modelFactory = new ModelFactory($childModel);
+		$modelFactory = new ModelFactory($childControl->getModel());
 		$this->modelConnector = $modelFactory->bind();
 		$this->modelConnector->triggerGetJavaScript();
 		
-		$this->childModuleName = $childModel->fullModuleName;
-		$this->childTableName = $childModel->tableName;
+		$this->childModuleName = $childControl->fullModuleName;
+		$this->childTableName = $childControl->tableName;
 		$this->parentColumn = $this->modelConnector->getParentColumnName();
 		
 		$this->help = $help;
@@ -26,12 +33,9 @@ class OverlayGridColumn extends ModelColumn{
 		$this->isLink = true;
 	}
 	
-	public function setChildModule(){
-	
-	}
-	
 	public function triggerGetJavaScript(){
 		head_add_js('include/javascript/overlaygrid.column.js');
+		head_add_js('include/javascript/grid.column.js');
 	}
 	
 	public function triggerPostDBInsert(){
@@ -59,6 +63,12 @@ class OverlayGridColumn extends ModelColumn{
 	
 	public function triggerGetID($id){
 		$this->id = $id;
+	}
+	
+	public function triggerSelect(){
+		$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
+		$this->childControl->select($this->childControl->column, $clause);
+		$this->data = $this->childControl->data;
 	}
 	
 	public function renderForm($formID){

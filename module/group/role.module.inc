@@ -1,5 +1,5 @@
 <?php
-authority_group('group_admin');
+if(!authority_group('group_admin')) error_denied();
 execute_add_function('group_role');
 execute_add_function('group_role_save');
 
