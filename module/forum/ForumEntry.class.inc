@@ -23,7 +23,7 @@ class ForumEntry extends Content{
 	}
 	
 	public function index(){
-		$this->id = gg('id');
+		$this->id = (int) gg('id');
 		$this->selectByID($this->column);
 		$this->getCommentNumber();
 		if(!authority_is_guest()){
