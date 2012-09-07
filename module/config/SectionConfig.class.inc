@@ -150,7 +150,9 @@ class SectionConfig extends ConfigControl{
 		if(!is_dir($dir)) mkdir($dir);
 		io_write_file($dir.'install', "");
 		$dir.= SECTION.'/';
-		io_clear_directory($dir);
+		foreach(io_get_directory_entry($dir) as $entry){
+			@unlink($dir.$entry);
+		}
 		if(!is_dir($dir)) mkdir($dir);
 		io_write_file($dir.pp('state'), "");
 	}
@@ -170,5 +172,4 @@ class SectionConfig extends ConfigControl{
 		}
 	}
 }
-
 ?>
