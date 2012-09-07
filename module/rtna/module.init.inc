@@ -45,6 +45,7 @@ function module_init_rtna(){
 	$panel->appendControl($faculty);
 	$panel->append('rtna_cadet_write', 'Create new Cadet');
 	$panel->append('rtna_cadet_list', 'List Cadet');
+	$panel->append('rtna_faculty', 'Create new Faculty');
 	$panel->appendRole($admin);
 	$panel->appendRole($cadetDataManager);
 	$panel->appendRole($cadetRTNA);
