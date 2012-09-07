@@ -25,7 +25,7 @@ class Faculty extends Control{
 		print_r($this->data);
 		$this->selectByID($this->column);
 		print_r($this->dataByID);
-		document_set_path($this->dataByID['faculty']);
+		document_set_path($this->dataByID['faculty_name']);
 		$renderArray = array(
 			'data' => $this->dataByID,
 		);

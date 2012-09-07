@@ -19,7 +19,7 @@ function rtna_get_yearserie_option(){
 
 function rtna_get_faculty_option(){
 	if(db_exist_table('rtna_faculty')){
-		return db_select_single_column('rtna_faculty', 'faculty');
+		return db_select_single_column('rtna_faculty', 'faculty_select');
 	}else{
 		return array();
 	}

@@ -15,6 +15,10 @@ function module_init_rtna(){
 	$yearSerie = new YearSerie();
 	$yearSerie->initModule('YearSerie.class.inc');
 
+	include_once('Faculty.class.inc');
+	$faculty = new Faculty();
+	$faculty->initModule('Faculty.class.inc');
+
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
 	$admin->setDescription('Who can manage all data in RTNA database.');
@@ -38,6 +42,7 @@ function module_init_rtna(){
 	$panel = new PanelManager('RTNA Database');
 	$panel->appendControl($cadet);
 	$panel->appendControl($yearSerie);
+	$panel->appendControl($faculty);
 	$panel->append('rtna_cadet_write', 'Create new Cadet');
 	$panel->append('rtna_cadet_list', 'List Cadet');
 	$panel->appendRole($admin);
@@ -55,6 +60,9 @@ function module_drop_rtna(){
 	$yearSerie = new YearSerie();
 	$yearSerie->dropModule();
 
+	include_once('Faculty.class.inc');
+	$faculty = new Faculty();
+	$faculty->dropModule();
 	
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();

@@ -9,10 +9,13 @@ class FacultyModel extends Model{
 			4 => tt('Management Science'),
 			5 => tt('Naval Science'),
 		);
-		$this->faculty = $this->select(tt('faculty'), $option);
+		$this->faculty_select = $this->select(tt('faculty select'), $option);
+		$this->faculty_select->isList = true;
+		$this->faculty_select->listMode = 'rtna_faculty';
 
-		$this->checkin_faculty = $this->spin(tt('checkin_faculty'));
+		$this->faculty_name = $this->spin(tt('faculty name'));
 		$this->description = $this->shortText(tt('description'));
+		$this->section = $this->section();
 	}
 }
 ?>
