@@ -17,6 +17,14 @@ function rtna_get_yearserie_option(){
 	}
 }
 
+function rtna_get_faculty_option(){
+	if(db_exist_table('rtna_faculty')){
+		return db_select_single_column('rtna_faculty', 'faculty');
+	}else{
+		return array();
+	}
+}
+
 function rtna_get_cadet_party_option(){
 	return array(
 		0 => tt('undefined'),
@@ -24,6 +32,4 @@ function rtna_get_cadet_party_option(){
 		2 => tt('mechanical'),
 	);
 }
-
-
 ?>
