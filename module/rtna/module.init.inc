@@ -18,6 +18,10 @@ function module_init_rtna(){
 	include_once('Faculty.class.inc');
 	$faculty = new Faculty();
 	$faculty->initModule('Faculty.class.inc');
+	
+	include_once('Club.class.inc');
+	$club = new Club();
+	$club->initModule('Club.class.inc');
 
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
@@ -65,6 +69,10 @@ function module_drop_rtna(){
 	$faculty = new Faculty();
 	$faculty->dropModule();
 	
+	include_once('Club.class.inc');
+	$club = new Club();
+	$club->dropModule();
+
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();
 
