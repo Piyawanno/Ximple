@@ -66,7 +66,9 @@ function io_clear_directory($dir_name){
 				}
 			}
 		}
-		if ($success) rmdir($dir_name);
+		if ($success){
+			@rmdir($dir_name);
+		}
 	}
 }
 
