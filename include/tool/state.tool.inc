@@ -56,5 +56,4 @@ function state_read(){
 	
 	return 1;
 }
-
 ?>
