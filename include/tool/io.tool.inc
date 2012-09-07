@@ -60,8 +60,10 @@ function io_clear_directory($dir_name){
 		while ($success and (false !== ($entry = $dir->read()))) {
 			if($entry != '.' and $entry != '..'){
 				if(is_dir($dir_name.'/'.$entry)){
+					echo($dir_name.'/'.$entry.'<br />');
 					io_clear_directory($dir_name.'/'.$entry);
 				}else{
+					echo($dir_name.'/'.$entry.'<br />');
 					unlink($dir_name.'/'.$entry);
 				}
 			}
