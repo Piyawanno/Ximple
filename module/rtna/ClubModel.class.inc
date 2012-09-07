@@ -1,13 +1,11 @@
 <?php
+require_once('rtna.club.inc');
+
 class ClubModel extends Model{
 	function ClubModel(){
-		$this->serie_number = $this->spin(tt('serie number'), 105);
-		$this->serie_number->isList = true;
-		$this->serie_number->listMode = 'rtna_Club';
-
-		$this->checkin_year = $this->spin(tt('checkin year'), 2007);
-		$this->description = $this->shortText(tt('description'));
-		$this->section = $this->section();
+		$this->name = $this->title(tt('name'));
+		$this->rtna_regiment_officer = $this->select(tt('rtna_regisment_officer'), rtna_get_rtna_regiment_officer_option());
+		$this->rtna_cadet = $this->select(tt('rtna_clubleader'), rtna_get_rtna_cadet_option());
 	}
 }
 ?>

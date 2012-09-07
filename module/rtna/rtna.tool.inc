@@ -24,4 +24,6 @@ function rtna_get_cadet_party_option(){
 		2 => tt('mechanical'),
 	);
 }
+
+
 ?>
