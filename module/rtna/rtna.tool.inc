@@ -17,6 +17,16 @@ function rtna_get_yearserie_option(){
 	}
 }
 
+<<<<<<< HEAD
+=======
+function rtna_get_faculty_option(){
+	if(db_exist_table('rtna_faculty')){
+		return db_select_single_column('rtna_faculty', 'faculty');
+	}else{
+		return array();
+	}
+}
+>>>>>>> 61364f51ab11c6241cee9f94dfdfcbd4e032030d
 function rtna_get_cadet_party_option(){
 	return array(
 		0 => tt('undefined'),
@@ -26,4 +36,9 @@ function rtna_get_cadet_party_option(){
 }
 
 
+<<<<<<< HEAD
 ?>
+=======
+?>
+
+>>>>>>> 61364f51ab11c6241cee9f94dfdfcbd4e032030d
