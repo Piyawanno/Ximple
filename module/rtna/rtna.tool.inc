@@ -24,6 +24,7 @@ function rtna_get_faculty_option(){
 		return array();
 	}
 }
+
 function rtna_get_cadet_party_option(){
 	return array(
 		0 => tt('undefined'),
@@ -31,7 +32,4 @@ function rtna_get_cadet_party_option(){
 		2 => tt('mechanical'),
 	);
 }
-
-
 ?>
-
