@@ -29,6 +29,30 @@ function rtna_get_faculty_option(){
 	}
 }
 
+function rtna_get_club_option(){
+	if(db_exist_table('rtna_club')){
+		return db_select_single_column('rtna_club', 'name');
+	}else{
+		return array();
+	}
+}
+
+function rtna_get_rtna_regiment_officer_option(){
+	if(db_exist_table('rtna_regiment_officer')){
+		return db_select_single_column('rtna_regiment_officer', 'name');
+	}else{
+		return array();
+	}
+}
+
+function rtna_get_rtna_cadet_option(){
+	if(db_exist_table('rtna_cadet')){
+		return db_select_single_column('rtna_cadet', 'name');
+	}else{
+		return array();
+	}
+}
+
 function rtna_get_cadet_party_option(){
 	return array(
 		0 => tt('undefined'),
