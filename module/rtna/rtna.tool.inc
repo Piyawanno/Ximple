@@ -13,6 +13,20 @@ function rtna_get_cadet_uid_option(){
 	}
 }
 
+function rtna_get_Officer_uid_option(){
+	if(db_exist_table('rtna_yearserie')){
+		$all_officer = userinfo_get_login_name_by_role('rtna_officer');
+		$clause = 'WHERE section='.SECTION;
+		$exist_uid = db_select_single_column('rtna_officer', 'uid', $clause);
+		foreach($exist_uid as $key => $value){
+			unset($all_officer[$value]);
+		}
+		return $all_officer;
+	}else{
+		return array();
+	}
+}
+
 function rtna_get_yearserie_option(){
 	if(db_exist_table('rtna_yearserie')){
 		return db_select_single_column('rtna_yearserie', 'serie_number');
@@ -37,9 +51,9 @@ function rtna_get_club_option(){
 	}
 }
 
-function rtna_get_rtna_regiment_officer_option(){
-	if(db_exist_table('rtna_regiment_officer')){
-		return db_select_single_column('rtna_regiment_officer', 'name');
+function rtna_get_rtna_officer_option(){
+	if(db_exist_table('rtna_officer')){
+		return db_select_single_column('rtna_officer', 'name');
 	}else{
 		return array();
 	}
@@ -58,6 +72,7 @@ function rtna_get_cadet_party_option(){
 		0 => tt('undefined'),
 		1 => tt('naval'),
 		2 => tt('mechanical'),
+		3 => tt('marine'),
 	);
 }
 ?>
