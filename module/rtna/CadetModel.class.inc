@@ -3,6 +3,7 @@ require_once('rtna.tool.inc');
 
 class CadetModel extends Model{
 	function CadetModel(){
+		$this->rank = $this->select(tt('rank'), rtna_get_cadet_rank_option());
 		$this->name = $this->title(tt('name'));
 		$this->surname = $this->title(tt('surname'));
 		$this->birth_date = $this->calendar(tt('birth date'));

@@ -3,6 +3,7 @@ require_once('rtna.tool.inc');
 
 class OfficerModel extends Model{
 	function OfficerModel(){
+		$this->rank = $this->select(tt('rank'), rtna_get_officer_rank_option());
 		$this->name = $this->title(tt('name'));
 		$this->surname = $this->title(tt('surname'));
 		$this->birth_date = $this->calendar(tt('birth date'));
