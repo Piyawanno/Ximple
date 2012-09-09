@@ -63,6 +63,9 @@ class GridFormRender{
 			$render .= '<tr valign="top">';
 			foreach($this->memberColumn as $name => $member){
 				$member->data = $data[$name];
+				if(method_exists($member, 'triggerUpdateForm')){
+					$member->triggerUpdateForm();
+				}
 				$form = $this->renderRowForm($id, $member);
 				if($this->isLink){
 					$form = str_replace('[]', '[id_'.$key.']', $form);

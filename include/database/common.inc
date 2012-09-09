@@ -68,7 +68,7 @@ function db_get_query_number(){
 
 function db_update($table, $data, $id){
 	$id = (int) $id;
-	if(empty($id)) error_syslog('Update database error.');
+	if(empty($id)) error_syslog('Update database error by '.$table.'.');
 	db_update_many($table, $data, 'id='.$id);
 }
 
