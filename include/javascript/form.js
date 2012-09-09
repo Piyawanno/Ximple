@@ -13,7 +13,8 @@ if(isForm){
 		});
 		initForm($('a'), function(form){form.click(function(){
 			if(formCheckLocation){
-				if($(this).attr('href').substring(0, 1) != '#' &&  $(this).attr('href').length){
+				var href = $(this).attr('href');
+				if(href.length && href.substring(0, 7) == 'http://'){
 					if(formChange){
 						return confirm(changeLocationMessage);
 					}else{
