@@ -90,10 +90,9 @@ class GridColumn extends ModelColumn{
 		}
 	}
 	
-	public function triggerDBDrop(){
+	public function triggerDrop(){
 		if($this->isLink){
-			$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
-			db_drop_many($this->childTableName, $clause);
+			db_drop_many($this->childTableName, $this->parentColumn.'='.$this->id);
 		}
 	}
 	

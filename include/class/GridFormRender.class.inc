@@ -64,7 +64,7 @@ class GridFormRender{
 			foreach($this->memberColumn as $name => $member){
 				$member->data = $data[$name];
 				if(method_exists($member, 'triggerUpdateForm')){
-					$member->triggerUpdateForm();
+					$member->triggerUpdateForm($member->data);
 				}
 				$form = $this->renderRowForm($id, $member);
 				if($this->isLink){
