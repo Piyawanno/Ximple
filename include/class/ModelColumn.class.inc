@@ -23,6 +23,7 @@ abstract class ModelColumn{
 	public $defaultData;
 	public $listMode;
 	public $tableName;
+	public $parentConnector;
 	
 	public $isDB = true;
 	public $isLink = false;

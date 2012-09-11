@@ -10,14 +10,14 @@ class GridColumn extends ModelColumn{
 	public $memberColumn;
 	public $dropMode;
 	
-	private $id = null;
-	private $dataModifier = null;
-	private $memberDataCount;
-	private $modelConnector;
-	private $updateData = array();
-	private $postData;
-	private $childTableName;
-	private $hasUpdateData = false;
+	protected $id = null;
+	protected $dataModifier = null;
+	protected $memberDataCount;
+	protected $modelConnector;
+	protected $updateData = array();
+	protected $postData;
+	protected $childTableName;
+	protected $hasUpdateData = false;
 	
 	function GridColumn($label, $help=null){
 		$this->setType('array');
@@ -101,6 +101,13 @@ class GridColumn extends ModelColumn{
 		if($this->modelConnector) $this->modelConnector->setParentID($id);
 	}
 	
+	protected function getDBData(){
+		$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
+		$column = $this->modelConnector->getColumnName();
+		$member = $this->memberColumn;
+		$this->data = db_select($this->childTableName, $column, $clause);
+	}
+	
 	private function getMember(){
 		if($this->isLink and !empty($this->id)){
 			$this->getMemberDBData();
@@ -160,13 +167,6 @@ class GridColumn extends ModelColumn{
 				}
 			}
 		}
-	}
-	
-	private function getDBData(){
-		$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
-		$column = $this->modelConnector->getColumnName();
-		$member = $this->memberColumn;
-		$this->data = db_select($this->childTableName, $column, $clause);
 	}
 	
 	private function initModelConnector($modelObj){
