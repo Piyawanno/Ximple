@@ -39,9 +39,6 @@ class CommentModel extends Model{
 		$this->parent_uri_column = $this->hidden(null);
 		$this->parent_uri_column->isDB = false;
 		
-		$this->parent_has_uri_column = $this->hidden(null);
-		$this->parent_has_uri_column->isDB = false;
-		
 		$this->parent_permission_column = $this->hidden(null);
 		$this->parent_permission_column->isDB = false;
 		

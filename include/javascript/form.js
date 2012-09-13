@@ -23,7 +23,6 @@ if(isForm){
 				}
 			}
 		})});
-		hideConfigForm();
 	});
 }
 

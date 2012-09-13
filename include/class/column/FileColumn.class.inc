@@ -56,9 +56,9 @@ class FileColumn extends CharColumn{
 	private function multipleInsert(){
 		$this->fileArray = input_reorder_multiple_files($this->name);
 		foreach($this->fileArray as $key => $value){
-			if(substr($key,0,2) != 'id'){
+			if(substr($key, 0, 2) != 'id'){
 				if($value['size']){
-					$this->data[] = io_upload($value, $this->path, $this->isImage);
+					$this->data[] = io_upload($value, $this->path, $this->isImage, $this->isOriginalFileName);
 				}else{
 					unset($this->fileArray[$key]);
 					$this->data[] = null;
