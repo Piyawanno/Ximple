@@ -31,7 +31,7 @@ class CommentManager{
 		$this->ownerColumn = $ownerColumn;
 	}
 	
-	public function commit(){
+	public function submit(){
 		$config = array(
 			'comment_permission' => $this->permissionColumn,
 			'comment_time' => $this->commentTimeColumn,
