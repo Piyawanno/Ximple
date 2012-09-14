@@ -137,7 +137,7 @@ class User extends Control{
 	
 	private function injectGroupForm(){
 		$this->groupForm = Model::group(tt('groups'));
-		$this->groupForm->isExceptedAdmin = false;
+		if(authority_group('admin')) $this->groupForm->isExceptedAdmin = false;
 		$this->groupForm->isExceptedGuest = true;
 		$this->groupForm->isExceptedUser  = true;
 		$this->groupForm->isDB = false;
@@ -160,8 +160,10 @@ class User extends Control{
 					'section' => SECTION,
 				);
 				foreach(pp('groups') as $key => $value){
-					$data['groups'] = $value;
-					db_insert('map', $data);
+					if(($value == 1 and authority_group('admin')) or $value != 1){
+						$data['groups'] = $value;
+						db_insert('map', $data);
+					}
 				}
 			}
 		}
