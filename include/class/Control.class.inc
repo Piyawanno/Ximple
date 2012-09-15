@@ -137,6 +137,7 @@ abstract class Control extends Translatable{
 				category_init($this->fullModuleName);
 			}
 		}
+		$this->modelConnector->triggerInitModule();
 		$this->tableCreator->create();
 		if(strlen($this->moduleExtension)){
 			module_add($this->moduleName, $requirement, null, $this->moduleExtension);
@@ -147,6 +148,7 @@ abstract class Control extends Translatable{
 	
 	public function dropModule(){
 		module_drop($this->moduleName);
+		$this->modelConnector->triggerDropModule();
 	}
 	
 	public function select($column, $clause=null, $isRaw=false){
@@ -304,7 +306,7 @@ abstract class Control extends Translatable{
 		if(empty($this->listMeta->title)){
 			$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		}
-		$this->listMeta->mode = $this->fullModuleName;
+		$this->listMeta->mode = mm();
 		$this->listMeta->defaultOrder = 'id';
 		if(strlen($description)) $this->listMeta->description = $description;
 		$this->setListWriteIcon();

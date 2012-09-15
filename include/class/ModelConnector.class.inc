@@ -301,6 +301,14 @@ class ModelConnector{
 		$this->triggerSingleParameter('SetTableName', $tableName);
 	}
 	
+	public function triggerInitModule(){
+		$this->trigger('InitModule');
+	}
+	
+	public function triggerDropModule(){
+		$this->trigger('DropModule');
+	}
+	
 	public function triggerSelect($data, $column=null){
 		$triggerColumn = array();
 		foreach($this->model as $key => $value){

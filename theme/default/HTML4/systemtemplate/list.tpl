@@ -36,7 +36,11 @@
 				<?php endif?>
 				
 				<?php if(isset($mode[$col]) and !(isset($value['avoidLink']) and $value['avoidLink'])):?>
-					<a href="<?=SECTION_URI.Q.$mode[$col].'/'.$value['id']?>"><?=$value[$col]?></a></td>
+					<?php if(isset($value['list_uri'])):?>
+						<a href="<?=SECTION_URI.Q.$value['list_uri']?>"><?=$value[$col]?></a></td>
+					<?php else:?>
+						<a href="<?=SECTION_URI.Q.$mode[$col].'/'.$value['id']?>"><?=$value[$col]?></a></td>
+					<?php endif?>
 				<?php else:?>
 					<?=$value[$col]?></td>
 				<?php endif?>

@@ -18,6 +18,7 @@ class GridColumn extends ModelColumn{
 	protected $postData;
 	protected $childTableName;
 	protected $hasUpdateData = false;
+	protected $modelObject = null;
 	
 	function GridColumn($label, $help=null){
 		$this->setType('array');
@@ -29,6 +30,7 @@ class GridColumn extends ModelColumn{
 	}
 	
 	public function setModel($modelObj){
+		$this->modelObject = $modelObj;
 		$this->childTableName = $modelObj->tableName;
 		$this->dropMode = $modelObj->dropMode;
 		$this->isLink = true;
@@ -39,7 +41,7 @@ class GridColumn extends ModelColumn{
 		$this->parentColumn = $this->modelConnector->getParentColumnName();
 		if(strlen($this->parentColumn) == 0 and state_is_develop()){
 			$pattern = tt('Model of %s has no parent column. Please set isParent of the appropriated column to be true.');
-			$message = sprintf($pattern, $$modelObj->tableName->fullModuleName);
+			$message = sprintf($pattern, $modelObj->tableName->fullModuleName);
 			notify_add_error($message);
 		}
 		return $this;
@@ -99,6 +101,15 @@ class GridColumn extends ModelColumn{
 	public function triggerGetID($id){
 		$this->id = $id;
 		if($this->modelConnector) $this->modelConnector->setParentID($id);
+	}
+	
+	public function triggerInitModule(){
+		echo('init');
+		if($this->modelObject){
+			require_once(INCLUDE_PATH.'class/QuickTableCreator.class.inc');
+			$creator = new QuickTableCreator($this->modelObject); 
+			$creator->create();
+		}
 	}
 	
 	protected function getDBData(){
@@ -178,7 +189,7 @@ class GridColumn extends ModelColumn{
 		$column = $this->modelConnector->getColumnName();
 		foreach($column as $key => $value){
 			$columnModel = $this->modelConnector->getColumn($value);
-			if(!empty($columnModel)){
+			if(!empty($columnModel) and !$columnModel->isParent){
 				$columnModel->name = $key;
 				$this->setColumn($value, $columnModel);
 			}
