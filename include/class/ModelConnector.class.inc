@@ -309,6 +309,10 @@ class ModelConnector{
 		$this->trigger('DropModule');
 	}
 	
+	public function triggerDropChild(){
+		$this->trigger('DropChild');
+	}
+	
 	public function triggerSelect($data, $column=null){
 		$triggerColumn = array();
 		foreach($this->model as $key => $value){

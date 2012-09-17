@@ -112,6 +112,11 @@ abstract class Control extends Translatable{
 		notify_add_info($this->dropNotify);
 	}
 	
+	public function dropChild(){
+		execute_set_ajax();
+		$this->modelConnector->triggerDropChild();
+	}
+	
 	public function prepareMethod($methodName){
 		if(isset($this->prepareMethodMap[$methodName])){
 			$prepare = $this->prepareMethodMap[$methodName];
@@ -430,6 +435,7 @@ abstract class Control extends Translatable{
 		$this->addAction($this->fullModuleName.'_insert', 'insert');
 		$this->addAction($this->fullModuleName.'_update', 'update');
 		$this->addAction($this->fullModuleName.'_drop', 'drop');
+		$this->addAction($this->fullModuleName.'_drop_child', 'dropChild');
 		$this->addAction($this->fullModuleName.'_print', 'printPage');
 		$this->addAction($this->fullModuleName.'_translate_form', 'renderTranslateForm');
 		$this->addAction($this->fullModuleName.'_translate', 'setTranslate');

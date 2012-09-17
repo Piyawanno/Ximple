@@ -9,6 +9,7 @@ class GridColumn extends ModelColumn{
 	public $isWritable = true;
 	public $memberColumn;
 	public $dropMode;
+	public $childTableName;
 	
 	protected $id = null;
 	protected $dataModifier = null;
@@ -16,7 +17,6 @@ class GridColumn extends ModelColumn{
 	protected $modelConnector;
 	protected $updateData = array();
 	protected $postData;
-	protected $childTableName;
 	protected $hasUpdateData = false;
 	protected $modelObject = null;
 	
@@ -32,7 +32,11 @@ class GridColumn extends ModelColumn{
 	public function setModel($modelObj){
 		$this->modelObject = $modelObj;
 		$this->childTableName = $modelObj->tableName;
-		$this->dropMode = $modelObj->dropMode;
+		if(strlen($modelObj->dropMode)){
+			$this->dropMode = $modelObj->dropMode;
+		}else{
+			$this->dropMode = $modelObj->moduleName.'_drop_child';
+		}
 		$this->isLink = true;
 		$this->isDB = false;
 		$this->initModelConnector($modelObj);
@@ -98,13 +102,21 @@ class GridColumn extends ModelColumn{
 		}
 	}
 	
+	public function triggerDropChild(){
+		$table = gg('table');
+		$id = (int) gg('id');
+		if($table == $this->childTableName and $id){
+			$this->modelConnector->triggerDropChild();
+			db_drop($this->childTableName, $id);
+		}
+	}
+	
 	public function triggerGetID($id){
 		$this->id = $id;
 		if($this->modelConnector) $this->modelConnector->setParentID($id);
 	}
 	
 	public function triggerInitModule(){
-		echo('init');
 		if($this->modelObject){
 			require_once(INCLUDE_PATH.'class/QuickTableCreator.class.inc');
 			$creator = new QuickTableCreator($this->modelObject); 

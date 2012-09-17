@@ -19,6 +19,7 @@ class GridFormRender{
 		$this->isLink = $gridColumn->isLink;
 		$this->isEmptyForm = $gridColumn->isEmptyForm;
 		$this->isWritable = $gridColumn->isWritable;
+		$this->childTableName = $gridColumn->childTableName;
 	}
 	
 	public function renderForm($formID){
@@ -97,14 +98,14 @@ class GridFormRender{
 			$value->data = null;
 			$render .= $this->renderRowForm($id, $value);
 		}
-		$render.= $this->renderDropIcon($this->dropMode);
+		$render.= $this->renderDropIcon();
 		$render.= '</tr>';
 		$render = str_replace("\n", "", $render);
 		return $render;
 	}
 	
 	private function renderDropIcon($id=null){
-		if($id) $dropMode = $this->dropMode.'/'.$id.'/confirm/true';
+		if($id) $dropMode = $this->dropMode.'/'.$id.'/table/'.$this->childTableName.'/confirm/true';
 		else $dropMode = '';
 		return '
 			<td>
