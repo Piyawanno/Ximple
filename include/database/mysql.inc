@@ -105,6 +105,24 @@ function db_insert_id($result){
 	return mysql_insert_id();
 }
 
+function db_insert_multiple($table, $data){
+	if(count($data) == 0) return null;
+	$table = DB_TABLE_PREFIX.$table;
+	$cols = join(',', array_keys(end($data)));
+	$value_sets = array();
+	foreach($data as $row){
+		$value_set = '(';
+		foreach($row as $key => $value){
+			if(is_string($value) or $value==null) $value_set .= "'".addslashes($value)."', ";
+			else $value_set .= $value.', ';
+		}
+		$value_sets[] = substr($value_set,0, -2).')';
+	}
+	
+	$query = 'INSERT INTO '.$table.'('.$cols.') VALUES '.join(', ', $value_sets).'';
+	$result = db_modify($table, $query);
+}
+
 function db_exist_table($table){
 	global $db_connect;
 	if(empty($db_connect)) db_init();
