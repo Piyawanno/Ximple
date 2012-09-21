@@ -18,7 +18,7 @@ class Belong extends Control{
 	}
 
 	public function index(){
-		
+		return 'It sucks!';
 	}
 
 	public function dropResolver(){
