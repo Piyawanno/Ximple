@@ -79,6 +79,23 @@ function rtna_get_cadet_party_option(){
 function rtna_get_cadet_rank_option(){
 	return array(
 		0 => tt('NC.'),
+<<<<<<< HEAD
+=======
+	);
+}
+function rtna_get_officer_rank_option(){
+	return array(
+		0 => tt('SubLt.'), 
+		1 => tt('Lt.JG.'),
+		2 => tt('Lt.'),
+		3 => tt('LCdr.'),
+		4 => tt('Cdr.'),
+		5 => tt('Capt.'),
+		6 => tt('SrCapt.'),
+		7 => tt('RAdm.'),
+		8 => tt('VAdm.'),
+		9 => tt('Adm.'),
+>>>>>>> a5177ae1919dde6b8b1bd4b84b77e362c2251618
 	);
 }
 

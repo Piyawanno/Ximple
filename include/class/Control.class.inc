@@ -112,6 +112,11 @@ abstract class Control extends Translatable{
 		notify_add_info($this->dropNotify);
 	}
 	
+	public function dropChild(){
+		execute_set_ajax();
+		$this->modelConnector->triggerDropChild();
+	}
+	
 	public function prepareMethod($methodName){
 		if(isset($this->prepareMethodMap[$methodName])){
 			$prepare = $this->prepareMethodMap[$methodName];
@@ -137,6 +142,7 @@ abstract class Control extends Translatable{
 				category_init($this->fullModuleName);
 			}
 		}
+		$this->modelConnector->triggerInitModule();
 		$this->tableCreator->create();
 		if(strlen($this->moduleExtension)){
 			module_add($this->moduleName, $requirement, null, $this->moduleExtension);
@@ -147,6 +153,7 @@ abstract class Control extends Translatable{
 	
 	public function dropModule(){
 		module_drop($this->moduleName);
+		$this->modelConnector->triggerDropModule();
 	}
 	
 	public function select($column, $clause=null, $isRaw=false){
@@ -304,7 +311,7 @@ abstract class Control extends Translatable{
 		if(empty($this->listMeta->title)){
 			$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		}
-		$this->listMeta->mode = $this->fullModuleName;
+		$this->listMeta->mode = mm();
 		$this->listMeta->defaultOrder = 'id';
 		if(strlen($description)) $this->listMeta->description = $description;
 		$this->setListWriteIcon();
@@ -428,6 +435,7 @@ abstract class Control extends Translatable{
 		$this->addAction($this->fullModuleName.'_insert', 'insert');
 		$this->addAction($this->fullModuleName.'_update', 'update');
 		$this->addAction($this->fullModuleName.'_drop', 'drop');
+		$this->addAction($this->fullModuleName.'_drop_child', 'dropChild');
 		$this->addAction($this->fullModuleName.'_print', 'printPage');
 		$this->addAction($this->fullModuleName.'_translate_form', 'renderTranslateForm');
 		$this->addAction($this->fullModuleName.'_translate', 'setTranslate');

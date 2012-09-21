@@ -20,7 +20,6 @@ class OverlayGridColumn extends ModelColumn{
 		
 		$modelFactory = new ModelFactory($childControl->getModel());
 		$this->modelConnector = $modelFactory->bind();
-		$this->modelConnector->triggerGetJavaScript();
 		
 		$this->childModuleName = $childControl->fullModuleName;
 		$this->childTableName = $childControl->tableName;
@@ -34,6 +33,7 @@ class OverlayGridColumn extends ModelColumn{
 	}
 	
 	public function triggerGetJavaScript(){
+		$this->modelConnector->triggerGetJavaScript();
 		head_add_js('include/javascript/overlaygrid.column.js');
 		head_add_js('include/javascript/grid.column.js');
 	}
@@ -54,10 +54,17 @@ class OverlayGridColumn extends ModelColumn{
 		}
 	}
 	
-	public function triggerDBDrop(){
+	public function triggerDrop(){
 		if($this->isLink){
+			echo('Hello');
+			$control = $this->childControl;
 			$clause = 'WHERE '.$this->parentColumn.'='.$this->id;
-			db_drop_many($this->childTableName, $clause);
+			$control->select(array('id'), $clause);
+			$idArray = array_keys($control->data);
+			foreach($idArray as $key => $value){
+				$control->id = $value;
+				$control->drop();
+			}
 		}
 	}
 	

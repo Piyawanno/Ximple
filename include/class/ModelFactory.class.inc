@@ -2,6 +2,7 @@
 class ModelFactory{
 	private $model = array();
 	private $modelObject;
+	private $connector;
 	private $isConvert = false;
 	
 	function ModelFactory($modelObject){
@@ -15,9 +16,12 @@ class ModelFactory{
 	
 	public function bind(){
 		$this->convertToArray();
-		$connector = new ModelConnector($this->model, $this->modelObject);
-		$connector->triggerSetTableName($this->modelObject->tableName);
-		return $connector;
+		$this->connector = new ModelConnector($this->model, $this->modelObject);
+		$this->connector->triggerSetTableName($this->modelObject->tableName);
+		foreach($this->model as $key => $value){
+			$this->model[$key]->parentConnector = $this->connector;
+		}
+		return $this->connector;
 	}
 	
 	private function convertToArray(){

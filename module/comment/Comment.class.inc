@@ -16,10 +16,9 @@ class Comment extends Control{
 	public $parentTopicColumn = 'topic';
 	public $parentWriterColumn = 'writer';
 	public $parentURIColumn = 'uri';
-	public $parentHasURIColumn = true;
 	public $parentPermissionColumn = 'comment_permission';
-	public $parentIsAjax = false;
 	public $parentCommentTimeColumn = 'comment_time';
+	public $parentIsAjax = false;
 	
 	private $mode = null;
 	private $parent = null;
@@ -184,7 +183,31 @@ class Comment extends Control{
 	
 	public function setPlainText(){
 		$this->isPlainText = true;
-	}	
+	}
+	
+	public function getColumnNameByConfig($module){
+		$config = cc('comment_module');
+		if(isset($config[$module])){
+			$config = $config[$module];
+			if(strlen($config['topic'])) $this->parentTopicColumn = $config['topic'];
+			if(strlen($config['owner'])) $this->parentWriterColumn = $config['owner'];
+			if(strlen($config['uri'])) $this->parentURIColumn = $config['uri'];
+			if(strlen($config['comment_permission'])){
+				$this->parentPermissionColumn = $config['comment_permission'];
+			}
+			if(strlen($config['comment_time'])){
+				$this->parentCommentTimeColumn = $config['comment_time'];
+			}
+		}
+	}
+	
+	private function getDefaultColumnName(){
+		$this->parentTopicColumn = 'topic';
+		$this->parentWriterColumn = 'writer';
+		$this->parentURIColumn = 'uri';
+		$this->parentPermissionColumn = 'comment_permission';
+		$this->parentCommentTimeColumn = 'comment_time';
+	}
 	
 	private function setAccess(){
 		$this->ownerColumn = 'writer_id';
@@ -353,27 +376,46 @@ class Comment extends Control{
 	}
 	
 	private function renderParentTopic(){
+		$parent = $this->getParentData();
+		foreach($this->data as $key => $value){
+			$column = $this->getParentColumnArray($value['mode']);
+			$uri = render_uri($value['mode'], $parent[$value['mode']][$value['parent']]);
+			$topic = $this->formatTopic($parent[$value['mode']][$value['parent']][$this->parentTopicColumn]);
+			$this->data[$key]['parent'] = '<a href="'.$uri.'">'.$topic.'</a>';
+			$this->getDefaultColumnName();
+		}
+	}
+	
+	private function getParentData(){
+		$mode = $this->getModeData();
+		$parent = array();
+		foreach($mode as $table => $id_array){
+			$column = $this->getParentColumnArray($table);
+			$clause = 'WHERE id='.join(' OR id=', $id_array);
+			$parent[$table] = db_select($table, $column, $clause);
+			$this->getDefaultColumnName();
+		}
+		return $parent;
+	}
+	
+	private function getModeData(){
 		$mode = array();
 		foreach($this->data as $key => $value){
 			$mode[$value['mode']][] = $value['parent'];
 		}
-		
-		$parent = array();
-		$basicColumn = array('id');
-		if($this->parentHasURIColumn) $column[] = $this->parentURIColumn;
-		foreach($mode as $table => $id_array){
-			$column = $basicColumn;
-			if(db_exist_column($table, 'topic')) $column[] = 'topic';
-			if(db_exist_column($table, 'uri')) $column[] = 'uri';
-			$clause = 'WHERE id='.join(' OR id=', $id_array);
-			$parent[$table] = db_select($table, $column, $clause);
+		return $mode;
+	}
+	
+	private function getParentColumnArray($table){
+		$column = array('id');
+		$this->getColumnNameByConfig($table);
+		if(db_exist_column($table, $this->parentTopicColumn)){
+			$column[] = $this->parentTopicColumn;
 		}
-		
-		foreach($this->data as $key => $value){
-			$uri = render_uri($value['mode'], $parent[$value['mode']][$value['parent']]);
-			$topic = $this->formatTopic($parent[$value['mode']][$value['parent']][$this->parentTopicColumn]);
-			$this->data[$key]['parent'] = '<a href="'.$uri.'">'.$topic.'</a>';
+		if(db_exist_column($table, $this->parentURIColumn)){
+			$column[] = $this->parentURIColumn;
 		}
+		return $column;
 	}
 	
 	private function checkAvatar(){
@@ -388,7 +430,6 @@ class Comment extends Control{
 		$this->modelConnector->setAttribute('parent_topic_column', 'defaultData', $this->parentTopicColumn);
 		$this->modelConnector->setAttribute('parent_writer_column', 'defaultData', $this->parentWriterColumn);
 		$this->modelConnector->setAttribute('parent_uri_column', 'defaultData', $this->parentURIColumn);
-		$this->modelConnector->setAttribute('parent_has_uri_column', 'defaultData', $this->parentHasURIColumn);
 		$this->modelConnector->setAttribute('parent_permission_column', 'defaultData', $this->parentPermissionColumn);
 	}
 	
@@ -396,7 +437,6 @@ class Comment extends Control{
 		$this->parentTopicColumn = pp('parent_topic_column');
 		$this->parentWriterColumn = pp('parent_writer_column');
 		$this->parentURIColumn = pp('parent_uri_column');
-		$this->parentHasURIColumn = (bool) pp('parent_has_uri_column');
 		$this->parentPermissionColumn = pp('parent_permission_column');
 	}
 }
