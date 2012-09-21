@@ -107,6 +107,10 @@ class Poll extends Control{
 		}
 		return $data;
 	}
+
+	public function dropChoise(){
+		db_drop('poll_choise', (int) gg('id'));
+	}
 	
 	private function renderEmbed($module, $moduleID){
 		if($this->checkEmbedExistence($module, $moduleID)){
@@ -262,6 +266,7 @@ class Poll extends Control{
 		$this->addAction('poll_embed_icon', 'embedIcon');
 		$this->addAction('poll_embed_form', 'embedForm');
 		$this->addAction('poll_widget', 'widget');
+		$this->addAction('poll_choise_drop', 'dropChoise');
 	}
 }
 ?>
