@@ -27,6 +27,10 @@ function module_init_rtna(){
 	$club = new Club();
 	$club->initModule('Club.class.inc');
 
+	include_once('Belong.class.inc');
+	$belong = new Belong();
+	$belong->initModule('Belong.class.inc');
+
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
 	$admin->setDescription('Who can manage all data in RTNA database.');
@@ -51,22 +55,30 @@ function module_init_rtna(){
 	$officerDataManager->setName('RTNA Officer Data Manager');
 	$officerDataManager->setDescription('Who can add and edit data of Officer.');
 	$officerDataManager->submit();
-
+	
+	$belongDataManager = new RoleManager('rtna_belong_data_manager');
+	$belongDataManager->setName('RTNA Officer Data Manager');
+	$belongDataManager->setDescription('Who can add and edit data of Unit.');
+	$belongDataManager->submit();
+	
 	$panel = new PanelManager('RTNA Database');
 	$panel->appendControl($cadet);
 	$panel->appendControl($officer);
 	$panel->appendControl($yearSerie);
 	$panel->appendControl($faculty);
+	$panel->appendControl($belong);
 	$panel->append('rtna_cadet_write', 'Create new Cadet');
 	$panel->append('rtna_cadet_list', 'List Cadet');
 	$panel->append('rtna_officer_write', 'Create new Officer');
 	$panel->append('rtna_officer_list', 'List Officer');
 	$panel->append('rtna_faculty', 'Create new Faculty');
 	$panel->append('rtna_yearserie', 'Create new Yearserie');
+	$panel->append('rtna_belong', 'Create new Unit');
 	$panel->appendRole($admin);
 	$panel->appendRole($cadetDataManager);
 	$panel->appendRole($cadetRTNA);
 	$panel->appendRole($officerDataManager);
+	$panel->appendRole($belongDataManager);
 	$panel->appendRole($officerRTNA);
 	$panel->submit();
 }
@@ -91,6 +103,10 @@ function module_drop_rtna(){
 	include_once('Club.class.inc');
 	$club = new Club();
 	$club->dropModule();
+
+	include_once('Belong.class.inc');
+	$belong = new Belong();
+	$belong->dropModule();
 
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();

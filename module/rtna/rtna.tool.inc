@@ -81,6 +81,7 @@ function rtna_get_cadet_rank_option(){
 		0 => tt('NC.'),
 	);
 }
+
 function rtna_get_officer_rank_option(){
 	return array(
 		0 => tt('SubLt.'), 
@@ -95,4 +96,21 @@ function rtna_get_officer_rank_option(){
 		9 => tt('Adm.'),
 	);
 }
+
+function rtna_get_parent_option(){
+	if(db_exist_table('rtna_belong')){
+		return db_select_single_column('rtna_belong', 'name','WHERE is_leaf=0');
+	}else{
+		return array();
+    }
+}
+
+function enable($parent){
+		include_once('column/CheckSlideColumn.class.inc');
+		$option = array(1 => '');
+		$modelColumn = new CheckSlideColumn($parent, $option);
+		$modelColumn->setType('int');
+		return $modelColumn;
+	}
+
 ?>
