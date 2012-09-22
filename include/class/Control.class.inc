@@ -37,6 +37,8 @@ abstract class Control extends Translatable{
 	
 	protected $isOwnerMode = false;
 	
+	protected $hasFormLabel = true;
+	
 	public $id;
 	public $column;
 	public $data;
@@ -57,8 +59,14 @@ abstract class Control extends Translatable{
 	
 	public function write(){
 		$this->formMeta->id = $this->fullModuleName;
-		if($this->writeLabel) $this->formMeta->title = $this->writeLabel;
-		else $this->formMeta->title = sprintf(tt('Add %s'), $this->moduleTitle);
+		
+		if($this->hasFormLabel){
+			if($this->writeLabel) $this->formMeta->title = $this->writeLabel;
+			else $this->formMeta->title = sprintf(tt('Add %s'), $this->moduleTitle);
+		}else{
+			$this->formMeta->title = null;
+		}
+		
 		if(empty($this->formMeta->mode)){
 			$this->formMeta->mode = $this->fullModuleName.'_insert';
 		}
@@ -70,8 +78,14 @@ abstract class Control extends Translatable{
 	public function edit(){
 		$this->formMeta->id = $this->fullModuleName;
 		head_add_js_var('translateModuleName', $this->fullModuleName);
-		if($this->editLabel) $this->formMeta->title = $this->editLabel;
-		else $this->formMeta->title = sprintf(tt('Edit %s'), $this->moduleTitle);
+		
+		if($this->hasFormLabel){
+			if($this->editLabel) $this->formMeta->title = $this->editLabel;
+			else $this->formMeta->title = sprintf(tt('Edit %s'), $this->moduleTitle);
+		}else{
+			$this->formMeta->title = null;
+		}
+		
 		if(empty($this->formMeta->mode)){
 			$this->formMeta->mode = $this->fullModuleName.'_update';
 		}

@@ -87,3 +87,9 @@ function verifyCaptcha(){
 	}
 	return ok;
 }
+
+function formInitReady(){
+	for(i in readyFunction){
+		readyFunction[i]();
+	}
+}
