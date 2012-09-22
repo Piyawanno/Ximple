@@ -264,6 +264,11 @@ abstract class Model{
 		return new ImageLoaderColumn($label, $path, $size);
 	}
 	
+	public function position($label, $help=null){
+		include_once('column/PositionColumn.class.inc');
+		return new PositionColumn($label, $help);
+	}
+	
 	public function grid($label, $help=null){
 		include_once('column/GridColumn.class.inc');
 		return new GridColumn($label, $help);

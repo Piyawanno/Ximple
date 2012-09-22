@@ -11,6 +11,8 @@ function checkNotify(){
 	if(!isGuest){
 		$.get(sectionURI+'notify_check', function(data){
 			if(data.length){
+				alert(sectionURI+'notify_check');
+				alert(data);
 				$('#notify_check').remove();
 				$('#notify_container').remove();
 				$('body').append(data);
