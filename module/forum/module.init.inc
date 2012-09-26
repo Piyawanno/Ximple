@@ -22,8 +22,8 @@ function module_init_forum(){
 	$forumConfig = new ForumConfig();
 	$forumConfig->initModule('ForumConfig.class.inc');
 	
-	
-	list($admin, $editor, $contributor) = content_add_role('forum_entry', tt('Forum Entry'));
+	echo('call content_add_role');
+	list($admin, $editor, $contributor) = content_add_role('forum', tt('Forum Entry'));
 	
 	$panel = new PanelManager('Forum Entry');
 	$panel->drop();

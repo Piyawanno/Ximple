@@ -68,7 +68,7 @@ function db_get_query_number(){
 
 function db_update($table, $data, $id){
 	$id = (int) $id;
-	if(empty($id)) error_syslog('Update database error.');
+	if(empty($id)) error_syslog('Update database error by '.$table.'.');
 	db_update_many($table, $data, 'id='.$id);
 }
 
@@ -123,5 +123,19 @@ function db_create_table($table, $columns){
 	}
 	$query.= 'PRIMARY KEY (id)) CHARACTER SET utf8;';
 	db_modify($table, $query);
+}
+
+function db_drop_many_file($table, $column, $where){
+	$data = db_select_single_column($table, $column, 'WHERE '.$where, false);
+	foreach($data as $file){
+		if(is_file(ROOT_PATH.$file)) unlink(ROOT_PATH.$file);
+	}
+}
+
+function db_drop_file($table, $column, $id){
+	$clause = 'WHERE id='.$id;
+	$data = db_select($table, array($column), $clause, false);
+	$file = $data[0][$column];
+	if(is_file(ROOT_PATH.$file)) unlink(ROOT_PATH.$file);
 }
 ?>

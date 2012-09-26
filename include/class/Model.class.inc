@@ -254,9 +254,19 @@ abstract class Model{
 		return new SelectColumn($label, $option, $help);
 	}
 	
+	public function userByRole($label, $role, $help=null){
+		include_once('column/UserByRoleColumn.class.inc');
+		return new UserByRoleColumn($label, $role, $help);
+	}
+	
 	public function imageLoader($label, $path, $size=null){
 		include_once('column/ImageLoaderColumn.class.inc');
 		return new ImageLoaderColumn($label, $path, $size);
+	}
+	
+	public function position($label, $help=null){
+		include_once('column/PositionColumn.class.inc');
+		return new PositionColumn($label, $help);
 	}
 	
 	public function grid($label, $help=null){

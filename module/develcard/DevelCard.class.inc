@@ -232,7 +232,7 @@ class DevelCard extends Control{
 			'data' => $this->data,
 			'title' => $title,
 			'write_icon' => $this->renderWriteIcon(),
-			'personal_icon' => render_icon('develcard_personal', 'module/develcard/theme/devel.png', tt('My DevelCard')),
+			'personal_icon' => render_icon('develcard_personal', 'module/develcard/theme/image/devel.png', tt('My DevelCard')),
 		);
 		$render = render($renderArray, 'develcard_list.tpl', 'develcard_list');
 		$render.= $this->pager->render($mode);

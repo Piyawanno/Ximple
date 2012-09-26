@@ -1,5 +1,7 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
-<h2 class="list_label"><?=$meta->title?></h2>
+<?php if(strlen($meta->title)):?>
+	<h2 class="list_label"><?=$meta->title?></h2>
+<?php endif?>
 <?=$meta->description?>
 <p><label style="font-weight:bold;"><?=$captcha['label']?></label></p>
 <?=$captcha['form']?>

@@ -66,7 +66,9 @@ function io_clear_directory($dir_name){
 				}
 			}
 		}
-		if ($success) rmdir($dir_name);
+		if ($success){
+			@rmdir($dir_name);
+		}
 	}
 }
 
@@ -162,9 +164,7 @@ function io_get_upload_file_name($file, $path, $original_name){
 	}else{
 		$name = $path.md5($file['name']).'.'.end(explode('.', $file['name']));
 	}
-	
-	$name = io_upload_check_exist_file($file, $name);
-	
+	$name = io_upload_check_exist_file($file, $path, $name, $original_name);
 	if(substr($name, 0, strlen(ROOT_PATH)) == ROOT_PATH){
 		$name = substr($name, strlen(ROOT_PATH));
 	}
@@ -176,14 +176,14 @@ function io_format_upload_file_name($name){
 	return $name;
 }
 
-function io_upload_check_exist_file($file, $name, $original_name=true){
+function io_upload_check_exist_file($file, $path, $name, $original_name=true){
 	$i = 0;
 	while(true){
 		if(!is_file($name)){
 			move_uploaded_file($file['tmp_name'], $name);
 			break;
 		}else{
-			if($original_name) $name = $i.'_'.$file['name'];
+			if($original_name) $name = $path.$i.'_'.$file['name'];
 			else $name = $path.md5($file['name'].$i).'.'.end(explode('.', $file['name']));
 			$i++;
 		}

@@ -18,7 +18,7 @@
 	border-left:1px solid #ddd;
 }
 
-/* ========= calenda ========= */
+/* ========= calendar ========= */
 
 table.calendar{
 	margin:10px 0px 10px 20px;
@@ -47,14 +47,14 @@ blockquote{
 	margin:10px;
 	padding:20px;
 	background-color: #ffffee;
-	background: url(../image/quote.png) no-repeat top left;
+	background: url(../../image/quote.png) no-repeat top left;
 	border:1px solid #fbda51;
 }
 
 div.code{
 	margin:10px;
 	padding:20px;
-	background: url(../image/quote.png) no-repeat top left;
+	background: url(../../image/quote.png) no-repeat top left;
 	background-color: #ffffee;
 	border:1px solid #fbda51;
 	width:480px;
@@ -66,7 +66,7 @@ div.code{
 div.plaincode{
 	margin:10px;
 	padding:20px;
-	background: url(../image/quote.png) no-repeat top left;
+	background: url(../../image/quote.png) no-repeat top left;
 	background-color: #ffffee;
 	border:1px solid #fbda51;
 	width:480px;
@@ -130,7 +130,7 @@ ins{
 	height:33px;
 	padding-top:4px;
 	padding-left:0px;
-	background:url(../image/notify.png) 2px 2px no-repeat;
+	background:url(../../image/notify.png) 2px 2px no-repeat;
 }
 
 #notify_check a{

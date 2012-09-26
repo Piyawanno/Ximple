@@ -106,6 +106,12 @@ class ModelConnector{
 		return $attr;
 	}
 	
+	public function setInChildTable(){
+		foreach($this->model as $key => $value){
+			$value->isInChildTable = true;
+		}
+	}
+	
 	public function resetData(){
 		$model = $this->model;
 		foreach($model as $key => $value){
@@ -164,7 +170,7 @@ class ModelConnector{
 	public function setData($data){
 		$model = $this->model;
 		foreach($model as $key => $value){
-			if(isset($data[$key])){
+			if(array_key_exists($key, $data)){
 				$model[$key]->data = $data[$key];
 			}
 		}
@@ -198,7 +204,8 @@ class ModelConnector{
 	}
 	
 	public function getColumnNameByBoolean($attrName){
-		return $this->getColumnNameByAttribute($attrName, true);
+		$column = $this->getColumnNameByAttribute($attrName, true);
+		return $column;
 	}
 	
 	public function getColumnNameByAttribute($attrName, $attr){
@@ -294,6 +301,18 @@ class ModelConnector{
 		$this->triggerSingleParameter('SetTableName', $tableName);
 	}
 	
+	public function triggerInitModule(){
+		$this->trigger('InitModule');
+	}
+	
+	public function triggerDropModule(){
+		$this->trigger('DropModule');
+	}
+	
+	public function triggerDropChild(){
+		$this->trigger('DropChild');
+	}
+	
 	public function triggerSelect($data, $column=null){
 		$triggerColumn = array();
 		foreach($this->model as $key => $value){
@@ -307,17 +326,18 @@ class ModelConnector{
 			foreach($data as $id => $value){
 				$this->triggerGetID($id);
 				foreach($triggerColumn as $key => $col){
+					if(isset($this->model[$col]) and isset($value[$col])){
+						$this->model[$col]->data = $value[$col];
+					}
+				}
+				$this->setData($value);
+				foreach($triggerColumn as $key => $col){
 					if(isset($this->model[$col])){
-						$isTrigger = false;
-						if(isset($value[$col])){
-							$this->model[$col]->data = $value[$col];
-							$isTrigger = true;
-						}
 						$this->model[$col]->triggerSelect();
 						if(method_exists($this->model[$col], 'triggerUnserialize')){
 							$this->model[$col]->triggerUnserialize();
 						}
-						if($isTrigger or $this->model[$col]->isLink){
+						if(isset($value[$col]) or $this->model[$col]->isLink){
 							$data[$id][$col] = $this->model[$col]->data;
 						}
 					}

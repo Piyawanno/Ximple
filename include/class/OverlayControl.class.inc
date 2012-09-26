@@ -4,6 +4,12 @@ abstract class OverlayControl extends Control{
 	protected $parentID;
 	protected $overlayDescription;
 	
+	protected $ajaxWriteFunction = null;
+	protected $ajaxInsertFunction = null;
+	protected $ajaxEditFunction = null;
+	protected $ajaxUpdateFunction = null;
+	protected $ajaxDropFunction = null;
+	
 	public function init($modelObject){
 		Control::init($modelObject);
 		$this->setAction();
@@ -17,9 +23,13 @@ abstract class OverlayControl extends Control{
 	
 	public function overlayInsert(){
 		$this->insert();
-		execute_set_ajax();
-		ob_end_clean();
-		return $this->fullModuleName.'/'.$this->tableName.'/'.$this->id;
+		if(!state_is_develop()){
+			execute_set_ajax();
+			ob_end_clean();
+			return $this->fullModuleName.'/'.$this->tableName.'/'.$this->id;
+		}else{
+			execute_set_db();
+		}
 	}
 	
 	public function overlayWrite(){
@@ -30,7 +40,11 @@ abstract class OverlayControl extends Control{
 		$this->modelConnector->triggerSetParent();
 		$this->formMeta->mode = $this->fullModuleName.'_overlay_insert';
 		$this->formMeta->isAjax = true;
-		$this->formMeta->ajaxFunction = 'overlayInsertForm';
+		if(strlen($this->ajaxInsertFunction)){
+			$this->formMeta->ajaxFunction = $this->ajaxInsertFunction;
+		}else{
+			$this->formMeta->ajaxFunction = 'overlayInsertForm';
+		}
 		return $this->write();
 	}
 	
@@ -38,20 +52,35 @@ abstract class OverlayControl extends Control{
 		execute_set_ajax();
 		$this->modelConnector->setAsOverlayGridForm();
 		$this->formMeta->isAjax = true;
-		$this->formMeta->ajaxFunction = 'overlayUpdateForm';
+		if(strlen($this->ajaxUpdateFunction)){
+			$this->formMeta->ajaxFunction = $this->ajaxUpdateFunction;
+		}else{
+			$this->formMeta->ajaxFunction = 'overlayUpdateForm';
+		}
 		return $this->edit();
 	}
 	
 	public function overlayRefresh(){
 		execute_set_ajax();
 		$this->getOverlayData();
+		
+		if(strlen($this->ajaxEditFunction)) $editFunction = $this->ajaxEditFunction;
+		else $editFunction = 'overlayEdit';
+		
+		if(strlen($this->ajaxDropFunction)) $dropFunction = $this->ajaxDropFunction;
+		else $dropFunction = 'overlayDrop';
+		
 		$renderArray = array(
 			'data' => $this->data,
 			'label' => $this->modelConnector->getColumnAttribute('label'),
 			'module' => $this->fullModuleName,
-			'column' => $this->column,
+			'column' => $this->overlayColumn,
 			'form_id' => gg('form_id'),
 			'description' => $this->overlayDescription,
+			'mode' => $this->modelConnector->getColumnAttribute('listMode'),
+			'ajax_mode' => $this->modelConnector->getColumnAttribute('ajaxListMode'),
+			'edit_function' => $editFunction,
+			'drop_function' => $dropFunction,
 		);
 		return render($renderArray, 'overlay_list.tpl', 'overlay_list');
 	}
@@ -63,16 +92,21 @@ abstract class OverlayControl extends Control{
 	protected function getOverlayData(){
 		$this->getOverlayColumn();
 		$clause = $this->getRefreshClause();
-		if(strlen($clause)) $this->select($this->column, $clause);
+		if(strlen($clause)) $this->select($this->overlayColumn, $clause);
 		else $this->data = array();
 	}
 	
 	protected function getOverlayColumn(){
-		$this->column = $this->modelConnector->getColumnNameByBoolean('isList');
+		$this->overlayColumn = $this->modelConnector->getColumnNameByBoolean('isList');
 	}
 	
 	protected function getRefreshClause(){
 		$this->parentColumn = $this->modelConnector->getParentColumnName();
+		if(strlen($this->parentColumn) == 0 and state_is_develop()){
+			$pattern = tt('Model of %s has no parent column. Please set isParent of the appropriated column to be true.');
+			$message = sprintf($pattern, $this->fullModuleName);
+			notify_add_error($message);
+		}
 		$this->parentID = (int) gg('parent');
 		$refreshID = explode(':', gg('refresh_id'));
 		$clause = array();

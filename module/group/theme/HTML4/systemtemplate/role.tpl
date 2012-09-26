@@ -38,8 +38,7 @@
 	<?php if($gid != 1):?>
 	<table width="100%"><tbody>
 		<tr>
-			<th><?=tt('Role name')?></th>
-			<th><?=tt('Description')?></th>
+			<th><?=tt('Role name/description')?></th>
 			<th><?=tt('Permission')?></th>
 		</tr>
 		<tr>
@@ -55,7 +54,7 @@
 			<?php elseif($module_label):?>
 				<?php $module_label=false;?>
 				<tr>
-					<td colspan="3">
+					<td colspan="2">
 						<strong><?=tt('Module-Role')?> : </strong>
 						<?=tt('Roles from the initialized Modules.')?>
 					</td>
@@ -63,8 +62,10 @@
 			<?php else:?>
 				<tr>
 			<?php endif?>
-			<td><?=$value['name']?></td>
-			<td><?=$value['description']?></td>
+			<td>
+				<p><label><?=$value['name']?></label></p>
+				<p><?=$value['description']?></p>
+			</td>
 			<td align="center">
 			<?php if($value['is_role']):?>
 				<input type="checkbox" name="role[]" value="<?=$key?>" checked="checked"/>

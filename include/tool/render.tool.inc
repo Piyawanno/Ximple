@@ -161,7 +161,7 @@ function render_avatar($user, $show_profile=true, $show_function=true, $mode='pr
 		elseif(isset($user['email'])) $uri = SECTION_URI.Q.'profile_write_mail/send_to_address/'.$user['email'];
 	}
 	
-	if($show_profile) $profile_link = render_profile_link($user);
+	if($show_profile) $profile_link = render_profile_link($user, null, $mode);
 	else $profile_link = '';
 	
 	$render_array = array(
@@ -198,8 +198,11 @@ function render_search_form(){
 }
 
 function render_uri($mode, $data){
-	if(strlen($data['uri'])) return SECTION_URI.Q.$mode.'/'.$data['id'].'/'.$data['uri'].'.html';
-	else return SECTION_URI.Q.$mode.'/'.$data['id'];
+	if(isset($data['uri']) and strlen($data['uri'])){
+		return SECTION_URI.Q.$mode.'/'.$data['id'].'/'.$data['uri'].'.html';
+	}else{
+		return SECTION_URI.Q.$mode.'/'.$data['id'];
+	}
 }
 
 function render_option($data){

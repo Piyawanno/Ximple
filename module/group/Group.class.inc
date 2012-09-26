@@ -33,6 +33,11 @@ class Group extends Control{
 		$this->setListEditIcon();
 		$this->setListDropIcon();
 		$this->selectListPage(10, "WHERE (section=".SECTION." OR id=1 OR id=2 OR id=3)");
+		$this->listPageColumn = array('name');
+		$pattern = "<p><label>%s</label><p><p>%s</p>";
+		foreach($this->data as $key => $value){
+			$this->data[$key]['name'] = sprintf($pattern, $value['name'], $value['description']);
+		}
 		return $this->renderListPage();
 	}
 	

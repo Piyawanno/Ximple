@@ -26,7 +26,7 @@
 		<?php if("$year-$month-$i" == $today):?>
 			<td id="calendar_today">
 		<?php elseif(isset($data[$i]['class'])):?>
-			<td class="<?=$data[$i]['class']?>">
+			<td class="<?=$data[$i]['class']?>" id="calendar_<?=$i?>">
 		<?php else:?>
 			<td>
 		<?php endif?>
@@ -40,6 +40,8 @@
 					<a href="<?=SECTION_URI.Q.$link?>" class="calendar_multiple_link"><?=$key + 1?></a>
 				<?php endforeach?>
 			<?php endif?>
+		<?php elseif(isset($data[$i]['ajax'])):?>
+			<a href="#" onclick="return <?=$data[$i]['ajax']?>('<?=$year.'-'.$month.'-'.$i?>', this)" ><?=$i?></a>
 		<?php else:?>
 			<?=$i?>
 		<?php endif?>

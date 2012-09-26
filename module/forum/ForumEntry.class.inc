@@ -23,7 +23,7 @@ class ForumEntry extends Content{
 	}
 	
 	public function index(){
-		$this->id = gg('id');
+		$this->id = (int) gg('id');
 		$this->selectByID($this->column);
 		$this->getCommentNumber();
 		if(!authority_is_guest()){
@@ -68,19 +68,21 @@ class ForumEntry extends Content{
 	}
 	
 	public function insert(){
-		Control::insert();
-		count_increase('contribution', USER_ID);
-		$this->selectByID($this->column);
-		$this->dataByID['category'] = forum_get_category_id($this->dataByID['forum']);
-		$this->insertTracker('write');
-		if($this->isFeed() and $this->isReadable(false)){
-			$feedData = $this->formatFeedData();
-			feed_insert($this->moduleName, $feedData);
+		$result = Control::insert();
+		if($result){
+			count_increase('contribution', USER_ID);
+			$this->selectByID($this->column);
+			$this->dataByID['category'] = forum_get_category_id($this->dataByID['forum']);
+			$this->insertTracker('write');
+			if($this->isFeed() and $this->isReadable(false)){
+				$feedData = $this->formatFeedData();
+				feed_insert($this->moduleName, $feedData);
+			}
+			document_set_redirect('forum_entry/'.$this->id);
+			count_increase('forum_entry_no', $this->dataByID['forum']);
+			$this->subscribe();
+			$this->checkPublishable();
 		}
-		document_set_redirect('forum_entry/'.$this->id);
-		count_increase('forum_entry_no', $this->dataByID['forum']);
-		$this->subscribe();
-		$this->checkPublishable();
 	}
 	
 	public function insertComment(){
@@ -105,8 +107,9 @@ class ForumEntry extends Content{
 	}
 	
 	public function update(){
-		Content::update();
+		$result = Content::update();
 		$this->checkPublishable();
+		return $result;
 	}
 	
 	public function listPage(){
@@ -142,6 +145,13 @@ class ForumEntry extends Content{
 		$this->listMeta->mode = $this->moduleName.'_editor_list';
 		$this->getListColumn();
 		return $this->renderListPage('WHERE (section='.SECTION.')');
+	}
+	
+	public function initModule($requirement){
+		Control::initModule($requirement);
+		module_add_feed($this->fullModuleName, $this->moduleTitle);
+		module_add_cache($this->fullModuleName);
+		notify_add_subscribe($this->fullModuleName, tt('someone posts in : ', true).$this->moduleTitle);
 	}
 	
 	protected function setConfigForm(){

@@ -7,6 +7,7 @@ class CalendarColumn extends CharColumn{
 	
 	function CalendarColumn($label, $help=null){
 		CharColumn::CharColumn($label, $help);
+		$this->setType('timestamp');
 		$this->defaultData = NOW;
 		$this->dateFormat = cc('time_format');
 	}

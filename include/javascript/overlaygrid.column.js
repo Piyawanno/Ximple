@@ -6,7 +6,6 @@ var insertedOverlayDataID = new Array();
 function overlayWrite(formID, moduleName){
 	var uri = sectionURI+moduleName+'_overlay_write';
 	var overlayDialog = overlayOpenDialog(formID, moduleName);
-	
 	if(overlayParentID) uri += '/parent/'+overlayParentID;
 	overlayDialog.css({
 		'text-align' : 'left',
@@ -26,6 +25,7 @@ function overlayWrite(formID, moduleName){
 function overlayInsertForm(form, notNull, label){
 	if(checkForm(notNull, label)){
 		$(form).ajaxSubmit({success : function(data){
+			var rawData = data;
 			data = data.replace(/(<([^>]+)>)/ig,"");
 			data = data.replace(/\s*/ig,"").split('\/');
 			var dataID = data[2];
@@ -35,7 +35,8 @@ function overlayInsertForm(form, notNull, label){
 				insertedOverlayDataID[data[0]] = new Array();
 			}
 			insertedOverlayDataID[data[0]].push(data[2]);
-			currentOverlayDialog.dialog('close');
+			if(!isStateDevelop) currentOverlayDialog.dialog('close');
+			else currentOverlayDialog.html(rawData);
 			overlayRefresh(currentFormID, currentModuleName);
 		}});
 		formChange = true;
@@ -67,7 +68,8 @@ function overlayEdit(formID, moduleName, moduleID){
 function overlayUpdateForm(form, notNull, label){
 	if(checkForm(notNull, label)){
 		$(form).ajaxSubmit({success : function(data){
-			currentOverlayDialog.dialog('close');
+			if(!isStateDevelop) currentOverlayDialog.dialog('close');
+			else currentOverlayDialog.html(data);
 			overlayRefresh(currentFormID, currentModuleName);
 		}});
 		formChange = true;
@@ -104,7 +106,7 @@ function overlayOpenDialog(formID, moduleName){
 		bgiframe : true,
 		autoOpen : false,
 		modal : true,
-		width : 520,
+		width :640,
 	});
 	overlayDialog.dialog('open');
 	return overlayDialog;

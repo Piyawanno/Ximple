@@ -31,10 +31,10 @@ class FormRender extends FormModelRender{
 	}
 	
 	public function renderUpdateForm($data){
+		$this->modelConnector->setData($data);
 		$this->modelConnector->triggerUpdateForm($data);
 		$this->checkTranslate();
 		$this->getTranslateLabel();
-		$this->modelConnector->setData($data);
 		$this->prepareRender();
 		return $this->renderForm();
 	}

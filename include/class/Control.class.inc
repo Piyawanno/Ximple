@@ -11,6 +11,7 @@ abstract class Control extends Translatable{
 	private $tableCreator;
 	private $listPage;
 	private $modelHasCategory;
+	private $model;
 	
 	protected $listMeta;
 	
@@ -36,6 +37,8 @@ abstract class Control extends Translatable{
 	
 	protected $isOwnerMode = false;
 	
+	protected $hasFormLabel = true;
+	
 	public $id;
 	public $column;
 	public $data;
@@ -56,8 +59,14 @@ abstract class Control extends Translatable{
 	
 	public function write(){
 		$this->formMeta->id = $this->fullModuleName;
-		if($this->writeLabel) $this->formMeta->title = $this->writeLabel;
-		else $this->formMeta->title = sprintf(tt('Add %s'), $this->moduleTitle);
+		
+		if($this->hasFormLabel){
+			if($this->writeLabel) $this->formMeta->title = $this->writeLabel;
+			else $this->formMeta->title = sprintf(tt('Add %s'), $this->moduleTitle);
+		}else{
+			$this->formMeta->title = null;
+		}
+		
 		if(empty($this->formMeta->mode)){
 			$this->formMeta->mode = $this->fullModuleName.'_insert';
 		}
@@ -69,8 +78,14 @@ abstract class Control extends Translatable{
 	public function edit(){
 		$this->formMeta->id = $this->fullModuleName;
 		head_add_js_var('translateModuleName', $this->fullModuleName);
-		if($this->editLabel) $this->formMeta->title = $this->editLabel;
-		else $this->formMeta->title = sprintf(tt('Edit %s'), $this->moduleTitle);
+		
+		if($this->hasFormLabel){
+			if($this->editLabel) $this->formMeta->title = $this->editLabel;
+			else $this->formMeta->title = sprintf(tt('Edit %s'), $this->moduleTitle);
+		}else{
+			$this->formMeta->title = null;
+		}
+		
 		if(empty($this->formMeta->mode)){
 			$this->formMeta->mode = $this->fullModuleName.'_update';
 		}
@@ -111,6 +126,11 @@ abstract class Control extends Translatable{
 		notify_add_info($this->dropNotify);
 	}
 	
+	public function dropChild(){
+		execute_set_ajax();
+		$this->modelConnector->triggerDropChild();
+	}
+	
 	public function prepareMethod($methodName){
 		if(isset($this->prepareMethodMap[$methodName])){
 			$prepare = $this->prepareMethodMap[$methodName];
@@ -136,6 +156,7 @@ abstract class Control extends Translatable{
 				category_init($this->fullModuleName);
 			}
 		}
+		$this->modelConnector->triggerInitModule();
 		$this->tableCreator->create();
 		if(strlen($this->moduleExtension)){
 			module_add($this->moduleName, $requirement, null, $this->moduleExtension);
@@ -146,6 +167,7 @@ abstract class Control extends Translatable{
 	
 	public function dropModule(){
 		module_drop($this->moduleName);
+		$this->modelConnector->triggerDropModule();
 	}
 	
 	public function select($column, $clause=null, $isRaw=false){
@@ -235,14 +257,19 @@ abstract class Control extends Translatable{
 		return $this->modelConnector->getParentColumnName();
 	}
 	
-	protected function init($modelObj){
-		Translatable::init($modelObj);
-		$this->modelHasCategory = $modelObj->hasCategory();
+	public function getModel(){
+		return $this->model;
+	}
+	
+	protected function init($model){
+		Translatable::init($model);
+		$this->model = $model;
+		$this->modelHasCategory = $model->hasCategory();
 		$this->setDefaultRedirect();
 		$this->setDefaultAction();
 		$this->setDefaultPrepareMethod();
 		$this->setDefaultNotify();
-		$this->initObject($modelObj);
+		$this->initObject($model);
 		$this->modelConnector->triggerSetTableName($this->tableName);
 		$this->modelConnector->setModuleName($this->fullModuleName);
 	}
@@ -298,9 +325,9 @@ abstract class Control extends Translatable{
 		if(empty($this->listMeta->title)){
 			$this->listMeta->title = sprintf(tt('List of %s'), $this->moduleTitle);
 		}
-		$this->listMeta->mode = $this->fullModuleName;
+		$this->listMeta->mode = mm();
 		$this->listMeta->defaultOrder = 'id';
-		$this->listMeta->description = $description;
+		if(strlen($description)) $this->listMeta->description = $description;
 		$this->setListWriteIcon();
 		$this->setListEditIcon();
 		$this->setListDropIcon();
@@ -422,6 +449,7 @@ abstract class Control extends Translatable{
 		$this->addAction($this->fullModuleName.'_insert', 'insert');
 		$this->addAction($this->fullModuleName.'_update', 'update');
 		$this->addAction($this->fullModuleName.'_drop', 'drop');
+		$this->addAction($this->fullModuleName.'_drop_child', 'dropChild');
 		$this->addAction($this->fullModuleName.'_print', 'printPage');
 		$this->addAction($this->fullModuleName.'_translate_form', 'renderTranslateForm');
 		$this->addAction($this->fullModuleName.'_translate', 'setTranslate');
