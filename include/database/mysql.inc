@@ -129,7 +129,7 @@ function db_exist_table($table){
 	$table = DB_TABLE_PREFIX.$table;
 	$tables = mysql_list_tables(DB_NAME, $db_connect);
 	while($row = mysql_fetch_row($tables)){
-		if($row[0] == $table) return true;;
+		if(strtolower($row[0]) == strtolower($table)) return true;;
 	}
 	return false;
 }
@@ -156,11 +156,11 @@ function db_exist_column($table, $column){
 		$state = mysql_list_fields(DB_NAME, $table, $db_connect);
 		$number = mysql_num_fields($state);
 		for($i = 0; $i < $number; $i++){
-			$columns[] = mysql_field_name($state, $i);
+			$columns[] = strtolower(mysql_field_name($state, $i));
 		}
 		$db_column[$table] = $columns;
 	}
-	return in_array($column, $columns);
+	return in_array(strtolower($column), $columns);
 }
 
 function db_modify($table, $query){

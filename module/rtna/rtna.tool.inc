@@ -89,6 +89,22 @@ function rtna_get_Health_option(){
 	}
 }
 
+function rtna_get_Activity_option(){
+	if(db_exist_table('rtna_Activity')){
+		return db_select_single_column('rtna_Activity', 'name');
+	}else{
+		return array();
+	}
+}
+
+function rtna_get_Health_option(){
+	if(db_exist_table('rtna_Health')){
+		return db_select_single_column('rtna_Health', 'name');
+	}else{
+		return array();
+	}
+}
+
 function rtna_get_cadet_party_option(){
 	return array(
 		0 => tt('undefined'),
