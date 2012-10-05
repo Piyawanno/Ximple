@@ -31,6 +31,10 @@ function module_init_rtna(){
 	$belong = new Belong();
 	$belong->initModule('Belong.class.inc');
 
+	include_once('Activity.class.inc');
+	$activity = new Activity();
+	$activity->initModule('Activity.class.inc');
+
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
 	$admin->setDescription('Who can manage all data in RTNA database.');
@@ -107,6 +111,10 @@ function module_drop_rtna(){
 	include_once('Belong.class.inc');
 	$belong = new Belong();
 	$belong->dropModule();
+
+	include_once('Activity.class.inc');
+	$activity = new Activity();
+	$activity->dropModule();
 
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();

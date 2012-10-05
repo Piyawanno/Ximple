@@ -17,6 +17,9 @@ class Belong extends Control{
 		document_set_path($this->moduleTitle, 'rtna_belong_list');
 	}
 
+	public function index(){
+		
+	}
 	
 	public function dropResolver(){
 		db_dropjk('develcard_resolver', (int)gg('id'));

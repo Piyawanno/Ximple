@@ -67,6 +67,22 @@ function rtna_get_rtna_cadet_option(){
 	}
 }
 
+function rtna_get_Activity_option(){
+	if(db_exist_table('rtna_Activity')){
+		return db_select_single_column('rtna_Activity', 'name');
+	}else{
+		return array();
+	}
+}
+
+function rtna_get_Health_option(){
+	if(db_exist_table('rtna_Health')){
+		return db_select_single_column('rtna_Health', 'name');
+	}else{
+		return array();
+	}
+}
+
 function rtna_get_cadet_party_option(){
 	return array(
 		0 => tt('undefined'),
@@ -81,7 +97,6 @@ function rtna_get_cadet_rank_option(){
 		0 => tt('NC.'),
 	);
 }
-
 function rtna_get_officer_rank_option(){
 	return array(
 		0 => tt('SubLt.'), 
