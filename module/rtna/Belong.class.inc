@@ -18,6 +18,7 @@ class Belong extends Control{
 	}
 
 	
+	
 	public function dropResolver(){
 		db_dropjk('develcard_resolver', (int)gg('id'));
 	}

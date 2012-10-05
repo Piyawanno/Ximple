@@ -61,7 +61,29 @@ function rtna_get_rtna_officer_option(){
 
 function rtna_get_rtna_cadet_option(){
 	if(db_exist_table('rtna_cadet')){
-		return db_select_single_column('rtna_cadet', 'name');
+		$clause = 'WHERE section='.SECTION;
+		$cadet =  db_select('rtna_cadet', array('name', 'surname'), $clause);
+		$result = array();
+		foreach($cadet as $key => $value){
+			$result[$key] = $value['name'].' '.$value['surname'];
+		}
+		return $result;
+	}else{
+		return array();
+	}
+}
+
+function rtna_get_Activity_option(){
+	if(db_exist_table('rtna_Activity')){
+		return db_select_single_column('rtna_Activity', 'name');
+	}else{
+		return array();
+	}
+}
+
+function rtna_get_Health_option(){
+	if(db_exist_table('rtna_health')){
+		return db_select_single_column('rtna_health', 'name');
 	}else{
 		return array();
 	}
@@ -81,7 +103,6 @@ function rtna_get_cadet_rank_option(){
 		0 => tt('NC.'),
 	);
 }
-
 function rtna_get_officer_rank_option(){
 	return array(
 		0 => tt('SubLt.'), 
