@@ -91,7 +91,7 @@ function execute_oop($mode, $module, $params, $result){
 			}
 		}
 	}
-	if($success === false) error_not_found('System can not execute : '.$mode);
+	if($success === false) notify_add_error('System can not execute : '.$mode);
 	return $result;
 }
 

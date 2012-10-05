@@ -24,6 +24,7 @@ class ListPage{
 			'label' => $this->label,
 			'is_sort' => $this->modelConnector->getColumnNameByBoolean('isOrderable'),
 			'mode' => $this->modelConnector->getColumnAttribute('listMode'),
+			'ajax_mode' => $this->modelConnector->getColumnAttribute('ajaxListMode'),
 		);
 		return render($renderArray, 'list.tpl', 'list');
 	}

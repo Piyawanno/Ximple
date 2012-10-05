@@ -22,7 +22,9 @@ abstract class ModelColumn{
 	public $dataDB;
 	public $defaultData;
 	public $listMode;
+	public $ajaxListMode;
 	public $tableName;
+	public $parentConnector;
 	
 	public $isDB = true;
 	public $isLink = false;

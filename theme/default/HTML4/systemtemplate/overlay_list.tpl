@@ -22,19 +22,25 @@
 					<td>
 				<?php endif?>
 				
-				<?php if(isset($mode[$col]) and !(isset($value['avoidLink']) and $value['avoidLink'])):?>
-					<a href="<?=SECTION_URI.Q.$mode[$col].'/'.$value['id']?>" target="_blank"><?=$value[$col]?></a></td>
+				<?php if((isset($mode[$col]) or isset($ajax_mode[$col])) and !(isset($value['avoidLink']) and $value['avoidLink'])):?>
+					<?php if(isset($value['list_uri'])):?>
+						<a href="<?=SECTION_URI.Q.$value['list_uri']?>"><?=$value[$col]?></a></td>
+					<?php elseif(isset($ajax_mode[$col])):?>
+						<a href="#" onclick="return <?=$ajax_mode[$col]?>(<?=$value['id']?>)"><?=$value[$col]?></a></td>
+					<?php else:?>
+						<a href="<?=SECTION_URI.Q.$mode[$col].'/'.$value['id']?>"><?=$value[$col]?></a></td>
+					<?php endif?>
 				<?php else:?>
 					<?=$value[$col]?></td>
 				<?php endif?>
 			<?php endforeach?>
 			<td style="width:20px;" align="center">
-				<a href="#" onclick="return <?="overlayEdit('$form_id', '$module', $id)"?>">
+				<a href="#" onclick="return <?="$edit_function('$form_id', '$module', $id)"?>">
 					<img src="<?=ROOT_URI.'files/icon/edit.png'?>" border="0" >
 				</a>
 			</td>
 			<td style="width:20px;" align="center">
-				<a href="#" onclick="return <?="overlayDrop('$form_id', '$module', $id)"?>">
+				<a href="#" onclick="return <?="$drop_function('$form_id', '$module', $id)"?>">
 					<img src="<?=ROOT_URI.'files/icon/drop.png'?>" border="0" >
 				</a>
 			</td>

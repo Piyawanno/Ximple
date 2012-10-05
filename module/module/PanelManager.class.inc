@@ -31,7 +31,7 @@ class PanelManager{
 				module_add_panel($this->name, $admin, $mode, $label);
 				$method = $control->getAction($mode);
 				foreach($this->role as $role){
-					if($control->hasAccessMethod($role, $method)){
+					if($control->hasAccessMethod($role, $method) or $control->hasAccessMethod('guest', $method)){
 						module_add_panel($this->name, $role, $mode, $label);
 					}
 				}

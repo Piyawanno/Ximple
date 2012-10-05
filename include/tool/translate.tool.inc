@@ -28,6 +28,8 @@ function translate_get_interface_language(){
 		'de' => 'Deutsch',
 		'th' => 'ไทย',
 		'jp' => 'Japanese',
+		'cn' => 'Chinese',
+		'mm' => 'Burmese',
 	);
 	return $language;
 }

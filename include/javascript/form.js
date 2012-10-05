@@ -13,7 +13,8 @@ if(isForm){
 		});
 		initForm($('a'), function(form){form.click(function(){
 			if(formCheckLocation){
-				if($(this).attr('href').substring(0, 1) != '#' &&  $(this).attr('href').length){
+				var href = $(this).attr('href');
+				if(href.length && href.substring(0, 7) == 'http://'){
 					if(formChange){
 						return confirm(changeLocationMessage);
 					}else{
@@ -22,6 +23,14 @@ if(isForm){
 				}
 			}
 		})});
+	});
+}
+
+function hideConfigForm(){
+	$('.subform').each(function(index){
+		if($(this).attr('rel') == 'hide'){
+			$(this).hide();
+		}
 	});
 }
 
@@ -77,4 +86,10 @@ function verifyCaptcha(){
 	catch (e){
 	}
 	return ok;
+}
+
+function formInitReady(){
+	for(i in readyFunction){
+		readyFunction[i]();
+	}
 }

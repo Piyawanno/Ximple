@@ -26,7 +26,7 @@
 		<?php if("$year-$month-$i" == $today):?>
 			<td id="calendar_today">
 		<?php elseif(isset($data[$i]['class'])):?>
-			<td class="<?=$data[$i]['class']?>">
+			<td class="<?=$data[$i]['class']?>" id="calendar_<?=$i?>">
 		<?php else:?>
 			<td>
 		<?php endif?>
@@ -41,7 +41,7 @@
 				<?php endforeach?>
 			<?php endif?>
 		<?php elseif(isset($data[$i]['ajax'])):?>
-			<a href="#" onclick="return <?=$data[$i]['ajax']?>('<?=$year.'-'.$month.'-'.$i?>')" ><?=$i?></a>
+			<a href="#" onclick="return <?=$data[$i]['ajax']?>('<?=$year.'-'.$month.'-'.$i?>', this)" ><?=$i?></a>
 		<?php else:?>
 			<?=$i?>
 		<?php endif?>

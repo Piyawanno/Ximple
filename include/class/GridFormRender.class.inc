@@ -19,6 +19,7 @@ class GridFormRender{
 		$this->isLink = $gridColumn->isLink;
 		$this->isEmptyForm = $gridColumn->isEmptyForm;
 		$this->isWritable = $gridColumn->isWritable;
+		$this->childTableName = $gridColumn->childTableName;
 	}
 	
 	public function renderForm($formID){
@@ -63,6 +64,9 @@ class GridFormRender{
 			$render .= '<tr valign="top">';
 			foreach($this->memberColumn as $name => $member){
 				$member->data = $data[$name];
+				if(method_exists($member, 'triggerUpdateForm')){
+					$member->triggerUpdateForm($member->data);
+				}
 				$form = $this->renderRowForm($id, $member);
 				if($this->isLink){
 					$form = str_replace('[]', '[id_'.$key.']', $form);
@@ -94,14 +98,14 @@ class GridFormRender{
 			$value->data = null;
 			$render .= $this->renderRowForm($id, $value);
 		}
-		$render.= $this->renderDropIcon($this->dropMode);
+		$render.= $this->renderDropIcon();
 		$render.= '</tr>';
 		$render = str_replace("\n", "", $render);
 		return $render;
 	}
 	
 	private function renderDropIcon($id=null){
-		if($id) $dropMode = $this->dropMode.'/'.$id.'/confirm/true';
+		if($id) $dropMode = $this->dropMode.'/'.$id.'/table/'.$this->childTableName.'/confirm/true';
 		else $dropMode = '';
 		return '
 			<td>

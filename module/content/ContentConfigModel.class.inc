@@ -14,6 +14,7 @@ abstract class ContentConfigModel extends Model{
 		$comment_write_label = $mode.'_comment_write_label';
 		$this->$comment_write_label = $this->title(tt('label for comment write form'));
 		$this->$comment_write_label->defaultData = tt('Please, write your opinion.');
+		$this->$comment_write_label->enableTranslate();
 		
 		$comment_page_length = $mode.'_comment_page_length';
 		$this->$comment_page_length = $this->spin(tt('comments number per page'), 5, 50);

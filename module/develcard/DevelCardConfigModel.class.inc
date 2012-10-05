@@ -11,6 +11,15 @@ class DevelCardConfigModel extends Model{
 		$this->develcard_point_bg_color = $this->color('karma background color');
 		
 		$this->develcard_comment_write_label  = $this->title(tt('comment label'));
+		$this->develcard_comment_write_label->defaultData = tt('Please, write your opinion.');
+		$this->develcard_comment_write_label->enableTranslate();
+		
+		$option = array(
+			'comment_avatar' => tt('avatar for comments'),
+			'signature' => tt('user signature'),
+		);
+		$this->develcard_appearance = $this->checkbox(tt('show in rendered page'), $option);
+		
 		$this->develcard_comment_page_length = $this->spin(tt('comment number per page'), 5, 250);
 		$this->develcard_list_per_page = $this->spin(tt('Number of DevelCard per page'), 5, 250);
 		
