@@ -35,13 +35,10 @@ function module_init_rtna(){
 	$activity = new Activity();
 	$activity->initModule('Activity.class.inc');
 
-<<<<<<< HEAD
 	include_once('Health.class.inc');
 	$health = new Health();
 	$health->initModule('Health.class.inc');
 
-=======
->>>>>>> f6cfadb1ff6fc9d86aa8e6247dc91fa0a1531a84
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
 	$admin->setDescription('Who can manage all data in RTNA database.');
@@ -126,13 +123,10 @@ function module_drop_rtna(){
 	$activity = new Activity();
 	$activity->dropModule();
 
-<<<<<<< HEAD
 	include_once('Health.class.inc');
 	$health = new Health();
 	$health->dropModule();
 
-=======
->>>>>>> f6cfadb1ff6fc9d86aa8e6247dc91fa0a1531a84
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();
 

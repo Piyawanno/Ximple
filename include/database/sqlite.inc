@@ -28,7 +28,7 @@ function db_init(){
 	global $db_transaction;
 	$sqliteerror = null;
 	@$db_connect = sqlite_open(ROOT_PATH.'files/sqlite_'.SECTION.'.data', 0766, $sqliteerror)  or error_db_connect();
-	@sqlite_query($db_connect, 'START TRANSACTION') or error_db_log($query, sqlite_last_error($db_connect));
+	@sqlite_query($db_connect, 'BEGIN TRANSACTION') or error_db_log($query, sqlite_last_error($db_connect));
 	$db_transaction = true;
 }
 
