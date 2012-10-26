@@ -47,6 +47,11 @@ function module_init_rtna(){
 	$behavior = new Behavior();
 	$behavior->initModule('Behavior.class.inc');
 
+<<<<<<< HEAD
+	include_once('Bedroom.class.inc');
+	$bedroom = new Bedroom();
+	$bedroom->initModule('Bedroom.class.inc');
+
 	include_once('Classroom.class.inc');
 	$classroom = new Classroom();
 	$classroom->initModule('Classroom.class.inc');
@@ -63,13 +68,15 @@ function module_init_rtna(){
 	$educationyear = new Educationyear();
 	$educationyear->initModule('Educationyear.class.inc');
 
+=======
+>>>>>>> 2a5369350b199cdf448a15d7796f115948820223
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
 	$admin->setDescription('Who can manage all data in RTNA database.');
 	$admin->submit();
 	
 	$cadetRTNA = new RoleManager('rtna_cadet');
-	$cadetRTNA->setName('Cadet of RTNA');
+	$cadetRTNA->setName('RTNA Cadet');
 	$cadetRTNA->setDescription('Who can edit own personal data.');
 	$cadetRTNA->submit();
 
@@ -87,6 +94,11 @@ function module_init_rtna(){
 	$officerDataManager->setName('RTNA Officer Data Manager');
 	$officerDataManager->setDescription('Who can add and edit data of Officer.');
 	$officerDataManager->submit();
+
+	$regimentOfficer = new RoleManager('rtna_regiment_officer');
+	$regimentOfficer->setName('Regiment Officer');
+	$regimentOfficer->setDescription('Who can edit own personal data.');
+	$regimentOfficer->submit();
 	
 	$belongDataManager = new RoleManager('rtna_belong_data_manager');
 	$belongDataManager->setName('RTNA Officer Data Manager');
@@ -111,10 +123,20 @@ function module_init_rtna(){
 	$panel->append('rtna_health', 'Manage new Health');
 	$panel->append('rtna_pttest', 'Manage new PT Test');
 	$panel->append('rtna_behavior', 'Manage new Behavior Indicator');
+	$panel->append('rtna_bedroom', 'Manage new bedroom');
+	$panel->append('rtna_faculty', 'Create new Faculty');
+	$panel->append('rtna_yearserie', 'Create new Yearserie');
+	$panel->append('rtna_belong', 'Create new Unit');
+	$panel->append('rtna_club', 'Create new Club');
+	$panel->append('rtna_activity', 'Create new Activity');
+	$panel->append('rtna_health', 'Create new Health');
+	$panel->append('rtna_pttest', 'Create new PT Test');
+	$panel->append('rtna_behavior', 'Create new Behavior Indicator');
 	$panel->appendRole($admin);
 	$panel->appendRole($cadetDataManager);
 	$panel->appendRole($cadetRTNA);
 	$panel->appendRole($officerDataManager);
+	$panel->appendRole($regimentOfficer);
 	$panel->appendRole($belongDataManager);
 	$panel->appendRole($officerRTNA);
 	$panel->submit();
@@ -161,6 +183,11 @@ function module_drop_rtna(){
 	$behavior = new Behavior();
 	$behavior->dropModule();
 
+<<<<<<< HEAD
+	include_once('Bedroom.class.inc');
+	$bedroom = new Bedroom();
+	$bedroom->dropModule();
+
 	include_once('Classroom.class.inc');
 	$classroom = new Classroom();
 	$classroom->dropModule();
@@ -177,6 +204,8 @@ function module_drop_rtna(){
 	$educationyear = new Educationyear();
 	$educationyear->dropModule();
 
+=======
+>>>>>>> 2a5369350b199cdf448a15d7796f115948820223
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();
 

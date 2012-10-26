@@ -1,19 +1,19 @@
 <?php
-class CadetClassLogModel extends Model{
+class CadetClasslogModel extends Model{
 	public $moduleName = 'rtna';
-	public $tableName = 'rtna_cadet_classLog';
-	public $dropMode = 'rtna_cadet_classLog_drop';
+	public $tableName = 'rtna_cadet_classlog';
+	public $dropMode = 'rtna_cadet_activity_drop';
 	
-	function CadetClassLogModel($classLogID=null){
-		$this->classLog = $this->none($classLogID, 'int');
-		$this->classLog->isGridForm = false;
-		$this->classLog->isParent = true;
+	function CadetClasslogModel($classlogID=null){
+		$this->classlog = $this->none($classlogID, 'int');
+		$this->classlog->isGridForm = false;
+		$this->classlog->isParent = true;
 
 		$this->cadet = $this->select(tt('cadet'), rtna_get_rtna_cadet_option());
 	}
 	
 	public function triggerSetParent($parentID){
-		$this->classLog->data = $parentID;
+		$this->classlog->data = $parentID;
 	}
 }
 ?>

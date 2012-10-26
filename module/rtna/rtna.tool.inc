@@ -89,14 +89,6 @@ function rtna_get_Health_option(){
 	}
 }
 
-function rtna_get_Bedroom_option(){
-	if(db_exist_table('rtna_bedroom')){
-		return db_select_single_column('rtna_bedroom', 'name');
-	}else{
-		return array();
-	}
-}
-
 function rtna_get_cadet_party_option(){
 	return array(
 		0 => tt('undefined'),
