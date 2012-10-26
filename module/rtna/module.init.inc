@@ -133,6 +133,7 @@ function module_init_rtna(){
 	$panel->appendRole($cadetDataManager);
 	$panel->appendRole($cadetRTNA);
 	$panel->appendRole($officerDataManager);
+	$panel->appendRole($regimentOfficer);
 	$panel->appendRole($belongDataManager);
 	$panel->appendRole($officerRTNA);
 	$panel->submit();
