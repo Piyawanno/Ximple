@@ -47,11 +47,10 @@ function module_init_rtna(){
 	$behavior = new Behavior();
 	$behavior->initModule('Behavior.class.inc');
 
-<<<<<<< HEAD
 	include_once('Bedroom.class.inc');
 	$bedroom = new Bedroom();
 	$bedroom->initModule('Bedroom.class.inc');
-=======
+
 	include_once('Classroom.class.inc');
 	$classroom = new Classroom();
 	$classroom->initModule('Classroom.class.inc');
@@ -67,7 +66,6 @@ function module_init_rtna(){
 	include_once('Educationyear.class.inc');
 	$educationyear = new Educationyear();
 	$educationyear->initModule('Educationyear.class.inc');
->>>>>>> a0aebb4236bdcaf70848f2bf355e2d07e7311f76
 
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
@@ -75,7 +73,7 @@ function module_init_rtna(){
 	$admin->submit();
 	
 	$cadetRTNA = new RoleManager('rtna_cadet');
-	$cadetRTNA->setName('Cadet of RTNA');
+	$cadetRTNA->setName('RTNA Cadet');
 	$cadetRTNA->setDescription('Who can edit own personal data.');
 	$cadetRTNA->submit();
 
@@ -93,6 +91,11 @@ function module_init_rtna(){
 	$officerDataManager->setName('RTNA Officer Data Manager');
 	$officerDataManager->setDescription('Who can add and edit data of Officer.');
 	$officerDataManager->submit();
+
+	$regimentOfficer = new RoleManager('rtna_regiment_officer');
+	$regimentOfficer->setName('Regiment Officer');
+	$regimentOfficer->setDescription('Who can edit own personal data.');
+	$regimentOfficer->submit();
 	
 	$belongDataManager = new RoleManager('rtna_belong_data_manager');
 	$belongDataManager->setName('RTNA Officer Data Manager');
@@ -176,11 +179,10 @@ function module_drop_rtna(){
 	$behavior = new Behavior();
 	$behavior->dropModule();
 
-<<<<<<< HEAD
 	include_once('Bedroom.class.inc');
 	$bedroom = new Bedroom();
 	$bedroom->dropModule();
-=======
+
 	include_once('Classroom.class.inc');
 	$classroom = new Classroom();
 	$classroom->dropModule();
@@ -196,7 +198,6 @@ function module_drop_rtna(){
 	include_once('Educationyear.class.inc');
 	$educationyear = new Educationyear();
 	$educationyear->dropModule();
->>>>>>> a0aebb4236bdcaf70848f2bf355e2d07e7311f76
 
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();
