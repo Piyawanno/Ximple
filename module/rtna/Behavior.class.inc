@@ -10,8 +10,19 @@ class Behavior extends Control{
 		$this->tableName = 'rtna_behavior';
 		$this->init(new BehaviorModel());
 		
+		$this->setAccess();
+		$this->setAction();
+		
 		document_set_path(tt('RTNA Database'), 'rtna');
 		document_set_path($this->moduleTitle, 'rtna_behavior');
+	}
+	
+	private function setAccess(){
+		$this->setAdmin('rtna_admin');
+	}
+	
+	private function setAction(){
+		
 	}
 }
 ?>
