@@ -39,6 +39,7 @@ function module_init_rtna(){
 	$health = new Health();
 	$health->initModule('Health.class.inc');
 
+<<<<<<< HEAD
 	include_once('PTTest.class.inc');
 	$pttest = new PTTest();
 	$pttest->initModule('PTTest.class.inc');
@@ -47,6 +48,8 @@ function module_init_rtna(){
 	$behavior = new Behavior();
 	$behavior->initModule('Behavior.class.inc');
 
+=======
+>>>>>>> db40359db7be274b67d23592eb3d56ada1e96fe9
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
 	$admin->setDescription('Who can manage all data in RTNA database.');
@@ -137,6 +140,7 @@ function module_drop_rtna(){
 	$health = new Health();
 	$health->dropModule();
 
+<<<<<<< HEAD
 	include_once('PTTest.class.inc');
 	$pttest = new PTTest();
 	$pttest->dropModule();
@@ -145,6 +149,8 @@ function module_drop_rtna(){
 	$behavior = new Behavior();
 	$behavior->dropModule();
 
+=======
+>>>>>>> db40359db7be274b67d23592eb3d56ada1e96fe9
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();
 

@@ -76,6 +76,8 @@ function init_set_production_path(){
 function init_set_time_zone(){
 	if(strlen(cc('time_zone')) & cc('time_zone') != 'UTC'){
 		date_default_timezone_set(cc('time_zone'));
+	}else{
+		date_default_timezone_set('UTC');
 	}
 }
 
