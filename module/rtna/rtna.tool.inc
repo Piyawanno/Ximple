@@ -84,7 +84,6 @@ function rtna_get_Activity_option(){
 function rtna_get_Health_option(){
 	if(db_exist_table('rtna_health')){
 		return db_select_single_column('rtna_health', 'name');
-<<<<<<< HEAD
 	}else{
 		return array();
 	}
@@ -93,8 +92,6 @@ function rtna_get_Health_option(){
 function rtna_get_Bedroom_option(){
 	if(db_exist_table('rtna_bedroom')){
 		return db_select_single_column('rtna_bedroom', 'name');
-=======
->>>>>>> 44bd5793a01d8a77af531ac2b12c288e7f63b179
 	}else{
 		return array();
 	}
