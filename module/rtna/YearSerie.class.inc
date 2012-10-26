@@ -4,7 +4,7 @@ include('YearSerieModel.class.inc');
 
 class YearSerie extends Control{
 	function YearSerie(){
-		$this->moduleTitle = tt('YearSerie');
+		$this->moduleTitle = tt('Year Serie');
 		$this->moduleName = 'rtna';
 		$this->moduleExtension = 'yearserie';
 		$this->tableName = 'rtna_yearserie';
@@ -15,16 +15,14 @@ class YearSerie extends Control{
 	}
 
 	public function index(){
-		$this->id = (int) gg('id'); //$_GET['id']
+		$this->id = (int) gg('id');
 		if($this->id != 0) return $this->renderDetailPage();
 		else return $this->listPage();
 	}
 
 	private function renderDetailPage(){
 		$this->select($this->column, 'WHERE id='.$this->id);
-		print_r($this->data);
 		$this->selectByID($this->column);
-		print_r($this->dataByID);
 		document_set_path($this->dataByID['serie_number']);
 		$renderArray = array(
 			'data' => $this->dataByID,

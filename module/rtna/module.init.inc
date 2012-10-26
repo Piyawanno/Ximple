@@ -53,7 +53,7 @@ function module_init_rtna(){
 	$admin->submit();
 	
 	$cadetRTNA = new RoleManager('rtna_cadet');
-	$cadetRTNA->setName('Cadet of RTNA');
+	$cadetRTNA->setName('RTNA Cadet');
 	$cadetRTNA->setDescription('Who can edit own personal data.');
 	$cadetRTNA->submit();
 
@@ -84,17 +84,17 @@ function module_init_rtna(){
 	$panel->appendControl($faculty);
 	$panel->appendControl($belong);
 	$panel->append('rtna_cadet_write', 'Create new Cadet');
-	$panel->append('rtna_cadet_list', 'List Cadet');
+	$panel->append('rtna_cadet', 'List Cadet');
 	$panel->append('rtna_officer_write', 'Create new Officer');
-	$panel->append('rtna_officer_list', 'List Officer');
-	$panel->append('rtna_faculty', 'Manage new Faculty');
-	$panel->append('rtna_yearserie', 'Manage new Yearserie');
-	$panel->append('rtna_belong', 'Manage new Unit');
-	$panel->append('rtna_club', 'Manage new Club');
-	$panel->append('rtna_activity', 'Manage new Activity');
-	$panel->append('rtna_health', 'Manage new Health');
-	$panel->append('rtna_pttest', 'Manage new PT Test');
-	$panel->append('rtna_behavior', 'Manage new Behavior Indicator');
+	$panel->append('rtna_officer', 'List Officer');
+	$panel->append('rtna_faculty', 'Manage Faculty');
+	$panel->append('rtna_yearserie', 'Manage Yearserie');
+	$panel->append('rtna_belong', 'Manage Unit');
+	$panel->append('rtna_club', 'Manage Club');
+	$panel->append('rtna_activity', 'Manage Activity');
+	$panel->append('rtna_health', 'Manage Health');
+	$panel->append('rtna_pttest', 'Manage PT Test');
+	$panel->append('rtna_behavior', 'Manage Behavior Indicator');
 	$panel->appendRole($admin);
 	$panel->appendRole($cadetDataManager);
 	$panel->appendRole($cadetRTNA);
