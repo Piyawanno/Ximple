@@ -47,22 +47,6 @@ function module_init_rtna(){
 	$behavior = new Behavior();
 	$behavior->initModule('Behavior.class.inc');
 
-	include_once('Classroom.class.inc');
-	$classroom = new Classroom();
-	$classroom->initModule('Classroom.class.inc');
-
-	include_once('Building.class.inc');
-	$building = new Building();
-	$building->initModule('Building.class.inc');
-
-	include_once('Classlog.class.inc');
-	$classlog = new Classlog();
-	$classlog->initModule('Classlog.class.inc');
-
-	include_once('Educationyear.class.inc');
-	$educationyear = new Educationyear();
-	$educationyear->initModule('Educationyear.class.inc');
-
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
 	$admin->setDescription('Who can manage all data in RTNA database.');
@@ -160,22 +144,6 @@ function module_drop_rtna(){
 	include_once('Behavior.class.inc');
 	$behavior = new Behavior();
 	$behavior->dropModule();
-
-	include_once('Classroom.class.inc');
-	$classroom = new Classroom();
-	$classroom->dropModule();
-
-	include_once('Building.class.inc');
-	$building = new Building();
-	$building->dropModule();
-
-	include_once('Classlog.class.inc');
-	$classlog = new Classlog();
-	$classlog->dropModule();
-
-	include_once('Educationyear.class.inc');
-	$educationyear = new Educationyear();
-	$educationyear->dropModule();
 
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();
