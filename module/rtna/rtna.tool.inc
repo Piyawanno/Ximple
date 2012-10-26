@@ -134,4 +134,12 @@ function enable($parent){
 		return $modelColumn;
 	}
 
+function rtna_get_building_option(){
+	if(db_exist_table('rtna_building')){
+		return db_select_single_column('rtna_building', 'name');
+	}else{
+		return array();
+	}
+}
+
 ?>
