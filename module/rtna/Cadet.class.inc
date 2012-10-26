@@ -17,13 +17,30 @@ class Cadet extends Control{
 		document_set_path($this->moduleTitle, 'rtna_cadet_list');
 	}
 	
-	
-
-	public function renderClassList(){
-		document_set_path(tt('Cadet class'), 'rtna_cadet_class');
-		
+	public function index(){
+		$this->id = (int) gg('id');
+		if($this->id) return $this->renderPage();
+		else return $this->renderList();
 	}
-
+	
+	private function renderPage(){
+		$this->selectByID($this->column);
+		$this->data = userinfo_get_info($this->data, 'uid');
+		$this->dataByID = $this->data[$this->id];
+		document_set_path($this->dataByID['name'].' '.$this->dataByID['surname']);
+		return render($this->dataByID, 'rtna_cadet.tpl', 'rtna_cadet');
+	}
+	
+	private function renderList(){
+		$clause = 'WHERE section='.SECTION;
+		$this->selectListPage(20, $clause);
+		foreach($this->data as $key => $value){
+			$this->data[$key]['name'] = $value['name'].' '.$value['surname'];
+		}
+		$this->listPageColumn = array('name');
+		return $this->renderDefaultListPage();
+	}
+	
 	private function setAccess(){
 		$this->setAdmin('rtna_admin');
 		$this->addAccessMethod('rtna_cadet_data_manager', 'index');
@@ -33,7 +50,6 @@ class Cadet extends Control{
 	}
 
 	private function setAction(){
-		$this->addAction('rtna_cadet_class', 'renderClassList');
 	}
 }
 ?>

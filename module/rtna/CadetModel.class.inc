@@ -5,6 +5,7 @@ class CadetModel extends Model{
 	function CadetModel(){
 		$this->rank = $this->select(tt('rank'), rtna_get_cadet_rank_option());
 		$this->name = $this->title(tt('name'));
+		$this->name->listMode = 'rtna_cadet';
 		$this->surname = $this->title(tt('surname'));
 		$this->birth_date = $this->calendar(tt('birth date'));
 		$this->uid = $this->userByRole(tt('login user'), 'rtna_cadet');
