@@ -99,6 +99,7 @@ function module_init_rtna(){
 	$panel->append('rtna_health', 'Manage new Health');
 	$panel->append('rtna_pttest', 'Manage new PT Test');
 	$panel->append('rtna_behavior', 'Manage new Behavior Indicator');
+<<<<<<< HEAD
 	$panel->append('rtna_bedroom', 'Manage new bedroom');
 	$panel->append('rtna_faculty', 'Create new Faculty');
 	$panel->append('rtna_yearserie', 'Create new Yearserie');
@@ -108,6 +109,8 @@ function module_init_rtna(){
 	$panel->append('rtna_health', 'Create new Health');
 	$panel->append('rtna_pttest', 'Create new PT Test');
 	$panel->append('rtna_behavior', 'Create new Behavior Indicator');
+=======
+>>>>>>> 69fa3bf5f246d79f8e751c2b49a3f2668eb83739
 	$panel->appendRole($admin);
 	$panel->appendRole($cadetDataManager);
 	$panel->appendRole($cadetRTNA);
