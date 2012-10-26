@@ -19,14 +19,16 @@ class UserByRoleColumn extends SelectColumn{
 			}
 			return $hidden->renderForm($formID);
 		}else{
-			$this->option = $this->getResidualTranslator();
+			$this->option = $this->getResidualUID();
 			if(count($this->option)){
 				$help = tt('You can add new user in <a href="%s">Add User page</a>.');
 				$this->help = sprintf($help, SECTION_URI.Q.'user_write');
 				return SelectColumn::renderForm($formID);
 			}else{
-				$message = tt('No user has permission to be a Translator. ');
-				$message.= tt('Please create a user with Translator Permission before adding a new translator.');
+				$role = io_unserialize(FILES_PATH.'config/role'.SECTION);
+				$role = $role[$this->role]['name'];
+				$message = sprintf(tt('No user has permission to be a %s. '), $role);
+				$message.= sprintf(tt('Please create a user with %s Permission before adding a new translator.'), $role);
 				$redirect = '
 				<script>
 					alert("'.$message.'");
@@ -37,7 +39,15 @@ class UserByRoleColumn extends SelectColumn{
 		}
 	}
 	
-	function getResidualTranslator(){
+	public function triggerPreInsert(){
+		cache_clear_db('users');
+	}
+	
+	public function triggerPreUpdate(){
+		cache_clear_db('users');
+	}
+	
+	private function getResidualUID(){
 		if(is_array(cc($this->role)) and count(cc($this->role))){
 			$clause = 'WHERE id NOT IN ( SELECT '.$this->name.' FROM '.$this->tableName.') AND ';
 			$clause.= 'id IN (SELECT users FROM map WHERE groups IN('.join(', ', cc($this->role)).'))';
