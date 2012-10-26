@@ -35,6 +35,22 @@ function module_init_rtna(){
 	$activity = new Activity();
 	$activity->initModule('Activity.class.inc');
 
+	include_once('Health.class.inc');
+	$health = new Health();
+	$health->initModule('Health.class.inc');
+
+	include_once('PTTest.class.inc');
+	$pttest = new PTTest();
+	$pttest->initModule('PTTest.class.inc');
+
+	include_once('Behavior.class.inc');
+	$behavior = new Behavior();
+	$behavior->initModule('Behavior.class.inc');
+
+	include_once('Bedroom.class.inc');
+	$bedroom = new Bedroom();
+	$bedroom->initModule('Bedroom.class.inc');
+
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
 	$admin->setDescription('Who can manage all data in RTNA database.');
@@ -71,13 +87,19 @@ function module_init_rtna(){
 	$panel->appendControl($yearSerie);
 	$panel->appendControl($faculty);
 	$panel->appendControl($belong);
-	$panel->append('rtna_cadet_write', 'Create new Cadet');
+	$panel->append('rtna_cadet_write', 'Manage new Cadet');
 	$panel->append('rtna_cadet_list', 'List Cadet');
-	$panel->append('rtna_officer_write', 'Create new Officer');
+	$panel->append('rtna_officer_write', 'Manage new Officer');
 	$panel->append('rtna_officer_list', 'List Officer');
-	$panel->append('rtna_faculty', 'Create new Faculty');
-	$panel->append('rtna_yearserie', 'Create new Yearserie');
-	$panel->append('rtna_belong', 'Create new Unit');
+	$panel->append('rtna_faculty', 'Manage new Faculty');
+	$panel->append('rtna_yearserie', 'Manage new Yearserie');
+	$panel->append('rtna_belong', 'Manage new Unit');
+	$panel->append('rtna_club', 'Manage new Club');
+	$panel->append('rtna_activity', 'Manage new Activity');
+	$panel->append('rtna_health', 'Manage new Health');
+	$panel->append('rtna_pttest', 'Manage new PT Test');
+	$panel->append('rtna_behavior', 'Manage new Behavior Indicator');
+	$panel->append('rtna_bedroom', 'Manage new bedroom');
 	$panel->appendRole($admin);
 	$panel->appendRole($cadetDataManager);
 	$panel->appendRole($cadetRTNA);
@@ -115,6 +137,22 @@ function module_drop_rtna(){
 	include_once('Activity.class.inc');
 	$activity = new Activity();
 	$activity->dropModule();
+
+	include_once('Health.class.inc');
+	$health = new Health();
+	$health->dropModule();
+
+	include_once('PTTest.class.inc');
+	$pttest = new PTTest();
+	$pttest->dropModule();
+
+	include_once('Behavior.class.inc');
+	$behavior = new Behavior();
+	$behavior->dropModule();
+
+	include_once('Bedroom.class.inc');
+	$bedroom = new Bedroom();
+	$bedroom->dropModule();
 
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();
