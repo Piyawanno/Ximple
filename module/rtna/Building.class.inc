@@ -1,6 +1,6 @@
 <?php
 execute_add_extended_class('rtna', 'building', 'Building');
-include('ClassroomModel.class.inc');
+include('BuildingModel.class.inc');
 
 class Building extends Control{
 	function Building(){

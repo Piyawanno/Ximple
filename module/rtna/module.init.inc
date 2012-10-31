@@ -7,8 +7,6 @@ function module_get_info_rtna(){
 }
 
 function module_init_rtna(){
-	module_add('rtna', 'rtna.module.inc');	
-	
 	include_once('Cadet.class.inc');
 	$cadet = new Cadet();
 	$cadet->initModule('Cadet.class.inc');
@@ -48,6 +46,30 @@ function module_init_rtna(){
 	include_once('Behavior.class.inc');
 	$behavior = new Behavior();
 	$behavior->initModule('Behavior.class.inc');
+
+	include_once('LectureClass.class.inc');
+	$lectureClass = new LectureClass();
+	$lectureClass->initModule('LectureClass.class.inc');
+
+	include_once('EducationYear.class.inc');
+	$educationYear = new EducationYear();
+	$educationYear->initModule('EducationYear.class.inc');
+
+	include_once('ClassLog.class.inc');
+	$classLog = new ClassLog();
+	$classLog->initModule('Classlog.class.inc');
+
+	include_once('Building.class.inc');
+	$building = new Building();
+	$building->initModule('Building.class.inc');
+
+	include_once('Classroom.class.inc');
+	$classroom = new Classroom();
+	$classroom->initModule('Classroom.class.inc');
+
+	include_once('Occupation.class.inc');
+	$occupation = new Occupation();
+	$occupation->initModule('Occupation.class.inc');
 
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
@@ -97,6 +119,12 @@ function module_init_rtna(){
 	$panel->append('rtna_health', 'Manage Health');
 	$panel->append('rtna_pttest', 'Manage PT Test');
 	$panel->append('rtna_behavior', 'Manage Behavior Indicator');
+	$panel->append('rtna_building', 'Manage Building');
+	$panel->append('rtna_classroom', 'Manage Classroom');
+	$panel->append('rtna_educationYear', 'Manage Education Year');
+	$panel->append('rtna_lectureClass', 'Manage Class');
+	$panel->append('rtna_classLog', 'Manage Class Log');
+	$panel->append('rtna_occupation', 'Manage Occupation');
 	$panel->appendRole($admin);
 	$panel->appendRole($cadetDataManager);
 	$panel->appendRole($cadetRTNA);
@@ -146,6 +174,30 @@ function module_drop_rtna(){
 	include_once('Behavior.class.inc');
 	$behavior = new Behavior();
 	$behavior->dropModule();
+
+	include_once('LectureClass.class.inc');
+	$lectureClass = new LectureClass();
+	$lectureClass->dropModule();
+
+	include_once('EducationYear.class.inc');
+	$educationYear = new EducationYear();
+	$educationYear->dropModule();
+
+	include_once('ClassLog.class.inc');
+	$classLog = new ClassLog();
+	$classLog->dropModule();
+
+	include_once('Building.class.inc');
+	$building = new Building();
+	$building->dropModule();
+
+	include_once('Classroom.class.inc');
+	$classroom = new Classroom();
+	$classroom->dropModule();
+
+	include_once('Occupation.class.inc');
+	$occupation = new Occupation();
+	$occupation->dropModule();
 
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();

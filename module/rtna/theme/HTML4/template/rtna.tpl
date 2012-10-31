@@ -1,2 +1,2 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
-<h1 class="list_label"><?=$title?></h1>
+<h1 id="rtna_heading"><?=$title?></h1>

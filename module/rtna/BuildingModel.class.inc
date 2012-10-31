@@ -1,5 +1,5 @@
 <?php
-require_once('rtna.tool.inc');
+
 class BuildingModel extends Model{
 	function BuildingModel(){
 		$this->name = $this->title(tt('name'));

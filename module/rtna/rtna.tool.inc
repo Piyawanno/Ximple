@@ -83,7 +83,7 @@ function rtna_get_Activity_option(){
 
 function rtna_get_Health_option(){
 	if(db_exist_table('rtna_health')){
-		return db_select_single_column('rtna_health', 'name');
+		return db_select_single_column('rtna_health', 'cadet');
 	}else{
 		return array();
 	}
@@ -137,6 +137,38 @@ function enable($parent){
 function rtna_get_building_option(){
 	if(db_exist_table('rtna_building')){
 		return db_select_single_column('rtna_building', 'name');
+	}else{
+		return array();
+	}
+}
+
+function rtna_get_facuty_option(){
+	if(db_exist_table('rtna_facuty')){
+		return db_select_single_column('rtna_facuty', 'name');
+	}else{
+		return array();
+	}
+}
+
+function rtna_get_lectureClass_option(){
+	if(db_exist_table('rtna_lectureClass')){
+		return db_select_single_column('rtna_lectureClass', 'lecture_class');
+	}else{
+		return array();
+	}
+}
+
+function rtna_get_educationYear_option(){
+	if(db_exist_table('rtna_educationYear')){
+		return db_select_single_column('rtna_educationYear', 'education_year');
+	}else{
+		return array();
+	}
+}
+
+function rtna_get_classroom_option(){
+	if(db_exist_table('rtna_classroom')){
+		return db_select_single_column('rtna_classroom', 'classroom');
 	}else{
 		return array();
 	}
