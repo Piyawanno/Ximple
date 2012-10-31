@@ -174,4 +174,13 @@ function rtna_get_classroom_option(){
 	}
 }
 
+function rtna_get_unit_option(){
+	if(db_exist_table('rtna_belong')){
+		return db_select_single_column('rtna_belong', 'unit');
+	}else{
+		return array();
+	}
+}
+
+
 ?>

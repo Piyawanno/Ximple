@@ -19,7 +19,6 @@ class Club extends Control{
 	
 	private function setAccess(){
 		$this->setAdmin('rtna_admin');
-		
 		$this->addAccessMethod('rtna_club_manager', 'index');
 		$this->addAccessMethod('rtna_club_manager', 'write');
 		$this->addAccessMethod('rtna_club_manager', 'insert');

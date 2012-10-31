@@ -10,8 +10,25 @@ class Activity extends Control{
 		$this->tableName = 'rtna_activity';
 		$this->init(new ActivityModel());
 		
+		$this->setAccess();
+		$this->setAction();
+
 		document_set_path(tt('RTNA Database'), 'rtna');
 		document_set_path($this->moduleTitle, 'rtna_activity');
+	}
+
+	private function setAccess(){
+		$this->setAdmin('rtna_admin');
+		$this->addAccessMethod('rtna_activity_manager', 'index');
+		$this->addAccessMethod('rtna_activity_manager', 'write');
+		$this->addAccessMethod('rtna_activity_manager', 'insert');
+		$this->addAccessMethod('rtna_activity_manager', 'edit');
+		$this->addAccessMethod('rtna_activity_manager', 'update');
+		$this->addAccessMethod('rtna_activity_manager', 'drop');
+	}
+	
+	private function setAction(){
+		
 	}
 }
 ?>

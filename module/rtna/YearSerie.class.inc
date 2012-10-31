@@ -10,6 +10,9 @@ class YearSerie extends Control{
 		$this->tableName = 'rtna_yearserie';
 		$this->init(new YearSerieModel());
 		
+		$this->setAccess();
+		$this->setAction();
+
 		document_set_path(tt('RTNA Database'), 'rtna');
 		document_set_path($this->moduleTitle, 'rtna_yearserie');
 	}
@@ -28,6 +31,20 @@ class YearSerie extends Control{
 			'data' => $this->dataByID,
 		);
 		return render($renderArray, 'rtna_yearserie.tpl', 'rtna_yearserie');
+	}
+
+	private function setAccess(){
+		$this->setAdmin('rtna_admin');
+		$this->addAccessMethod('rtna_yearserie_data_manager', 'index');
+		$this->addAccessMethod('rtna_yearserie_data_manager', 'write');
+		$this->addAccessMethod('rtna_yearserie_data_manager', 'insert');
+		$this->addAccessMethod('rtna_yearserie_data_manager', 'edit');
+		$this->addAccessMethod('rtna_yearserie_data_manager', 'update');
+		$this->addAccessMethod('rtna_yearserie_data_manager', 'drop');
+	}
+	
+	private function setAction(){
+		
 	}
 }
 ?>

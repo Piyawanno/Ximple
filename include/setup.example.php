@@ -19,7 +19,7 @@ define('DEFAULT_LANGUAGE','th');
 // example: 'http://mydomain/' is a valid parameter but 'http://mydomain' is a invalid parameter
 // example: '/my/root/path/' is a valid parameter but '/my/root/path' is a invalid parameter
 define('ROOT_URI','http://mydomain/');
-define('ROOT_PATH','/var/www/ximple/');
+define('ROOT_PATH','C:\AppServ\www\Ximple/');
 
 // User upload file size
 define('LIMIT_UPLOAD', false);

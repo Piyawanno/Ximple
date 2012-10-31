@@ -19,6 +19,12 @@ class Behavior extends Control{
 	
 	private function setAccess(){
 		$this->setAdmin('rtna_admin');
+		$this->addAccessMethod('rtna_behavior_manager', 'index');
+		$this->addAccessMethod('rtna_behavior_manager', 'write');
+		$this->addAccessMethod('rtna_behavior_manager', 'insert');
+		$this->addAccessMethod('rtna_behavior_manager', 'edit');
+		$this->addAccessMethod('rtna_behavior_manager', 'update');
+		$this->addAccessMethod('rtna_behavior_manager', 'drop');
 	}
 	
 	private function setAction(){

@@ -17,8 +17,6 @@ class Belong extends Control{
 		document_set_path($this->moduleTitle, 'rtna_belong_list');
 	}
 
-	
-	
 	public function dropResolver(){
 		db_dropjk('develcard_resolver', (int)gg('id'));
 	}
@@ -32,7 +30,10 @@ class Belong extends Control{
 		$this->setAdmin('rtna_admin');
 		$this->addAccessMethod('rtna_belong_data_manager', 'index');
 		$this->addAccessMethod('rtna_belong_data_manager', 'write');
-		$this->addAccessMethod('rtna_belong_manager', 'insert');
+		$this->addAccessMethod('rtna_belong_data_manager', 'insert');
+		$this->addAccessMethod('rtna_belong_data_manager', 'edit');
+		$this->addAccessMethod('rtna_belong_data_manager', 'update');
+		$this->addAccessMethod('rtna_belong_data_manager', 'drop');
 		
 	}
 
