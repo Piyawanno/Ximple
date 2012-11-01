@@ -120,7 +120,7 @@ function rtna_get_officer_rank_option(){
 
 function rtna_get_parent_option(){
 	if(db_exist_table('rtna_belong')){
-		return db_select_single_column('rtna_belong', 'name','WHERE is_leaf=0');
+		return db_select_single_column('rtna_belong', 'unit','WHERE is_leaf=0');
 	}else{
 		return array();
     }
