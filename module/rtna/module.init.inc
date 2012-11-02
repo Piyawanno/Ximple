@@ -203,7 +203,6 @@ function module_init_rtna(){
 	$panel->appendControl($classroom);
 	$panel->appendControl($occupation);
 	$panel->appendControl($bedroom);
-	$panel->appendControl($exam);
 	$panel->append('rtna_cadet_write', 'Create new Cadet');
 	$panel->append('rtna_cadet', 'List Cadet');
 	$panel->append('rtna_officer_write', 'Create new Officer');

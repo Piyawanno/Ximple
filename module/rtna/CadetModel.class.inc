@@ -8,7 +8,7 @@ class CadetModel extends Model{
 		$this->name->listMode = 'rtna_cadet';
 		$this->surname = $this->title(tt('surname'));
 		$this->birth_date = $this->calendar(tt('birth date'));
-		$this->uid = $this->select(tt('login user'), rtna_get_cadet_uid_option());
+		$this->uid = $this->userByRole(tt('login user'), 'rtna_cadet');
 		
 		$uri = SECTION_URI.Q.'rtna_yearserie_write';
 		$pattern = tt('You can add new Year Serie with <a href="%s">this page</a>.');
