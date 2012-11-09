@@ -75,6 +75,14 @@ function module_init_rtna(){
 	$bedroom = new Bedroom();
 	$bedroom->initModule('Bedroom.class.inc');
 
+	include_once('Exam.class.inc');
+	$exam = new Exam();
+	$exam->initModule('Exam.class.inc');
+
+	include_once('ExamType.class.inc');
+	$examType = new ExamType();
+	$examType->initModule('ExamType.class.inc');
+
 	$admin = new RoleManager('rtna_admin');
 	$admin->setName('RTNA Database Administrator');
 	$admin->setDescription('Who can manage all data in RTNA database.');
@@ -203,6 +211,7 @@ function module_init_rtna(){
 	$panel->appendControl($classroom);
 	$panel->appendControl($occupation);
 	$panel->appendControl($bedroom);
+	$panel->appendControl($exam);
 	$panel->append('rtna_cadet_write', 'Create new Cadet');
 	$panel->append('rtna_cadet', 'List Cadet');
 	$panel->append('rtna_officer_write', 'Create new Officer');
@@ -221,7 +230,7 @@ function module_init_rtna(){
 	$panel->append('rtna_lectureClass', 'Manage Class');
 	$panel->append('rtna_classLog', 'Manage Class Log');
 	$panel->append('rtna_occupation', 'Manage Occupation');
-	$panel->append('rtna_bedroom', 'Manage Bedroom');
+	$panel->append('rtna_exam', 'Manage Exam');
 	$panel->appendRole($admin);
 	$panel->appendRole($cadetRTNA);
 	$panel->appendRole($officerRTNA);
@@ -236,7 +245,6 @@ function module_init_rtna(){
 	$panel->appendRole($classroomManager);
 	$panel->appendRole($clubManager);
 	$panel->appendRole($educationYearManager);
-	$panel->appendRole($examDataManager);
 	$panel->appendRole($facultyManager);
 	$panel->appendRole($healthDataManager);
 	$panel->appendRole($lectureClassManager);
@@ -244,6 +252,7 @@ function module_init_rtna(){
 	$panel->appendRole($officerDataManager);
 	$panel->appendRole($ptTestDataManager);
 	$panel->appendRole($yearSerieDataManager);
+	$panel->appendRole($examDataManager);
 	$panel->submit();
 }
 
@@ -315,6 +324,14 @@ function module_drop_rtna(){
 	include_once('Bedroom.class.inc');
 	$bedroom = new Bedroom();
 	$bedroom->dropModule();
+
+	include_once('Exam.class.inc');
+	$exam = new Exam();
+	$exam->dropModule();
+
+	include_once('ExamType.class.inc');
+	$examType = new ExamType();
+	$examType->dropModule();
 
 	$admin = new RoleManager('rtna_admin');
 	$admin->drop();

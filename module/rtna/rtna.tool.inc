@@ -182,5 +182,13 @@ function rtna_get_unit_option(){
 	}
 }
 
+function rtna_get_examType_option(){
+	if(db_exist_table('rtna_examType')){
+		return db_select_single_column('rtna_examType', 'exam_type');
+	}else{
+		return array();
+	}
+}
+
 
 ?>

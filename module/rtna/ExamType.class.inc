@@ -1,20 +1,20 @@
 <?php
-execute_add_extended_class('rtna', 'exam', 'Exam');
-include('ExamModel.class.inc');
+execute_add_extended_class('rtna', 'examType', 'ExamType');
+include('ExamTypeModel.class.inc');
 
-class Exam extends Control{
-	function Exam(){
-		$this->moduleTitle = tt('Exam');
+class ExamType extends Control{
+	function ExamType(){
+		$this->moduleTitle = tt('ExamType');
 		$this->moduleName = 'rtna';
-		$this->moduleExtension = 'exam';
-		$this->tableName = 'rtna_exam';
-		$this->init(new ExamModel());
+		$this->moduleExtension = 'examType';
+		$this->tableName = 'rtna_examType';
+		$this->init(new ExamTypeModel());
 		
 		$this->setAccess();
 		$this->setAction();
 
 		document_set_path(tt('RTNA Database'), 'rtna');
-		document_set_path($this->moduleTitle, 'rtna_exam');
+		document_set_path($this->moduleTitle, 'rtna_examType');
 	}
 
 	private function setAccess(){
