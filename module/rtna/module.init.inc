@@ -67,9 +67,9 @@ function module_init_rtna(){
 	$classroom = new Classroom();
 	$classroom->initModule('Classroom.class.inc');
 
-	include_once('Occupation.class.inc');
-	$occupation = new Occupation();
-	$occupation->initModule('Occupation.class.inc');
+	include_once('Subject.class.inc');
+	$subject = new Subject();
+	$subject->initModule('Subject.class.inc');
 
 	include_once('Bedroom.class.inc');
 	$bedroom = new Bedroom();
@@ -173,10 +173,10 @@ function module_init_rtna(){
 	$lectureClassManager->setDescription('Who can add and edit data of lecture class.');
 	$lectureClassManager->submit();
 
-	$occupationManager = new RoleManager('rtna_occupation_manager');
-	$occupationManager->setName('RTNA Occupation Manager');
-	$occupationManager->setDescription('Who can add and edit occupation of cadet.');
-	$occupationManager->submit();
+	$subjectManager = new RoleManager('rtna_subject_manager');
+	$subjectManager->setName('RTNA Subject Manager');
+	$subjectManager->setDescription('Who can add and edit subject.');
+	$subjectManager->submit();
 
 	$officerDataManager = new RoleManager('rtna_officer_data_manager');
 	$officerDataManager->setName('RTNA Officer Data Manager');
@@ -209,7 +209,7 @@ function module_init_rtna(){
 	$panel->appendControl($classLog);
 	$panel->appendControl($building);
 	$panel->appendControl($classroom);
-	$panel->appendControl($occupation);
+	$panel->appendControl($subject);
 	$panel->appendControl($bedroom);
 	$panel->appendControl($exam);
 	$panel->append('rtna_cadet_write', 'Create new Cadet');
@@ -229,7 +229,7 @@ function module_init_rtna(){
 	$panel->append('rtna_educationYear', 'Manage Education Year');
 	$panel->append('rtna_lectureClass', 'Manage Class');
 	$panel->append('rtna_classLog', 'Manage Class Log');
-	$panel->append('rtna_occupation', 'Manage Occupation');
+	$panel->append('rtna_subject', 'Manage subject');
 	$panel->append('rtna_exam', 'Manage Exam');
 	$panel->appendRole($admin);
 	$panel->appendRole($cadetRTNA);
@@ -248,12 +248,21 @@ function module_init_rtna(){
 	$panel->appendRole($facultyManager);
 	$panel->appendRole($healthDataManager);
 	$panel->appendRole($lectureClassManager);
-	$panel->appendRole($occupationManager);
+	$panel->appendRole($subjectManager);
 	$panel->appendRole($officerDataManager);
 	$panel->appendRole($ptTestDataManager);
 	$panel->appendRole($yearSerieDataManager);
 	$panel->appendRole($examDataManager);
 	$panel->submit();
+	
+	$path  = FILE_PATH.'rtna/';
+	if(!is_dir($path)) mkdir($path);
+	$path .= 'class_log_file';
+	if(!is_dir($path)) mkdir($path);
+
+	// Model
+	// $path = FILE_PATH.'rtna/class_log_file';
+	// $this->uploaded_file = $this->file(tt('file'), $path);
 }
 
 function module_drop_rtna(){
@@ -317,9 +326,9 @@ function module_drop_rtna(){
 	$classroom = new Classroom();
 	$classroom->dropModule();
 
-	include_once('Occupation.class.inc');
-	$occupation = new Occupation();
-	$occupation->dropModule();
+	include_once('Subject.class.inc');
+	$subject = new Subject();
+	$subject->dropModule();
 
 	include_once('Bedroom.class.inc');
 	$bedroom = new Bedroom();
@@ -387,8 +396,8 @@ function module_drop_rtna(){
 	$lectureClassManager = new RoleManager('rtna_lecture_class_manager');
 	$lectureClassManager->drop();
 	
-	$occupationManager = new RoleManager('rtna_occupation_manager');
-	$occupationManager->drop();
+	$subjectManager = new RoleManager('rtna_subject_manager');
+	$subjectManager->drop();
 
 	$officerDataManager = new RoleManager('rtna_officer_data_manager');
 	$officerDataManager->drop();

@@ -16,6 +16,19 @@ class Building extends Control{
 		document_set_path(tt('RTNA Database'), 'rtna');
 		document_set_path($this->moduleTitle, 'rtna_building');
 	}
+
+	public function index(){
+		$this->id = (int) gg('id');
+		if($this->id) return $this->renderDetail();
+		else return Control::index();
+	}
+
+	private function renderDetail(){
+		$this->selectByID($this->column);
+		$this->dataByID['is_editable'] = $this->isCallable('edit');
+		document_set_path($this->dataByID['name']);
+		return render($this->dataByID, 'rtna_building.tpl', 'rtna_building');
+	}
 	
 	private function setAccess(){
 		$this->setAdmin('rtna_admin');
