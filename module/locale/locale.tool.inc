@@ -103,12 +103,16 @@ function locale_get_module(){
 	$system = locale_check_directory($system, MODULE_PATH);
 	
 	$private_path = SECTION_PATH.'private/module/';
-	$private = io_get_directory_entry($private_path);
-	$private = array_combine($private, $private);
-	$private = locale_check_directory($private, $private_path);
-	
-	$module = array_merge($system, $private);
-	ksort($module);
+	if(is_dir($private_path)){
+		$private = io_get_directory_entry($private_path);
+		$private = array_combine($private, $private);
+		$private = locale_check_directory($private, $private_path);
+		$module = array_merge($system, $private);
+		ksort($module);
+	}else{
+		$module = $system;
+	}
+
 	$select = array('' => tt('Please, select module.'));
 	$module = array_merge($select, $module);
 	return $module;
@@ -120,12 +124,16 @@ function locale_get_theme(){
 	$system = locale_check_directory($system, THEME_PATH);
 	
 	$private_path = SECTION_PATH.'private/theme/';
-	$private = io_get_directory_entry($private_path);
-	$private = array_combine($private, $private);
-	$private = locale_check_directory($private, $private_path);
+	if(is_dir($private_path)){
+		$private = io_get_directory_entry($private_path);
+		$private = array_combine($private, $private);
+		$private = locale_check_directory($private, $private_path);
+		$theme = array_merge($system, $private);
+		ksort($theme);
+	}else{
+		$theme = $system;
+	}
 	
-	$theme = array_merge($system, $private);
-	ksort($theme);
 	$select = array('' => tt('Please, select theme.'));
 	$theme = array_merge($select, $theme);
 	return $theme;
