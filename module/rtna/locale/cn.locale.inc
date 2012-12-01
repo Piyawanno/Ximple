@@ -1,7 +1,8 @@
 <?php
 globalvar_add_locale(array (
-	'file' => '',
-	'Subject' => '',
-	'subject' => '',
+	'List Cadet' => '',
+	'List Officer' => '',
+	'Manage Yearserie' => '',
+	'Manage Class Log' => '',
 ));
 ?>
