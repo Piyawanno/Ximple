@@ -227,7 +227,7 @@ function module_init_rtna(){
 	$panel->append('rtna_educationYear', tt('Manage Education Year'));
 	$panel->append('rtna_lectureClass', tt('Manage Class'));
 	$panel->append('rtna_classLog', tt('Manage Class Log'));
-	$panel->append('rtna_classLog', tt('Manage Classroom'));
+	$panel->append('rtna_bedroom', tt('Manage Bedroom'));
 	$panel->append('rtna_subject', tt('Manage Subject'));
 	$panel->append('rtna_exam', tt('Manage Exam'));
 	$panel->appendRole($admin);

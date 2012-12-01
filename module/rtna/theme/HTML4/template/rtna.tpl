@@ -114,4 +114,18 @@
 	</a>
 </div>
 
+<div class="rtna_icon">
+	<a href="<?=SECTION_URI.Q?>rtna_classLog">
+		<img src="<?ROOT_URI?>module/rtna/theme/image/classLog.png" /><br />
+		<?=tt('Manage Class Log')?>
+	</a>
+</div>
+
+<div class="rtna_icon">
+	<a href="<?=SECTION_URI.Q?>rtna_bedroom">
+		<img src="<?ROOT_URI?>module/rtna/theme/image/bedroom.png" /><br />
+		<?=tt('Manage Bedroom')?>
+	</a>
+</div>
+
 <div style="clear:both;"></div>
