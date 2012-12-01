@@ -255,14 +255,7 @@ function module_init_rtna(){
 	$panel->appendRole($examDataManager);
 	$panel->submit();
 	
-	$path  = FILE_PATH.'rtna/';
-	if(!is_dir($path)) mkdir($path);
-	$path .= 'class_log_file';
-	if(!is_dir($path)) mkdir($path);
-
-	// Model
-	// $path = FILE_PATH.'rtna/class_log_file';
-	// $this->uploaded_file = $this->file(tt('file'), $path);
+	
 }
 
 function module_drop_rtna(){
