@@ -1,9 +1,9 @@
 addReady(function(){
-	currencyInit();
+	floatnumberInit();
 });
 
-function currencyInit(){
-	initForm($(".currency_main"), function(form){
+function floatnumberInit(){
+	initForm($(".floatnumber_main"), function(form){
 		form.spinbox({
 			min  : 0,
 			max  : 4294967295,
@@ -11,7 +11,7 @@ function currencyInit(){
 		});
 	});
 	
-	initForm($(".currency_sub"), function(form){
+	initForm($(".floatnumber_sub"), function(form){
 		form.spinbox({
 			min  : 0,
 			max  : 99,
@@ -29,18 +29,18 @@ $(document).bind("submit", function(){
 	var mainCurrencyValue = new Array();
 	var subCurrencyValue = new Array();
 	
-	$('.currency_main').each(function(index, element){
+	$('.floatnumber_main').each(function(index, element){
 		mainCurrencyValue[index] = toInt(element);
 	});
 	
-	$('.currency_sub').each(function(index, element){
+	$('.floatnumber_sub').each(function(index, element){
 		subCurrencyValue[index] = toInt(element);
 	});
 	
-	$('.currency').each(function(index, element){
+	$('.floatnumber').each(function(index, element){
 		$(element).val(mainCurrencyValue[index] + 0.01*subCurrencyValue[index]);
 	});
 });
 
-gridInitFunction['currency'] = currencyInit;
+gridInitFunction['floatnumber'] = floatnumberInit;
 

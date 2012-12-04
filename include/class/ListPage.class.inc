@@ -103,7 +103,7 @@ class ListPage{
 	}
 	
 	private function getSearchRequest(){
-		$search = addslashes(str_replace(' ', '', trim((string)gg('search'))));
+		$search = addslashes(str_replace(' ', '', trim((string) gg('search'))));
 		$col = gg('col');
 		if(strlen($search) and strlen($col) and in_array($col, $this->column)){
 			return array($col, $search);
