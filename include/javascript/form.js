@@ -49,10 +49,12 @@ function checkForm(notNull, label){
 
 function initForm(form, initFunction){
 	form.each(function(){
-		if($(this).attr("rel") != "initialized"){
-			initFunction($(this));
+		if($(this).attr("rel") != "processed"){
+			if($(this).attr("rel") != "initialized"){
+				initFunction($(this));
+			}
+			$(this).attr("rel", "initialized");
 		}
-		$(this).attr("rel", "initialized");
 	});
 }
 
