@@ -3,16 +3,16 @@
 
 
 <div class="rtna_icon">
-	<a href="<?=SECTION_URI.Q?>rtna_officer">
-		<img src="<?ROOT_URI?>module/rtna/theme/image/officer.png" /><br />
-		<?=tt('Manage Officer')?>
+	<a href="<?=SECTION_URI.Q?>rtna_cadet">
+		<img src="<?ROOT_URI?>module/rtna/theme/image/cadet.png" /><br />
+		<?=tt('Manage Cadet')?>
 	</a>
 </div>
 
 <div class="rtna_icon">
-	<a href="<?=SECTION_URI.Q?>rtna_cadet">
-		<img src="<?ROOT_URI?>module/rtna/theme/image/cadet.png" /><br />
-		<?=tt('Manage Cadet')?>
+	<a href="<?=SECTION_URI.Q?>rtna_officer">
+		<img src="<?ROOT_URI?>module/rtna/theme/image/officer.png" /><br />
+		<?=tt('Manage Officer')?>
 	</a>
 </div>
 
@@ -38,7 +38,7 @@
 </div>
 
 <div class="rtna_icon">
-	<a href="<?=SECTION_URI.Q?>rtna_lecturClass">
+	<a href="<?=SECTION_URI.Q?>rtna_lectureClass">
 		<img src="<?ROOT_URI?>module/rtna/theme/image/class.png" /><br />
 		<?=tt('Manage Class')?>
 	</a>
