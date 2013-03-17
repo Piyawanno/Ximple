@@ -3,7 +3,6 @@ require_once('SelectiveColumn.class.inc');
 class SelectColumn extends SelectiveColumn{
 	function SelectColumn($label, $option, $help=null){
 		SelectiveColumn::SelectiveColumn($label, $option, $help);
-		$this->setType('int');
 	}
 	
 	public function renderForm($formID){

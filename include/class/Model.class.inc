@@ -173,6 +173,11 @@ abstract class Model{
 		return new SelectColumn($label, $option, $help);
 	}
 	
+	public function linkedSelect($label, $option, $help=null){
+		include_once('column/LinkedSelectColumn.class.inc');
+		return new LinkedSelectColumn($label, $option, $help);
+	}
+	
 	public function multiselect($label, $option, $help=null){
 		include_once('column/SelectColumn.class.inc');
 		$modelColumn = SelectColumn($label, $option, $help);
