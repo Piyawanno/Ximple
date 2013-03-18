@@ -31,7 +31,7 @@ function db_init(){
 	$db_transaction = true;
 }
 
-function db_select($table, $columns, $clause=null, $cachable=false){
+function db_select($table, $columns, $clause=null, $cachable=true){
 	global $db_connect;
 	$table = DB_TABLE_PREFIX.$table;
 	$query = 'SELECT '.join(', ', $columns).' FROM '.$table.' '.$clause.';';
