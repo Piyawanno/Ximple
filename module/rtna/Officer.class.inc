@@ -18,18 +18,29 @@ class Officer extends Control{
 	}
 
 	public function index(){
-		
+		$this->id = (int) gg('id');
+		if($this->id) return $this->renderPage();
+		else return $this->renderList();
 	}
-
-	public function dropResolver(){
-		db_dropjk('develcard_resolver', (int)gg('id'));
+	
+	private function renderPage(){
+		$this->selectByID($this->column);
+		$this->data = userinfo_get_info($this->data, 'uid');
+		$this->dataByID = $this->data[$this->id];
+		document_set_path($this->dataByID['name'].' '.$this->dataByID['surname']);
+		return render($this->dataByID, 'rtna_officer.tpl', 'rtna_officer');
 	}
-
-	public function renderClassList(){
-		document_set_path(tt('Officer class'), 'rtna_officer_class');
-		
+	
+	private function renderList(){
+		$clause = 'WHERE section='.SECTION;
+		$this->selectListPage(20, $clause);
+		foreach($this->data as $key => $value){
+			$this->data[$key]['name'] = $value['name'].' '.$value['surname'];
+		}
+		$this->listPageColumn = array('name');
+		return $this->renderDefaultListPage();
 	}
-
+	
 	private function setAccess(){
 		$this->setAdmin('rtna_admin');
 		$this->addAccessMethod('rtna_officer_data_manager', 'index');
