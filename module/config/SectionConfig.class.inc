@@ -69,7 +69,7 @@ class SectionConfig extends ConfigControl{
 		$smiley = $this->getNewConfigForm(tt('Smiley'));
 		$smiley->append('smiley');
 		
-		$cacheDescription  = tt('Database cache is a part of the system. It can not be disabled. ');
+		$cacheDescription  = tt('Database cache is a prefered. ');
 		$p = tt('You can, however, <a href="%s"><strong>clear database cache clicking here</strong></a>. ');
 		$cacheDescription .= sprintf($p, SECTION_URI.Q.'config_clear_db_cache');
 		$cacheDescription .= tt('This can take a long time. ');

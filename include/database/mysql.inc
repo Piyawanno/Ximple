@@ -31,8 +31,10 @@ function db_init(){
 	$db_transaction = true;
 }
 
-function db_select($table, $columns, $clause=null, $cachable=true){
+function db_select($table, $columns, $clause=null, $force=true){
 	global $db_connect;
+	if($force) $cachable = false;
+	else $cachable = cc('cache_mode') >= 0;
 	$table = DB_TABLE_PREFIX.$table;
 	$query = 'SELECT '.join(', ', $columns).' FROM '.$table.' '.$clause.';';
 	if($cachable){

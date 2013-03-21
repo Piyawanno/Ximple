@@ -63,7 +63,8 @@ class SectionConfigModel extends Model{
 			3 => tt('agressive process cache (side-effects)'),
 			2 => tt('page cache (recommended)'),
 			1 => tt('partly process cache'),
-			0 => tt('database cache only'),
+			0 => tt('database cache'),
+			-1 => tt('disable cache'),
 		);
 		$this->cache_mode = $this->radio(tt('cache mode'), $cacheOptions);
 		$this->cache_time = $this->timeInterval(tt('cache time'));
