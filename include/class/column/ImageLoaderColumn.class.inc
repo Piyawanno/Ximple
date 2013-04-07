@@ -41,7 +41,7 @@ class ImageLoaderColumn extends ModelColumn{
 		$render = '
 		<input '.$this->renderFormAttribute().'/>
 		<a href="#" onclick="showImageLoader(\''.$id.'\', \''.$this->path.'\', '.((int) $this->size).');return false;">
-			<img src="'.$imageSource.'" border="0" id="image_'.$id.'" alt="image"/>
+			<img src="'.$imageSource.'" border="0" id="image_'.$id.'" alt="image" style="max-width:100%;"/>
 		</a>
 		<p>'.$slide.'</p>
 		<div id="loader_'.$id.'" style="display:none;"></div>';

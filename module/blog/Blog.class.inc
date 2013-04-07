@@ -5,6 +5,11 @@ include_once('blog.tool.inc');
 include_once('BlogModel.class.inc');
 
 class Blog extends Content{
+	protected $multipleTemplate = 'blog_multiple.tpl';
+	protected $singleTemplate = 'blog.tpl';
+	protected $promoteTemplate = 'blog_promote.tpl';
+	protected $css = 'blog.css';
+	
 	function Blog(){
 		$this->tableName = 'blog';
 		$this->moduleName = 'blog';
@@ -34,8 +39,8 @@ class Blog extends Content{
 		$clause = 'WHERE section='.SECTION.' AND publishing_status=4';
 		$data = db_select('blog', $column, $clause);
 		$renderArray = array('data' => array_values($data));
-		head_add_css('blog.css');
-		return render($renderArray, 'blog_promote.tpl', 'blog_propmote');
+		head_add_css($this->css);
+		return render($renderArray, $this->promoteTemplate, 'blog_propmote');
 	}
 	
 	protected function getSummary(){
@@ -61,7 +66,7 @@ class Blog extends Content{
 	}
 	
 	private function renderMultipleBlogs(){
-		head_add_css('blog.css');
+		head_add_css($this->css);
 		$column = $this->modelConnector->getColumnNameExcepted(array('content'));
 		$this->selectFirstPage($column, cc('blog_entries_number'));
 		$this->getCommentNumber();
@@ -75,16 +80,16 @@ class Blog extends Content{
 			'show_category' => in_array('category_icon', $appearance),
 		);
 		$render = $this->renderWriteIcon();
-		$render.= render($renderArray, 'blog_multiple.tpl', 'blog_multiple');
+		$render.= render($renderArray, $this->multipleTemplate, 'blog_multiple');
 		$render.= $this->pager->render('blog'.$this->getPageMode());
 		return $render;
 	}
 	
 	private function executeRender(){
-		head_add_css('blog.css');
+		head_add_css($this->css);
 		$this->prepareRender();
 		$render = $this->renderWriteIcon();
-		$render.= render($this->dataByID, 'blog.tpl', 'blog');
+		$render.= render($this->dataByID, $this->singleTemplate, 'blog');
 		$render.= $this->comment->render();
 		$this->setDocumentData();
 		return $render;

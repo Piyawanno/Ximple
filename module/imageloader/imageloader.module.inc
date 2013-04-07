@@ -16,7 +16,7 @@ function imageloader_simple(){
 		'image' => imageloader_get_image($path),
 		'loader_id' => gg('loader_id'),
 		'is_file_admin' => authority_group('file_admin'),
-		'manage_file_path' => substr($path, -8),
+		'manage_file_path' => str_replace('files/', '', $path),
 		'size' => gg('size'),
 	);
 	return render($render_array, 'imageloader_simple.tpl', 'imageloader_simple');
