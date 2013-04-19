@@ -160,4 +160,3 @@ function image_generate_gradient($width, $height, $startColor, $endColor) {
 	return $final;
 }
 ?>
-

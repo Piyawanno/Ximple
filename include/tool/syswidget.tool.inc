@@ -100,6 +100,7 @@ function syswidget_navigation_translate_config(){
 
 function syswidget_navigation_save(){
 	$navigation = pp('navigation');
+	$check = pp('check_navigation');
 	$old_navigation = cc('navigation');
 	if(is_array($navigation)){
 		foreach($navigation as $key => $value){
@@ -111,7 +112,12 @@ function syswidget_navigation_save(){
 	}
 	$new_navigation = array_merge($navigation, $old_navigation);
 	config_set('navigation', $new_navigation);
-	config_set('navigation_enabled', array_keys($navigation));
+	$keys = array_keys($navigation);
+	$enable = array();
+	foreach($check as $key => $value){
+		$enable[$key] = $keys[$key];
+	}
+	config_set('navigation_enabled', $enable);
 	config_save();
 }
 

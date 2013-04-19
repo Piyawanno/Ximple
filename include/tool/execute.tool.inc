@@ -44,7 +44,6 @@ function execute($mode, $params=null, $result=null){
 	list($module, $extension) = execute_get_module($mode);
 	globalvar_set_module($module);
 	execute_include_files($module, $extension);
-	if(!execute_is_callable($mode)) error_denied();
 	if(function_exists($mode) and in_array($mode, $execute_callable)){
 		return $mode($params, $result);
 	}else{
@@ -91,7 +90,7 @@ function execute_oop($mode, $module, $params, $result){
 			}
 		}
 	}
-	if($success === false) notify_add_error('System can not execute : '.$mode);
+	if($success === false) error_syslog('System can not execute : '.$mode);
 	return $result;
 }
 

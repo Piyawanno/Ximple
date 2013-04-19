@@ -396,7 +396,7 @@ abstract class Control extends Translatable{
 		}
 	}
 		
-	private function initDataModifier(){
+	protected function initDataModifier(){
 		if(!$this->dataModifier){
 			include_once('DataModifier.class.inc');
 			$this->dataModifier = new DataModifier($this->tableName, $this->modelConnector);

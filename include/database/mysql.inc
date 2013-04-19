@@ -31,7 +31,7 @@ function db_init(){
 	$db_transaction = true;
 }
 
-function db_select($table, $columns, $clause=null, $force=true){
+function db_select($table, $columns, $clause=null, $force=false){
 	global $db_connect;
 	if($force) $cachable = false;
 	else $cachable = cc('cache_mode') >= 0;

@@ -29,6 +29,7 @@ class Contact extends Control{
 	
 	public function send(){
 		include_once(INCLUDE_PATH.'tool/mail.tool.inc');
+		$this->initDataModifier();
 		$this->id = (int)pp('id');
 		$this->selectByID($this->column);
 		$this->translateDataByID();

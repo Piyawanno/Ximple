@@ -67,11 +67,11 @@ function main_render(){
 	include(INCLUDE_PATH.'tool/userinfo.tool.inc');
 	include(INCLUDE_PATH.'tool/sectioninfo.tool.inc');
 	include(INCLUDE_PATH.'tool/search.tool.inc');
+	include(INCLUDE_PATH.'tool/syswidget.tool.inc');
 	document_set_path(cc('home_label'), '');
 	extension_execute('pre_main_render');
 	$body = main_render_body();
 	if(execute_as_site()){
-		include(INCLUDE_PATH.'tool/syswidget.tool.inc');
 		header('Content-Type: text/html; charset=UTF-8');
 		$render = main_render_site($body);
 	}elseif(execute_as_db()){

@@ -169,6 +169,7 @@ class ModelConnector{
 	
 	public function setData($data){
 		$model = $this->model;
+		if(!is_array($data)) return $model;
 		foreach($model as $key => $value){
 			if(array_key_exists($key, $data)){
 				$model[$key]->data = $data[$key];
