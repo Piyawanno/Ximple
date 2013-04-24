@@ -6,6 +6,7 @@ include('develcard.tool.inc');
 class DevelCard extends Control{
 	private $comment;
 	private $pointYear;
+	private $listDescription = "";
 	
 	private $type = null;
 	private $status = null;
@@ -38,6 +39,14 @@ class DevelCard extends Control{
 		notify_subscribe_by_mode($message, 'develcard');
 		$this->selectByID($this->column);
 		$this->insertTracker('write');
+		
+		$permission = cc('develcard_read_access');
+		$isUser = ($permission == 1 and USER_ID > 0);
+		if($permission == 0 or $isUser or $this->isOwner() or $this->isModerator()){
+			document_set_redirect('develcard/'.$this->id);
+		}else{
+			document_set_redirect(cc('index_mode'));
+		}
 	}
 	
 	public function update(){
@@ -132,14 +141,216 @@ class DevelCard extends Control{
 		return $this->renderListPage($title, $clause, $mode);
 	}
 	
+	public function dropFile(){
+		$fid = (int) gg('id');
+		$file = db_select_single_column('develcard_file', 'file', 'WHERE id='.$fid, false);
+		if(is_file(ROOT_PATH.$file[0])) unlink(ROOT_PATH.$file[0]);
+		db_drop('develcard_file', $fid);
+	}
+	
+	public function report(){
+		$month = gg('month');
+		$year = gg('year');
+		$tag = gg('tag');
+		$type = gg('type');
+		document_set_path(tt('report'), 'develcard_report');
+		if(strlen($year) and strlen($month)) return $this->reportEachMonth($year, $month);
+		else if(strlen($tag)) return $this->reportTag($tag);
+		else if(strlen($type)) return $this->reportType($type);
+		else return $this->reportSummary();
+	}
+	
+	public function downloadAttachment(){
+		$column = array('id', 'develcard', 'short_description', 'file');
+		$clause = "WHERE id=".((int) gg('id'));
+		$data = array_pop(db_select('develcard_file', $column, $clause));
+		if(count($data) == 0) error_not_found();
+		$extension = substr($data['file'], strrpos($data['file'], '.')+1);
+		$fileName = $data['short_description'].'.'.$extension;
+		$this->id = $data['develcard'];
+		$this->selectByID($this->column);
+		$isResolver = in_array(USER_ID, array_keys($this->dataByID['resolver']));
+		if(!$isResolver && !$this->owner() && !$this->isModerator()) error_denied();
+		$mime = mime_content_type(ROOT_PATH.$data['file']);
+		header('Content-type: '.$mime);
+		header('Content-Disposition: attachment; filename="'.$fileName.'"');
+		readfile(ROOT_PATH.$data['file']);
+		execute_set_file();
+		
+	}
+	
+	private function reportSummary(){
+		$clause = 'ORDER BY create_date LIMIT 1';
+		$first = array_pop(db_select_single_column($this->tableName, 'create_date', $clause));
+		$firstDay = strtotime($first);
+		$firstMonth = (int) date('m', $firstDay);
+		$firstYear = (int) date('Y', $firstDay);
+		
+		$currentMonth = (int) date('m');
+		$currentYear = (int) date('Y');
+		
+		$monthList = array();
+		$month = develcard_get_month_list();
+		for($i=$firstYear; $i<=$currentYear; $i++){
+			if($i==$firstYear) $start = $firstMonth;
+			else $start = 1;
+			
+			if($i==$currentYear) $stop = $firstMonth;
+			else $stop = 12;
+			
+			for($j=$start; $j<=$stop; $j++){
+				$monthList['year/'.$i.'/month/'.$j] = $month[(int) $j].' '.$i;
+			}
+		}
+		
+		$renderArray = array(
+			'month' => array_reverse($monthList),
+		);
+		return render($renderArray, 'develcard_report_summary.tpl', 'develcard_report_summary');
+	}
+	
+	private function reportTag($tag){
+		$clause = "WHERE freetag LIKE '%$tag%' ORDER BY create_date DESC";
+		$this->select($this->column, $clause);
+		list($data, $total) = $this->analyseMonth($this->data);
+		document_set_path(tt('tag').' : '.$tag);
+		$title = tt('DevelCard Report by Tag').' : '.$tag;
+		$renderArray = array(
+			'title' => $title,
+			'data' => $data,
+			'total' => $total,
+			'color' => cc('develcard_tag_color'),
+		);
+		return render($renderArray, 'develcard_report_sort.tpl', 'develcard_report_sort_tag');
+	}
+	
+	
+	private function reportType($type){
+		$clause = "WHERE type=$type ORDER BY create_date DESC";
+		$this->select($this->column, $clause);
+		list($data, $total) = $this->analyseMonth($this->data);
+		$typeOption = cc('develcard_type');
+		document_set_path(tt('type').' : '.$typeOption[$type]);
+		$title = tt('DevelCard Report by Type').' : '.$typeOption[$type];
+		$renderArray = array(
+			'title' => $title,
+			'data' => $data,
+			'total' => $total,
+			'color' => cc('develcard_type_color'),
+		);
+		return render($renderArray, 'develcard_report_sort.tpl', 'develcard_report_sort_type');
+	}
+	
+	private function reportEachMonth($year, $month){
+		$start =  "$year-$month-01 00:00:00";
+		$end =  "$year-$month-31 23:59:59";
+		
+		$clause = "WHERE create_date >= '$start' AND create_date <= '$end'";
+		$this->select($this->column, $clause);
+		$createData = $this->data;
+		
+		$clause = "WHERE end_date >= '$start' AND end_date <= '$end'";
+		$this->select($this->column, $clause);
+		$endData = $this->data;
+		
+		$monthName = develcard_get_month_list();
+		$title = $monthName[$month].' '.$year;
+		document_set_path($title);
+		$renderArray = array(
+			'title' => $title,
+			'create_data' => $this->analyseReport($createData),
+			'end_data' => $this->analyseReport($endData),
+			'tag_color' => cc('develcard_tag_color'),
+			'status_color' => cc('develcard_status_color'),
+			'type_color' => cc('develcard_type_color'),
+			'status' => develcard_get_status_option(),
+			'type' => cc('develcard_type'),
+		);
+		return render($renderArray, 'develcard_report.tpl', 'develcard_report');
+	}
+	
+	private function analyseReport($data){
+		$analyse = array();
+		$analyse['total'] = count($data);
+		$analyse['tag'] = $this->analyseTag($data);
+		$analyse['status'] = $this->analyseStatus($data);
+		$analyse['type'] = $this->analyseType($data);
+		return $analyse;
+	}
+	
+	private function analyseMonth($data){
+		$analyse = array();
+		$monthList = develcard_get_month_list();
+		$total = 0;
+		foreach($data as $key => $value){
+			$time = strtotime($value['create_date']);
+			$month = (int) date('m', $time);
+			$year = (int) date('Y', $time);
+			$key = 'year/'.$year.'/month/'.$month;
+			$label = $monthList[$month].' '.$year;
+			if(isset($analyse[$key])) $analyse[$key]['value'] += 1;
+			else $analyse[$key]['value'] = 1;
+			$analyse[$key]['label'] = $label;
+			$total += 1;
+		}
+		return array($analyse, $total);
+	}
+	
+	private function analyseTag($data){
+		$analyse = array();
+		foreach($data as $key => $value){
+			$tags = $value['freetag'];
+			foreach($tags as $tag){
+				$tag = trim($tag);
+				if(strlen($tag)){
+					if(isset($analyse[$tag])) $analyse[$tag] += 1;
+					else $analyse[$tag] = 1;
+				}
+			}
+		}
+		return $analyse;
+	}
+	
+	private function analyseStatus($data){
+		$analyse = array();
+		foreach($data as $key => $value){
+			if(!is_array($value['status'])) $status = $value['status'];
+			else $status = $value['status']['value'];
+			
+			if(isset($analyse[$status])) $analyse[$status] += 1;
+			else $analyse[$status] = 1;
+		}
+		return $analyse;
+	}
+	
+	private function analyseType($data){
+		$analyse = array();
+		foreach($data as $key => $value){
+			if(!is_array($value['type'])) $type = $value['type'];
+			else $type = $value['type']['value'];
+			
+			if(isset($analyse[$type])) $analyse[$type] += 1;
+			else $analyse[$type] = 1;
+		}
+		return $analyse;
+	}
+	
 	private function display(){
 		$this->selectByID($this->column);
 		$this->dataByID = $this->prepareData($this->dataByID, 'develcard');
+		$read = $this->dataByID['read_permission']['value'];
+		
+		if($read > 0 and authority_is_guest()) error_denied();
+		else if($read == 2){
+			$isResolver = in_array(USER_ID, array_keys($this->dataByID['resolver']));
+			if(!$isResolver and !$this->isOwner() and !$this->isModerator()) error_denied();
+		}
+		
 		head_add_css('develcard.css');
 		document_set_path($this->dataByID['status']['label'], $this->dataByID['status_uri']);
 		document_set_path($this->dataByID['type']['label'], $this->dataByID['type_uri']);
 		document_set_path($this->dataByID['topic']);
-		
+		search_set_page();
 		$this->dataByID['editable'] = (develcard_is_admin() or authority_group('develcard_resolver'));
 		$this->initComment();
 		$this->insertTracker('read');
@@ -149,6 +360,26 @@ class DevelCard extends Control{
 		$render = render($this->dataByID, 'develcard_display.tpl', 'develcard_display');
 		$render.= $this->comment->render();
 		return $render;
+	}
+	
+	private function isModerator(){
+		$isModerator = authority_group('develcard_moderator');
+		$isAdmin = authority_group('develcard_admin');
+		return ($isModerator or $isAdmin or authority_is_admin());
+	}
+	
+	private function isOwner(){
+		if(USER_ID == -1) return false;
+		else{
+			if(!is_array($this->dataByID)) return false;
+			else{
+				if(!is_array($this->dataByID['writer'])){
+					return $this->dataByID['writer'] == USER_ID;
+				}else{
+					return $this->dataByID['writer']['id'] == USER_ID;
+				}
+			}
+		}
 	}
 	
 	
@@ -172,14 +403,30 @@ class DevelCard extends Control{
 	private function renderReporterListPage($uid){
 		$user = userinfo_get_info_by_id($uid);
 		$mode = 'develcard_reporter_list/'.$uid;
+		$statusOption = develcard_get_status_option();
+		
+		if(gg('status') !== null) $status = ' ['.$statusOption[gg('status')].']';
+		else $status = '';
+		
 		document_set_path($user['login_name'], 'develcard_personal/'.$uid);
 		$clause = $this->getStatusTypeClause($mode);
-		$title = tt('DevelCard reported by : ').$user['login_name'];
+		$title = tt('DevelCard reported by : ').$user['login_name'].$status;
 		$clause = 'WHERE writer='.$uid.$clause.' ORDER BY comment_time DESC';
+		$renderArray = array(
+			'user_id' => USER_ID,
+			'status' => $statusOption,
+		);
+		$this->listDescription = render($renderArray, 'develcard_status.tpl', 'develcard_status');
 		return $this->renderListPage($title, $clause, $mode);
 	}
 	
 	private function summaryPage(){
+		$permission = cc('develcard_read_access');
+		if($permission > 0 and authority_is_guest()) error_denied();
+		else if($permission == 2){
+			$isResolver = authority_group('develcard_resolver');
+			if(!$isResolver and !$this->isOwner() and !$this->isModerator()) error_denied();
+		}
 		$mode   = 'develcard';
 		$clause = $this->getStatusTypeClause($mode);
 		$title  = tt('DevelCard');
@@ -232,66 +479,13 @@ class DevelCard extends Control{
 			'data' => $this->data,
 			'title' => $title,
 			'write_icon' => $this->renderWriteIcon(),
+			'report_icon' => $this->renderReportIcon(),
+			'description' => $this->listDescription,
 			'personal_icon' => render_icon('develcard_personal', 'module/develcard/theme/image/devel.png', tt('My DevelCard')),
 		);
 		$render = render($renderArray, 'develcard_list.tpl', 'develcard_list');
 		$render.= $this->pager->render($mode);
 		return $render;
-	}
-	
-	private function setAction(){
-		$this->addAction('develcard_reporter_list', 'reporterListPage');
-		$this->addAction('develcard_resolver_list', 'resolverListPage');
-		$this->addAction('develcard_drop_resolver', 'dropResolver');
-		$this->addAction('develcard_personal', 'personalPage');
-		$this->addAction('develcard_personal_list', 'personalListPage');
-		$this->addAction('develcard_set_status', 'setStatus');
-		$this->addAction('develcard_tag', 'renderTagPage');
-		$this->addAction('develcard_week_list', 'renderWeekList');
-	}
-	
-	private function setAccess(){
-		$access = cc('develcard_access');
-		if($access == 0){
-			$this->addAccessMethod('guest', 'index');
-			$this->addAccessMethod('guest', 'write');
-			$this->addAccessMethod('guest', 'insert');
-		}elseif($access == 1){
-			$this->addAccessMethod('user', 'index');
-			$this->addAccessMethod('user', 'write');
-			$this->addAccessMethod('user', 'insert');
-		}
-		
-		$this->addAccessMethod('develcard_reporter', 'index');
-		$this->addAccessMethod('develcard_reporter', 'write');
-		$this->addAccessMethod('develcard_reporter', 'insert');
-		$this->addAccessMethod('develcard_reporter', 'reporterListPage');
-		$this->addAccessMethod('develcard_reporter', 'personalPage');
-		$this->addAccessMethod('develcard_reporter', 'renderTagPage');
-		$this->addAccessMethod('develcard_reporter', 'renderWeekList');
-		
-		$this->addAccessMethod('develcard_resolver', 'index');
-		$this->addAccessMethod('develcard_resolver', 'resolverListPage');
-		$this->addAccessMethod('develcard_resolver', 'personalPage');
-		$this->addAccessMethod('develcard_resolver', 'setStatus');
-		$this->addAccessMethod('develcard_resolver', 'renderTagPage');
-		$this->addAccessMethod('develcard_resolver', 'renderWeekList');
-		
-		$this->addAccessMethod('develcard_moderator', 'index');
-		$this->addAccessMethod('develcard_moderator', 'write');
-		$this->addAccessMethod('develcard_moderator', 'insert');
-		$this->addAccessMethod('develcard_moderator', 'edit');
-		$this->addAccessMethod('develcard_moderator', 'update');
-		$this->addAccessMethod('develcard_moderator', 'drop');
-		$this->addAccessMethod('develcard_moderator', 'listPage');
-		$this->addAccessMethod('develcard_moderator', 'reporterListPage');
-		$this->addAccessMethod('develcard_moderator', 'resolverListPage');
-		$this->addAccessMethod('develcard_moderator', 'dropResolver');
-		$this->addAccessMethod('develcard_moderator', 'personalPage');
-		$this->addAccessMethod('develcard_moderator', 'personalListPage');
-		$this->addAccessMethod('develcard_moderator', 'setStatus');
-		$this->addAccessMethod('develcard_moderator', 'renderTagPage');
-		$this->addAccessMethod('develcard_moderator', 'renderWeekList');
 	}
 	
 	private function prepareData($data, $mode){
@@ -351,7 +545,11 @@ class DevelCard extends Control{
 			$config->append('resolver');
 		}
 		$config->append('deadline');
+		$config->append('read_permission');
 		$config->append('comment_permission');
+		
+		$config = $this->getNewConfigForm(tt('Attached Files'));
+		$config->append('attachment');
 	}
 	
 	private function getUserID(){
@@ -545,6 +743,85 @@ class DevelCard extends Control{
 			$operation[$id] = extension_execute_append_result('content_operation', $data, array());
 		}
 		return $operation;
+	}
+	
+	private function renderReportIcon(){
+		if(authority_group('develcard_report')){
+			$path = 'files/icon/tracker.png';
+			return render_icon('develcard_report', $path, tt('Mothly Report'));
+		}
+	}
+	
+	private function setAction(){
+		$this->addAction('develcard_reporter_list', 'reporterListPage');
+		$this->addAction('develcard_resolver_list', 'resolverListPage');
+		$this->addAction('develcard_drop_resolver', 'dropResolver');
+		$this->addAction('develcard_personal', 'personalPage');
+		$this->addAction('develcard_personal_list', 'personalListPage');
+		$this->addAction('develcard_set_status', 'setStatus');
+		$this->addAction('develcard_tag', 'renderTagPage');
+		$this->addAction('develcard_drop_file', 'dropFile');
+		$this->addAction('develcard_week_list', 'renderWeekList');
+		$this->addAction('develcard_report', 'report');
+		$this->addAction('develcard_download_attachment', 'downloadAttachment');
+	}
+	
+	private function setAccess(){
+		$access = cc('develcard_read_access');
+		if($access == 0){
+			$this->addAccessMethod('guest', 'index');
+		}elseif($access == 1){
+			$this->addAccessMethod('user', 'index');
+		}
+		
+		$access = cc('develcard_access');
+		if($access == 0){
+			$this->addAccessMethod('guest', 'write');
+			$this->addAccessMethod('guest', 'insert');
+		}elseif($access == 1){
+			$this->addAccessMethod('user', 'write');
+			$this->addAccessMethod('user', 'insert');
+		}
+		
+		$this->addAccessMethod('develcard_reporter', 'index');
+		$this->addAccessMethod('develcard_reporter', 'write');
+		$this->addAccessMethod('develcard_reporter', 'insert');
+		$this->addAccessMethod('develcard_reporter', 'dropFile');
+		$this->addAccessMethod('develcard_reporter', 'reporterListPage');
+		$this->addAccessMethod('develcard_reporter', 'personalPage');
+		$this->addAccessMethod('develcard_reporter', 'renderTagPage');
+		$this->addAccessMethod('develcard_reporter', 'renderWeekList');
+		
+		$this->addAccessMethod('develcard_resolver', 'index');
+		$this->addAccessMethod('develcard_resolver', 'resolverListPage');
+		$this->addAccessMethod('develcard_resolver', 'dropFile');
+		$this->addAccessMethod('develcard_resolver', 'personalPage');
+		$this->addAccessMethod('develcard_resolver', 'setStatus');
+		$this->addAccessMethod('develcard_resolver', 'renderTagPage');
+		$this->addAccessMethod('develcard_resolver', 'renderWeekList');
+		
+		$this->addAccessMethod('develcard_viewer', 'index');
+		$this->addAccessMethod('develcard_viewer', 'reporterListPage');
+		$this->addAccessMethod('develcard_viewer', 'resolverListPage');
+		$this->addAccessMethod('develcard_viewer', 'renderTagPage');
+		$this->addAccessMethod('develcard_viewer', 'report');
+		
+		$this->addAccessMethod('develcard_moderator', 'index');
+		$this->addAccessMethod('develcard_moderator', 'write');
+		$this->addAccessMethod('develcard_moderator', 'insert');
+		$this->addAccessMethod('develcard_moderator', 'edit');
+		$this->addAccessMethod('develcard_moderator', 'update');
+		$this->addAccessMethod('develcard_moderator', 'drop');
+		$this->addAccessMethod('develcard_moderator', 'listPage');
+		$this->addAccessMethod('develcard_moderator', 'dropFile');
+		$this->addAccessMethod('develcard_moderator', 'reporterListPage');
+		$this->addAccessMethod('develcard_moderator', 'resolverListPage');
+		$this->addAccessMethod('develcard_moderator', 'dropResolver');
+		$this->addAccessMethod('develcard_moderator', 'personalPage');
+		$this->addAccessMethod('develcard_moderator', 'personalListPage');
+		$this->addAccessMethod('develcard_moderator', 'setStatus');
+		$this->addAccessMethod('develcard_moderator', 'renderTagPage');
+		$this->addAccessMethod('develcard_moderator', 'renderWeekList');
 	}
 }
 ?>

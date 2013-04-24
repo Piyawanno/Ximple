@@ -95,7 +95,7 @@ label{
 /* ========= Head ========= */
 #section_head{
 	display:block;
-	width:660px;
+	width:590px;
 	padding:0 10px;
 	text-align:left;
 	float:left;
@@ -116,7 +116,7 @@ label{
 }
 
 #search_container{
-	width:290px;
+	width:360px;
 	float:left;
 	padding:5px 10px 0 0;
 	text-align:right;

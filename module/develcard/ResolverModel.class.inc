@@ -13,7 +13,7 @@ class ResolverModel extends Model{
 		$this->status = $this->none(0, 'int');
 		$this->point = $this->none(0, 'int');
 		$this->end_date = $this->now();
-		$this->end_date->defaultData = time() + 60*60*24*7;
+		$this->end_date->defaultData = date('Y-m-d H:i:s', time() + 60*60*24*7);
 		$this->end_date->isGridForm = false;
 		$this->work_load = $this->spin(tt('work load'), 1, 2500);
 	}

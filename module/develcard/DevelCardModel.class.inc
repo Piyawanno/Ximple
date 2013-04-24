@@ -1,6 +1,7 @@
 <?php
 include_once(MODULE_PATH.'freetag/FreeTagColumn.class.inc');
 include_once(MODULE_PATH.'comment/comment.tool.inc');
+include_once('DevelCardFileModel.class.inc');
 
 class DevelCardModel extends Model{
 	function DevelCardModel(){
@@ -10,10 +11,19 @@ class DevelCardModel extends Model{
 		
 		if(authority_is_guest()){
 			$this->reporter_name = $this->title(tt('your name'));
+			$this->read_permission = $this->hidden(cc('develcard_read_access'), 'int');
 			$this->comment_permission = $this->hidden(0, 'int');
 		}else{
 			$this->reporter_name = $this->hidden(USER_NAME, 'char');
-			$this->comment_permission = $this->radio(tt('comment permission'), comment_permission_option());
+			
+			$this->attachment = $this->grid(tt('attached files'));
+			$this->attachment->setModel(new DevelCardFileModel());
+			
+			$option = develcard_get_read_permission_option();
+			$this->read_permission = $this->radio(tt('read permission'), $option);
+			$this->read_permission->defaultData = cc('develcard_read_access');
+			$option = comment_permission_option();
+			$this->comment_permission = $this->radio(tt('comment permission'), $option);
 		}
 		
 		$this->topic = $this->title(tt('topic'));
@@ -32,7 +42,7 @@ class DevelCardModel extends Model{
 		
 		$this->description = $this->shortText(tt('description'));
 		$this->description->isReachable = true;
-		$this->freetag = new FreeTagColumn('peopleinfo_event');
+		$this->freetag = new FreeTagColumn('develcard_freetag');
 		$this->comment_time = $this->now();
 		
 		$this->section = $this->section();
@@ -56,7 +66,7 @@ class DevelCardModel extends Model{
 		$this->resolver = $this->hidden(0, 'int');
 		$this->resolver->isDB = false;
 		$this->deadline = $this->now();
-		$this->deadline->defaultData = time() + 60*60*24*7;
+		$this->deadline->defaultData = date('Y-m-d H:i:s', time() + 60*60*24*7);
 	}
 }
 ?>

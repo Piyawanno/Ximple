@@ -13,7 +13,7 @@ class FileColumn extends CharColumn{
 		CharColumn::CharColumn($label, $help);
 		$this->path = ROOT_PATH.$path;
 		$this->isOrderable = false;
-		$this->setFormAttribute('size', 25);
+		$this->setFormAttribute('size', 15);
 		$this->setFormAttribute('type', 'file');
 	}
 	

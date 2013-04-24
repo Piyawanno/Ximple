@@ -1,7 +1,9 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 <h3 class="list_label"><?=$title?></h3>
 <?=$personal_icon?>
+<?=$report_icon?>
 <?=$write_icon?>
+<?php if(strlen($description)) : ?><p><?=$description?></p><?php endif?>
 <?php foreach($data as $id => $card):?>
 <div class="develcard_item" style="border-left:4px solid <?=$card['priority_color']?>;">
 	<h4><a href="<?=SECTION_URI.Q.'develcard/'.$id?>"><?=$card['topic']?></a></h4>

@@ -3,12 +3,18 @@ class DevelCardConfigModel extends Model{
 	function DevelCardConfigModel(){
 		$option = develcard_get_permission_option();
 		$this->develcard_access = $this->radio(tt('DevelCard report permission'), $option);
+		$option = develcard_get_read_permission_option();
+		$this->develcard_read_access = $this->radio(tt('Default develCard read permission'), $option);
 		
 		$this->develcard_pixel_per_point = $this->spin(tt('pixel per point for workload & karma report'), 1, 100);
 		$this->develcard_load_color = $this->color('workload font color');
 		$this->develcard_load_bg_color = $this->color('workload background color');
 		$this->develcard_point_color = $this->color('karma font color');
 		$this->develcard_point_bg_color = $this->color('karma background color');
+		
+		$this->develcard_tag_color = $this->color('tag report color');
+		$this->develcard_status_color = $this->color('status report color');
+		$this->develcard_type_color = $this->color('type report color');
 		
 		$this->develcard_comment_write_label  = $this->title(tt('comment label'));
 		$this->develcard_comment_write_label->defaultData = tt('Please, write your opinion.');

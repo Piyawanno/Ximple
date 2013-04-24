@@ -21,6 +21,12 @@
 		<label><?=tt('dead line')?> : </label>
 		<?=$deadline?> (<?=$residual_time?>)
 	</p>
+	<p><label><?=tt('attached files')?> : </label></p>
+	<ul>
+	<?php foreach($attachment as $aid => $attachment):?>
+		<li><?=render_operation_link('develcard_download_attachment', $attachment['id'],  $attachment['short_description'])?></li>
+	<?php endforeach?>
+	</ul>
 	<p><label><?=tt('resolver')?> : </label></p>
 	<ul>
 	<?php foreach($resolver as $uid => $user):?>

@@ -182,7 +182,7 @@ function db_get_type($type){
 		'shorttext' => 'TEXT',
 		'text' => 'MEDIUMTEXT',
 		'date' => 'DATE',
-		'timestamp' => 'TIMESTAMP',
+		'timestamp' => 'DATETIME',
 		'array' => 'TEXT',
 	);
 	return $typeMap[$type];

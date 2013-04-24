@@ -5,7 +5,7 @@ class CharColumn extends ModelColumn{
 		$this->label = $label;
 		$this->help = $help;
 		$this->isAllowedTranslate = true;
-		$this->setFormAttribute('size', 25);
+		$this->setFormAttribute('size', 15);
 		$this->setFormAttribute('maxlength', 80);
 	}
 	

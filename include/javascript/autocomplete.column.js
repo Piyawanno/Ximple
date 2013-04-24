@@ -26,7 +26,7 @@ addReady(function(){
 });
 
 function gridInitAutoComplete(){
-	initAutoComplete($('.auto_complete'));
+	initForm($('.auto_complete'), initAutoComplete);
 }
 
 function initAutoComplete(form){

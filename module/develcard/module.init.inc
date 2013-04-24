@@ -75,13 +75,18 @@ function module_develcard_init_role($panel){
 	
 	$reporter = new RoleManager('develcard_reporter');
 	$reporter->setName('DevelCard Reporter');
-	$reporter->setDescription('Who can DevelCard Report.');
+	$reporter->setDescription('Who can submit DevelCard.');
 	$reporter->submit();
+	
+	$viewer = new RoleManager('develcard_viewer');
+	$viewer->setName('DevelCard Report Viewer');
+	$viewer->setDescription('Who can view DevelCard Report.');
 	
 	$panel->appendRole($admin);
 	$panel->appendRole($moderator);
 	$panel->appendRole($resolver);
 	$panel->appendRole($reporter);
+	$panel->appendRole($viewer);
 }
 
 function module_develcard_drop_role(){
@@ -91,8 +96,14 @@ function module_develcard_drop_role(){
 	$moderator = new RoleManager('develcard_moderator');
 	$moderator->drop();
 	
+	$resolver = new RoleManager('develcard_resolver');
+	$resolver->drop();
+	
 	$reporter = new RoleManager('develcard_reporter');
 	$reporter->drop();
+	
+	$viewer = new RoleManager('develcard_viewer');
+	$viewer->drop();
 }
 
 function module_develcard_init_panel($panel){
@@ -100,6 +111,7 @@ function module_develcard_init_panel($panel){
 	$panel->append('develcard_personal', 'my Develcard');
 	$panel->append('develcard_personal_list', 'list of personals');
 	$panel->append('develcard_write', 'submit new DevelCard');
+	$panel->append('develcard_report', 'see monthly report');
 	$panel->submit();
 }
 
@@ -144,6 +156,10 @@ function module_develcard_init_config(){
 		config_set('develcard_load_bg_color', '#aa00aa');
 		config_set('develcard_point_color', '#ffffff');
 		config_set('develcard_point_bg_color', '#00aaaa');
+		
+		config_set('develcard_type_color', '#aaaa00');
+		config_set('develcard_status_color', '#ff2222');
+		config_set('develcard_type_color', '#228822');
 	
 		config_set('develcard_list_per_page', 20);
 		config_set('develcard_hight_color', '#ff0000');

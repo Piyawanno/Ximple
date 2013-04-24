@@ -37,6 +37,14 @@ function develcard_get_priority_option(){
 	);
 }
 
+function develcard_get_read_permission_option(){
+	return array(
+		0 => tt('everyone can read report'),
+		1 => tt('all users can read report'),
+		2 => tt('only users with assignment and moderator can see report'),
+	);
+}
+
 function develcard_get_permission_option(){
 	return array(
 		0 => tt('everyone can submit report'),
@@ -70,5 +78,22 @@ function develcard_is_admin(){
 	$is_admin = authority_group('develcard_moderator');
 	$is_admin = ($is_admin or authority_group('develcard_admin'));
 	return $is_admin;
+}
+
+function develcard_get_month_list(){
+	return array(
+		1 => tt('January'),
+		2 => tt('Febraury'),
+		3 => tt('March'),
+		4 => tt('April'),
+		5 => tt('May'),
+		6 => tt('June'),
+		7 => tt('July'),
+		8 => tt('August'),
+		9 => tt('September'),
+		10 => tt('October'),
+		11 => tt('November'),
+		12 => tt('December'),
+	);
 }
 ?>
