@@ -91,6 +91,7 @@ function cache_save_db($table, $query, $data){
 
 function cache_clear_db($table=''){
 	io_clear_directory(FILES_PATH.'dbcache/'.$table);
+	io_clear_directory(FILES_PATH.'notify/');
 }
 
 function cache_get_db_file($table, $query){
