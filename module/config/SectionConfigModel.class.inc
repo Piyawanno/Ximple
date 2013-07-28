@@ -10,7 +10,7 @@ class SectionConfigModel extends Model{
 		$this->section_slogan->enableTranslate();
 		$this->home_label = $this->title(tt('home lable'));
 		$this->home_label->enableTranslate();
-		$this->index_mode = $this->select('fronpage module', cc('module_name'));
+		$this->index_mode = $this->select('home page module', cc('module_name'));
 		$this->icon = $this->image(tt('section icon (16x16)'), 'files/misc/');
 		
 		$help = tt('Currency is not automatically converted to given label. ');
