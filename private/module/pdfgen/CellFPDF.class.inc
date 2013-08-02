@@ -39,7 +39,12 @@ class CellFPDF{
 	}
 	
 	public function generateCell($word){
-		$this->fpdf->cell($this->width, $this->height, $word, $this->border, $this->ln, $this->align, $this->fill);
+		$this->fpdf->cell($this->width, $this->height, $this->tt($word), $this->border, $this->ln, $this->align, $this->fill);
 	}
+	
+	private function tt($word){
+		return	iconv('UTF-8', 'cp874', $word);
+	}
+	
 }
 ?>
