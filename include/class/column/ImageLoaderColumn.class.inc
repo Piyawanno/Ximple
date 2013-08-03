@@ -3,15 +3,17 @@ require_once('CheckSlideDualColumn.class.inc');
 
 class ImageLoaderColumn extends ModelColumn{
 	private $path;
-	private $size;
+	private $width;
+	private $height;
 	private $slideDrop;
 	private $separateSection = true;
 	
-	function ImageLoaderColumn($label, $path, $size=null){
+	function ImageLoaderColumn($label, $path, $width=64, $height=null){
 		$this->setType('char');
 		$this->label = $label;
 		$this->path = $path;
-		$this->size = $size;
+		$this->width = $width;
+		$this->height = ($height == null) ? $width : $height;
 		$option = array(
 			0 => tt('enabled'),
 			1 => tt('disabled'),
@@ -40,7 +42,7 @@ class ImageLoaderColumn extends ModelColumn{
 		else $slide = '';
 		$render = '
 		<input '.$this->renderFormAttribute().'/>
-		<a href="#" onclick="showImageLoader(\''.$id.'\', \''.$this->path.'\', '.((int) $this->size).');return false;">
+		<a href="#" onclick="showImageLoader(\''.$id.'\', \''.$this->path.'\', '.((int) $this->width).', '.((int) $this->height).');return false;">
 			<img src="'.$imageSource.'" border="0" id="image_'.$id.'" alt="image" style="max-width:100%;"/>
 		</a>
 		<p>'.$slide.'</p>
