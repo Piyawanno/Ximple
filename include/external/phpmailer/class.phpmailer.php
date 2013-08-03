@@ -405,6 +405,7 @@ class PHPMailer {
    * @return boolean true on success, false if address already used
    */
   public function AddAddress($address, $name = '') {
+ 
     return $this->AddAnAddress('to', $address, $name);
   }
 
@@ -568,6 +569,8 @@ class PHPMailer {
         $header = str_replace("\r\n","\n",$header_dkim) . $header;
       }
 
+	  print_r($header);
+	  print_r($body);
       // Choose the mailer and send through it
       switch($this->Mailer) {
         case 'sendmail':
@@ -641,7 +644,7 @@ class PHPMailer {
    * @access protected
    * @return bool
    */
-  protected function MailSend($header, $body) {
+  protected function MailSend($header, $body){
     $toArr = array();
     foreach($this->to as $t) {
       $toArr[] = $this->AddrFormat($t);
