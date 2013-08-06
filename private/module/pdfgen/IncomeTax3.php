@@ -313,13 +313,15 @@ class Address {
 		$this->village = $village;
 		return $this;
 	}
-	public function setHomeNumber($homeNumber);
+	
+	public function setHomeNumber($homeNumber){
 		$this->homeNumber = $homeNumber;
 		return $this;
 	}
+
 	public function setMoo($moo){
 		$this->moo = $moo;
-		return $thisl;
+		return $this;
 	}
 	public function setLanes ($lanes){
 		$this->lanes = $lanes;
@@ -355,7 +357,7 @@ class Address {
 	public function getVillageName(){
 		return $this->village;
 	}
-	public function getHomeNumber();
+	public function getHomeNumber(){
 		return $this->homeNumber;
 	}
 	public function getMoo($moo){
@@ -365,7 +367,7 @@ class Address {
 		return $lanes->lanes;
 	}
 	public function getCanton(){
-		return $this->canton
+		return $this->canton;
 	}
 	public function getCountry(){
 		return $this->country;
@@ -375,8 +377,7 @@ class Address {
 	}
 	public function getTelephoneNumber(){
 		return $this->telephoneNumber;
-	}
-	
+	}	
 }
 
 class IncomeTaxData{
@@ -392,7 +393,7 @@ class IncomeTaxData{
 	
 	private $month;
 	private $year;
-	private $chechMonth = array(
+	private $checkMonth = array(
 		'1' => false,
 		'2' => false,
 		'3' => false,
@@ -419,15 +420,43 @@ class IncomeTaxData{
 		3 => false
 	);
 	
-	$inTaxIsPerson;
-	$inTaxIsPaper;
-	$inComputerIsPerson;
-	$inComputerIsPaper;
+	private $inTaxIsPerson;
+	private $inTaxIsPaper;
+	private $inComputerIsPerson;
+	private $inComputerIsPaper;
 	private $sendDetail = array(
 		1 => false,
 		2 => false,
 	);	
 	
+	private $summarizeDetail = array(
+		1 => '',
+		2 => '',
+		3 => '',
+		4 => ''
+	);
+	
+	private $summarizeAmount = array(
+		1 => 0,
+		2 => 0,
+		3 => 0,
+		4 => 0
+	);
+	
+	public function setName($name){
+		$this->name = $name;
+		return $this;
+	}
+	
+	public function setSurname($surname){
+		$this->surname = $surname;
+		return $this;
+	}
+	
+	public function setPosition($position){
+		$this->position = $position;
+		return $this;
+	}
 	
 	public function setPersonalNumber($personalNumber){
 		$this->personalNumber = $personalNumber;
@@ -447,6 +476,67 @@ class IncomeTaxData{
 		return $this;
 	} 
 	
+	public function setMonth($month){
+		$this->month = $month;
+		return $this;
+	}
+	
+	public function setYear($year){
+		$this->year = $year;
+	}
+	
+	public function enableJanuary(){
+		$checkMonth[1] = true;
+		return $this;
+	}
+	
+	public function enableFeberuary(){
+		$checkMonth[2] = true;
+		return $this;
+	}
+	
+	public function enableMarch(){
+		$checkMonth[3] = true;
+		return $this;
+	}
+	
+	public function enableApril(){
+		$checkMonth[4] = true;
+		return $this;
+	}
+	
+	public function enableMay(){
+		$checkMonth[5] = true;
+		return $this;
+	}
+	public function enableJune(){
+		$checkMonth[6] = true;
+		return $this;
+	}
+	public function enableJuly(){
+		$checkMonth[7] = true;
+		return $this;
+	}
+	public function enableAuguest(){
+		$checkMonth[8] = true;
+		return $this;
+	}
+	public function enableSeptember(){
+		$checkMonth[9] = true;
+		return $this;
+	}
+	public function enableOctober(){
+		$checkMonth[10] = true;
+		return $this;
+	}
+	public function enableNovember(){
+		$checkMonth[11] = true;
+		return $this;
+	}
+	public function enableDecember(){
+		$checkMonth[12] = true;
+		return $this;
+	}
 }
 
 $test = new IncomeTax();
