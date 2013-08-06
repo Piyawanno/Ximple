@@ -45,25 +45,29 @@ class Video extends Content{
 	
 	public function insert(){
 		$file = ff('file');
-		if($file['size'] == 0 or $file['type'] == 'video/x-flv'){
+		if($file['size'] != 0 or $file['type'] == 'video/x-flv'){
 			Content::insert();
 			$this->selectByID($this->column);
 			$size = filesize(ROOT_PATH.$this->dataByID['file']);
 			db_update($this->tableName, array('size' => $size), $this->id);
 		}else{
 			notify_add_error(tt('Video support only .flv file.'));
+			document_set_redirect('video');
+			execute_set_db();
 		}
 	}
 	
 	public function update(){
 		$file = ff('file');
-		if($file['size'] == 0 or $file['type'] == 'video/x-flv'){
+		if($file['size'] != 0 or $file['type'] == 'video/x-flv'){
 			Content::update();
 			$this->selectByID($this->column);
 			$size = filesize(ROOT_PATH.$this->dataByID['file']);
 			db_update($this->tableName, array('size' => $size), $this->id);
 		}else{
 			notify_add_error(tt('Video support only .flv file.'));
+			document_set_redirect('video/'.gg('id'));
+			execute_set_db();
 		}
 	}
 	

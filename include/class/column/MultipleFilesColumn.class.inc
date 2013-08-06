@@ -45,7 +45,9 @@ class MultipleFilesColumn extends ModelColumn{
 		$this->fileArray = input_reorder_multiple_files($this->name);
 		foreach($this->fileArray as $key => $value){
 			if($value['size']){
-				$this->data[] = io_upload($value, $this->path, $this->isImage);
+				$name = io_upload($value, $this->path, $this->isImage);
+				$this->data[] = $name;
+				$this->fileArray[$key]['name'] = basename($name);
 			}else{
 				unset($this->fileArray[$key]);
 			}

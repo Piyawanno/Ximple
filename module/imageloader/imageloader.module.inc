@@ -51,11 +51,9 @@ function imageloader_simple_upload(){
 		$path = ROOT_PATH.$path;
 		$width = (int) pp('width');
 		$height = (int) pp('height');
-		echo($width.' '.$height);
 		if($width && $height){
 			require_once(INCLUDE_PATH.'tool/image.tool.inc');
 			image_resize_crop(ff('file_to_upload'), $path, $width, $height);
-			echo($width.' '.$height);
 		}
 	}
 }
