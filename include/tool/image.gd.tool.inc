@@ -27,6 +27,59 @@ function image_check_max_width($file, $path, $maxwidth){
 	}
 }
 
+/// Image resizing with automatic height.
+/// @param $file : array of file information.
+/// @param $path : localtion of the given image.
+/// @param $width : image width, which should not be exceeded.
+function image_resize($file, $path, $width){
+	$image_src = image_get_src($file, $path);
+	if($image_src){
+		$src_w = imagesx($image_src);
+		$src_h = imagesy($image_src);
+		$dst_w = $width;
+		$dst_h = ($src_h/$src_w)*$dst_w;
+		$image_dst = imageCreateTrueColor($dst_w, $dst_h);
+		imageCopyResized($image_dst, $image_src, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
+		imageJPEG($image_dst, $path, 85);
+		imageFilter($image_dst, IMG_FILTER_SMOOTH, 12);
+	}
+}
+
+/// Resize image to given width and crop to given height.
+/// @param $file : array of file information.
+/// @param $path : localtion of the given image.
+/// @param width : given width to crop.
+/// @param height : given height to crop.
+function image_resize_crop($file, $path, $width, $height){
+	$image_src = image_get_src($file, $path);
+	echo('gd ');
+	if($image_src){
+		$src_w = imagesx($image_src);
+		$src_h = (int) $src_w*$height/$width;
+		$croped = imageCreateTrueColor($width, $height);
+		imageCopyResized($croped, $image_src, 0, 0, 0, 0, $width, $height, $src_w, $src_h);
+		imageFilter($croped, IMG_FILTER_SMOOTH, 15);
+		imageJPEG($croped, $path, 90);
+	}
+}
+
+/// Crop image from origin point.
+/// @param $file : array of file information.
+/// @param $path : localtion of the given image.
+/// @param $width : given width to crop.
+/// @param $height : given height to crop.
+function image_crop($file, $path, $width, $height){
+	$image_src = image_get_src($file, $path);
+	if($image_src){
+		$src_w = imagesx($image_src);
+		$src_h = imagesy($image_src);
+		$image_dst = imageCreateTrueColor($width, $height);
+		imageCopyResized($image_dst, $image_src, 0, 0, 0, 0, $width, $height, $src_w, $src_h);
+		imageFilter($image_dst, IMG_FILTER_SMOOTH, 12);
+		imageJPEG($image_dst, $path, 85);
+	}
+}
+
 /// Crop image to square format.
 /// @param $file : array of file information.
 /// @param $path : localtion of the given image.

@@ -19,7 +19,8 @@
 <form enctype="multipart/form-data" method="post" id="image_upload_form" action="<?=SECTION_URI.Q?>imageloader_simple_upload" onsubmit="return submitImageLoader();">
 	<input type="file" name="file_to_upload" size="25" id="file_to_upload"/>
 	<input type="hidden" name="current_dir" value="<?=$current_dir?>"/>
-	<input type="hidden" name="size" value="<?=$size?>"/>
+	<input type="hidden" name="width" value="<?=$width?>"/>
+	<input type="hidden" name="height" value="<?=$height?>"/>
 	<input value="uploade image" type="submit" style="width:120px;" >
 </form>
 <p><strong><?=tt('click on image to select')?> <span id="loader_info" style="color:red;"></span></strong></p>

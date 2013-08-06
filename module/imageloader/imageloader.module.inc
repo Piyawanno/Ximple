@@ -17,8 +17,10 @@ function imageloader_simple(){
 		'loader_id' => gg('loader_id'),
 		'is_file_admin' => authority_group('file_admin'),
 		'manage_file_path' => str_replace('files/', '', $path),
-		'size' => gg('size'),
+		'width' => gg('width'),
+		'height' => gg('height'),
 	);
+	
 	return render($render_array, 'imageloader_simple.tpl', 'imageloader_simple');
 }
 
@@ -47,11 +49,11 @@ function imageloader_simple_upload(){
 	if(!authority_is_guest()){
 		$path = io_upload(ff('file_to_upload'), ROOT_PATH.pp('current_dir'));
 		$path = ROOT_PATH.$path;
-		$size = (int) pp('size');
-		if($size){
-			io_write_file(ROOT_PATH.'files/upload.txt', $size."\n".$path);
+		$width = (int) pp('width');
+		$height = (int) pp('height');
+		if($width && $height){
 			require_once(INCLUDE_PATH.'tool/image.tool.inc');
-			image_square_crop(ff('file_to_upload'), $path, $size);
+			image_resize_crop(ff('file_to_upload'), $path, $width, $height);
 		}
 	}
 }

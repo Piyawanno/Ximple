@@ -1,11 +1,13 @@
 var currentPath = null;
 var currentLoaderID = null;
-var currentSize = null;
+var currentWidth = null;
+var currentHeight = null;
 
-function showImageLoader(loaderID, path, size){
+function showImageLoader(loaderID, path, width, height){
 	currentLoaderID = loaderID;
 	currentPath = path;
-	currentSize = size;
+	currentWidth = width;
+	currentHeight = height;
 	var loader = $('#loader_'+loaderID);
 	loader.dialog({
 		bgiframe: true,
@@ -15,7 +17,8 @@ function showImageLoader(loaderID, path, size){
 		modal: true,
 		title: 'Image Loader'
 	});
-	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+path+'&loader_id='+loaderID+'&size='+size;
+	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+path;
+	uri += '&loader_id='+loaderID+'&width='+width+'&height='+height;
 	$.get(uri, function(data){
 		loader.html(data);
 	}, 'html');
@@ -27,9 +30,10 @@ function submitImageLoader(){
 	return false;
 }
 
-function refreshImageLoader(){
+function refreshImageLoader(data){
 	var loader = $('#loader_'+currentLoaderID);
-	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+currentPath+'&loader_id='+currentLoaderID+'&size='+currentSize;
+	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+currentPath;
+	uri += '&loader_id='+currentLoaderID+'&width='+currentWidth+'&height'+currentHeight;
 	$.get(uri, function(data){
 		loader.html(data);
 		$('#loader_info').html(uploadSuccess);

@@ -269,9 +269,9 @@ abstract class Model{
 		return new UserByRoleColumn($label, $role, $help);
 	}
 	
-	public function imageLoader($label, $path, $size=null){
+	public function imageLoader($label, $path, $width=null, $height=null){
 		include_once('column/ImageLoaderColumn.class.inc');
-		return new ImageLoaderColumn($label, $path, $size);
+		return new ImageLoaderColumn($label, $path, $width, $height);
 	}
 	
 	public function position($label, $help=null){

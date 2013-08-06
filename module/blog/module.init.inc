@@ -39,7 +39,8 @@ function module_init_blog(){
 	$widget->submit();
 	
 	config_set('blog_entries_number', 5);
-	config_set('blog_icon_size', 64);
+	config_set('blog_icon_width', 64);
+	config_set('blog_icon_height', 64);
 }
 
 function module_drop_blog(){

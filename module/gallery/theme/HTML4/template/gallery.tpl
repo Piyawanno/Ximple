@@ -1,11 +1,11 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
 
-<div id="slide_container" style="background:url(<?=ROOT_URI?>/module/gallery/theme/bg.png);">
+<div id="slide_container" style="background:url(<?=ROOT_URI?>/module/gallery/theme/image/bg.png);z-index:100000;">
 	<div id="slide_area">
 		<img src="" id="slide_pic">
 	</div>
 </div>
-<div id="slide_menu_container">
+<div id="slide_menu_container" style="z-index:200000;">
 	<div id="slide_menu" style="background:url(<?=ROOT_URI?>/module/gallery/theme/image/toolbar.png) no-repeat;">
 		<a href="" id="slide_back"><img src="<?=ROOT_URI?>/module/gallery/theme/image/back.png" border="0"></a>
 		<a href="" id="slide_play"><img src="<?=ROOT_URI?>/module/gallery/theme/image/play.png" border="0"></a>

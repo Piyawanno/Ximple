@@ -80,6 +80,8 @@ fieldset{
 
 .sortable_item{
 	line-height:16px;
+	display:inline-block;
+	width:95%;
 	height:32;
 	margin:8px auto 8px auto;
 	padding:8px 15px 8px 15px;

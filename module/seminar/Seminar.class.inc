@@ -115,7 +115,6 @@ class Seminar extends Control{
 		
 		if(authority_group('seminar_attendant')){
 			$attendantFlag = TRUE;
-			echo('_attendant_');
 			$column = array('seminar', 'attendant');
 			$clause = 'WHERE attendant='.USER_ID.' AND seminar='.gg('id');
 			$map = db_select('seminar_map', $column, $clause);
@@ -127,18 +126,15 @@ class Seminar extends Control{
 		}
 		elseif(authority_group('seminar_organizer')){
 			$statusFlag = TRUE;
-			echo('_organizer_');
 			/*select the list for organizer*/
 		}
 		else {
-			echo('_mod_and_admin_');
 			$statusFlag = TRUE;
 			$controlFlag = TRUE;
 			/*select the list for organizer*/
 		}
 		$this->id = MODE_ID;
 //		$this->selectByID($this->column);
-		echo('test2');
 		head_add_css('list.css');
 		if(mid()) $mode = mm().'/'.mid();
 		else $mode = mm();

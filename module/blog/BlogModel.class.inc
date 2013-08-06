@@ -3,7 +3,7 @@ class BlogModel extends ContentModel{
 	function BlogModel(){
 		ContentModel::ContentModel('blog');
 		$this->checkPath();
-		$this->icon = $this->imageLoader(tt('icon'), 'files/blog/', cc('blog_icon_size'));
+		$this->icon = $this->imageLoader(tt('icon'), 'files/blog/', cc('blog_icon_width'), cc('blog_icon_height'));
 		$this->intro = $this->text(tt('introduction'));
 		$this->intro->enableTranslate();
 		$this->extendAfter('topic', 'icon');

@@ -23,6 +23,60 @@ function image_check_max_width($file, $path, $maxwidth){
 		}
 	}
 }
+
+/// Image resizing with automatic height.
+/// @param $file : array of file information.
+/// @param $path : localtion of the given image.
+/// @param $width : image width, which should not be exceeded.
+function image_resize($file, $path, $width){
+	$im = image_get_src($file, $path);
+	if($im){
+		$src_w = $im->getImageWidth();
+		$src_h = $im->getImageHeight();
+		$dst_w = $width;
+		$dst_h = ceil($width/$src_w * $src_h);
+
+		$im->thumbnailImage($dst_w, $dst_h, true);
+		$im->writeImage($path);
+		notify_add_info(tt('Image has been automatically resized.'));
+	}
+}
+
+/// Resize image to given width and crop to given height.
+/// @param $file : array of file information.
+/// @param $path : localtion of the given image.
+/// @param width : given width to crop.
+/// @param height : given height to crop.
+function image_resize_crop($file, $path, $width, $height){
+	$im = image_get_src($file, $path);
+	echo('imagick ');
+	if($im){
+		$src_w = $im->getImageWidth();
+		$src_h = $im->getImageHeight();
+		$dst_w = $width;
+		$dst_h = ceil($maxwidth/$src_w * $src_h);
+		
+		$im->thumbnailImage($dst_w, $dst_h, true);
+		$im->cropImage($width, $height, 0, 0);
+		$im->writeImage($path);
+	}
+}
+
+/// Crop image from origin point.
+/// @param $file : array of file information.
+/// @param $path : localtion of the given image.
+/// @param $width : given width to crop.
+/// @param $height : given height to crop.
+function image_crop($file, $path, $width, $height){
+	$im = image_get_src($file, $path);
+	if($im){
+		$src_size = min($im->getImageWidth(),$im->getImageHeight());
+		$im->cropImage($src_size, $src_size, 0, 0);
+		$im->thumbnailImage($width, $height, true);
+		$im->writeImage($path);
+	}
+}
+
 /// Crop image to square format.
 /// @param $file : array of file information.
 /// @param $path : localtion of the given image.
