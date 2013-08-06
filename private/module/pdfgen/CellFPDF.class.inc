@@ -38,6 +38,7 @@ class CellFPDF{
 		return $this;
 	}
 	
+	
 	public function generateCell($word){
 		$this->fpdf->cell($this->width, $this->height, $this->tt($word), $this->border, $this->ln, $this->align, $this->fill);
 	}
