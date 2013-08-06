@@ -151,13 +151,13 @@
 			}
 			if(!is_play){
 				breakPlay = true;
-				$("#slide_play img").attr('src', '<?=ROOT_URI?>/module/gallery/theme/play.png');
+				$("#slide_play img").attr('src', '<?=ROOT_URI?>/module/gallery/theme/image/play.png');
 			}
 			if(is_play && ! breakPlay){
 				setTimeout("nextSlide(true)", delayTime);
 			}
 		}else if(is_play){
-			$("#slide_play img").attr('src', '<?=ROOT_URI?>/module/gallery/theme/play.png');
+			$("#slide_play img").attr('src', '<?=ROOT_URI?>/module/gallery/theme/image/play.png');
 		}
 		return false;
 	}
