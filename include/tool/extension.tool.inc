@@ -18,11 +18,13 @@
 /// @return Result from extension.
 function extension_execute($reference, $params=null){
 	$extension = cc('extension');
+	$module = globalvar_get_module();
 	if(isset($extension[$reference])){
 		foreach($extension[$reference] as $key => $value){
 			$params = execute_string($value, $params);
 		}
 	}
+	globalvar_set_module($module);
 	return $params;
 }
 
