@@ -16,6 +16,7 @@ class BlogConfig extends ContentConfig{
 	public function index(){
 		document_set_path(tt('Blog'), 'blog');
 		$this->groupConfigForm();
+		$this->appearanceFormGroup->append('blog_icon_resize');
 		$this->appearanceFormGroup->append('blog_icon_width');
 		$this->appearanceFormGroup->append('blog_icon_height');
 		$this->appearanceFormGroup->append('blog_entries_number');
