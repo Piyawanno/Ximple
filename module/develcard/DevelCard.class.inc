@@ -347,7 +347,7 @@ class DevelCard extends Control{
 			error_denied();
 		}else if($read == 2){
 			$isResolver = false;
-			for($this->dataByID['resolver'] as $key => $value){
+			foreach($this->dataByID['resolver'] as $key => $value){
 				if($value['resolver'] == USER_ID){
 					$isResolver = true;
 					break;
