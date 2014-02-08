@@ -342,7 +342,8 @@ class DevelCard extends Control{
 		
 		if(!isset($this->dataByID['resolver'])){
 			$clause = 'WHERE develcard='.$this->id;
-			$this->dataByID['resolver'] = db_select('develcard_resolver', array('id'), $clause);
+			$column = array('id', 'resolver');
+			$this->dataByID['resolver'] = db_select('develcard_resolver', $column, $clause);
 		}
 		
 		print_r($this->dataByID['resolver']);
@@ -350,7 +351,13 @@ class DevelCard extends Control{
 		if($read > 0 and authority_is_guest()){
 			error_denied();
 		}else if($read == 2){
-			$isResolver = in_array(USER_ID, array_keys($this->dataByID['resolver']));
+			$isResolver = false;
+			for($this->dataByID['resolver'] as $key => $value){
+				if($value['resolver'] == USER_ID){
+					$isResolver = true;
+					break;
+				}
+			}
 			if(!$isResolver and !$this->isOwner() and !$this->isModerator()) error_denied();
 		}
 		
