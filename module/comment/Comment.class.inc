@@ -298,7 +298,7 @@ class Comment extends Control{
 	private function checkDataEditable(){
 		$isAdmin = $this->isCallable('edit');
 		foreach($this->data as $key => $value){
-			$this->data[$key]['editable'] = ($isAdmin or $value['writer_id'] == USER_ID);
+			$this->data[$key]['editable'] = ($isAdmin or $value['writer_id']['id'] == USER_ID);
 		}
 	}
 	
