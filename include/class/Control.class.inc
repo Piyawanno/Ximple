@@ -11,8 +11,8 @@ abstract class Control extends Translatable{
 	private $tableCreator;
 	private $listPage;
 	private $modelHasCategory;
-	private $model;
 	
+	protected $model;
 	protected $listMeta;
 	
 	protected $ownerColumn;
