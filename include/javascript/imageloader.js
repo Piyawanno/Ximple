@@ -3,7 +3,7 @@ var currentLoaderID = null;
 var currentWidth = null;
 var currentHeight = null;
 
-function showImageLoader(loaderID, path, width, height){
+function showImageLoader(loaderID, path, width, height, isResize){
 	currentLoaderID = loaderID;
 	currentPath = path;
 	currentWidth = width;
@@ -18,7 +18,7 @@ function showImageLoader(loaderID, path, width, height){
 		title: 'Image Loader'
 	});
 	var uri = sectionURICommon+'?mode=imageloader_simple&dir='+path;
-	uri += '&loader_id='+loaderID+'&width='+width+'&height='+height;
+	uri += '&loader_id='+loaderID+'&width='+width+'&height='+height+'&isResize'+isResize;
 	$.get(uri, function(data){
 		loader.html(data);
 	}, 'html');

@@ -26,6 +26,10 @@ class ListPage{
 			'mode' => $this->modelConnector->getColumnAttribute('listMode'),
 			'ajax_mode' => $this->modelConnector->getColumnAttribute('ajaxListMode'),
 		);
+		$renderArray = array(
+			'meta' => $this->listMeta,
+			'table' => render($renderArray, 'list_table.tpl', 'list_table')
+		);
 		return render($renderArray, 'list.tpl', 'list');
 	}
 	

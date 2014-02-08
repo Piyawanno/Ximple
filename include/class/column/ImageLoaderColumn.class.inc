@@ -2,6 +2,8 @@
 require_once('CheckSlideDualColumn.class.inc');
 
 class ImageLoaderColumn extends ModelColumn{
+	public $isResize = true;
+	
 	private $path;
 	private $width;
 	private $height;
@@ -42,7 +44,7 @@ class ImageLoaderColumn extends ModelColumn{
 		else $slide = '';
 		$render = '
 		<input '.$this->renderFormAttribute().'/>
-		<a href="#" onclick="showImageLoader(\''.$id.'\', \''.$this->path.'\', '.((int) $this->width).', '.((int) $this->height).');return false;">
+		<a href="#" onclick="showImageLoader(\''.$id.'\', \''.$this->path.'\', '.((int) $this->width).', '.((int) $this->height).', '.((int) $this->isResize).');return false;">
 			<img src="'.$imageSource.'" border="0" id="image_'.$id.'" alt="image" style="max-width:100%;"/>
 		</a>
 		<p>'.$slide.'</p>

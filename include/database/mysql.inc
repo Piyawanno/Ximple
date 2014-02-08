@@ -31,6 +31,12 @@ function db_init(){
 	$db_transaction = true;
 }
 
+function db_get_connect(){
+	global $db_connect;
+	if(empty($db_connect)) db_init();
+	return $db_connect;
+}
+
 function db_select($table, $columns, $clause=null, $force=false){
 	global $db_connect;
 	if($force) $cachable = false;

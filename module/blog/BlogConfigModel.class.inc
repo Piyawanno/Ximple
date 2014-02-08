@@ -4,6 +4,7 @@ require_once('blog.tool.inc');
 class BlogConfigModel extends ContentConfigModel{
 	function BlogConfigModel(){
 		ContentConfigModel::ContentConfigModel('blog');
+		$this->blog_icon_resize = $this->enable(tt('icon resize'));
 		$this->blog_icon_width = $this->spin(tt('icon width'), 16, 1024);
 		$this->blog_icon_height = $this->spin(tt('icon height'), 16, 1024);
 		
