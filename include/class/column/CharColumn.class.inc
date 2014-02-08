@@ -14,7 +14,8 @@ class CharColumn extends ModelColumn{
 		$this->setFormAttribute('name', $this->name);
 		$this->setFormAttribute('id', $id);
 		$this->setFormAttribute('value', $this->data);
-		$render = '<input '.$this->renderFormAttribute().' class="char_input"/>';
+		$this->setFormAttribute('class', 'char_input');
+		$render = '<input '.$this->renderFormAttribute().'/>';
 		$render.= '<span id="info_'.$id.'"></span>';
 		return $render;
 	}
@@ -22,7 +23,8 @@ class CharColumn extends ModelColumn{
 	public function renderGridForm($formID){
 		$this->setFormAttribute('name', $this->name.'[]');
 		$this->setFormAttribute('value', $this->data);
-		return '<input '.$this->renderFormAttribute().' class="grid_char_input" />';
+		$this->setFormAttribute('class', 'grid_char_input');
+		return '<input '.$this->renderFormAttribute().' />';
 	}
 }
 ?>

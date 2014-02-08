@@ -131,7 +131,7 @@ fieldset{
 	color:rgb(25%,25%,25%);
 }
 
-.char_input{
+.char_input, .auto_complete, .email_field{
 	width:240px;
 }
 
