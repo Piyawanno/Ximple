@@ -341,10 +341,18 @@ class DevelCard extends Control{
 		$this->dataByID = $this->prepareData($this->dataByID, 'develcard');
 		$read = $this->dataByID['read_permission']['value'];
 		
+		print_r($this->dataByID['resolver']);
+		
 		if($read > 0 and authority_is_guest()){
 			error_denied();
 		}else if($read == 2){
 			$isResolver = false;
+			for($this->dataByID['resolver'] as $key => $value){
+				if($value['resolver'] == USER_ID){
+					$isResolver = true;
+					break;
+				}
+			}
 			if(!$isResolver and !$this->isOwner() and !$this->isModerator()) error_denied();
 		}
 		
