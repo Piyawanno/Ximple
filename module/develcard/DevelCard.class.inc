@@ -340,6 +340,8 @@ class DevelCard extends Control{
 		$this->dataByID = $this->prepareData($this->dataByID, 'develcard');
 		$read = $this->dataByID['read_permission']['value'];
 		
+		print_r($this->dataByID);
+		
 		if($read > 0 and authority_is_guest()){
 			error_denied();
 		}else if($read == 2){
