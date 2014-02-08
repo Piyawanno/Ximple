@@ -336,28 +336,15 @@ class DevelCard extends Control{
 	}
 	
 	private function display(){
+		$this->model->initAdminColumns();
 		$this->selectByID($this->column);
 		$this->dataByID = $this->prepareData($this->dataByID, 'develcard');
 		$read = $this->dataByID['read_permission']['value'];
-		
-		if(!isset($this->dataByID['resolver'])){
-			$clause = 'WHERE develcard='.$this->id;
-			$column = array('id', 'resolver');
-			$this->dataByID['resolver'] = db_select('develcard_resolver', $column, $clause);
-		}
-		
-		print_r($this->dataByID['resolver']);
 		
 		if($read > 0 and authority_is_guest()){
 			error_denied();
 		}else if($read == 2){
 			$isResolver = false;
-			foreach($this->dataByID['resolver'] as $key => $value){
-				if($value['resolver'] == USER_ID){
-					$isResolver = true;
-					break;
-				}
-			}
 			if(!$isResolver and !$this->isOwner() and !$this->isModerator()) error_denied();
 		}
 		

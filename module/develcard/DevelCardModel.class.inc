@@ -48,7 +48,7 @@ class DevelCardModel extends Model{
 		$this->section = $this->section();
 	}
 	
-	private function initAdminColumns(){
+	public function initAdminColumns(){
 		require_once('ResolverModel.class.inc');
 		$this->priority = $this->select(tt('priority'), develcard_get_priority_option());
 		$this->priority->isReachable = true;
