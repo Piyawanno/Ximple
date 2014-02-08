@@ -59,8 +59,12 @@ abstract class ModelColumn{
 	public function check(){
 	}
 	
-	public function setFormAttribute($name, $value){
-		$this->formAttribute[$name] = $value;
+	public function setFormAttribute($name, $value, $isCheck=false){
+		if($isCheck){
+			if(!isset($this->formAttribute[$name])) $this->formAttribute[$name] = $value;
+		}else{
+			$this->formAttribute[$name] = $value;
+		}
 	}
 	
 	public function unsetFormAttribute($name){
