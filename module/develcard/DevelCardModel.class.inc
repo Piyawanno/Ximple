@@ -5,7 +5,8 @@ include_once('DevelCardFileModel.class.inc');
 
 class DevelCardModel extends Model{
 	function DevelCardModel(){
-		if(develcard_is_admin()) $this->initAdminColumns();
+		$isDisplay = (MODE == 'develcard' and gg('id') != 0);
+		if(develcard_is_admin() or $isDisplay) $this->initAdminColumns();
 		else $this->initContributorColumns();
 		$this->writer = $this->owner();
 		
@@ -48,7 +49,7 @@ class DevelCardModel extends Model{
 		$this->section = $this->section();
 	}
 	
-	public function initAdminColumns(){
+	private function initAdminColumns(){
 		echo('initAdminColumns');
 		require_once('ResolverModel.class.inc');
 		$this->priority = $this->select(tt('priority'), develcard_get_priority_option());

@@ -336,12 +336,9 @@ class DevelCard extends Control{
 	}
 	
 	private function display(){
-		$this->model->initAdminColumns();
 		$this->selectByID($this->column);
 		$this->dataByID = $this->prepareData($this->dataByID, 'develcard');
 		$read = $this->dataByID['read_permission']['value'];
-		
-		print_r($this->dataByID['resolver']);
 		
 		if($read > 0 and authority_is_guest()){
 			error_denied();
