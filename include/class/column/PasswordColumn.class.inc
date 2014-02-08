@@ -10,6 +10,7 @@ class PasswordColumn extends CharColumn{
 		$this->setFormAttribute('type', 'password');
 		$this->setFormAttribute('name', $this->name);
 		$this->setFormAttribute('id', $id);
+		$this->setFormAttribute('class', 'password_input', true);
 		$this->unsetFormAttribute('value');
 		$render = '<input '.$this->renderFormAttribute().'/>';
 		$render.= '<span id="info_'.$id.'"></span>';
