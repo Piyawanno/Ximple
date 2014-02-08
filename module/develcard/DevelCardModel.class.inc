@@ -50,7 +50,6 @@ class DevelCardModel extends Model{
 	}
 	
 	private function initAdminColumns(){
-		echo('initAdminColumns');
 		require_once('ResolverModel.class.inc');
 		$this->priority = $this->select(tt('priority'), develcard_get_priority_option());
 		$this->priority->isReachable = true;
