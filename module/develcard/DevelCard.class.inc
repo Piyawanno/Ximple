@@ -345,6 +345,8 @@ class DevelCard extends Control{
 			$this->dataByID['resolver'] = db_select('develcard_resolver', array('id'), $clause);
 		}
 		
+		print_r($this->dataByID['resolver']);
+		
 		if($read > 0 and authority_is_guest()){
 			error_denied();
 		}else if($read == 2){
