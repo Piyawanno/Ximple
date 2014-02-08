@@ -131,6 +131,14 @@ fieldset{
 	color:rgb(25%,25%,25%);
 }
 
+.char_input{
+	width:240px;
+}
+
+.grid_char_input{
+	width:120px;
+}
+
 th{
 	font-size:12px;
 }
