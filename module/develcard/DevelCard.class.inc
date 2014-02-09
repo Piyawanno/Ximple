@@ -168,14 +168,15 @@ class DevelCard extends Control{
 		
 		$extension = substr($data['file'], strrpos($data['file'], '.')+1);
 		$fileName = $data['short_description'].'.'.$extension;
-		
-		$this->id = $data['develcard'];
-		$column = array('id', 'resolver');
-		$clause = 'WHERE develcard='.$this->id;
-		$resolver = db_select('develcard_resolver', $column, $clause);
+	
+	
+		$this->id = (int) $data['develcard'];
+		$this->selectByID($this->column);
+		$resolver = db_select_single_column('develcard_resolver', 'resolver', 'WHERE develcard='.$this->id);
 		$isResolver = in_array(USER_ID, $resolver);
-		
-		if(!$isResolver && !$this->owner() && !$this->isModerator()) error_denied();
+
+		$isOwner = USER_ID == $this->dataByID['writer'];
+		if(!$isResolver && !$isOwner && !$this->isModerator()) error_denied();
 		$mime = mime_content_type(ROOT_PATH.$data['file']);
 		header('Content-type: '.$mime);
 		header('Content-Disposition: attachment; filename="'.$fileName.'"');
@@ -724,12 +725,14 @@ class DevelCard extends Control{
 	}
 	
 	private function getWeekListClause($resolver, $week, $year){
-		$weekDate = $year."W".sprintf('%2d', $week);
-		$start = date('Y-m-d', strtotime($weekDate."1")).' 00:00:00';
-		$end = date('Y-m-d', strtotime($weekDate."7")).' 23:59:59';
+		$weekDate = $year."W".sprintf('%02d', $week);
+		$nextWeekDate = $year."W".sprintf('%02d', $week+1);
+		$start = date('Y-m-d', strtotime($weekDate)).' 00:00:00';
+		$end = date('Y-m-d', strtotime($nextWeekDate)).' 23:59:59';
 		$clause = "WHERE resolver=$resolver AND end_date>='$start' AND end_date<='$end'";
 		$cardID = db_select_single_column('develcard_resolver', 'develcard', $clause);
 		if(count($cardID)) return 'id='.join(' OR id=', $cardID);
+		else return 'id != id';
 	}
 	
 	private function insertTracker($action){
@@ -805,6 +808,7 @@ class DevelCard extends Control{
 		$this->addAccessMethod('develcard_reporter', 'renderWeekList');
 		
 		$this->addAccessMethod('develcard_resolver', 'index');
+		$this->addAccessMethod('develcard_resolver', 'downloadAttachment');
 		$this->addAccessMethod('develcard_resolver', 'resolverListPage');
 		$this->addAccessMethod('develcard_resolver', 'dropFile');
 		$this->addAccessMethod('develcard_resolver', 'personalPage');
@@ -813,12 +817,14 @@ class DevelCard extends Control{
 		$this->addAccessMethod('develcard_resolver', 'renderWeekList');
 		
 		$this->addAccessMethod('develcard_viewer', 'index');
+		$this->addAccessMethod('develcard_viewer', 'downloadAttachment');
 		$this->addAccessMethod('develcard_viewer', 'reporterListPage');
 		$this->addAccessMethod('develcard_viewer', 'resolverListPage');
 		$this->addAccessMethod('develcard_viewer', 'renderTagPage');
 		$this->addAccessMethod('develcard_viewer', 'report');
 		
 		$this->addAccessMethod('develcard_moderator', 'index');
+		$this->addAccessMethod('develcard_moderator', 'downloadAttachment');
 		$this->addAccessMethod('develcard_moderator', 'write');
 		$this->addAccessMethod('develcard_moderator', 'insert');
 		$this->addAccessMethod('develcard_moderator', 'edit');
