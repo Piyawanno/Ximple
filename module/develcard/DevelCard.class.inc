@@ -165,11 +165,16 @@ class DevelCard extends Control{
 		$clause = "WHERE id=".((int) gg('id'));
 		$data = array_pop(db_select('develcard_file', $column, $clause));
 		if(count($data) == 0) error_not_found();
+		
 		$extension = substr($data['file'], strrpos($data['file'], '.')+1);
 		$fileName = $data['short_description'].'.'.$extension;
+		
 		$this->id = $data['develcard'];
-		$this->selectByID($this->column);
-		$isResolver = in_array(USER_ID, array_keys($this->dataByID['resolver']));
+		$column = array('id', 'resolver');
+		$clause = 'WHERE develcard='.$this->id;
+		$resolver = db_select('develcard_resolver', $column, $clause);
+		$isResolver = in_array(USER_ID, $resolver);
+		
 		if(!$isResolver && !$this->owner() && !$this->isModerator()) error_denied();
 		$mime = mime_content_type(ROOT_PATH.$data['file']);
 		header('Content-type: '.$mime);
