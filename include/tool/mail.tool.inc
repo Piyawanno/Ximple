@@ -43,6 +43,7 @@ function mail_send($receiver, $subject, $body, $is_html=false, $attachment=null)
 		$mail->AddAttachment(ROOT_PATH.$attachment, basename($attachment));
 	}
 	
+	ob_start();
 	$receiver_split = explode(',', $receiver);
 	if(!is_array($receiver_split)) $receiver_split = array();
 	$feedback = true;
@@ -54,8 +55,10 @@ function mail_send($receiver, $subject, $body, $is_html=false, $attachment=null)
 			if($feedback === true) $feedbak = $mail->ErrorInfo;
 			else $feedbak .= ', '.$mail->ErrorInfo;
 		}
+
 	}
-	
+	ob_get_clean();
+
 	return $feedback;
 }
 ?>
