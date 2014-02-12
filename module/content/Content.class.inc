@@ -56,7 +56,7 @@ abstract class Content extends Control{
 		include_once(MODULE_PATH.'feed/feed.tool.inc');
 		$this->insertTracker('drop');
 		feed_drop($this->fullModuleName, $this->id);
-		db_drop_many('comment', 'parent='.$this->id);
+		db_drop_many('comment', 'parent='.$this->id." AND mode='".$this->fullModuleName."'");
 		Control::drop();
 		extension_execute('content_drop', $this->id);
 	}

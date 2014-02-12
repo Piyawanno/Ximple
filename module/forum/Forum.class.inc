@@ -14,6 +14,7 @@ class Forum extends Control{
 		$this->addAccessMethod('guest', 'index');
 		$this->addAction('forum_manage', 'manage');
 		$this->addAction('forum_save_sort', 'saveSort');
+		$this->addAction('forum_reset_count', 'resetCount');
 		$this->insertRedirect = 'forum_manage';
 		$this->updateRedirect = 'forum_manage';
 		$this->init(new ForumModel());
@@ -75,6 +76,30 @@ class Forum extends Control{
 				'category' => $category[$key],
 			);
 			db_update('forum', $data, $value);
+		}
+	}
+	
+	public function resetCount(){
+		$count = array();
+		$commentCount = array();
+		$forum = db_select('forum', array('id'), '');
+		foreach($forum as $key => $value){
+			$count[$key] = 0;
+			$commentCount[$key] = 0;
+		}
+		
+		$result = db_select('forum_entry', array('id', 'forum'), '');
+		foreach($result as $key => $value){
+			$count[$value['forum']] += 1;
+			$commentCount[$value['forum']] += db_get_rows_number('comment', "WHERE mode='forum_entry' AND parent=".$key);
+		}
+		
+		foreach($count as $key => $value){
+			count_set('forum_entry_no', $key, $value);
+		}
+		
+		foreach($commentCount as $key => $value){
+			count_set('forum_comment_no', $key, $value);
 		}
 	}
 	
