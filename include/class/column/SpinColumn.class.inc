@@ -72,7 +72,6 @@ class SpinColumn extends ModelColumn{
 				});
 			}';
 			head_inject_js($js);
-			$spin_init_js = true;
 		}
 	}
 }
