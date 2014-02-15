@@ -1,7 +1,7 @@
 <?php
 
 global $spin_init_js;
-$spin_init_js = false;
+$spin_init_js = array();
 
 class SpinColumn extends ModelColumn{
 	public $min;
@@ -56,7 +56,8 @@ class SpinColumn extends ModelColumn{
 	
 	private function initGridJS($id){
 		global $spin_init_js;
-		if(!$spin_init_js){
+		if(!isset($spin_init_js[$id]) or $spin_init_js[$id]){
+			$spin_init_js[$id] = true;
 			$js = '
 			gridInitFunction[".'.$id.'"] =  function(){
 				$(".'.$id.'").each(function(){
