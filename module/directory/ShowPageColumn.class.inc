@@ -15,9 +15,9 @@ class ShowPageColumn extends CheckBoxColumn{
 		$item = db_select_single_column('page', 'topic', $clause);
 		foreach($item as $id => $topic){
 			$mode = 'page_edit/'.$id.'/parent/'.mid();
-			$render  = render_icon($mode, 'files/icon/edit.png', '');
+			$render  = render_icon($mode, 'files/icon/edit.png', '', false);
 			$mode = 'page_drop/'.$id;
-			$render .= render_icon($mode, 'files/icon/drop.png', '');
+			$render .= render_icon($mode, 'files/icon/drop.png', '', false);
 			$render .= '<a href="'.SECTION_URI.Q.'page/'.$id.'">'.$topic.'</a>';
 			$selection[$id] = $render;
 		}

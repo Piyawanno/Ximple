@@ -101,9 +101,10 @@ function render_tag($category, $freetag, $mode){
 	return $render;
 }
 
-function render_icon($mode, $icon, $title){
+function render_icon($mode, $icon, $title, $is_write_icon=true){
+	$class = $is_write_icon ? 'class="write_icon"' : '';
 	return '
-	<a href="'.SECTION_URI.Q.$mode.'" class="write_icon">
+	<a href="'.SECTION_URI.Q.$mode.'" '.$class.'>
 		<img src="'.ROOT_URI.$icon.'" border="0" >'.$title.'
 	</a>';
 }
