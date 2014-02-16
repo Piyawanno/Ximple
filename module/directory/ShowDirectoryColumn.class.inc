@@ -15,9 +15,9 @@ class ShowDirectoryColumn extends CheckBoxColumn{
 		$item = db_select_single_column('directory', 'name', $clause);
 		foreach($item as $id => $topic){
 			$mode = 'directory_edit/'.$id.'/parent/'.mid();
-			$render  = render_icon($mode, 'files/icon/edit.png', '');
+			$render  = render_icon($mode, 'files/icon/edit.png', '', false);
 			$mode = 'directory_drop/'.$id;
-			$render .= render_icon($mode, 'files/icon/drop.png', '');
+			$render .= render_icon($mode, 'files/icon/drop.png', '', false);
 			$render .= '<a href="'.SECTION_URI.Q.'directory/'.$id.'">'.$topic.'</a>';
 			$selection[$id] = $render;
 		}
