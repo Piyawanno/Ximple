@@ -37,7 +37,7 @@ class DataModifier{
 				$retult = $this->insertSingleRow();
 			}
 			$this->modelConnector->triggerPostDBInsert();
-			extension_execute('insert', $this->id);
+			extension_execute('insert', array($this->id, $this->table));
 		}
 		return $retult;
 	}
@@ -63,7 +63,7 @@ class DataModifier{
 				$retult = $this->updateSingleRow();
 			}
 			$this->modelConnector->triggerPostDBUpdate();
-			extension_execute('update', $this->id);
+			extension_execute('update', array($this->id, $this->table));
 		}
 		return $retult;
 	}
@@ -79,7 +79,7 @@ class DataModifier{
 		db_drop($this->table, $this->id);
 		$this->modelConnector->setID($this->id);
 		$this->modelConnector->triggerPostDBDrop();
-		extension_execute('drop', $this->id);
+		extension_execute('drop', array($this->id, $this->table));
 	}
 	
 	public function checkCaptcha(){

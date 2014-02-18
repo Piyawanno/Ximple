@@ -47,7 +47,7 @@ class ConfigFormRender extends FormModelRender{
 		if(count($this->model)){
 			$renderArray = array(
 				'id' => $formMeta->id.'_'.$this->id,
-				'form' => $this->renderFormModel($formMeta->id),
+				'form' => $this->renderFormModel($formMeta->id.'_'.$this->id),
 				'title' => $this->title,
 				'label' => $this->modelConnector->getColumnAttribute('label'),
 				'help' => $this->modelConnector->getColumnAttribute('help'),
