@@ -40,7 +40,7 @@
 		<?=$card['deadline']?> (<?=$card['residual_time']?>)
 	</p>
 	<p>
-		<label><?=tt('resolvres')?> : </label>
+		<label><?=tt('resolvers')?> : </label>
 		<?php foreach($card['resolver'] as $uid => $resolver):?>
 			<?=render_operation_link('develcard_personal', $resolver['id'], $resolver['resolver']['label'])?>, 
 		<?php endforeach?>
