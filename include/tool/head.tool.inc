@@ -208,9 +208,9 @@ function head_include_main_css(){
 	}else{
 		$jquery_css = 'theme/'.cc('theme').'/jquery/ui.all.css';
 		if(is_file(ROOT_PATH.$jquery_css)){
-			$head_css[] = $jquery_css;
+			$head_css[] = ROOT_URI.$jquery_css;
 		}elseif(is_file(SECTION_PATH.'private/'.$jquery_css)){
-			$head_css[] = 'private/'.$jquery_css;
+			$head_css[] = ROOT_URI.'private/'.$jquery_css;
 		}else{
 			$head_css[] = ROOT_URI.'include/external/jquery/themes/base/ui.all.css';
 		}
