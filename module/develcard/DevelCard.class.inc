@@ -169,7 +169,6 @@ class DevelCard extends Control{
 		$extension = substr($data['file'], strrpos($data['file'], '.')+1);
 		$fileName = $data['short_description'].'.'.$extension;
 	
-	
 		$this->id = (int) $data['develcard'];
 		$this->selectByID($this->column);
 		$resolver = db_select_single_column('develcard_resolver', 'resolver', 'WHERE develcard='.$this->id);
@@ -183,6 +182,13 @@ class DevelCard extends Control{
 		readfile(ROOT_PATH.$data['file']);
 		execute_set_file();
 		
+	}
+	
+	protected function renderWriteIcon(){
+		if($this->isCallable('write')){
+			$mode = $this->fullModuleName.'_write';
+			return render_icon($mode, 'files/icon/add.png', $this->writeLabel, false);
+		}
 	}
 	
 	private function reportSummary(){
@@ -494,7 +500,9 @@ class DevelCard extends Control{
 			'write_icon' => $this->renderWriteIcon(),
 			'report_icon' => $this->renderReportIcon(),
 			'description' => $this->listDescription,
-			'personal_icon' => render_icon('develcard_personal', 'module/develcard/theme/image/devel.png', tt('My DevelCard')),
+			'personal_icon' => render_icon('develcard_personal', 'module/develcard/theme/image/devel.png', tt('My DevelCard'), false),
+			'resolver' => userinfo_get_login_name_by_role('develcard_resolver'),
+			'reporter' => userinfo_get_login_name_by_role('develcard_reporter'),
 		);
 		$render = render($renderArray, 'develcard_list.tpl', 'develcard_list');
 		$render.= $this->pager->render($mode);
@@ -763,7 +771,7 @@ class DevelCard extends Control{
 	private function renderReportIcon(){
 		if(authority_group('develcard_report')){
 			$path = 'files/icon/tracker.png';
-			return render_icon('develcard_report', $path, tt('Mothly Report'));
+			return render_icon('develcard_report', $path, tt('Mothly Report'), false);
 		}
 	}
 	
@@ -819,7 +827,6 @@ class DevelCard extends Control{
 		$this->addAccessMethod('develcard_viewer', 'index');
 		$this->addAccessMethod('develcard_viewer', 'downloadAttachment');
 		$this->addAccessMethod('develcard_viewer', 'reporterListPage');
-		$this->addAccessMethod('develcard_viewer', 'resolverListPage');
 		$this->addAccessMethod('develcard_viewer', 'renderTagPage');
 		$this->addAccessMethod('develcard_viewer', 'report');
 		

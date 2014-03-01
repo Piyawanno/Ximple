@@ -25,3 +25,26 @@
 	background:#ddd;
 	border-bottom:3px solid #080;
 }
+
+.develcard_icon_bar{
+	background:#eee;
+	border:1px solid #bbb;
+	padding:5px 15px;
+	border-radius:3px;
+	margin:15px 0;
+}
+
+.develcard_icon_bar a{
+	margin:0 10px;
+	vertical-align:middle;
+	display:inline-block;
+}
+
+.develcard_icon_bar a img{
+	margin:3px 5px  -3px 5px;
+}
+
+.develcard_personal_list li{
+	width:26%;
+	float:left;
+}
