@@ -1,4 +1,30 @@
 <?php if(!defined('XIMPLE_CMS')) die();?>
+<script>
+addReady(function(){
+	var allModule = [];
+	var privateModule = [];
+	var systemModule = [];
+	var installedModule = [];
+	var uninstalledModule = [];
+	
+	function appendModule(item){
+		allModule.push($(item).attr('id'));
+		var status = $(item).attr('rel');
+		if(status == 'installed') installedModule.push($(item).attr('id'));
+		else uninstalledModule.push($(item).attr('id'));
+	}
+	
+	$('.private_module').each(function(){
+		privateModule.push($(this).attr('id'));
+		appendModule(this);
+	});
+	
+	$('.system_module').each(function(){
+		systemModule.push($(this).attr('id'));
+		appendModule(this);
+	});
+});
+</script>
 <div class="list">
 <h3 class="list_label"><?=tt('Manage Module')?></h3>
 <h4>legends</h4>
@@ -27,7 +53,7 @@
 	<?php $previous=true?>
 	<?php foreach($module as $name => $value):?>
 	<?php if($value['is_private']):?>
-		<tr class="private_module">
+		<tr class="private_module" id="<?=$name?>_module_row" rel="<?=$value['installed'] ? 'installed' : 'uninstalled' ?>" >
 	<?php elseif($previous and $has_private):?>
 		<tr>
 			<td colspan="4"><strong><?=tt('Public Module')?></strong></td>
@@ -35,7 +61,7 @@
 		<tr>
 		<?php $previous=false?>
 	<?php else:?>
-		<tr>
+		<tr class="public_module" id="<?=$name?>_module_row" rel="<?=$value['installed'] ? 'installed' : 'uninstalled' ?>" >
 	<?php endif?>
 		<td width="80%">
 			<p><strong><?=$value['name']?></strong></p>
