@@ -594,8 +594,8 @@ class DevelCard extends Control{
 			$data = array(
 				'status' => $status,
 				'point' => $point,
-				'end_date' => NOW,
 			);
+			if(MODE != 'develcard_update') $data['end_date'] = NOW;
 			db_update('develcard_resolver', $data, $key);
 		}
 	}
