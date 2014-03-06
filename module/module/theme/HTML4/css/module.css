@@ -1,3 +1,11 @@
+#module_sort_block a{
+	padding:3px 3px;
+	border:1px solid #666;
+	border-radius:2px;
+	color:#666;
+	font-size:11px;
+}
+
 .private_module{
 	background:#efe;
 	color:#333;
